@@ -1,0 +1,387 @@
+﻿{
+  "rubric_version": "1.1",
+  "purpose": "Visual detection of Mobile Bay Jubilee development and biological hypoxia response from waterfront camera imagery.",
+
+  "core_principles": [
+    "Report only what is visibly supported.",
+    "Never infer dissolved oxygen directly from water color or appearance.",
+    "A Jubilee may begin offshore before animals reach the beach.",
+    "Bottom-dwelling animals appearing at or near the surface are more diagnostic than ordinary pelagic fish activity.",
+    "Multiple species responding abnormally is substantially stronger evidence than a single species.",
+    "Repeated activity over sequential frames is substantially stronger than an isolated splash.",
+    "Absence of visible animals is only negative evidence when detectability and relevant field of view are adequate.",
+    "Artificial lights, rain, wakes, insects, glare, debris and normal baitfish activity are important confounders."
+  ],
+
+  "high_value_visual_signals": {
+    "shrimp": [
+      "shrimp visibly popping or flicking at the surface",
+      "multiple discrete shrimp-like surface pops or rings",
+      "dense shrimp crowding immediately below or at the surface",
+      "shrimp concentrated unusually shallow against shoreline, dock or structure"
+    ],
+
+    "fish_respiratory_stress": [
+      "fish with mouths repeatedly breaking the surface",
+      "groups of fish appearing to gulp at the surface",
+      "local behavior sometimes described as smoking",
+      "fish holding at the surface rather than swimming normally",
+      "fish appearing lethargic, sluggish, disoriented or unusually easy to approach",
+      "dense fish compression at shoreline or structure"
+    ],
+
+    "fish_surface_activity": [
+      "fish jumping",
+      "fish breaking the surface",
+      "repeated surface boils",
+      "repeated splashes with biological shape or trajectory",
+      "unusual dense fish schooling immediately at the surface",
+      "small fish showing widespread surface unrest"
+    ],
+
+    "crabs": [
+      "blue crabs swimming at the water surface",
+      "crabs making jerky or abnormal movements at the top of the water column",
+      "crabs with backs, claws or appendages breaking the surface",
+      "crabs climbing pilings",
+      "crabs climbing stumps, rocks, bulkheads or docks",
+      "multiple crabs concentrated unusually shallow",
+      "crabs attempting to leave the water"
+    ],
+
+    "bottom_fauna": [
+      "flounder unusually shallow",
+      "flounder visible away from normal bottom concealment",
+      "hogchokers or other flatfish floating or unusually exposed",
+      "stingrays unusually shallow or near the surface",
+      "eels displaced upward",
+      "eels moving onto sand or shoreline",
+      "other normally demersal animals displaced into surface water"
+    ],
+
+    "spatial_behavior": [
+      "animals compressed against shoreline",
+      "animals concentrated along a dock, piling line or bulkhead",
+      "apparent shoreward movement",
+      "dense biological band along water edge",
+      "offshore surface aggregation of normally bottom-associated animals",
+      "surface aggregation extending across more than one part of the frame"
+    ],
+
+    "birds": [
+      "birds repeatedly diving into water",
+      "birds repeatedly striking surface",
+      "rapidly increasing bird concentration",
+      "dense coordinated feeding over one water area",
+      "birds feeding over independently visible fish or shrimp activity"
+    ],
+
+    "human_response": [
+      "people suddenly gathering at shoreline",
+      "people using nets, gigs, baskets or buckets",
+      "people actively collecting shrimp or crabs",
+      "rapid increase in waterfront activity consistent with a reported Jubilee"
+    ]
+  },
+
+  "important_confounders": {
+    "artificial_light": [
+      "fish gathered directly under fish lights",
+      "insects around lights",
+      "normal nighttime bait aggregation"
+    ],
+
+    "weather": [
+      "rain drops producing repeated surface rings",
+      "heavy rain producing apparent boiling surface",
+      "wind-driven chop",
+      "lightning or exposure artifacts"
+    ],
+
+    "boats": [
+      "boat wakes",
+      "propeller turbulence",
+      "boat lights attracting fish",
+      "dock movement"
+    ],
+
+    "optical": [
+      "glare",
+      "reflections",
+      "IR illumination artifacts",
+      "lens droplets",
+      "fog",
+      "motion blur",
+      "low-light noise"
+    ],
+
+    "normal_biology": [
+      "ordinary mullet jumping",
+      "single isolated fish jump",
+      "normal baitfish school",
+      "normal marina fish aggregation",
+      "single crab in shallow water",
+      "birds present but not feeding"
+    ]
+  },
+
+  "camera_role_guidance": {
+    "montrose_pier_bird": [
+      "Approximately 200 feet offshore.",
+      "High value for early offshore fish or crab surface aggregation.",
+      "High value for bird feeding response.",
+      "Do not require shoreline accumulation before treating abnormal offshore bottom-fauna surface activity as meaningful."
+    ],
+
+    "montrose_pier_boat": [
+      "Approximately 200 feet offshore on same pier system.",
+      "High value for offshore surface disturbance, fish aggregation, shrimp popping and crab surface activity.",
+      "Not spatially independent from Montrose Pier Bird."
+    ],
+
+    "pcl_e2_bay_mouth": [
+      "Faces west toward open Mobile Bay.",
+      "Useful for incoming biological aggregation, surface response, birds and transport context.",
+      "Less sensitive to animals actually accumulated at the shoreline."
+    ],
+
+    "pcl_e2_back_deck": [
+      "Faces marina interior.",
+      "High value for fish holding at surface, shrimp popping, crabs swimming at surface and crabs climbing structure.",
+      "Same physical location as E2 Bay Mouth and must not be counted as independent confirmation."
+    ],
+
+    "pcl_e3_bay_mouth": [
+      "Faces west toward Mobile Bay about 50 feet north of E2.",
+      "Useful as nearby corroboration but only partially spatially independent."
+    ]
+  },
+
+  "required_output_fields": {
+    "visibility": ["poor", "fair", "good"],
+    "detectability": ["low", "moderate", "high"],
+
+    "water_surface": [
+      "flat",
+      "slight_ripple",
+      "moderate_chop",
+      "choppy",
+      "unclear"
+    ],
+
+    "rain_surface_interference": [
+      "none",
+      "possible",
+      "strong",
+      "unclear"
+    ],
+
+    "wake_interference": [
+      "none",
+      "possible",
+      "strong",
+      "unclear"
+    ],
+
+    "fish_surface_activity": [
+      "none_visible",
+      "isolated",
+      "possible_abnormal",
+      "clear_abnormal",
+      "dense",
+      "unclear"
+    ],
+
+    "fish_jump_activity": [
+      "none_visible",
+      "isolated",
+      "multiple",
+      "dense",
+      "unclear"
+    ],
+
+    "fish_gulping_or_smoking": [
+      "none_visible",
+      "possible",
+      "clear",
+      "widespread",
+      "unclear"
+    ],
+
+    "shrimp_surface_popping": [
+      "none_visible",
+      "possible",
+      "multiple",
+      "dense",
+      "unclear"
+    ],
+
+    "shrimp_surface_concentration": [
+      "none_visible",
+      "possible",
+      "clear",
+      "dense",
+      "unclear"
+    ],
+
+    "crab_surface_swimming": [
+      "none_visible",
+      "possible",
+      "clear",
+      "multiple",
+      "unclear"
+    ],
+
+    "crab_climbing_structure": [
+      "none_visible",
+      "possible",
+      "clear",
+      "multiple",
+      "unclear"
+    ],
+
+    "flounder_or_flatfish_shallow": [
+      "none_visible",
+      "possible",
+      "clear",
+      "multiple",
+      "unclear"
+    ],
+
+    "eel_displacement": [
+      "none_visible",
+      "possible",
+      "clear",
+      "multiple",
+      "unclear"
+    ],
+
+    "stingray_or_other_bottom_fauna_displacement": [
+      "none_visible",
+      "possible",
+      "clear",
+      "multiple",
+      "unclear"
+    ],
+
+    "shoreline_or_structure_accumulation": [
+      "none_visible",
+      "possible",
+      "clear",
+      "dense",
+      "unclear"
+    ],
+
+    "offshore_bottom_fauna_surface_aggregation": [
+      "none_visible",
+      "possible",
+      "clear",
+      "dense",
+      "unclear"
+    ],
+
+    "bird_feeding_activity": [
+      "none_visible",
+      "possible",
+      "active",
+      "dense_active",
+      "unclear"
+    ],
+
+    "people_collecting_seafood": [
+      "none_visible",
+      "possible",
+      "clear",
+      "unclear"
+    ],
+
+    "animal_lethargy_or_abnormal_motion": [
+      "none_visible",
+      "possible",
+      "clear",
+      "widespread",
+      "unclear"
+    ],
+
+    "artificial_light_confounding": [
+      "none",
+      "possible",
+      "strong",
+      "unclear"
+    ],
+
+    "overall_jubilee_visual_signal": [
+      "none",
+      "weak_possible",
+      "moderate",
+      "strong",
+      "unclear"
+    ]
+  },
+
+  "signal_weighting": {
+    "very_high_value": [
+      "multiple crabs swimming at surface",
+      "crabs climbing out of water",
+      "multiple shrimp popping at surface",
+      "dense shrimp surface concentration",
+      "fish clearly gulping or smoking",
+      "flounder, eel or stingray displaced abnormally shallow",
+      "multiple normally bottom-associated taxa simultaneously at surface"
+    ],
+
+    "high_value": [
+      "dense abnormal fish surface aggregation",
+      "offshore surface aggregation of crabs or normally bottom-associated fish",
+      "clear shoreline biological compression",
+      "widespread animal lethargy"
+    ],
+
+    "supporting": [
+      "active bird feeding",
+      "multiple fish jumps",
+      "people collecting seafood"
+    ],
+
+    "weak_alone": [
+      "single fish jump",
+      "single splash",
+      "birds merely present",
+      "water color",
+      "calm water",
+      "people standing on a pier"
+    ]
+  },
+
+  "overall_signal_rules": {
+    "strong": [
+      "multiple independent biological classes show abnormal hypoxia-consistent behavior",
+      "clear crustacean or bottom-fauna displacement plus abnormal fish surface behavior",
+      "dense shoreline or structure accumulation",
+      "clear repeated abnormal activity corroborated across sequential frames"
+    ],
+
+    "moderate": [
+      "one highly diagnostic bottom-fauna signal is clearly visible",
+      "multiple shrimp surface pops with adequate visibility and no rain confounder",
+      "multiple crabs swimming at surface or climbing structures",
+      "clear fish gulping or widespread abnormal surface holding"
+    ],
+
+    "weak_possible": [
+      "isolated ambiguous biological activity",
+      "multiple fish jumps without respiratory-stress behavior",
+      "bird feeding without visible biological confirmation"
+    ],
+
+    "none": [
+      "no abnormal biological behavior visible when detectability is moderate or high"
+    ]
+  },
+
+  "negative_evidence_rule": "No visible activity may reduce visual Jubilee likelihood only when detectability is moderate or high and the camera field of view is capable of observing the relevant biological signal. Poor visibility or an offshore-only field of view must not be treated as evidence that shoreline animals are absent.",
+
+  "temporal_rule": "A change across sequential images from normal to increasing surface activity, shrimp popping, fish gulping, crustacean displacement or shoreline concentration is more diagnostic than the same feature in a single frame.",
+
+  "single_frame_warning": "Shrimp popping, fish jumping, gulping and animal movement are temporal behaviors. A still frame can miss them. A negative single-frame result should not strongly suppress probability when these behaviors are the target."
+}

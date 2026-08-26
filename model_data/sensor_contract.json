@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "freshness_minutes": {"camera": 60, "weather": 90, "water_level": 60, "direct_bottom_water_quality": 90, "regional_proxy": 180},
+  "required_fields": [
+    "sensor_id", "station_name", "latitude", "longitude", "parameter", "value", "unit",
+    "observed_at_utc", "received_at_utc", "depth_m", "vertical_reference", "qc_flag",
+    "source_url", "source_class", "is_direct_local_bottom_measurement", "freshness_minutes"
+  ],
+  "source_classes": [
+    "direct_local_bottom_sensor", "regional_proxy", "noaa_observed_water_level",
+    "noaa_predicted_tide", "modeled_current", "nws_forecast", "asos_observation"
+  ],
+  "minimum_direct_sensor_package": {
+    "parameters": ["dissolved_oxygen_mg_l", "salinity_psu", "water_temperature_c"],
+    "placement": ["near Daphne/Montrose bottom", "near Point Clear bottom"],
+    "preferred_sampling_interval_minutes": 15,
+    "required_qc": ["range", "spike", "stuck_value", "clock_drift", "depth_present", "freshness"]
+  },
+  "guardrails": [
+    "Fish River/Weeks Bay is a regional proxy and must never be labeled local Fairhope or Point Clear bottom DO.",
+    "NOAA CO-OPS station 8733821 is the Point Clear water-level station.",
+    "Predicted tide, observed water level, water-level tendency, and modeled current direction are separate fields.",
+    "Missing or stale inputs widen uncertainty and are never carried forward as current observations."
+  ]
+}
