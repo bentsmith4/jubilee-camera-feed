@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Secondary antecedent watershed and water-quality inputs for Jubilee research/backtesting. These sources are not direct local bottom-oxygen measurements and carry zero production forecast weight until validated against confirmed events and matched non-events.",
+  "source_families": [
+    {
+      "source_id": "WQP_ADEM_BEACH",
+      "name": "EPA Water Quality Portal / ADEM Coastal Beach Monitoring",
+      "provider": "STORET",
+      "organization": "21ALBCH",
+      "endpoint": "https://www.waterqualitydata.us/data/Result/search",
+      "source_class": "antecedent_water_quality",
+      "primary_parameters": ["Enterococcus"],
+      "role": "Historical/current runoff and microbiological-state proxy; never substitute for DO, salinity, stratification, or local bottom conditions.",
+      "stations": [
+        {
+          "station_id": "21ALBCH-MAY_DAY",
+          "station_name": "MAY DAY PARK",
+          "latitude": 30.5992,
+          "longitude": -87.9141,
+          "shoreline_cell": "Daphne/May Day",
+          "period_of_record_note": "Microbiological data reported by WQP for 2005-2025; gaps may exist."
+        },
+        {
+          "station_id": "21ALBCH-VOL_AVE",
+          "station_name": "VOLANTA AVENUE",
+          "latitude": 30.5415,
+          "longitude": -87.9041,
+          "shoreline_cell": "Fairhope/Fly Creek/Yacht Harbor",
+          "period_of_record_note": "Long-run ADEM beach-monitoring station."
+        },
+        {
+          "station_id": "21ALBCH-F_HOPE",
+          "station_name": "FAIRHOPE PUBLIC BEACH",
+          "latitude": 30.5281,
+          "longitude": -87.9096,
+          "shoreline_cell": "Fairhope Municipal Pier",
+          "period_of_record_note": "Microbiological data reported by WQP for 2005-2025; gaps may exist."
+        },
+        {
+          "station_id": "21ALBCH-ORANGE_ST",
+          "station_name": "ORANGE STREET PIER/BEACH",
+          "latitude": null,
+          "longitude": null,
+          "shoreline_cell": "Fairhope south",
+          "period_of_record_note": "ADEM beach-monitoring station; coordinates to be populated from WQP Station endpoint during ingest."
+        }
+      ]
+    },
+    {
+      "source_id": "WQP_ALABAMA_WATER_WATCH_MAGNOLIA",
+      "name": "EPA Water Quality Portal / Alabama Water Watch - Magnolia River",
+      "provider": "STORET",
+      "organization": "AWW_WQX",
+      "endpoint": "https://www.waterqualitydata.us/data/Result/search",
+      "source_class": "regional_physical_water_quality_proxy",
+      "primary_parameters": ["Dissolved oxygen", "Salinity", "Temperature", "pH", "Turbidity"],
+      "role": "Regional Weeks Bay/Magnolia River physical-state proxy. Never label as Fairhope, Point Clear, Montrose, or Daphne bottom water quality.",
+      "stations": [
+        {"station_id": "AWW_WQX-aww_0678", "station_name": "Magnolia River", "latitude": 30.398333, "longitude": -87.769333},
+        {"station_id": "AWW_WQX-aww_0716", "station_name": "Magnolia River", "latitude": 30.404667, "longitude": -87.737},
+        {"station_id": "AWW_WQX-aww_1457", "station_name": "Magnolia River", "latitude": 30.39031, "longitude": -87.80897},
+        {"station_id": "AWW_WQX-aww_2101", "station_name": "Magnolia River", "latitude": 30.430717, "longitude": -87.704553},
+        {"station_id": "AWW_WQX-aww_2129", "station_name": "Magnolia River", "latitude": 30.397233, "longitude": -87.783267}
+      ]
+    },
+    {
+      "source_id": "MOBILE_BAYKEEPER_SWIM_PDF",
+      "name": "Mobile Baykeeper historical SWIM reports",
+      "source_class": "antecedent_water_quality_supplemental",
+      "role": "Historical site-level Enterococcus series that fills geographic gaps, especially Point Clear/Battles and Fly Creek. Manual/PDF extraction must preserve exact sample date, site, value, units, and report URL.",
+      "reports": [
+        {
+          "site_name": "Mobile Bay at Live Oak",
+          "shoreline_cell": "Point Clear/Battles",
+          "url": "https://mobilebaykeeper.org/wp-content/uploads/2024/03/MBLO-1.pdf",
+          "report_year": 2023
+        },
+        {
+          "site_name": "Fly Creek at Sea Cliff Drive",
+          "shoreline_cell": "Fairhope/Fly Creek/Yacht Harbor",
+          "url": "https://mobilebaykeeper.org/wp-content/uploads/2024/03/FCSC-1.pdf",
+          "report_year": 2023
+        }
+      ]
+    }
+  ],
+  "derived_features_to_test": [
+    "log10_enterococcus",
+    "lag_1d",
+    "lag_3d",
+    "lag_7d",
+    "lag_14d",
+    "change_vs_station_seasonal_baseline",
+    "interaction_with_observed_rainfall",
+    "interaction_with_river_discharge",
+    "north_south_eastern_shore_gradient"
+  ],
+  "guardrails": [
+    "Enterococcus is a runoff/fecal-indicator proxy, not a Jubilee mechanism measurement.",
+    "No bacteria result may be converted to dissolved oxygen, salinity, hypoxia, or stratification evidence.",
+    "Magnolia River/AWW physical measurements are regional proxies, not direct Eastern Shore bottom measurements.",
+    "Historical water-quality features receive zero production weight until they improve out-of-sample discrimination against matched non-event mornings.",
+    "Preserve raw values, units, timestamps, station IDs, provider, QC metadata, and source URLs before deriving features."
+  ]
+}
