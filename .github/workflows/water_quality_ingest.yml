@@ -1,0 +1,81 @@
+name: Water quality ingest and backtest
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'model_data/ingest_water_quality.py'
+      - 'model_data/backtest_water_quality.py'
+      - 'model_data/water_quality_sources.json'
+      - '.github/workflows/water_quality_ingest.yml'
+  schedule:
+    - cron: '17 11 * * 2'
+
+permissions:
+  contents: write
+
+jobs:
+  ingest-backtest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Ingest public water-quality data
+        run: python model_data/ingest_water_quality.py
+      - name: Run conservative backtest
+        run: python model_data/backtest_water_quality.py
+      - name: Build compact run summary
+        run: |
+          python - <<'PY'
+          import csv, json, pathlib, datetime
+          p=pathlib.Path('model_data')
+          manifest=json.loads((p/'water_quality_ingest_manifest.json').read_text())
+          bt=json.loads((p/'water_quality_backtest.json').read_text())
+          rows=0
+          params={}
+          stations=set()
+          f=p/'water_quality_normalized.csv'
+          if f.exists():
+              with f.open(encoding='utf-8', newline='') as h:
+                  for r in csv.DictReader(h):
+                      rows += 1
+                      stations.add(r.get('station_id',''))
+                      q=r.get('parameter','')
+                      params[q]=params.get(q,0)+1
+          summary={
+              'generated_at_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              'normalized_rows': rows,
+              'distinct_stations': len([x for x in stations if x]),
+              'parameter_counts': dict(sorted(params.items(), key=lambda kv:(-kv[1],kv[0]))),
+              'ingest_sources': manifest.get('sources',[]),
+              'confirmed_events_in_database': bt.get('confirmed_events_in_database'),
+              'confirmed_events_with_any_water_quality_data': bt.get('confirmed_events_with_any_water_quality_data'),
+              'event_linked_observations_across_tests': bt.get('event_linked_observations_across_tests'),
+              'sufficient_for_production_promotion': bt.get('sufficient_for_production_promotion'),
+              'production_action': bt.get('production_action'),
+              'guardrail': bt.get('guardrail')
+          }
+          (p/'water_quality_run_summary.json').write_text(json.dumps(summary,indent=2))
+          PY
+      - name: Upload full research dataset artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jubilee-water-quality-${{ github.run_number }}
+          path: |
+            model_data/raw_water_quality/
+            model_data/water_quality_normalized.csv
+            model_data/water_quality_ingest_manifest.json
+            model_data/water_quality_backtest.json
+          retention-days: 90
+      - name: Commit compact research results
+        run: |
+          git config user.name 'jubilee-model-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add model_data/water_quality_ingest_manifest.json model_data/water_quality_backtest.json model_data/water_quality_run_summary.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Refresh public water-quality research results'
+          git push
