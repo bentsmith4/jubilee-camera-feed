@@ -1,33 +1,65 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "canonical_home": "C:\\JubileeCams\\model_data",
   "events": [
+    {
+      "event_id": "2020-09-07-fairhope-labor-day",
+      "event_date_ct": "2020-09-07",
+      "classification": "confirmed_jubilee",
+      "scale": "prominent",
+      "location": {"label": "Fairhope area", "precision": "news_report_area", "continuous_boundary_claimed": false},
+      "confidence": 0.98,
+      "evidence": [{"type": "contemporaneous_news_plus_first_person_social_video", "independence_group": "2020_labor_day_fairhope", "supports": ["occurrence", "date", "Fairhope area", "daytime activity"]}],
+      "provenance": "WSFA, Sep. 9-10 2020, reporting Labor Day Sep. 7 Jubilee near/around Fairhope and embedding contemporaneous first-person video.",
+      "source_urls": ["https://www.wsfa.com/2020/09/09/something-that-only-happens-two-places-world-just-occurred-mobile-bay/"],
+      "notes": "Use as confirmed historical positive; exact shoreline boundaries unresolved."
+    },
+    {
+      "event_id": "2024-06-12-point-clear-south-grand-hotel",
+      "event_date_ct": "2024-06-12",
+      "classification": "confirmed_jubilee",
+      "scale": "substantial",
+      "location": {"label": "south of Point Clear / south of Grand Hotel", "precision": "contemporaneous_news_specific_area", "continuous_boundary_claimed": false},
+      "confidence": 0.99,
+      "evidence": [{"type": "contemporaneous_local_news_first_person_photo", "independence_group": "2024_06_12_point_clear", "supports": ["occurrence", "date", "Point Clear location", "flounder", "stingrays", "other marine life"]}],
+      "provenance": "Lagniappe Mobile Jun. 12 2024; corroborated by Coastal Angler and Outdoor Life Jun. 13/27 2024.",
+      "source_urls": ["https://www.lagniappemobile.com/news/jubilee-spotted-south-of-point-clear/article_bab010a0-28fc-11ef-ae8a-d3983d6663b6.html", "https://coastalanglermag.com/mobile-bay-experiences-first-jubilee-of-the-summer/", "https://www.outdoorlife.com/fishing/video-jubilee-alabama-coast/"],
+      "notes": "Strong historical positive with relatively precise geography."
+    },
+    {
+      "event_id": "2024-08-05-mobile-bay-eastern-shore",
+      "event_date_ct": "2024-08-05",
+      "classification": "confirmed_jubilee",
+      "scale": "localized_to_moderate",
+      "location": {"label": "Mobile Bay Eastern Shore, exact cell unresolved", "precision": "regional_only", "continuous_boundary_claimed": false},
+      "confidence": 0.95,
+      "evidence": [{"type": "contemporaneous_first_person_relay_with_video_and_photo", "independence_group": "2024_08_05_stjohn", "supports": ["occurrence", "date", "hundreds of fish", "shrimp", "finger mullet", "catfish", "eels", "flounder"]}],
+      "provenance": "Magnolia Tribune column published Aug. 5 2024 describing 7:18 AM same-morning video, subsequent gigged flounder photo, and explicit local confirmation.",
+      "source_urls": ["https://magnoliatribune.com/2024/08/05/jubilee-2024/"],
+      "notes": "Date is strong; exact shoreline cell is intentionally unresolved."
+    },
+    {
+      "event_id": "2025-07-17-fairhope",
+      "event_date_ct": "2025-07-17",
+      "classification": "confirmed_jubilee",
+      "scale": "unspecified",
+      "location": {"label": "Fairhope / Eastern Shore", "precision": "local_photo_report", "continuous_boundary_claimed": false},
+      "confidence": 0.97,
+      "evidence": [{"type": "same_day_local_photo_report", "independence_group": "2025_07_17_fairhope", "supports": ["occurrence", "date", "early morning", "Fairhope"]}],
+      "provenance": "Live Love Fairhope, Jul. 17 2025, reporting and photographing an early-morning Jubilee.",
+      "source_urls": ["https://livelovefairhope.com/jubilee-in-fairhope/"],
+      "notes": "Useful historical positive overlapping the public water-quality period of record."
+    },
     {
       "event_id": "2026-08-29-fairhope-point-clear-multipocket",
       "event_date_ct": "2026-08-29",
       "classification": "confirmed_jubilee",
       "scale": "substantial_multi_pocket",
-      "location": {
-        "label": "Fairhope-Point Clear corridor",
-        "precision": "corridor_with_confirmed_pockets",
-        "continuous_boundary_claimed": false
-      },
+      "location": {"label": "Fairhope-Point Clear corridor", "precision": "corridor_with_confirmed_pockets", "continuous_boundary_claimed": false},
       "confidence": 0.99,
       "evidence": [
-        {
-          "type": "public_first_person_photo_video",
-          "independence_group": "public_visual_reports",
-          "supports": ["occurrence", "Fairhope pocket", "Point Clear-area pocket", "substantial scale"]
-        },
-        {
-          "type": "user_relayed_trusted_local_source",
-          "claimed_time_ct": "2026-08-29T07:30:00-05:00",
-          "location_label": "Sibley/Montrose area",
-          "independence_group": "trusted_local_sibley_montrose",
-          "confidence": 0.85,
-          "supports": ["additional northern pocket report"],
-          "guardrail": "Relayed local-source evidence; not direct sensor or first-person media in the database."
-        }
+        {"type": "public_first_person_photo_video", "independence_group": "public_visual_reports", "supports": ["occurrence", "Fairhope pocket", "Point Clear-area pocket", "substantial scale"]},
+        {"type": "user_relayed_trusted_local_source", "claimed_time_ct": "2026-08-29T07:30:00-05:00", "location_label": "Sibley/Montrose area", "independence_group": "trusted_local_sibley_montrose", "confidence": 0.85, "supports": ["additional northern pocket report"], "guardrail": "Relayed local-source evidence; not direct sensor or first-person media in the database."}
       ],
       "provenance": "Principal Jubilee Day Verification discussion and user-supplied media/context.",
       "notes": "Confirmed multi-pocket event; do not infer continuous shoreline coverage."
@@ -37,19 +69,9 @@
       "event_date_ct": "2026-08-30",
       "classification": "confirmed_jubilee",
       "scale": "minor_localized",
-      "location": {
-        "label": "approximately 300 yards north of Fairhope Municipal Pier centerline",
-        "precision": "user_estimated_approximately_300_yards",
-        "continuous_boundary_claimed": false
-      },
+      "location": {"label": "approximately 300 yards north of Fairhope Municipal Pier centerline", "precision": "user_estimated_approximately_300_yards", "continuous_boundary_claimed": false},
       "confidence": 0.95,
-      "evidence": [
-        {
-          "type": "public_photo_confirmed",
-          "independence_group": "aug30_fairhope_public_photo",
-          "supports": ["occurrence", "localized scale", "approximate location"]
-        }
-      ],
+      "evidence": [{"type": "public_photo_confirmed", "independence_group": "aug30_fairhope_public_photo", "supports": ["occurrence", "localized scale", "approximate location"]}],
       "provenance": "Principal Jubilee Day Verification discussion; public photos supplied by user.",
       "notes": "A separate smaller next-morning event, not proof of a third-day event."
     }
