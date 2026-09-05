@@ -1,0 +1,55 @@
+{
+  "generated_at_utc": "2026-09-05T11:37:27.787770+00:00",
+  "normalized_rows": 7650,
+  "distinct_stations": 9,
+  "parameter_counts": {
+    "Enterococcus": 3417,
+    "Initial sample volume": 608,
+    "Temperature, water": 567,
+    "Temperature, air": 400,
+    "Dissolved oxygen (DO)": 377,
+    "Dissolved oxygen saturation": 377,
+    "Turbidity": 376,
+    "Alkalinity, total": 375,
+    "Total hardness": 275,
+    "Escherichia coli": 228,
+    "Total Coliform": 228,
+    "Salinity": 215,
+    "Depth, Secchi disk depth": 207
+  },
+  "ingest_sources": [
+    {
+      "source_id": "WQP_ADEM_BEACH",
+      "url": "https://www.waterqualitydata.us/data/Result/search?siteid=21ALBCH-MAY_DAY;21ALBCH-VOL_AVE;21ALBCH-F_HOPE;21ALBCH-ORANGE_ST&mimeType=csv&zip=no&providers=STORET&sorted=no",
+      "stations": [
+        "21ALBCH-MAY_DAY",
+        "21ALBCH-VOL_AVE",
+        "21ALBCH-F_HOPE",
+        "21ALBCH-ORANGE_ST"
+      ],
+      "status": "ok",
+      "raw_path": "raw_water_quality/wqp_adem_beach.csv",
+      "rows": 3417
+    },
+    {
+      "source_id": "WQP_ALABAMA_WATER_WATCH_MAGNOLIA",
+      "url": "https://www.waterqualitydata.us/data/Result/search?siteid=AWW_WQX-aww_0678;AWW_WQX-aww_0716;AWW_WQX-aww_1457;AWW_WQX-aww_2101;AWW_WQX-aww_2129&mimeType=csv&zip=no&providers=STORET&sorted=no",
+      "stations": [
+        "AWW_WQX-aww_0678",
+        "AWW_WQX-aww_0716",
+        "AWW_WQX-aww_1457",
+        "AWW_WQX-aww_2101",
+        "AWW_WQX-aww_2129"
+      ],
+      "status": "ok",
+      "raw_path": "raw_water_quality/wqp_alabama_water_watch_magnolia.csv",
+      "rows": 4233
+    }
+  ],
+  "confirmed_events_in_database": 2,
+  "confirmed_events_with_any_water_quality_data": 0,
+  "event_linked_observations_across_tests": 0,
+  "sufficient_for_production_promotion": false,
+  "production_action": "NO_CHANGE",
+  "guardrail": "No public antecedent water-quality variable receives positive production weight from this exploratory backtest alone."
+}
