@@ -14,4 +14,4 @@ The descriptive anonymous human-observation fields do not alter production forec
 
 Rollback: `C:\JubileeCams\rollback_20260906_desktop_upgrade` contains original files, configuration, Git history, and task XML. To undo only coordination, stop the live job, restore `live_loop_before_coordinator.py` as `live_loop.py`, re-enable Dawn Cameras, and start the live job. Do not restore the old unsafe Git publisher to active use.
 
-Remaining: public-camera recording rights/access, R2 lifecycle-read permission, surveyed shoreline calibration, and ChatGPT schedule changes. Windows automatic restart settings were rejected and remain unchanged. Next canonical capture under the coordinator is scheduled normally; the pre-switch 17:06 scheduled pipeline and post-switch live cycle were verified separately.
+Remaining: public-camera recording rights/access, R2 lifecycle-read permission, surveyed shoreline calibration, and ChatGPT schedule changes. Windows automatic restart settings were rejected and remain unchanged. Both the pre-switch 17:06 scheduled pipeline and a post-switch coordinator canonical pipeline completed successfully; the coordinator then resumed live publication.
