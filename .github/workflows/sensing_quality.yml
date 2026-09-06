@@ -1,0 +1,128 @@
+name: Jubilee sensing quality and river forcing
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, upgrade/sensing-audit-20260906]
+    paths:
+      - 'model_data/audit_sensing.py'
+      - 'model_data/camera_sources.json'
+      - 'model_data/ingest_river_forcing.py'
+      - 'model_data/ingest_water_quality.py'
+      - 'model_data/backtest_water_quality.py'
+      - 'tests/**'
+      - '.github/workflows/sensing_quality.yml'
+  schedule:
+    - cron: '37 */3 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jubilee-sensing-quality-${{ github.ref_name }}
+  cancel-in-progress: false
+
+jobs:
+  validate-and-sense:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run offline regression tests
+        run: |
+          python - <<'PY'
+          import datetime, json, pathlib, sys, unittest
+          suite = unittest.defaultTestLoader.discover('tests')
+          result = unittest.TextTestRunner(verbosity=2).run(suite)
+          report = {'generated_at_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                    'tests_run': result.testsRun, 'failures': len(result.failures),
+                    'errors': len(result.errors), 'skipped': len(result.skipped),
+                    'passed': result.wasSuccessful(), 'scope': 'offline_regressions_not_desktop_end_to_end'}
+          pathlib.Path('model_data/upgrade_test_report.json').write_text(json.dumps(report, indent=2) + '\n')
+          if not result.wasSuccessful(): sys.exit(1)
+          PY
+      - name: Audit expected camera evidence in checked-out snapshot
+        run: python model_data/audit_sensing.py
+      - name: Retrieve and validate public river data
+        run: python model_data/ingest_river_forcing.py --days 16
+      - name: Verify revised historical ingest and diagnostics on upgrade branch
+        if: github.ref_name == 'upgrade/sensing-audit-20260906'
+        run: |
+          python model_data/ingest_water_quality.py
+          python model_data/backtest_water_quality.py
+      - name: Build explicit operational readiness report
+        run: |
+          python - <<'PY'
+          import datetime, json, os, pathlib
+          p = pathlib.Path('model_data')
+          def read(name):
+              f = p/name
+              return json.loads(f.read_text()) if f.exists() else {}
+          c, r, t = read('sensing_audit.json'), read('river_forcing_manifest.json'), read('upgrade_test_report.json')
+          report = {
+              'generated_at_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              'workflow_run_id': os.environ.get('GITHUB_RUN_ID'), 'input_commit_sha': os.environ.get('GITHUB_SHA'),
+              'tests': t, 'camera_metadata_status': c.get('status'),
+              'private_metadata_pass': c.get('private_metadata_pass'),
+              'expected_private_including_pending_onboarding': c.get('expected_private_cameras'),
+              'passing_site_groups': c.get('passing_site_groups'),
+              'river_status': r.get('status'), 'river_rows': r.get('normalized_rows'),
+              'river_parameter_counts': r.get('parameter_counts'),
+              'desktop_changed': False, 'google_device_inventory_accessed': False,
+              'new_montrose_camera_live': False, 'public_camera_capture_enabled': False,
+              'chatgpt_automations_changed': False, 'forecast_weights_changed': False,
+              'private_media_uploaded_by_this_workflow': False,
+              'raw_public_archive_path': 'model_data/public_archive',
+              'archive_policy': 'Content-addressed raw public sensor responses; no automated deletion. Private images excluded.'
+          }
+          if os.environ.get('GITHUB_REF_NAME') == 'upgrade/sensing-audit-20260906':
+              w, b = read('water_quality_ingest_manifest.json'), read('water_quality_backtest.json')
+              report['water_quality_status'] = w.get('status')
+              report['water_quality_rows'] = w.get('normalized_rows')
+              report['water_quality_unique_event_linked_rows'] = b.get('unique_event_linked_observations')
+              report['water_quality_same_day_pairs_excluded'] = b.get('same_day_event_sample_pairs_excluded')
+              report['water_quality_predictive_validity'] = 'NOT_ESTABLISHED'
+          (p/'upgrade_readiness.json').write_text(json.dumps(report, indent=2) + '\n')
+          print(json.dumps(report, indent=2))
+          PY
+      - name: Upload audit and public data only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jubilee-sensing-public-audit-${{ github.run_number }}
+          path: |
+            model_data/upgrade_test_report.json
+            model_data/upgrade_readiness.json
+            model_data/sensing_audit.json
+            model_data/river_forcing_manifest.json
+            model_data/river_forcing_normalized.csv
+            model_data/water_quality_ingest_manifest.json
+            model_data/water_quality_backtest.json
+            model_data/public_archive/
+          retention-days: 90
+      - name: Persist allowlisted public archives and audit records
+        if: success()
+        env:
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          git config user.name 'jubilee-model-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add model_data/upgrade_test_report.json model_data/upgrade_readiness.json model_data/sensing_audit.json model_data/river_forcing_manifest.json model_data/public_archive/
+          if [ "$REF_NAME" = 'upgrade/sensing-audit-20260906' ]; then
+            git add model_data/water_quality_ingest_manifest.json model_data/water_quality_backtest.json
+          fi
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Record verified sensing audit and immutable public data snapshot'
+          for attempt in 1 2 3; do
+            git pull --rebase origin "$REF_NAME"
+            if git push origin "HEAD:$REF_NAME"; then exit 0; fi
+            sleep 3
+          done
+          exit 1
