@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-"""Fetch public upstream forcing. Never equate a dam gauge with bay arrival.
+"""Auditable upstream forcing; not an instantaneous estimate of bay inflow.
 
-Raw response is content-addressed and compressed. All gate time series remain
-separate. The downstream Coffeeville gauge is context, never extra inflow.
+USGS values groups can contain different gates under one parameter code. Method
+identity is therefore part of the time-series identity. USGS estimated discharge
+is usable for research only with its explicit estimated/provisional flags.
 """
 from __future__ import annotations
 import argparse
 import csv
 import gzip
 import hashlib
-import io
 import json
 import math
 import time
@@ -52,30 +52,47 @@ def normalize(document, retrieved_at, source_url):
             raise ValueError('Unexpected station in response')
         unit = variable.get('unit', {}).get('unitCode', '')
         nodata = finite(variable.get('noDataValue'))
-        series_id = ts.get('name', station + ':' + code)
-        for group in ts.get('values', []):
+        parent_series = ts.get('name', station + ':' + code)
+        for group_index, group in enumerate(ts.get('values', [])):
+            methods = group.get('method', [])
+            method_ids = [str(m['methodID']) for m in methods if m.get('methodID') is not None]
+            method_label = '|'.join(m.get('methodDescription', '') for m in methods)
+            identity = ','.join(method_ids) if method_ids else 'unresolved_group_' + str(group_index)
+            series_id = parent_series + ':method=' + identity
+            definitions = {q.get('qualifierCode'): q.get('qualifierDescription', '') for q in group.get('qualifier', [])}
             for value in group.get('value', []):
                 t, numeric = utc(value.get('dateTime')), finite(value.get('value'))
                 if t is None or numeric is None or numeric == nodata:
                     continue
-                k = (series_id, t.isoformat(), str(value.get('value')), tuple(value.get('qualifiers', [])))
+                qualifiers = value.get('qualifiers', [])
+                k = (series_id, t.isoformat(), str(value.get('value')), tuple(qualifiers))
                 if k in seen:
                     continue
                 seen.add(k)
-                qualifiers = value.get('qualifiers', [])
-                out.append({'station_id': station, 'station_name': info.get('siteName'),
-                            'series_id': series_id, 'parameter_code': code,
-                            'parameter_name': variable.get('variableDescription'),
-                            'value': numeric, 'unit': unit, 'observed_at_utc': t.isoformat(),
-                            'qualifiers': '|'.join(qualifiers),
-                            'research_qc_eligible': bool(qualifiers) and set(qualifiers).issubset({'A', 'P'}),
-                            'retrieved_at_utc': retrieved_at.isoformat(), 'source_url': source_url,
-                            'source_class': 'observed_upstream_forcing_not_bay_inflow',
-                            'production_weight': 0.0})
+                qset = set(qualifiers)
+                estimated_documented = 'estimated' in definitions.get('e', '').lower()
+                eligible = bool(qset.intersection({'A', 'P'})) and qset.issubset({'A', 'P', 'e'})
+                eligible = eligible and ('e' not in qset or estimated_documented)
+                if code == '45592' and not method_ids:
+                    eligible = False
+                out.append({
+                    'station_id': station, 'station_name': info.get('siteName'),
+                    'series_id': series_id, 'parent_series_id': parent_series,
+                    'method_id': identity, 'method_label': method_label,
+                    'method_identity_verified': bool(method_ids),
+                    'parameter_code': code, 'parameter_name': variable.get('variableDescription'),
+                    'value': numeric, 'unit': unit, 'observed_at_utc': t.isoformat(),
+                    'qualifiers': '|'.join(qualifiers), 'is_estimated': 'e' in qset,
+                    'qualifier_definitions': json.dumps(definitions, sort_keys=True),
+                    'research_qc_eligible': eligible,
+                    'retrieved_at_utc': retrieved_at.isoformat(), 'source_url': source_url,
+                    'source_class': 'agency_reported_upstream_forcing_not_bay_inflow',
+                    'production_weight': 0.0
+                })
     return out
 
 def integrate(points, start, end, max_gap_seconds=7200):
-    """Trapezoidal volume over observed segments only; no gap/edge extrapolation."""
+    """Integrate observed segments only; no gap filling or edge extrapolation."""
     points = sorted(points)
     volume, seconds = 0.0, 0.0
     for (ta, qa), (tb, qb) in zip(points, points[1:]):
@@ -92,8 +109,8 @@ def integrate(points, start, end, max_gap_seconds=7200):
         seconds += dt
     duration = (end - start).total_seconds()
     coverage = seconds / duration if duration > 0 else 0.0
-    return {'observed_interval_volume_m3': round(volume, 2),
-            'covered_seconds': seconds, 'coverage_fraction': round(coverage, 5),
+    return {'observed_interval_volume_m3': round(volume, 2), 'covered_seconds': seconds,
+            'coverage_fraction': round(coverage, 5),
             'covered_interval_mean_cfs': volume / CFS_TO_CMS / seconds if seconds else None,
             'eligible_for_research_feature': coverage >= 0.9,
             'full_window_volume_not_extrapolated': True}
@@ -108,12 +125,13 @@ def summarize(rows, now):
         latest = group[-1]
         age = (now - utc(latest['observed_at_utc'])).total_seconds() / 60
         entry = {'station_id': station, 'series_id': sid, 'parameter_code': code,
+                 'method_id': latest.get('method_id'), 'method_label': latest.get('method_label'),
                  'unit': unit, 'rows': len(group), 'earliest_at_utc': group[0]['observed_at_utc'],
                  'latest_at_utc': latest['observed_at_utc'], 'latest_value': latest['value'],
                  'latest_age_minutes': round(age, 2), 'fresh': 0 <= age <= 180,
-                 'latest_qualifiers': latest['qualifiers']}
+                 'latest_qualifiers': latest['qualifiers'],
+                 'estimated_rows': sum(bool(r.get('is_estimated')) for r in group)}
         if code == '00060' and unit in ('ft3/s', 'ft^3/s'):
-            # Timestamp collisions with conflicting values are excluded rather than resolved silently.
             by_time = defaultdict(set)
             for row in group:
                 if row['research_qc_eligible']:
@@ -122,13 +140,14 @@ def summarize(rows, now):
             entry['conflicting_timestamps_excluded'] = sum(len(v) > 1 for v in by_time.values())
             entry['antecedent_windows'] = {str(days): integrate(points, now - timedelta(days=days), now)
                                            for days in (1, 3, 7, 14)}
+            entry['volume_quality_note'] = 'Derived from qualified agency-reported discharge; includes estimated values when explicitly documented by USGS.'
         out.append(entry)
     return out
 
 def fetch(url):
     for attempt in range(3):
         try:
-            request = urllib.request.Request(url, headers={'User-Agent': 'jubilee-research/2.0'})
+            request = urllib.request.Request(url, headers={'User-Agent': 'jubilee-research/2.1'})
             with urllib.request.urlopen(request, timeout=60) as response:
                 payload = response.read(25_000_001)
             if len(payload) > 25_000_000:
@@ -149,7 +168,7 @@ def main():
     params = {'format': 'json', 'sites': ','.join(SITES), 'period': 'P' + str(args.days) + 'D',
               'parameterCd': '00060,00065,45592', 'siteStatus': 'all'}
     url = 'https://waterservices.usgs.gov/nwis/iv/?' + urllib.parse.urlencode(params)
-    manifest = {'schema_version': '2.0', 'started_at_utc': now.isoformat(), 'source_url': url,
+    manifest = {'schema_version': '2.1', 'started_at_utc': now.isoformat(), 'source_url': url,
                 'requested_sites': list(SITES), 'production_action': 'NO_CHANGE'}
     try:
         payload = fetch(url)
@@ -165,20 +184,21 @@ def main():
             with dest.open('w', encoding='utf-8', newline='') as stream:
                 writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
                 writer.writeheader(); writer.writerows(rows)
-        summary = summarize(rows, retrieved)
         observed_sites = {r['station_id'] for r in rows}
         manifest.update({'status': 'complete' if set(SITES) <= observed_sites else 'partial',
                          'retrieved_at_utc': retrieved.isoformat(), 'raw_sha256': digest,
                          'raw_path': str(archive.relative_to(HERE)), 'normalized_rows': len(rows),
                          'parameter_counts': dict(Counter(r['parameter_code'] for r in rows)),
-                         'missing_sites': sorted(set(SITES) - observed_sites), 'series': summary})
+                         'missing_sites': sorted(set(SITES) - observed_sites),
+                         'series': summarize(rows, retrieved)})
     except Exception as exc:
         manifest.update({'status': 'failed', 'error_type': type(exc).__name__, 'normalized_rows': 0})
     manifest['guardrails'] = [
         'Coffeeville 02469761 and 02469762 are pool/tailwater of the same river, never additive inflows.',
         'Claiborne discharge excludes uncomputed overtopping flow at stages above 50 ft.',
-        'P means provisional, not final; reported qualifiers remain attached.',
-        'No source gap is forward-filled; partial covered volume is not total-window volume.',
+        'P means provisional; e means estimated where the source defines it. Preserve both and widen research uncertainty.',
+        'Separate dam-gate method IDs, even when timestamps and numeric gate openings match.',
+        'No source gap is forward-filled; covered volume is not an extrapolated total-window volume.',
         'Travel-time/lag to Mobile Bay is uncalibrated. No direct Jubilee probability update.'
     ]
     (HERE / 'river_forcing_manifest.json').write_text(json.dumps(manifest, indent=2) + '\n', encoding='utf-8')
