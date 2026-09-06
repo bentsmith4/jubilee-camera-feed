@@ -1,5 +1,6 @@
 {
-  "started_at_utc": "2026-09-05T11:38:20.447418+00:00",
+  "schema_version": "2.0",
+  "started_at_utc": "2026-09-06T21:17:14.953335+00:00",
   "sources": [
     {
       "source_id": "WQP_ADEM_BEACH",
@@ -10,9 +11,23 @@
         "21ALBCH-F_HOPE",
         "21ALBCH-ORANGE_ST"
       ],
+      "raw_archive": {
+        "path": "public_archive/wqp/wqp_adem_beach-results-dd9a77451b92ad0106a67f27294ff7edac78af3809a4f4068efd2b4c53a11c6e.csv.gz",
+        "sha256": "dd9a77451b92ad0106a67f27294ff7edac78af3809a4f4068efd2b4c53a11c6e",
+        "bytes": 1724334
+      },
+      "station_archive": {
+        "path": "public_archive/wqp/wqp_adem_beach-stations-42d8f15f79997497fe599c69e41ed8b1777f7805e50e23c125189b6d4e914407.csv.gz",
+        "sha256": "42d8f15f79997497fe599c69e41ed8b1777f7805e50e23c125189b6d4e914407",
+        "bytes": 1889
+      },
+      "station_metadata_status": "retrieved",
       "status": "ok",
       "raw_path": "raw_water_quality/wqp_adem_beach.csv",
-      "rows": 3417
+      "rows": 3417,
+      "censored_or_detection_flag_rows": 1,
+      "missing_depth_rows": 3130,
+      "missing_coordinates_rows": 0
     },
     {
       "source_id": "WQP_ALABAMA_WATER_WATCH_MAGNOLIA",
@@ -24,12 +39,34 @@
         "AWW_WQX-aww_2101",
         "AWW_WQX-aww_2129"
       ],
+      "raw_archive": {
+        "path": "public_archive/wqp/wqp_alabama_water_watch_magnolia-results-1f4193d1bc95078a4c4a7325030146c89aaee6b3346ae4425c853ae31b513772.csv.gz",
+        "sha256": "1f4193d1bc95078a4c4a7325030146c89aaee6b3346ae4425c853ae31b513772",
+        "bytes": 1245039
+      },
+      "station_archive": {
+        "path": "public_archive/wqp/wqp_alabama_water_watch_magnolia-stations-c5077d7bb318b62c7e10f0006c4500911b4eff1e654769eb9f0cf2685c919c65.csv.gz",
+        "sha256": "c5077d7bb318b62c7e10f0006c4500911b4eff1e654769eb9f0cf2685c919c65",
+        "bytes": 1936
+      },
+      "station_metadata_status": "retrieved",
       "status": "ok",
       "raw_path": "raw_water_quality/wqp_alabama_water_watch_magnolia.csv",
-      "rows": 4233
+      "rows": 4233,
+      "censored_or_detection_flag_rows": 0,
+      "missing_depth_rows": 4233,
+      "missing_coordinates_rows": 0
     }
   ],
+  "unimplemented_sources": [
+    {
+      "source_id": "MOBILE_BAYKEEPER_SWIM_PDF",
+      "status": "REFERENCED_NOT_INGESTED"
+    }
+  ],
+  "finished_at_utc": "2026-09-06T21:17:30.201135+00:00",
+  "normalized_rows": 7650,
   "status": "complete",
-  "finished_at_utc": "2026-09-05T11:38:20.856165+00:00",
-  "normalized_rows": 7650
+  "production_action": "NO_CHANGE",
+  "coverage_scope": "Only the listed WQP requests; referenced PDF sources are NOT included."
 }
