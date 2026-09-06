@@ -1,27 +1,25 @@
 name: Jubilee sensing quality and river forcing
-
 on:
   workflow_dispatch:
   push:
     branches: [main, upgrade/sensing-audit-20260906]
     paths:
       - 'model_data/audit_sensing.py'
+      - 'model_data/build_readiness.py'
       - 'model_data/camera_sources.json'
       - 'model_data/ingest_river_forcing.py'
       - 'model_data/ingest_water_quality.py'
       - 'model_data/backtest_water_quality.py'
+      - 'tools/desktop_preflight.ps1'
       - 'tests/**'
       - '.github/workflows/sensing_quality.yml'
   schedule:
     - cron: '37 */3 * * *'
-
 permissions:
   contents: write
-
 concurrency:
   group: jubilee-sensing-quality-${{ github.ref_name }}
   cancel-in-progress: false
-
 jobs:
   validate-and-sense:
     runs-on: ubuntu-latest
@@ -38,8 +36,7 @@ jobs:
         run: |
           python - <<'PY'
           import datetime, json, pathlib, sys, unittest
-          suite = unittest.defaultTestLoader.discover('tests')
-          result = unittest.TextTestRunner(verbosity=2).run(suite)
+          result = unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.discover('tests'))
           report = {'generated_at_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
                     'tests_run': result.testsRun, 'failures': len(result.failures),
                     'errors': len(result.errors), 'skipped': len(result.skipped),
@@ -47,8 +44,25 @@ jobs:
           pathlib.Path('model_data/upgrade_test_report.json').write_text(json.dumps(report, indent=2) + '\n')
           if not result.wasSuccessful(): sys.exit(1)
           PY
-      - name: Audit expected camera evidence in checked-out snapshot
-        run: python model_data/audit_sensing.py
+      - name: Check desktop preflight PowerShell syntax without running it
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $parseErrors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PWD 'tools/desktop_preflight.ps1'), [ref]$tokens, [ref]$parseErrors) | Out-Null
+          if ($parseErrors.Count -gt 0) { $parseErrors | ForEach-Object { Write-Error $_.Message }; exit 1 }
+      - name: Audit latest pinned main camera snapshot, not old feature-branch images
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          echo "CAMERA_SNAPSHOT_SHA=$(git rev-parse origin/main)" >> "$GITHUB_ENV"
+          snapshot="$RUNNER_TEMP/jubilee-camera-audit"
+          mkdir -p "$snapshot/model_data"
+          cp model_data/camera_sources.json "$snapshot/model_data/"
+          for f in status.json burst_status.json vision.json montrose_pier_boat.jpg montrose_pier_bird.jpg pcl_e2_back_deck.jpg pcl_e2_bay_mouth.jpg pcl_e3_bay_mouth.jpg; do
+            if ! git show "origin/main:$f" > "$snapshot/$f"; then rm -f "$snapshot/$f"; fi
+          done
+          python model_data/audit_sensing.py --root "$snapshot" --out model_data/sensing_audit.json
       - name: Retrieve and validate public river data
         run: python model_data/ingest_river_forcing.py --days 16
       - name: Verify revised historical ingest and diagnostics on upgrade branch
@@ -56,41 +70,8 @@ jobs:
         run: |
           python model_data/ingest_water_quality.py
           python model_data/backtest_water_quality.py
-      - name: Build explicit operational readiness report
-        run: |
-          python - <<'PY'
-          import datetime, json, os, pathlib
-          p = pathlib.Path('model_data')
-          def read(name):
-              f = p/name
-              return json.loads(f.read_text()) if f.exists() else {}
-          c, r, t = read('sensing_audit.json'), read('river_forcing_manifest.json'), read('upgrade_test_report.json')
-          report = {
-              'generated_at_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
-              'workflow_run_id': os.environ.get('GITHUB_RUN_ID'), 'input_commit_sha': os.environ.get('GITHUB_SHA'),
-              'tests': t, 'camera_metadata_status': c.get('status'),
-              'private_metadata_pass': c.get('private_metadata_pass'),
-              'expected_private_including_pending_onboarding': c.get('expected_private_cameras'),
-              'passing_site_groups': c.get('passing_site_groups'),
-              'river_status': r.get('status'), 'river_rows': r.get('normalized_rows'),
-              'river_parameter_counts': r.get('parameter_counts'),
-              'desktop_changed': False, 'google_device_inventory_accessed': False,
-              'new_montrose_camera_live': False, 'public_camera_capture_enabled': False,
-              'chatgpt_automations_changed': False, 'forecast_weights_changed': False,
-              'private_media_uploaded_by_this_workflow': False,
-              'raw_public_archive_path': 'model_data/public_archive',
-              'archive_policy': 'Content-addressed raw public sensor responses; no automated deletion. Private images excluded.'
-          }
-          if os.environ.get('GITHUB_REF_NAME') == 'upgrade/sensing-audit-20260906':
-              w, b = read('water_quality_ingest_manifest.json'), read('water_quality_backtest.json')
-              report['water_quality_status'] = w.get('status')
-              report['water_quality_rows'] = w.get('normalized_rows')
-              report['water_quality_unique_event_linked_rows'] = b.get('unique_event_linked_observations')
-              report['water_quality_same_day_pairs_excluded'] = b.get('same_day_event_sample_pairs_excluded')
-              report['water_quality_predictive_validity'] = 'NOT_ESTABLISHED'
-          (p/'upgrade_readiness.json').write_text(json.dumps(report, indent=2) + '\n')
-          print(json.dumps(report, indent=2))
-          PY
+      - name: Build readiness and six-cell coverage report
+        run: python model_data/build_readiness.py
       - name: Upload audit and public data only
         if: always()
         uses: actions/upload-artifact@v4
@@ -99,6 +80,7 @@ jobs:
           path: |
             model_data/upgrade_test_report.json
             model_data/upgrade_readiness.json
+            model_data/coverage_snapshot.json
             model_data/sensing_audit.json
             model_data/river_forcing_manifest.json
             model_data/river_forcing_normalized.csv
@@ -112,9 +94,15 @@ jobs:
           REF_NAME: ${{ github.ref_name }}
         run: |
           set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          size = sum(p.stat().st_size for p in Path('model_data/public_archive').rglob('*') if p.is_file())
+          if size > 250_000_000:
+              raise SystemExit('Public Git archive budget exceeded. Preserve the artifact and migrate to verified object storage; do not delete history.')
+          PY
           git config user.name 'jubilee-model-bot'
           git config user.email 'actions@users.noreply.github.com'
-          git add model_data/upgrade_test_report.json model_data/upgrade_readiness.json model_data/sensing_audit.json model_data/river_forcing_manifest.json model_data/public_archive/
+          git add model_data/upgrade_test_report.json model_data/upgrade_readiness.json model_data/coverage_snapshot.json model_data/sensing_audit.json model_data/river_forcing_manifest.json model_data/public_archive/
           if [ "$REF_NAME" = 'upgrade/sensing-audit-20260906' ]; then
             git add model_data/water_quality_ingest_manifest.json model_data/water_quality_backtest.json
           fi
