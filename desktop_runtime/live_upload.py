@@ -10,13 +10,7 @@ BASE = Path(r"C:\JubileeCams")
 LIVE = BASE / "live_frames"
 CONFIG = BASE / "r2.json"
 
-CAMERAS = [
-    "montrose_pier_boat",
-    "pcl_e2_back_deck",
-    "pcl_e2_bay_mouth",
-    "pcl_e3_bay_mouth",
-    "montrose_pier_bird",
-]
+from camera_policy import CAMERA_IDS as CAMERAS
 
 cfg = json.loads(
     CONFIG.read_text(encoding="utf-8-sig")
@@ -146,5 +140,5 @@ s3.upload_file(
 
 print()
 print("LIVE CAMERA PUBLICATION COMPLETE")
-print(f"Fresh cameras published: {fresh_count}/5")
+print(f"Fresh cameras published: {fresh_count}/{len(CAMERAS)}")
 print(f"Updated: {now:%Y-%m-%d %I:%M:%S %p} CT")

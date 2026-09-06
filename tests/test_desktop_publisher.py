@@ -56,7 +56,7 @@ class PublisherTests(unittest.TestCase):
         p.git(self.repo,'merge-base','--is-ancestor','HEAD',commit)
 
     def test_private_camera_refused(self):
-        self.doc['cameras']['montrose_shoreline']={'ok':False}
+        self.doc['cameras']['unapproved_camera']={'ok':False}
         self.save()
         with self.assertRaises(ValueError):p.publish(self.base)
 

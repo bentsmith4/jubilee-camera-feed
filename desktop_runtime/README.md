@@ -1,3 +1,5 @@
+Current owner policy: all six cameras have equal capture, vision and public-feed/archive treatment. See `../SIX_CAMERA_POLICY.md`. The earlier private-only statements below describe the first deployment and are superseded.
+
 # Desktop runtime, September 6, 2026
 
 Operational home: `C:\JubileeCams`. These are reviewed copies of deployed runtime files, not a second service installation. Keep `go2rtc.yaml`, `r2.json`, Google device resource IDs, private camera frames, and private ROI files outside this public repository.

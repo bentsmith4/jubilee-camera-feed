@@ -6,7 +6,8 @@ from datetime import datetime, timezone, timedelta
 from pathlib import Path
 from PIL import Image
 
-PUBLIC_CAMERAS = {'montrose_pier_boat','montrose_pier_bird','pcl_e2_back_deck','pcl_e2_bay_mouth','pcl_e3_bay_mouth'}
+from camera_policy import CAMERA_IDS
+PUBLIC_CAMERAS = set(CAMERA_IDS)
 
 def freeze(base):
     frames=base/'frames'

@@ -322,6 +322,6 @@ print("=" * 60)
 print("NEAR-LIVE CAPTURE COMPLETE")
 print(
     f"Cameras successful: "
-    f"{successes}/5"
+    f"{successes}/{len(set(ra.CAMERA_NAMES.values()))}"
 )
 print("=" * 60)

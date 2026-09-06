@@ -1,3 +1,5 @@
+Policy update: Ben subsequently requested identical treatment for all six Google cameras. See `SIX_CAMERA_POLICY.md` and the six-camera acceptance report; this supersedes the private-only behavior described in the initial execution record below.
+
 # Jubilee desktop upgrade — September 6, 2026
 
 The operational home remains `C:\JubileeCams`; repository: `bentsmith4/jubilee-camera-feed`. No credentials or new private-camera media were added to the public repository.

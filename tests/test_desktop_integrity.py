@@ -23,7 +23,7 @@ class Tests(unittest.TestCase):
             target,seal=freeze(base)
             self.assertEqual(freeze(base)[1],seal)
             self.assertTrue((target/'capture_manifest.json').exists())
-            doc['cameras']['montrose_shoreline']={'ok':False}
+            doc['cameras']['unapproved_camera']={'ok':False}
             (frames/'status.json').write_text(json.dumps(doc))
             with self.assertRaises(ValueError):freeze(base)
     def test_lock_serializes_and_releases_on_error(self):

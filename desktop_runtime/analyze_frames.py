@@ -16,13 +16,7 @@ VISION_PATH = FRAMES / "vision.json"
 ALLIGATOR_HISTORY_PATH = FRAMES / "alligator_history.json"
 RUBRIC_PATH = BASE / "vision_rubric.json"
 
-CAMERAS = [
-    ("montrose_pier_boat", "Montrose Pier Boat"),
-    ("pcl_e2_back_deck", "Point Clear Landing E2 Back Deck"),
-    ("pcl_e2_bay_mouth", "Point Clear Landing E2 Bay Mouth"),
-    ("pcl_e3_bay_mouth", "Point Clear Landing E3 Bay Mouth"),
-    ("montrose_pier_bird", "Montrose Pier Bird"),
-]
+from camera_policy import CAMERAS
 
 ALLIGATOR_ALERT_MIN_CONFIDENCE = 0.80
 ALLIGATOR_RECENT_DAYS = 7

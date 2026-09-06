@@ -36,11 +36,6 @@ steps = [
         []
     ),
     (
-        "PRIVATE SHORELINE LOCAL ARCHIVE",
-        BASE / "private_capture.py",
-        []
-    ),
-    (
         "GITHUB LATEST MIRROR",
         BASE / "publish_github.py",
         []

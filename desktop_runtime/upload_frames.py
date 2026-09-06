@@ -16,13 +16,7 @@ STATUS_PATH = FRAMES / "status.json"
 VISION_PATH = FRAMES / "vision.json"
 BURST_STATUS_PATH = FRAMES / "burst_status.json"
 
-CAMERAS = [
-    "montrose_pier_boat",
-    "pcl_e2_back_deck",
-    "pcl_e2_bay_mouth",
-    "pcl_e3_bay_mouth",
-    "montrose_pier_bird",
-]
+from camera_policy import CAMERA_IDS as CAMERAS
 
 cfg = json.loads(
     CONFIG.read_text(encoding="utf-8-sig")
