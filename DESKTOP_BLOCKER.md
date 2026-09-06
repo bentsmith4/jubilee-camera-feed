@@ -1,4 +1,6 @@
-# STOP: repair camera publication history before merging the upgrade
+Desktop verification: September 6, 2026. The deployed publisher now creates append-only allowlisted commits using the current remote parent, preserves the working checkout, and never amends or force-pushes. Scheduled publication `cd669dd6f05c86885c4fc3f5ed94592a8ffb1e8b` retains `1a8c118d23a09a16c71ded3266e5be0afd0a6fc4` as an ancestor and preserves the model tree. See `DESKTOP_EXECUTION_REPORT.md` and `model_data/desktop_acceptance_20260906.json`. The original finding and repair contract below are retained as history. PR #2 remains unmerged.
+
+# Publisher blocker repaired locally and verified on scheduled publication
 
 ## Confirmed finding, September 6, 2026
 

@@ -1,3 +1,5 @@
+Execution update: desktop work has now been applied and tested; see `DESKTOP_EXECUTION_REPORT.md` for actual results and remaining access/rights blocks. The handoff below records the original acceptance requirements, not the current deployment status.
+
 # Jubilee desktop upgrade: start here
 
 Owner authorization: Ben requested the coordinated camera/model consolidation on September 6, 2026 and reports a new Montrose shoreline camera in his Google account.

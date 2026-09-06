@@ -4,20 +4,153 @@
   "canonical_runtime": "C:\\JubileeCams",
   "repository_role": "public_code_and_status_mirror_not_private_media_archive",
   "default_private_media_publish_allowed": false,
-  "admission_stages": ["discovered", "access_verified", "capture_tested", "freshness_verified", "roi_calibrated", "archive_verified", "production_enabled"],
+  "admission_stages": [
+    "discovered",
+    "access_verified",
+    "capture_tested",
+    "freshness_verified",
+    "roi_calibrated",
+    "archive_verified",
+    "production_enabled"
+  ],
   "cameras": [
-    {"camera_id":"montrose_pier_boat","access":"owner_google","shoreline_cell":"Montrose","site_group":"montrose_owner_cluster","configuration_state":"existing_runtime_expected","google_device_mapping":"local_only","media_publish_policy":"existing_policy_unchanged"},
-    {"camera_id":"montrose_pier_bird","access":"owner_google","shoreline_cell":"Montrose","site_group":"montrose_owner_cluster","configuration_state":"existing_runtime_expected","google_device_mapping":"local_only","media_publish_policy":"existing_policy_unchanged"},
-    {"camera_id":"montrose_shoreline","access":"owner_google","shoreline_cell":"Montrose","site_group":"montrose_owner_cluster","configuration_state":"owner_reported_pending_device_discovery","google_device_mapping":"unresolved_local_only","media_publish_policy":"private_only","role":"nearshore_biology_and_anonymous_search_behavior","note":"Provisional canonical ID, not the Google display name. Do not guess or auto-select a device. Inspect permitted Google SDM inventory and actual field of view locally. Treat as same site until surveyed."},
-    {"camera_id":"pcl_e2_back_deck","access":"owner_google","shoreline_cell":"Point Clear","site_group":"point_clear_landing_owner_cluster","configuration_state":"existing_runtime_expected","google_device_mapping":"local_only","media_publish_policy":"existing_policy_unchanged"},
-    {"camera_id":"pcl_e2_bay_mouth","access":"owner_google","shoreline_cell":"Point Clear","site_group":"point_clear_landing_owner_cluster","configuration_state":"existing_runtime_expected","google_device_mapping":"local_only","media_publish_policy":"existing_policy_unchanged"},
-    {"camera_id":"pcl_e3_bay_mouth","access":"owner_google","shoreline_cell":"Point Clear","site_group":"point_clear_landing_owner_cluster","configuration_state":"existing_runtime_expected","google_device_mapping":"local_only","media_publish_policy":"existing_policy_unchanged"},
-    {"camera_id":"fairhope_municipal_pier_public","access":"public_viewer","shoreline_cell":"Fairhope","site_group":"fairhope_city_pier","configuration_state":"official_page_verified_stream_capture_pending","viewer_url":"https://www.fairhopeal.gov/visiting/piercam","role":"nearshore_candidate_roi_unverified","automated_capture_enabled":false,"archive_rights":"unverified","note":"Official page embeds YouTube. Verify shoreline north of pier is actually visible; city page existence does not establish live pixels or north-beach coverage."},
-    {"camera_id":"grand_hotel_public","access":"public_viewer","shoreline_cell":"Point Clear","site_group":"grand_hotel_hazcams_cluster","configuration_state":"official_page_verified_capture_rights_blocked","viewer_url":"https://hazcams.com/station/point-clear-al-us-001","publisher_url":"https://alabamaweathernetwork.com/skycams/","aliases":["AWN Point Clear Grand Hotel","Hazcams Grand Hotel","Fleischer Pier candidate mirror"],"role":"nearshore_candidate_roi_unverified","automated_capture_enabled":false,"archive_rights":"express_consent_required","rights_source":"https://hazcams.com/","note":"Do not count AWN, Hazcams and a Fleischer Pier rebroadcast as independent until different physical cameras are proven. WXLOGIC terms prohibit media use/reproduction/distribution without prior written consent; do not scrape or archive."},
-    {"camera_id":"fairhope_awn_public","access":"public_viewer","shoreline_cell":"Fairhope","site_group":"fairhope_hazcams_cluster","configuration_state":"official_page_verified_capture_rights_blocked","viewer_url":"https://hazcams.com/station/fairhope-al-us-001","publisher_url":"https://alabamaweathernetwork.com/skycams/","role":"environmental_candidate_roi_unverified","automated_capture_enabled":false,"archive_rights":"express_consent_required","rights_source":"https://hazcams.com/"},
-    {"camera_id":"daphne_delta_public","access":"public_viewer","shoreline_cell":"Daphne","site_group":"daphne_delta_fox10","configuration_state":"historical_candidate_live_presence_unverified","viewer_url":"https://www.fox10tv.com/weather/cams/","role":"bay_context_not_shoreline_biology","automated_capture_enabled":false,"archive_rights":"unverified","note":"Do not equate Delta panorama with May Day or Village Point shoreline coverage."},
-    {"camera_id":"uss_alabama_public","access":"public_viewer","shoreline_cell":"Upper Bay context","site_group":"uss_alabama_fox10","configuration_state":"official_page_listed_capture_pending","viewer_url":"https://www.fox10tv.com/weather/cams/","role":"bay_context_only","automated_capture_enabled":false,"archive_rights":"unverified"},
-    {"camera_id":"dauphin_island_public","access":"public_viewer","shoreline_cell":"Bay mouth context","site_group":"dauphin_island_fox10","configuration_state":"official_page_listed_capture_pending","viewer_url":"https://www.fox10tv.com/weather/cams/","role":"bay_mouth_surface_context_roi_unverified","automated_capture_enabled":false,"archive_rights":"unverified"}
+    {
+      "camera_id": "montrose_pier_boat",
+      "access": "owner_google",
+      "shoreline_cell": "Montrose",
+      "site_group": "montrose_owner_cluster",
+      "configuration_state": "desktop_fresh_capture_and_archive_verified_20260906",
+      "google_device_mapping": "local_only",
+      "media_publish_policy": "existing_policy_unchanged"
+    },
+    {
+      "camera_id": "montrose_pier_bird",
+      "access": "owner_google",
+      "shoreline_cell": "Montrose",
+      "site_group": "montrose_owner_cluster",
+      "configuration_state": "desktop_fresh_capture_and_archive_verified_20260906",
+      "google_device_mapping": "local_only",
+      "media_publish_policy": "existing_policy_unchanged"
+    },
+    {
+      "camera_id": "montrose_shoreline",
+      "access": "owner_google",
+      "shoreline_cell": "Montrose",
+      "site_group": "montrose_owner_cluster",
+      "configuration_state": "private_local_three_frame_capture_verified",
+      "google_device_mapping": "resolved_local_only",
+      "media_publish_policy": "private_only",
+      "role": "nearshore_biology_and_anonymous_search_behavior",
+      "note": "Owner authorized livestream access in existing Google connection. Three local frames and SHA256 restore verified; public media publication excluded. Approximate local shoreline regions inspected; physical survey unknown.",
+      "supported_protocols_verified": [
+        "WEB_RTC"
+      ]
+    },
+    {
+      "camera_id": "pcl_e2_back_deck",
+      "access": "owner_google",
+      "shoreline_cell": "Point Clear",
+      "site_group": "point_clear_landing_owner_cluster",
+      "configuration_state": "desktop_fresh_capture_and_archive_verified_20260906",
+      "google_device_mapping": "local_only",
+      "media_publish_policy": "existing_policy_unchanged"
+    },
+    {
+      "camera_id": "pcl_e2_bay_mouth",
+      "access": "owner_google",
+      "shoreline_cell": "Point Clear",
+      "site_group": "point_clear_landing_owner_cluster",
+      "configuration_state": "desktop_fresh_capture_and_archive_verified_20260906",
+      "google_device_mapping": "local_only",
+      "media_publish_policy": "existing_policy_unchanged"
+    },
+    {
+      "camera_id": "pcl_e3_bay_mouth",
+      "access": "owner_google",
+      "shoreline_cell": "Point Clear",
+      "site_group": "point_clear_landing_owner_cluster",
+      "configuration_state": "desktop_fresh_capture_and_archive_verified_20260906",
+      "google_device_mapping": "local_only",
+      "media_publish_policy": "existing_policy_unchanged"
+    },
+    {
+      "camera_id": "fairhope_municipal_pier_public",
+      "access": "public_viewer",
+      "shoreline_cell": "Fairhope",
+      "site_group": "fairhope_city_pier",
+      "configuration_state": "official_embedded_player_playback_verified_recording_rights_pending",
+      "viewer_url": "https://www.fairhopeal.gov/visiting/piercam",
+      "role": "nearshore_candidate_roi_unverified",
+      "automated_capture_enabled": false,
+      "archive_rights": "unverified",
+      "note": "Official YouTube player played in browser on September 6. Central pier/waterfront visible; 300-yard north-beach coverage and source-clock freshness not established. Automated recording/retention rights remain unverified."
+    },
+    {
+      "camera_id": "grand_hotel_public",
+      "access": "public_viewer",
+      "shoreline_cell": "Point Clear",
+      "site_group": "grand_hotel_hazcams_cluster",
+      "configuration_state": "official_page_verified_capture_rights_blocked",
+      "viewer_url": "https://hazcams.com/station/point-clear-al-us-001",
+      "publisher_url": "https://alabamaweathernetwork.com/skycams/",
+      "aliases": [
+        "AWN Point Clear Grand Hotel",
+        "Hazcams Grand Hotel",
+        "Fleischer Pier candidate mirror"
+      ],
+      "role": "nearshore_candidate_roi_unverified",
+      "automated_capture_enabled": false,
+      "archive_rights": "express_consent_required",
+      "rights_source": "https://hazcams.com/",
+      "note": "Do not count AWN, Hazcams and a Fleischer Pier rebroadcast as independent until different physical cameras are proven. WXLOGIC terms prohibit media use/reproduction/distribution without prior written consent; do not scrape or archive."
+    },
+    {
+      "camera_id": "fairhope_awn_public",
+      "access": "public_viewer",
+      "shoreline_cell": "Fairhope",
+      "site_group": "fairhope_hazcams_cluster",
+      "configuration_state": "official_page_verified_capture_rights_blocked",
+      "viewer_url": "https://hazcams.com/station/fairhope-al-us-001",
+      "publisher_url": "https://alabamaweathernetwork.com/skycams/",
+      "role": "environmental_candidate_roi_unverified",
+      "automated_capture_enabled": false,
+      "archive_rights": "express_consent_required",
+      "rights_source": "https://hazcams.com/"
+    },
+    {
+      "camera_id": "daphne_delta_public",
+      "access": "public_viewer",
+      "shoreline_cell": "Daphne",
+      "site_group": "daphne_delta_fox10",
+      "configuration_state": "historical_candidate_live_presence_unverified",
+      "viewer_url": "https://www.fox10tv.com/weather/cams/",
+      "role": "bay_context_not_shoreline_biology",
+      "automated_capture_enabled": false,
+      "archive_rights": "unverified",
+      "note": "Current FOX10 viewer lists Battleship and Dauphin Island but no Daphne/Delta camera. Retention rights unverified; not enabled."
+    },
+    {
+      "camera_id": "uss_alabama_public",
+      "access": "public_viewer",
+      "shoreline_cell": "Upper Bay context",
+      "site_group": "uss_alabama_fox10",
+      "configuration_state": "official_page_listed_capture_pending",
+      "viewer_url": "https://www.fox10tv.com/weather/cams/",
+      "role": "bay_context_only",
+      "automated_capture_enabled": false,
+      "archive_rights": "unverified"
+    },
+    {
+      "camera_id": "dauphin_island_public",
+      "access": "public_viewer",
+      "shoreline_cell": "Bay mouth context",
+      "site_group": "dauphin_island_fox10",
+      "configuration_state": "official_page_listed_capture_pending",
+      "viewer_url": "https://www.fox10tv.com/weather/cams/",
+      "role": "bay_mouth_surface_context_roi_unverified",
+      "automated_capture_enabled": false,
+      "archive_rights": "unverified"
+    }
   ],
   "rules": [
     "Expected devices remain in health output even when absent or failed.",
