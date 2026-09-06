@@ -32,4 +32,52 @@ All external water-quality ingestion must preserve raw observations and source
 provenance before feature engineering. Do not silently merge observations from
 different depths, stations, methods, or source classes.
 
+## Dawn visual assessment rule
+
+The principal visual assessment must use the first completed and published
+validated camera burst captured at or after local civil dawn. Do not base the
+principal dawn assessment on an older pre-dawn dark burst merely because it is
+the freshest available frame at run start. A burst is usable only when freshness,
+timestamp matching, health, and actual visibility/detectability pass.
+
+If the first burst at or after dawn is still too dark or otherwise inadequate for
+biological assessment, classify biological evidence as `UNKNOWN` and use the
+first completed/published dawn+20-minute burst as the daylight follow-up before
+making the principal visual call. Preserve overnight positive biological signals,
+material physical/event alerts, and flashlight/searching/human observations, but
+suppress repetitive user-facing updates whose only finding is unchanged darkness
+or low detectability.
+
+Apply the same dawn timing rule to public-camera observations.
+
+## Public cameras — observation-only policy (PUBLIC-CAM-001)
+
+Public-camera checks are observation-only unless Ben later grants separate
+retention permission. Use only permitted public viewing paths; do not bypass
+access controls or automated-access restrictions. Do not save, retain, archive,
+upload, or persist screenshots, thumbnails, video, or image data from public
+cameras. Keep the six owner Google-camera archives unchanged.
+
+For each public camera actually viewed, retain only factual structured analysis:
+- camera and physical-camera identity;
+- public viewer URL;
+- check time;
+- source capture time and freshness basis when known;
+- still versus video and observation duration;
+- visibility, glare, darkness, and visible shoreline scope;
+- separate status fields for shrimp-like activity, diving/feeding birds, fish
+  surfacing/gulping, swimming crabs, shoreline animal concentrations, people
+  collecting, and searching/flashlights, each limited to
+  `observed`, `not_observed`, `uncertain`, or `not_assessable`;
+- concise supporting description for each relevant field;
+- overall outcome limited to `event_evidence_present`,
+  `no_event_evidence_in_visible_area`, or `unknown`;
+- `media_retained=false`;
+- `retrospective_visual_review_available=false`.
+
+Motion claims require temporal evidence. Do not identify shrimp from ambiguous
+specks. Birds or people alone do not confirm a Jubilee. Missing, stale, or poorly
+visible public-camera views must be `unknown`. Do not invent historical checks or
+contact camera owners.
+
 No user-facing alert threshold change is authorized by this policy.
