@@ -14,7 +14,12 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          for term in R4_x260_000_0055 N75X279Z R4_x260_000_0051 N7154FF5; do
+          for term in \
+            R4_x260_000_0055 N75X279Z \
+            R4_x260_000_0051 N7154FF5 \
+            R4_x260_204_0033 N7QV3JXD \
+            R4_x260_000_0106 n7-s40s-3785 \
+            R4_x260_204_0031 N72R3Q1W; do
             echo "===== SEARCH $term ====="
             python - "$term" <<'PY'
           import json, sys, urllib.parse, urllib.request
@@ -27,8 +32,11 @@ jobs:
               doc = json.load(r)
           print('URL', url)
           cols = doc.get('table',{}).get('columnNames',[])
+          matches = 0
           for row in doc.get('table',{}).get('rows',[]):
               item = dict(zip(cols,row))
               print(json.dumps({k:item.get(k) for k in ['Dataset ID','Title','Institution','tabledap','griddap','Info'] if k in item}, ensure_ascii=False))
+              matches += 1
+          print('MATCHES', matches)
           PY
           done
