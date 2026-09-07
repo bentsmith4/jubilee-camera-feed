@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "created_date": "2026-09-06",
+  "purpose": "Canonical signal interpretation for public cameras. Structured observations only unless media retention rights are explicitly verified.",
+  "cameras": [
+    {
+      "camera_id": "fairhope_municipal_pier_public",
+      "classification": "pier_activity_and_environment_proxy",
+      "shoreline_visible": false,
+      "beach_north_visible": false,
+      "beach_south_visible": false,
+      "allowed_signals": [
+        "predawn_vehicle_count_or_unusual_vehicle_density",
+        "predawn_person_count_or_unusual_person_density",
+        "anonymous_people_with_lights_looking_at_water",
+        "clustered_or_sustained_search_behavior",
+        "water_surface_smoothness_or_chop",
+        "flag_motion_direction_proxy",
+        "flag_motion_strength_proxy",
+        "visible_bird_concentration_or_unusual_biological_activity",
+        "visible_surface_fish_activity_or_localized_surface_disturbance"
+      ],
+      "prohibited_inference": [
+        "No north-beach or south-beach shoreline Jubilee negative may be inferred from this camera.",
+        "No person identification or cross-camera person tracking.",
+        "Do not convert qualitative flag motion to precise wind speed until separately calibrated."
+      ],
+      "negative_scope": "At most: no unusual pier-area human or biological activity was observed in the visible frame during the stated interval.",
+      "timing_weight": "Activity signals have highest information value in the pre-dawn/dawn Jubilee window and lower value during normal daytime use.",
+      "media_retained": false,
+      "rights_basis": "archive rights not verified"
+    },
+    {
+      "camera_id": "grand_hotel_public",
+      "classification": "environment_and_activity_proxy_pending_view_geometry_calibration",
+      "required_before_negative_use": [
+        "verify exact physical camera identity",
+        "verify field of view and water/shoreline geometry",
+        "verify source freshness clock",
+        "deduplicate AWN/Hazcams/rebroadcast mirrors",
+        "retain structured observations only unless written media rights are obtained"
+      ],
+      "media_retained": false,
+      "rights_basis": "express consent required for media use/reproduction/distribution"
+    }
+  ],
+  "general_rules": [
+    "Stale, frozen, dark, obstructed or poor-visibility views are UNKNOWN.",
+    "A negative applies only to the visible area and stated observation interval.",
+    "Human searching is a soft precursor/detection signal, not Jubilee confirmation.",
+    "Multiple mirrors of one physical camera share one independence group."
+  ]
+}
