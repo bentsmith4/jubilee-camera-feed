@@ -1,0 +1,1 @@
+Top-five Jubilee gap work is additive only and does not change production forecast weights, live camera-state history, or private media. See README_TOP5_GAPS.md and top5_gap_progress_20260906.md.
