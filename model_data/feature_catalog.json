@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "purpose": "Prevent duplicate research and keep candidate, promoted and rejected Jubilee predictors explicit.",
   "statuses": ["DIRECT_PRODUCTION_EVIDENCE", "EXPERT_POLICY", "RESEARCH_CANDIDATE", "ZERO_WEIGHT_PENDING_VALIDATION", "REJECTED", "BLOCKED_BY_DATA"],
   "feature_families": [
@@ -31,7 +31,9 @@
         {"id": "coffeeville_flow_1_3_7_14d", "status": "ZERO_WEIGHT_PENDING_VALIDATION", "reason": "ingested; avoid pool/tailwater double counting"},
         {"id": "alabama_tombigbee_flow_ratio", "status": "RESEARCH_CANDIDATE", "reason": "possible routing/plume-shape relevance"},
         {"id": "distributed_river_to_bay_lag_kernel", "status": "BLOCKED_BY_DATA", "reason": "must estimate against downstream salinity/plume response rather than hard-code one lag"},
-        {"id": "local_dolive_runoff_state", "status": "RESEARCH_CANDIDATE", "reason": "Daphne local antecedent proxy; historical WQP source registered"}
+        {"id": "local_dolive_runoff_state", "status": "RESEARCH_CANDIDATE", "reason": "Daphne local antecedent proxy; historical WQP source registered"},
+        {"id": "mrms_local_rainfall_1_3_6_12_24_48_72h", "status": "RESEARCH_CANDIDATE", "reason": "1-km radar QPE could capture localized Eastern Shore rain missed by coarse gauges; requires catchment extraction and gauge validation"},
+        {"id": "nwm_small_tributary_flow_state", "status": "RESEARCH_CANDIDATE", "reason": "National Water Model could reconstruct ungauged D'Olive/Fly Creek/small tributary forcing and historical controls; MODEL only and must validate against observed gauges"}
       ]
     },
     {
