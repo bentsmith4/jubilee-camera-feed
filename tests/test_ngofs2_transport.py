@@ -26,8 +26,17 @@ class NGOFS2TransportTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             ngofs2.find_station_index(['Point Clear A', 'Point Clear B'])
 
+    def test_coordinate_fallback_is_bounded_and_auditable(self):
+        names = ['8730001', '8733821', '8739999']
+        lats = [30.2, ngofs2.TARGET_LAT + 0.001, 30.8]
+        lons = [-88.1, ngofs2.TARGET_LON - 0.001, -87.7]
+        idx, basis = ngofs2.resolve_station_index(names, lats, lons)
+        self.assertEqual(idx, 1)
+        self.assertEqual(basis, 'nearest_verified_coordinate')
+        with self.assertRaises(ValueError):
+            ngofs2.resolve_station_index(['x'], [31.0], [-89.0])
+
     def test_latest_cycle_has_posting_cushion(self):
-        # 03Z is not considered safely posted until 90 minutes after cycle start.
         now_after_cushion = datetime(2026, 9, 7, 4, 31, tzinfo=timezone.utc)
         cycles = ngofs2.cycle_candidates(now_after_cushion, count=2)
         self.assertEqual(cycles[0], datetime(2026, 9, 7, 3, 0, tzinfo=timezone.utc))
