@@ -1,4 +1,4 @@
-name: Temporary NCEI accession probe
+name: Temporary data-endpoint probe
 on:
   push:
     branches: [upgrade/top5-gaps-round2-20260906]
@@ -10,17 +10,25 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Inspect official NCEI accession download responses without retaining payloads
+      - name: Resolve GRIIDC ERDDAP dataset IDs without retaining payloads
         shell: bash
         run: |
-          set -u
-          for accession in 0188979 0224293; do
-            url="https://www.ncei.noaa.gov/archive/archive-management-system/OAS/bin/prd/jquery/accession/download/$accession"
-            echo "===== $accession HEAD ====="
-            curl -sSIL --max-time 30 "$url" | sed -n '1,40p' || true
-            echo "===== $accession BODY PREFIX ====="
-            set +o pipefail
-            curl -L -sS --max-time 30 "$url" | head -c 12000 || true
-            set -o pipefail
-            echo
+          set -euo pipefail
+          for term in R4_x260_000_0055 N75X279Z R4_x260_000_0051 N7154FF5; do
+            echo "===== SEARCH $term ====="
+            python - "$term" <<'PY'
+          import json, sys, urllib.parse, urllib.request
+          term = sys.argv[1]
+          url = 'https://erddap.griidc.org/erddap/search/index.json?' + urllib.parse.urlencode({
+              'page': 1, 'itemsPerPage': 1000, 'searchFor': term
+          })
+          req = urllib.request.Request(url, headers={'User-Agent':'jubilee-research/1.0'})
+          with urllib.request.urlopen(req, timeout=30) as r:
+              doc = json.load(r)
+          print('URL', url)
+          cols = doc.get('table',{}).get('columnNames',[])
+          for row in doc.get('table',{}).get('rows',[]):
+              item = dict(zip(cols,row))
+              print(json.dumps({k:item.get(k) for k in ['Dataset ID','Title','Institution','tabledap','griddap','Info'] if k in item}, ensure_ascii=False))
+          PY
           done
