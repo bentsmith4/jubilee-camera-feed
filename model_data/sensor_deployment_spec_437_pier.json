@@ -1,8 +1,16 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "created_date": "2026-09-06",
+  "updated_date": "2026-09-06",
   "site": "437 Village pier / Montrose-Daphne Eastern Shore",
   "status": "future_hardware_not_yet_owned",
+  "owner_confirmed_infrastructure": {
+    "dependable_shore_power_at_or_near_pier": true,
+    "wifi_at_or_near_pier": true,
+    "preferred_installation_location": "end_of_pier_due_to_power_access",
+    "typical_water_depth_context": "approximately 3 ft or less at pier end; tide dependent",
+    "confirmation_date": "2026-09-06"
+  },
   "objective": "Measure local near-bottom hypoxia/stratification state with enough temporal resolution and metadata to support Jubilee forecasting and matched-control calibration.",
   "minimum_variables": [
     "dissolved_oxygen_mg_L",
@@ -14,39 +22,81 @@
     "dissolved_oxygen_percent_saturation",
     "conductivity",
     "sensor_internal_temperature",
-    "battery_voltage",
+    "power_or_battery_voltage",
     "diagnostic_flags"
   ],
   "deployment_geometry": {
-    "minimum": "one near-bottom package fixed above sediment and below typical low-water level",
-    "preferred": "paired near-bottom and near-surface packages to directly estimate vertical salinity/temperature/oxygen gradients",
-    "bottom_clearance": "record exact sensor height above sediment; avoid burial and direct sediment contact",
-    "reference": "survey or repeatedly measure sensor elevation relative to pier structure and local water-level reference"
+    "phase_1_recommended": "one near-bottom multiparameter package at the pier end, fixed approximately 0.15-0.30 m above sediment where practical and below ordinary low-water level",
+    "reason_for_phase_1": "At roughly <=0.9 m total depth, the near-bottom package directly targets the low-oxygen saline layer most relevant to Jubilee onset while minimizing complexity and the risk that a fixed upper sensor emerges at low water.",
+    "phase_2_preferred": "add a second near-surface package on an adjustable or surface-following mount to estimate vertical DO/salinity/temperature gradients",
+    "bottom_clearance": "record exact sensor height above sediment; avoid burial, direct sediment contact, prop wash and contact with piling surfaces that create stagnant microenvironments",
+    "horizontal_offset": "mount far enough from pilings/structure to sample ambient water but close enough for safe retrieval and service",
+    "reference": "record sensor elevation relative to fixed pier reference plus concurrent water level/depth so apparent vertical changes are not confused with tide-driven sensor position changes"
   },
   "sampling": {
     "preferred_interval_minutes": 5,
     "maximum_interval_minutes": 15,
+    "high_risk_mode": "optionally increase cadence to 1-2 minutes during selected predawn high-risk windows if hardware supports it; preserve baseline 5-minute comparability",
     "clock": "UTC internally; preserve local Central Time rendering separately",
     "required_timestamps": ["observed_at", "available_at", "ingested_at"]
   },
+  "power_and_telemetry": {
+    "preferred": "shore-powered logger/sonde with wired local data path where practical and Wi-Fi gateway for near-real-time upload",
+    "design_rule": "Wi-Fi is telemetry, not the only storage path; raw observations must be buffered locally through network outages",
+    "surge_and_marine_environment": "use GFCI-protected shore power, marine-rated enclosure/cable glands, surge protection and strain relief; keep mains voltage out of submerged hardware",
+    "outage_policy": "backfill buffered observations without rewriting observed_at; telemetry outage is missingness in availability, not a physical negative"
+  },
   "quality_control": {
-    "predeployment": ["two-point DO calibration or manufacturer-equivalent optical DO verification", "conductivity/salinity standard check", "temperature cross-check", "clock sync"],
-    "ongoing": ["fouling inspection", "drift check", "battery/telemetry health", "range and rate-of-change flags", "out-of-water detection"],
-    "postdeployment": ["calibration check", "document cleaning/service events", "retain raw uncorrected observations and calibration metadata"]
+    "predeployment": [
+      "manufacturer-equivalent optical DO verification/calibration",
+      "conductivity/salinity standard check",
+      "temperature cross-check",
+      "depth/pressure zero and plausibility check",
+      "clock sync",
+      "24-48 hour side-by-side soak test before model admission"
+    ],
+    "ongoing": [
+      "fouling inspection and cleaning log",
+      "drift check",
+      "power/telemetry health",
+      "range and rate-of-change flags",
+      "stuck-sensor detection",
+      "out-of-water detection",
+      "cross-check against tide/depth and regional water-quality sources"
+    ],
+    "postdeployment": [
+      "calibration check",
+      "document cleaning/service events",
+      "retain raw uncorrected observations and calibration metadata"
+    ]
   },
-  "telemetry": {
-    "preferred": "automatic local-to-cloud or local-to-desktop delivery without replacing raw logger storage",
-    "outage_policy": "buffer locally and backfill; telemetry outage is missingness, not a physical observation"
-  },
+  "hardware_reference_classes": [
+    {
+      "class": "research_grade_multiparameter_sonde",
+      "example": "YSI EXO2/EXO2s class with optical DO, conductivity/temperature, depth and anti-fouling wiper",
+      "why_relevant": "Supports coastal/estuarine unattended monitoring, external 9-16 VDC power, RS-485/SDI-12 style integration, internal logging and active anti-fouling; high reliability reference architecture rather than a purchase commitment."
+    },
+    {
+      "class": "midrange_modular_sonde",
+      "example": "In-Situ Aqua TROLL 600 class with RDO, conductivity/temperature and pressure",
+      "why_relevant": "Provides the core direct variables with replaceable optical DO sensing and lower integration complexity than a full custom build."
+    },
+    {
+      "class": "custom_build",
+      "example": "industrial optical DO + conductivity + temperature + pressure sensors into a local logger/gateway",
+      "why_relevant": "Can reduce hardware cost and integrate tightly with the existing desktop runtime, but anti-fouling, calibration stability, waterproofing and long-term QA/QC become the project rather than merely the electronics."
+    }
+  ],
   "model_guardrails": [
     "No positive production weight until provenance/QC are passing and out-of-sample incremental value is demonstrated.",
     "Near-bottom DO is DIRECT evidence only for the 437/Montrose cell and immediate vicinity; do not generalize as direct Point Clear or Fairhope bottom conditions.",
     "Preserve sensor maintenance, calibration and fouling periods so the model cannot learn instrument-health artifacts.",
-    "A paired surface-bottom deployment is preferred because stratification and vertical-gradient features are likely more informative than a single absolute measurement."
+    "In this very shallow site, depth and tide metadata are mandatory because the water column can be vertically compressed and fixed sensors can change relative position within the water column as water level changes.",
+    "A paired surface-bottom deployment is preferred only after the first bottom package is stable and serviceable."
   ],
   "future_expansion": [
     "Second matched package at Point Clear if the 437 deployment proves stable and informative.",
-    "Optional current meter/ADCP only after DO/salinity/temperature logging is reliable.",
+    "Optional local current meter/ADV/compact ADCP only after DO/salinity/temperature logging is reliable.",
     "Trigger standardized manual vertical profiles on high-risk and matched non-event mornings."
   ]
 }
