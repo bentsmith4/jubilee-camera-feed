@@ -1,4 +1,4 @@
-name: Jubilee sensing quality and river forcing
+name: Jubilee sensing quality and environmental forcing
 on:
   workflow_dispatch:
   push:
@@ -6,8 +6,10 @@ on:
     paths:
       - 'model_data/audit_sensing.py'
       - 'model_data/build_readiness.py'
+      - 'model_data/build_observation_effort_snapshot.py'
       - 'model_data/camera_sources.json'
       - 'model_data/ingest_river_forcing.py'
+      - 'model_data/ingest_weeks_bay_realtime.py'
       - 'model_data/ingest_water_quality.py'
       - 'model_data/backtest_water_quality.py'
       - 'tools/desktop_preflight.ps1'
@@ -72,6 +74,11 @@ jobs:
           python model_data/audit_sensing.py --root "$snapshot" --out model_data/sensing_audit.json
       - name: Retrieve and validate public river data
         run: python model_data/ingest_river_forcing.py --days 16
+      - name: Retrieve Weeks Bay realtime water quality and meteorology
+        continue-on-error: true
+        run: python model_data/ingest_weeks_bay_realtime.py
+      - name: Record prospective dawn observation effort without inventing negatives
+        run: python model_data/build_observation_effort_snapshot.py --append-ledger
       - name: Verify revised historical ingest and diagnostics on upgrade branch
         if: github.ref_name == 'upgrade/sensing-audit-20260906'
         run: |
@@ -91,6 +98,10 @@ jobs:
             model_data/sensing_audit.json
             model_data/river_forcing_manifest.json
             model_data/river_forcing_normalized.csv
+            model_data/weeks_bay_realtime_manifest.json
+            model_data/weeks_bay_realtime_normalized.csv
+            model_data/observation_effort_snapshot.json
+            model_data/observation_effort_ledger.jsonl
             model_data/water_quality_ingest_manifest.json
             model_data/water_quality_backtest.json
             model_data/public_archive/
@@ -110,6 +121,10 @@ jobs:
           git config user.name 'jubilee-model-bot'
           git config user.email 'actions@users.noreply.github.com'
           git add model_data/upgrade_test_report.json model_data/upgrade_readiness.json model_data/coverage_snapshot.json model_data/sensing_audit.json model_data/river_forcing_manifest.json model_data/public_archive/
+          git add model_data/observation_effort_snapshot.json
+          if [ -f model_data/observation_effort_ledger.jsonl ]; then git add model_data/observation_effort_ledger.jsonl; fi
+          if [ -f model_data/weeks_bay_realtime_manifest.json ]; then git add model_data/weeks_bay_realtime_manifest.json; fi
+          if [ -d model_data/public_archive/ndbc ]; then git add model_data/public_archive/ndbc/; fi
           if [ "$REF_NAME" = 'upgrade/sensing-audit-20260906' ]; then
             git add model_data/water_quality_ingest_manifest.json model_data/water_quality_backtest.json
           fi
