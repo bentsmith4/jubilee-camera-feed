@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""One-time idempotent promotion of primary-source May 1971 Jubilee events.
+"""Idempotent promotion of reviewed historical Jubilee events.
 
 This updates the existing canonical event_history.json; it does not create a
-parallel event database. Only three explicitly reviewed primary-scientific rows
-are admitted. The Aug. 16 near miss belongs in the separate controls layer.
+parallel event database. Only explicitly reviewed evidence rows are admitted.
+Scientific near misses and observation-effort-only records stay in their
+separate canonical layers.
 """
 from __future__ import annotations
 
@@ -77,6 +78,37 @@ ADDITIONS = [
         "source_urls": ["https://doi.org/10.4319/lo.1973.18.3.0353"],
         "notes": "Exceptionally valuable positive because oxygen was measured during the Jubilee: bottom DO 0-1.6 mg/L, mean about 0.7 mg/L; surface mean about 2.6 mg/L.",
     },
+    {
+        "event_id": "2017-08-26-fairhope-yacht-club",
+        "event_date_ct": "2017-08-26",
+        "date_precision": "day_resolved_by_independent_first_person_accounts_and_calendar_context",
+        "classification": "confirmed_jubilee",
+        "scale": "mini_localized",
+        "location": {
+            "label": "Fairhope shoreline toward Fairhope Yacht Club",
+            "precision": "first_person_paddle_route_and_shoreline_activity",
+            "continuous_boundary_claimed": False,
+        },
+        "confidence": 0.975,
+        "evidence": [
+            {
+                "type": "first_person_local_paddle_report",
+                "independence_group": "2017_08_26_dining_with_mimi_fairhope",
+                "supports": ["occurrence", "Saturday_morning", "Fairhope_shoreline", "toward_Yacht_Club", "flounder", "crabs", "shrimp", "stingray", "catfish", "dense_birds", "people_with_nets_buckets_and_ice_chests"],
+            },
+            {
+                "type": "independent_first_person_local_blog_report",
+                "independence_group": "2017_08_mobile_bay_runner_mini_jubilee",
+                "supports": ["same_weekend_occurrence", "tons_of_crabs", "shrimp", "flounder", "eels", "many_people_along_the_bay"],
+            },
+        ],
+        "provenance": "Dining With Mimi describes a Jubilee already underway on the author's regular Saturday Fairhope paddle, with the group paddling toward the Yacht Club and observing shoreline harvest activity, dense birds, and multiple Jubilee species. The author says the week began with the eclipse and ended with the Jubilee. Mobile Bay Runner independently posted on Sunday Aug. 27, 2017 that a mini-Jubilee occurred 'this weekend' and described crabs, shrimp, flounder, eels and many people along the Bay. The 2017 eclipse was Monday Aug. 21; together the accounts resolve the event to Saturday Aug. 26 without inventing an exact clock time.",
+        "source_urls": [
+            "https://www.diningwithmimi.com/recipe/easy-low-calorie-baked-salmon/",
+            "https://mobilebayrunner.com/2017/08/",
+        ],
+        "notes": "Use as a dated Fairhope/Yacht Club-area positive. Do not infer a continuous shoreline boundary or an exact start/end time. Copyrighted images are not archived.",
+    },
 ]
 
 
@@ -95,7 +127,7 @@ def main():
             ids.append(row["event_id"])
             added.append(row["event_id"])
     events.sort(key=lambda x: (x.get("event_date_ct", "9999-99-99"), x.get("event_id", "")))
-    doc["schema_version"] = "1.4"
+    doc["schema_version"] = "1.5"
     EVENTS.write_text(json.dumps(doc, separators=(",", ":"), ensure_ascii=False) + "\n", encoding="utf-8")
     print(json.dumps({"status": "complete", "added": added, "event_count": len(events), "production_action": "NO_CHANGE"}, indent=2))
 
