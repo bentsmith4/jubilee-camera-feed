@@ -16,10 +16,13 @@ on:
       - 'model_data/ingest_weeks_bay_realtime.py'
       - 'model_data/ingest_ngofs2_point_clear.py'
       - 'model_data/ingest_ngofs2_mobile_bay_named_stations.py'
+      - 'model_data/ingest_ngofs2_shoreline_grid.py'
+      - 'model_data/ngofs2_target_cells.json'
       - 'model_data/ingest_griidc_main_pass_20160419.py'
       - 'model_data/promote_may1971_events.py'
       - 'model_data/ingest_water_quality.py'
       - 'model_data/backtest_water_quality.py'
+      - 'model_data/human_observation_recovery_20260907.json'
       - 'tools/desktop_preflight.ps1'
       - 'tests/**'
       - 'desktop_runtime/**'
@@ -36,7 +39,7 @@ concurrency:
 jobs:
   validate-and-sense:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v4
         with:
@@ -59,7 +62,7 @@ jobs:
           pathlib.Path('model_data/upgrade_test_report.json').write_text(json.dumps(report, indent=2) + '\n')
           if not result.wasSuccessful(): sys.exit(1)
           PY
-      - name: Promote reviewed May 1971 primary-source events on top-five research branch
+      - name: Promote reviewed historical primary/source-resolved events on top-five research branch
         if: github.ref_name == 'upgrade/top5-gaps-round2-20260906'
         run: python model_data/promote_may1971_events.py
       - name: Build historical recovery diagnostic on top-five research branch
@@ -98,6 +101,9 @@ jobs:
       - name: Retrieve wider Mobile Bay NGOFS2 named-station forecast guidance
         if: github.ref_name == 'upgrade/top5-gaps-round2-20260906'
         run: python model_data/ingest_ngofs2_mobile_bay_named_stations.py --cast forecast
+      - name: Retrieve Eastern Shore NGOFS2 regular-grid transects
+        if: github.ref_name == 'upgrade/top5-gaps-round2-20260906'
+        run: python model_data/ingest_ngofs2_shoreline_grid.py --casts nowcast,forecast
       - name: Ingest static Main Pass 2016 CTD profiles on top-five research branch
         if: github.ref_name == 'upgrade/top5-gaps-round2-20260906'
         run: python model_data/ingest_griidc_main_pass_20160419.py
@@ -125,6 +131,7 @@ jobs:
             model_data/sensing_audit.json
             model_data/event_history.json
             model_data/historical_recovery_status.json
+            model_data/human_observation_recovery_20260907.json
             model_data/ongoing_source_registry_20260906.json
             model_data/river_forcing_manifest.json
             model_data/river_forcing_normalized.csv
@@ -139,6 +146,9 @@ jobs:
             model_data/ngofs2_mobile_bay_named_stations_nowcast_normalized.csv
             model_data/ngofs2_mobile_bay_named_stations_forecast_manifest.json
             model_data/ngofs2_mobile_bay_named_stations_forecast_normalized.csv
+            model_data/ngofs2_shoreline_grid_manifest.json
+            model_data/ngofs2_shoreline_grid_normalized.csv
+            model_data/ngofs2_shoreline_grid_features.csv
             model_data/griidc_main_pass_20160419_manifest.json
             model_data/griidc_main_pass_20160419_normalized.csv
             model_data/observation_effort_snapshot.json
@@ -164,11 +174,12 @@ jobs:
           git add model_data/upgrade_test_report.json model_data/upgrade_readiness.json model_data/coverage_snapshot.json model_data/sensing_audit.json model_data/river_forcing_manifest.json model_data/public_archive/
           git add model_data/observation_effort_snapshot.json
           if [ "$REF_NAME" = 'upgrade/top5-gaps-round2-20260906' ]; then
-            git add model_data/event_history.json model_data/historical_recovery_status.json model_data/ongoing_source_registry_20260906.json
-            for f in model_data/ngofs2_mobile_bay_named_stations_nowcast_manifest.json model_data/ngofs2_mobile_bay_named_stations_forecast_manifest.json model_data/ngofs2_mobile_bay_named_stations_nowcast_normalized.csv model_data/ngofs2_mobile_bay_named_stations_forecast_normalized.csv; do
+            git add model_data/event_history.json model_data/historical_recovery_status.json model_data/human_observation_recovery_20260907.json model_data/ongoing_source_registry_20260906.json
+            for f in model_data/ngofs2_mobile_bay_named_stations_nowcast_manifest.json model_data/ngofs2_mobile_bay_named_stations_forecast_manifest.json model_data/ngofs2_mobile_bay_named_stations_nowcast_normalized.csv model_data/ngofs2_mobile_bay_named_stations_forecast_normalized.csv model_data/ngofs2_shoreline_grid_manifest.json model_data/ngofs2_shoreline_grid_normalized.csv model_data/ngofs2_shoreline_grid_features.csv; do
               if [ -f "$f" ]; then git add "$f"; fi
             done
             if [ -d model_data/public_archive/ngofs2_named_station_subset ]; then git add model_data/public_archive/ngofs2_named_station_subset/; fi
+            if [ -d model_data/public_archive/ngofs2_shoreline_grid_subset ]; then git add model_data/public_archive/ngofs2_shoreline_grid_subset/; fi
             if [ -f model_data/griidc_main_pass_20160419_manifest.json ]; then git add model_data/griidc_main_pass_20160419_manifest.json; fi
             if [ -f model_data/griidc_main_pass_20160419_normalized.csv ]; then git add model_data/griidc_main_pass_20160419_normalized.csv; fi
             if [ -d model_data/public_archive/griidc_main_pass_20160419 ]; then git add model_data/public_archive/griidc_main_pass_20160419/; fi
