@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Extract Point Clear NGOFS2 station guidance without downloading full model fields.
 
-The output is MODEL guidance, never a direct observation. It is intended to
-measure the transport/alignment state independently of the local hypoxia state.
+The output is MODEL guidance, never a direct observation. It measures the
+transport/alignment state independently of the local hypoxia state. Nowcast and
+forecast products are persisted separately so current-state history is never
+silently overwritten by forward guidance.
 """
 from __future__ import annotations
 
@@ -29,7 +31,6 @@ SHOREWARD_BEARING_DEG_TRUE = 90.0
 
 
 def cycle_candidates(now: datetime, count: int = 8):
-    """Newest plausible posted cycle first; keep retry history bounded."""
     if now.tzinfo is None:
         raise ValueError("now must be timezone-aware")
     cutoff = now.astimezone(timezone.utc) - timedelta(minutes=90)
@@ -81,17 +82,21 @@ def find_station_index(names, target=TARGET_NAME):
     raise ValueError(f"Could not uniquely resolve station {target!r}; matches={contains}")
 
 
+def normalize_lon(lon):
+    value = float(lon)
+    return ((value + 180.0) % 360.0) - 180.0
+
+
 def haversine_km(lat1, lon1, lat2, lon2):
     r = 6371.0088
     p1, p2 = math.radians(float(lat1)), math.radians(float(lat2))
     dp = p2 - p1
-    dl = math.radians(float(lon2) - float(lon1))
+    dl = math.radians(normalize_lon(float(lon2) - float(lon1)))
     a = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
     return 2 * r * math.asin(math.sqrt(a))
 
 
 def resolve_station_index(names, lats, lons):
-    """Prefer the station name, then fall back to verified Point Clear coordinates."""
     try:
         return find_station_index(names), "name"
     except ValueError:
@@ -115,42 +120,62 @@ def choose_vertical_indices(sigmas):
     vals = [float(x) for x in sigmas]
     if not vals:
         raise ValueError("No sigma layers")
-    surface = max(range(len(vals)), key=lambda i: vals[i])
-    bottom = min(range(len(vals)), key=lambda i: vals[i])
-    return surface, bottom
+    return max(range(len(vals)), key=lambda i: vals[i]), min(range(len(vals)), key=lambda i: vals[i])
 
 
 def shoreward_component(u_east, v_north, bearing_deg_true=SHOREWARD_BEARING_DEG_TRUE):
-    """Project east/north velocity onto a true-bearing shoreward unit vector."""
     rad = math.radians(float(bearing_deg_true))
     return float(u_east) * math.sin(rad) + float(v_north) * math.cos(rad)
 
 
 def integrate_trapezoid(points):
-    """Return signed displacement in meters for (aware_datetime, m/s) points."""
     pts = sorted(points)
     total = 0.0
+    covered_seconds = 0.0
     for (ta, va), (tb, vb) in zip(pts, pts[1:]):
         dt = (tb - ta).total_seconds()
         if 0 < dt <= 1800:
             total += (float(va) + float(vb)) * 0.5 * dt
-    return total
+            covered_seconds += dt
+    return total, covered_seconds
 
 
-def summarize_transport(rows, reference_time):
-    bottom = [r for r in rows if r["vertical_role"] == "bottom" and r["parameter"] == "shoreward_current"]
-    points = [(datetime.fromisoformat(r["valid_at"]), float(r["value"])) for r in bottom]
+def _bottom_shoreward_points(rows):
+    return sorted(
+        (datetime.fromisoformat(r["valid_at"]), float(r["value"]))
+        for r in rows
+        if r["vertical_role"] == "bottom" and r["parameter"] == "shoreward_current"
+    )
+
+
+def summarize_backward_transport(rows, reference_time):
+    points = _bottom_shoreward_points(rows)
     out = {}
     for hours in (1, 3, 6):
         start = reference_time - timedelta(hours=hours)
         selected = [(t, v) for t, v in points if start <= t <= reference_time]
-        if len(selected) < 2:
-            out[str(hours)] = {"count": len(selected), "mean_m_s": None, "signed_transport_m": None}
-            continue
+        displacement, covered = integrate_trapezoid(selected)
         out[str(hours)] = {
             "count": len(selected),
-            "mean_m_s": sum(v for _, v in selected) / len(selected),
-            "signed_transport_m": integrate_trapezoid(selected),
+            "mean_m_s": (sum(v for _, v in selected) / len(selected)) if selected else None,
+            "signed_transport_m": displacement if len(selected) >= 2 else None,
+            "coverage_fraction": round(covered / (hours * 3600), 4) if hours else 0.0,
+        }
+    return out
+
+
+def summarize_forward_transport(rows, reference_time):
+    points = _bottom_shoreward_points(rows)
+    out = {}
+    for hours in (1, 3, 6, 12):
+        end = reference_time + timedelta(hours=hours)
+        selected = [(t, v) for t, v in points if reference_time <= t <= end]
+        displacement, covered = integrate_trapezoid(selected)
+        out[str(hours)] = {
+            "count": len(selected),
+            "mean_m_s": (sum(v for _, v in selected) / len(selected)) if selected else None,
+            "signed_transport_m": displacement if len(selected) >= 2 else None,
+            "coverage_fraction": round(covered / (hours * 3600), 4) if hours else 0.0,
         }
     return out
 
@@ -168,26 +193,22 @@ def extract_from_dataset(ds, source_url, retrieved_at, cycle):
     missing = sorted(required - set(ds.variables))
     if missing:
         raise ValueError(f"NGOFS2 station dataset missing variables: {missing}")
-
     names = _decode_station_names(ds.variables["name_station"])
     lats = ds.variables["lat"][:]
     lons = ds.variables["lon"][:]
     idx, resolution_basis = resolve_station_index(names, lats, lons)
-    lon = _as_float(lons[idx])
+    source_lon = _as_float(lons[idx])
+    lon = normalize_lon(source_lon)
     lat = _as_float(lats[idx])
     station_distance_km = haversine_km(TARGET_LAT, TARGET_LON, lat, lon)
     depth = _as_float(ds.variables["h"][idx])
     sigmas = ds.variables["siglay"][:, idx]
     surface_i, bottom_i = choose_vertical_indices(sigmas)
-
     tvar = ds.variables["time"]
     times = num2date(tvar[:], units=tvar.units, calendar=getattr(tvar, "calendar", "standard"), only_use_cftime_datetimes=False)
     rows = []
     for ti, valid in enumerate(times):
-        if valid.tzinfo is None:
-            valid = valid.replace(tzinfo=timezone.utc)
-        else:
-            valid = valid.astimezone(timezone.utc)
+        valid = valid.replace(tzinfo=timezone.utc) if valid.tzinfo is None else valid.astimezone(timezone.utc)
         zeta = _as_float(ds.variables["zeta"][ti, idx])
         for vertical_role, layer_i in (("surface", surface_i), ("bottom", bottom_i)):
             u = _as_float(ds.variables["u"][ti, layer_i, idx])
@@ -195,46 +216,32 @@ def extract_from_dataset(ds, source_url, retrieved_at, cycle):
             temp = _as_float(ds.variables["temp"][ti, layer_i, idx])
             sal = _as_float(ds.variables["salinity"][ti, layer_i, idx])
             values = {
-                "eastward_current": (u, "m/s"),
-                "northward_current": (v, "m/s"),
+                "eastward_current": (u, "m/s"), "northward_current": (v, "m/s"),
                 "shoreward_current": (shoreward_component(u, v) if u is not None and v is not None else None, "m/s"),
-                "water_temperature": (temp, "degC"),
-                "salinity": (sal, "1e-3"),
+                "water_temperature": (temp, "degC"), "salinity": (sal, "1e-3"),
             }
             for parameter, (value, unit) in values.items():
                 if value is None:
                     continue
                 rows.append({
-                    "source_id": "noaa_ngofs2_point_clear_station",
-                    "evidence_class": "MODEL",
-                    "station_name": names[idx],
-                    "station_index": idx,
+                    "source_id": "noaa_ngofs2_point_clear_station", "evidence_class": "MODEL",
+                    "station_name": names[idx], "station_index": idx,
                     "station_resolution_basis": resolution_basis,
                     "station_distance_to_point_clear_km": round(station_distance_km, 4),
-                    "lat": lat,
-                    "lon": lon,
-                    "bathymetry_m": depth,
-                    "vertical_role": vertical_role,
-                    "sigma_layer_index": layer_i,
-                    "sigma_value": _as_float(sigmas[layer_i]),
-                    "parameter": parameter,
-                    "value": value,
-                    "unit": unit,
-                    "valid_at": valid.isoformat(),
-                    "model_initialized_at": cycle.isoformat(),
-                    "available_at": retrieved_at.isoformat(),
-                    "ingested_at": retrieved_at.isoformat(),
-                    "source_url": source_url,
-                    "shoreline_cell": "Point Clear/Grand Hotel",
-                    "production_weight": 0.0,
+                    "lat": lat, "lon": lon, "source_lon": source_lon,
+                    "bathymetry_m": depth, "vertical_role": vertical_role,
+                    "sigma_layer_index": layer_i, "sigma_value": _as_float(sigmas[layer_i]),
+                    "parameter": parameter, "value": value, "unit": unit,
+                    "valid_at": valid.isoformat(), "model_initialized_at": cycle.isoformat(),
+                    "available_at": retrieved_at.isoformat(), "ingested_at": retrieved_at.isoformat(),
+                    "source_url": source_url, "shoreline_cell": "Point Clear/Grand Hotel", "production_weight": 0.0,
                 })
         if zeta is not None:
             rows.append({
                 "source_id": "noaa_ngofs2_point_clear_station", "evidence_class": "MODEL",
-                "station_name": names[idx], "station_index": idx,
-                "station_resolution_basis": resolution_basis,
+                "station_name": names[idx], "station_index": idx, "station_resolution_basis": resolution_basis,
                 "station_distance_to_point_clear_km": round(station_distance_km, 4),
-                "lat": lat, "lon": lon, "bathymetry_m": depth,
+                "lat": lat, "lon": lon, "source_lon": source_lon, "bathymetry_m": depth,
                 "vertical_role": "surface", "sigma_layer_index": None, "sigma_value": None,
                 "parameter": "water_surface_elevation", "value": zeta, "unit": "m",
                 "valid_at": valid.isoformat(), "model_initialized_at": cycle.isoformat(),
@@ -244,8 +251,9 @@ def extract_from_dataset(ds, source_url, retrieved_at, cycle):
     metadata = {
         "station_name": names[idx], "station_index": idx, "resolution_basis": resolution_basis,
         "distance_to_point_clear_km": round(station_distance_km, 4), "lat": lat, "lon": lon,
-        "target_lat": TARGET_LAT, "target_lon": TARGET_LON, "bathymetry_m": depth,
-        "surface_sigma_index": surface_i, "bottom_sigma_index": bottom_i,
+        "source_lon": source_lon, "source_lon_convention": "NOAA_dataset_native",
+        "normalized_lon_convention": "-180_to_180", "target_lat": TARGET_LAT, "target_lon": TARGET_LON,
+        "bathymetry_m": depth, "surface_sigma_index": surface_i, "bottom_sigma_index": bottom_i,
         "surface_sigma": _as_float(sigmas[surface_i]), "bottom_sigma": _as_float(sigmas[bottom_i]),
     }
     return rows, metadata
@@ -256,8 +264,7 @@ def open_latest(cast, now):
     for cycle in cycle_candidates(now):
         url = station_url(cycle, cast)
         try:
-            ds = Dataset(url, mode="r")
-            return ds, url, cycle, errors
+            return Dataset(url, mode="r"), url, cycle, errors
         except Exception as exc:
             errors.append({"url": url, "error_type": type(exc).__name__})
     raise RuntimeError(f"Unable to open any recent NGOFS2 station dataset: {errors}")
@@ -268,10 +275,8 @@ def main():
     parser.add_argument("--cast", choices=["nowcast", "forecast"], default="nowcast")
     args = parser.parse_args()
     retrieved = datetime.now(timezone.utc)
-    manifest = {
-        "schema_version": "1.1", "retrieved_at": retrieved.isoformat(), "cast": args.cast,
-        "status": "failed", "evidence_class": "MODEL", "production_action": "NO_CHANGE",
-    }
+    manifest = {"schema_version": "1.2", "retrieved_at": retrieved.isoformat(), "cast": args.cast,
+                "status": "failed", "evidence_class": "MODEL", "production_action": "NO_CHANGE"}
     try:
         ds, url, cycle, failed_attempts = open_latest(args.cast, retrieved)
         try:
@@ -280,37 +285,47 @@ def main():
             ds.close()
         if not rows:
             raise ValueError("NGOFS2 extraction returned no rows")
-        payload = json.dumps({"source_url": url, "cycle": cycle.isoformat(), "metadata": metadata, "rows": rows}, separators=(",", ":"), sort_keys=True).encode()
+        payload = json.dumps({"source_url": url, "cycle": cycle.isoformat(), "cast": args.cast,
+                              "metadata": metadata, "rows": rows}, separators=(",", ":"), sort_keys=True).encode()
         digest = hashlib.sha256(payload).hexdigest()
         archive = HERE / "public_archive" / "ngofs2_subset" / f"{digest}.json.gz"
         archive.parent.mkdir(parents=True, exist_ok=True)
         if not archive.exists():
             archive.write_bytes(gzip.compress(payload, mtime=0))
-
-        dest = HERE / "ngofs2_point_clear_normalized.csv"
-        with dest.open("w", encoding="utf-8", newline="") as stream:
+        csv_path = HERE / f"ngofs2_point_clear_{args.cast}_normalized.csv"
+        with csv_path.open("w", encoding="utf-8", newline="") as stream:
             writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
             writer.writeheader(); writer.writerows(rows)
-        valid_times = [datetime.fromisoformat(r["valid_at"]) for r in rows if r["parameter"] == "shoreward_current" and r["vertical_role"] == "bottom"]
-        reference = max(t for t in valid_times if t <= retrieved) if any(t <= retrieved for t in valid_times) else max(valid_times)
-        manifest.update({
-            "status": "complete", "source_url": url, "model_initialized_at": cycle.isoformat(),
-            "failed_newer_attempts": failed_attempts, "normalized_rows": len(rows),
-            "subset_sha256": digest, "subset_archive": str(archive.relative_to(HERE)),
-            "station": metadata, "reference_valid_at": reference.isoformat(),
-            "transport_windows": summarize_transport(rows, reference),
-        })
+        valid_times = _bottom_shoreward_points(rows)
+        valid_only = [t for t, _ in valid_times]
+        if args.cast == "nowcast":
+            reference = max((t for t in valid_only if t <= retrieved), default=max(valid_only))
+            windows = summarize_backward_transport(rows, reference)
+            window_type = "antecedent"
+        else:
+            reference = min((t for t in valid_only if t >= retrieved), default=min(valid_only))
+            windows = summarize_forward_transport(rows, reference)
+            window_type = "forward"
+        manifest.update({"status": "complete", "source_url": url, "model_initialized_at": cycle.isoformat(),
+                         "failed_newer_attempts": failed_attempts, "normalized_rows": len(rows),
+                         "subset_sha256": digest, "subset_archive": str(archive.relative_to(HERE)),
+                         "normalized_csv": str(csv_path.relative_to(HERE)), "station": metadata,
+                         "reference_valid_at": reference.isoformat(), "transport_window_type": window_type,
+                         "transport_windows": windows})
     except Exception as exc:
         manifest.update({"status": "failed", "error_type": type(exc).__name__, "error": str(exc)[:500]})
     manifest["guardrails"] = [
         "NGOFS2 is MODEL guidance and is not a direct current, salinity, temperature, water-level or oxygen observation.",
         "Point Clear station mapping prefers name but may use the official Point Clear coordinate as an auditable fallback; a >10 km nearest station is refused.",
-        "Point Clear shoreward projection currently uses a west-facing shoreline geometry: true bearing 090 degrees is shoreward (+east).",
-        "The station extraction is a first transport implementation; other shoreline cells still require their own station/grid geometry and validation.",
+        "Point Clear shoreward projection uses a provisional west-facing shoreline geometry: true bearing 090 degrees is shoreward (+east).",
+        "Nowcast and forecast outputs are separate; forecast values cannot overwrite antecedent nowcast history.",
         "No production weight changes until event/control held-out incremental value is demonstrated.",
-        "The content-addressed archive stores only the authoritative subset used by this pipeline, not the full NOAA model file.",
     ]
-    (HERE / "ngofs2_point_clear_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    manifest_path = HERE / f"ngofs2_point_clear_{args.cast}_manifest.json"
+    manifest_path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
+    if args.cast == "nowcast":
+        # Backward-compatible current summary path, explicitly nowcast-only.
+        (HERE / "ngofs2_point_clear_manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(manifest, indent=2))
     if manifest["status"] == "failed":
         raise SystemExit(1)
