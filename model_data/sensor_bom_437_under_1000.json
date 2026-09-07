@@ -1,0 +1,11 @@
+{
+  "schema_version":"1.0",
+  "status":"design_only_not_purchased",
+  "owner_constraints":{"total_budget_usd":"<1000","pier_power":true,"pier_wifi":true,"summer_service_days":"7-14","manual_predawn_checks":false},
+  "architecture":"shore power -> marine enclosure -> ESP32-S3 Wi-Fi logger -> electrically isolated DO and conductivity interfaces + temperature/depth -> local flash/SD buffer -> authenticated Jubilee ingest endpoint",
+  "sensor_strategy":{"dissolved_oxygen":"Atlas Scientific galvanic DO/EZO-class candidate; zero-oxygen plus air-saturation calibration required because <1 mg/L performance matters","salinity":"conductivity/EZO-class candidate with electrical isolation from DO","temperature":"waterproof digital or calibrated analog temperature sensor colocated with probes","depth":"low-cost pressure/depth sensor preferred; if deferred, pair fixed sensor elevation with trusted local water-level source"},
+  "telemetry":{"wifi":"existing pier network; credentials must be provisioned locally and never committed to repository","sampling_minutes":5,"local_buffer_required":true,"backfill_after_outage":true,"timestamps":["observed_at","available_at","ingested_at"]},
+  "mounting":"near bottom at pier end, approximately 0.15-0.30 m above sediment where practical; quick-retrieval service mount; avoid piling stagnant microenvironment and prop wash",
+  "budget_rule":"Do not finalize purchase until current vendor pricing shows sensors, isolation, controller, storage, enclosure, power conditioning, cables and mount below $1,000 delivered.",
+  "model_rule":"DIRECT only for the 437/Montrose local sensor location; production weight remains zero until QC and held-out incremental value are demonstrated."
+}
