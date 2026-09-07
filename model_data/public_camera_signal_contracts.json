@@ -1,0 +1,88 @@
+{
+  "schema_version": "1.2",
+  "created_date": "2026-09-06",
+  "purpose": "Canonical signal interpretation for public cameras. Structured observations only unless media retention rights are explicitly verified.",
+  "cameras": [
+    {
+      "camera_id": "fairhope_municipal_pier_public",
+      "classification": "pier_activity_and_environment_proxy",
+      "shoreline_visible": false,
+      "beach_north_visible": false,
+      "beach_south_visible": false,
+      "allowed_signals": [
+        "predawn_vehicle_count_or_unusual_vehicle_density",
+        "predawn_person_count_or_unusual_person_density",
+        "anonymous_people_with_lights_looking_at_water",
+        "clustered_or_sustained_search_behavior",
+        "water_surface_smoothness_or_chop",
+        "flag_motion_direction_proxy",
+        "flag_motion_strength_proxy",
+        "visible_bird_concentration_or_unusual_biological_activity",
+        "visible_surface_fish_activity_or_localized_surface_disturbance"
+      ],
+      "prohibited_inference": [
+        "No north-beach or south-beach shoreline Jubilee negative may be inferred from this camera.",
+        "No person identification or cross-camera person tracking.",
+        "Do not convert qualitative flag motion to precise wind speed until separately calibrated."
+      ],
+      "negative_scope": "At most: no unusual pier-area human or biological activity was observed in the visible frame during the stated interval.",
+      "timing_weight": "Activity signals have highest information value in the pre-dawn/dawn Jubilee window and lower value during normal daytime use.",
+      "media_retained": false,
+      "rights_basis": "archive rights not verified"
+    },
+    {
+      "camera_id": "grand_hotel_public",
+      "classification": "point_clear_baywide_environment_and_activity_proxy",
+      "view_geometry": {
+        "look_direction": "west-southwest",
+        "left_reference": "Grand Hotel pier",
+        "right_reference": "Point Clear point/headland",
+        "center_reference": "osprey nest pole",
+        "wind_reference": "visible flag",
+        "far_field": "cross-bay view across the shipping-channel sector toward south Mobile County and Dauphin Island",
+        "south_context": "Zundel's is about one mile south of the Grand Hotel; Mullet Point is farther south in the distance"
+      },
+      "allowed_signals": [
+        "water_surface_smoothness_or_chop_near_point_clear",
+        "cross_bay_surface_state_and_visibility",
+        "qualitative_flag_wind_direction",
+        "qualitative_flag_wind_strength",
+        "visible_bird_or_osprey_activity",
+        "visible_surface_biological_activity",
+        "boats_or_human_activity_when_relevant_and_visible",
+        "fog_rain_or_visibility_changes",
+        "broad_shipping_channel_and_bay_mouth_context"
+      ],
+      "fixed_visual_references": [
+        "Grand Hotel pier left",
+        "Point Clear point right",
+        "osprey nest pole center",
+        "flag for wind proxy"
+      ],
+      "negative_scope": "A lack of visible biological or human activity applies only to the water/activity actually visible in this west-southwest frame and stated interval. It is not a negative for unseen Point Clear, Zundel's or Mullet Point shoreline segments.",
+      "required_before_quantitative_use": [
+        "verify source freshness clock",
+        "deduplicate AWN/Hazcams/rebroadcast mirrors",
+        "calibrate flag orientation against independently observed wind direction before using direction numerically",
+        "calibrate flag motion against independently observed wind speed before using strength numerically"
+      ],
+      "media_retained": false,
+      "rights_basis": "express consent required for media use/reproduction/distribution"
+    }
+  ],
+  "shoreline_detectability_context": [
+    {
+      "corridor": "Grand Hotel / Point Clear south through Zundel's toward Mullet Point",
+      "owner_observation": "Beaches at the Grand Hotel and south toward Zundel's are shallow and sandy and are places where Jubilees are often found because stranded or concentrated animals are relatively easy to see.",
+      "model_role": "nearshore_contact_and_detectability",
+      "interpretation": "This is a detectability/access geometry prior, not direct evidence that a Jubilee is occurring and not proof that events are physically more frequent there.",
+      "bias_guardrail": "Higher report frequency along easy-to-see sandy shoreline can reflect higher observation/detection probability. Preserve this separately from latent physical occurrence probability."
+    }
+  ],
+  "general_rules": [
+    "Stale, frozen, dark, obstructed or poor-visibility views are UNKNOWN.",
+    "A negative applies only to the visible area and stated observation interval.",
+    "Human searching is a soft precursor/detection signal, not Jubilee confirmation.",
+    "Multiple mirrors of one physical camera share one independence group."
+  ]
+}

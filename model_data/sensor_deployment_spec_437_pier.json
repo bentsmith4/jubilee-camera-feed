@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "created_date": "2026-09-06",
+  "site": "437 Village pier / Montrose-Daphne Eastern Shore",
+  "status": "future_hardware_not_yet_owned",
+  "objective": "Measure local near-bottom hypoxia/stratification state with enough temporal resolution and metadata to support Jubilee forecasting and matched-control calibration.",
+  "minimum_variables": [
+    "dissolved_oxygen_mg_L",
+    "salinity_psu",
+    "water_temperature_C",
+    "pressure_or_depth_m"
+  ],
+  "strongly_preferred_variables": [
+    "dissolved_oxygen_percent_saturation",
+    "conductivity",
+    "sensor_internal_temperature",
+    "battery_voltage",
+    "diagnostic_flags"
+  ],
+  "deployment_geometry": {
+    "minimum": "one near-bottom package fixed above sediment and below typical low-water level",
+    "preferred": "paired near-bottom and near-surface packages to directly estimate vertical salinity/temperature/oxygen gradients",
+    "bottom_clearance": "record exact sensor height above sediment; avoid burial and direct sediment contact",
+    "reference": "survey or repeatedly measure sensor elevation relative to pier structure and local water-level reference"
+  },
+  "sampling": {
+    "preferred_interval_minutes": 5,
+    "maximum_interval_minutes": 15,
+    "clock": "UTC internally; preserve local Central Time rendering separately",
+    "required_timestamps": ["observed_at", "available_at", "ingested_at"]
+  },
+  "quality_control": {
+    "predeployment": ["two-point DO calibration or manufacturer-equivalent optical DO verification", "conductivity/salinity standard check", "temperature cross-check", "clock sync"],
+    "ongoing": ["fouling inspection", "drift check", "battery/telemetry health", "range and rate-of-change flags", "out-of-water detection"],
+    "postdeployment": ["calibration check", "document cleaning/service events", "retain raw uncorrected observations and calibration metadata"]
+  },
+  "telemetry": {
+    "preferred": "automatic local-to-cloud or local-to-desktop delivery without replacing raw logger storage",
+    "outage_policy": "buffer locally and backfill; telemetry outage is missingness, not a physical observation"
+  },
+  "model_guardrails": [
+    "No positive production weight until provenance/QC are passing and out-of-sample incremental value is demonstrated.",
+    "Near-bottom DO is DIRECT evidence only for the 437/Montrose cell and immediate vicinity; do not generalize as direct Point Clear or Fairhope bottom conditions.",
+    "Preserve sensor maintenance, calibration and fouling periods so the model cannot learn instrument-health artifacts.",
+    "A paired surface-bottom deployment is preferred because stratification and vertical-gradient features are likely more informative than a single absolute measurement."
+  ],
+  "future_expansion": [
+    "Second matched package at Point Clear if the 437 deployment proves stable and informative.",
+    "Optional current meter/ADCP only after DO/salinity/temperature logging is reliable.",
+    "Trigger standardized manual vertical profiles on high-risk and matched non-event mornings."
+  ]
+}

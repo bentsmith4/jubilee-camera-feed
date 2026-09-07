@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-09-06",
+  "purpose": "Verified additions/clarifications for incorporation into the canonical ongoing source registry; discovery alone is not ingestion.",
+  "sources": [
+    {
+      "source_id": "nerrs_weeks_bay_wkqa1",
+      "provider": "NERRS / Weeks Bay Reserve via NOAA NDBC and CDMO",
+      "station_id": "WKQA1",
+      "station_name": "Fish River, Weeks Bay Reserve, AL",
+      "location": {"lat": 30.417, "lon": -87.823},
+      "source_class": "ongoing_in_situ_estuarine_water_quality_proxy",
+      "variables": ["depth", "water_temperature", "conductivity", "salinity", "dissolved_oxygen_percent", "dissolved_oxygen_mg_L", "turbidity", "pH"],
+      "cadence_minutes": 15,
+      "current_health_verified": true,
+      "verified_on": "2026-09-06",
+      "freshness_basis": "NDBC station page showed same-day 15-minute observations",
+      "quality_basis": "NERRS SWMP data use automated primary QA/QC plus reserve/CDMO secondary and tertiary QA/QC; historical data are distributed through CDMO",
+      "production_role": "high-frequency Weeks Bay/Fish River direct observation; PROXY for Eastern Shore open-bay bottom state, never local Montrose/Point Clear bottom DO",
+      "ingestion_status": "verified_endpoint_not_yet_normalized_into_canonical_pipeline"
+    },
+    {
+      "source_id": "nerrs_weeks_bay_wkxa1",
+      "provider": "NERRS / Weeks Bay Reserve via NOAA NDBC",
+      "station_id": "WKXA1",
+      "station_name": "Safe Harbor Met Station, Weeks Bay Reserve, AL",
+      "location": {"lat": 30.421, "lon": -87.828},
+      "source_class": "ongoing_local_meteorological_observation",
+      "variables": ["wind_direction", "wind_speed", "gust", "pressure", "air_temperature", "dew_point"],
+      "current_health_verified": true,
+      "verified_on": "2026-09-06",
+      "production_role": "local Weeks Bay meteorology/context; not a direct Eastern Shore shoreline wind measurement"
+    },
+    {
+      "source_id": "noaa_ngofs2_thredds_operational_and_archive",
+      "provider": "NOAA NOS CO-OPS / NCEP / NCEI",
+      "source_class": "ongoing_and_archived_3d_hydrodynamic_model_guidance",
+      "model": "NGOFS2 FVCOM",
+      "variables": ["water_level", "current_velocity", "water_temperature", "salinity"],
+      "cycles_per_day": 4,
+      "forecast_horizon_hours": 48,
+      "operational_access": [
+        "CO-OPS THREDDS/OpenDAP",
+        "NCEP NOMADS NetCDF"
+      ],
+      "historical_access": "NCEI THREDDS NGOFS2 archive includes 2021-2026 model directories as of verification",
+      "verified_file_example": "ngofs2.t09z.20260626.fields.n006.nc",
+      "regular_grid_schema_verified": {"temperature": "time x Depth x ny x nx", "salinity": "time x Depth x ny x nx"},
+      "mobile_bay_points_documented": ["Point Clear", "Weeks Bay", "Meaher State Park", "Mobile Bay Light", "Dauphin Island Hydro", "Mobile Bay Point", "Mobile Bay Entrance"],
+      "observation_status": "MODEL",
+      "production_role": "shoreward-transport/current and vertical salinity/temperature guidance after cell-specific spatial extraction and held-out validation",
+      "ingestion_status": "verified_reproducible_archived_endpoint_extraction_code_pending"
+    }
+  ],
+  "guardrails": [
+    "WKQA1 is direct for its own station, but remains a proxy for open-bay Montrose/Fairhope/Point Clear bottom conditions.",
+    "NGOFS2 is MODEL guidance and must never be labeled an observation.",
+    "Do not promote a shoreline-current predictor until cell geometry, vector projection and out-of-sample incremental value are validated."
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.0",
+  "created_date": "2026-09-06",
+  "purpose": "Prevent false non-events and reporting/camera availability leakage in Jubilee validation.",
+  "control_definition": {
+    "required": [
+      "shoreline_cell",
+      "local_date_ct",
+      "predawn_window_start_ct",
+      "predawn_window_end_ct",
+      "observation_effort_known",
+      "event_label",
+      "detectability_state"
+    ],
+    "event_label_values": ["confirmed_event", "observed_non_event", "unknown"],
+    "detectability_state_values": ["high", "moderate", "low", "unknown"]
+  },
+  "observed_non_event_requires": [
+    "Known observation effort in the target shoreline cell and predawn window.",
+    "At least one qualified direct or human/camera observation channel was actually available and fresh.",
+    "No confirmed Jubilee evidence in that visible/observed cell and interval.",
+    "Camera view quality or human survey effort was sufficient to detect the class of event being labeled absent.",
+    "No source outage, darkness/obstruction, stale frame, or unverified report gap is being reinterpreted as a negative."
+  ],
+  "matching_dimensions": [
+    "shoreline_cell",
+    "season_or_day_of_year_band",
+    "predawn_clock_window",
+    "tide_phase",
+    "current_or_transport_phase_when_available",
+    "camera_availability",
+    "social_or_human_observation_availability"
+  ],
+  "observation_effort_fields": [
+    "private_camera_expected_count",
+    "private_camera_fresh_count",
+    "independent_private_site_groups_fresh",
+    "public_camera_checked",
+    "public_camera_freshness_state",
+    "human_field_check_performed",
+    "human_search_activity_observable",
+    "social_search_performed",
+    "social_sources_checked",
+    "visibility_quality",
+    "notes"
+  ],
+  "leakage_rules": [
+    "Do not use information first available after forecast issuance as a predictor for that forecast.",
+    "Same-day public reports may be used only in a detection/nowcast layer if available_at precedes the forecast timestamp.",
+    "Do not allow event-driven extra observation effort to make positives look systematically better observed than controls without explicit detectability adjustment.",
+    "No-report days are UNKNOWN unless observation effort meets the observed_non_event requirements."
+  ],
+  "prospective_control_strategy": {
+    "start": "immediately",
+    "preferred_window": "same pre-dawn/dawn windows used by Jubilee Dawn Timing",
+    "priority_cells": ["Montrose", "Point Clear/Grand Hotel", "Fairhope/Fly Creek/Pier"],
+    "method": "Log daily camera health, view quality, public-camera structured observations and any deliberate human field checks regardless of model risk level; later match clean non-event mornings to confirmed events."
+  }
+}

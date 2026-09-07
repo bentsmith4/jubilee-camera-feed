@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.1",
+  "created_at": "2026-09-06",
+  "purpose": "New event and near-miss evidence identified after the consolidation sprint. Candidates remain staged until canonical deduplication/admission review.",
+  "candidates": [
+    {
+      "candidate_event_id": "1971-08-07-point-clear-corridor",
+      "claimed_event_date_ct": "1971-08-07",
+      "classification_candidate": "confirmed_jubilee",
+      "location": {"label": "Eastern Shore north and/or south of Great Point Clear", "precision": "primary_scientific_paper_corridor"},
+      "evidence": [{"type": "primary_scientific_observation_report", "source": "May 1973 Limnology and Oceanography", "independence_group": "may_1971_field_program", "supports": ["early_morning_jubilee", "preceded_by_extensive_bottom_hypoxia"]}],
+      "confidence": 0.99,
+      "source_url": "https://doi.org/10.4319/lo.1973.18.3.0353",
+      "notes": "May reports bottom-water DO <2 ppm over 12,955 ha on Aug 5-6, including 8,502 ha <1 ppm, followed by early-morning Jubilees Aug 7 and Aug 8 along the Eastern Shore north and south of Great Point Clear. Preserve spatial ambiguity by date until original field notes/newspaper chronology resolve which shoreline segments were active on each morning."
+    },
+    {
+      "candidate_event_id": "1971-08-08-point-clear-corridor-major",
+      "claimed_event_date_ct": "1971-08-08",
+      "classification_candidate": "confirmed_jubilee",
+      "location": {"label": "Eastern Shore north and south of Great Point Clear; severe effects south of Great Point Clear", "precision": "primary_scientific_paper"},
+      "evidence": [{"type": "primary_scientific_observation_report", "source": "May 1973 Limnology and Oceanography", "independence_group": "may_1971_field_program", "supports": ["extensive_early_morning_jubilee", "post_event_mass_fish_kill", "flounder", "worm_eels", "crustaceans"]}],
+      "confidence": 0.995,
+      "source_url": "https://doi.org/10.4319/lo.1973.18.3.0353",
+      "notes": "May describes the Aug 8 Jubilee as extensive, followed by a major fish kill; the most severe mortality was along roughly 6 km of shoreline south of Great Point Clear."
+    },
+    {
+      "candidate_event_id": "1971-08-26-north-of-daphne",
+      "claimed_event_date_ct": "1971-08-26",
+      "classification_candidate": "confirmed_jubilee",
+      "location": {"label": "north of Daphne", "precision": "primary_scientific_paper"},
+      "duration_hours": 4,
+      "evidence": [{"type": "primary_scientific_measurement_during_jubilee", "source": "May 1973 Limnology and Oceanography", "independence_group": "may_1971_field_program", "supports": ["jubilee_occurrence", "four_hour_duration", "bottom_DO_0_to_1_6_ppm_mean_0_7", "surface_DO_mean_2_6_ppm"]}],
+      "confidence": 0.995,
+      "source_url": "https://doi.org/10.4319/lo.1973.18.3.0353",
+      "notes": "Exceptionally valuable event because May measured DO during the Jubilee in 1.5 m water."
+    },
+    {
+      "candidate_event_id": "2025-08-05-fairhope",
+      "claimed_event_date_ct": "2025-08-05",
+      "classification_candidate": "confirmed_jubilee",
+      "location": {"label": "Fairhope", "precision": "local_tv_viewer_video_location"},
+      "evidence": [{"type": "same_day_local_tv_viewer_submitted_video", "publisher": "WALA FOX10", "poster_or_submitter": "Gavin Applewhite", "publisher_time_ct": "2025-08-05T12:19:00-05:00", "claimed_event_time": "same day; exact capture time not stated in article text", "media_presence": true, "first_person_vs_repost": "viewer-submitted source media published by local TV", "independence_group": "2025_08_05_gavin_applewhite_fox10", "source_url": "https://www.fox10tv.com/2025/08/05/watch-viewer-submitted-video-shows-jubilee-mobile-bay/", "retrieval_date": "2026-09-06"}],
+      "confidence": 0.94,
+      "admission_note": "Strong same-day date/location evidence and appears distinct from Jul 17 and Jul 24. Verify capture date is not recycled before canonical admission; do not archive copyrighted video."
+    }
+  ],
+  "near_miss_candidates": [
+    {
+      "candidate_control_id": "1971-08-16-south-great-point-clear-hypoxic-near-miss",
+      "date_ct": "1971-08-16",
+      "location": "south of Great Point Clear",
+      "classification_candidate": "scientifically_observed_non_event_near_miss",
+      "observation_effort_known": true,
+      "evidence": "May measured bottom DO about 0.8 ppm to within 30 m of shoreline; from shoreline to 30 m offshore DO remained about 1.5 ppm and no Jubilee occurred.",
+      "scientific_value": "Directly separates offshore hypoxic-water availability from final nearshore contact threshold; candidate control for the latent-state architecture.",
+      "confidence": 0.995,
+      "source_url": "https://doi.org/10.4319/lo.1973.18.3.0353"
+    }
+  ]
+}
