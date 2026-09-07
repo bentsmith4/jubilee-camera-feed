@@ -1,59 +1,48 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "created_date": "2026-09-06",
-  "purpose": "Prevent false non-events and reporting/camera availability leakage in Jubilee validation.",
+  "updated_date": "2026-09-07",
+  "purpose": "Prevent false non-events and reporting/camera availability leakage in Jubilee validation while supporting fully unattended prospective control collection.",
   "control_definition": {
-    "required": [
-      "shoreline_cell",
-      "local_date_ct",
-      "predawn_window_start_ct",
-      "predawn_window_end_ct",
-      "observation_effort_known",
-      "event_label",
-      "detectability_state"
-    ],
-    "event_label_values": ["confirmed_event", "observed_non_event", "unknown"],
+    "required": ["shoreline_cell", "local_date_ct", "predawn_window_start_ct", "predawn_window_end_ct", "observation_effort_known", "event_label", "detectability_state"],
+    "event_label_values": ["confirmed_event", "observed_non_event_visible_scope", "scientific_near_miss", "unknown"],
     "detectability_state_values": ["high", "moderate", "low", "unknown"]
   },
-  "observed_non_event_requires": [
-    "Known observation effort in the target shoreline cell and predawn window.",
-    "At least one qualified direct or human/camera observation channel was actually available and fresh.",
-    "No confirmed Jubilee evidence in that visible/observed cell and interval.",
-    "Camera view quality or human survey effort was sufficient to detect the class of event being labeled absent.",
-    "No source outage, darkness/obstruction, stale frame, or unverified report gap is being reinterpreted as a negative."
+  "observed_non_event_visible_scope_requires": [
+    "Known observation effort in the target shoreline cell and predawn/dawn window.",
+    "At least one qualified direct camera or other independently documented observation channel was actually available, fresh and capable of resolving the relevant visible scope.",
+    "No confirmed Jubilee evidence in that visible/observed scope and interval.",
+    "View quality was sufficient to detect the class of event being labeled absent.",
+    "No source outage, darkness, obstruction, stale/frozen frame or unverified report gap is being reinterpreted as a negative.",
+    "The negative label is geometrically scoped; it cannot be promoted from one visible beach/pier/marina frame to an entire shoreline cell without independent coverage."
   ],
-  "matching_dimensions": [
-    "shoreline_cell",
-    "season_or_day_of_year_band",
-    "predawn_clock_window",
-    "tide_phase",
-    "current_or_transport_phase_when_available",
-    "camera_availability",
-    "social_or_human_observation_availability"
-  ],
-  "observation_effort_fields": [
-    "private_camera_expected_count",
-    "private_camera_fresh_count",
-    "independent_private_site_groups_fresh",
-    "public_camera_checked",
-    "public_camera_freshness_state",
-    "human_field_check_performed",
-    "human_search_activity_observable",
-    "social_search_performed",
-    "social_sources_checked",
-    "visibility_quality",
-    "notes"
-  ],
+  "camera_specific_rules": {
+    "montrose_shoreline": "A fresh, unobstructed first-light/dawn view with moderate/high detectability can generate an observed_non_event_visible_scope for the 437 beach segments actually visible. Full-darkness biology is UNKNOWN. This does not establish a negative for all Montrose/May Day/Fly Creek.",
+    "montrose_pier_views": "Supporting very-shallow-water observation effort only; no direct swash-zone negative by themselves.",
+    "point_clear_owner_cluster": "The three marina/Bay views improve observation effort but do not provide a close Point Clear beach/swash-zone negative. Dark views are UNKNOWN and the cluster cannot by itself establish a full-cell non-event.",
+    "fairhope_pier_public": "Pier activity/environment proxy only. No north- or south-beach Jubilee negative may be inferred because those beaches are outside the field of view.",
+    "grand_hotel_public": "A negative applies only to the WSW water/activity actually visible in-frame; unseen Grand Hotel/Point Clear/Zundel's/Mullet Point shoreline cannot be labeled negative."
+  },
+  "matching_dimensions": ["shoreline_cell_or_visible_scope", "season_or_day_of_year_band", "predawn_clock_window", "tide_phase", "current_or_transport_phase_when_available", "private_camera_availability", "public_camera_availability", "social_or_human_observation_availability"],
+  "observation_effort_fields": ["private_camera_expected_count", "private_camera_fresh_count", "independent_private_site_groups_fresh", "public_camera_checked", "public_camera_freshness_state", "public_camera_visible_scope", "human_field_check_performed", "human_search_activity_observable", "social_search_performed", "social_sources_checked", "visibility_quality", "illumination_state", "notes"],
+  "owner_field_work_policy": {
+    "routine_manual_predawn_checks_required": false,
+    "reason": "Owner does not plan routine in-person predawn spot checks; prospective controls must be collectable unattended.",
+    "incidental_owner_or_trusted_local_observation": "May be recorded when it occurs, with provenance and observation effort, but is not required for the control pipeline."
+  },
+  "scientific_near_miss_rule": "The 1971-08-16 south-of-Great-Point-Clear May observation is preserved as a scientifically observed near-miss because severe offshore hypoxia approached the coast but no Jubilee occurred. It is not automatically a generic matched negative until clock window, tide/current phase and spatial observation basis are reconstructed.",
   "leakage_rules": [
     "Do not use information first available after forecast issuance as a predictor for that forecast.",
     "Same-day public reports may be used only in a detection/nowcast layer if available_at precedes the forecast timestamp.",
     "Do not allow event-driven extra observation effort to make positives look systematically better observed than controls without explicit detectability adjustment.",
-    "No-report days are UNKNOWN unless observation effort meets the observed_non_event requirements."
+    "No-report days are UNKNOWN unless observation effort meets the observed_non_event_visible_scope requirements.",
+    "Preserve source/camera availability and detectability as observation-process variables so the physical model cannot learn reporting infrastructure as Jubilee physics."
   ],
   "prospective_control_strategy": {
     "start": "immediately",
     "preferred_window": "same pre-dawn/dawn windows used by Jubilee Dawn Timing",
     "priority_cells": ["Montrose", "Point Clear/Grand Hotel", "Fairhope/Fly Creek/Pier"],
-    "method": "Log daily camera health, view quality, public-camera structured observations and any deliberate human field checks regardless of model risk level; later match clean non-event mornings to confirmed events."
+    "method": "Log camera health, illumination/view quality, structured public-camera observations, social-search effort and environmental-source availability regardless of model risk. Later match only eligible visible-scope non-events to confirmed event mornings on season, clock window, tide/current phase and observation availability.",
+    "highest_quality_initial_control_source": "437 montrose_shoreline after first usable light because it directly resolves the waterline and has a known narrow negative scope."
   }
 }
