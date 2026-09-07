@@ -7,27 +7,78 @@
   "layers": [
     {
       "name": "Jubilee Sensing & Alerting",
-      "owns": ["current_sensor_ingestion", "camera_acquisition_and_quality", "bounded_contemporaneous_report_verification", "deduplicated_observation_ledger", "versioned_current_state", "operational_health"],
-      "does_not_own": ["model_recalibration", "historical_archive_discovery", "unvalidated_predictor_promotion"],
+      "owns": [
+        "current_sensor_ingestion",
+        "camera_acquisition_and_quality",
+        "bounded_contemporaneous_report_verification",
+        "deduplicated_observation_ledger",
+        "versioned_current_state",
+        "operational_health"
+      ],
+      "does_not_own": [
+        "model_recalibration",
+        "historical_archive_discovery",
+        "unvalidated_predictor_promotion"
+      ],
       "cadence": "Preserve working overnight cadence; bounded daytime retrospective reconciliation without a duplicate verifier task.",
       "one_capture_owner_per_device": true
     },
     {
       "name": "Jubilee Dawn Forecast",
-      "owns": ["consume_fresh_shared_state", "selective_refresh_of_stale_critical_inputs", "frozen_model_execution", "cell_specific_outlook", "uncertainty_and_opportunity_brief"],
-      "does_not_own": ["repeat_all_source_discovery", "change_model_weights", "independent_camera_capture_service"],
-      "timing": "15_minutes_after_local_civil_dawn",
-      "required_forecast_record": ["issue_time", "forecast_window", "cell", "input_snapshot_hash", "model_version", "data_coverage", "missing_inputs", "probability_type", "later_verification"]
+      "owns": [
+        "consume_fresh_shared_state",
+        "selective_refresh_of_stale_critical_inputs",
+        "frozen_model_execution",
+        "cell_specific_outlook",
+        "uncertainty_and_opportunity_brief"
+      ],
+      "does_not_own": [
+        "repeat_all_source_discovery",
+        "change_model_weights",
+        "independent_camera_capture_service"
+      ],
+      "timing": "25_minutes_after_local_civil_dawn",
+      "required_forecast_record": [
+        "issue_time",
+        "forecast_window",
+        "cell",
+        "input_snapshot_hash",
+        "model_version",
+        "data_coverage",
+        "missing_inputs",
+        "probability_type",
+        "later_verification"
+      ],
+      "timing_rationale": "Allows the local coordinator to publish the first completed burst captured at/after dawn and, if that burst remains too dark, the dawn+20-minute daylight follow-up before the principal visual assessment.",
+      "coverage_preserved": "Pre-daybreak human-search, light, weather and environmental sensing remains active under Jubilee Sensing & Alerting; this schedule change does not remove that coverage or alter alert thresholds."
     },
     {
       "name": "Jubilee Dawn Timing",
-      "owns": ["calculate_local_civil_dawn", "adjust_existing_dawn_forecast_schedule"],
-      "does_not_own": ["acquire_sensors", "forecast", "research"]
+      "owns": [
+        "calculate_local_civil_dawn",
+        "adjust_existing_dawn_forecast_schedule"
+      ],
+      "does_not_own": [
+        "acquire_sensors",
+        "forecast",
+        "research"
+      ]
     },
     {
       "name": "Jubilee Model Research & Calibration",
-      "owns": ["scientist_and_dataset_review", "historical_ingestion", "event_and_observed_control_validation", "feature_experiments", "episode_and_season_blocked_validation", "coverage_gap_prioritization", "versioned_promotion_and_rollback"],
-      "does_not_own": ["routine_hourly_sensor_polling", "duplicate_live_alerting"],
+      "owns": [
+        "scientist_and_dataset_review",
+        "historical_ingestion",
+        "event_and_observed_control_validation",
+        "feature_experiments",
+        "episode_and_season_blocked_validation",
+        "coverage_gap_prioritization",
+        "versioned_promotion_and_rollback"
+      ],
+      "does_not_own": [
+        "routine_hourly_sensor_polling",
+        "duplicate_live_alerting"
+      ],
       "cadence": "existing_Tuesday_Friday_process_after_actual_task_migration"
     }
   ],
@@ -48,6 +99,14 @@
     "numerical_skill_status": "NOT_ESTABLISHED_BY_CURRENT_WATER_QUALITY_DIAGNOSTIC",
     "probability_reporting": "Distinguish heuristic judgment from empirically calibrated probability; never invent precision.",
     "research_feature_production_weight": 0,
-    "promotion_requires": ["verified_source_QC", "known_available_at_before_issue_time", "validated_event_locations_and_dates", "observed_non_events_and_detection_effort", "held_out_episode_and_season_tests", "skill_vs_simple_baselines", "rollback_version"]
+    "promotion_requires": [
+      "verified_source_QC",
+      "known_available_at_before_issue_time",
+      "validated_event_locations_and_dates",
+      "observed_non_events_and_detection_effort",
+      "held_out_episode_and_season_tests",
+      "skill_vs_simple_baselines",
+      "rollback_version"
+    ]
   }
 }
