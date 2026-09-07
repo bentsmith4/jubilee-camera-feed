@@ -1,0 +1,102 @@
+{
+  "schema_version": "1.1",
+  "generated_from_capture_time_ct": "2026-09-06T22:06:27.568572-05:00",
+  "target_window_start_ct": "2026-09-06T04:06:25.477323-05:00",
+  "target_window_end_ct": "2026-09-06T08:06:25.477323-05:00",
+  "cycle_in_target_predawn_dawn_window": false,
+  "cells": [
+    {
+      "shoreline_cell": "Montrose",
+      "independent_private_site_group": "montrose_owner_cluster",
+      "private_camera_expected_count": 3,
+      "private_camera_fresh_or_ok_count": 3,
+      "primary_contact_camera": "montrose_shoreline",
+      "camera_rows": [
+        {
+          "camera_id": "montrose_shoreline",
+          "capture_ok": true,
+          "visibility": "poor",
+          "detectability": "low",
+          "overall_visual_signal": "none",
+          "human_sensor_detectability": "poor",
+          "flashlight_activity": "none_visible",
+          "people_present": "none_visible"
+        },
+        {
+          "camera_id": "montrose_pier_boat",
+          "capture_ok": true,
+          "visibility": "fair",
+          "detectability": "low",
+          "overall_visual_signal": "none",
+          "human_sensor_detectability": "poor",
+          "flashlight_activity": "none_visible",
+          "people_present": "none_visible"
+        },
+        {
+          "camera_id": "montrose_pier_bird",
+          "capture_ok": true,
+          "visibility": "fair",
+          "detectability": "moderate",
+          "overall_visual_signal": "none",
+          "human_sensor_detectability": "limited",
+          "flashlight_activity": "none_visible",
+          "people_present": "none_visible"
+        }
+      ],
+      "control_eligibility": "NOT_ELIGIBLE_OUTSIDE_TARGET_WINDOW",
+      "negative_evidence_strength": "none",
+      "scope_note": "If eligible, negative evidence is restricted to the 437 waterline/beach segments visible in montrose_shoreline."
+    },
+    {
+      "shoreline_cell": "Point Clear/Grand Hotel",
+      "independent_private_site_group": "point_clear_landing_owner_cluster",
+      "private_camera_expected_count": 3,
+      "private_camera_fresh_or_ok_count": 3,
+      "primary_contact_camera": null,
+      "camera_rows": [
+        {
+          "camera_id": "pcl_e2_back_deck",
+          "capture_ok": true,
+          "visibility": "poor",
+          "detectability": "low",
+          "overall_visual_signal": "none",
+          "human_sensor_detectability": "poor",
+          "flashlight_activity": "none_visible",
+          "people_present": "none_visible"
+        },
+        {
+          "camera_id": "pcl_e2_bay_mouth",
+          "capture_ok": true,
+          "visibility": "poor",
+          "detectability": "low",
+          "overall_visual_signal": "none",
+          "human_sensor_detectability": "poor",
+          "flashlight_activity": "unknown",
+          "people_present": "unknown"
+        },
+        {
+          "camera_id": "pcl_e3_bay_mouth",
+          "capture_ok": true,
+          "visibility": "fair",
+          "detectability": "low",
+          "overall_visual_signal": "none",
+          "human_sensor_detectability": "poor",
+          "flashlight_activity": "none_visible",
+          "people_present": "none_visible"
+        }
+      ],
+      "control_eligibility": "NOT_ELIGIBLE_OUTSIDE_TARGET_WINDOW",
+      "negative_evidence_strength": "none",
+      "scope_note": "Point Clear private cameras provide marina/Bay context but no close beach waterline; retain as observation effort only."
+    }
+  ],
+  "production_action": "NO_CHANGE",
+  "guardrails": [
+    "This file records observation effort and detectability, not Jubilee probability.",
+    "No-report is never promoted to an observed non-event.",
+    "Dark, stale, frozen, obstructed or low-detectability views are UNKNOWN.",
+    "A camera negative applies only to the geometry actually visible in that frame.",
+    "Point Clear owner cameras do not provide a close swash-zone negative; private cameras alone cannot create a full-cell Point Clear control."
+  ],
+  "public_camera_structured_records_available": 0
+}

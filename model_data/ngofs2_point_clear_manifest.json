@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.1",
+  "retrieved_at": "2026-09-07T04:26:05.220099+00:00",
+  "cast": "nowcast",
+  "status": "complete",
+  "evidence_class": "MODEL",
+  "production_action": "NO_CHANGE",
+  "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/06/ngofs2.t21z.20260906.stations.nowcast.nc",
+  "model_initialized_at": "2026-09-06T21:00:00+00:00",
+  "failed_newer_attempts": [],
+  "normalized_rows": 671,
+  "subset_sha256": "59ca309d8a447b01a914995050da2be630190db7a475cedbf690aac455cf1fa0",
+  "subset_archive": "public_archive/ngofs2_subset/59ca309d8a447b01a914995050da2be630190db7a475cedbf690aac455cf1fa0.json.gz",
+  "station": {
+    "station_name": "8733821 Pt Clear, MB",
+    "station_index": 93,
+    "resolution_basis": "nearest_verified_coordinate",
+    "distance_to_point_clear_km": 0.3114,
+    "lat": 30.489032745361328,
+    "lon": 272.06378173828125,
+    "target_lat": 30.48664,
+    "target_lon": -87.93453,
+    "bathymetry_m": 1.8300000429153442,
+    "surface_sigma_index": 0,
+    "bottom_sigma_index": 39,
+    "surface_sigma": -0.012500000186264515,
+    "bottom_sigma": -0.987500011920929
+  },
+  "reference_valid_at": "2026-09-06T21:00:00+00:00",
+  "transport_windows": {
+    "1": {
+      "count": 11,
+      "mean_m_s": -0.009246964769607242,
+      "signed_transport_m": -33.18128602579237
+    },
+    "3": {
+      "count": 31,
+      "mean_m_s": -0.00924591275472795,
+      "signed_transport_m": -99.67799535021187
+    },
+    "6": {
+      "count": 61,
+      "mean_m_s": -0.010717686784804847,
+      "signed_transport_m": -231.84845544397834
+    }
+  },
+  "guardrails": [
+    "NGOFS2 is MODEL guidance and is not a direct current, salinity, temperature, water-level or oxygen observation.",
+    "Point Clear station mapping prefers name but may use the official Point Clear coordinate as an auditable fallback; a >10 km nearest station is refused.",
+    "Point Clear shoreward projection currently uses a west-facing shoreline geometry: true bearing 090 degrees is shoreward (+east).",
+    "The station extraction is a first transport implementation; other shoreline cells still require their own station/grid geometry and validation.",
+    "No production weight changes until event/control held-out incremental value is demonstrated.",
+    "The content-addressed archive stores only the authoritative subset used by this pipeline, not the full NOAA model file."
+  ]
+}
