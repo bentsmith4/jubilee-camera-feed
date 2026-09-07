@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "verified_date": "2026-09-06",
+  "source_id": "noaa_ngofs2_mobile_bay",
+  "provider": "NOAA NOS/CO-OPS and NCEP NOMADS",
+  "evidence_class": "MODEL",
+  "operational_model": "NGOFS2 / 3-D FVCOM",
+  "cadence": "four cycles per day",
+  "forecast_horizon_hours": 48,
+  "variables_of_interest": ["eastward_current", "northward_current", "water_level", "salinity", "water_temperature"],
+  "verified_operational_index_pattern": "https://nomads.ncep.noaa.gov/pub/data/nccf/com/nosofs/prod/ngofs2.YYYYMMDD/",
+  "verified_example_date": "2026-09-06",
+  "verified_example_file_pattern": "ngofs2.t03z.YYYYMMDD.2ds.fNNN.nc",
+  "verified_example_file_size_mb_approx": 117,
+  "status": "access_pattern_verified_extraction_not_yet_implemented",
+  "shoreline_targets": [
+    "Daphne/May Day",
+    "Montrose",
+    "Fairhope/Fly Creek/Pier",
+    "Battles Wharf",
+    "Point Clear/Grand Hotel",
+    "Mullet Point"
+  ],
+  "required_extractor_behavior": [
+    "Cache downloaded source files by cryptographic hash.",
+    "Record model initialization time, forecast valid time, available_at and ingested_at separately.",
+    "Extract nearest valid water nodes plus a small local neighborhood rather than relying on one arbitrary node.",
+    "Preserve surface versus depth-resolved fields; do not label model salinity/current as direct observation.",
+    "Compute shoreline-normal and shoreline-parallel current components from documented local shoreline orientation.",
+    "Retain node coordinates, vertical coordinate/depth interpretation and model-cycle provenance.",
+    "Backtest extraction against confirmed events and matched controls before assigning positive production weight."
+  ],
+  "candidate_features": [
+    "shoreward_current_component_1h_3h_6h",
+    "shoreward_transport_integral_3h_6h_12h",
+    "nearshore_current_convergence_proxy",
+    "current_direction_persistence",
+    "nearshore_salinity_level_and_gradient",
+    "water_level_tendency",
+    "interaction_of_shoreward_transport_with_hypoxic_water_availability"
+  ],
+  "guardrail": "NGOFS2 is model guidance. It must remain distinct from CO-OPS observations, direct current meters and local bottom sensors."
+}
