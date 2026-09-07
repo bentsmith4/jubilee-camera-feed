@@ -2,20 +2,24 @@ name: Jubilee sensing quality and environmental forcing
 on:
   workflow_dispatch:
   push:
-    branches: [main, upgrade/sensing-audit-20260906]
+    branches: [main, upgrade/sensing-audit-20260906, upgrade/top5-gaps-round2-20260906]
     paths:
       - 'model_data/audit_sensing.py'
       - 'model_data/build_readiness.py'
       - 'model_data/build_observation_effort_snapshot.py'
       - 'model_data/camera_sources.json'
+      - 'model_data/private_camera_signal_contracts.json'
+      - 'model_data/public_camera_signal_contracts.json'
       - 'model_data/ingest_river_forcing.py'
       - 'model_data/ingest_weeks_bay_realtime.py'
+      - 'model_data/ingest_ngofs2_point_clear.py'
       - 'model_data/ingest_water_quality.py'
       - 'model_data/backtest_water_quality.py'
       - 'tools/desktop_preflight.ps1'
       - 'tests/**'
       - 'desktop_runtime/**'
       - 'requirements-tests.txt'
+      - 'requirements-model-data.txt'
       - '.github/workflows/sensing_quality.yml'
   schedule:
     - cron: '37 */3 * * *'
@@ -27,7 +31,7 @@ concurrency:
 jobs:
   validate-and-sense:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
         with:
@@ -36,8 +40,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install image-validation test dependency
-        run: python -m pip install -r requirements-tests.txt
+      - name: Install validated test and model-data dependencies
+        run: python -m pip install -r requirements-tests.txt -r requirements-model-data.txt
       - name: Run offline regression tests
         run: |
           python - <<'PY'
@@ -65,9 +69,6 @@ jobs:
           snapshot="$RUNNER_TEMP/jubilee-camera-audit"
           mkdir -p "$snapshot/model_data"
           cp model_data/camera_sources.json "$snapshot/model_data/"
-          # Keep the expected-device audit honest: copy every owner camera's
-          # latest image from current main. Omitting a camera here creates a
-          # false publication-integrity failure even when production is healthy.
           for f in status.json burst_status.json vision.json montrose_pier_boat.jpg montrose_pier_bird.jpg montrose_shoreline.jpg pcl_e2_back_deck.jpg pcl_e2_bay_mouth.jpg pcl_e3_bay_mouth.jpg; do
             if ! git show "origin/main:$f" > "$snapshot/$f"; then rm -f "$snapshot/$f"; fi
           done
@@ -75,11 +76,12 @@ jobs:
       - name: Retrieve and validate public river data
         run: python model_data/ingest_river_forcing.py --days 16
       - name: Retrieve Weeks Bay realtime water quality and meteorology
-        continue-on-error: true
         run: python model_data/ingest_weeks_bay_realtime.py
+      - name: Retrieve Point Clear NGOFS2 model transport guidance
+        run: python model_data/ingest_ngofs2_point_clear.py --cast nowcast
       - name: Record prospective dawn observation effort without inventing negatives
         run: python model_data/build_observation_effort_snapshot.py --append-ledger
-      - name: Verify revised historical ingest and diagnostics on upgrade branch
+      - name: Verify revised historical ingest and diagnostics on sensing-audit branch
         if: github.ref_name == 'upgrade/sensing-audit-20260906'
         run: |
           python model_data/ingest_water_quality.py
@@ -100,6 +102,8 @@ jobs:
             model_data/river_forcing_normalized.csv
             model_data/weeks_bay_realtime_manifest.json
             model_data/weeks_bay_realtime_normalized.csv
+            model_data/ngofs2_point_clear_manifest.json
+            model_data/ngofs2_point_clear_normalized.csv
             model_data/observation_effort_snapshot.json
             model_data/observation_effort_ledger.jsonl
             model_data/water_quality_ingest_manifest.json
@@ -124,12 +128,14 @@ jobs:
           git add model_data/observation_effort_snapshot.json
           if [ -f model_data/observation_effort_ledger.jsonl ]; then git add model_data/observation_effort_ledger.jsonl; fi
           if [ -f model_data/weeks_bay_realtime_manifest.json ]; then git add model_data/weeks_bay_realtime_manifest.json; fi
+          if [ -f model_data/ngofs2_point_clear_manifest.json ]; then git add model_data/ngofs2_point_clear_manifest.json; fi
           if [ -d model_data/public_archive/ndbc ]; then git add model_data/public_archive/ndbc/; fi
+          if [ -d model_data/public_archive/ngofs2_subset ]; then git add model_data/public_archive/ngofs2_subset/; fi
           if [ "$REF_NAME" = 'upgrade/sensing-audit-20260906' ]; then
             git add model_data/water_quality_ingest_manifest.json model_data/water_quality_backtest.json
           fi
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'Record verified sensing audit and immutable public data snapshot'
+          git commit -m 'Record verified sensing audit and environmental data snapshot'
           for attempt in 1 2 3; do
             git pull --rebase origin "$REF_NAME"
             if git push origin "HEAD:$REF_NAME"; then exit 0; fi
