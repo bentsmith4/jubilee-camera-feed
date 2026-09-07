@@ -1,0 +1,26 @@
+name: Temporary NCEI accession probe
+on:
+  push:
+    branches: [upgrade/top5-gaps-round2-20260906]
+    paths: ['.github/workflows/ncei_accession_probe.yml']
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Inspect official NCEI accession download responses without retaining payloads
+        shell: bash
+        run: |
+          set -u
+          for accession in 0188979 0224293; do
+            url="https://www.ncei.noaa.gov/archive/archive-management-system/OAS/bin/prd/jquery/accession/download/$accession"
+            echo "===== $accession HEAD ====="
+            curl -sSIL --max-time 30 "$url" | sed -n '1,40p' || true
+            echo "===== $accession BODY PREFIX ====="
+            set +o pipefail
+            curl -L -sS --max-time 30 "$url" | head -c 12000 || true
+            set -o pipefail
+            echo
+          done
