@@ -96,22 +96,16 @@ jobs:
       - name: Retrieve Point Clear NGOFS2 forward transport guidance
         run: python model_data/ingest_ngofs2_point_clear.py --cast forecast
       - name: Retrieve wider Mobile Bay NGOFS2 named-station nowcast guidance
-        if: github.ref_name == 'upgrade/top5-gaps-round2-20260906'
         run: python model_data/ingest_ngofs2_mobile_bay_named_stations.py --cast nowcast
       - name: Retrieve wider Mobile Bay NGOFS2 named-station forecast guidance
-        if: github.ref_name == 'upgrade/top5-gaps-round2-20260906'
         run: python model_data/ingest_ngofs2_mobile_bay_named_stations.py --cast forecast
       - name: Retrieve Eastern Shore NGOFS2 regular-grid transects
-        if: github.ref_name == 'upgrade/top5-gaps-round2-20260906'
         run: python model_data/ingest_ngofs2_shoreline_grid.py --casts nowcast,forecast
       - name: Ingest static Main Pass 2016 CTD profiles on top-five research branch
         if: github.ref_name == 'upgrade/top5-gaps-round2-20260906'
         run: python model_data/ingest_griidc_main_pass_20160419.py
       - name: Reconcile canonical source registry from completed ingestions
-        if: github.ref_name == 'upgrade/top5-gaps-round2-20260906'
         run: python model_data/reconcile_source_registry.py
-      - name: Record prospective dawn observation effort without inventing negatives
-        run: python model_data/build_observation_effort_snapshot.py --append-ledger
       - name: Verify revised historical ingest and diagnostics on sensing-audit branch
         if: github.ref_name == 'upgrade/sensing-audit-20260906'
         run: |
@@ -172,9 +166,11 @@ jobs:
           git config user.name 'jubilee-model-bot'
           git config user.email 'actions@users.noreply.github.com'
           git add model_data/upgrade_test_report.json model_data/upgrade_readiness.json model_data/coverage_snapshot.json model_data/sensing_audit.json model_data/river_forcing_manifest.json model_data/public_archive/
-          git add model_data/observation_effort_snapshot.json
-          if [ "$REF_NAME" = 'upgrade/top5-gaps-round2-20260906' ]; then
-            git add model_data/event_history.json model_data/historical_recovery_status.json model_data/human_observation_recovery_20260907.json model_data/ongoing_source_registry_20260906.json
+          if [ "$REF_NAME" = 'upgrade/top5-gaps-round2-20260906' ] || [ "$REF_NAME" = 'main' ]; then
+            git add model_data/event_history.json model_data/historical_recovery_status.json model_data/human_observation_recovery_20260907.json model_data/ongoing_source_registry_20260906.json model_data/weeks_bay_realtime_normalized.csv
+            for f in model_data/ngofs2_point_clear_nowcast_normalized.csv model_data/ngofs2_point_clear_forecast_normalized.csv; do
+              if [ -f "$f" ]; then git add "$f"; fi
+            done
             for f in model_data/ngofs2_mobile_bay_named_stations_nowcast_manifest.json model_data/ngofs2_mobile_bay_named_stations_forecast_manifest.json model_data/ngofs2_mobile_bay_named_stations_nowcast_normalized.csv model_data/ngofs2_mobile_bay_named_stations_forecast_normalized.csv model_data/ngofs2_shoreline_grid_manifest.json model_data/ngofs2_shoreline_grid_normalized.csv model_data/ngofs2_shoreline_grid_features.csv; do
               if [ -f "$f" ]; then git add "$f"; fi
             done
@@ -184,7 +180,6 @@ jobs:
             if [ -f model_data/griidc_main_pass_20160419_normalized.csv ]; then git add model_data/griidc_main_pass_20160419_normalized.csv; fi
             if [ -d model_data/public_archive/griidc_main_pass_20160419 ]; then git add model_data/public_archive/griidc_main_pass_20160419/; fi
           fi
-          if [ -f model_data/observation_effort_ledger.jsonl ]; then git add model_data/observation_effort_ledger.jsonl; fi
           if [ -f model_data/weeks_bay_realtime_manifest.json ]; then git add model_data/weeks_bay_realtime_manifest.json; fi
           for f in model_data/ngofs2_point_clear_manifest.json model_data/ngofs2_point_clear_nowcast_manifest.json model_data/ngofs2_point_clear_forecast_manifest.json; do
             if [ -f "$f" ]; then git add "$f"; fi

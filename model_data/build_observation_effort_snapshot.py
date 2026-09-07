@@ -10,7 +10,8 @@ from __future__ import annotations
 
 import argparse
 import json
-from datetime import datetime
+import hashlib
+from datetime import datetime, timezone
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -40,7 +41,8 @@ def parse_dt(value):
     if not value:
         return None
     try:
-        return datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        dt = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        return dt if dt.tzinfo else None
     except ValueError:
         return None
 
@@ -61,9 +63,39 @@ def sufficient_contact_detectability(v):
     )
 
 
-def build():
+def camera_integrity(camera_id, status, burst, vision, root, now):
+    s = status.get("cameras", {}).get(camera_id, {})
+    b = burst.get("cameras", {}).get(camera_id, {})
+    v = vision.get("cameras", {}).get(camera_id, {})
+    issues = []
+    captures = [parse_dt(d.get("capture_time_ct")) for d in (status, burst, vision)]
+    if not all(captures) or len(set(captures)) != 1:
+        issues.append("CAPTURE_BURST_VISION_MISMATCH")
+    if captures[0] is None or not -5 <= (now - captures[0]).total_seconds() <= 3600:
+        issues.append("STALE_FUTURE_OR_UNTIMED_CAPTURE")
+    t = parse_dt(s.get("timestamp_ct"))
+    if t is None or not -5 <= (now-t).total_seconds() <= 3600:
+        issues.append("STALE_FUTURE_OR_UNTIMED_CAMERA")
+    shots = b.get("shots", [])
+    times = [parse_dt(x.get("timestamp_ct")) for x in shots]
+    vtimes = [parse_dt(x.get("timestamp_ct")) for x in v.get("burst_shots", [])]
+    if not (s.get("ok") is True and b.get("ok") is True and v.get("status") == "ok"
+            and len(times) == 3 and all(times) and times == vtimes
+            and all(5 <= (times[i+1]-times[i]).total_seconds() <= 30 for i in (0,1))
+            and times[-1] == t and v.get("burst_frame_count") == 3):
+        issues.append("INVALID_TEMPORAL_BURST_OR_VISION")
+    image = root / (camera_id + ".jpg")
+    raw = image.read_bytes() if image.is_file() else b""
+    if not raw or len(raw) != s.get("bytes") or not raw.startswith(b"\xff\xd8") or not raw.endswith(b"\xff\xd9"):
+        issues.append("LATEST_IMAGE_INTEGRITY_FAILED")
+    return issues, hashlib.sha256(raw).hexdigest() if raw else None
+
+
+def build(now=None):
+    now = now or datetime.now(timezone.utc)
     status = load_json(ROOT / "status.json")
     vision = load_json(ROOT / "vision.json")
+    burst = load_json(ROOT / "burst_status.json")
     public_log = load_json(HERE / "public_camera_observation_log.json", {"records": []})
 
     capture = parse_dt(status.get("capture_time_ct") or vision.get("capture_time_ct"))
@@ -72,7 +104,11 @@ def build():
     cycle_in_target_window = in_window(capture, window_start, window_end)
 
     output = {
-        "schema_version": "1.1",
+        "schema_version": "1.2",
+        "evaluated_at_utc": now.isoformat(),
+        "input_hashes": {name: hashlib.sha256((ROOT/name).read_bytes()).hexdigest() for name in ("status.json", "burst_status.json", "vision.json") if (ROOT/name).exists()},
+        "assessment_basis": "validated_upstream_three_frame_vision_not_independent_pixel_review",
+        "clean_training_negative_count": 0,
         "generated_from_capture_time_ct": status.get("capture_time_ct") or vision.get("capture_time_ct"),
         "target_window_start_ct": status.get("window_start_ct") or vision.get("window_start_ct"),
         "target_window_end_ct": status.get("window_end_ct") or vision.get("window_end_ct"),
@@ -96,9 +132,12 @@ def build():
         for camera_id in camera_ids:
             s = status_cams.get(camera_id, {})
             v = vision_cams.get(camera_id, {})
+            issues, image_hash = camera_integrity(camera_id, status, burst, vision, ROOT, now)
             camera_rows.append({
+                "integrity_issues": issues,
+                "latest_image_sha256": image_hash,
                 "camera_id": camera_id,
-                "capture_ok": bool(s.get("ok")) and v.get("status") == "ok",
+                "capture_ok": not issues,
                 "visibility": v.get("visibility", "unknown"),
                 "detectability": v.get("detectability", "unknown"),
                 "overall_visual_signal": v.get("overall_jubilee_visual_signal", "unknown"),
@@ -109,7 +148,8 @@ def build():
 
         primary_id = PRIMARY_CONTACT_CAMERA[cell]
         primary = vision_cams.get(primary_id, {}) if primary_id else {}
-        primary_ok = bool(primary_id and status_cams.get(primary_id, {}).get("ok") and sufficient_contact_detectability(primary))
+        primary_row = next((r for r in camera_rows if r["camera_id"] == primary_id), {})
+        primary_ok = bool(primary_id and primary_row.get("capture_ok") and sufficient_contact_detectability(primary))
         primary_no_event = bool(primary_ok and no_visual_event_evidence(primary))
 
         if not cycle_in_target_window:
@@ -123,7 +163,7 @@ def build():
             strength = "none"
         else:
             eligibility = "PARTIAL_OBSERVABILITY_NOT_CLEAN_CELL_CONTROL"
-            strength = "weak"
+            strength = "none"
 
         output["cells"].append({
             "shoreline_cell": cell,
@@ -172,7 +212,12 @@ def append_if_target_window(output, ledger_path=LEDGER):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--append-ledger", action="store_true")
+    parser.add_argument("--root", type=Path, default=ROOT)
+    parser.add_argument("--out", type=Path, default=OUT)
     args = parser.parse_args()
+    globals()["ROOT"] = args.root
+    globals()["OUT"] = args.out
+    args.out.parent.mkdir(parents=True, exist_ok=True)
     output = build()
     result = {"snapshot": output}
     if args.append_ledger:

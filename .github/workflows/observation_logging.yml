@@ -1,0 +1,48 @@
+name: Jubilee unattended observation logging
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'status.json'
+      - 'burst_status.json'
+      - 'vision.json'
+      - 'model_data/build_observation_effort_snapshot.py'
+      - 'model_data/publish_observation_record.py'
+      - '.github/workflows/observation_logging.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '17 * * * *'
+permissions:
+  contents: write
+concurrency:
+  group: jubilee-observation-logging
+  cancel-in-progress: false
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate logging guards before publication
+        run: python -m unittest discover -s tests -p 'test_observation*.py' -v
+      - name: Build snapshot from one pinned checkout
+        run: |
+          python model_data/build_observation_effort_snapshot.py --out "$RUNNER_TEMP/observation.json"
+      - name: Persist immutable observation against latest main
+        run: |
+          git config user.name 'jubilee-model-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          python model_data/publish_observation_record.py --input "$RUNNER_TEMP/observation.json"
+      - name: Preserve observation output on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jubilee-observation-${{ github.run_id }}
+          path: ${{ runner.temp }}/observation.json
+          retention-days: 30
