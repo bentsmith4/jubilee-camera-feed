@@ -63,7 +63,10 @@ jobs:
           snapshot="$RUNNER_TEMP/jubilee-camera-audit"
           mkdir -p "$snapshot/model_data"
           cp model_data/camera_sources.json "$snapshot/model_data/"
-          for f in status.json burst_status.json vision.json montrose_pier_boat.jpg montrose_pier_bird.jpg pcl_e2_back_deck.jpg pcl_e2_bay_mouth.jpg pcl_e3_bay_mouth.jpg; do
+          # Keep the expected-device audit honest: copy every owner camera's
+          # latest image from current main. Omitting a camera here creates a
+          # false publication-integrity failure even when production is healthy.
+          for f in status.json burst_status.json vision.json montrose_pier_boat.jpg montrose_pier_bird.jpg montrose_shoreline.jpg pcl_e2_back_deck.jpg pcl_e2_bay_mouth.jpg pcl_e3_bay_mouth.jpg; do
             if ! git show "origin/main:$f" > "$snapshot/$f"; then rm -f "$snapshot/$f"; fi
           done
           python model_data/audit_sensing.py --root "$snapshot" --out model_data/sensing_audit.json
