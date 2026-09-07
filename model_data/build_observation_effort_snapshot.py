@@ -1,19 +1,22 @@
 #!/usr/bin/env python3
-"""Build a leakage-safe prospective observation-effort snapshot.
+"""Build leakage-safe prospective observation-effort records.
 
 This records what could actually have been seen during a sensing cycle. It does
 not turn absence of a report into a Jubilee negative. A clean observed control
-is only possible where the camera geometry and detectability are sufficient for
-the specific visible scope.
+is only possible where camera geometry and detectability are sufficient for the
+specific visible scope.
 """
 from __future__ import annotations
 
+import argparse
 import json
 from datetime import datetime
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-OUT = Path(__file__).resolve().parent / "observation_effort_snapshot.json"
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[0]
+OUT = HERE / "observation_effort_snapshot.json"
+LEDGER = HERE / "observation_effort_ledger.jsonl"
 
 CELL_CAMERAS = {
     "Montrose": ["montrose_shoreline", "montrose_pier_boat", "montrose_pier_bird"],
@@ -61,7 +64,7 @@ def sufficient_contact_detectability(v):
 def build():
     status = load_json(ROOT / "status.json")
     vision = load_json(ROOT / "vision.json")
-    public_log = load_json(Path(__file__).resolve().parent / "public_camera_observation_log.json", {"records": []})
+    public_log = load_json(HERE / "public_camera_observation_log.json", {"records": []})
 
     capture = parse_dt(status.get("capture_time_ct") or vision.get("capture_time_ct"))
     window_start = parse_dt(status.get("window_start_ct") or vision.get("window_start_ct"))
@@ -69,7 +72,7 @@ def build():
     cycle_in_target_window = in_window(capture, window_start, window_end)
 
     output = {
-        "schema_version": "1.0",
+        "schema_version": "1.1",
         "generated_from_capture_time_ct": status.get("capture_time_ct") or vision.get("capture_time_ct"),
         "target_window_start_ct": status.get("window_start_ct") or vision.get("window_start_ct"),
         "target_window_end_ct": status.get("window_end_ct") or vision.get("window_end_ct"),
@@ -144,5 +147,38 @@ def build():
     return output
 
 
+def append_if_target_window(output, ledger_path=LEDGER):
+    """Append exactly one record per capture identity, and only for dawn-window cycles."""
+    capture_id = output.get("generated_from_capture_time_ct")
+    if not output.get("cycle_in_target_predawn_dawn_window") or not capture_id:
+        return {"appended": False, "reason": "outside_target_window_or_missing_capture_id"}
+    existing_ids = set()
+    if ledger_path.exists():
+        for line in ledger_path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            try:
+                existing_ids.add(json.loads(line).get("generated_from_capture_time_ct"))
+            except json.JSONDecodeError:
+                raise ValueError("observation effort ledger contains invalid JSONL")
+    if capture_id in existing_ids:
+        return {"appended": False, "reason": "duplicate_capture_id"}
+    ledger_path.parent.mkdir(parents=True, exist_ok=True)
+    with ledger_path.open("a", encoding="utf-8") as stream:
+        stream.write(json.dumps(output, separators=(",", ":"), sort_keys=True) + "\n")
+    return {"appended": True, "reason": "new_target_window_capture"}
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--append-ledger", action="store_true")
+    args = parser.parse_args()
+    output = build()
+    result = {"snapshot": output}
+    if args.append_ledger:
+        result["ledger"] = append_if_target_window(output)
+    print(json.dumps(result, indent=2))
+
+
 if __name__ == "__main__":
-    print(json.dumps(build(), indent=2))
+    main()
