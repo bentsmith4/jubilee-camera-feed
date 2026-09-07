@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Extract Point Clear NGOFS2 station guidance without downloading full model fields.
 
-The output is MODEL guidance, never a direct observation.  It is intended to
+The output is MODEL guidance, never a direct observation. It is intended to
 measure the transport/alignment state independently of the local hypoxia state.
 """
 from __future__ import annotations
@@ -21,6 +21,9 @@ HERE = Path(__file__).resolve().parent
 BASE = "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS"
 CYCLE_HOURS = (3, 9, 15, 21)
 TARGET_NAME = "Point Clear"
+TARGET_LAT = 30.48664
+TARGET_LON = -87.93453
+MAX_STATION_DISTANCE_KM = 10.0
 # Eastern Shore at Point Clear is west-facing; +east is the provisional shoreward normal.
 SHOREWARD_BEARING_DEG_TRUE = 90.0
 
@@ -29,8 +32,6 @@ def cycle_candidates(now: datetime, count: int = 8):
     """Newest plausible posted cycle first; keep retry history bounded."""
     if now.tzinfo is None:
         raise ValueError("now must be timezone-aware")
-    # NOAA posts NGOFS2 roughly 70 minutes after the cycle start.  A 90-minute
-    # cushion avoids repeatedly requesting a cycle that is still being posted.
     cutoff = now.astimezone(timezone.utc) - timedelta(minutes=90)
     out = []
     day = cutoff.date()
@@ -49,21 +50,23 @@ def station_url(cycle: datetime, cast: str):
     if cast not in {"nowcast", "forecast"}:
         raise ValueError("cast must be nowcast or forecast")
     date = cycle.strftime("%Y%m%d")
-    return (
-        f"{BASE}/{cycle:%Y/%m/%d}/"
-        f"ngofs2.t{cycle:%H}z.{date}.stations.{cast}.nc"
-    )
+    return f"{BASE}/{cycle:%Y/%m/%d}/ngofs2.t{cycle:%H}z.{date}.stations.{cast}.nc"
 
 
 def _decode_station_names(variable):
     raw = variable[:]
-    if getattr(raw, "dtype", None) is not None and raw.dtype.kind in {"U", "O"}:
-        return [str(x).strip() for x in raw.tolist()]
-    if getattr(raw, "dtype", None) is not None and raw.dtype.kind == "S":
+    dtype = getattr(raw, "dtype", None)
+    if dtype is not None and dtype.kind in {"U", "O"}:
+        values = raw.tolist()
+        return [str(x).replace("\x00", "").strip() for x in values]
+    if dtype is not None and dtype.kind == "S":
         if raw.ndim == 1:
-            return [bytes(x).decode("utf-8", errors="replace").strip() for x in raw]
-        return [str(x).strip() for x in chartostring(raw).tolist()]
-    return [str(x).strip() for x in raw.tolist()]
+            return [bytes(x).decode("utf-8", errors="replace").replace("\x00", "").strip() for x in raw]
+        converted = chartostring(raw).tolist()
+        if isinstance(converted, str):
+            converted = [converted]
+        return [str(x).replace("\x00", "").strip() for x in converted]
+    return [str(x).replace("\x00", "").strip() for x in raw.tolist()]
 
 
 def find_station_index(names, target=TARGET_NAME):
@@ -78,11 +81,40 @@ def find_station_index(names, target=TARGET_NAME):
     raise ValueError(f"Could not uniquely resolve station {target!r}; matches={contains}")
 
 
+def haversine_km(lat1, lon1, lat2, lon2):
+    r = 6371.0088
+    p1, p2 = math.radians(float(lat1)), math.radians(float(lat2))
+    dp = p2 - p1
+    dl = math.radians(float(lon2) - float(lon1))
+    a = math.sin(dp / 2) ** 2 + math.cos(p1) * math.cos(p2) * math.sin(dl / 2) ** 2
+    return 2 * r * math.asin(math.sqrt(a))
+
+
+def resolve_station_index(names, lats, lons):
+    """Prefer the station name, then fall back to verified Point Clear coordinates."""
+    try:
+        return find_station_index(names), "name"
+    except ValueError:
+        candidates = []
+        for i, (lat, lon) in enumerate(zip(lats, lons)):
+            try:
+                distance = haversine_km(TARGET_LAT, TARGET_LON, float(lat), float(lon))
+            except (TypeError, ValueError):
+                continue
+            if math.isfinite(distance):
+                candidates.append((distance, i))
+        if not candidates:
+            raise ValueError("No finite NGOFS2 station coordinates available for Point Clear fallback")
+        distance, idx = min(candidates)
+        if distance > MAX_STATION_DISTANCE_KM:
+            raise ValueError(f"Nearest NGOFS2 station is {distance:.2f} km from Point Clear; refusing ambiguous mapping")
+        return idx, "nearest_verified_coordinate"
+
+
 def choose_vertical_indices(sigmas):
     vals = [float(x) for x in sigmas]
     if not vals:
         raise ValueError("No sigma layers")
-    # FVCOM sigma layers are 0 near the surface and -1 near the bed.
     surface = max(range(len(vals)), key=lambda i: vals[i])
     bottom = min(range(len(vals)), key=lambda i: vals[i])
     return surface, bottom
@@ -100,7 +132,7 @@ def integrate_trapezoid(points):
     total = 0.0
     for (ta, va), (tb, vb) in zip(pts, pts[1:]):
         dt = (tb - ta).total_seconds()
-        if 0 < dt <= 1800:  # station output is 6-min; reject large gaps
+        if 0 < dt <= 1800:
             total += (float(va) + float(vb)) * 0.5 * dt
     return total
 
@@ -138,9 +170,12 @@ def extract_from_dataset(ds, source_url, retrieved_at, cycle):
         raise ValueError(f"NGOFS2 station dataset missing variables: {missing}")
 
     names = _decode_station_names(ds.variables["name_station"])
-    idx = find_station_index(names)
-    lon = _as_float(ds.variables["lon"][idx])
-    lat = _as_float(ds.variables["lat"][idx])
+    lats = ds.variables["lat"][:]
+    lons = ds.variables["lon"][:]
+    idx, resolution_basis = resolve_station_index(names, lats, lons)
+    lon = _as_float(lons[idx])
+    lat = _as_float(lats[idx])
+    station_distance_km = haversine_km(TARGET_LAT, TARGET_LON, lat, lon)
     depth = _as_float(ds.variables["h"][idx])
     sigmas = ds.variables["siglay"][:, idx]
     surface_i, bottom_i = choose_vertical_indices(sigmas)
@@ -174,6 +209,8 @@ def extract_from_dataset(ds, source_url, retrieved_at, cycle):
                     "evidence_class": "MODEL",
                     "station_name": names[idx],
                     "station_index": idx,
+                    "station_resolution_basis": resolution_basis,
+                    "station_distance_to_point_clear_km": round(station_distance_km, 4),
                     "lat": lat,
                     "lon": lon,
                     "bathymetry_m": depth,
@@ -193,18 +230,22 @@ def extract_from_dataset(ds, source_url, retrieved_at, cycle):
                 })
         if zeta is not None:
             rows.append({
-                "source_id": "noaa_ngofs2_point_clear_station",
-                "evidence_class": "MODEL",
-                "station_name": names[idx], "station_index": idx, "lat": lat, "lon": lon,
-                "bathymetry_m": depth, "vertical_role": "surface", "sigma_layer_index": None,
-                "sigma_value": None, "parameter": "water_surface_elevation", "value": zeta, "unit": "m",
+                "source_id": "noaa_ngofs2_point_clear_station", "evidence_class": "MODEL",
+                "station_name": names[idx], "station_index": idx,
+                "station_resolution_basis": resolution_basis,
+                "station_distance_to_point_clear_km": round(station_distance_km, 4),
+                "lat": lat, "lon": lon, "bathymetry_m": depth,
+                "vertical_role": "surface", "sigma_layer_index": None, "sigma_value": None,
+                "parameter": "water_surface_elevation", "value": zeta, "unit": "m",
                 "valid_at": valid.isoformat(), "model_initialized_at": cycle.isoformat(),
                 "available_at": retrieved_at.isoformat(), "ingested_at": retrieved_at.isoformat(),
                 "source_url": source_url, "shoreline_cell": "Point Clear/Grand Hotel", "production_weight": 0.0,
             })
     metadata = {
-        "station_name": names[idx], "station_index": idx, "lat": lat, "lon": lon,
-        "bathymetry_m": depth, "surface_sigma_index": surface_i, "bottom_sigma_index": bottom_i,
+        "station_name": names[idx], "station_index": idx, "resolution_basis": resolution_basis,
+        "distance_to_point_clear_km": round(station_distance_km, 4), "lat": lat, "lon": lon,
+        "target_lat": TARGET_LAT, "target_lon": TARGET_LON, "bathymetry_m": depth,
+        "surface_sigma_index": surface_i, "bottom_sigma_index": bottom_i,
         "surface_sigma": _as_float(sigmas[surface_i]), "bottom_sigma": _as_float(sigmas[bottom_i]),
     }
     return rows, metadata
@@ -228,7 +269,7 @@ def main():
     args = parser.parse_args()
     retrieved = datetime.now(timezone.utc)
     manifest = {
-        "schema_version": "1.0", "retrieved_at": retrieved.isoformat(), "cast": args.cast,
+        "schema_version": "1.1", "retrieved_at": retrieved.isoformat(), "cast": args.cast,
         "status": "failed", "evidence_class": "MODEL", "production_action": "NO_CHANGE",
     }
     try:
@@ -263,6 +304,7 @@ def main():
         manifest.update({"status": "failed", "error_type": type(exc).__name__, "error": str(exc)[:500]})
     manifest["guardrails"] = [
         "NGOFS2 is MODEL guidance and is not a direct current, salinity, temperature, water-level or oxygen observation.",
+        "Point Clear station mapping prefers name but may use the official Point Clear coordinate as an auditable fallback; a >10 km nearest station is refused.",
         "Point Clear shoreward projection currently uses a west-facing shoreline geometry: true bearing 090 degrees is shoreward (+east).",
         "The station extraction is a first transport implementation; other shoreline cells still require their own station/grid geometry and validation.",
         "No production weight changes until event/control held-out incremental value is demonstrated.",
