@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "created_date": "2026-09-06",
   "purpose": "Canonical signal interpretation for public cameras. Structured observations only unless media retention rights are explicitly verified.",
   "cameras": [
@@ -32,13 +32,38 @@
     },
     {
       "camera_id": "grand_hotel_public",
-      "classification": "environment_and_activity_proxy_pending_view_geometry_calibration",
-      "required_before_negative_use": [
-        "verify exact physical camera identity",
-        "verify field of view and water/shoreline geometry",
+      "classification": "point_clear_baywide_environment_and_activity_proxy",
+      "view_geometry": {
+        "look_direction": "west-southwest",
+        "left_reference": "Grand Hotel pier",
+        "right_reference": "Point Clear point/headland",
+        "center_reference": "osprey nest pole",
+        "wind_reference": "visible flag",
+        "far_field": "cross-bay view across the shipping-channel sector toward south Mobile County and Dauphin Island"
+      },
+      "allowed_signals": [
+        "water_surface_smoothness_or_chop_near_point_clear",
+        "cross_bay_surface_state_and_visibility",
+        "qualitative_flag_wind_direction",
+        "qualitative_flag_wind_strength",
+        "visible_bird_or_osprey_activity",
+        "visible_surface_biological_activity",
+        "boats_or_human_activity_when_relevant_and_visible",
+        "fog_rain_or_visibility_changes",
+        "broad_shipping_channel_and_bay_mouth_context"
+      ],
+      "fixed_visual_references": [
+        "Grand Hotel pier left",
+        "Point Clear point right",
+        "osprey nest pole center",
+        "flag for wind proxy"
+      ],
+      "negative_scope": "A lack of visible biological or human activity applies only to the water/activity actually visible in this west-southwest frame and stated interval. It is not a negative for unseen Point Clear shoreline or beach segments.",
+      "required_before_quantitative_use": [
         "verify source freshness clock",
         "deduplicate AWN/Hazcams/rebroadcast mirrors",
-        "retain structured observations only unless written media rights are obtained"
+        "calibrate flag orientation against independently observed wind direction before using direction numerically",
+        "calibrate flag motion against independently observed wind speed before using strength numerically"
       ],
       "media_retained": false,
       "rights_basis": "express consent required for media use/reproduction/distribution"
