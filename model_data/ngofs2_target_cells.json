@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-09-07",
+  "purpose": "Auditable target geometry for expanding NGOFS2 transport extraction beyond Point Clear. Coordinates are public landmark proxies unless explicitly marked otherwise; MODEL guidance only.",
+  "targets": [
+    {
+      "cell": "Daphne/May Day",
+      "target_name": "May Day Park",
+      "lat": 30.59908,
+      "lon": -87.91313,
+      "coordinate_basis": "public May Day Park coordinate",
+      "shoreward_bearing_deg_true": 90.0,
+      "bearing_status": "provisional_eastern_shore_normal"
+    },
+    {
+      "cell": "Montrose",
+      "target_name": "437/Montrose owner shoreline",
+      "lat": null,
+      "lon": null,
+      "coordinate_basis": "use existing owner/runtime private site coordinate if already configured locally; do not publish private home coordinate merely to support research branch",
+      "shoreward_bearing_deg_true": 90.0,
+      "bearing_status": "provisional_eastern_shore_normal",
+      "implementation_rule": "If no existing canonical private coordinate is available to the runtime, use adjacent public May Day/Fairhope model guidance only as PROXY and do not label it Montrose-local."
+    },
+    {
+      "cell": "Fairhope/Fly Creek/Pier",
+      "target_name": "Fairhope Municipal Pier",
+      "lat": 30.52500,
+      "lon": -87.91492,
+      "coordinate_basis": "public Fairhope Municipal Pier coordinate",
+      "shoreward_bearing_deg_true": 90.0,
+      "bearing_status": "provisional_eastern_shore_normal"
+    },
+    {
+      "cell": "Battles Wharf",
+      "target_name": "Battles Wharf",
+      "lat": 30.49436,
+      "lon": -87.92777,
+      "coordinate_basis": "public USGS/GNIS locality coordinate",
+      "shoreward_bearing_deg_true": 90.0,
+      "bearing_status": "provisional_eastern_shore_normal"
+    },
+    {
+      "cell": "Point Clear/Grand Hotel",
+      "target_name": "NOAA/NGOFS2 Point Clear target",
+      "lat": 30.48664,
+      "lon": -87.93453,
+      "coordinate_basis": "existing verified Point Clear target",
+      "shoreward_bearing_deg_true": 90.0,
+      "bearing_status": "existing_provisional_west_facing_shoreline_normal"
+    },
+    {
+      "cell": "Mullet Point",
+      "target_name": "Mullet Point Park",
+      "lat": 30.41658,
+      "lon": -87.90817,
+      "coordinate_basis": "Baldwin County public boat-launch coordinate",
+      "shoreward_bearing_deg_true": 90.0,
+      "bearing_status": "provisional_requires_local_shoreline_normal_sensitivity"
+    }
+  ],
+  "guardrails": [
+    "Coordinates select MODEL extraction points; they are not Jubilee event locations.",
+    "Do not expose a private owner-home coordinate if the canonical runtime can resolve it without repository publication.",
+    "Run shoreline-normal sensitivity at plus/minus 15 degrees before assigning production weight.",
+    "Nearest named NGOFS2 station may be too far from a target; if so use regular-grid/unstructured model extraction rather than silently accepting a remote station.",
+    "No transport predictor receives positive production weight without held-out incremental value."
+  ]
+}
