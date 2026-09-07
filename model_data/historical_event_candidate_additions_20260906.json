@@ -1,8 +1,8 @@
 {
-  "schema_version": "1.2",
+  "schema_version": "1.3",
   "created_at": "2026-09-06",
-  "updated_at": "2026-09-06",
-  "purpose": "New event and near-miss evidence identified after the consolidation sprint. Candidates remain staged until canonical deduplication/admission review.",
+  "updated_at": "2026-09-07",
+  "purpose": "New event, near-miss, and aggregate historical evidence identified after the consolidation sprint. Candidates remain staged until canonical deduplication/admission review.",
   "candidates": [
     {
       "candidate_event_id": "1971-08-07-point-clear-corridor",
@@ -64,7 +64,7 @@
       "location": {"label": "Fairhope", "precision": "local_tv_viewer_video_location"},
       "evidence": [{"type": "same_day_local_tv_viewer_submitted_video", "publisher": "WALA FOX10", "poster_or_submitter": "Gavin Applewhite", "publisher_time_ct": "2025-08-05T12:19:00-05:00", "claimed_event_time": "same day; exact capture time not stated in article text", "media_presence": true, "first_person_vs_repost": "viewer-submitted source media published by local TV", "independence_group": "2025_08_05_gavin_applewhite_fox10", "source_url": "https://www.fox10tv.com/2025/08/05/watch-viewer-submitted-video-shows-jubilee-mobile-bay/", "retrieval_date": "2026-09-06"}],
       "confidence": 0.94,
-      "admission_note": "Strong same-day date/location evidence and appears distinct from Jul 17 and Jul 24. Verify capture date is not recycled before canonical admission; do not archive copyrighted video."
+      "admission_note": "Strong publication-date/location evidence and appears distinct from Jul 17 and Jul 24. Exact capture date/time is not stated in the article text, so retain staged until source media metadata or an independent contemporaneous account resolves that ambiguity. Do not archive copyrighted video."
     }
   ],
   "near_miss_candidates": [
@@ -78,6 +78,21 @@
       "scientific_value": "Directly separates offshore hypoxic-water availability from final nearshore contact threshold; candidate control for the latent-state architecture.",
       "confidence": 0.995,
       "source_url": "https://doi.org/10.4319/lo.1973.18.3.0353"
+    }
+  ],
+  "aggregate_historical_benchmarks": [
+    {
+      "benchmark_id": "mobile_press_register_1946_1971_aggregate",
+      "period": "1946-1971",
+      "reported_jubilees": 135,
+      "location_counts": {"eastern_shore": 129, "northwestern_shore": 5, "southern_bon_secour_bay": 1},
+      "average_reported_per_year": 5,
+      "maximum_reported_year": {"year": 1959, "count": 15},
+      "source_chain": "Mobile Press Register 26-year clipping record summarized in the U.S. EPA Environmental, Geologic and Hydrologic Study of South Mobile County, Alabama; consistent with the long historical record discussed by May (1973).",
+      "source_url": "https://nepis.epa.gov/Exe/ZyPURL.cgi?Dockey=94008ZPX.TXT",
+      "evidence_strength": "government_technical_report_summarizing_contemporaneous_newspaper_record",
+      "use": "aggregate calibration/check on event-database recall and Eastern-Shore reporting concentration only",
+      "guardrail": "Do not create 135 event rows from this aggregate. Recover individual dates/locations independently before event admission; historical reporting effort is nonuniform."
     }
   ],
   "historical_count_audit": {
