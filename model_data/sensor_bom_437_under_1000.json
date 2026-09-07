@@ -1,11 +1,28 @@
 {
-  "schema_version":"1.0",
+  "schema_version":"1.1",
+  "as_of_date":"2026-09-07",
   "status":"design_only_not_purchased",
-  "owner_constraints":{"total_budget_usd":"<1000","pier_power":true,"pier_wifi":true,"summer_service_days":"7-14","manual_predawn_checks":false},
-  "architecture":"shore power -> marine enclosure -> ESP32-S3 Wi-Fi logger -> electrically isolated DO and conductivity interfaces + temperature/depth -> local flash/SD buffer -> authenticated Jubilee ingest endpoint",
-  "sensor_strategy":{"dissolved_oxygen":"Atlas Scientific galvanic DO/EZO-class candidate; zero-oxygen plus air-saturation calibration required because <1 mg/L performance matters","salinity":"conductivity/EZO-class candidate with electrical isolation from DO","temperature":"waterproof digital or calibrated analog temperature sensor colocated with probes","depth":"low-cost pressure/depth sensor preferred; if deferred, pair fixed sensor elevation with trusted local water-level source"},
-  "telemetry":{"wifi":"existing pier network; credentials must be provisioned locally and never committed to repository","sampling_minutes":5,"local_buffer_required":true,"backfill_after_outage":true,"timestamps":["observed_at","available_at","ingested_at"]},
-  "mounting":"near bottom at pier end, approximately 0.15-0.30 m above sediment where practical; quick-retrieval service mount; avoid piling stagnant microenvironment and prop wash",
-  "budget_rule":"Do not finalize purchase until current vendor pricing shows sensors, isolation, controller, storage, enclosure, power conditioning, cables and mount below $1,000 delivered.",
-  "model_rule":"DIRECT only for the 437/Montrose local sensor location; production weight remains zero until QC and held-out incremental value are demonstrated."
+  "site":"437 Village pier / Montrose",
+  "owner_constraints":{"total_budget_usd":"<1000","pier_power":true,"pier_wifi":true,"existing_weatherproof_outlet_or_enclosure":true,"device_stored_wifi_credentials_acceptable":true,"summer_service_days":"7-14","manual_predawn_checks":false,"retrievable_piling_mount_acceptable":true},
+  "architecture":"shore power -> existing or dedicated marine low-voltage enclosure -> ESP32-S3 Wi-Fi logger -> electrically isolated DO and conductivity interfaces + RTD temperature -> local flash/SD buffer -> authenticated canonical Jubilee ingest endpoint",
+  "preferred_bom":[
+    {"item":"Atlas Bare-Bones Wi-Fi Hydroponics Kit BB-Wi-Fi-HK","qty":1,"reference_price_usd":224.99,"role":"ESP32-S3, enclosure, three electrically isolated EZO slots, USB-C power","source":"https://atlas-scientific.com/kits/bb-wi-fi-hkit/"},
+    {"item":"Atlas Lab Grade Dissolved Oxygen Probe ENV-40-DOX","qty":1,"reference_price_usd":259.99,"role":"galvanic dissolved-oxygen probe","source":"https://atlas-scientific.com/dissolved-oxygen/"},
+    {"item":"Atlas EZO Dissolved Oxygen Circuit EZO-DO","qty":1,"reference_price_usd":53.99,"role":"DO measurement/compensation interface","source":"https://atlas-scientific.com/embedded-solutions/"},
+    {"item":"Atlas Mini Conductivity Probe K1.0 ENV-20-EC-K1.0","qty":1,"reference_price_usd":109.99,"role":"conductivity input used to derive salinity","source":"https://atlas-scientific.com/conductivity/"},
+    {"item":"Atlas EZO Conductivity Circuit EZO-EC","qty":1,"reference_price_usd":67.99,"role":"conductivity/salinity interface","source":"https://atlas-scientific.com/embedded-solutions/"},
+    {"item":"Atlas EZO RTD Temperature Circuit EZO-RTD","qty":1,"reference_price_usd":35.99,"role":"water-temperature measurement and compensation","source":"https://atlas-scientific.com/embedded-solutions/ezo-rtd-temperature-circuit/"},
+    {"item":"Atlas Standard PT-1000 Temperature Probe PT-ST","qty":1,"reference_price_usd":19.99,"role":"water temperature","source":"https://atlas-scientific.com/probes/standard-temp-probe/"},
+    {"item":"Atlas Zero Dissolved Oxygen Calibration Set","qty":1,"reference_price_usd":22.99,"role":"zero-DO calibration because sub-1 mg/L accuracy is important","source":"https://atlas-scientific.com/dissolved-oxygen/"},
+    {"item":"Atlas Conductivity Calibration K1.0 Set","qty":1,"reference_price_usd":15.99,"role":"conductivity calibration","source":"https://atlas-scientific.com/kits/conductivity-k-1-0-kit/"},
+    {"item":"Atlas Dissolved Oxygen Anti-Fouling Probe Screen","qty":1,"reference_price_usd":12.99,"role":"fouling reduction between service visits","source":"https://atlas-scientific.com/probes/"}
+  ],
+  "reference_electronics_sensor_calibration_subtotal_usd":824.90,
+  "remaining_budget_usd":175.10,
+  "remaining_budget_for":["retrievable piling stand-off/cage","marine cable glands and strain relief","low-voltage power conditioning/surge protection","microSD/local buffer if needed","mounting hardware and service consumables"],
+  "sensor_strategy":{"dissolved_oxygen":"Atlas galvanic DO/EZO-class candidate; zero-oxygen plus air-saturation calibration required because <1 mg/L performance matters","salinity":"conductivity/EZO-class with electrical isolation from DO","temperature":"PT-1000 RTD colocated with probes","depth":"defer pressure/depth in phase 1 if necessary to stay below budget; pair fixed indexed sensor elevation with trusted water-level source"},
+  "telemetry":{"wifi":"existing pier network; owner accepts securely stored credentials; provision locally and never commit credentials to repository","sampling_minutes":5,"high_risk_sampling_minutes":"1-2 optional","local_buffer_required":true,"backfill_after_outage":true,"auto_reconnect":true,"timestamps":["observed_at","available_at","ingested_at"]},
+  "mounting":"retrievable stand-off/cage attached to pier-end piling, sensing faces offset into ambient flow, approximately 0.15-0.30 m above sediment; fixed stop/index for repeatable geometry after 7-14 day service; avoid piling stagnant microenvironment and prop wash",
+  "budget_rule":"Verify delivered price and interface compatibility immediately before purchase. Prefer individual EZO circuits/probes plus one three-slot isolated Wi-Fi carrier to avoid duplicate carrier boards. Do not exceed $1,000 all-in.",
+  "model_rule":"DIRECT only for the 437/Montrose sensor location; service/calibration/geometry changes are explicit metadata; production weight remains zero until QC and held-out incremental value are demonstrated."
 }
