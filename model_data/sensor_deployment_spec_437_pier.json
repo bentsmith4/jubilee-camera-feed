@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.3",
+  "schema_version": "1.4",
   "created_date": "2026-09-06",
   "updated_date": "2026-09-07",
   "site": "437 Village pier / Montrose-Daphne Eastern Shore",
@@ -7,19 +7,22 @@
   "owner_confirmed_infrastructure": {
     "dependable_shore_power_at_or_near_pier": true,
     "wifi_at_or_near_pier": true,
+    "existing_weatherproof_electrical_enclosure_or_outlet_at_pier_end": true,
+    "existing_enclosure_capacity_for_sensor_electronics": "verify_at_installation",
     "preferred_installation_location": "end_of_pier_due_to_power_access",
     "typical_water_depth_context": "approximately 3 ft or less at pier end; tide dependent",
     "summer_service_feasible_every_1_to_2_weeks": true,
     "manual_predawn_spot_checks_planned": false,
     "total_hardware_budget_target_usd": "<1000",
+    "owner_accepts_device_stored_wifi_credentials": true,
     "confirmation_date": "2026-09-07"
   },
   "objective": "Measure local near-bottom hypoxia/stratification state unattended with enough temporal resolution and metadata to support Jubilee forecasting and matched-control calibration.",
   "minimum_variables": ["dissolved_oxygen_mg_L", "salinity_psu", "water_temperature_C"],
   "strongly_preferred_variables": ["dissolved_oxygen_percent_saturation", "conductivity", "pressure_or_depth_m", "power_or_battery_voltage", "diagnostic_flags"],
   "phase_1_architecture": {
-    "controller": "ESP32-S3 class Wi-Fi microcontroller in a weather-resistant pier enclosure",
-    "telemetry": "join existing pier Wi-Fi, auto-reconnect, HTTPS/MQTT-style push to canonical Jubilee ingestion endpoint",
+    "controller": "ESP32-S3 class Wi-Fi microcontroller using existing pier power; use existing weatherproof electrical enclosure/outlet infrastructure where safe and practical, otherwise add a small dedicated marine-rated low-voltage box",
+    "telemetry": "join existing pier Wi-Fi with owner-approved stored credentials, auto-reconnect, and HTTPS/MQTT-style push to canonical Jubilee ingestion endpoint",
     "local_buffer": "required; preserve observations through Wi-Fi outages and backfill without changing observed_at",
     "sensor_class": "low-cost modular galvanic DO plus conductivity/salinity plus temperature; electrically isolate DO and conductivity electronics",
     "do_note": "Atlas Scientific low-cost DO is galvanic, not optical. Do not describe it as optical DO. Optical DO remains preferred scientifically if a reliable sub-$1k alternative is later found.",
@@ -42,8 +45,9 @@
   "power_and_telemetry": {
     "preferred": "shore-powered low-voltage controller with local flash or microSD buffering and existing pier Wi-Fi",
     "outage_policy": "continue logging locally; upload backlog when connectivity returns",
-    "security": "store Wi-Fi credentials using device secure storage where available; never commit credentials to repository",
-    "marine_environment": "GFCI shore power, low-voltage submerged hardware only, weatherproof enclosure, marine cable glands, strain relief and surge protection"
+    "security": "owner approves storing pier Wi-Fi credentials on the node; store credentials in device secure/NVS storage where available, provision locally, never commit credentials to repository or telemetry logs, and support credential rotation/reset",
+    "network_recovery": "automatically reconnect after router, Wi-Fi or power outages without owner intervention",
+    "marine_environment": "GFCI shore power, low-voltage submerged hardware only, marine cable glands, strain relief and surge protection; verify the existing enclosure/outlet has adequate dry space and safe low-voltage separation before using it for electronics"
   },
   "quality_control": {
     "predeployment": ["DO air-saturation calibration", "zero-DO calibration because <1 mg/L accuracy matters", "conductivity/salinity standard check", "temperature cross-check", "clock sync", "24-48 hour soak test"],
@@ -53,14 +57,14 @@
   "candidate_sub_1000_bom": {
     "status": "design_candidate_not_purchase_order",
     "reference_prices_checked_2026_09_07": [
-      {"item": "Atlas Bare-Bones Wi-Fi Hydroponics Kit", "reference_price_usd": 224.99, "role": "ESP32-S3, enclosure, isolated carrier slots"},
+      {"item": "Atlas Bare-Bones Wi-Fi Hydroponics Kit", "reference_price_usd": 224.99, "role": "ESP32-S3 and isolated EZO carrier architecture; enclosure value may be partially redundant with existing pier infrastructure"},
       {"item": "Atlas Dissolved Oxygen Kit", "reference_price_usd": 354.99, "role": "galvanic DO probe, EZO DO circuit, isolated carrier"},
       {"item": "Atlas Conductivity K1.0 Kit", "reference_price_usd": 229.99, "role": "conductivity/salinity"},
       {"item": "Atlas Surveyor Analog Temperature Kit or equivalent", "reference_price_usd": 29.99, "role": "temperature"}
     ],
     "reference_subtotal_usd": 839.96,
-    "budget_note": "Leaves roughly $160 for mounting, calibration consumables, cable management and power conditioning. Verify electrical/interface compatibility before purchase because the bare-bones Wi-Fi carrier is sold for EZO circuits and the exact DO/EC kit contents overlap carrier hardware.",
-    "cost_optimization": "Prefer purchasing individual EZO circuits/probes where duplicate isolated carrier boards would otherwise be bought. Target final BOM below $900 before miscellaneous marine hardware."
+    "budget_note": "Existing pier power/weatherproof electrical infrastructure can reduce enclosure/power costs, but do not assume the existing enclosure has adequate space or low-voltage segregation until inspected. Verify electrical/interface compatibility before purchase because exact Atlas kits can duplicate carrier hardware.",
+    "cost_optimization": "Prefer individual EZO circuits/probes and one isolated ESP32 carrier when that avoids duplicate boards. Target final electronics/sensors below $900 so mounting, calibration standards and marine cable hardware remain within the <$1,000 total target."
   },
   "model_guardrails": [
     "No positive production weight until provenance/QC pass and held-out incremental value is demonstrated.",
