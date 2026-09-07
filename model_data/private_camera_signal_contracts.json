@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "updated_date": "2026-09-06",
+  "purpose": "Canonical interpretation of owner-camera evidence for Jubilee sensing. Owner-authorized private media may follow existing publication/archive policy; this contract governs model meaning and detectability.",
+  "cameras": [
+    {
+      "camera_id": "montrose_shoreline",
+      "site": "437 Village / Montrose",
+      "classification": "primary_nearshore_contact_and_detectability_camera",
+      "shoreline_visible": true,
+      "road_or_parking_visible": false,
+      "view_geometry": {
+        "primary_view": "waterline where Mobile Bay water reaches the sand at 437 Village",
+        "lateral_extent": "437 beach plus neighboring beach segments immediately north and south",
+        "fixed_biological_reference": "old cedar stumps standing in shallow water",
+        "regional_context": "437 lies on a mostly accessible sandy shoreline extending roughly 1 mile north toward May Day and more than 2 miles south toward Fly Creek Marina; the camera itself does not directly observe that full corridor"
+      },
+      "high_value_signals": [
+        "crabs climbing cedar stumps or leaving water",
+        "fish shrimp eels rays or other marine life crowding the swash zone",
+        "unusual concentrated surface activity at the shoreline",
+        "predawn anonymous people walking the beach with lights and looking at the water",
+        "dawn anonymous people using nets gigs buckets or sustained search behavior",
+        "clustered or slow focused human search behavior",
+        "nearshore water smoothness chop or localized disturbance",
+        "unusual bird concentration close to the shoreline"
+      ],
+      "timing_interpretation": {
+        "predawn": "Human lights/search behavior is a high-information soft precursor because ordinary predawn beach foot traffic is uncommon at this low-public-access shoreline. Biological interpretation depends on scene illumination and visibility.",
+        "first_light_and_daylight": "Increase emphasis on direct shoreline biology, especially cedar-stump crab activity, stranded/crowded marine life, swash-zone aggregation and visible searching with nets or gigs. Owner expects these features to be visible in daylight."
+      },
+      "negative_scope": "When the capture is fresh, unobstructed and sufficiently illuminated, absence of shoreline biological activity or unusual search behavior is meaningful only for the beach segments actually visible in the frame and observation interval. It is not a negative for all Montrose, May Day, Fly Creek, Fairhope or Point Clear.",
+      "human_privacy": "Count and classify anonymous behavior only. No identity recognition and no cross-camera person tracking."
+    },
+    {
+      "camera_id": "montrose_pier_boat",
+      "site": "437 Village / Montrose",
+      "classification": "very_shallow_nearshore_environment_and_biology_support",
+      "view_geometry": "Primarily water roughly 150+ feet offshore; water remains shallow, approximately 3 feet deep or less at the pier end.",
+      "allowed_signals": ["surface smoothness or chop", "bird activity", "surface fish or biological disturbance", "local shallow-water state", "anonymous visible human activity when present"],
+      "guardrail": "Supporting shallow-water evidence, not a substitute for the shoreline-contact view from montrose_shoreline."
+    },
+    {
+      "camera_id": "montrose_pier_bird",
+      "site": "437 Village / Montrose",
+      "classification": "very_shallow_nearshore_environment_and_biology_support",
+      "view_geometry": "Primarily water roughly 150+ feet offshore; water remains shallow, approximately 3 feet deep or less at the pier end.",
+      "allowed_signals": ["bird concentration or feeding behavior", "surface smoothness or chop", "surface fish or biological disturbance", "local shallow-water state", "anonymous visible human activity when present"],
+      "guardrail": "Supporting shallow-water evidence, not a substitute for the shoreline-contact view from montrose_shoreline."
+    }
+  ],
+  "site_independence_rule": "All three Montrose owner cameras share the montrose_owner_cluster physical/site independence group; multiple views improve observability but do not count as three independent Jubilee confirmations.",
+  "missingness_rule": "Dark, stale, frozen, obstructed or otherwise inadequate views are UNKNOWN, not negatives."
+}
