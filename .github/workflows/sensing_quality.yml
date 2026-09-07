@@ -1,0 +1,123 @@
+name: Jubilee sensing quality and river forcing
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, upgrade/sensing-audit-20260906]
+    paths:
+      - 'model_data/audit_sensing.py'
+      - 'model_data/build_readiness.py'
+      - 'model_data/camera_sources.json'
+      - 'model_data/ingest_river_forcing.py'
+      - 'model_data/ingest_water_quality.py'
+      - 'model_data/backtest_water_quality.py'
+      - 'tools/desktop_preflight.ps1'
+      - 'tests/**'
+      - 'desktop_runtime/**'
+      - 'requirements-tests.txt'
+      - '.github/workflows/sensing_quality.yml'
+  schedule:
+    - cron: '37 */3 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: jubilee-sensing-quality-${{ github.ref_name }}
+  cancel-in-progress: false
+jobs:
+  validate-and-sense:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install image-validation test dependency
+        run: python -m pip install -r requirements-tests.txt
+      - name: Run offline regression tests
+        run: |
+          python - <<'PY'
+          import datetime, json, pathlib, sys, unittest
+          result = unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.discover('tests'))
+          report = {'generated_at_utc': datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                    'tests_run': result.testsRun, 'failures': len(result.failures),
+                    'errors': len(result.errors), 'skipped': len(result.skipped),
+                    'passed': result.wasSuccessful(), 'scope': 'offline_regressions_not_desktop_end_to_end'}
+          pathlib.Path('model_data/upgrade_test_report.json').write_text(json.dumps(report, indent=2) + '\n')
+          if not result.wasSuccessful(): sys.exit(1)
+          PY
+      - name: Check desktop preflight PowerShell syntax without running it
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $parseErrors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PWD 'tools/desktop_preflight.ps1'), [ref]$tokens, [ref]$parseErrors) | Out-Null
+          if ($parseErrors.Count -gt 0) { $parseErrors | ForEach-Object { Write-Error $_.Message }; exit 1 }
+      - name: Audit latest pinned main camera snapshot, not old feature-branch images
+        run: |
+          set -euo pipefail
+          git fetch origin main
+          echo "CAMERA_SNAPSHOT_SHA=$(git rev-parse origin/main)" >> "$GITHUB_ENV"
+          snapshot="$RUNNER_TEMP/jubilee-camera-audit"
+          mkdir -p "$snapshot/model_data"
+          cp model_data/camera_sources.json "$snapshot/model_data/"
+          # Keep the expected-device audit honest: copy every owner camera's
+          # latest image from current main. Omitting a camera here creates a
+          # false publication-integrity failure even when production is healthy.
+          for f in status.json burst_status.json vision.json montrose_pier_boat.jpg montrose_pier_bird.jpg montrose_shoreline.jpg pcl_e2_back_deck.jpg pcl_e2_bay_mouth.jpg pcl_e3_bay_mouth.jpg; do
+            if ! git show "origin/main:$f" > "$snapshot/$f"; then rm -f "$snapshot/$f"; fi
+          done
+          python model_data/audit_sensing.py --root "$snapshot" --out model_data/sensing_audit.json
+      - name: Retrieve and validate public river data
+        run: python model_data/ingest_river_forcing.py --days 16
+      - name: Verify revised historical ingest and diagnostics on upgrade branch
+        if: github.ref_name == 'upgrade/sensing-audit-20260906'
+        run: |
+          python model_data/ingest_water_quality.py
+          python model_data/backtest_water_quality.py
+      - name: Build readiness and six-cell coverage report
+        run: python model_data/build_readiness.py
+      - name: Upload audit and public data only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jubilee-sensing-public-audit-${{ github.run_number }}
+          path: |
+            model_data/upgrade_test_report.json
+            model_data/upgrade_readiness.json
+            model_data/coverage_snapshot.json
+            model_data/sensing_audit.json
+            model_data/river_forcing_manifest.json
+            model_data/river_forcing_normalized.csv
+            model_data/water_quality_ingest_manifest.json
+            model_data/water_quality_backtest.json
+            model_data/public_archive/
+          retention-days: 90
+      - name: Persist allowlisted public archives and audit records
+        if: success()
+        env:
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          size = sum(p.stat().st_size for p in Path('model_data/public_archive').rglob('*') if p.is_file())
+          if size > 250_000_000:
+              raise SystemExit('Public Git archive budget exceeded. Preserve the artifact and migrate to verified object storage; do not delete history.')
+          PY
+          git config user.name 'jubilee-model-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add model_data/upgrade_test_report.json model_data/upgrade_readiness.json model_data/coverage_snapshot.json model_data/sensing_audit.json model_data/river_forcing_manifest.json model_data/public_archive/
+          if [ "$REF_NAME" = 'upgrade/sensing-audit-20260906' ]; then
+            git add model_data/water_quality_ingest_manifest.json model_data/water_quality_backtest.json
+          fi
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Record verified sensing audit and immutable public data snapshot'
+          for attempt in 1 2 3; do
+            git pull --rebase origin "$REF_NAME"
+            if git push origin "HEAD:$REF_NAME"; then exit 0; fi
+            sleep 3
+          done
+          exit 1
