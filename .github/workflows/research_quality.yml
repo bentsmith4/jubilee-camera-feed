@@ -29,6 +29,7 @@ jobs:
           python -m py_compile \
             model_data/ingest_weeks_bay_realtime.py \
             model_data/ingest_ngofs2_point_clear.py \
+            model_data/ingest_griidc_main_pass_20160419.py \
             model_data/build_observation_effort_snapshot.py
       - name: Run full offline regression suite
         run: python -m unittest discover -s tests -v
@@ -44,6 +45,8 @@ jobs:
               'model_data/historical_event_candidate_additions_20260906.json',
               'model_data/source_registry_additions_20260906.json',
               'model_data/ngofs2_ingestion_contract.json',
+              'model_data/ngofs2_multicell_contract.json',
+              'model_data/historical_ingestion_priority.json',
               'model_data/matched_control_contract.json',
               'model_data/public_camera_observation_log.json',
           ]
