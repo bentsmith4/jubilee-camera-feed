@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.5",
+  "schema_version": "1.6",
   "updated_date": "2026-09-06",
   "purpose": "Canonical interpretation of owner-camera evidence for Jubilee sensing. Owner-authorized private media may follow existing publication/archive policy; this contract governs model meaning and detectability.",
   "cameras": [
@@ -65,6 +65,7 @@
       "look_direction_owner_confirmed": "due west",
       "shoreline_visible": "not a direct beach close-up; the view runs down the marina/inlet toward its opening onto Mobile Bay, with shoreline/marina edges only where actually resolved",
       "view_geometry": "Owner supplied map geometry places the camera at the Point Clear site looking due west down the marina/inlet toward open Mobile Bay. This is primarily a marina-to-Bay surface-state and activity view, not a swash-zone beach camera.",
+      "night_detectability": "Owner confirms the Point Clear cameras are not very useful in full darkness. Darkness must generally be treated as low detectability/UNKNOWN rather than biological absence; clearly illuminated lights/people may still be descriptive evidence if actually resolved.",
       "high_value_signals": [
         "anonymous people or lights moving along marina or resolvable shoreline edges",
         "clustered human activity near resolvable marina-mouth or shoreline areas",
@@ -74,20 +75,28 @@
         "due-west Bay surface-state and visibility context",
         "visible biological concentration near shoreline/marina edges only when image resolution is sufficient"
       ],
-      "negative_scope": "Absence of visible activity is only evidence for the resolvable marina-to-Bay corridor and shoreline/marina edges actually visible during the observed interval. It is not a negative for Point Clear beaches outside the frame.",
+      "negative_scope": "Absence of visible activity is only evidence for the resolvable marina-to-Bay corridor and shoreline/marina edges actually visible during the observed interval and only when illumination/detectability are adequate. It is not a negative for Point Clear beaches outside the frame.",
       "human_privacy": "Anonymous counts/behavior only; no identity recognition or cross-camera person tracking."
     },
     {
       "camera_id": "pcl_e2_back_deck",
       "site": "Point Clear landing",
-      "classification": "bay_environment_support_pending_geometry_detail",
-      "guardrail": "No direct shoreline-negative inference until view geometry is calibrated."
+      "classification": "northwest_marina_environment_and_biology_support",
+      "look_direction_owner_confirmed": "northwest",
+      "view_geometry": "Owner-confirmed view overlooks the Point Clear marina toward the northwest. It is a marina-water/structure view rather than a direct beach or swash-zone camera.",
+      "night_detectability": "Owner confirms the Point Clear cameras are not very useful in full darkness; low-light biological absence is UNKNOWN.",
+      "allowed_signals": ["marina surface fish or crustacean behavior when resolvable", "birds", "water surface state", "anonymous people or lights", "biological concentration around structures"],
+      "negative_scope": "A clean frame can only support absence for the marina-water area actually visible and only with adequate light/detectability. Do not generalize to Point Clear beaches or open Bay."
     },
     {
       "camera_id": "pcl_e3_bay_mouth",
       "site": "Point Clear landing",
-      "classification": "bay_environment_support_pending_geometry_detail",
-      "guardrail": "No direct shoreline-negative inference until view geometry is calibrated."
+      "classification": "southeast_marina_environment_and_biology_support",
+      "look_direction_owner_confirmed": "southeast",
+      "view_geometry": "Owner-confirmed view looks over the Point Clear marina toward the southeast. It is a marina-water view rather than an open-Bay or direct beach camera.",
+      "night_detectability": "Owner confirms the Point Clear cameras are not very useful in full darkness; low-light biological absence is UNKNOWN.",
+      "allowed_signals": ["marina surface fish or crustacean behavior when resolvable", "birds", "water surface state", "anonymous people or lights", "biological concentration around structures"],
+      "negative_scope": "A clean frame can only support absence for the marina-water area actually visible and only with adequate light/detectability. Do not generalize to Point Clear beaches or open Bay."
     }
   ],
   "site_independence_rules": [
