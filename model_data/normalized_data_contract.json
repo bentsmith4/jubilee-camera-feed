@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "purpose": "One canonical data pipeline for reproducible Jubilee research, prospective forecasts and leakage-safe validation.",
+  "layers": [
+    {
+      "layer": "raw",
+      "mutability": "immutable_content_addressed",
+      "contents": ["authoritative API responses", "downloaded scientific tables/files", "owner-camera private archive references", "rights-permitted public source payloads"],
+      "required": ["source_id", "request_or_archive_id", "retrieved_at", "content_hash", "rights_class", "storage_location"],
+      "rule": "Discovery URLs do not count as raw ingestion."
+    },
+    {
+      "layer": "normalized_observations",
+      "mutability": "append_or_version_corrections",
+      "required": ["observation_id", "source_id", "station_or_camera_id", "independence_group", "shoreline_cell", "variable_or_evidence_type", "value_or_status", "units", "observed_at", "available_at", "ingested_at", "timezone", "depth", "vertical_reference", "datum", "qc_status", "source_hash", "normalizer_version"],
+      "rule": "Observation, model guidance, proxy, human report and historical literature evidence remain explicit source classes."
+    },
+    {
+      "layer": "event_evidence_and_labels",
+      "mutability": "versioned_with_correction_history",
+      "required": ["event_or_evidence_id", "claimed_event_time", "location", "shoreline_cell", "source_type", "source_url_or_archive_id", "independence_group", "media_present", "first_person_or_repost", "confidence", "label_provenance", "available_at", "ingested_at"],
+      "rule": "Reposts and news stories deriving from the same original post share one independence group. Hypoxia without shoreline migration is not automatically a Jubilee label."
+    },
+    {
+      "layer": "derived_features",
+      "mutability": "rebuild_only_when_source_hash_or_code_changes",
+      "required": ["feature_id", "feature_version", "target_time", "available_by_target_time", "source_observation_ids", "transform_code_hash", "value", "missingness_reason"],
+      "rule": "Post-event information cannot enter pre-event forecast features."
+    },
+    {
+      "layer": "matched_controls",
+      "mutability": "versioned",
+      "required": ["control_id", "target_cell", "target_time", "season_match", "clock_window_match", "tide_or_transport_match", "camera_observation_effort", "social_observation_effort", "environmental_source_availability", "negative_evidence_strength"],
+      "rule": "No report is weak evidence and never a clean negative by itself."
+    },
+    {
+      "layer": "model_artifacts",
+      "mutability": "immutable_versioned",
+      "required": ["model_id", "training_cutoff", "feature_versions", "event_label_version", "control_version", "code_hash", "hyperparameters", "validation_split_definition", "metrics"],
+      "rule": "A model is not production-calibrated without held-out event/season evaluation."
+    },
+    {
+      "layer": "forecast_ledger",
+      "mutability": "append_only_before_outcome",
+      "required": ["forecast_id", "issued_at", "target_time_window", "shoreline_cell", "probability_or_range", "confidence", "model_id_or_expert_policy_version", "input_snapshot_hash", "critical_unknowns"],
+      "rule": "Forecast record and exact input snapshot must exist before event verification for prospective skill measurement."
+    }
+  ],
+  "time_semantics": {
+    "observed_at": "when the physical or human observation occurred",
+    "available_at": "earliest time the forecasting system could legitimately know the value",
+    "ingested_at": "when this pipeline stored it",
+    "issued_at": "when a forecast was frozen and published to the forecast ledger"
+  },
+  "efficiency_rules": [
+    "Cache authoritative downloads by content hash and request parameters.",
+    "Do not redownload immutable historical files when hash/version is unchanged.",
+    "Run source-specific normalization once, then reuse normalized observations across research and forecasts.",
+    "Keep expensive image vision behind freshness/frozen-frame/visibility checks.",
+    "Use one canonical feature generator for backtests and production to prevent training-serving skew.",
+    "Persist rejected feature decisions so research does not repeatedly rediscover weak ideas."
+  ]
+}
