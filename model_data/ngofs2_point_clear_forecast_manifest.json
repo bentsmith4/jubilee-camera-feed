@@ -1,22 +1,22 @@
 {
   "schema_version": "1.2",
-  "retrieved_at": "2026-09-07T04:33:08.609084+00:00",
-  "cast": "nowcast",
+  "retrieved_at": "2026-09-07T04:33:48.873407+00:00",
+  "cast": "forecast",
   "status": "complete",
   "evidence_class": "MODEL",
   "production_action": "NO_CHANGE",
-  "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/06/ngofs2.t21z.20260906.stations.nowcast.nc",
+  "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/06/ngofs2.t21z.20260906.stations.forecast.nc",
   "model_initialized_at": "2026-09-06T21:00:00+00:00",
   "failed_newer_attempts": [
     {
-      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/07/ngofs2.t03z.20260907.stations.nowcast.nc",
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/07/ngofs2.t03z.20260907.stations.forecast.nc",
       "error_type": "OSError"
     }
   ],
-  "normalized_rows": 671,
-  "subset_sha256": "39a4c79ac5118765673339a7717ac5a534f8518dae6b14e82f28be1910a68b12",
-  "subset_archive": "public_archive/ngofs2_subset/39a4c79ac5118765673339a7717ac5a534f8518dae6b14e82f28be1910a68b12.json.gz",
-  "normalized_csv": "ngofs2_point_clear_nowcast_normalized.csv",
+  "normalized_rows": 5291,
+  "subset_sha256": "772456da9a50677f0e5297665ddb838e0da9da429569f1d94092266d2b5697fc",
+  "subset_archive": "public_archive/ngofs2_subset/772456da9a50677f0e5297665ddb838e0da9da429569f1d94092266d2b5697fc.json.gz",
+  "normalized_csv": "ngofs2_point_clear_forecast_normalized.csv",
   "station": {
     "station_name": "8733821 Pt Clear, MB",
     "station_index": 93,
@@ -35,25 +35,31 @@
     "surface_sigma": -0.012500000186264515,
     "bottom_sigma": -0.987500011920929
   },
-  "reference_valid_at": "2026-09-06T21:00:00+00:00",
-  "transport_window_type": "antecedent",
+  "reference_valid_at": "2026-09-07T04:36:00+00:00",
+  "transport_window_type": "forward",
   "transport_windows": {
     "1": {
       "count": 11,
-      "mean_m_s": -0.009246964769607242,
-      "signed_transport_m": -33.18128602579237,
+      "mean_m_s": 0.0044788322095634875,
+      "signed_transport_m": 16.212235058847003,
       "coverage_fraction": 1.0
     },
     "3": {
       "count": 31,
-      "mean_m_s": -0.00924591275472795,
-      "signed_transport_m": -99.67799535021187,
+      "mean_m_s": -0.0024865521680758024,
+      "signed_transport_m": -28.713886406549133,
       "coverage_fraction": 1.0
     },
     "6": {
       "count": 61,
-      "mean_m_s": -0.010717686784804847,
-      "signed_transport_m": -231.84845544397834,
+      "mean_m_s": -0.0024122676118093316,
+      "signed_transport_m": -53.40905053126334,
+      "coverage_fraction": 1.0
+    },
+    "12": {
+      "count": 121,
+      "mean_m_s": -0.008097199785887155,
+      "signed_transport_m": -352.6832181732607,
       "coverage_fraction": 1.0
     }
   },
