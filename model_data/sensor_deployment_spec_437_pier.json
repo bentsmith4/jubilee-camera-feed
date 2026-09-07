@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.5",
+  "schema_version": "1.6",
   "created_date": "2026-09-06",
   "updated_date": "2026-09-07",
   "site": "437 Village pier / Montrose-Daphne Eastern Shore",
@@ -16,6 +16,7 @@
     "total_hardware_budget_target_usd": "<1000",
     "owner_accepts_device_stored_wifi_credentials": true,
     "owner_accepts_retrievable_piling_mount": true,
+    "pier_end_piling_material": "wood",
     "confirmation_date": "2026-09-07"
   },
   "objective": "Measure local near-bottom hypoxia/stratification state unattended with enough temporal resolution and metadata to support Jubilee forecasting and matched-control calibration.",
@@ -32,12 +33,14 @@
   },
   "deployment_geometry": {
     "phase_1_recommended": "one near-bottom package at pier end approximately 0.15-0.30 m above sediment and below ordinary low-water level",
-    "mount": "retrievable mounting rail, weighted cage, or stand-off bracket attached to a pier piling near the end; sensor body must be offset from the piling enough to sample ambient water and must be pullable from deck without entering the water",
+    "mount": "wood-piling-specific retrievable stand-off/guide assembly attached near the pier end; use an open sensor cage or vertical carrier offset from the piling so sensing faces sample ambient water and the package can be lifted from the deck without entering the water",
+    "wood_piling_hardware": "prefer 316 stainless marine hardware with HDPE/UHMW or equivalent nonconductive stand-off components; avoid aluminum or ordinary plated/galvanized hardware in the continuously wet/brackish-saltwater zone where practical, and isolate dissimilar metals",
+    "wood_piling_attachment": "prefer a clamp/band or minimally invasive above-water fixed bracket where geometry permits; if screws, lag bolts or through-bolts are required, have the installer verify placement and dimensions so the structural piling is not materially weakened and treated-wood compatibility is maintained",
     "service_method": "release or lift the sensor/cage from the pier deck every 7-14 days in summer, clean/check/calibrate as required, then return it to the same indexed depth/offset position",
     "mount_repeatability": "use a fixed stop/index mark so post-service sensor elevation and horizontal offset are repeatable; log any geometry change as a configuration version",
     "phase_2_preferred": "add a second near-surface package only after bottom package proves stable and valuable",
     "bottom_clearance": "record exact height above sediment; avoid burial, prop wash, piling stagnation and direct sediment contact",
-    "piling_bias_guardrail": "do not strap sensing faces flush to the piling; require stand-off/open flow around DO membrane and conductivity cell",
+    "piling_bias_guardrail": "do not strap sensing faces flush to the wood piling; require stand-off/open flow around DO membrane and conductivity cell",
     "reference": "record fixed sensor elevation relative to pier reference and pair with water-level observations"
   },
   "sampling": {
@@ -56,7 +59,7 @@
   },
   "quality_control": {
     "predeployment": ["DO air-saturation calibration", "zero-DO calibration because <1 mg/L accuracy matters", "conductivity/salinity standard check", "temperature cross-check", "clock sync", "24-48 hour soak test"],
-    "ongoing": ["summer cleaning every 7-14 days", "membrane/electrolyte inspection for galvanic DO", "conductivity fouling inspection", "drift/stuck-sensor checks", "power/telemetry health", "cross-check against tide and regional sources", "verify sensor returned to indexed piling-mount geometry after service"],
+    "ongoing": ["summer cleaning every 7-14 days", "membrane/electrolyte inspection for galvanic DO", "conductivity fouling inspection", "drift/stuck-sensor checks", "power/telemetry health", "cross-check against tide and regional sources", "verify sensor returned to indexed wood-piling mount geometry after service", "inspect marine fasteners, stand-offs, cable strain relief and wood contact points for loosening/corrosion/degradation"],
     "maintenance_model_rule": "flag service/calibration windows and do not treat before/after maintenance jumps as environmental features"
   },
   "candidate_sub_1000_bom": {
@@ -68,8 +71,8 @@
       {"item": "Atlas Surveyor Analog Temperature Kit or equivalent", "reference_price_usd": 29.99, "role": "temperature"}
     ],
     "reference_subtotal_usd": 839.96,
-    "budget_note": "Existing pier power/weatherproof electrical infrastructure and a simple retrievable piling mount can reduce enclosure/service costs, but verify safe low-voltage segregation and avoid stagnant piling microenvironments. Exact Atlas kits can duplicate carrier hardware.",
-    "cost_optimization": "Prefer individual EZO circuits/probes and one isolated ESP32 carrier when that avoids duplicate boards. Target final electronics/sensors below $900 so mounting, calibration standards and marine cable hardware remain within the <$1,000 total target."
+    "budget_note": "Existing pier power/weatherproof electrical infrastructure and a simple retrievable wood-piling mount can reduce enclosure/service costs, but verify safe low-voltage segregation and avoid stagnant piling microenvironments. Exact Atlas kits can duplicate carrier hardware.",
+    "cost_optimization": "Prefer individual EZO circuits/probes and one isolated ESP32 carrier when that avoids duplicate boards. Target final electronics/sensors below $900 so 316 stainless/HDPE wood-piling mounting hardware, calibration standards and marine cable hardware remain within the <$1,000 total target."
   },
   "model_guardrails": [
     "No positive production weight until provenance/QC pass and held-out incremental value is demonstrated.",
