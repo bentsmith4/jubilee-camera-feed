@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "status": "validation_design_not_claim_of_skill",
+  "target_decomposition": [
+    "jubilee_occurrence_by_cell_and_window",
+    "event_intensity",
+    "event_duration",
+    "shoreline_extent"
+  ],
+  "latent_state_design": [
+    {
+      "state": "hypoxic_water_available",
+      "evidence": ["local bottom DO", "salinity/temperature stratification", "multi-depth DO", "antecedent mixing/restratification", "regional/shelf oxygen proxies"]
+    },
+    {
+      "state": "shoreward_transport_alignment",
+      "evidence": ["observed/model current", "water-level tendency", "wind stress/history", "bay-mouth/shelf state", "lagged river/plume state"]
+    },
+    {
+      "state": "nearshore_contact_and_detectability",
+      "evidence": ["local geometry", "shoreline orientation", "bathymetry/channel/spoil features", "camera biology", "visibility", "human/search evidence"]
+    }
+  ],
+  "models_to_compare": [
+    {"model": "expert_policy_baseline", "purpose": "current transparent heuristic/reference", "status": "existing_not_empirically_calibrated"},
+    {"model": "seasonal_persistence_baseline", "purpose": "minimum skill benchmark", "status": "to_fit"},
+    {"model": "regularized_logistic_or_discrete_hazard", "purpose": "interpretable additive/nonadditive baseline with shrinkage", "status": "to_fit_after_more_controls"},
+    {"model": "gam_monotonic_splines", "purpose": "test nonlinear wind/DO/flow/lag effects without opaque black-box learning", "status": "to_fit_after_more_controls"},
+    {"model": "hierarchical_shoreline_cell_hazard", "purpose": "partial pooling across Daphne/Montrose/Fairhope/Battles/Point Clear/Mullet Point", "status": "to_fit_after_more_event_cell_coverage"},
+    {"model": "three_state_dynamic_model", "purpose": "represent oxygen storage, delivery and contact as a state sequence", "status": "research_design"}
+  ],
+  "validation_splits": [
+    "leave_one_independent_event_episode_out",
+    "blocked_adjacent_event_days",
+    "whole_season_or_year_holdout_when_sample_size_allows",
+    "geographic_holdout_sensitivity_by_shoreline_cell"
+  ],
+  "metrics": [
+    "brier_score",
+    "brier_skill_vs_simple_baseline",
+    "log_loss",
+    "calibration_intercept",
+    "calibration_slope",
+    "reliability_by_probability_bin",
+    "discrimination_auc_when_sample_size_supports_it",
+    "event_recall",
+    "false_alert_burden",
+    "useful_warning_lead_time",
+    "shoreline_location_error",
+    "decision_utility_at_20_percent_alert_threshold"
+  ],
+  "leakage_blocks": [
+    "post-event social reports and confirmation media may label an event but cannot be forecast features for an earlier target time",
+    "event-day environmental samples are excluded unless available before the forecast issue time",
+    "available_at, not only observed_at, determines feature eligibility",
+    "multiple lag windows from one observation do not create independent samples",
+    "same physical camera mirrors and same-origin social reposts share one independence group"
+  ],
+  "promotion_gate": [
+    "physical rationale and source provenance/QC",
+    "sufficient independent positive and observed-control coverage",
+    "held-out incremental performance over the relevant baseline",
+    "no material calibration degradation",
+    "decision utility at the alert threshold improves or an explicitly valued secondary target improves",
+    "written promote/reject record with model and feature versions"
+  ],
+  "current_conclusion": "The expanded data architecture is better, but forecast skill remains NOT_ESTABLISHED. Do not change production weights until enough historical positives and observation-effort controls exist for held-out validation."
+}
