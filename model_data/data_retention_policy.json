@@ -1,0 +1,51 @@
+{
+  "schema_version": "2.0",
+  "status": "public_sensor_archive_implemented_private_media_lifecycle_pending_desktop_verification",
+  "automatic_deletion_authorized": false,
+  "canonical_runtime": "C:\\JubileeCams",
+  "public_code_repository_role": "code_and_compact_audit_records_with_bounded_public_raw_bootstrap_archive",
+  "storage_classes": [
+    {
+      "class": "raw_public_environmental_observation",
+      "implemented_destination": "model_data/public_archive",
+      "format": "content_addressed_gzip_with_uncompressed_sha256",
+      "retention": "preserve_no_automatic_deletion",
+      "guardrail": "Git is a bounded bootstrap archive, not an unlimited camera/data lake. Migrate to verified object storage before the archive exceeds 250 MB; preserve hashes and manifest references.",
+      "public_git_soft_budget_bytes": 250000000
+    },
+    {
+      "class": "raw_private_camera",
+      "destination": "existing_local_and_private_R2_only_after_acl_and_restore_validation",
+      "implementation_status": "historical_R2_archive_exists_current_health_and_lifecycle_unverified",
+      "public_repository_upload": false,
+      "proposed_dense_live_buffer_days": 3,
+      "proposed_canonical_burst_retention_days": 90,
+      "lifecycle_applied": false,
+      "deletion_requires_review": true
+    },
+    {
+      "class": "curated_camera_event_and_control_windows",
+      "destination": "private_object_storage",
+      "implementation_status": "pending_desktop_integration",
+      "proposed_event_context_hours_before": 48,
+      "proposed_event_context_hours_after": 24,
+      "retention": "multi_year_with_review_not_automatically_deleted",
+      "control_selection": "preselected_baseline_samples_with_known_observation_effort_not_just_interesting_or_high_risk_mornings"
+    },
+    {
+      "class": "third_party_public_camera_media",
+      "retention": "only_as_per_explicit_source_rights",
+      "default": "do_not_archive_until_access_and_rights_verified",
+      "blocked_sources": ["Hazcams/WXLOGIC_without_written_consent"]
+    },
+    {
+      "class": "features_forecasts_labels_and_quality_history",
+      "destination": "versioned_canonical_dataset_with_object_storage_backup",
+      "retention": "multi_year_preserve",
+      "required_fields": ["source_id", "station_or_camera_id", "cell", "capture_or_sample_id", "observed_at", "available_at", "ingested_at", "issued_at", "timezone", "depth", "vertical_reference", "units", "datum", "qc", "detectability", "observation_effort", "source_hash", "feature_version", "model_version", "event_time", "post_time", "label_provenance", "independence_group"]
+    }
+  ],
+  "restore_test": "Check one current, one prior-day and one prior-week capture; verify all expected frames, timestamps and hashes. File existence alone does not pass.",
+  "sampling_bias_rule": "Adaptive high-risk capture supplements but never replaces a fixed control schedule. Missing/poor-view periods are unknown, not non-events.",
+  "privacy_rule": "No new private camera images, device resource IDs, tokens, signed URLs, facial identities or cross-camera person tracks in public outputs."
+}

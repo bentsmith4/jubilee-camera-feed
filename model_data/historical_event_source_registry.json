@@ -1,0 +1,231 @@
+{
+  "schema_version": "1.1",
+  "purpose": "Discovery and provenance registry for historical Mobile Bay Jubilee event evidence. Discovery is not ingestion; each source must be normalized into event_evidence before calibration use.",
+  "retrieval_date": "2026-09-06",
+  "sources": [
+    {
+      "source_id": "loesch_1960_ecology",
+      "type": "primary_scientific_literature",
+      "title": "Sporadic Mass Shoreward Migrations of Demersal Fish and Crustaceans in Mobile Bay, Alabama",
+      "author": "Harold Loesch",
+      "year": 1960,
+      "doi": "10.2307/1930218",
+      "url": "https://esajournals.onlinelibrary.wiley.com/doi/10.2307/1930218",
+      "reported_event_period": "1946-1956",
+      "reported_event_count_secondary": 37,
+      "priority": "P0",
+      "status": "primary_citation_verified_full_event_table_not_recovered",
+      "use": "historical event dates, seasonality, location, timing, wind/rain/tide hypotheses",
+      "guardrail": "Do not create 37 individual event rows until the primary event table/text is recovered."
+    },
+    {
+      "source_id": "may_1973_limnology_oceanography",
+      "type": "primary_scientific_literature",
+      "title": "Extensive oxygen depletion in Mobile Bay, Alabama",
+      "author": "Edwin B. May",
+      "year": 1973,
+      "doi": "10.4319/lo.1973.18.3.0353",
+      "url": "https://aslopubs.onlinelibrary.wiley.com/doi/10.4319/lo.1973.18.3.0353",
+      "reported_event_period": "1971 study period",
+      "priority": "P0",
+      "status": "primary_article_verified_underlying_station_profiles_require_normalized_ingest",
+      "use": "dated spatial DO observations, bathymetric low-oxygen storage and nearshore-contact physics",
+      "guardrail": "Hypoxia observations are not automatically Jubilee events."
+    },
+    {
+      "source_id": "alabama_archives_mobile_register_1972_08_15_daphne_montrose",
+      "type": "contemporaneous_newspaper_photo_archived_by_state_archive",
+      "title": "Taul Tuveson with a flounder he gigged during a jubilee between Daphne and Montrose",
+      "author_or_photographer": "Ron Wheeler / Mobile Register",
+      "archive": "Alabama Department of Archives and History, Alabama Media Group Collection",
+      "publication_date": "1972-08-16",
+      "event_date_inferred": "1972-08-15",
+      "event_date_basis": "caption says early Tuesday morning; publication was Wednesday 1972-08-16; calendar inference",
+      "location": "between Daphne and Montrose",
+      "url": "https://alabamamosaic.org/vufind/Record/ADAHamg195672/Details",
+      "priority": "P0",
+      "status": "verified_archival_contemporaneous_evidence",
+      "use": "historical Eastern Shore event label, pre-dawn timing, duration and spatial extent",
+      "reported_details": "small flounder-and-crab jubilee began before daylight and lasted one or two hours between Daphne and Montrose",
+      "guardrail": "Retain event_date_basis because the exact date is inferred from the archival caption and calendar rather than printed explicitly in the caption."
+    },
+    {
+      "source_id": "lowery_1983_seagrant_jubilee",
+      "type": "technical_report_or_extension",
+      "title": "The Jubilee phenomenon",
+      "author": "T. Lowery",
+      "year": 1983,
+      "priority": "P1",
+      "status": "bibliographic_excerpt_verified_full_report_recovery_required",
+      "use": "historical mechanism/location synthesis and cited event sources"
+    },
+    {
+      "source_id": "jon_hauge_2013_08_16_point_clear",
+      "type": "same_day_local_first_person_photo_report",
+      "title": "Eastern Shore Jubilee - Point Clear 08/16/13",
+      "event_date": "2013-08-16",
+      "location": "Point Clear",
+      "url": "https://www.jonimages.com/blog/2013/8/eastern-shore-jubilee-point-clear",
+      "priority": "P0",
+      "status": "verified_event_source",
+      "use": "historical Eastern Shore positive with date, location, early/daybreak timing, species and photographs",
+      "reported_details": "small Jubilee; reports of good flounder early; by daybreak small flounder, crabs, stingrays and schools of catfish"
+    },
+    {
+      "source_id": "coogan_dzwonkowski_lehrter_upwelling",
+      "type": "primary_scientific_literature",
+      "title": "Effects of Coastal Upwelling and Downwelling on Hydrographic Variability and Dissolved Oxygen in Mobile Bay",
+      "authors": ["Jeffrey Coogan", "Brian Dzwonkowski", "John Lehrter"],
+      "doi": "10.1029/2018JC014592",
+      "priority": "P0",
+      "status": "primary_record_and_supporting_datasets_verified",
+      "use": "wind-driven shelf/bay exchange, DO and hydrographic response; 2016 CTD/mooring calibration",
+      "guardrail": "Scientific process/calibration source, not direct Jubilee label unless a dated event is independently documented."
+    },
+    {
+      "source_id": "wsfa_2020_09_07_fairhope",
+      "type": "contemporaneous_news_with_embedded_first_person_social",
+      "title": "Something that only happens in two places in the world just occurred in Mobile Bay",
+      "event_date": "2020-09-07",
+      "location": "Fairhope area",
+      "url": "https://www.wsfa.com/2020/09/09/something-that-only-happens-two-places-world-just-occurred-mobile-bay/",
+      "social_evidence": {
+        "poster": "@tiffofthesouth",
+        "post_date": "2020-09-07",
+        "first_person": true,
+        "media_present": true,
+        "reported_species": ["fish", "crab", "shrimp", "stingrays"]
+      },
+      "priority": "P0",
+      "status": "verified_event_source",
+      "use": "event label and social-media provenance"
+    },
+    {
+      "source_id": "coastal_angler_2024_06_12_point_clear",
+      "type": "contemporaneous_or_near_contemporaneous_news_social_republication",
+      "title": "Mobile Bay Experiences First Jubilee of the Summer",
+      "event_date": "2024-06-12",
+      "location": "Point Clear / Eastern Shore",
+      "url": "https://coastalanglermag.com/mobile-bay-experiences-first-jubilee-of-the-summer/",
+      "social_evidence": "Photo credited to Explore the Eastern Shore/Facebook; report identifies flounder, shrimp and blue crabs in shallows near Point Clear.",
+      "priority": "P0",
+      "status": "verified_event_source_original_social_post_should_be_recovered",
+      "use": "event label; source chain to original Facebook evidence"
+    },
+    {
+      "source_id": "magnolia_tribune_2024_08_05_eastern_shore",
+      "type": "same_day_first_person_relay_with_video_and_photo",
+      "title": "Jubilee 2024",
+      "event_date": "2024-08-05",
+      "event_time": "07:18 local video received",
+      "location": "Mobile Bay Eastern Shore; exact shoreline cell unresolved",
+      "url": "https://magnoliatribune.com/2024/08/05/jubilee-2024/",
+      "priority": "P0",
+      "status": "verified_event_source",
+      "use": "event label, timing, species and evidence-chain normalization",
+      "reported_species": ["hundreds of fish", "shrimp", "finger mullet", "catfish", "baby eels", "small flounder"]
+    },
+    {
+      "source_id": "live_love_fairhope_2025_07_17",
+      "type": "same_day_local_photo_report",
+      "title": "Jubilee in Fairhope",
+      "event_date": "2025-07-17",
+      "location": "Fairhope / Eastern Shore",
+      "url": "https://livelovefairhope.com/jubilee-in-fairhope/",
+      "priority": "P0",
+      "status": "verified_event_source",
+      "use": "event label and local photo provenance",
+      "reported_details": "early morning July 17, 2025; fish, shrimp and crabs visible"
+    },
+    {
+      "source_id": "wkrg_2025_07_24_fairhope",
+      "type": "same_day_local_tv_news_with_resident_video",
+      "title": "Jubilee brings fish to shore in Fairhope",
+      "event_date": "2025-07-24",
+      "location": "Fairhope",
+      "syndicated_url": "https://www.yahoo.com/news/videos/jubilee-brings-fish-shore-fairhope-231106352.html",
+      "priority": "P0",
+      "status": "verified_event_source_original_wkrg_page_access_limited",
+      "use": "separate July 2025 event label; same-day Thursday-morning report",
+      "guardrail": "Do not merge with the July 17 event; they are one week apart."
+    },
+    {
+      "source_id": "mobile_baykeeper_2018_swim_point_clear_battles",
+      "type": "historical_environmental_monitoring_report",
+      "title": "Mobile Baykeeper 2018 Annual Report",
+      "year": 2018,
+      "url": "https://mobilebaykeeper.org/wp-content/uploads/2023/07/2018AnnualReport.pdf",
+      "priority": "P1",
+      "status": "verified",
+      "use": "historical Point Clear and Battles Wharf water-quality monitoring coverage; not Jubilee labels"
+    },
+    {
+      "source_id": "state_of_mobile_bay_2008",
+      "type": "scientific_indicator_report",
+      "title": "State of Mobile Bay 2008",
+      "url": "https://www.disl.edu/images/uploads/State-of-Mobile-Bay-2008.pdf",
+      "priority": "P1",
+      "status": "verified",
+      "use": "historic NCA bottom dissolved-oxygen condition and Jubilee mechanism context"
+    },
+    {
+      "source_id": "fairhope_city_jubilee_information",
+      "type": "official_local_historical_synthesis",
+      "title": "Jubilee Information",
+      "url": "https://www.fairhopeal.gov/visiting/jubilee-information",
+      "priority": "P1",
+      "status": "verified",
+      "use": "official spatial/scale description and local event characteristics",
+      "guardrail": "Context source, not a dated event label."
+    },
+    {
+      "source_id": "mobile_baykeeper_jubilee_archival_story",
+      "type": "historical_story_with_state_archive_photo",
+      "title": "Jubilee: A Mobile Bay Short Story",
+      "url": "https://mobilebaykeeper.org/jubilee/",
+      "priority": "P1",
+      "status": "verified_context_and_archival_pointer",
+      "use": "pointer to 1972 Alabama Archives photo and local detection/cultural context",
+      "guardrail": "Fictionalized story text is not event evidence; only separately sourced archival facts are admissible."
+    },
+    {
+      "source_id": "atlas_obscura_watt_key_oral_history",
+      "type": "oral_history_secondary_reporting",
+      "title": "Why Do Fish Flood the Shore in Mobile Bay?",
+      "url": "https://www.atlasobscura.com/articles/podcast-mobile-bay-jubilee",
+      "priority": "P2",
+      "status": "verified",
+      "use": "historical detection-sign hypotheses: quiet conditions, fish popping, nighttime human notification/search behavior",
+      "guardrail": "Use for hypothesis generation/detection context, not dated event labels without corroboration."
+    },
+    {
+      "source_id": "pbs_journey_proud_jubilees_2014",
+      "type": "public_broadcast_oral_history",
+      "title": "Journey Proud | Jubilees",
+      "year": 2014,
+      "priority": "P2",
+      "status": "program_identified",
+      "use": "oral-history/cultural context and leads to long-time eyewitnesses; not event labels by itself"
+    },
+    {
+      "source_id": "social_public_indexed_historical_search",
+      "type": "search_program",
+      "priority": "P0",
+      "status": "ongoing",
+      "platforms": ["Facebook public/indexed", "X/Twitter indexed", "Reddit", "Instagram public/indexed", "local fishing/community pages", "local TV/news social embeds"],
+      "query_terms": ["Mobile Bay Jubilee", "jubilee this morning", "ring the bells", "Fairhope jubilee", "Point Clear jubilee", "Battles Wharf jubilee", "Montrose jubilee", "Daphne jubilee", "May Day jubilee", "Mullet Point jubilee", "flounder shrimp crab jubilee", "stingray eel jubilee"],
+      "required_normalization": ["post_url_or_id", "poster_or_page", "post_time", "claimed_event_time", "location", "species", "behavior", "media_present", "first_person_or_repost", "independence_group", "retrieved_at", "confidence"],
+      "guardrail": "Do not archive private/copyrighted media without permission; preserve factual structured observations and provenance."
+    }
+  ],
+  "next_recovery_targets": [
+    "Recover Loesch 1960 primary event table/dates and locations rather than relying on secondary summaries of 37 events.",
+    "Normalize May 1973 underlying dated DO stations/profiles and distinguish Jubilee-linked observations from generic hypoxia.",
+    "Trace the 2024 Point Clear report back to the original Explore the Eastern Shore/Facebook post and independent contemporaneous reports.",
+    "Recover the original WKRG July 24, 2025 resident-video report metadata and exact shoreline scope.",
+    "Systematically search 2010-2026 indexed public social/news sources by summer date and shoreline cell.",
+    "Search Alabama Department of Archives and History / Mobile Register collections for additional dated Jubilee captions and photographs.",
+    "Search historical newspaper archives and Sea Grant/ADCNR/Alabama Marine Resources records for dated events before 2010.",
+    "Build observation-effort-aware non-event controls rather than treating missing reports as negatives."
+  ]
+}

@@ -4,20 +4,13 @@
   "policy_status": "retention_permission_deferred_observation_only",
   "media_retained": false,
   "retrospective_visual_review_available": false,
-  "allowed_status_values": [
-    "observed",
-    "not_observed",
-    "uncertain",
-    "not_assessable"
-  ],
-  "allowed_overall_values": [
-    "event_evidence_present",
-    "no_event_evidence_in_visible_area",
-    "unknown"
-  ],
+  "allowed_status_values": ["observed", "not_observed", "uncertain", "not_assessable"],
+  "allowed_overall_values": ["event_evidence_present", "no_event_evidence_in_visible_area", "unknown"],
   "record_schema": {
     "camera_id": "string",
     "physical_camera_identity": "string",
+    "independence_group": "string",
+    "shoreline_cell": "string",
     "public_viewer_url": "string",
     "check_time_ct": "ISO-8601 with America/Chicago offset",
     "source_capture_time": "ISO-8601 or null",
@@ -36,6 +29,7 @@
     "people_collecting": {"status": "allowed_status_values", "description": "string"},
     "searching_or_flashlights": {"status": "allowed_status_values", "description": "string"},
     "overall": "event_evidence_present|no_event_evidence_in_visible_area|unknown",
+    "confidence": "0..1 or null",
     "media_retained": false,
     "retrospective_visual_review_available": false,
     "notes": "string"
@@ -43,11 +37,12 @@
   "guardrails": [
     "Use only permitted public viewing paths.",
     "Do not bypass access controls or automated-access restrictions.",
-    "Do not save screenshots, thumbnails, video, or image data.",
+    "Do not save screenshots, thumbnails, video or image data unless separate source rights and owner permission explicitly permit it.",
     "Motion claims require temporal evidence.",
     "Do not identify shrimp from ambiguous specks.",
     "Birds or people alone do not confirm a Jubilee.",
-    "Missing, stale, dark, or poorly visible views must be overall=unknown.",
+    "Missing, stale, frozen, dark or poorly visible views must be overall=unknown.",
+    "Rebroadcasts of the same physical camera share one independence_group and count once.",
     "Principal dawn assessment uses the first usable observation at/after civil dawn; if still too dark, biological evidence is UNKNOWN and daylight follow-up should use the dawn+20-minute observation.",
     "Do not invent historical checks or contact camera owners."
   ],
