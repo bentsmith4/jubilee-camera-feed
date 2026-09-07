@@ -1,6 +1,6 @@
 {
   "schema_version": "1.3",
-  "snapshot_time_ct": "2026-09-07T07:58:46-05:00",
+  "snapshot_time_ct": "2026-09-07T09:04:04-05:00",
   "layer": "production_sensing_only",
   "scope": [
     "Point Clear/Grand Hotel/Zundel's",
@@ -21,12 +21,13 @@
   "known_unknowns": [
     "current direct local bottom dissolved oxygen at Point Clear/Daphne",
     "current NGOFS2 numerical Point Clear/Mobile Bay transport guidance",
-    "current lower-river discharge from USGS 02470629",
+    "current usable lower-river discharge from USGS 02470629",
     "fresh public-camera evidence from Hazcams Grand Hotel and Fairhope",
     "fresh current observation from Fairhope municipal pier public viewer",
-    "fresh current observation from Daphne Delta public viewer"
+    "fresh current observation from Daphne Delta public viewer",
+    "current observed water level at Point Clear (historical/removed CO-OPS station)"
   ],
-  "change_summary": "No material sensing change from the 07:22 CT snapshot. A fresh synchronized six-owner-camera daylight cycle at 07:47-07:50 CT confirms the same no-event-evidence-in-visible-area result for the visible Point Clear and Montrose areas: slight ripples, no resolved fish surfacing/gulping, shrimp surface concentration, swimming crabs, shoreline animal concentration, bird feeding, collecting, flashlight/searching, or temporal Jubilee signal. All six owner cameras are healthy. Grand Hotel and Fairhope Hazcams remain stale under the owner's UTC-offset inference rule. Environmental data gaps remain unchanged, and no credible same-day public Jubilee report was found in indexed legitimate sources.",
+  "change_summary": "No material sensing change from the 07:58 CT snapshot. The newest synchronized owner-camera cycle, captured 08:07-08:10 CT, keeps all six expected cameras healthy and within the 60-minute freshness gate at retrieval. Daylight visibility is fair-to-good with moderate-to-high detectability, slight ripples, and no resolved fish surfacing/gulping, shrimp concentration, swimming crabs, shoreline animal concentration, bird feeding, collecting, flashlights/searching, or temporal Jubilee signal in the visible Point Clear and Montrose areas. Grand Hotel and Fairhope Hazcams remain stale under the owner's UTC-offset inference rule. KBFM is also just beyond the observed-weather freshness gate. USGS 02470629 has a stale partial 06:30 CDT Sep 6 record rather than no record, but no usable current discharge. No credible same-day public Jubilee report was found.",
   "alert_gates": {
     "priority_zone_probability_above_20_percent": "not_evaluated_by_sensing_layer_without_current_forecast_value",
     "material_current_state_change": false,
@@ -49,96 +50,96 @@
       "station_camera": "montrose_pier_boat",
       "parameter_evidence_type": "private_camera_three_frame_burst",
       "observed_vs_model": "observed_visual",
-      "valid_time_ct": "2026-09-07T07:47:10.402321-05:00/2026-09-07T07:47:30.533154-05:00",
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
-      "age_minutes": 11.3,
-      "qc_health": "capture_ok; matching 07:47:05.623027 capture identity across status/burst/vision; 3 frames; daylight; visibility=good; detectability=high",
+      "valid_time_ct": "2026-09-07T08:07:11.158583-05:00/2026-09-07T08:07:31.293989-05:00",
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
+      "age_minutes": 56.5,
+      "qc_health": "capture_ok; matching 08:07:06.238525 capture identity across status/burst/vision; 3 frames; daylight; visibility=good; detectability=moderate",
       "units": "categorical",
       "timezone_datum_depth": "America/Chicago; visual only",
       "shoreline_cell": "Montrose",
       "independence_group": "montrose_owner_cluster",
       "admitted_status": "ADMITTED",
-      "observation": "Slight ripple; no visible fish surface activity/jumps/gulping, shrimp surface activity, swimming/climbing crabs, shoreline accumulation, bird feeding, people, flashlights, clustered search behavior, collecting, or temporal Jubilee signal. Overall=no_event_evidence_in_visible_area; confidence=0.97."
+      "observation": "slight ripple; no resolved fish surfacing/gulping, shrimp surface concentration, swimming crabs, bird feeding, people, flashlights, clustered search behavior, collecting, or temporal Jubilee signal. Overall=no_event_evidence_in_visible_area; confidence=0.96."
     },
     {
       "source": "bentsmith4/jubilee-camera-feed status.json + burst_status.json + vision.json",
       "station_camera": "pcl_e2_back_deck",
       "parameter_evidence_type": "private_camera_three_frame_burst",
       "observed_vs_model": "observed_visual",
-      "valid_time_ct": "2026-09-07T07:47:49.235815-05:00/2026-09-07T07:48:09.235815-05:00",
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
-      "age_minutes": 10.6,
-      "qc_health": "capture_ok; matching 07:47:05.623027 capture identity across status/burst/vision; 3 frames; daylight; visibility=good; detectability=moderate",
+      "valid_time_ct": "2026-09-07T08:07:49.640330-05:00/2026-09-07T08:08:09.640330-05:00",
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
+      "age_minutes": 55.9,
+      "qc_health": "capture_ok; matching 08:07:06.238525 capture identity across status/burst/vision; 3 frames; daylight; visibility=good; detectability=moderate",
       "units": "categorical",
       "timezone_datum_depth": "America/Chicago; visual only",
       "shoreline_cell": "Point Clear",
       "independence_group": "point_clear_landing_owner_cluster",
       "admitted_status": "ADMITTED",
-      "observation": "Stable marina with slight ripple; no identifiable biological surface activity or human response across the temporal burst. Overall=no_event_evidence_in_visible_area; confidence=0.95."
+      "observation": "slight ripple; no resolved fish surfacing/gulping, shrimp surface concentration, swimming crabs, bird feeding, people, flashlights, clustered search behavior, collecting, or temporal Jubilee signal. Overall=no_event_evidence_in_visible_area; confidence=0.94. Negative scope excludes unseen close beach/swash areas."
     },
     {
       "source": "bentsmith4/jubilee-camera-feed status.json + burst_status.json + vision.json",
       "station_camera": "pcl_e2_bay_mouth",
       "parameter_evidence_type": "private_camera_three_frame_burst",
       "observed_vs_model": "observed_visual",
-      "valid_time_ct": "2026-09-07T07:48:16.317123-05:00/2026-09-07T07:48:36.458963-05:00",
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
-      "age_minutes": 10.2,
-      "qc_health": "capture_ok; matching 07:47:05.623027 capture identity across status/burst/vision; 3 frames; daylight; visibility=good; detectability=moderate",
+      "valid_time_ct": "2026-09-07T08:08:16.826740-05:00/2026-09-07T08:08:36.954188-05:00",
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
+      "age_minutes": 55.5,
+      "qc_health": "capture_ok; matching 08:07:06.238525 capture identity across status/burst/vision; 3 frames; daylight; visibility=good; detectability=moderate",
       "units": "categorical",
       "timezone_datum_depth": "America/Chicago; visual only",
       "shoreline_cell": "Point Clear",
       "independence_group": "point_clear_landing_owner_cluster",
       "admitted_status": "ADMITTED",
-      "observation": "Slight ripple; no recognizable fish, shrimp, crabs, bottom-fauna displacement, bird feeding, human response, repeated/increasing surface activity, or search behavior. Overall=no_event_evidence_in_visible_area; confidence=0.90."
+      "observation": "slight ripple; no resolved fish surfacing/gulping, shrimp surface concentration, swimming crabs, bird feeding, people, flashlights, clustered search behavior, collecting, or temporal Jubilee signal. Overall=no_event_evidence_in_visible_area; confidence=0.93. Negative scope excludes unseen close beach/swash areas."
     },
     {
       "source": "bentsmith4/jubilee-camera-feed status.json + burst_status.json + vision.json",
       "station_camera": "montrose_shoreline",
       "parameter_evidence_type": "private_camera_three_frame_burst",
       "observed_vs_model": "observed_visual",
-      "valid_time_ct": "2026-09-07T07:48:45.492434-05:00/2026-09-07T07:49:05.613193-05:00",
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
-      "age_minutes": 9.7,
-      "qc_health": "capture_ok; matching 07:47:05.623027 capture identity across status/burst/vision; 3 frames; daylight; visibility=fair; detectability=moderate; strong sun glare/reflection treated as confounder",
+      "valid_time_ct": "2026-09-07T08:08:45.839956-05:00/2026-09-07T08:09:05.972972-05:00",
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
+      "age_minutes": 55,
+      "qc_health": "capture_ok; matching 08:07:06.238525 capture identity across status/burst/vision; 3 frames; daylight; visibility=fair; detectability=moderate; glare/reflection treated as confounder",
       "units": "categorical",
       "timezone_datum_depth": "America/Chicago; visual only",
       "shoreline_cell": "Montrose",
       "independence_group": "montrose_owner_cluster",
       "admitted_status": "ADMITTED_WITH_GLARE_CAVEAT",
-      "observation": "Slight ripple with glare/reflection; no resolved fish, shrimp, crabs, shoreline concentration, birds, people, collecting, search behavior, or temporal Jubilee signal. Overall=no_event_evidence_in_visible_area; confidence=0.90."
+      "observation": "slight ripple; no resolved fish surfacing/gulping, shrimp surface concentration, swimming crabs, bird feeding, people, flashlights, clustered search behavior, collecting, or temporal Jubilee signal. Overall=no_event_evidence_in_visible_area; confidence=0.91. Negative scope is limited to the visible 437 shoreline segments."
     },
     {
       "source": "bentsmith4/jubilee-camera-feed status.json + burst_status.json + vision.json",
       "station_camera": "pcl_e3_bay_mouth",
       "parameter_evidence_type": "private_camera_three_frame_burst",
       "observed_vs_model": "observed_visual",
-      "valid_time_ct": "2026-09-07T07:49:23.032148-05:00/2026-09-07T07:49:43.032148-05:00",
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
-      "age_minutes": 9.0,
-      "qc_health": "capture_ok; matching 07:47:05.623027 capture identity across status/burst/vision; 3 frames; daylight; visibility=good; detectability=moderate",
+      "valid_time_ct": "2026-09-07T08:09:23.794602-05:00/2026-09-07T08:09:43.794602-05:00",
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
+      "age_minutes": 54.3,
+      "qc_health": "capture_ok; matching 08:07:06.238525 capture identity across status/burst/vision; 3 frames; daylight; visibility=good; detectability=moderate",
       "units": "categorical",
       "timezone_datum_depth": "America/Chicago; visual only",
       "shoreline_cell": "Point Clear",
       "independence_group": "point_clear_landing_owner_cluster",
       "admitted_status": "ADMITTED",
-      "observation": "Stable marina with slight ripple; no visible fish, shrimp, crabs, bottom fauna, feeding birds, people, or repeated/increasing biological surface activity. Overall=no_event_evidence_in_visible_area; confidence=0.95."
+      "observation": "slight ripple; no resolved fish surfacing/gulping, shrimp surface concentration, swimming crabs, bird feeding, people, flashlights, clustered search behavior, collecting, or temporal Jubilee signal. Overall=no_event_evidence_in_visible_area; confidence=0.96. Negative scope excludes unseen close beach/swash areas."
     },
     {
       "source": "bentsmith4/jubilee-camera-feed status.json + burst_status.json + vision.json",
       "station_camera": "montrose_pier_bird",
       "parameter_evidence_type": "private_camera_three_frame_burst",
       "observed_vs_model": "observed_visual",
-      "valid_time_ct": "2026-09-07T07:49:50.046044-05:00/2026-09-07T07:50:10.175966-05:00",
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
-      "age_minutes": 8.6,
-      "qc_health": "capture_ok; matching 07:47:05.623027 capture identity across status/burst/vision; 3 frames; daylight; visibility=good; detectability=high",
+      "valid_time_ct": "2026-09-07T08:09:50.984618-05:00/2026-09-07T08:10:11.125094-05:00",
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
+      "age_minutes": 53.9,
+      "qc_health": "capture_ok; matching 08:07:06.238525 capture identity across status/burst/vision; 3 frames; daylight; visibility=good; detectability=high",
       "units": "categorical",
       "timezone_datum_depth": "America/Chicago; visual only",
       "shoreline_cell": "Montrose",
       "independence_group": "montrose_owner_cluster",
       "admitted_status": "ADMITTED",
-      "observation": "Slight ripple; no visible fish/shrimp/crabs, bird feeding, people, flashlights, collecting, or repeated/increasing biological activity. Overall=no_event_evidence_in_visible_area; confidence=0.98."
+      "observation": "slight ripple; no resolved fish surfacing/gulping, shrimp surface concentration, swimming crabs, bird feeding, people, flashlights, clustered search behavior, collecting, or temporal Jubilee signal. Overall=no_event_evidence_in_visible_area; confidence=0.96."
     },
     {
       "source": "Hazcams public viewer https://hazcams.com/station/point-clear-al-us-001",
@@ -146,9 +147,9 @@
       "parameter_evidence_type": "public_camera_observation_only/freshness",
       "observed_vs_model": "public_viewer_metadata_and_observed_still",
       "valid_time_ct": "2026-09-07T05:56:55-05:00",
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
-      "age_minutes": 121.9,
-      "qc_health": "viewer displayed 2026-09-07 10:56:55 with unlabeled timezone; owner rule provisionally interprets as UTC because material offset matches UTC/CDT, converting to 05:56:55 CDT; viewed still is nighttime-consistent but >60-minute freshness gate; station latency not measured",
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
+      "age_minutes": 187.2,
+      "qc_health": "viewer displayed 2026-09-07 10:56:55 with unlabeled timezone; owner rule provisionally interprets the approximately five-hour offset as UTC, converting to 05:56:55 CDT; timestamp remained unchanged at 09:04 CDT check and is >3 hours old; station latency not measured; visual content not assessed after freshness failed",
       "units": "categorical",
       "timezone_datum_depth": "display timezone inferred UTC from offset pattern; converted to America/Chicago; visual only",
       "shoreline_cell": "Point Clear",
@@ -166,7 +167,8 @@
       "overall_event_signal": "unknown",
       "confidence": null,
       "media_retained": false,
-      "retrospective_visual_review_available": false
+      "retrospective_visual_review_available": false,
+      "observation": "Freshness failed at metadata gate; no current biological or human-behavior inference made."
     },
     {
       "source": "Hazcams public viewer https://hazcams.com/station/fairhope-al-us-001",
@@ -174,9 +176,9 @@
       "parameter_evidence_type": "public_camera_observation_only/freshness",
       "observed_vs_model": "public_viewer_metadata_and_observed_still",
       "valid_time_ct": "2026-09-07T05:56:55-05:00",
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
-      "age_minutes": 121.9,
-      "qc_health": "viewer displayed 2026-09-07 10:56:55 with unlabeled timezone; owner rule provisionally interprets as UTC because material offset matches UTC/CDT, converting to 05:56:55 CDT; viewed still is nighttime-consistent but >60-minute freshness gate; station latency not measured",
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
+      "age_minutes": 187.2,
+      "qc_health": "viewer displayed 2026-09-07 10:56:55 with unlabeled timezone; owner rule provisionally interprets the approximately five-hour offset as UTC, converting to 05:56:55 CDT; timestamp remained unchanged at 09:04 CDT check and is >3 hours old; station latency not measured; visual content not assessed after freshness failed",
       "units": "categorical",
       "timezone_datum_depth": "display timezone inferred UTC from offset pattern; converted to America/Chicago; visual only",
       "shoreline_cell": "Fairhope",
@@ -194,7 +196,8 @@
       "overall_event_signal": "unknown",
       "confidence": null,
       "media_retained": false,
-      "retrospective_visual_review_available": false
+      "retrospective_visual_review_available": false,
+      "observation": "Freshness failed at metadata gate; no current biological or human-behavior inference made."
     },
     {
       "source": "City of Fairhope official Piercam https://www.fairhopeal.gov/visiting/piercam",
@@ -202,16 +205,17 @@
       "parameter_evidence_type": "public_camera_viewer_health/freshness",
       "observed_vs_model": "public_viewer_access",
       "valid_time_ct": null,
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
       "age_minutes": null,
-      "qc_health": "validated official viewer page accessible; embedded playback/source-capture clock and defensible temporal sequence were not recovered in this run",
+      "qc_health": "validated official viewer page accessible at 09:04 CDT; embedded source-capture clock and defensible temporal sequence were not available through the permitted text-access path; Fairhope camera contract excludes both north and south beach views",
       "units": "categorical",
       "timezone_datum_depth": null,
       "shoreline_cell": "Fairhope",
       "independence_group": "fairhope_city_pier_physical_camera",
       "admitted_status": "UNKNOWN",
       "media_retained": false,
-      "retrospective_visual_review_available": false
+      "retrospective_visual_review_available": false,
+      "observation": "No current observation admitted; no unseen-beach negative inferred."
     },
     {
       "source": "FOX10 validated Daphne Delta public viewer/YouTube page",
@@ -219,7 +223,7 @@
       "parameter_evidence_type": "public_camera_viewer_health/freshness",
       "observed_vs_model": "public_viewer_access",
       "valid_time_ct": null,
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
       "age_minutes": null,
       "qc_health": "canonical registry source remains validated; current playback/source-capture time was not recovered in this run",
       "units": "categorical",
@@ -237,14 +241,14 @@
       "parameter_evidence_type": "marine_wind_wave_rain_forecast",
       "observed_vs_model": "official_forecast",
       "valid_time_ct": "2026-09-07 daytime",
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
-      "age_minutes": null,
-      "qc_health": "official forecast issued 02:41 CDT Sep 7; admitted as forecast guidance only, not observed weather or observed rainfall",
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
+      "age_minutes": 383.1,
+      "qc_health": "official marine forecast issued 02:41 CDT Sep 7 remains valid for the daytime period; this run did not recover a newer marine issuance, so it is retained only as labeled forecast guidance",
       "units": "knots; feet; categorical precipitation",
       "timezone_datum_depth": "America/Chicago; surface/marine forecast",
       "shoreline_cell": "Northern Mobile Bay / bay-wide weather context",
       "independence_group": "NWS_GMZ630",
-      "admitted_status": "ADMITTED_FORECAST_GUIDANCE",
+      "admitted_status": "ADMITTED_FORECAST_GUIDANCE_WITH_RETRIEVAL_CAVEAT",
       "observation": "NW around 5 kt becoming NE around 5 kt late morning, then S early afternoon increasing 5-10 kt late; waves <=1 ft/light chop; showers/thunderstorms possible later. This row makes no claim of observed rain."
     },
     {
@@ -252,15 +256,16 @@
       "station_camera": "KBFM Mobile Downtown Airport",
       "parameter_evidence_type": "observed_wind_weather_rain",
       "observed_vs_model": "observation",
-      "valid_time_ct": null,
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
-      "age_minutes": null,
-      "qc_health": "a defensibly current official observation was not recovered in this run; cached pages were not admitted as current",
-      "units": "unknown",
-      "timezone_datum_depth": "surface meteorology",
+      "valid_time_ct": "2026-09-07T07:53:00-05:00",
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
+      "age_minutes": 71.1,
+      "qc_health": "official NWS observation: Fair, 81 F, N wind 5 mph, visibility 10 mi; 71 minutes old at retrieval and therefore excluded from fresh observed-state inference; precipitation amount not reported on the recovered page",
+      "units": "degF; mph; statute miles",
+      "timezone_datum_depth": "America/Chicago; surface meteorology",
       "shoreline_cell": "Bay-wide weather context",
       "independence_group": "KBFM_ASOS",
-      "admitted_status": "UNKNOWN"
+      "admitted_status": "UNKNOWN_STALE",
+      "observation": "Fair; 81 F; north wind 5 mph; visibility 10 mi at 07:53 CDT. Not fresh enough for current-state admission."
     },
     {
       "source": "NOAA CO-OPS Tide Predictions",
@@ -283,29 +288,30 @@
       "parameter_evidence_type": "observed_water_level",
       "observed_vs_model": "observation",
       "valid_time_ct": null,
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
       "age_minutes": null,
-      "qc_health": "Point Clear station is historical/removed and no current direct CO-OPS water-level observation at this station was available",
+      "qc_health": "official NOAA Point Clear prediction station identity and MLLW reference verified; current-date numerical high/low series was not recovered directly from the authoritative NOAA feed in this run; secondary tide values were not substituted",
       "units": "feet when available",
       "timezone_datum_depth": "water level; datum unresolved because no current observation",
       "shoreline_cell": "Point Clear",
       "independence_group": "NOAA_COOPS_8733821_observation",
-      "admitted_status": "UNKNOWN_UNAVAILABLE"
+      "admitted_status": "UNKNOWN_NUMERICAL_VALUE"
     },
     {
       "source": "USGS 02470629 Mobile River at Bucks, AL",
       "station_camera": "02470629",
       "parameter_evidence_type": "lower_river_discharge_stage_velocity",
       "observed_vs_model": "observation",
-      "valid_time_ct": null,
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
-      "age_minutes": null,
-      "qc_health": "official USGS current page reports no gage height, discharge, tidally filtered discharge, or mean water velocity recorded in the last 7 days",
-      "units": "cfs/ft/ft-s when available",
+      "valid_time_ct": "2026-09-06T06:30:00-05:00",
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
+      "age_minutes": 1594.1,
+      "qc_health": "official USGS page reports most recent instantaneous record at 06:30 CDT Sep 6; gage height 2.09 ft; discharge and mean velocity display equipment/missing-value code rather than usable numbers; tidally filtered discharge temporarily unavailable; all are stale for current forcing",
+      "units": "ft for gage height; discharge/velocity unavailable",
       "timezone_datum_depth": "station observation; lag to Eastern Shore must be treated separately",
       "shoreline_cell": "Lower river forcing / Upper Mobile Bay",
       "independence_group": "USGS_02470629",
-      "admitted_status": "UNKNOWN_NO_CURRENT_DATA"
+      "admitted_status": "UNKNOWN_STALE_AND_PARTIAL",
+      "observation": "A stale 2.09 ft gage-height reading exists; no current usable discharge, tide-filtered discharge, or mean velocity. Any lag to Eastern Shore remains uninterpreted."
     },
     {
       "source": "Weeks Bay NERR WKQA1 via official NDBC/NERR feed",
@@ -313,8 +319,8 @@
       "parameter_evidence_type": "regional_water_quality_proxy_DO_salinity_temperature",
       "observed_vs_model": "observation",
       "valid_time_ct": "2026-09-06T10:00:00-05:00",
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
-      "age_minutes": 1318.8,
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
+      "age_minutes": 1384.1,
       "qc_health": "latest recovered observation is nearly 22 hours old and regional rather than direct Point Clear/Daphne bottom water; excluded from current oxygen/reload inference",
       "units": "degF; psu; ppm; percent; ft",
       "timezone_datum_depth": "America/Chicago; reported depth 7.5 ft",
@@ -329,8 +335,8 @@
       "parameter_evidence_type": "bay_context_meteorology",
       "observed_vs_model": "observation",
       "valid_time_ct": "2026-09-07T05:30:00-05:00",
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
-      "age_minutes": 148.8,
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
+      "age_minutes": 214.1,
       "qc_health": "latest recovered report is >2 hours old; no current water-level value recovered; not admitted as fresh current bay context",
       "units": "degF; nautical miles where reported",
       "timezone_datum_depth": "America/Chicago; surface meteorology",
@@ -344,8 +350,8 @@
       "parameter_evidence_type": "bay_mouth_context",
       "observed_vs_model": "observation",
       "valid_time_ct": "2026-09-07T01:00:00-05:00",
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
-      "age_minutes": 418.8,
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
+      "age_minutes": 484.1,
       "qc_health": "latest recovered report is nearly 7 hours old; excluded from fresh current bay-mouth state",
       "units": "knots; degF; hPa where reported",
       "timezone_datum_depth": "America/Chicago; surface/bay-mouth context",
@@ -359,9 +365,9 @@
       "parameter_evidence_type": "modeled_water_level_currents_temperature_salinity",
       "observed_vs_model": "model_guidance",
       "valid_time_ct": null,
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
       "age_minutes": null,
-      "qc_health": "current numerical model guidance was not defensibly recovered in this run",
+      "qc_health": "current numerical NGOFS2 model guidance was not defensibly recovered in this run",
       "units": "not available",
       "timezone_datum_depth": "model guidance only; no observation substitution",
       "shoreline_cell": "Point Clear/Mobile Bay",
@@ -373,10 +379,10 @@
       "station_camera": "same-day Eastern Shore human/social sensor",
       "parameter_evidence_type": "same_day_jubilee_report_verification",
       "observed_vs_model": "public_report_search",
-      "valid_time_ct": "2026-09-07T00:00:00-05:00/2026-09-07T07:58:46-05:00",
-      "retrieval_time_ct": "2026-09-07T07:58:46-05:00",
-      "age_minutes": 0.0,
-      "qc_health": "searched public/indexed sources for contemporaneous first-person Jubilee evidence; returned items were older/background rather than a credible same-day event report; absence of a public hit is not proof of no event",
+      "valid_time_ct": "2026-09-07T00:00:00-05:00/2026-09-07T09:04:04-05:00",
+      "retrieval_time_ct": "2026-09-07T09:04:04-05:00",
+      "age_minutes": 0,
+      "qc_health": "fresh searches of indexed legitimate public/news/social sources found older or background Jubilee material but no credible same-day first-person event report with current location, time, species and behavior; absence of a public hit is not proof of no event",
       "units": "categorical",
       "timezone_datum_depth": "America/Chicago",
       "shoreline_cell": "Eastern Shore multi-cell",
@@ -392,27 +398,60 @@
       "independence_group": "grand_hotel_awn_hazcams_unresolved_mirror_group",
       "shoreline_cell": "Point Clear",
       "public_viewer_url": "https://hazcams.com/station/point-clear-al-us-001",
-      "check_time_ct": "2026-09-07T07:58:46-05:00",
+      "check_time_ct": "2026-09-07T09:04:04-05:00",
       "source_capture_time": "2026-09-07T05:56:55-05:00",
-      "freshness_basis": "Displayed 10:56:55 with unlabeled timezone; inferred UTC because the material offset matches UTC/CDT and converted to 05:56:55 CDT. Nighttime appearance is consistent with that converted time, but age is 121.9 minutes, so current freshness fails.",
+      "freshness_basis": "Viewer still displayed 2026-09-07 10:56:55 in an unlabeled timezone. Under the owner rule, the approximately five-hour offset is provisionally inferred as UTC, converting to 05:56:55 CDT. The timestamp was unchanged and 187.2 minutes old at the check, so freshness failed.",
       "media_type": "still",
       "observation_duration_seconds": 0,
-      "visibility": "broad scene visible but stale",
-      "glare": "not_material_to_staleness_decision",
-      "darkness": "nighttime_consistent_with_inferred_capture_time",
-      "visible_shoreline_scope": "Broad Grand Hotel/bay grounds and water; shallow shoreline biology not resolved at useful scale.",
-      "shrimp_like_activity": {"status": "not_assessable", "description": "Stale broad still; shrimp-scale activity cannot support a current inference."},
-      "diving_or_feeding_birds": {"status": "not_assessable", "description": "Stale still and no temporal sequence; motion claim not supportable."},
-      "fish_surfacing_or_gulping": {"status": "not_assessable", "description": "Stale broad still; current surfacing/gulping cannot be assessed."},
-      "swimming_crabs": {"status": "not_assessable", "description": "Stale view and below useful scale."},
-      "shoreline_animal_concentrations": {"status": "not_assessable", "description": "Shallow contact strip not resolved and view is stale."},
-      "people_collecting": {"status": "not_assessable", "description": "Stale single still cannot establish collecting behavior."},
-      "searching_or_flashlights": {"status": "not_assessable", "description": "Stale single still cannot establish search motion; fixed lighting may confound."},
+      "visibility": "not_assessed_this_check_after_freshness_failed",
+      "glare": "not_assessable",
+      "darkness": "not_assessable",
+      "visible_shoreline_scope": "Viewer is contractually a broad Point Clear/bay proxy; current visible content was not evaluated after freshness failed.",
+      "shrimp_like_activity": {
+        "status": "not_assessable",
+        "description": "Stale still; no current inference."
+      },
+      "diving_or_feeding_birds": {
+        "status": "not_assessable",
+        "description": "Stale still and no temporal sequence."
+      },
+      "fish_surfacing_or_gulping": {
+        "status": "not_assessable",
+        "description": "Stale still and no temporal sequence."
+      },
+      "swimming_crabs": {
+        "status": "not_assessable",
+        "description": "Stale view and below useful scale."
+      },
+      "shoreline_animal_concentrations": {
+        "status": "not_assessable",
+        "description": "Stale view; shallow contact strip not resolved."
+      },
+      "people_present": {
+        "status": "not_assessable",
+        "description": "Stale still; no current inference."
+      },
+      "flashlights": {
+        "status": "not_assessable",
+        "description": "Stale still; no current inference."
+      },
+      "clustered_search_behavior": {
+        "status": "not_assessable",
+        "description": "Motion/behavior requires fresh temporal evidence."
+      },
+      "people_collecting": {
+        "status": "not_assessable",
+        "description": "Behavior requires fresh temporal evidence."
+      },
+      "searching_or_flashlights": {
+        "status": "not_assessable",
+        "description": "Stale still; searching requires temporal evidence."
+      },
       "overall": "unknown",
       "confidence": null,
       "media_retained": false,
       "retrospective_visual_review_available": false,
-      "notes": "Actual permitted viewer check performed. No third-party media retained."
+      "notes": "Permitted viewer metadata check only. No third-party media retained."
     },
     {
       "camera_id": "fairhope_awn_public",
@@ -420,27 +459,60 @@
       "independence_group": "fairhope_awn_hazcams_physical_camera",
       "shoreline_cell": "Fairhope",
       "public_viewer_url": "https://hazcams.com/station/fairhope-al-us-001",
-      "check_time_ct": "2026-09-07T07:58:46-05:00",
+      "check_time_ct": "2026-09-07T09:04:04-05:00",
       "source_capture_time": "2026-09-07T05:56:55-05:00",
-      "freshness_basis": "Displayed 10:56:55 with unlabeled timezone; inferred UTC because the material offset matches UTC/CDT and converted to 05:56:55 CDT. Nighttime appearance is consistent with that converted time, but age is 121.9 minutes, so current freshness fails.",
+      "freshness_basis": "Viewer still displayed 2026-09-07 10:56:55 in an unlabeled timezone. Under the owner rule, the approximately five-hour offset is provisionally inferred as UTC, converting to 05:56:55 CDT. The timestamp was unchanged and 187.2 minutes old at the check, so freshness failed.",
       "media_type": "still",
       "observation_duration_seconds": 0,
-      "visibility": "broad Fairhope Pier/bay scene visible but stale",
-      "glare": "not_material_to_staleness_decision",
-      "darkness": "nighttime_consistent_with_inferred_capture_time",
-      "visible_shoreline_scope": "Broad Fairhope Pier, adjacent foreground and bay; not a close-up of the shallow shoreline contact strip.",
-      "shrimp_like_activity": {"status": "not_assessable", "description": "Stale broad still; shrimp-scale activity cannot support a current inference."},
-      "diving_or_feeding_birds": {"status": "not_assessable", "description": "Stale still and no temporal sequence; motion claim not supportable."},
-      "fish_surfacing_or_gulping": {"status": "not_assessable", "description": "Stale broad still; current surfacing/gulping cannot be assessed."},
-      "swimming_crabs": {"status": "not_assessable", "description": "Stale view and below useful scale."},
-      "shoreline_animal_concentrations": {"status": "not_assessable", "description": "Shallow contact strip not sufficiently resolved and view is stale."},
-      "people_collecting": {"status": "not_assessable", "description": "Stale single still cannot establish collecting behavior."},
-      "searching_or_flashlights": {"status": "not_assessable", "description": "Stale single still cannot establish search motion; fixed lighting may confound."},
+      "visibility": "not_assessed_this_check_after_freshness_failed",
+      "glare": "not_assessable",
+      "darkness": "not_assessable",
+      "visible_shoreline_scope": "Viewer is contractually a broad Fairhope Pier/bay proxy and shows neither north nor south beach; current visible content was not evaluated after freshness failed.",
+      "shrimp_like_activity": {
+        "status": "not_assessable",
+        "description": "Stale still; no current inference."
+      },
+      "diving_or_feeding_birds": {
+        "status": "not_assessable",
+        "description": "Stale still and no temporal sequence."
+      },
+      "fish_surfacing_or_gulping": {
+        "status": "not_assessable",
+        "description": "Stale still and no temporal sequence."
+      },
+      "swimming_crabs": {
+        "status": "not_assessable",
+        "description": "Stale view and below useful scale."
+      },
+      "shoreline_animal_concentrations": {
+        "status": "not_assessable",
+        "description": "No beach shoreline scope; stale still."
+      },
+      "people_present": {
+        "status": "not_assessable",
+        "description": "Stale still; no current inference."
+      },
+      "flashlights": {
+        "status": "not_assessable",
+        "description": "Stale still; no current inference."
+      },
+      "clustered_search_behavior": {
+        "status": "not_assessable",
+        "description": "Motion/behavior requires fresh temporal evidence."
+      },
+      "people_collecting": {
+        "status": "not_assessable",
+        "description": "Behavior requires fresh temporal evidence."
+      },
+      "searching_or_flashlights": {
+        "status": "not_assessable",
+        "description": "Stale still; searching requires temporal evidence."
+      },
       "overall": "unknown",
       "confidence": null,
       "media_retained": false,
       "retrospective_visual_review_available": false,
-      "notes": "Actual permitted viewer check performed. No third-party media retained."
+      "notes": "Permitted viewer metadata check only. No third-party media retained; no unseen-beach negative inferred."
     }
   ]
 }
