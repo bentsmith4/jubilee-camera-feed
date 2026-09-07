@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.1",
+  "schema_version": "1.2",
   "policy_issue": "PUBLIC-CAM-001",
   "policy_status": "retention_permission_deferred_observation_only",
   "media_retained": false,
@@ -547,6 +547,159 @@
       "media_retained": false,
       "retrospective_visual_review_available": false,
       "notes": "Permitted viewer metadata check only. No third-party media retained; no unseen-beach negative inferred."
+    },
+    {
+      "source_capture_time": null,
+      "exact_source_delay_seconds": null,
+      "page_update_timestamp_raw": null,
+      "page_timestamp_semantics": "unverified; not used as capture time",
+      "media_type": "video",
+      "inspection_method": "two transient visual samples plus read-only live-player DOM metadata; no continuous-video recording",
+      "freshness_state": "probably_fresh",
+      "freshness_basis": "New public live session, advancing playback and live seekable endpoint, visible flag progression; precise upstream delay unknown.",
+      "visibility": "good",
+      "darkness": "none",
+      "illumination_state": "daylight",
+      "overall": "no_event_evidence_in_visible_area",
+      "confidence": null,
+      "media_retained": false,
+      "retrospective_visual_review_available": false,
+      "water_surface_state": "slight_ripple",
+      "training_control_eligible": false,
+      "notes": "Scoped daytime contextual observation only. No Jubilee absence inferred for unseen beach or earlier morning. No media saved to model repository or Library.",
+      "camera_id": "grand_hotel_public",
+      "physical_camera_identity": "Hazcams Point Clear Grand Hotel",
+      "independence_group": "grand_hotel_awn_hazcams_unresolved_mirror_group",
+      "shoreline_cell": "Point Clear",
+      "public_viewer_url": "https://hazcams.com/station/point-clear-al-us-001",
+      "check_time_ct": "2026-09-07T10:28:51-05:00",
+      "observation_start_ct": "2026-09-07T10:28:25-05:00",
+      "observation_end_ct": "2026-09-07T10:28:51-05:00",
+      "observation_duration_seconds": 26,
+      "live_indicator": "Stream Type LIVE; playing, readyState 4, 1920x1080",
+      "playback_samples": [
+        {
+          "time": 50.461595,
+          "seekable_end": 68.210503
+        },
+        {
+          "time": 76.500953,
+          "seekable_end": 98.160503
+        }
+      ],
+      "visible_scope": "Broad bay, flag, foreground vegetation/grounds and central pole; shallow sand-water contact strip obscured.",
+      "flag_motion_strength": "light",
+      "flag_direction_class": null,
+      "people_present": {
+        "status": "not_observed",
+        "description": "No clearly resolved person in sampled visible grounds."
+      },
+      "diving_or_feeding_birds": {
+        "status": "not_assessable",
+        "description": "No obvious concentration visible; sparse samples do not establish diving/feeding absence."
+      },
+      "shoreline_animal_concentrations": {
+        "status": "not_assessable",
+        "description": "Contact strip not resolved."
+      },
+      "observation": "Daylight broad bay with rippled water and changing flag shape. No obvious collecting group or biological concentration in visible sampled areas."
+    },
+    {
+      "source_capture_time": null,
+      "exact_source_delay_seconds": null,
+      "page_update_timestamp_raw": null,
+      "page_timestamp_semantics": "unverified; not used as capture time",
+      "media_type": "video",
+      "inspection_method": "two transient visual samples plus read-only live-player DOM metadata; no continuous-video recording",
+      "freshness_state": "probably_fresh",
+      "freshness_basis": "New public live session, advancing playback and live seekable endpoint, visible flag progression; precise upstream delay unknown.",
+      "visibility": "good",
+      "darkness": "none",
+      "illumination_state": "daylight",
+      "overall": "no_event_evidence_in_visible_area",
+      "confidence": null,
+      "media_retained": false,
+      "retrospective_visual_review_available": false,
+      "water_surface_state": "slight_ripple",
+      "training_control_eligible": false,
+      "notes": "Scoped daytime contextual observation only. No Jubilee absence inferred for unseen beach or earlier morning. No media saved to model repository or Library.",
+      "camera_id": "fairhope_awn_public",
+      "physical_camera_identity": "Hazcams Fairhope public view",
+      "independence_group": "fairhope_awn_hazcams_physical_camera",
+      "shoreline_cell": "Fairhope",
+      "public_viewer_url": "https://hazcams.com/station/fairhope-al-us-001",
+      "check_time_ct": "2026-09-07T10:28:43-05:00",
+      "observation_start_ct": "2026-09-07T10:28:34-05:00",
+      "observation_end_ct": "2026-09-07T10:28:43-05:00",
+      "observation_duration_seconds": 9,
+      "live_indicator": "Seek to live, currently playing live (disabled); playing, readyState 4, 1920x1080",
+      "playback_samples": [
+        {
+          "time": 30.930163,
+          "seekable_end": 42
+        },
+        {
+          "time": 39.949488,
+          "seekable_end": 54
+        }
+      ],
+      "visible_scope": "Parking areas, fountain, pier entrance/part of pier, flag and broad bay; neither beach visible.",
+      "shoreline_directly_visible": false,
+      "vehicle_count": null,
+      "vehicle_density_vs_expected": "unknown",
+      "person_count": null,
+      "people_present": {
+        "status": "observed",
+        "description": "Small figures near pier approach; exact count and activity unresolved."
+      },
+      "flag_motion_strength": "moderate",
+      "flag_direction_class": null,
+      "people_collecting": {
+        "status": "not_assessable",
+        "description": "No identifiable nets/gigs or collecting behavior in sampled views; distant people not resolvable."
+      },
+      "diving_or_feeding_birds": {
+        "status": "not_assessable",
+        "description": "No obvious concentration; no defensible feeding-rate assessment from sparse samples."
+      },
+      "observation": "Numerous parked vehicles; moving road vehicle and changing flag shape between samples. Water visibly rippled. Daytime parking is not classified as unusual without a baseline."
+    }
+  ],
+  "live_player_freshness_policy": {
+    "checks": [
+      "Observe player state (LIVE/live-position control), advancing playback and seekable endpoint across two samples, and actual visible scene progression.",
+      "Use roughly 10–30 seconds between observations when possible. Measure actual interval; do not claim continuous viewing between sampled inspections.",
+      "A fresh live session with advancing frames and advancing live window near its endpoint supports probably_fresh live observation; total source-to-view delay remains unknown.",
+      "An unlabelled Update Timestamp is not a capture timestamp until its semantics are independently established. UTC conversion is an assumption, not proof of image age.",
+      "If live playback is verified despite ambiguous metadata, admit scoped qualitative observations as probably_fresh, exact delay unknown. If only a still or page text is accessible, freshness=unknown, not stale merely from the page clock.",
+      "Use stale only with established capture-age evidence; use frozen only with sufficient playback/scene evidence. A motionless scene alone need not be frozen.",
+      "Do not promote these observations into clean training controls or change predictor weights without the existing validation gates."
+    ],
+    "historical_correction": "Earlier September 7 stale-image conclusions based solely on the Hazcams page Update Timestamp are unverified. Preserve original records; reinterpret freshness as unknown unless independent capture evidence exists. No retrospective conversion to fresh observations.",
+    "method": "Inspect permitted live player directly; page/search text and preview stills alone do not verify video freshness.",
+    "required_fields": [
+      "check_time_ct",
+      "observation_start_ct",
+      "observation_end_ct",
+      "source_capture_time",
+      "page_update_timestamp_raw",
+      "page_timestamp_semantics",
+      "live_indicator",
+      "playback_samples",
+      "freshness_state",
+      "exact_source_delay_seconds",
+      "visible_scope",
+      "media_retained"
+    ],
+    "retention": "Retain structured observations and playback metadata only in the model. Transient visual inspection is not an image archive; do not save/download/upload media to repository, Library or other storage.",
+    "version": "2026-09-07-live-player-v1"
+  },
+  "corrections": [
+    {
+      "recorded_at_ct": "2026-09-07T10:29:00-05:00",
+      "scope": "September 7 Hazcams records using page Update Timestamp as capture time",
+      "correction": "Earlier September 7 stale-image conclusions based solely on the Hazcams page Update Timestamp are unverified. Preserve original records; reinterpret freshness as unknown unless independent capture evidence exists. No retrospective conversion to fresh observations.",
+      "original_records_preserved": true
     }
   ]
 }
