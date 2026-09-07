@@ -1,0 +1,15 @@
+{
+  "schema_version":"1.0",
+  "production_action":"NO_CHANGE",
+  "purpose":"Order historical environmental recovery by expected value for Jubilee mechanism calibration, not ease of discovery.",
+  "priority":[
+    {"rank":1,"source_id":"ncei_0188979_mobile_bay_moored_ctd_2016","why":"Three in-Bay moorings with DO/salinity/temp/depth during Jubilee season; strongest direct hypoxic-reservoir calibration candidate.","next":"recover modern archive payload route; hash raw files; normalize exact station/depth/time/QC"},
+    {"rank":2,"source_id":"ncei_0224293_middle_bay_lighthouse_2019","why":"Hourly multi-depth hydrography plus meteorology; strong restratification/mixing calibration even though not an event year.","next":"recover payload and normalize hydrographic depths separately from met"},
+    {"rank":3,"source_id":"griidc_r4_x260_204_0033_focal_do_2016","why":"Six-depth offshore DO/temperature boundary series during summer 2016; tests whether low-oxygen reservoir state extends toward shelf boundary.","next":"use GRIIDC/ERDDAP or documented dataset access; retain as offshore PROXY"},
+    {"rank":4,"source_id":"griidc_r4_x260_000_0106_focal_2016_hydro_current","why":"ADCP plus CTD/temperature profile provides current/stratification boundary context paired with FOCAL DO.","next":"normalize current vectors and vertical hydrography with exact depths"},
+    {"rank":5,"source_id":"griidc_r4_x260_000_0055_main_pass_2016","why":"Bay-mouth CTD profiles include DO/salinity/temp and plume structure.","next":"ingest CNV casts and preserve cast coordinates/times/depths"},
+    {"rank":6,"source_id":"ncei_0176497_pelagia_mobile_bay_ctd_2016","why":"270 direct in-Bay CTD casts across multiple July dates.","next":"recover raw payload and normalize cast profiles"},
+    {"rank":7,"source_id":"ncei_0203749_west_end_cp_2004_2018","why":"Long shelf-boundary current/stratification context; useful for climatology but less direct to shoreline Jubilee contact.","next":"ingest only after higher-value in-Bay series"}
+  ],
+  "admission_rule":"A registry entry is not ingested until immutable raw hash, parser, normalized rows and provenance manifest exist."
+}

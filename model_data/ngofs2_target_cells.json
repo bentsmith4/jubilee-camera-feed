@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.1",
+  "created_at": "2026-09-07",
+  "purpose": "Auditable public target geometry for NGOFS2 shoreline-cell transport extraction. Coordinates are public landmarks/localities, never private-home coordinates; MODEL guidance only.",
+  "default_offshore_offsets_km": [0.25, 0.75, 1.5, 3.0],
+  "targets": [
+    {
+      "cell": "Daphne/May Day",
+      "target_name": "May Day Park",
+      "lat": 30.59908,
+      "lon": -87.91313,
+      "coordinate_basis": "public May Day Park coordinate",
+      "shoreward_bearing_deg_true": 90.0,
+      "offshore_bearing_deg_true": 270.0,
+      "bearing_status": "provisional_eastern_shore_normal"
+    },
+    {
+      "cell": "Montrose",
+      "target_name": "Montrose public locality",
+      "lat": 30.56575,
+      "lon": -87.90166,
+      "coordinate_basis": "public USGS/GNIS Montrose locality coordinate; used only as a public starting anchor for westward wet-grid selection and not as the owner-home location",
+      "shoreward_bearing_deg_true": 90.0,
+      "offshore_bearing_deg_true": 270.0,
+      "bearing_status": "provisional_eastern_shore_normal",
+      "implementation_rule": "Selected wet NGOFS2 nodes are public MODEL grid locations near the Montrose shoreline cell; never describe the public locality coordinate as the 437 property coordinate."
+    },
+    {
+      "cell": "Fairhope/Fly Creek/Pier",
+      "target_name": "Fairhope Municipal Pier",
+      "lat": 30.52500,
+      "lon": -87.91492,
+      "coordinate_basis": "public Fairhope Municipal Pier coordinate",
+      "shoreward_bearing_deg_true": 90.0,
+      "offshore_bearing_deg_true": 270.0,
+      "bearing_status": "provisional_eastern_shore_normal"
+    },
+    {
+      "cell": "Battles Wharf",
+      "target_name": "Battles Wharf",
+      "lat": 30.49436,
+      "lon": -87.92777,
+      "coordinate_basis": "public USGS/GNIS locality coordinate",
+      "shoreward_bearing_deg_true": 90.0,
+      "offshore_bearing_deg_true": 270.0,
+      "bearing_status": "provisional_eastern_shore_normal"
+    },
+    {
+      "cell": "Point Clear/Grand Hotel",
+      "target_name": "NOAA/NGOFS2 Point Clear target",
+      "lat": 30.48664,
+      "lon": -87.93453,
+      "coordinate_basis": "verified public NOAA Point Clear target",
+      "shoreward_bearing_deg_true": 90.0,
+      "offshore_bearing_deg_true": 270.0,
+      "bearing_status": "existing_provisional_west_facing_shoreline_normal"
+    },
+    {
+      "cell": "Mullet Point",
+      "target_name": "Mullet Point Park",
+      "lat": 30.41658,
+      "lon": -87.90817,
+      "coordinate_basis": "public Mullet Point Park/boat-launch coordinate",
+      "shoreward_bearing_deg_true": 90.0,
+      "offshore_bearing_deg_true": 270.0,
+      "bearing_status": "provisional_requires_local_shoreline_normal_sensitivity"
+    }
+  ],
+  "guardrails": [
+    "Coordinates select MODEL extraction transects; they are not Jubilee event locations.",
+    "Do not expose or infer a private owner-home coordinate for regular-grid research.",
+    "Select multiple wet grid nodes along each public-anchor offshore transect rather than silently substituting a distant named station.",
+    "Preserve exact selected grid-node coordinates, bathymetry, node-to-target distance and extraction cycle in manifests.",
+    "Run shoreline-normal sensitivity at plus/minus 15 degrees before assigning production weight.",
+    "No transport predictor receives positive production weight without held-out incremental value."
+  ]
+}

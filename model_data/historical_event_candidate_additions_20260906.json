@@ -1,7 +1,8 @@
 {
-  "schema_version": "1.1",
+  "schema_version": "1.3",
   "created_at": "2026-09-06",
-  "purpose": "New event and near-miss evidence identified after the consolidation sprint. Candidates remain staged until canonical deduplication/admission review.",
+  "updated_at": "2026-09-07",
+  "purpose": "New event, near-miss, and aggregate historical evidence identified after the consolidation sprint. Candidates remain staged until canonical deduplication/admission review.",
   "candidates": [
     {
       "candidate_event_id": "1971-08-07-point-clear-corridor",
@@ -35,13 +36,35 @@
       "notes": "Exceptionally valuable event because May measured DO during the Jubilee in 1.5 m water."
     },
     {
+      "candidate_event_id": "2017-08-26-or-27-eastern-shore-mini-jubilee",
+      "possible_event_dates_ct": ["2017-08-26", "2017-08-27"],
+      "date_precision": "weekend_window_from_first_person_post",
+      "classification_candidate": "confirmed_jubilee_date_window_location_unresolved",
+      "location": {"label": "along Mobile Bay / Eastern Shore context", "precision": "regional_first_person_account_only"},
+      "evidence": [{
+        "type": "first_person_local_blog_report",
+        "publisher": "Mobile Bay Runner / Sam Yeager-Allen",
+        "published_at": "2017-08-27",
+        "claimed_event_time": "this weekend",
+        "species_behavior": ["tons of crabs", "a few shrimp", "flounder", "eels"],
+        "human_activity": "tons of people out along the bay watching the jubilee",
+        "media_presence": true,
+        "first_person_vs_repost": "first_person",
+        "independence_group": "2017_08_mobile_bay_runner_mini_jubilee",
+        "source_url": "https://mobilebayrunner.com/2017/08/",
+        "retrieval_date": "2026-09-06"
+      }],
+      "confidence": 0.94,
+      "admission_note": "The Aug. 27 post is strong occurrence evidence, but 'this weekend' does not resolve Saturday Aug. 26 versus Sunday Aug. 27 and the text does not provide a precise shoreline cell. Keep staged until an independent contemporaneous source or geolocated original media resolves date/location. Do not archive the copyrighted image."
+    },
+    {
       "candidate_event_id": "2025-08-05-fairhope",
       "claimed_event_date_ct": "2025-08-05",
       "classification_candidate": "confirmed_jubilee",
       "location": {"label": "Fairhope", "precision": "local_tv_viewer_video_location"},
       "evidence": [{"type": "same_day_local_tv_viewer_submitted_video", "publisher": "WALA FOX10", "poster_or_submitter": "Gavin Applewhite", "publisher_time_ct": "2025-08-05T12:19:00-05:00", "claimed_event_time": "same day; exact capture time not stated in article text", "media_presence": true, "first_person_vs_repost": "viewer-submitted source media published by local TV", "independence_group": "2025_08_05_gavin_applewhite_fox10", "source_url": "https://www.fox10tv.com/2025/08/05/watch-viewer-submitted-video-shows-jubilee-mobile-bay/", "retrieval_date": "2026-09-06"}],
       "confidence": 0.94,
-      "admission_note": "Strong same-day date/location evidence and appears distinct from Jul 17 and Jul 24. Verify capture date is not recycled before canonical admission; do not archive copyrighted video."
+      "admission_note": "Strong publication-date/location evidence and appears distinct from Jul 17 and Jul 24. Exact capture date/time is not stated in the article text, so retain staged until source media metadata or an independent contemporaneous account resolves that ambiguity. Do not archive copyrighted video."
     }
   ],
   "near_miss_candidates": [
@@ -56,5 +79,38 @@
       "confidence": 0.995,
       "source_url": "https://doi.org/10.4319/lo.1973.18.3.0353"
     }
-  ]
+  ],
+  "aggregate_historical_benchmarks": [
+    {
+      "benchmark_id": "mobile_press_register_1946_1971_aggregate",
+      "period": "1946-1971",
+      "reported_jubilees": 135,
+      "location_counts": {"eastern_shore": 129, "northwestern_shore": 5, "southern_bon_secour_bay": 1},
+      "average_reported_per_year": 5,
+      "maximum_reported_year": {"year": 1959, "count": 15},
+      "source_chain": "Mobile Press Register 26-year clipping record summarized in the U.S. EPA Environmental, Geologic and Hydrologic Study of South Mobile County, Alabama; consistent with the long historical record discussed by May (1973).",
+      "source_url": "https://nepis.epa.gov/Exe/ZyPURL.cgi?Dockey=94008ZPX.TXT",
+      "evidence_strength": "government_technical_report_summarizing_contemporaneous_newspaper_record",
+      "use": "aggregate calibration/check on event-database recall and Eastern-Shore reporting concentration only",
+      "guardrail": "Do not create 135 event rows from this aggregate. Recover individual dates/locations independently before event admission; historical reporting effort is nonuniform."
+    }
+  ],
+  "historical_count_audit": {
+    "target_source": "Harold Loesch, Ecology 41:292-298 (1960), reported 1946-1956 Jubilee study",
+    "primary_event_table_status": "not_recovered",
+    "secondary_source_discrepancy": [
+      {
+        "claim": "35 reported occurrences from 1946 through 1956, none in 1954, ten in 1950",
+        "source": "Carter R. Gilbert, A Mass Inshore Movement of Fishes on the Florida Coast, explicitly citing Loesch (1960)",
+        "source_url": "https://www.nativefishlab.net/library/textpdf/16992.pdf",
+        "evidence_strength": "secondary_scientific_source_directly_citing_loesch"
+      },
+      {
+        "claim": "37 events with month totals June 8, July 3, August 21, September 5",
+        "source": "widely repeated modern summaries attributed to Loesch",
+        "evidence_strength": "tertiary_summary_not_sufficient_for_event_rows"
+      }
+    ],
+    "rule": "Do not manufacture 35 or 37 dated event rows. Recover Loesch's original article/table or contemporaneous reports and reconcile the count discrepancy first."
+  }
 }

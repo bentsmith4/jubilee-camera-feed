@@ -1,19 +1,33 @@
-name: Jubilee sensing quality and river forcing
+name: Jubilee sensing quality and environmental forcing
 on:
   workflow_dispatch:
   push:
-    branches: [main, upgrade/sensing-audit-20260906]
+    branches: [main, upgrade/sensing-audit-20260906, upgrade/top5-gaps-round2-20260906]
     paths:
       - 'model_data/audit_sensing.py'
       - 'model_data/build_readiness.py'
+      - 'model_data/build_observation_effort_snapshot.py'
+      - 'model_data/build_historical_recovery_status.py'
+      - 'model_data/reconcile_source_registry.py'
       - 'model_data/camera_sources.json'
+      - 'model_data/private_camera_signal_contracts.json'
+      - 'model_data/public_camera_signal_contracts.json'
       - 'model_data/ingest_river_forcing.py'
+      - 'model_data/ingest_weeks_bay_realtime.py'
+      - 'model_data/ingest_ngofs2_point_clear.py'
+      - 'model_data/ingest_ngofs2_mobile_bay_named_stations.py'
+      - 'model_data/ingest_ngofs2_shoreline_grid.py'
+      - 'model_data/ngofs2_target_cells.json'
+      - 'model_data/ingest_griidc_main_pass_20160419.py'
+      - 'model_data/promote_may1971_events.py'
       - 'model_data/ingest_water_quality.py'
       - 'model_data/backtest_water_quality.py'
+      - 'model_data/human_observation_recovery_20260907.json'
       - 'tools/desktop_preflight.ps1'
       - 'tests/**'
       - 'desktop_runtime/**'
       - 'requirements-tests.txt'
+      - 'requirements-model-data.txt'
       - '.github/workflows/sensing_quality.yml'
   schedule:
     - cron: '37 */3 * * *'
@@ -25,7 +39,7 @@ concurrency:
 jobs:
   validate-and-sense:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,8 +48,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install image-validation test dependency
-        run: python -m pip install -r requirements-tests.txt
+      - name: Install validated test and model-data dependencies
+        run: python -m pip install -r requirements-tests.txt -r requirements-model-data.txt
       - name: Run offline regression tests
         run: |
           python - <<'PY'
@@ -48,6 +62,12 @@ jobs:
           pathlib.Path('model_data/upgrade_test_report.json').write_text(json.dumps(report, indent=2) + '\n')
           if not result.wasSuccessful(): sys.exit(1)
           PY
+      - name: Promote reviewed historical primary/source-resolved events on top-five research branch
+        if: github.ref_name == 'upgrade/top5-gaps-round2-20260906'
+        run: python model_data/promote_may1971_events.py
+      - name: Build historical recovery diagnostic on top-five research branch
+        if: github.ref_name == 'upgrade/top5-gaps-round2-20260906'
+        run: python model_data/build_historical_recovery_status.py
       - name: Check desktop preflight PowerShell syntax without running it
         shell: pwsh
         run: |
@@ -63,16 +83,30 @@ jobs:
           snapshot="$RUNNER_TEMP/jubilee-camera-audit"
           mkdir -p "$snapshot/model_data"
           cp model_data/camera_sources.json "$snapshot/model_data/"
-          # Keep the expected-device audit honest: copy every owner camera's
-          # latest image from current main. Omitting a camera here creates a
-          # false publication-integrity failure even when production is healthy.
           for f in status.json burst_status.json vision.json montrose_pier_boat.jpg montrose_pier_bird.jpg montrose_shoreline.jpg pcl_e2_back_deck.jpg pcl_e2_bay_mouth.jpg pcl_e3_bay_mouth.jpg; do
             if ! git show "origin/main:$f" > "$snapshot/$f"; then rm -f "$snapshot/$f"; fi
           done
           python model_data/audit_sensing.py --root "$snapshot" --out model_data/sensing_audit.json
       - name: Retrieve and validate public river data
         run: python model_data/ingest_river_forcing.py --days 16
-      - name: Verify revised historical ingest and diagnostics on upgrade branch
+      - name: Retrieve Weeks Bay realtime water quality and meteorology
+        run: python model_data/ingest_weeks_bay_realtime.py
+      - name: Retrieve Point Clear NGOFS2 antecedent transport guidance
+        run: python model_data/ingest_ngofs2_point_clear.py --cast nowcast
+      - name: Retrieve Point Clear NGOFS2 forward transport guidance
+        run: python model_data/ingest_ngofs2_point_clear.py --cast forecast
+      - name: Retrieve wider Mobile Bay NGOFS2 named-station nowcast guidance
+        run: python model_data/ingest_ngofs2_mobile_bay_named_stations.py --cast nowcast
+      - name: Retrieve wider Mobile Bay NGOFS2 named-station forecast guidance
+        run: python model_data/ingest_ngofs2_mobile_bay_named_stations.py --cast forecast
+      - name: Retrieve Eastern Shore NGOFS2 regular-grid transects
+        run: python model_data/ingest_ngofs2_shoreline_grid.py --casts nowcast,forecast
+      - name: Ingest static Main Pass 2016 CTD profiles on top-five research branch
+        if: github.ref_name == 'upgrade/top5-gaps-round2-20260906'
+        run: python model_data/ingest_griidc_main_pass_20160419.py
+      - name: Reconcile canonical source registry from completed ingestions
+        run: python model_data/reconcile_source_registry.py
+      - name: Verify revised historical ingest and diagnostics on sensing-audit branch
         if: github.ref_name == 'upgrade/sensing-audit-20260906'
         run: |
           python model_data/ingest_water_quality.py
@@ -89,8 +123,30 @@ jobs:
             model_data/upgrade_readiness.json
             model_data/coverage_snapshot.json
             model_data/sensing_audit.json
+            model_data/event_history.json
+            model_data/historical_recovery_status.json
+            model_data/human_observation_recovery_20260907.json
+            model_data/ongoing_source_registry_20260906.json
             model_data/river_forcing_manifest.json
             model_data/river_forcing_normalized.csv
+            model_data/weeks_bay_realtime_manifest.json
+            model_data/weeks_bay_realtime_normalized.csv
+            model_data/ngofs2_point_clear_manifest.json
+            model_data/ngofs2_point_clear_nowcast_manifest.json
+            model_data/ngofs2_point_clear_nowcast_normalized.csv
+            model_data/ngofs2_point_clear_forecast_manifest.json
+            model_data/ngofs2_point_clear_forecast_normalized.csv
+            model_data/ngofs2_mobile_bay_named_stations_nowcast_manifest.json
+            model_data/ngofs2_mobile_bay_named_stations_nowcast_normalized.csv
+            model_data/ngofs2_mobile_bay_named_stations_forecast_manifest.json
+            model_data/ngofs2_mobile_bay_named_stations_forecast_normalized.csv
+            model_data/ngofs2_shoreline_grid_manifest.json
+            model_data/ngofs2_shoreline_grid_normalized.csv
+            model_data/ngofs2_shoreline_grid_features.csv
+            model_data/griidc_main_pass_20160419_manifest.json
+            model_data/griidc_main_pass_20160419_normalized.csv
+            model_data/observation_effort_snapshot.json
+            model_data/observation_effort_ledger.jsonl
             model_data/water_quality_ingest_manifest.json
             model_data/water_quality_backtest.json
             model_data/public_archive/
@@ -110,11 +166,31 @@ jobs:
           git config user.name 'jubilee-model-bot'
           git config user.email 'actions@users.noreply.github.com'
           git add model_data/upgrade_test_report.json model_data/upgrade_readiness.json model_data/coverage_snapshot.json model_data/sensing_audit.json model_data/river_forcing_manifest.json model_data/public_archive/
+          if [ "$REF_NAME" = 'upgrade/top5-gaps-round2-20260906' ] || [ "$REF_NAME" = 'main' ]; then
+            git add model_data/event_history.json model_data/historical_recovery_status.json model_data/human_observation_recovery_20260907.json model_data/ongoing_source_registry_20260906.json model_data/weeks_bay_realtime_normalized.csv
+            for f in model_data/ngofs2_point_clear_nowcast_normalized.csv model_data/ngofs2_point_clear_forecast_normalized.csv; do
+              if [ -f "$f" ]; then git add "$f"; fi
+            done
+            for f in model_data/ngofs2_mobile_bay_named_stations_nowcast_manifest.json model_data/ngofs2_mobile_bay_named_stations_forecast_manifest.json model_data/ngofs2_mobile_bay_named_stations_nowcast_normalized.csv model_data/ngofs2_mobile_bay_named_stations_forecast_normalized.csv model_data/ngofs2_shoreline_grid_manifest.json model_data/ngofs2_shoreline_grid_normalized.csv model_data/ngofs2_shoreline_grid_features.csv; do
+              if [ -f "$f" ]; then git add "$f"; fi
+            done
+            if [ -d model_data/public_archive/ngofs2_named_station_subset ]; then git add model_data/public_archive/ngofs2_named_station_subset/; fi
+            if [ -d model_data/public_archive/ngofs2_shoreline_grid_subset ]; then git add model_data/public_archive/ngofs2_shoreline_grid_subset/; fi
+            if [ -f model_data/griidc_main_pass_20160419_manifest.json ]; then git add model_data/griidc_main_pass_20160419_manifest.json; fi
+            if [ -f model_data/griidc_main_pass_20160419_normalized.csv ]; then git add model_data/griidc_main_pass_20160419_normalized.csv; fi
+            if [ -d model_data/public_archive/griidc_main_pass_20160419 ]; then git add model_data/public_archive/griidc_main_pass_20160419/; fi
+          fi
+          if [ -f model_data/weeks_bay_realtime_manifest.json ]; then git add model_data/weeks_bay_realtime_manifest.json; fi
+          for f in model_data/ngofs2_point_clear_manifest.json model_data/ngofs2_point_clear_nowcast_manifest.json model_data/ngofs2_point_clear_forecast_manifest.json; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
+          if [ -d model_data/public_archive/ndbc ]; then git add model_data/public_archive/ndbc/; fi
+          if [ -d model_data/public_archive/ngofs2_subset ]; then git add model_data/public_archive/ngofs2_subset/; fi
           if [ "$REF_NAME" = 'upgrade/sensing-audit-20260906' ]; then
             git add model_data/water_quality_ingest_manifest.json model_data/water_quality_backtest.json
           fi
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'Record verified sensing audit and immutable public data snapshot'
+          git commit -m 'Record verified sensing audit and environmental data snapshot'
           for attempt in 1 2 3; do
             git pull --rebase origin "$REF_NAME"
             if git push origin "HEAD:$REF_NAME"; then exit 0; fi

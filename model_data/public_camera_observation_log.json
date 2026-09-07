@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "policy_issue": "PUBLIC-CAM-001",
   "policy_status": "retention_permission_deferred_observation_only",
   "media_retained": false,
@@ -24,12 +24,34 @@
     "check_time_ct": "ISO-8601 with America/Chicago offset",
     "source_capture_time": "ISO-8601 or null",
     "freshness_basis": "string or null",
+    "freshness_state": "fresh|probably_fresh|stale|frozen|unknown",
     "media_type": "still|video",
     "observation_duration_seconds": "number or null",
-    "visibility": "string",
-    "glare": "string",
-    "darkness": "string",
-    "visible_shoreline_scope": "string",
+    "visibility": "poor|fair|good|unknown",
+    "illumination_state": "dark|predawn_partial|first_usable_light|daylight|unknown",
+    "glare": "none|possible|strong|unknown",
+    "darkness": "none|partial|strong|unknown",
+    "visible_scope": "free text describing only what the frame can actually assess",
+    "shoreline_directly_visible": "true|false|partial|unknown",
+    "vehicle_count": "integer or null",
+    "vehicle_density_vs_expected": "low|normal|unusually_high|unknown|not_assessable",
+    "person_count": "integer or null",
+    "person_density_vs_expected": "low|normal|unusually_high|unknown|not_assessable",
+    "people_looking_at_water": {
+      "status": "allowed_status_values",
+      "description": "string"
+    },
+    "people_collecting": {
+      "status": "allowed_status_values",
+      "description": "string"
+    },
+    "searching_or_flashlights": {
+      "status": "allowed_status_values",
+      "description": "string"
+    },
+    "water_surface_state": "flat|slight_ripple|moderate_chop|choppy|unknown",
+    "flag_direction_class": "free text qualitative direction or null",
+    "flag_motion_strength": "still|light|moderate|strong|unknown|not_assessable",
     "shrimp_like_activity": {
       "status": "allowed_status_values",
       "description": "string"
@@ -50,19 +72,26 @@
       "status": "allowed_status_values",
       "description": "string"
     },
-    "people_collecting": {
-      "status": "allowed_status_values",
-      "description": "string"
-    },
-    "searching_or_flashlights": {
-      "status": "allowed_status_values",
-      "description": "string"
-    },
     "overall": "event_evidence_present|no_event_evidence_in_visible_area|unknown",
     "confidence": "0..1 or null",
     "media_retained": false,
     "retrospective_visual_review_available": false,
     "notes": "string"
+  },
+  "camera_specific_rules": {
+    "fairhope_municipal_pier_public": [
+      "No north or south beach is visible; shoreline_directly_visible=false.",
+      "Primary predawn signals are unusual vehicle/person density, people with lights looking at water, and sustained search behavior.",
+      "Use water surface and flag motion/direction as qualitative environmental proxies.",
+      "Biological activity around the pier is useful when resolvable.",
+      "No unusual pier activity is never a Fairhope beach non-event."
+    ],
+    "grand_hotel_public": [
+      "Use the west-southwest Bay view, Grand Hotel pier, Point Clear headland, central osprey pole and flag as fixed references.",
+      "Flag direction/strength remain qualitative until calibrated against independent wind observations.",
+      "A negative applies only to the actually visible WSW Bay/activity frame; unseen Point Clear/Zundel's/Mullet Point shoreline remains UNKNOWN.",
+      "Do not retain media without explicit rights."
+    ]
   },
   "guardrails": [
     "Use only permitted public viewing paths.",
@@ -74,8 +103,9 @@
     "Missing, stale, frozen, dark or poorly visible views must be overall=unknown.",
     "Rebroadcasts of the same physical camera share one independence_group and count once.",
     "Principal dawn assessment uses the first usable observation at/after civil dawn; if still too dark, biological evidence is UNKNOWN and daylight follow-up should use the dawn+20-minute observation.",
-    "If an unlabeled displayed camera time differs materially from Central Time by approximately the current UTC offset, provisionally interpret it as UTC for freshness testing and record that the timezone was inferred; if visual or other evidence contradicts that interpretation, freshness remains UNKNOWN.",
-    "Do not invent historical checks or contact camera owners."
+    "No person identification or cross-camera identity tracking.",
+    "Do not invent historical checks or contact camera owners.",
+    "If an unlabeled displayed camera time differs materially from Central Time by approximately the current UTC offset, provisionally interpret it as UTC for freshness testing and record that the timezone was inferred; if visual or other evidence contradicts that interpretation, freshness remains UNKNOWN."
   ],
   "records": [
     {

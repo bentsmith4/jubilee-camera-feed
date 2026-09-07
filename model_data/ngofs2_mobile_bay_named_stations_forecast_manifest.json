@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.1",
+  "cast": "forecast",
+  "retrieved_at": "2026-09-07T06:25:27.583104+00:00",
+  "status": "complete",
+  "evidence_class": "MODEL",
+  "production_action": "NO_CHANGE",
+  "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/07/ngofs2.t03z.20260907.stations.forecast.nc",
+  "model_initialized_at": "2026-09-07T03:00:00+00:00",
+  "failed_newer_attempts": [],
+  "station_count": 5,
+  "stations": [
+    {
+      "target_station_id": "8733502",
+      "target_label": "Fly Creek",
+      "model_station_name": "Blakeley Pass Entran",
+      "station_index": 192,
+      "resolution_basis": "nearest_verified_coordinate",
+      "distance_to_official_coordinate_km": 8.9585,
+      "target_lat": 30.5428,
+      "target_lon": -87.901,
+      "lat": 30.619604110717773,
+      "lon": -87.92926025390625,
+      "source_lon": 272.07073974609375,
+      "bathymetry_m": 1.5,
+      "surface_sigma_index": 0,
+      "bottom_sigma_index": 39,
+      "cell_roles": [
+        "Montrose:nearby_model_proxy",
+        "Fairhope/Fly Creek/Pier:in_cell_model_point",
+        "Daphne/May Day:southern_proxy"
+      ],
+      "proxy_distance_warning": true
+    },
+    {
+      "target_station_id": "8733821",
+      "target_label": "Point Clear",
+      "model_station_name": "8733821 Pt Clear, MB",
+      "station_index": 93,
+      "resolution_basis": "station_id",
+      "distance_to_official_coordinate_km": 0.3116,
+      "target_lat": 30.486639,
+      "target_lon": -87.934528,
+      "lat": 30.489032745361328,
+      "lon": -87.93621826171875,
+      "source_lon": 272.06378173828125,
+      "bathymetry_m": 1.8300000429153442,
+      "surface_sigma_index": 0,
+      "bottom_sigma_index": 39,
+      "cell_roles": [
+        "Point Clear/Grand Hotel:in_cell_model_point",
+        "Battles Wharf:nearby_model_proxy"
+      ],
+      "proxy_distance_warning": false
+    },
+    {
+      "target_station_id": "8732828",
+      "target_label": "Weeks Bay",
+      "model_station_name": "8732828 Weeks Bay, A",
+      "station_index": 5,
+      "resolution_basis": "station_id",
+      "distance_to_official_coordinate_km": 0.3866,
+      "target_lat": 30.4167,
+      "target_lon": -87.825,
+      "lat": 30.413742065429688,
+      "lon": -87.82711791992188,
+      "source_lon": 272.1728820800781,
+      "bathymetry_m": 2.069999933242798,
+      "surface_sigma_index": 0,
+      "bottom_sigma_index": 39,
+      "cell_roles": [
+        "Mullet Point:regional_model_proxy",
+        "Bay mouth:upper_boundary_context"
+      ],
+      "proxy_distance_warning": false
+    },
+    {
+      "target_station_id": "8733839",
+      "target_label": "Meaher State Park",
+      "model_station_name": "MHPA1_C Meaher Park,",
+      "station_index": 87,
+      "resolution_basis": "nearest_verified_coordinate",
+      "distance_to_official_coordinate_km": 0.1031,
+      "target_lat": 30.667167,
+      "target_lon": -87.936444,
+      "lat": 30.666362762451172,
+      "lon": -87.93698120117188,
+      "source_lon": 272.0630187988281,
+      "bathymetry_m": 3.799999952316284,
+      "surface_sigma_index": 0,
+      "bottom_sigma_index": 39,
+      "cell_roles": [
+        "Daphne/May Day:northern_model_proxy",
+        "Montrose:northern_context"
+      ],
+      "proxy_distance_warning": false
+    },
+    {
+      "target_station_id": "8735181",
+      "target_label": "Dauphin Island Hydro",
+      "model_station_name": "DPHA1_C Dauphin Is,",
+      "station_index": 90,
+      "resolution_basis": "nearest_verified_coordinate",
+      "distance_to_official_coordinate_km": 0.3229,
+      "target_lat": 30.251319,
+      "target_lon": -88.079486,
+      "lat": 30.253950119018555,
+      "lon": -88.07806396484375,
+      "source_lon": 271.92193603515625,
+      "bathymetry_m": 1.7799999713897705,
+      "surface_sigma_index": 0,
+      "bottom_sigma_index": 39,
+      "cell_roles": [
+        "Bay mouth:boundary_model_point",
+        "shelf:near_mouth_context"
+      ],
+      "proxy_distance_warning": false
+    }
+  ],
+  "unresolved_targets": [],
+  "normalized_rows": 21645,
+  "subset_sha256": "9be8f851db8c8b526d6ea5bb9b10ef109032859a52ff670f44bde6cb356102cb",
+  "subset_archive": "public_archive/ngofs2_named_station_subset/9be8f851db8c8b526d6ea5bb9b10ef109032859a52ff670f44bde6cb356102cb.json.gz",
+  "normalized_csv": "ngofs2_mobile_bay_named_stations_forecast_normalized.csv",
+  "guardrails": [
+    "All values are MODEL guidance, not observations.",
+    "Exact station-ID/name matches are reserved before proximity proxies are assigned.",
+    "Cell roles are explicit named-point proxies until shoreline regular-grid extraction is validated.",
+    "No station negative or model state is a Jubilee non-event label.",
+    "No production weight without held-out incremental value.",
+    "Public station coordinates only; no private-property coordinates are stored."
+  ]
+}

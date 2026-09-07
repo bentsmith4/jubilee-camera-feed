@@ -1,7 +1,8 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "created_at": "2026-09-06",
-  "purpose": "Verified additions/clarifications for incorporation into the canonical ongoing source registry; discovery alone is not ingestion.",
+  "updated_at": "2026-09-06",
+  "purpose": "Verified additions/clarifications for incorporation into the canonical ongoing source registry; discovery alone is not ingestion. Each record explicitly states whether a reproducible parser and normalized observations exist.",
   "sources": [
     {
       "source_id": "nerrs_weeks_bay_wkqa1",
@@ -14,10 +15,11 @@
       "cadence_minutes": 15,
       "current_health_verified": true,
       "verified_on": "2026-09-06",
-      "freshness_basis": "NDBC station page showed same-day 15-minute observations",
-      "quality_basis": "NERRS SWMP data use automated primary QA/QC plus reserve/CDMO secondary and tertiary QA/QC; historical data are distributed through CDMO",
+      "freshness_basis": "NDBC station page and realtime WKQA1.ocean endpoint showed same-day 15-minute observations",
+      "quality_basis": "NDBC realtime automated QC; final NERRS/CDMO archive receives additional reserve/CDMO QA/QC",
       "production_role": "high-frequency Weeks Bay/Fish River direct observation; PROXY for Eastern Shore open-bay bottom state, never local Montrose/Point Clear bottom DO",
-      "ingestion_status": "verified_endpoint_not_yet_normalized_into_canonical_pipeline"
+      "ingestion_status": "parser_implemented_on_upgrade_branch_pending_ci_and_merge",
+      "ingestor": "model_data/ingest_weeks_bay_realtime.py"
     },
     {
       "source_id": "nerrs_weeks_bay_wkxa1",
@@ -29,7 +31,9 @@
       "variables": ["wind_direction", "wind_speed", "gust", "pressure", "air_temperature", "dew_point"],
       "current_health_verified": true,
       "verified_on": "2026-09-06",
-      "production_role": "local Weeks Bay meteorology/context; not a direct Eastern Shore shoreline wind measurement"
+      "production_role": "local Weeks Bay meteorology/context; not a direct Eastern Shore shoreline wind measurement",
+      "ingestion_status": "parser_implemented_on_upgrade_branch_pending_ci_and_merge",
+      "ingestor": "model_data/ingest_weeks_bay_realtime.py"
     },
     {
       "source_id": "noaa_ngofs2_thredds_operational_and_archive",
@@ -39,22 +43,149 @@
       "variables": ["water_level", "current_velocity", "water_temperature", "salinity"],
       "cycles_per_day": 4,
       "forecast_horizon_hours": 48,
-      "operational_access": [
-        "CO-OPS THREDDS/OpenDAP",
-        "NCEP NOMADS NetCDF"
-      ],
-      "historical_access": "NCEI THREDDS NGOFS2 archive includes 2021-2026 model directories as of verification",
-      "verified_file_example": "ngofs2.t09z.20260626.fields.n006.nc",
-      "regular_grid_schema_verified": {"temperature": "time x Depth x ny x nx", "salinity": "time x Depth x ny x nx"},
-      "mobile_bay_points_documented": ["Point Clear", "Weeks Bay", "Meaher State Park", "Mobile Bay Light", "Dauphin Island Hydro", "Mobile Bay Point", "Mobile Bay Entrance"],
+      "operational_access": ["CO-OPS THREDDS/OpenDAP", "NCEP NOMADS NetCDF"],
+      "historical_access": "NCEI THREDDS NGOFS2 archive",
+      "verified_schemas": ["stations.forecast", "regulargrid", "unstructured fields"],
+      "mobile_bay_points_documented": ["Point Clear", "Weeks Bay", "Meaher State Park", "Middle Bay Light", "Mobile Bay Light", "Dauphin Island Hydro", "Mobile Bay Point", "Mobile Bay Entrance"],
       "observation_status": "MODEL",
       "production_role": "shoreward-transport/current and vertical salinity/temperature guidance after cell-specific spatial extraction and held-out validation",
-      "ingestion_status": "verified_reproducible_archived_endpoint_extraction_code_pending"
+      "ingestion_status": "access_and_schema_verified_extraction_implementation_pending"
+    },
+    {
+      "source_id": "ncei_0176497_pelagia_mobile_bay_ctd_2016",
+      "provider": "NOAA NCEI / Dauphin Island Sea Lab",
+      "accession": "0176497",
+      "source_class": "historical_direct_mobile_bay_ctd_profiles",
+      "period_of_record": "2016-07-14 to 2016-07-30",
+      "sampling_dates_verified": ["2016-07-14", "2016-07-19", "2016-07-21", "2016-07-28", "2016-07-30"],
+      "variables": ["water_temperature", "salinity", "dissolved_oxygen"],
+      "platform": "small boat Pelagia",
+      "reported_cast_count": 270,
+      "production_role": "historical in-Bay vertical structure and oxygen-state calibration; DIRECT only at cast location/time",
+      "ingestion_status": "metadata_verified_raw_payload_not_ingested",
+      "provenance_note": "Dataset is explicitly cited as supporting data by Coogan, Dzwonkowski & Lehrter (2019)."
+    },
+    {
+      "source_id": "ncei_0188979_mobile_bay_moored_ctd_2016",
+      "provider": "NOAA NCEI / Dauphin Island Sea Lab",
+      "accession": "0188979",
+      "source_class": "historical_direct_mobile_bay_moored_ctd",
+      "period_of_record": "2016-07-12 to 2016-08-02",
+      "station_count": 3,
+      "spatial_bounds": {"west": -87.99866667, "east": -87.92068333, "north": 30.53283333, "south": 30.40488333},
+      "variables": ["salinity", "dissolved_oxygen", "water_temperature", "pressure_or_depth"],
+      "format": "netCDF",
+      "production_role": "P0 historical in-Bay oxygen/stratification calibration; DIRECT only at station/time/depth",
+      "ingestion_status": "metadata_verified_raw_payload_not_ingested"
+    },
+    {
+      "source_id": "ncei_0190491_mobile_bay_small_boat_ctd_2016",
+      "provider": "NOAA NCEI / Dauphin Island Sea Lab",
+      "accession": "0190491",
+      "source_class": "historical_direct_mobile_bay_ctd_surveys",
+      "sampling_dates_verified": ["2016-07-11", "2016-07-16", "2016-07-19"],
+      "variables": ["depth", "dissolved_oxygen", "salinity", "water_temperature"],
+      "format": "netCDF",
+      "spatial_bounds": {"west": -88.318, "east": -88.005, "north": 30.4443, "south": 30.054},
+      "https_archive_access": "https://www.ncei.noaa.gov/archive/accession/download/190491",
+      "legacy_ftp_archive": "ftp://ftp-oceans.ncei.noaa.gov/nodc/archive/arc0139/0190491/",
+      "catalog_license": "CC0/public-domain dedication as published by Data.gov; archive metadata also carries rights restrictions, so preserve source rights metadata with raw payload",
+      "production_role": "historical Mobile Bay oxygen/salinity/temperature profile calibration; DIRECT only at cast location/time",
+      "ingestion_status": "archive_endpoint_verified_raw_payload_not_ingested"
+    },
+    {
+      "source_id": "ncei_0224293_middle_bay_lighthouse_2019",
+      "provider": "NOAA NCEI / Dauphin Island Sea Lab",
+      "accession": "0224293",
+      "source_class": "historical_direct_central_bay_multi_depth_hydrography",
+      "location": {"lat": 30.4367, "lon": -88.0117},
+      "period_of_record": "2019-01-01 to 2019-12-16 overall",
+      "hydrographic_available_period": "2019-01-01 to 2019-07-03 due to instrument failure afterward",
+      "hydrographic_cadence": "hourly at different depths",
+      "meteorological_cadence": "1 minute",
+      "variables": ["water_temperature", "salinity", "dissolved_oxygen", "water_height", "air_temperature", "relative_humidity", "radiation", "barometric_pressure", "wind_speed", "wind_direction", "precipitation"],
+      "instrument": "YSI 6600 EDS for hydrography",
+      "production_role": "historical central-Bay oxygen/mixing/vertical-gradient calibration",
+      "ingestion_status": "metadata_verified_raw_payload_not_ingested"
+    },
+    {
+      "source_id": "ncei_0203749_west_end_cp_2004_2018",
+      "provider": "NOAA NCEI / DISL / University of South Alabama",
+      "accession": "0203749",
+      "doi": "10.25921/zzw6-3q06",
+      "source_class": "historical_shelf_boundary_mooring",
+      "location": {"lat": 30.0902, "lon": -88.2116, "description": "approximately 25 km southwest of Mobile Bay mouth"},
+      "period_of_record": "2004-10-20 to 2018-12-12",
+      "variables": ["temperature", "salinity", "depth", "current_velocity"],
+      "instruments": ["bottom ADCP", "thermistor chain", "surface CTD", "bottom CTD"],
+      "https_archive_access": "https://www.ncei.noaa.gov/archive/accession/download/203749",
+      "legacy_ftp_archive": "ftp://ftp-oceans.ncei.noaa.gov/nodc/archive/arc0146/0203749/",
+      "catalog_license": "CC0/public-domain dedication as published by Data.gov; preserve archive rights metadata with raw files",
+      "production_role": "historical shelf boundary current/stratification context; PROXY for Bay, never local shoreline state",
+      "ingestion_status": "archive_endpoint_verified_raw_payload_not_ingested"
+    },
+    {
+      "source_id": "griidc_r4_x260_000_0106_focal_2016_hydro_current",
+      "provider": "GRIIDC / DISL",
+      "udi": "R4.x260.000:0106",
+      "doi": "10.7266/n7-s40s-3785",
+      "source_class": "historical_shelf_mooring_hydrography_and_current",
+      "location": {"lat": 30.0902, "lon": -88.2116, "description": "FOCAL, 25 km southwest of Mobile Bay mouth"},
+      "period_of_record": "2016-06-21 to 2016-08-19",
+      "variables": ["temperature_profile", "salinity", "current_velocity", "pressure"],
+      "instruments": ["SBE 56 thermistors", "SBE 37 CTD", "RDI 600 kHz ADCP"],
+      "sampling": "thermistors 1 minute then 20-minute averages; CTD 1 minute then 20-minute averages; ADCP 5-minute burst every 20 minutes",
+      "files": 9,
+      "size_mb": 26.82,
+      "production_role": "historical offshore boundary/mixing/transport proxy supporting Coogan et al. 2019",
+      "ingestion_status": "file_schema_and_dataset_verified_individual_download_urls_not_recovered_in_current_runtime"
+    },
+    {
+      "source_id": "griidc_r4_x260_204_0033_focal_do_2016",
+      "provider": "GRIIDC / DISL",
+      "udi": "R4.x260.204:0033",
+      "doi": "10.7266/N7QV3JXD",
+      "source_class": "historical_shelf_multi_depth_dissolved_oxygen_temperature",
+      "location": {"lat": 30.0902, "lon": -88.2116, "water_depth_m": 20},
+      "period_of_record": "2016-07-22 to 2016-08-19",
+      "variables": ["dissolved_oxygen", "water_temperature"],
+      "sensor_count": 6,
+      "files": 6,
+      "size_mb": 743.32,
+      "production_role": "high-value vertical oxygen boundary/context for 2016 Mobile Bay calibration; offshore PROXY",
+      "ingestion_status": "dataset_verified_raw_payload_not_ingested"
+    },
+    {
+      "source_id": "griidc_r4_x260_000_0055_main_pass_2016",
+      "provider": "GRIIDC / DISL",
+      "udi": "R4.x260.000:0055",
+      "doi": "10.7266/N75X279Z",
+      "source_class": "historical_mobile_bay_mouth_ctd",
+      "date": "2016-04-19",
+      "variables": ["depth", "conductivity", "temperature", "salinity", "dissolved_oxygen_mg_l", "dissolved_oxygen_percent", "pH", "beam_attenuation", "beam_transmission", "density"],
+      "files": 29,
+      "size_mb": 4.94,
+      "format": "cnv",
+      "production_role": "historical bay-mouth vertical structure and plume calibration",
+      "ingestion_status": "dataset_and_column_schema_verified_raw_payload_not_ingested"
+    },
+    {
+      "source_id": "noaa_gulf_hypoxia_watch",
+      "provider": "NOAA NCEI / NOAA Fisheries / SEAMAP",
+      "source_class": "annual_near_real_time_shelf_bottom_oxygen_survey",
+      "variables": ["bottom_dissolved_oxygen", "water_temperature", "conductivity", "fluorescence", "transmittance", "water_column_profile"],
+      "period_of_record_context": "mapped historical survey products include 2001-2023; program continues annually",
+      "access": "interactive map plus REST services for download/integration",
+      "geographic_note": "monitoring is concentrated west of Mississippi/Atchafalaya outflows, but NOAA explicitly notes hypoxia occurs east of the Mississippi and can be influenced by Mobile Bay freshwater inputs",
+      "production_role": "seasonal shelf-bottom oxygen context only; not a same-night Eastern Shore observation",
+      "ingestion_status": "rest_access_verified_alabama_subset_extractor_pending"
     }
   ],
   "guardrails": [
     "WKQA1 is direct for its own station, but remains a proxy for open-bay Montrose/Fairhope/Point Clear bottom conditions.",
     "NGOFS2 is MODEL guidance and must never be labeled an observation.",
-    "Do not promote a shoreline-current predictor until cell geometry, vector projection and out-of-sample incremental value are validated."
+    "NCEI/GRIIDC CTD and mooring values are DIRECT only at their documented locations, depths and times; spatial transfer requires an explicit model/proxy designation.",
+    "A discovered dataset or archive endpoint is not an ingested source. Only records with a successful parser, immutable raw hash and normalized rows count as ingested.",
+    "Do not promote a shoreline-current, shelf-oxygen or historical-profile predictor until leakage-safe held-out incremental value is demonstrated."
   ]
 }

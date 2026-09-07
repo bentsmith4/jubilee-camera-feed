@@ -1,0 +1,16 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Extend NGOFS2 transport guidance beyond Point Clear without treating model output as observation.",
+  "production_action": "NO_CHANGE",
+  "cells": [
+    {"cell":"Daphne/May Day","target_name_preferences":["Meaher State Park"],"shoreward_normal":"cell_specific_required","status":"target_registered_pending_extraction"},
+    {"cell":"Montrose","target_name_preferences":["Meaher State Park","Point Clear"],"shoreward_normal":"approximately east but must be geometry-verified","status":"target_registered_pending_spatial_sensitivity"},
+    {"cell":"Fairhope/Fly Creek/Pier","target_name_preferences":["Point Clear","Weeks Bay"],"shoreward_normal":"approximately east but must be geometry-verified","status":"target_registered_pending_spatial_sensitivity"},
+    {"cell":"Battles Wharf","target_name_preferences":["Point Clear"],"shoreward_normal":"approximately east but must be geometry-verified","status":"target_registered_pending_spatial_sensitivity"},
+    {"cell":"Point Clear/Grand Hotel","target_name_preferences":["Point Clear"],"shoreward_normal":"east","status":"operational_station_extractor_verified"},
+    {"cell":"Mullet Point","target_name_preferences":["Weeks Bay","Point Clear"],"shoreward_normal":"cell_specific_required","status":"target_registered_pending_spatial_sensitivity"},
+    {"cell":"Bay mouth","target_name_preferences":["Mobile Bay Point","Mobile Bay Entrance","Dauphin Island Hydro"],"shoreward_normal":"not_a_single_shoreline_normal","status":"context_target_registered"}
+  ],
+  "required_outputs":["surface_and_bottom_eastward_current","surface_and_bottom_northward_current","shoreward_current_where_geometry_defined","surface_and_bottom_salinity","surface_and_bottom_temperature","water_surface_elevation","1h_3h_6h_antecedent_transport","1h_3h_6h_12h_forward_transport"],
+  "guardrails":["MODEL only","No production weight without held-out incremental value","Do not substitute a distant named station for a shoreline cell without explicit distance/sensitivity metadata","Nowcast and forecast remain separate","Preserve model initialization, valid, available and ingested timestamps"]
+}

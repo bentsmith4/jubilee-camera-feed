@@ -1,0 +1,95 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-09-07T14:22:41.166172+00:00",
+  "purpose": "Bias-aware candidates derived from known human checking; no row is a clean training negative yet.",
+  "source": "model_data/human_observation_recovery_20260907.json",
+  "candidate_count": 3,
+  "clean_training_negative_count": 0,
+  "candidates": [
+    {
+      "control_candidate_id": "human_2012-06-21-fairhope-area-active-check-near-miss",
+      "source_evidence_id": "2012-06-21-fairhope-area-active-check-near-miss",
+      "target_cell": "Fairhope/Fly Creek/Pier",
+      "claimed_time_or_window": "last night",
+      "location": "Fairhope-area context; exact checked shoreline not stated",
+      "search_effort": "active in-person checking with children",
+      "first_person_or_repost": "first_person",
+      "independence_group": "2012_06_21_toppop_fairhope_check",
+      "source_url_or_id": "https://www.gulfshorespierfishing.com/f27/jubilee-thread-4211/",
+      "source_confidence": 0.82,
+      "season_match": "PENDING_FEATURE_JOIN",
+      "clock_window_match": "PENDING_EXACT_TIME_RECOVERY",
+      "tide_or_transport_match": "PENDING_FEATURE_JOIN",
+      "camera_observation_effort": "UNKNOWN_HISTORICAL",
+      "social_observation_effort": "KNOWN_SOURCE_SPECIFIC",
+      "environmental_source_availability": "PENDING_HISTORICAL_JOIN",
+      "candidate_status": "NEAR_MISS_NOT_NEGATIVE",
+      "negative_evidence_strength": "NONE",
+      "missing_before_training": [
+        "exact checked shoreline",
+        "exact clock window"
+      ],
+      "reason": "Active check observed baby flounder/crabs at the water edge; this is biologically suggestive near-miss evidence, not absence."
+    },
+    {
+      "control_candidate_id": "human_2012-06-23-fly-creek-fairhope-search-window",
+      "source_evidence_id": "2012-06-23-fly-creek-fairhope-search-window",
+      "target_cell": "Fairhope/Fly Creek/Pier",
+      "claimed_time_or_window": "predawn/overnight around June 23",
+      "location": "Fly Creek to Fairhope Beach search corridor; Fairhope Pier specifically mentioned afterward",
+      "search_effort": "explicit plan to look around 3 a.m.; later forum report of nothing by one checker and a possible small event around Fairhope Pier by another",
+      "first_person_or_repost": "multiple_first_person_forum_participants",
+      "independence_group": "2012_06_23_gspf_fairhope_search_episode",
+      "source_url_or_id": "https://www.gulfshorespierfishing.com/f27/jubilee-thread-4211/",
+      "source_confidence": 0.78,
+      "season_match": "PENDING_FEATURE_JOIN",
+      "clock_window_match": "PENDING_EXACT_TIME_RECOVERY",
+      "tide_or_transport_match": "PENDING_FEATURE_JOIN",
+      "camera_observation_effort": "UNKNOWN_HISTORICAL",
+      "social_observation_effort": "KNOWN_SOURCE_SPECIFIC",
+      "environmental_source_availability": "PENDING_HISTORICAL_JOIN",
+      "candidate_status": "AMBIGUOUS_EPISODE_NOT_CONTROL",
+      "negative_evidence_strength": "NONE",
+      "missing_before_training": [
+        "participant-specific exact locations",
+        "participant-specific exact times"
+      ],
+      "reason": "Different participants reported both nothing and a possible small Fairhope Pier event; preserve heterogeneity rather than collapse to a label."
+    },
+    {
+      "control_candidate_id": "human_2024-06-12-may-day-reported-nothing",
+      "source_evidence_id": "2024-06-12-may-day-reported-nothing",
+      "target_cell": "Daphne/May Day",
+      "claimed_time_or_window": "same early-morning window as approximately 06:00 Point Clear reports",
+      "location": "May Day Pier, Daphne",
+      "search_effort": "known contemporaneous location check",
+      "first_person_or_repost": "news_relay_of_local_check",
+      "independence_group": "2024_06_12_may_day_check",
+      "source_url_or_id": "https://1819news.com/news/item/jubilee-brings-sealife-to-surface-near-grand-hotel-wednesday-sunrise",
+      "source_confidence": 0.9,
+      "season_match": "PENDING_FEATURE_JOIN",
+      "clock_window_match": "PENDING_EXACT_TIME_RECOVERY",
+      "tide_or_transport_match": "PENDING_FEATURE_JOIN",
+      "camera_observation_effort": "UNKNOWN_HISTORICAL",
+      "social_observation_effort": "KNOWN_SOURCE_SPECIFIC",
+      "environmental_source_availability": "PENDING_HISTORICAL_JOIN",
+      "candidate_status": "SCOPED_CONTROL_CANDIDATE_NOT_TRAINING_NEGATIVE",
+      "negative_evidence_strength": "WEAK_TO_MODERATE",
+      "missing_before_training": [
+        "exact check start/end time",
+        "search duration and shoreline extent",
+        "visibility/detectability basis",
+        "tide/current phase matching to candidate positive/control windows"
+      ],
+      "reason": "Known contemporaneous May Day location check reported nothing, but effort/visibility/time bounds are incomplete."
+    }
+  ],
+  "promotion_rule": "A candidate becomes a matched control only after shoreline/time scope, detectability, season, predawn clock window, tide/current phase, and source availability are sufficiently established under matched_control_contract.json.",
+  "guardrails": [
+    "No report is never promoted to a negative.",
+    "Conflicting observations remain ambiguous.",
+    "Near-miss biology is not absence.",
+    "A scoped negative applies only to the actually checked location/time.",
+    "Post-event knowledge cannot leak into pre-event forecast features."
+  ]
+}

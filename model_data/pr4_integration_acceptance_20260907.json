@@ -1,0 +1,49 @@
+{
+  "date": "2026-09-07",
+  "pr": 4,
+  "reviewed_original_head": "775734e6e38a9a078e23b7942039369641b7437e",
+  "reconciled_main": "7d5e87a",
+  "offline_tests": {
+    "passed": 82,
+    "failures": 0,
+    "errors": 0
+  },
+  "validation": {
+    "main_pass_raw_hashes_passed": 29,
+    "main_pass_parameter_rows": 211308,
+    "main_pass_duplicate_observation_ids": 0,
+    "weeks_bay_reconstructed_rows": 53323,
+    "weeks_bay_raw_hashes_passed": 2,
+    "ngofs_point_clear_and_named_station_subset_hashes": "PASS",
+    "ngofs_shoreline_subset_hash": "PASS",
+    "point_clear_restored_rows": {
+      "nowcast": 671,
+      "forecast": 5291
+    },
+    "live_camera_integrity_passed": 6,
+    "live_capture_time": "2026-09-07T09:06:01.476763-05:00",
+    "live_capture_outside_target_window": true,
+    "historical_human_candidates": 3,
+    "clean_training_negatives": 0
+  },
+  "logger_changes": [
+    "timestamp freshness and capture/burst/vision alignment",
+    "three-frame temporal validation and latest JPEG integrity",
+    "scoped candidates only; Point Clear never full-cell negative",
+    "immutable capture-keyed records with input hashes",
+    "non-force publish against latest main with bounded race retries",
+    "push-triggered logging with hourly fallback; isolated from slow environmental fetches"
+  ],
+  "historical_provenance_review": {
+    "2017_08_26": "two saved firsthand source pages reopened; date/context consistent",
+    "1971": "saved primary-source provenance retained; independent primary PDF re-download unavailable this run"
+  },
+  "limits": [
+    "No forecast skill claim or weight change",
+    "Real scheduled dawn acceptance remains pending next usable dawn",
+    "Metadata and upstream vision validated; not independent replay of all three pixel frames",
+    "Historical source recovery and geometry refinements remain open in work register"
+  ],
+  "production_action": "NO_CHANGE",
+  "activation_status": "AWAITING_MERGE_AND_LIVE_WORKFLOW_VERIFICATION"
+}
