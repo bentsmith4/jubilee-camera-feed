@@ -8,6 +8,7 @@ on:
       - 'model_data/build_readiness.py'
       - 'model_data/build_observation_effort_snapshot.py'
       - 'model_data/build_historical_recovery_status.py'
+      - 'model_data/reconcile_source_registry.py'
       - 'model_data/camera_sources.json'
       - 'model_data/private_camera_signal_contracts.json'
       - 'model_data/public_camera_signal_contracts.json'
@@ -100,6 +101,9 @@ jobs:
       - name: Ingest static Main Pass 2016 CTD profiles on top-five research branch
         if: github.ref_name == 'upgrade/top5-gaps-round2-20260906'
         run: python model_data/ingest_griidc_main_pass_20160419.py
+      - name: Reconcile canonical source registry from completed ingestions
+        if: github.ref_name == 'upgrade/top5-gaps-round2-20260906'
+        run: python model_data/reconcile_source_registry.py
       - name: Record prospective dawn observation effort without inventing negatives
         run: python model_data/build_observation_effort_snapshot.py --append-ledger
       - name: Verify revised historical ingest and diagnostics on sensing-audit branch
@@ -121,6 +125,7 @@ jobs:
             model_data/sensing_audit.json
             model_data/event_history.json
             model_data/historical_recovery_status.json
+            model_data/ongoing_source_registry_20260906.json
             model_data/river_forcing_manifest.json
             model_data/river_forcing_normalized.csv
             model_data/weeks_bay_realtime_manifest.json
@@ -159,7 +164,7 @@ jobs:
           git add model_data/upgrade_test_report.json model_data/upgrade_readiness.json model_data/coverage_snapshot.json model_data/sensing_audit.json model_data/river_forcing_manifest.json model_data/public_archive/
           git add model_data/observation_effort_snapshot.json
           if [ "$REF_NAME" = 'upgrade/top5-gaps-round2-20260906' ]; then
-            git add model_data/event_history.json model_data/historical_recovery_status.json
+            git add model_data/event_history.json model_data/historical_recovery_status.json model_data/ongoing_source_registry_20260906.json
             for f in model_data/ngofs2_mobile_bay_named_stations_nowcast_manifest.json model_data/ngofs2_mobile_bay_named_stations_forecast_manifest.json model_data/ngofs2_mobile_bay_named_stations_nowcast_normalized.csv model_data/ngofs2_mobile_bay_named_stations_forecast_normalized.csv; do
               if [ -f "$f" ]; then git add "$f"; fi
             done
