@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.1",
+  "schema_version": "1.2",
   "created_date": "2026-09-06",
   "purpose": "Canonical signal interpretation for public cameras. Structured observations only unless media retention rights are explicitly verified.",
   "cameras": [
@@ -39,7 +39,8 @@
         "right_reference": "Point Clear point/headland",
         "center_reference": "osprey nest pole",
         "wind_reference": "visible flag",
-        "far_field": "cross-bay view across the shipping-channel sector toward south Mobile County and Dauphin Island"
+        "far_field": "cross-bay view across the shipping-channel sector toward south Mobile County and Dauphin Island",
+        "south_context": "Zundel's is about one mile south of the Grand Hotel; Mullet Point is farther south in the distance"
       },
       "allowed_signals": [
         "water_surface_smoothness_or_chop_near_point_clear",
@@ -58,7 +59,7 @@
         "osprey nest pole center",
         "flag for wind proxy"
       ],
-      "negative_scope": "A lack of visible biological or human activity applies only to the water/activity actually visible in this west-southwest frame and stated interval. It is not a negative for unseen Point Clear shoreline or beach segments.",
+      "negative_scope": "A lack of visible biological or human activity applies only to the water/activity actually visible in this west-southwest frame and stated interval. It is not a negative for unseen Point Clear, Zundel's or Mullet Point shoreline segments.",
       "required_before_quantitative_use": [
         "verify source freshness clock",
         "deduplicate AWN/Hazcams/rebroadcast mirrors",
@@ -67,6 +68,15 @@
       ],
       "media_retained": false,
       "rights_basis": "express consent required for media use/reproduction/distribution"
+    }
+  ],
+  "shoreline_detectability_context": [
+    {
+      "corridor": "Grand Hotel / Point Clear south through Zundel's toward Mullet Point",
+      "owner_observation": "Beaches at the Grand Hotel and south toward Zundel's are shallow and sandy and are places where Jubilees are often found because stranded or concentrated animals are relatively easy to see.",
+      "model_role": "nearshore_contact_and_detectability",
+      "interpretation": "This is a detectability/access geometry prior, not direct evidence that a Jubilee is occurring and not proof that events are physically more frequent there.",
+      "bias_guardrail": "Higher report frequency along easy-to-see sandy shoreline can reflect higher observation/detection probability. Preserve this separately from latent physical occurrence probability."
     }
   ],
   "general_rules": [
