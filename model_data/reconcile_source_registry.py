@@ -119,27 +119,42 @@ def main():
         mark('usgs_02428400_claiborne', status='INGESTED_RECENT', **common)
         mark('usgs_02469761_02469762_coffeeville', status='INGESTED_RECENT_SOURCE_HEALTH_VARIES_BY_SERIES', **common)
 
-    # NGOFS2 is MODEL guidance. Current named-point extraction is useful but is
-    # not allowed to masquerade as shoreline-grid resolution.
+    # NGOFS2 is MODEL guidance. Named points are a fallback/diagnostic; a
+    # successful shoreline regular-grid run is the preferred spatial source.
     pc_now = load('ngofs2_point_clear_nowcast_manifest.json')
     pc_fc = load('ngofs2_point_clear_forecast_manifest.json')
     multi_now = load('ngofs2_mobile_bay_named_stations_nowcast_manifest.json')
     multi_fc = load('ngofs2_mobile_bay_named_stations_forecast_manifest.json')
+    grid = load('ngofs2_shoreline_grid_manifest.json')
     point_clear_ok = completed(pc_now) and completed(pc_fc)
     multicell_ok = completed(multi_now) and completed(multi_fc)
-    if point_clear_ok or multicell_ok:
-        status = 'PARTIALLY_INGESTED_POINT_CLEAR' if point_clear_ok else 'REGISTERED'
-        if multicell_ok:
+    grid_ok = completed(grid)
+    if point_clear_ok or multicell_ok or grid_ok:
+        if grid_ok:
+            status = 'PARTIALLY_INGESTED_SHORELINE_REGULAR_GRID'
+        elif multicell_ok:
             status = 'PARTIALLY_INGESTED_MOBILE_BAY_NAMED_POINTS'
+        else:
+            status = 'PARTIALLY_INGESTED_POINT_CLEAR'
         unresolved = []
         if multicell_ok:
             unresolved.extend(multi_now.get('unresolved_targets', []))
             unresolved.extend(multi_fc.get('unresolved_targets', []))
+        grid_cells = []
+        grid_node_count = 0
+        if grid_ok:
+            seen_nodes = set()
+            for cast in grid.get('casts', []):
+                for node in cast.get('selected_nodes', []):
+                    grid_cells.append(node.get('cell'))
+                    seen_nodes.add((node.get('grid_y'), node.get('grid_x')))
+            grid_node_count = len(seen_nodes)
+        times = [manifest_time(x) for x in (pc_now, pc_fc, multi_now, multi_fc, grid) if manifest_time(x)]
         mark(
             'noaa_ngofs2_mobile_bay',
             status=status,
             observation_status='MODEL',
-            last_verified_at=max(x for x in [manifest_time(pc_now), manifest_time(pc_fc), manifest_time(multi_now), manifest_time(multi_fc)] if x),
+            last_verified_at=max(times) if times else None,
             point_clear_nowcast_rows=pc_now.get('normalized_rows') if pc_now else None,
             point_clear_forecast_rows=pc_fc.get('normalized_rows') if pc_fc else None,
             named_station_nowcast_rows=multi_now.get('normalized_rows') if multicell_ok else None,
@@ -148,11 +163,17 @@ def main():
             named_station_unresolved_targets=unresolved if multicell_ok else None,
             point_clear_manifest='model_data/ngofs2_point_clear_nowcast_manifest.json' if point_clear_ok else None,
             named_station_manifest='model_data/ngofs2_mobile_bay_named_stations_nowcast_manifest.json' if multicell_ok else None,
-            shoreline_grid_status='NOT_YET_VALIDATED',
+            shoreline_grid_status='INGESTED_RESEARCH_ZERO_WEIGHT' if grid_ok else 'NOT_YET_VALIDATED',
+            shoreline_grid_manifest='model_data/ngofs2_shoreline_grid_manifest.json' if grid_ok else None,
+            shoreline_grid_normalized_rows=grid.get('normalized_rows') if grid_ok else None,
+            shoreline_grid_derived_feature_rows=grid.get('derived_feature_rows') if grid_ok else None,
+            shoreline_grid_source_hash=grid.get('raw_subset_sha256') if grid_ok else None,
+            shoreline_grid_cells=sorted(set(x for x in grid_cells if x)) if grid_ok else None,
+            shoreline_grid_unique_nodes=grid_node_count if grid_ok else None,
             production_weight=0.0,
         )
 
-    doc['schema_version'] = '1.3'
+    doc['schema_version'] = '1.4'
     doc['last_reconciled_at'] = datetime.now(timezone.utc).isoformat()
     doc['registry_rule'] = 'INGESTED requires a successful parser/extractor run, immutable source hash/subset hash where applicable, normalized rows and provenance manifest. Discovery alone never qualifies.'
     doc['last_reconciliation_changes'] = changes
