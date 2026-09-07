@@ -1,7 +1,7 @@
 {
-  "schema_version": "1.2",
+  "schema_version": "1.3",
   "created_date": "2026-09-06",
-  "updated_date": "2026-09-06",
+  "updated_date": "2026-09-07",
   "site": "437 Village pier / Montrose-Daphne Eastern Shore",
   "status": "future_hardware_not_yet_owned",
   "owner_confirmed_infrastructure": {
@@ -10,54 +10,62 @@
     "preferred_installation_location": "end_of_pier_due_to_power_access",
     "typical_water_depth_context": "approximately 3 ft or less at pier end; tide dependent",
     "summer_service_feasible_every_1_to_2_weeks": true,
-    "confirmation_date": "2026-09-06"
+    "manual_predawn_spot_checks_planned": false,
+    "total_hardware_budget_target_usd": "<1000",
+    "confirmation_date": "2026-09-07"
   },
-  "objective": "Measure local near-bottom hypoxia/stratification state with enough temporal resolution and metadata to support Jubilee forecasting and matched-control calibration.",
-  "minimum_variables": ["dissolved_oxygen_mg_L", "salinity_psu", "water_temperature_C", "pressure_or_depth_m"],
-  "strongly_preferred_variables": ["dissolved_oxygen_percent_saturation", "conductivity", "sensor_internal_temperature", "power_or_battery_voltage", "diagnostic_flags"],
+  "objective": "Measure local near-bottom hypoxia/stratification state unattended with enough temporal resolution and metadata to support Jubilee forecasting and matched-control calibration.",
+  "minimum_variables": ["dissolved_oxygen_mg_L", "salinity_psu", "water_temperature_C"],
+  "strongly_preferred_variables": ["dissolved_oxygen_percent_saturation", "conductivity", "pressure_or_depth_m", "power_or_battery_voltage", "diagnostic_flags"],
+  "phase_1_architecture": {
+    "controller": "ESP32-S3 class Wi-Fi microcontroller in a weather-resistant pier enclosure",
+    "telemetry": "join existing pier Wi-Fi, auto-reconnect, HTTPS/MQTT-style push to canonical Jubilee ingestion endpoint",
+    "local_buffer": "required; preserve observations through Wi-Fi outages and backfill without changing observed_at",
+    "sensor_class": "low-cost modular galvanic DO plus conductivity/salinity plus temperature; electrically isolate DO and conductivity electronics",
+    "do_note": "Atlas Scientific low-cost DO is galvanic, not optical. Do not describe it as optical DO. Optical DO remains preferred scientifically if a reliable sub-$1k alternative is later found.",
+    "depth_sensor": "defer pressure/depth if necessary to remain below budget; use NOAA/local water level plus measured fixed sensor elevation as interim context",
+    "unattended_rule": "No model workflow may depend on owner manual predawn sampling."
+  },
   "deployment_geometry": {
-    "phase_1_recommended": "one near-bottom multiparameter package at the pier end, fixed approximately 0.15-0.30 m above sediment where practical and below ordinary low-water level",
-    "reason_for_phase_1": "At roughly <=0.9 m total depth, the near-bottom package directly targets the low-oxygen saline layer most relevant to Jubilee onset while minimizing complexity and the risk that a fixed upper sensor emerges at low water.",
-    "phase_2_preferred": "add a second near-surface package on an adjustable or surface-following mount to estimate vertical DO/salinity/temperature gradients",
-    "bottom_clearance": "record exact sensor height above sediment; avoid burial, direct sediment contact, prop wash and contact with piling surfaces that create stagnant microenvironments",
-    "horizontal_offset": "mount far enough from pilings/structure to sample ambient water but close enough for safe retrieval and service",
-    "reference": "record sensor elevation relative to fixed pier reference plus concurrent water level/depth so apparent vertical changes are not confused with tide-driven sensor position changes"
+    "phase_1_recommended": "one near-bottom package at pier end approximately 0.15-0.30 m above sediment and below ordinary low-water level",
+    "phase_2_preferred": "add a second near-surface package only after bottom package proves stable and valuable",
+    "bottom_clearance": "record exact height above sediment; avoid burial, prop wash, piling stagnation and direct sediment contact",
+    "reference": "record fixed sensor elevation relative to pier reference and pair with water-level observations"
   },
   "sampling": {
     "preferred_interval_minutes": 5,
     "maximum_interval_minutes": 15,
-    "high_risk_mode": "optionally increase cadence to 1-2 minutes during selected predawn high-risk windows if hardware supports it; preserve baseline 5-minute comparability",
-    "clock": "UTC internally; preserve local Central Time rendering separately",
+    "high_risk_mode": "1-2 minute sampling may be enabled automatically during selected high-risk predawn windows if supported",
+    "clock": "UTC internally; render Central Time separately",
     "required_timestamps": ["observed_at", "available_at", "ingested_at"]
   },
   "power_and_telemetry": {
-    "preferred": "shore-powered logger/sonde with wired local data path where practical and Wi-Fi gateway for near-real-time upload",
-    "design_rule": "Wi-Fi is telemetry, not the only storage path; raw observations must be buffered locally through network outages",
-    "surge_and_marine_environment": "use GFCI-protected shore power, marine-rated enclosure/cable glands, surge protection and strain relief; keep mains voltage out of submerged hardware",
-    "outage_policy": "backfill buffered observations without rewriting observed_at; telemetry outage is missingness in availability, not a physical negative"
+    "preferred": "shore-powered low-voltage controller with local flash or microSD buffering and existing pier Wi-Fi",
+    "outage_policy": "continue logging locally; upload backlog when connectivity returns",
+    "security": "store Wi-Fi credentials using device secure storage where available; never commit credentials to repository",
+    "marine_environment": "GFCI shore power, low-voltage submerged hardware only, weatherproof enclosure, marine cable glands, strain relief and surge protection"
   },
   "quality_control": {
-    "predeployment": ["manufacturer-equivalent optical DO verification/calibration", "conductivity/salinity standard check", "temperature cross-check", "depth/pressure zero and plausibility check", "clock sync", "24-48 hour side-by-side soak test before model admission"],
-    "ongoing": ["summer fouling inspection/cleaning target every 1-2 weeks", "record actual service date/time and before/after sensor state", "drift check", "power/telemetry health", "range and rate-of-change flags", "stuck-sensor detection", "out-of-water detection", "cross-check against tide/depth and regional water-quality sources"],
-    "summer_service_plan": {
-      "target_interval_days": "7-14",
-      "rationale": "Owner confirms 1-2 week summer servicing is realistic. This supports a lower-cost design without requiring the most aggressive anti-fouling hardware, while still preferring optical DO and mechanically serviceable conductivity surfaces.",
-      "required_log_fields": ["service_started_at", "service_completed_at", "biofouling_observed", "cleaning_performed", "calibration_or_standard_check", "parts_replaced", "pre_service_reading", "post_service_reading", "notes"],
-      "model_rule": "Flag a maintenance window around each service event and never let cleaning/calibration steps masquerade as physical water-quality changes."
-    },
-    "postdeployment": ["calibration check", "document cleaning/service events", "retain raw uncorrected observations and calibration metadata"]
+    "predeployment": ["DO air-saturation calibration", "zero-DO calibration because <1 mg/L accuracy matters", "conductivity/salinity standard check", "temperature cross-check", "clock sync", "24-48 hour soak test"],
+    "ongoing": ["summer cleaning every 7-14 days", "membrane/electrolyte inspection for galvanic DO", "conductivity fouling inspection", "drift/stuck-sensor checks", "power/telemetry health", "cross-check against tide and regional sources"],
+    "maintenance_model_rule": "flag service/calibration windows and do not treat before/after maintenance jumps as environmental features"
   },
-  "hardware_reference_classes": [
-    {"class": "research_grade_multiparameter_sonde", "example": "YSI EXO2/EXO2s class with optical DO, conductivity/temperature, depth and anti-fouling wiper", "why_relevant": "Supports coastal/estuarine unattended monitoring, external 9-16 VDC power, RS-485/SDI-12 style integration, internal logging and active anti-fouling; high reliability reference architecture rather than a purchase commitment."},
-    {"class": "midrange_modular_sonde", "example": "In-Situ Aqua TROLL 600 class with RDO, conductivity/temperature and pressure", "why_relevant": "Provides the core direct variables with replaceable optical DO sensing and lower integration complexity than a full custom build."},
-    {"class": "custom_build", "example": "industrial optical DO + conductivity + temperature + pressure sensors into a local logger/gateway", "why_relevant": "Can reduce hardware cost and integrate tightly with the existing desktop runtime; the feasible 7-14 day summer service cadence makes a custom or midrange package more realistic, but calibration stability, waterproofing and QA/QC remain critical."}
-  ],
+  "candidate_sub_1000_bom": {
+    "status": "design_candidate_not_purchase_order",
+    "reference_prices_checked_2026_09_07": [
+      {"item": "Atlas Bare-Bones Wi-Fi Hydroponics Kit", "reference_price_usd": 224.99, "role": "ESP32-S3, enclosure, isolated carrier slots"},
+      {"item": "Atlas Dissolved Oxygen Kit", "reference_price_usd": 354.99, "role": "galvanic DO probe, EZO DO circuit, isolated carrier"},
+      {"item": "Atlas Conductivity K1.0 Kit", "reference_price_usd": 229.99, "role": "conductivity/salinity"},
+      {"item": "Atlas Surveyor Analog Temperature Kit or equivalent", "reference_price_usd": 29.99, "role": "temperature"}
+    ],
+    "reference_subtotal_usd": 839.96,
+    "budget_note": "Leaves roughly $160 for mounting, calibration consumables, cable management and power conditioning. Verify electrical/interface compatibility before purchase because the bare-bones Wi-Fi carrier is sold for EZO circuits and the exact DO/EC kit contents overlap carrier hardware.",
+    "cost_optimization": "Prefer purchasing individual EZO circuits/probes where duplicate isolated carrier boards would otherwise be bought. Target final BOM below $900 before miscellaneous marine hardware."
+  },
   "model_guardrails": [
-    "No positive production weight until provenance/QC are passing and out-of-sample incremental value is demonstrated.",
-    "Near-bottom DO is DIRECT evidence only for the 437/Montrose cell and immediate vicinity; do not generalize as direct Point Clear or Fairhope bottom conditions.",
-    "Preserve sensor maintenance, calibration and fouling periods so the model cannot learn instrument-health artifacts.",
-    "In this very shallow site, depth and tide metadata are mandatory because the water column can be vertically compressed and fixed sensors can change relative position within the water column as water level changes.",
-    "A paired surface-bottom deployment is preferred only after the first bottom package is stable and serviceable."
-  ],
-  "future_expansion": ["Second matched package at Point Clear if the 437 deployment proves stable and informative.", "Optional local current meter/ADV/compact ADCP only after DO/salinity/temperature logging is reliable.", "Trigger standardized manual vertical profiles on high-risk and matched non-event mornings."]
+    "No positive production weight until provenance/QC pass and held-out incremental value is demonstrated.",
+    "Near-bottom measurements are DIRECT only for 437/Montrose immediate vicinity.",
+    "Preserve fouling, service, calibration and telemetry-missingness metadata.",
+    "No manual field check is required for routine operation or label generation."
+  ]
 }
