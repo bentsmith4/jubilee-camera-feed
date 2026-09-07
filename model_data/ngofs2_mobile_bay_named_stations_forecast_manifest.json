@@ -1,22 +1,46 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "cast": "forecast",
-  "retrieved_at": "2026-09-07T06:12:49.170521+00:00",
+  "retrieved_at": "2026-09-07T06:19:11.344986+00:00",
   "status": "complete",
   "evidence_class": "MODEL",
   "production_action": "NO_CHANGE",
   "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/07/ngofs2.t03z.20260907.stations.forecast.nc",
   "model_initialized_at": "2026-09-07T03:00:00+00:00",
   "failed_newer_attempts": [],
-  "station_count": 4,
+  "station_count": 5,
   "stations": [
     {
       "target_station_id": "8733502",
       "target_label": "Fly Creek",
+      "model_station_name": "Blakeley Pass Entran",
+      "station_index": 192,
+      "resolution_basis": "nearest_verified_coordinate",
+      "distance_to_official_coordinate_km": 8.9585,
+      "target_lat": 30.5428,
+      "target_lon": -87.901,
+      "lat": 30.619604110717773,
+      "lon": -87.92926025390625,
+      "source_lon": 272.07073974609375,
+      "bathymetry_m": 1.5,
+      "surface_sigma_index": 0,
+      "bottom_sigma_index": 39,
+      "cell_roles": [
+        "Montrose:nearby_model_proxy",
+        "Fairhope/Fly Creek/Pier:in_cell_model_point",
+        "Daphne/May Day:southern_proxy"
+      ],
+      "proxy_distance_warning": true
+    },
+    {
+      "target_station_id": "8733821",
+      "target_label": "Point Clear",
       "model_station_name": "8733821 Pt Clear, MB",
       "station_index": 93,
-      "resolution_basis": "nearest_verified_coordinate",
-      "distance_to_official_coordinate_km": 6.8648,
+      "resolution_basis": "station_id",
+      "distance_to_official_coordinate_km": 0.3116,
+      "target_lat": 30.486639,
+      "target_lon": -87.934528,
       "lat": 30.489032745361328,
       "lon": -87.93621826171875,
       "source_lon": 272.06378173828125,
@@ -24,10 +48,10 @@
       "surface_sigma_index": 0,
       "bottom_sigma_index": 39,
       "cell_roles": [
-        "Montrose:nearby_model_proxy",
-        "Fairhope/Fly Creek/Pier:in_cell_model_point",
-        "Daphne/May Day:southern_proxy"
-      ]
+        "Point Clear/Grand Hotel:in_cell_model_point",
+        "Battles Wharf:nearby_model_proxy"
+      ],
+      "proxy_distance_warning": false
     },
     {
       "target_station_id": "8732828",
@@ -36,6 +60,8 @@
       "station_index": 5,
       "resolution_basis": "station_id",
       "distance_to_official_coordinate_km": 0.3866,
+      "target_lat": 30.4167,
+      "target_lon": -87.825,
       "lat": 30.413742065429688,
       "lon": -87.82711791992188,
       "source_lon": 272.1728820800781,
@@ -45,7 +71,8 @@
       "cell_roles": [
         "Mullet Point:regional_model_proxy",
         "Bay mouth:upper_boundary_context"
-      ]
+      ],
+      "proxy_distance_warning": false
     },
     {
       "target_station_id": "8733839",
@@ -54,6 +81,8 @@
       "station_index": 87,
       "resolution_basis": "nearest_verified_coordinate",
       "distance_to_official_coordinate_km": 0.1031,
+      "target_lat": 30.667167,
+      "target_lon": -87.936444,
       "lat": 30.666362762451172,
       "lon": -87.93698120117188,
       "source_lon": 272.0630187988281,
@@ -63,7 +92,8 @@
       "cell_roles": [
         "Daphne/May Day:northern_model_proxy",
         "Montrose:northern_context"
-      ]
+      ],
+      "proxy_distance_warning": false
     },
     {
       "target_station_id": "8735181",
@@ -72,6 +102,8 @@
       "station_index": 90,
       "resolution_basis": "nearest_verified_coordinate",
       "distance_to_official_coordinate_km": 0.3229,
+      "target_lat": 30.251319,
+      "target_lon": -88.079486,
       "lat": 30.253950119018555,
       "lon": -88.07806396484375,
       "source_lon": 271.92193603515625,
@@ -81,23 +113,18 @@
       "cell_roles": [
         "Bay mouth:boundary_model_point",
         "shelf:near_mouth_context"
-      ]
+      ],
+      "proxy_distance_warning": false
     }
   ],
-  "unresolved_targets": [
-    {
-      "station_id": "8733821",
-      "label": "Point Clear",
-      "error_type": "duplicate_model_station_resolution",
-      "error": "resolved index 93 already assigned"
-    }
-  ],
-  "normalized_rows": 17316,
-  "subset_sha256": "2a90e08f92de5d31aa7214b8777a594daea56fff2306249140a3bd9b5c53e477",
-  "subset_archive": "public_archive/ngofs2_named_station_subset/2a90e08f92de5d31aa7214b8777a594daea56fff2306249140a3bd9b5c53e477.json.gz",
+  "unresolved_targets": [],
+  "normalized_rows": 21645,
+  "subset_sha256": "c59046a5abcbf7f2c858632ecbbb72ac1c884821395bbadc9ec72b058f90cd99",
+  "subset_archive": "public_archive/ngofs2_named_station_subset/c59046a5abcbf7f2c858632ecbbb72ac1c884821395bbadc9ec72b058f90cd99.json.gz",
   "normalized_csv": "ngofs2_mobile_bay_named_stations_forecast_normalized.csv",
   "guardrails": [
     "All values are MODEL guidance, not observations.",
+    "Exact station-ID/name matches are reserved before proximity proxies are assigned.",
     "Cell roles are explicit named-point proxies until shoreline regular-grid extraction is validated.",
     "No station negative or model state is a Jubilee non-event label.",
     "No production weight without held-out incremental value.",
