@@ -1,7 +1,8 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "created_at": "2026-09-07",
-  "purpose": "Auditable target geometry for expanding NGOFS2 transport extraction beyond Point Clear. Coordinates are public landmark proxies unless explicitly marked otherwise; MODEL guidance only.",
+  "purpose": "Auditable public target geometry for NGOFS2 shoreline-cell transport extraction. Coordinates are public landmarks/localities, never private-home coordinates; MODEL guidance only.",
+  "default_offshore_offsets_km": [0.25, 0.75, 1.5, 3.0],
   "targets": [
     {
       "cell": "Daphne/May Day",
@@ -10,17 +11,19 @@
       "lon": -87.91313,
       "coordinate_basis": "public May Day Park coordinate",
       "shoreward_bearing_deg_true": 90.0,
+      "offshore_bearing_deg_true": 270.0,
       "bearing_status": "provisional_eastern_shore_normal"
     },
     {
       "cell": "Montrose",
-      "target_name": "437/Montrose owner shoreline",
-      "lat": null,
-      "lon": null,
-      "coordinate_basis": "use existing owner/runtime private site coordinate if already configured locally; do not publish private home coordinate merely to support research branch",
+      "target_name": "Montrose public locality",
+      "lat": 30.56575,
+      "lon": -87.90166,
+      "coordinate_basis": "public USGS/GNIS Montrose locality coordinate; used only as a public starting anchor for westward wet-grid selection and not as the owner-home location",
       "shoreward_bearing_deg_true": 90.0,
+      "offshore_bearing_deg_true": 270.0,
       "bearing_status": "provisional_eastern_shore_normal",
-      "implementation_rule": "If no existing canonical private coordinate is available to the runtime, use adjacent public May Day/Fairhope model guidance only as PROXY and do not label it Montrose-local."
+      "implementation_rule": "Selected wet NGOFS2 nodes are public MODEL grid locations near the Montrose shoreline cell; never describe the public locality coordinate as the 437 property coordinate."
     },
     {
       "cell": "Fairhope/Fly Creek/Pier",
@@ -29,6 +32,7 @@
       "lon": -87.91492,
       "coordinate_basis": "public Fairhope Municipal Pier coordinate",
       "shoreward_bearing_deg_true": 90.0,
+      "offshore_bearing_deg_true": 270.0,
       "bearing_status": "provisional_eastern_shore_normal"
     },
     {
@@ -38,6 +42,7 @@
       "lon": -87.92777,
       "coordinate_basis": "public USGS/GNIS locality coordinate",
       "shoreward_bearing_deg_true": 90.0,
+      "offshore_bearing_deg_true": 270.0,
       "bearing_status": "provisional_eastern_shore_normal"
     },
     {
@@ -45,8 +50,9 @@
       "target_name": "NOAA/NGOFS2 Point Clear target",
       "lat": 30.48664,
       "lon": -87.93453,
-      "coordinate_basis": "existing verified Point Clear target",
+      "coordinate_basis": "verified public NOAA Point Clear target",
       "shoreward_bearing_deg_true": 90.0,
+      "offshore_bearing_deg_true": 270.0,
       "bearing_status": "existing_provisional_west_facing_shoreline_normal"
     },
     {
@@ -54,16 +60,18 @@
       "target_name": "Mullet Point Park",
       "lat": 30.41658,
       "lon": -87.90817,
-      "coordinate_basis": "Baldwin County public boat-launch coordinate",
+      "coordinate_basis": "public Mullet Point Park/boat-launch coordinate",
       "shoreward_bearing_deg_true": 90.0,
+      "offshore_bearing_deg_true": 270.0,
       "bearing_status": "provisional_requires_local_shoreline_normal_sensitivity"
     }
   ],
   "guardrails": [
-    "Coordinates select MODEL extraction points; they are not Jubilee event locations.",
-    "Do not expose a private owner-home coordinate if the canonical runtime can resolve it without repository publication.",
+    "Coordinates select MODEL extraction transects; they are not Jubilee event locations.",
+    "Do not expose or infer a private owner-home coordinate for regular-grid research.",
+    "Select multiple wet grid nodes along each public-anchor offshore transect rather than silently substituting a distant named station.",
+    "Preserve exact selected grid-node coordinates, bathymetry, node-to-target distance and extraction cycle in manifests.",
     "Run shoreline-normal sensitivity at plus/minus 15 degrees before assigning production weight.",
-    "Nearest named NGOFS2 station may be too far from a target; if so use regular-grid/unstructured model extraction rather than silently accepting a remote station.",
     "No transport predictor receives positive production weight without held-out incremental value."
   ]
 }
