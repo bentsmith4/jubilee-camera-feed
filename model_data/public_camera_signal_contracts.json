@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.2",
+  "schema_version": "1.3",
   "created_date": "2026-09-06",
   "purpose": "Canonical signal interpretation for public cameras. Structured observations only unless media retention rights are explicitly verified.",
   "cameras": [
@@ -84,5 +84,34 @@
     "A negative applies only to the visible area and stated observation interval.",
     "Human searching is a soft precursor/detection signal, not Jubilee confirmation.",
     "Multiple mirrors of one physical camera share one independence group."
-  ]
+  ],
+  "live_player_freshness_policy": {
+    "version": "2026-09-07-live-player-v1",
+    "method": "Inspect permitted live player directly; page/search text and preview stills alone do not verify video freshness.",
+    "checks": [
+      "Observe player state (LIVE/live-position control), advancing playback and seekable endpoint across two samples, and actual visible scene progression.",
+      "Use roughly 10–30 seconds between observations when possible. Measure actual interval; do not claim continuous viewing between sampled inspections.",
+      "A fresh live session with advancing frames and advancing live window near its endpoint supports probably_fresh live observation; total source-to-view delay remains unknown.",
+      "An unlabelled Update Timestamp is not a capture timestamp until its semantics are independently established. UTC conversion is an assumption, not proof of image age.",
+      "If live playback is verified despite ambiguous metadata, admit scoped qualitative observations as probably_fresh, exact delay unknown. If only a still or page text is accessible, freshness=unknown, not stale merely from the page clock.",
+      "Use stale only with established capture-age evidence; use frozen only with sufficient playback/scene evidence. A motionless scene alone need not be frozen.",
+      "Do not promote these observations into clean training controls or change predictor weights without the existing validation gates."
+    ],
+    "retention": "Retain structured observations and playback metadata only in the model. Transient visual inspection is not an image archive; do not save/download/upload media to repository, Library or other storage.",
+    "required_fields": [
+      "check_time_ct",
+      "observation_start_ct",
+      "observation_end_ct",
+      "source_capture_time",
+      "page_update_timestamp_raw",
+      "page_timestamp_semantics",
+      "live_indicator",
+      "playback_samples",
+      "freshness_state",
+      "exact_source_delay_seconds",
+      "visible_scope",
+      "media_retained"
+    ],
+    "historical_correction": "Earlier September 7 stale-image conclusions based solely on the Hazcams page Update Timestamp are unverified. Preserve original records; reinterpret freshness as unknown unless independent capture evidence exists. No retrospective conversion to fresh observations."
+  }
 }
