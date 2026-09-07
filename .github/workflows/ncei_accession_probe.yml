@@ -14,20 +14,32 @@ jobs:
       - name: Resolve high-value FOCAL GRIIDC ERDDAP dataset IDs without retaining payloads
         shell: bash
         run: |
-          set -euo pipefail
-          for term in R4_x260_204_0033 R4_x260_000_0106; do
-            echo "===== SEARCH $term ====="
-            python - "$term" <<'PY'
-          import json, sys, urllib.parse, urllib.request
-          term=sys.argv[1]
-          url='https://erddap.griidc.org/erddap/search/index.json?' + urllib.parse.urlencode({'page':1,'itemsPerPage':1000,'searchFor':term})
-          req=urllib.request.Request(url,headers={'User-Agent':'jubilee-research/1.0'})
-          with urllib.request.urlopen(req,timeout=30) as r: doc=json.load(r)
-          cols=doc.get('table',{}).get('columnNames',[])
-          rows=doc.get('table',{}).get('rows',[])
-          print('MATCHES',len(rows))
-          for row in rows:
-              item=dict(zip(cols,row))
+          python - <<'PY'
+          import json, urllib.error, urllib.parse, urllib.request
+
+          searches = [
+              'R4_x260_204_0033', 'R4.x260.204:0033', 'N7QV3JXD',
+              'Fisheries Oceanography in Coastal Alabama Mooring Dissolved Oxygen Data Summer 2016',
+              'R4_x260_000_0106', 'R4.x260.000:0106', 'n7-s40s-3785',
+              'Effects of Coastal Upwelling and Downwelling on Hydrographic Variability and Dissolved Oxygen in Mobile Bay',
+          ]
+          found = {}
+          for term in searches:
+              url='https://erddap.griidc.org/erddap/search/index.json?' + urllib.parse.urlencode({'page':1,'itemsPerPage':1000,'searchFor':term})
+              req=urllib.request.Request(url,headers={'User-Agent':'jubilee-research/1.0'})
+              try:
+                  with urllib.request.urlopen(req,timeout=30) as r: doc=json.load(r)
+              except urllib.error.HTTPError as e:
+                  print('SEARCH',term,'HTTP',e.code)
+                  continue
+              rows=doc.get('table',{}).get('rows',[]); cols=doc.get('table',{}).get('columnNames',[])
+              print('SEARCH',term,'MATCHES',len(rows))
+              for row in rows:
+                  item=dict(zip(cols,row)); did=item.get('Dataset ID')
+                  if did: found[did]=item
+          print('UNIQUE_MATCHES',len(found))
+          for did,item in sorted(found.items()):
               print(json.dumps({k:item.get(k) for k in ['Dataset ID','Title','Institution','tabledap','griddap','Info']},ensure_ascii=False))
+          if not found:
+              raise SystemExit('No FOCAL ERDDAP dataset IDs resolved; keep source registered_not_ingested and do not invent an endpoint.')
           PY
-          done
