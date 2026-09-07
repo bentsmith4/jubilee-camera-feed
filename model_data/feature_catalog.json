@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Prevent duplicate research and keep candidate, promoted and rejected Jubilee predictors explicit.",
+  "statuses": ["DIRECT_PRODUCTION_EVIDENCE", "EXPERT_POLICY", "RESEARCH_CANDIDATE", "ZERO_WEIGHT_PENDING_VALIDATION", "REJECTED", "BLOCKED_BY_DATA"],
+  "feature_families": [
+    {
+      "family": "oxygen_and_stratification",
+      "priority": "P0",
+      "features": [
+        {"id": "local_bottom_do", "status": "BLOCKED_BY_DATA", "reason": "highest-value direct state but no continuous Eastern Shore bottom sensor"},
+        {"id": "local_bottom_salinity_temperature", "status": "BLOCKED_BY_DATA", "reason": "needed to distinguish stratification/restratification from generic low oxygen"},
+        {"id": "vertical_do_salinity_gradient", "status": "RESEARCH_CANDIDATE", "reason": "historical in-bay CTD datasets available for recovery"},
+        {"id": "time_since_mixing_and_restratification", "status": "ZERO_WEIGHT_PENDING_VALIDATION", "reason": "strong scientific rationale; needs historical state reconstruction"}
+      ]
+    },
+    {
+      "family": "transport_and_delivery",
+      "priority": "P0",
+      "features": [
+        {"id": "observed_water_level_tendency", "status": "EXPERT_POLICY", "reason": "more physically relevant than nominal tide clock when observation is valid"},
+        {"id": "modeled_nearshore_current_vector", "status": "ZERO_WEIGHT_PENDING_VALIDATION", "reason": "extract by cell from validated model guidance and backtest"},
+        {"id": "wind_impulse_direction_duration", "status": "ZERO_WEIGHT_PENDING_VALIDATION", "reason": "replace binary storm/fixed-wind shortcuts"},
+        {"id": "plume_front_state", "status": "BLOCKED_BY_DATA", "reason": "Ralston/SAR payload recovery and reproducible extraction not completed"}
+      ]
+    },
+    {
+      "family": "freshwater_and_watershed",
+      "priority": "P1",
+      "features": [
+        {"id": "claiborne_flow_1_3_7_14d", "status": "ZERO_WEIGHT_PENDING_VALIDATION", "reason": "ingested; upstream forcing, not bay-arrival observation"},
+        {"id": "coffeeville_flow_1_3_7_14d", "status": "ZERO_WEIGHT_PENDING_VALIDATION", "reason": "ingested; avoid pool/tailwater double counting"},
+        {"id": "alabama_tombigbee_flow_ratio", "status": "RESEARCH_CANDIDATE", "reason": "possible routing/plume-shape relevance"},
+        {"id": "distributed_river_to_bay_lag_kernel", "status": "BLOCKED_BY_DATA", "reason": "must estimate against downstream salinity/plume response rather than hard-code one lag"},
+        {"id": "local_dolive_runoff_state", "status": "RESEARCH_CANDIDATE", "reason": "Daphne local antecedent proxy; historical WQP source registered"}
+      ]
+    },
+    {
+      "family": "geometry",
+      "priority": "P1",
+      "features": [
+        {"id": "shoreline_orientation", "status": "EXPERT_POLICY", "reason": "local contact/detectability mechanism"},
+        {"id": "bathymetric_sink_channel_spoil_proximity", "status": "RESEARCH_CANDIDATE", "reason": "scientific rationale for low-oxygen storage/delivery; requires normalized GIS version"}
+      ]
+    },
+    {
+      "family": "camera_biology_and_human_sensor",
+      "priority": "P0 nowcasting / P1 forecasting",
+      "features": [
+        {"id": "repeated_fish_surface_activity", "status": "DIRECT_PRODUCTION_EVIDENCE", "reason": "current visual event evidence when pixels/freshness/visibility pass"},
+        {"id": "shrimp_crab_shoreline_displacement", "status": "DIRECT_PRODUCTION_EVIDENCE", "reason": "current visual event evidence when identifiable"},
+        {"id": "bird_feeding_change", "status": "ZERO_WEIGHT_PENDING_VALIDATION", "reason": "possible precursor/corroborator; birds alone do not confirm"},
+        {"id": "clustered_slow_human_search", "status": "EXPERT_POLICY", "reason": "soft nowcasting precursor only; feedback from forecasts/social posts is a confounder"},
+        {"id": "camera_negative", "status": "REJECTED", "reason": "a no-detection cannot be a general non-event; applies only to visible area/time and detectability"}
+      ]
+    },
+    {
+      "family": "social_and_public_reporting",
+      "priority": "P0 labels / nowcasting",
+      "features": [
+        {"id": "independent_first_person_current_report", "status": "DIRECT_PRODUCTION_EVIDENCE", "reason": "strong event evidence when time/location/media/provenance are credible"},
+        {"id": "repost_count", "status": "REJECTED", "reason": "reposts are not independent confirmations and measure attention as much as event physics"},
+        {"id": "human_search_volume", "status": "ZERO_WEIGHT_PENDING_VALIDATION", "reason": "may be caused by forecasts/social awareness; treat as observation-process signal"}
+      ]
+    },
+    {
+      "family": "offshore_and_satellite",
+      "priority": "P1",
+      "features": [
+        {"id": "shelf_bottom_oxygen_state", "status": "RESEARCH_CANDIDATE", "reason": "Hypoxia Watch/FOCAL may improve boundary-state prior but is not local Eastern Shore DO"},
+        {"id": "hfr_surface_current_context", "status": "RESEARCH_CANDIDATE", "reason": "historical/current shelf transport context; surface only"},
+        {"id": "viirs_ocean_color_plume_optics", "status": "RESEARCH_CANDIDATE", "reason": "surface productivity/turbidity/plume-front proxy; not bottom oxygen"}
+      ]
+    },
+    {
+      "family": "persistence",
+      "priority": "P1",
+      "features": [
+        {"id": "decaying_recent_event_prior", "status": "EXPERT_POLICY", "reason": "recent multi-pocket event can raise short-term prior but cannot mechanically predict next day"}
+      ]
+    },
+    {
+      "family": "historical_water_quality",
+      "priority": "P2",
+      "features": [
+        {"id": "enterococcus_or_beach_bacteria", "status": "ZERO_WEIGHT_PENDING_VALIDATION", "reason": "runoff/fecal indicator, not oxygen; earlier apparent no-value conclusion was invalid due leakage/repeated windows"},
+        {"id": "magnolia_river_physical_water_quality", "status": "ZERO_WEIGHT_PENDING_VALIDATION", "reason": "regional proxy only; insufficient event/control validation"}
+      ]
+    }
+  ],
+  "rule": "Any status change to positive production forecast weight requires model_validation_contract.json promotion gate and a versioned decision record."
+}
