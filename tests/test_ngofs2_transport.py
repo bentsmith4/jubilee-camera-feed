@@ -27,11 +27,12 @@ class NGOFS2TransportTests(unittest.TestCase):
             ngofs2.find_station_index(['Point Clear A', 'Point Clear B'])
 
     def test_latest_cycle_has_posting_cushion(self):
-        now = datetime(2026, 9, 7, 4, 20, tzinfo=timezone.utc)
-        cycles = ngofs2.cycle_candidates(now, count=2)
+        # 03Z is not considered safely posted until 90 minutes after cycle start.
+        now_after_cushion = datetime(2026, 9, 7, 4, 31, tzinfo=timezone.utc)
+        cycles = ngofs2.cycle_candidates(now_after_cushion, count=2)
         self.assertEqual(cycles[0], datetime(2026, 9, 7, 3, 0, tzinfo=timezone.utc))
-        now_too_early = datetime(2026, 9, 7, 3, 45, tzinfo=timezone.utc)
-        self.assertEqual(ngofs2.cycle_candidates(now_too_early, count=1)[0], datetime(2026, 9, 6, 21, 0, tzinfo=timezone.utc))
+        now_before_cushion = datetime(2026, 9, 7, 4, 20, tzinfo=timezone.utc)
+        self.assertEqual(ngofs2.cycle_candidates(now_before_cushion, count=1)[0], datetime(2026, 9, 6, 21, 0, tzinfo=timezone.utc))
 
     def test_trapezoid_integral(self):
         t0 = datetime(2026, 9, 7, 0, 0, tzinfo=timezone.utc)
