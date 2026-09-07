@@ -77,8 +77,10 @@ jobs:
         run: python model_data/ingest_river_forcing.py --days 16
       - name: Retrieve Weeks Bay realtime water quality and meteorology
         run: python model_data/ingest_weeks_bay_realtime.py
-      - name: Retrieve Point Clear NGOFS2 model transport guidance
+      - name: Retrieve Point Clear NGOFS2 antecedent transport guidance
         run: python model_data/ingest_ngofs2_point_clear.py --cast nowcast
+      - name: Retrieve Point Clear NGOFS2 forward transport guidance
+        run: python model_data/ingest_ngofs2_point_clear.py --cast forecast
       - name: Record prospective dawn observation effort without inventing negatives
         run: python model_data/build_observation_effort_snapshot.py --append-ledger
       - name: Verify revised historical ingest and diagnostics on sensing-audit branch
@@ -103,7 +105,10 @@ jobs:
             model_data/weeks_bay_realtime_manifest.json
             model_data/weeks_bay_realtime_normalized.csv
             model_data/ngofs2_point_clear_manifest.json
-            model_data/ngofs2_point_clear_normalized.csv
+            model_data/ngofs2_point_clear_nowcast_manifest.json
+            model_data/ngofs2_point_clear_nowcast_normalized.csv
+            model_data/ngofs2_point_clear_forecast_manifest.json
+            model_data/ngofs2_point_clear_forecast_normalized.csv
             model_data/observation_effort_snapshot.json
             model_data/observation_effort_ledger.jsonl
             model_data/water_quality_ingest_manifest.json
@@ -128,7 +133,9 @@ jobs:
           git add model_data/observation_effort_snapshot.json
           if [ -f model_data/observation_effort_ledger.jsonl ]; then git add model_data/observation_effort_ledger.jsonl; fi
           if [ -f model_data/weeks_bay_realtime_manifest.json ]; then git add model_data/weeks_bay_realtime_manifest.json; fi
-          if [ -f model_data/ngofs2_point_clear_manifest.json ]; then git add model_data/ngofs2_point_clear_manifest.json; fi
+          for f in model_data/ngofs2_point_clear_manifest.json model_data/ngofs2_point_clear_nowcast_manifest.json model_data/ngofs2_point_clear_forecast_manifest.json; do
+            if [ -f "$f" ]; then git add "$f"; fi
+          done
           if [ -d model_data/public_archive/ndbc ]; then git add model_data/public_archive/ndbc/; fi
           if [ -d model_data/public_archive/ngofs2_subset ]; then git add model_data/public_archive/ngofs2_subset/; fi
           if [ "$REF_NAME" = 'upgrade/sensing-audit-20260906' ]; then
