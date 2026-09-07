@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.1",
+  "schema_version": "1.2",
   "updated_date": "2026-09-06",
   "purpose": "Canonical interpretation of owner-camera evidence for Jubilee sensing. Owner-authorized private media may follow existing publication/archive policy; this contract governs model meaning and detectability.",
   "cameras": [
@@ -54,8 +54,43 @@
       "view_geometry": "Primarily water roughly 150+ feet offshore; water remains shallow, approximately 3 feet deep or less at the pier end.",
       "allowed_signals": ["bird concentration or feeding behavior", "surface smoothness or chop", "surface fish or biological disturbance", "local shallow-water state", "anonymous visible human activity when present"],
       "guardrail": "Supporting shallow-water evidence, not a substitute for the shoreline-contact view from montrose_shoreline."
+    },
+    {
+      "camera_id": "pcl_e2_bay_mouth",
+      "display_label_owner_reported": "Down the Marina",
+      "camera_id_mapping_confidence": "probable_pending_runtime_label_confirmation",
+      "site": "Point Clear landing",
+      "classification": "marina_axis_to_distant_shoreline_contact_proxy",
+      "shoreline_visible": "distant_at_end_of_marina_not_close_beach_view",
+      "view_geometry": "Looks down the marina; the far end of the marina terminates at/near the shoreline. Owner reports no Point Clear private camera directly frames a close beach waterline.",
+      "high_value_signals": [
+        "anonymous people or lights moving along marina/shoreline axis when resolvable",
+        "clustered human activity near distant shoreline",
+        "bird concentration or feeding activity",
+        "localized surface disturbance or fish activity within marina",
+        "unusual calm/smooth water or chop within the protected marina axis",
+        "visible biological concentration near the distant shoreline only when image resolution is sufficient"
+      ],
+      "negative_scope": "Absence of visible activity is only evidence for the resolvable marina corridor and distant shoreline patch during the observed interval. Do not treat it as a negative for Point Clear beaches outside the frame.",
+      "mapping_guardrail": "Do not hard-code camera-specific automation against pcl_e2_bay_mouth until the desktop/runtime display label 'Down the Marina' is explicitly mapped to this camera ID; owner currently believes this is the matching ID.",
+      "human_privacy": "Anonymous counts/behavior only; no identity recognition or cross-camera person tracking."
+    },
+    {
+      "camera_id": "pcl_e2_back_deck",
+      "site": "Point Clear landing",
+      "classification": "bay_environment_support_pending_geometry_detail",
+      "guardrail": "No direct shoreline-negative inference until view geometry is calibrated."
+    },
+    {
+      "camera_id": "pcl_e3_bay_mouth",
+      "site": "Point Clear landing",
+      "classification": "bay_environment_support_pending_geometry_detail",
+      "guardrail": "No direct shoreline-negative inference until view geometry is calibrated."
     }
   ],
-  "site_independence_rule": "All three Montrose owner cameras share the montrose_owner_cluster physical/site independence group; multiple views improve observability but do not count as three independent Jubilee confirmations.",
+  "site_independence_rules": [
+    "All three Montrose owner cameras share the montrose_owner_cluster physical/site independence group; multiple views improve observability but do not count as three independent Jubilee confirmations.",
+    "All three Point Clear owner cameras share the point_clear_landing_owner_cluster physical/site independence group; multiple views improve observability but do not count as three independent confirmations."
+  ],
   "missingness_rule": "Dark, stale, frozen, obstructed or otherwise inadequate views are UNKNOWN, not negatives."
 }
