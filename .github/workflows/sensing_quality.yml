@@ -13,6 +13,7 @@ on:
       - 'model_data/ingest_river_forcing.py'
       - 'model_data/ingest_weeks_bay_realtime.py'
       - 'model_data/ingest_ngofs2_point_clear.py'
+      - 'model_data/ingest_griidc_main_pass_20160419.py'
       - 'model_data/promote_may1971_events.py'
       - 'model_data/ingest_water_quality.py'
       - 'model_data/backtest_water_quality.py'
@@ -32,7 +33,7 @@ concurrency:
 jobs:
   validate-and-sense:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
         with:
@@ -85,6 +86,9 @@ jobs:
         run: python model_data/ingest_ngofs2_point_clear.py --cast nowcast
       - name: Retrieve Point Clear NGOFS2 forward transport guidance
         run: python model_data/ingest_ngofs2_point_clear.py --cast forecast
+      - name: Ingest static Main Pass 2016 CTD profiles on top-five research branch
+        if: github.ref_name == 'upgrade/top5-gaps-round2-20260906'
+        run: python model_data/ingest_griidc_main_pass_20160419.py
       - name: Record prospective dawn observation effort without inventing negatives
         run: python model_data/build_observation_effort_snapshot.py --append-ledger
       - name: Verify revised historical ingest and diagnostics on sensing-audit branch
@@ -114,6 +118,8 @@ jobs:
             model_data/ngofs2_point_clear_nowcast_normalized.csv
             model_data/ngofs2_point_clear_forecast_manifest.json
             model_data/ngofs2_point_clear_forecast_normalized.csv
+            model_data/griidc_main_pass_20160419_manifest.json
+            model_data/griidc_main_pass_20160419_normalized.csv
             model_data/observation_effort_snapshot.json
             model_data/observation_effort_ledger.jsonl
             model_data/water_quality_ingest_manifest.json
@@ -136,7 +142,12 @@ jobs:
           git config user.email 'actions@users.noreply.github.com'
           git add model_data/upgrade_test_report.json model_data/upgrade_readiness.json model_data/coverage_snapshot.json model_data/sensing_audit.json model_data/river_forcing_manifest.json model_data/public_archive/
           git add model_data/observation_effort_snapshot.json
-          if [ "$REF_NAME" = 'upgrade/top5-gaps-round2-20260906' ]; then git add model_data/event_history.json; fi
+          if [ "$REF_NAME" = 'upgrade/top5-gaps-round2-20260906' ]; then
+            git add model_data/event_history.json
+            if [ -f model_data/griidc_main_pass_20160419_manifest.json ]; then git add model_data/griidc_main_pass_20160419_manifest.json; fi
+            if [ -f model_data/griidc_main_pass_20160419_normalized.csv ]; then git add model_data/griidc_main_pass_20160419_normalized.csv; fi
+            if [ -d model_data/public_archive/griidc_main_pass_20160419 ]; then git add model_data/public_archive/griidc_main_pass_20160419/; fi
+          fi
           if [ -f model_data/observation_effort_ledger.jsonl ]; then git add model_data/observation_effort_ledger.jsonl; fi
           if [ -f model_data/weeks_bay_realtime_manifest.json ]; then git add model_data/weeks_bay_realtime_manifest.json; fi
           for f in model_data/ngofs2_point_clear_manifest.json model_data/ngofs2_point_clear_nowcast_manifest.json model_data/ngofs2_point_clear_forecast_manifest.json; do
