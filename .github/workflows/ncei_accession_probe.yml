@@ -2,15 +2,18 @@ name: Temporary data-endpoint probe
 on:
   push:
     branches: [upgrade/top5-gaps-round2-20260906]
-    paths: ['.github/workflows/ncei_accession_probe.yml']
+    paths:
+      - '.github/workflows/ncei_accession_probe.yml'
+      - 'model_data/ingest_griidc_main_pass_20160419.py'
 permissions:
   contents: read
 jobs:
   probe:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
-      - name: Resolve GRIIDC ERDDAP priority datasets without retaining payloads
+      - uses: actions/checkout@v4
+      - name: Resolve GRIIDC ERDDAP priority datasets without retaining probe payloads
         shell: bash
         run: |
           set -u
@@ -24,20 +27,10 @@ jobs:
           with urllib.request.urlopen(req, timeout=30) as r: doc=json.load(r)
           cols=doc.get('table',{}).get('columnNames',[]); rows=doc.get('table',{}).get('rows',[])
           print('MATCHES', len(rows))
-          for row in rows[:100]:
+          for row in rows[:5]:
               item=dict(zip(cols,row))
               print(json.dumps({k:item.get(k) for k in ['Dataset ID','Title','Institution','tabledap','Info']}, ensure_ascii=False))
           PY
           done
-          echo '===== MAIN PASS SAMPLE SCHEMA/CSV ====='
-          python - <<'PY' || true
-          import json, urllib.request
-          did='R4_x260_000_0055_DZ_19April2016_mini000_ce'
-          for suffix in [f'/erddap/info/{did}/index.json', f'/erddap/tabledap/{did}.csv']:
-              url='https://erddap.griidc.org'+suffix
-              req=urllib.request.Request(url,headers={'User-Agent':'jubilee-research/1.0'})
-              with urllib.request.urlopen(req,timeout=30) as r:
-                  body=r.read(12000)
-              print('URL',url,'PREFIX_BYTES',len(body))
-              print(body.decode('utf-8','replace')[:12000])
-          PY
+      - name: Validate complete Main Pass 2016-04-19 CTD ingestion
+        run: python model_data/ingest_griidc_main_pass_20160419.py
