@@ -63,7 +63,7 @@ First live run 34133007705 succeeded and published model_data/observation_record
 Next Sensing dawn run: inspect the new immutable record from that morning, check freshness and visibility, count scoped candidates/unknown/rejected cells, and update J06. If absent, inspect workflow/capture failures and apply existing material-input-fault policy. Never substitute silence, darkness or Point Clear marina visibility for a beach negative. Numerical weights and sensor hold remain unchanged.
 
 ## Next execution sequence
-1. J03–J07: recover, validate and safely incorporate already-written PR #4 work before expanding another parallel research branch. Finish the candidate-output step and prove unattended observation logging with fresh inputs.
+1. J04–J06: verify the first complete main environmental refresh, finish outstanding historical primary-source checks, and inspect the next real usable dawn record. PR #4 integration and historical candidate generation are complete.
 2. J11–J12: reconcile operational timing and stale documents; preserve earlier coverage/alert instructions and test the actual result.
 3. J08–J09: targeted event/control evidence and high-value archive ingestion, reusing existing parsed data and source hashes.
 4. J10: evaluate forecast skill only after the data meet the control and leakage gates.
