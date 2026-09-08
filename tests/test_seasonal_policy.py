@@ -19,12 +19,12 @@ class SeasonalTests(unittest.TestCase):
         for year in (2026, 2028, 2032):
             d = datetime(year, 1, 1, 12, tzinfo=season.TZ)
             while d.year == year:
-                expected = datetime(year, 1, 18, tzinfo=season.TZ) <= d < datetime(year, 11, 15, tzinfo=season.TZ)
+                expected = datetime(year, 5, 18, tzinfo=season.TZ) <= d < datetime(year, 11, 15, tzinfo=season.TZ)
                 self.assertEqual(season.in_season(d), expected, d)
                 d += timedelta(days=1)
 
     def test_local_midnight_and_naive_rejection(self):
-        for stamp, expected in [("2026-01-18T05:59:00+00:00", False), ("2026-01-18T06:00:00+00:00", True), ("2026-11-15T05:59:00+00:00", True), ("2026-11-15T06:00:00+00:00", False)]:
+        for stamp, expected in [("2026-05-18T04:59:00+00:00", False), ("2026-05-18T05:00:00+00:00", True), ("2026-11-15T05:59:00+00:00", True), ("2026-11-15T06:00:00+00:00", False)]:
             self.assertEqual(season.in_season(datetime.fromisoformat(stamp)), expected)
         with self.assertRaises(ValueError):
             season.in_season(datetime(2026, 1, 18))
