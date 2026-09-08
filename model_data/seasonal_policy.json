@@ -1,5 +1,5 @@
 {
-  "version": "2.0",
+  "version": "2.1",
   "owner_authorized_at": "2026-09-08",
   "timezone": "America/Chicago",
   "start_inclusive": "05-18",
@@ -27,7 +27,7 @@
     "No validated universal water-temperature shutdown threshold established. Keep full in-season coverage; do not suppress based on one surface sensor."
   ],
   "cloud": {
-    "status": "APPLIED_NOT_RUNTIME_VALIDATED",
+    "status": "EXACT_RECURRENCE_APPLIED_AND_READ_BACK",
     "tasks": [
       {
         "id": "6a807c493a4481918aad2d656abd7817",
@@ -46,11 +46,12 @@
         "title": "Jubilee Model Research & Calibration"
       }
     ],
-    "implementation": "December–April excluded by BYMONTH=5..11. Calendar-first prompt gate handles May1–17 and November15–30. Dawn Timing on November14 prepares next May18 dawn; preserves gate.",
-    "residual": "Boundary-date automation invocations may perform the initial calendar check; no source retrieval or model work authorized."
+    "implementation": "All four existing tasks use FREQ=YEARLY with BYYEARDAY=-228 through -48 inclusive. This enumerates exactly May18–November14 in ordinary/leap years. Preserve existing BYHOUR and weekday restrictions; minutes/seconds default to DTSTART for sensing/timing/research. Dawn Brief explicit minute/second remains. Calendar-first prompt guard retained.",
+    "residual": "Prior partial-month calendar-check wakeups eliminated by exact recurrence. No off-season scheduled work.",
+    "dawn_maintenance": "On Nov14 precompute next May18 civil dawn+25; retain exact recurrence and prompt guard. No duplicate tasks."
   },
   "desktop": {
-    "status": "STAGED_NOT_INSTALLED",
+    "status": "MERGED_NOT_INSTALLED",
     "pull_request": 5,
     "repository": "bentsmith4/jubilee-camera-feed",
     "runtime": "C:\\JubileeCams",
@@ -58,10 +59,14 @@
       "seasonal_policy.py",
       "scheduler_router.py",
       "capture_publish.py",
-      "analyze_frames.py"
+      "analyze_frames.py",
+      "capture_service.py"
     ],
     "scope": "Canonical Jubilee burst plus paid vision pipeline, including its embedded alligator analysis/notifications. Independent near-live/security feeds unchanged.",
-    "installation": "Install all four files from reviewed PR5 together after backing up current files; helper must be installed first. Validate an in-season full cycle and off-season guard with mocked time; verify local file hashes."
+    "installation": "Follow desktop_runtime/README.md: stop existing coordinator/canonical tasks and wait for children; backup/version-check five files; install helper first and remaining files from one reviewed commit; restart existing jobs; verify version marker, six-camera coherent new cycle and usage telemetry. No connected remote deployment path identified.",
+    "merge_commit": "a524ceadbc702735871981f567716b7963a0227d",
+    "expected_runtime_version": "2026-09-08-season-efficiency-timing-v1",
+    "validation": "12 focused offline tests;94 full GitHub tests passed on PR head d72b239f79e6d5856f70a541b4dbbe7e1a71870e, workflow34237977289. No paid test calls; source merge is not deployed runtime."
   },
   "savings": {
     "active_days": 181,
