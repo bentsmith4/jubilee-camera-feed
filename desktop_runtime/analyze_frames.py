@@ -32,14 +32,15 @@ client = OpenAI()
 
 
 API_USAGE_PATH = FRAMES / "api_usage.jsonl"
+RUNTIME_VERSION = "2026-09-08-season-efficiency-timing-v1"
 
 
 def api_response(stage, **kwargs):
     """Record token usage locally without changing request or failure behavior."""
+    require_season()
     started = time.monotonic()
     response = None
     try:
-        require_season()
         response = client.responses.create(**kwargs)
         return response
     finally:
@@ -56,6 +57,8 @@ def api_response(stage, **kwargs):
                 "input_tokens": getattr(usage, "input_tokens", None),
                 "output_tokens": getattr(usage, "output_tokens", None),
                 "total_tokens": getattr(usage, "total_tokens", None),
+                "cached_input_tokens": getattr(getattr(usage, "input_tokens_details", None), "cached_tokens", None),
+                "reasoning_output_tokens": getattr(getattr(usage, "output_tokens_details", None), "reasoning_tokens", None),
                 "elapsed_seconds": round(time.monotonic() - started, 3),
             }
             with API_USAGE_PATH.open("a", encoding="utf-8") as handle:
@@ -120,6 +123,11 @@ def analyze_burst(
         )
     )
 
+    shot_timing = [
+        {key: shot[key] for key in ("shot", "timestamp_ct", "timing") if key in shot}
+        for shot in shot_metadata
+    ]
+
     prompt = f"""
 You are analyzing THREE sequential images from one
 Mobile Bay Jubilee monitoring camera.
@@ -130,6 +138,9 @@ presented in chronological order:
 FRAME 1
 FRAME 2
 FRAME 3
+
+SHOT TIMING (retain actual versus nominal/estimated labels; missing timing is unknown):
+{json.dumps(shot_timing, separators=(",", ":"))}
 
 CAMERA ID:
 {camera_id}
@@ -417,8 +428,10 @@ def cross_camera_analysis(
     prompt = f"""
 Synthesize this burst-based Mobile Bay Jubilee camera analysis.
 
-Each camera result was generated from THREE images approximately
-one second apart.
+Each camera result was generated from THREE images with a nominal target
+spacing of ten seconds. Use its burst_shots timestamps and timing labels;
+nominal/estimated timing is not an exact measurement. Different cameras
+may have different capture times; do not assume simultaneous observations.
 
 Do not invent evidence beyond these observations.
 
@@ -727,6 +740,7 @@ def main():
             pass
 
     output = {
+        "runtime_version": RUNTIME_VERSION,
         "capture_time_ct":
             status.get("capture_time_ct"),
 
