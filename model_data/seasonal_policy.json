@@ -1,18 +1,16 @@
 {
-  "version": "1.0",
+  "version": "2.0",
   "owner_authorized_at": "2026-09-08",
   "timezone": "America/Chicago",
-  "start_inclusive": "01-18",
+  "start_inclusive": "05-18",
   "end_inclusive": "11-14",
   "cushion_days": 14,
-  "basis": "Conservative reported-month envelope; exact all-time earliest/latest days NOT established.",
+  "basis": "Operational warm-season risk/cost policy, replacing literal historical-extreme envelope after owner challenge. Not an all-time occurrence or physical-impossibility bound.",
   "earliest": {
-    "month": 2,
-    "year": 1959,
-    "precision": "month",
-    "source": "https://aslopubs.onlinelibrary.wiley.com/doi/pdf/10.4319/lo.1973.18.3.0353",
-    "page": 358,
-    "note": "May explicitly reports one February and one March 1959 event among 135 reports, 1946–1971. February16 archive date is a newspaper publication date, not verified event day."
+    "month": 6,
+    "precision": "core season, not earliest-ever event",
+    "source": "https://www.themeateater.com/fish/general/this-annual-phenomenon-creates-the-easiest-fishing-in-america",
+    "note": "Original interview with ADCNR chief marine biologist Kevin Anson gives June through earlyOctober; June1 minus14days = May18."
   },
   "latest": {
     "month": 10,
@@ -20,11 +18,13 @@
     "source": "https://www.outdoorlife.com/fishing/video-jubilee-alabama-coast/",
     "note": "Jake Markris says events sometimes extend into September and October. Do not label October31 an actual event date."
   },
-  "derivation": "February1 minus14 days = January18; October31 plus14 days = November14. Inclusive in America/Chicago; 64 off-days in leap and ordinary years.",
+  "derivation": "June1 minus14days = May18. Retain all of October conservatively for reported late events, then add14days = November14. 181 active days every year;184 off-days ordinary year,185 leap year.",
   "limitations": [
     "Historical records are incomplete; no proof events are impossible outside this window.",
     "No-report days and seasonal pauses are NOT clean negative observations.",
-    "Primary May table excludes exact winter days; continue source-backed boundary recovery during in-season research."
+    "Primary May table excludes exact winter days; continue source-backed boundary recovery during in-season research.",
+    "Winter reports are preserved, not disproved or reclassified as cold kills. No associated measured February temperature/DO established in reviewed report.",
+    "No validated universal water-temperature shutdown threshold established. Keep full in-season coverage; do not suppress based on one surface sensor."
   ],
   "cloud": {
     "status": "APPLIED_NOT_RUNTIME_VALIDATED",
@@ -46,7 +46,7 @@
         "title": "Jubilee Model Research & Calibration"
       }
     ],
-    "implementation": "December excluded by BYMONTH; prompt first-action local-date gate returns silently on other off-season dates. Exact partial-month recurrence rejected by scheduler. Dawn Timing preserves gate and prepares next Jan18 dawn on Nov14.",
+    "implementation": "December–April excluded by BYMONTH=5..11. Calendar-first prompt gate handles May1–17 and November15–30. Dawn Timing on November14 prepares next May18 dawn; preserves gate.",
     "residual": "Boundary-date automation invocations may perform the initial calendar check; no source retrieval or model work authorized."
   },
   "desktop": {
@@ -64,10 +64,42 @@
     "installation": "Install all four files from reviewed PR5 together after backing up current files; helper must be installed first. Validate an in-season full cycle and off-season guard with mocked time; verify local file hashes."
   },
   "savings": {
-    "off_days": 64,
-    "annual_percent_at_constant_daily_spend": 17.534246575342465,
-    "illustrative_annual_usd_at_044_per_day": 28.16,
+    "active_days": 181,
+    "off_days_ordinary_year": 184,
+    "off_days_leap_year": 185,
+    "annual_percent_at_constant_daily_spend": 50.41095890410959,
+    "illustrative_annual_usd_at_044_per_day": 80.96,
     "measured": false
   },
-  "github_jobs": "Existing non-LLM GitHub quality/ingestion workflow schedules not changed; they are not paid vision execution."
+  "github_jobs": "Existing non-LLM GitHub quality/ingestion workflow schedules not changed; they are not paid vision execution.",
+  "historical_winter_reports": {
+    "month": 2,
+    "year": 1959,
+    "precision": "month",
+    "source": "https://aslopubs.onlinelibrary.wiley.com/doi/pdf/10.4319/lo.1973.18.3.0353",
+    "page": 358,
+    "note": "May explicitly reports one February and one March 1959 event among 135 reports, 1946–1971. February16 archive date is a newspaper publication date, not verified event day."
+  },
+  "physical_basis": [
+    {
+      "source": "https://www.outdooralabama.com/articles/harvest-regulations-still-apply-during-jubilees",
+      "finding": "State agency describes warm stagnant water, organic oxygen demand, stratification and shoreward transport."
+    },
+    {
+      "source": "https://www.usgs.gov/water-science-school/science/dissolved-oxygen-and-water",
+      "finding": "Cold water has greater oxygen solubility; temperature alone is not an impossibility test."
+    },
+    {
+      "source": "https://www.frontiersin.org/journals/marine-science/articles/10.3389/fmars.2022.989017/full",
+      "finding": "Mobile Bay hypoxia also observed in lateApril/earlyMay2019; offshore/channel hypoxia is not itself a verified shoreline Jubilee. Do not equate these outcomes or claim zero outside-season risk."
+    }
+  ],
+  "superseded_policies": [
+    {
+      "version": "1.0",
+      "start": "01-18",
+      "end": "11-14",
+      "reason": "Historical outliers overweighted for routine operating policy; winter-inclusive policy rejected by owner."
+    }
+  ]
 }
