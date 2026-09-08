@@ -7,6 +7,8 @@ import tempfile
 import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from zoneinfo import ZoneInfo
+import re
 
 BASE = Path(r'C:\JubileeCams')
 from camera_policy import CAMERA_IDS as CAMERAS
@@ -39,6 +41,101 @@ def validate_private(value):
     elif isinstance(value, str) and any(x in value.lower() for x in ('rtsp://', 'rtsps://', 'bearer ', 'streamextensiontoken', '/enterprises/')):
         raise ValueError('Private stream data: publication refused')
 
+
+def usage_summary(base, now=None):
+    """Publish only allowlisted daily aggregates; never raw telemetry fields."""
+    now = now or datetime.now(timezone.utc)
+    today = now.astimezone(ZoneInfo("America/Chicago")).date()
+    first = today - timedelta(days=30)
+    result = {
+        "schema_version": 1,
+        "generated_at_utc": now.isoformat(),
+        "timezone": "America/Chicago",
+        "window_start": first.isoformat(),
+        "window_end": today.isoformat(),
+        "status": "available",
+        "billing_status": "unpriced_token_usage_not_actual_spend",
+        "coverage": "logged_requests_only; missing_days_are_not_zero; current_day_is_partial",
+        "cycle_coverage": "not_inferred_from_request_counts; inspect_camera_status_separately",
+        "retry_count": None,
+        "invalid_records": 0,
+        "excluded_outside_window": 0,
+        "groups": [],
+    }
+    groups = {}
+    stages = {"camera:" + camera for camera in CAMERAS} | {"cross_camera"}
+    fields = ("input_tokens", "output_tokens", "total_tokens",
+              "cached_input_tokens", "reasoning_output_tokens")
+    with (base / "frames" / "api_usage.jsonl").open(encoding="utf-8-sig") as handle:
+        for line in handle:
+            try:
+                row = json.loads(line)
+                dt = timestamp(row["recorded_at_ct"])
+                if dt > now + timedelta(minutes=2):
+                    raise ValueError("Future telemetry")
+                day = dt.astimezone(ZoneInfo("America/Chicago")).date()
+                if not first <= day <= today:
+                    result["excluded_outside_window"] += 1
+                    continue
+                stage = row["stage"]
+                if stage not in stages:
+                    raise ValueError("Unknown stage")
+                model = row.get("model")
+                # Do not copy arbitrary strings from local logs into a public file.
+                if not isinstance(model, str) or not re.fullmatch(r"gpt-5[.]6-luna(?:-\d{4}-\d{2}-\d{2})?", model):
+                    model = "unrecognized_or_unavailable"
+                values = {}
+                for field in fields:
+                    value = row.get(field)
+                    if value is not None and (type(value) is not int or value < 0):
+                        raise ValueError("Invalid token count")
+                    values[field] = value
+                for subset, total in (("cached_input_tokens", "input_tokens"),
+                                      ("reasoning_output_tokens", "output_tokens")):
+                    if values[subset] is not None and values[total] is not None and values[subset] > values[total]:
+                        raise ValueError("Invalid token subset")
+                if all(values[f] is not None for f in fields[:3]) and values["input_tokens"] + values["output_tokens"] != values["total_tokens"]:
+                    raise ValueError("Inconsistent token totals")
+                key = (day.isoformat(), stage, model)
+                group = groups.setdefault(key, {
+                    "date_ct": key[0], "stage": stage, "model": model,
+                    "logged_requests": 0, "completed_requests": 0,
+                    "failed_requests": 0, "other_status_requests": 0,
+                    "completed_without_output_text": 0,
+                    "tokens": {f: {"known_sum": 0, "missing_records": 0} for f in fields},
+                })
+                group["logged_requests"] += 1
+                status = row.get("status")
+                if status == "completed":
+                    group["completed_requests"] += 1
+                    if row.get("output_text_present") is not True:
+                        group["completed_without_output_text"] += 1
+                elif status in ("request_failed", "failed"):
+                    group["failed_requests"] += 1
+                else:
+                    group["other_status_requests"] += 1
+                for field, value in values.items():
+                    group["tokens"][field]["known_sum"] += value if value is not None else 0
+                    group["tokens"][field]["missing_records"] += int(value is None)
+            except (ValueError, TypeError, KeyError, OverflowError):
+                result["invalid_records"] += 1
+    result["groups"] = [groups[key] for key in sorted(groups)]
+    if not groups:
+        result["status"] = "no_valid_records_in_window"
+    return result
+
+
+def usage_payload(base):
+    try:
+        summary = usage_summary(base)
+    except Exception:
+        # Reporting failure must neither block cameras nor leave a stale success file.
+        summary = {"schema_version": 1, "status": "unavailable",
+                   "generated_at_utc": datetime.now(timezone.utc).isoformat(),
+                   "billing_status": "unpriced_token_usage_not_actual_spend", "groups": []}
+    return json.dumps(summary, sort_keys=True, separators=(",", ":")).encode("utf-8")
+
+
 def payload(base):
     frames = base / 'frames'
     raw = {name: (frames / name).read_bytes() for name in METADATA}
@@ -64,6 +161,7 @@ def payload(base):
             if not content.startswith(b'\xff\xd8') or not content.endswith(b'\xff\xd9'):
                 raise ValueError('Invalid JPEG')
             raw[name] = content
+    raw["api_usage_summary.json"] = usage_payload(base)
     return raw, captured
 
 def publish(base=BASE, attempts=3, before_push=None):
@@ -110,3 +208,4 @@ if __name__ == '__main__':
     except Exception as exc:
         print('Publication refused: ' + str(exc) if isinstance(exc, (ValueError, RuntimeError)) else 'Publication failed: ' + type(exc).__name__)
         raise SystemExit(1)
+
