@@ -8,6 +8,7 @@ from pathlib import Path
 from unittest.mock import Mock, patch
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "desktop_runtime"))
 
 def load(name, path):
     spec = importlib.util.spec_from_file_location(name, path)
@@ -21,6 +22,9 @@ NEW = load("efficient_analyzer", ROOT / "desktop_runtime/analyze_frames.py")
 
 class EfficiencyTests(unittest.TestCase):
     def setUp(self):
+        season_patch = patch.object(NEW, "require_season", return_value=None)
+        season_patch.start()
+        self.addCleanup(season_patch.stop)
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         NEW.API_USAGE_PATH = Path(self.tmp.name) / "api_usage.jsonl"
@@ -65,6 +69,23 @@ class EfficiencyTests(unittest.TestCase):
         self.response.output_text = ""
         NEW.api_response("camera:test", model="gpt-5.6-luna")
         self.assertFalse(json.loads(NEW.API_USAGE_PATH.read_text())["output_text_present"])
+
+    def test_camera_prompt_includes_timing_provenance(self):
+        shots = [{"shot": 1, "timestamp_ct": "2026-09-08T09:06:06-05:00", "timing": "actual_screenshot_time"},
+                 {"shot": 2, "timestamp_ct": "2026-09-08T09:06:16-05:00", "timing": "nominal_estimate"}]
+        result = NEW.analyze_burst("test", "Test", [], shots, {})
+        prompt = NEW.client.responses.create.call_args.kwargs["input"][0]["content"][0]["text"]
+        self.assertIn("2026-09-08T09:06:06-05:00", prompt)
+        self.assertIn("actual_screenshot_time", prompt)
+        self.assertIn("nominal_estimate", prompt)
+        self.assertEqual(result["burst_shots"], shots)
+
+    def test_synthesis_preserves_real_timing_and_nonsimultaneity(self):
+        NEW.cross_camera_analysis({}, {})
+        prompt = NEW.client.responses.create.call_args.kwargs["input"]
+        self.assertNotIn("one second apart", prompt)
+        self.assertIn("ten seconds", prompt)
+        self.assertIn("do not assume simultaneous observations", prompt)
 
 
 if __name__ == "__main__":
