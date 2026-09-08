@@ -3,6 +3,7 @@ import json,socket,subprocess,sys,time
 from datetime import datetime,timedelta
 from pathlib import Path
 import refresh_all as ra
+from seasonal_policy import in_season
 
 BASE=Path(r'C:\JubileeCams')
 STATE=BASE/'capture_service_state.json'
@@ -47,10 +48,16 @@ def main():
     while True:
         now,_dawn,start,end=ra.dawn_window()
         due=slot(now,start,end)
-        if state.get('canonical_slot')!=due and time.monotonic()>=retry_at:
+        active=in_season(now)
+        state['canonical_monitoring_status']='scheduled' if active else 'offseason_not_monitored'
+        if active and state.get('canonical_slot')!=due and time.monotonic()>=retry_at:
             if execute('capture_publish.py',900):
                 state['canonical_slot']=due
-                state['last_canonical_success']=datetime.now(ra.TZ).isoformat()
+                if in_season(datetime.now(ra.TZ)):
+                    state['last_canonical_success']=datetime.now(ra.TZ).isoformat()
+                    state['canonical_monitoring_status']='completed'
+                else:
+                    state['canonical_monitoring_status']='offseason_not_monitored'
                 failures=0
             else:
                 failures+=1

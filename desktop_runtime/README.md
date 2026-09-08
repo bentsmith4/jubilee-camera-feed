@@ -17,3 +17,15 @@ The descriptive anonymous human-observation fields do not alter production forec
 Rollback: `C:\JubileeCams\rollback_20260906_desktop_upgrade` contains original files, configuration, Git history, and task XML. To undo only coordination, stop the live job, restore `live_loop_before_coordinator.py` as `live_loop.py`, re-enable Dawn Cameras, and start the live job. Do not restore the old unsafe Git publisher to active use.
 
 Remaining: public-camera recording rights/access, R2 lifecycle-read permission, surveyed shoreline calibration, and ChatGPT schedule changes. Windows automatic restart settings were rejected and remain unchanged. Both the pre-switch 17:06 scheduled pipeline and a post-switch coordinator canonical pipeline completed successfully; the coordinator then resumed live publication.
+
+
+## September 8 seasonal and efficiency update
+Source changes are not desktop deployment. The publisher fetches remote Git history to append camera results; it does not install desktop scripts.
+
+Install these five files from one reviewed commit together after backing up current files: seasonal_policy.py (new helper first), analyze_frames.py, capture_publish.py, scheduler_router.py, capture_service.py. Stop the existing coordinator/canonical jobs and wait for child processes to finish before replacement, then restart the same existing jobs. Do not create duplicate scheduled jobs, reset the camera repository, or replace local credentials/configuration/refresh_all.py. If current local files differ from their reviewed pre-update versions, reconcile those differences before replacement. Keep the backup for rollback of these five files only.
+
+Operating window: May 18–November 14 inclusive, America/Chicago. The coordinator preserves independent live refresh but skips canonical capture/paid analysis outside this window and records offseason_not_monitored. The canonical pipeline's embedded alligator analysis and alerts also pause. Off-season is not a biological negative. The helper rechecks before each API request and pipeline stage.
+
+In-season coverage/model/image detail remain unchanged. Prompts compact embedded JSON; camera prompts now receive shot timestamps with actual/nominal labels; synthesis uses nominal ten-second spacing and does not assume simultaneous cameras. Local frames/api_usage.jsonl records token usage, including cached input and reasoning output counts when returned, without prompt/image/response content. Token counters are not dollar charges and require billing reconciliation.
+
+Deployment acceptance: require runtime_version=2026-09-08-season-efficiency-timing-v1 in a newly captured vision.json, matching capture IDs across status/burst/vision, six successful three-frame results, coherent timing and functioning local usage telemetry. Check the coordinator state is truthful. Do not claim measured savings or installed seasonal shutdown until these checks pass.

@@ -1,3 +1,6 @@
+from seasonal_policy import require_season
+require_season()
+
 import subprocess
 import socket
 import sys
@@ -43,6 +46,7 @@ steps = [
 ]
 
 for label, script, args in steps:
+    require_season()
     print()
     print("=" * 70)
     print(label)

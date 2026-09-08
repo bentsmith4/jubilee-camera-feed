@@ -5,12 +5,15 @@ import sys
 from datetime import timedelta
 from pathlib import Path
 
+from seasonal_policy import require_season
+
 import refresh_all as ra
 
 BASE = Path(r"C:\JubileeCams")
 
 
 def main():
+    require_season()
     now, _dawn, start, end = ra.dawn_window()
 
     # The task fires at :06. Starting the dawn runner during the 3 AM firing
