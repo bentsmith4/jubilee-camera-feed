@@ -3,7 +3,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 
 TZ = ZoneInfo("America/Chicago")
-START = (1, 18)
+START = (5, 18)
 END = (11, 14)
 
 def in_season(now=None):
@@ -16,5 +16,5 @@ def in_season(now=None):
 
 def require_season():
     if not in_season():
-        print("Jubilee seasonal pause: not monitored (January 18–November 14 only).")
+        print("Jubilee seasonal pause: not monitored (May 18–November 14 only).")
         raise SystemExit(0)
