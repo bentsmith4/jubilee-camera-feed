@@ -1,3 +1,8 @@
+from seasonal_policy import require_season
+
+if __name__ == "__main__":
+    require_season()
+
 from openai import OpenAI
 import base64
 import json
@@ -34,7 +39,8 @@ def api_response(stage, **kwargs):
     started = time.monotonic()
     response = None
     try:
-        response = client.responses.create(**kwargs)
+        require_season()
+    response = client.responses.create(**kwargs)
         return response
     finally:
         try:
