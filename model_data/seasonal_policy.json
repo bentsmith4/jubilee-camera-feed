@@ -1,0 +1,73 @@
+{
+  "version": "1.0",
+  "owner_authorized_at": "2026-09-08",
+  "timezone": "America/Chicago",
+  "start_inclusive": "01-18",
+  "end_inclusive": "11-14",
+  "cushion_days": 14,
+  "basis": "Conservative reported-month envelope; exact all-time earliest/latest days NOT established.",
+  "earliest": {
+    "month": 2,
+    "year": 1959,
+    "precision": "month",
+    "source": "https://aslopubs.onlinelibrary.wiley.com/doi/pdf/10.4319/lo.1973.18.3.0353",
+    "page": 358,
+    "note": "May explicitly reports one February and one March 1959 event among 135 reports, 1946–1971. February16 archive date is a newspaper publication date, not verified event day."
+  },
+  "latest": {
+    "month": 10,
+    "precision": "month only; retrospective firsthand seasonal account, no dated October event recovered",
+    "source": "https://www.outdoorlife.com/fishing/video-jubilee-alabama-coast/",
+    "note": "Jake Markris says events sometimes extend into September and October. Do not label October31 an actual event date."
+  },
+  "derivation": "February1 minus14 days = January18; October31 plus14 days = November14. Inclusive in America/Chicago; 64 off-days in leap and ordinary years.",
+  "limitations": [
+    "Historical records are incomplete; no proof events are impossible outside this window.",
+    "No-report days and seasonal pauses are NOT clean negative observations.",
+    "Primary May table excludes exact winter days; continue source-backed boundary recovery during in-season research."
+  ],
+  "cloud": {
+    "status": "APPLIED_NOT_RUNTIME_VALIDATED",
+    "tasks": [
+      {
+        "id": "6a807c493a4481918aad2d656abd7817",
+        "title": "Jubilee Dawn Brief"
+      },
+      {
+        "id": "6a768acc89c48191868af698e740f490",
+        "title": "Jubilee Sensing & Alerting"
+      },
+      {
+        "id": "6a8f6123dcf4819180255f2c9812a81d",
+        "title": "Jubilee Dawn Timing"
+      },
+      {
+        "id": "6a768a4cf6e481919cfc858bba5cc542",
+        "title": "Jubilee Model Research & Calibration"
+      }
+    ],
+    "implementation": "December excluded by BYMONTH; prompt first-action local-date gate returns silently on other off-season dates. Exact partial-month recurrence rejected by scheduler. Dawn Timing preserves gate and prepares next Jan18 dawn on Nov14.",
+    "residual": "Boundary-date automation invocations may perform the initial calendar check; no source retrieval or model work authorized."
+  },
+  "desktop": {
+    "status": "STAGED_NOT_INSTALLED",
+    "pull_request": 5,
+    "repository": "bentsmith4/jubilee-camera-feed",
+    "runtime": "C:\\JubileeCams",
+    "files": [
+      "seasonal_policy.py",
+      "scheduler_router.py",
+      "capture_publish.py",
+      "analyze_frames.py"
+    ],
+    "scope": "Canonical Jubilee burst plus paid vision pipeline, including its embedded alligator analysis/notifications. Independent near-live/security feeds unchanged.",
+    "installation": "Install all four files from reviewed PR5 together after backing up current files; helper must be installed first. Validate an in-season full cycle and off-season guard with mocked time; verify local file hashes."
+  },
+  "savings": {
+    "off_days": 64,
+    "annual_percent_at_constant_daily_spend": 17.534246575342465,
+    "illustrative_annual_usd_at_044_per_day": 28.16,
+    "measured": false
+  },
+  "github_jobs": "Existing non-LLM GitHub quality/ingestion workflow schedules not changed; they are not paid vision execution."
+}
