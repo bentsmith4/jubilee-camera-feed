@@ -40,7 +40,7 @@ def api_response(stage, **kwargs):
     response = None
     try:
         require_season()
-    response = client.responses.create(**kwargs)
+        response = client.responses.create(**kwargs)
         return response
     finally:
         try:
