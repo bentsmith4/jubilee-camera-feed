@@ -2,6 +2,7 @@ from openai import OpenAI
 import base64
 import json
 import re
+import time
 from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -23,6 +24,39 @@ ALLIGATOR_RECENT_DAYS = 7
 TZ = ZoneInfo("America/Chicago")
 
 client = OpenAI()
+
+
+API_USAGE_PATH = FRAMES / "api_usage.jsonl"
+
+
+def api_response(stage, **kwargs):
+    """Record token usage locally without changing request or failure behavior."""
+    started = time.monotonic()
+    response = None
+    try:
+        response = client.responses.create(**kwargs)
+        return response
+    finally:
+        try:
+            usage = getattr(response, "usage", None)
+            record = {
+                "recorded_at_ct": datetime.now(TZ).isoformat(),
+                "stage": stage,
+                "request_id": getattr(response, "_request_id", None),
+                "response_id": getattr(response, "id", None),
+                "model": getattr(response, "model", kwargs.get("model")),
+                "status": getattr(response, "status", None) if response is not None else "request_failed",
+                "output_text_present": bool(getattr(response, "output_text", "")),
+                "input_tokens": getattr(usage, "input_tokens", None),
+                "output_tokens": getattr(usage, "output_tokens", None),
+                "total_tokens": getattr(usage, "total_tokens", None),
+                "elapsed_seconds": round(time.monotonic() - started, 3),
+            }
+            with API_USAGE_PATH.open("a", encoding="utf-8") as handle:
+                handle.write(json.dumps(record, separators=(",", ":")) + "\n")
+        except Exception:
+            # Telemetry must not break monitoring or mask the original API error.
+            print("WARNING: API usage telemetry unavailable.")
 
 
 def clean_json(text):
@@ -98,22 +132,22 @@ CAMERA LABEL:
 {camera_label}
 
 CAMERA ROLE:
-{json.dumps(camera_guidance, indent=2)}
+{json.dumps(camera_guidance, separators=(",", ":"))}
 
 JUBILEE RUBRIC VERSION:
 {rubric.get("rubric_version")}
 
 CORE PRINCIPLES:
-{json.dumps(rubric.get("core_principles"), indent=2)}
+{json.dumps(rubric.get("core_principles"), separators=(",", ":"))}
 
 HIGH-VALUE SIGNALS:
-{json.dumps(rubric.get("high_value_visual_signals"), indent=2)}
+{json.dumps(rubric.get("high_value_visual_signals"), separators=(",", ":"))}
 
 CONFOUNDERS:
-{json.dumps(rubric.get("important_confounders"), indent=2)}
+{json.dumps(rubric.get("important_confounders"), separators=(",", ":"))}
 
 SIGNAL WEIGHTING:
-{json.dumps(rubric.get("signal_weighting"), indent=2)}
+{json.dumps(rubric.get("signal_weighting"), separators=(",", ":"))}
 
 TEMPORAL RULE:
 {rubric.get("temporal_rule")}
@@ -328,7 +362,8 @@ Return ONLY valid JSON with exactly these fields:
             image_content(path)
         )
 
-    response = client.responses.create(
+    response = api_response(
+        f"camera:{camera_id}",
         model="gpt-5.6-luna",
         input=[
             {
@@ -401,7 +436,7 @@ Biological priority:
 
 CAMERA RESULTS:
 
-{json.dumps(compact, indent=2)}
+{json.dumps(compact, separators=(",", ":"))}
 
 Return ONLY valid JSON:
 
@@ -441,7 +476,8 @@ Return ONLY valid JSON:
 }}
 """
 
-    response = client.responses.create(
+    response = api_response(
+        "cross_camera",
         model="gpt-5.6-luna",
         input=prompt
     )
