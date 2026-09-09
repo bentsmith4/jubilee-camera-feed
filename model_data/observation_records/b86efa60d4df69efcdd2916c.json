@@ -1,0 +1,122 @@
+{
+  "assessment_basis": "validated_upstream_three_frame_vision_not_independent_pixel_review",
+  "cells": [
+    {
+      "camera_rows": [
+        {
+          "camera_id": "montrose_shoreline",
+          "capture_ok": true,
+          "detectability": "moderate",
+          "flashlight_activity": "none_visible",
+          "human_sensor_detectability": "good",
+          "integrity_issues": [],
+          "latest_image_sha256": "3a244b262a068480fcdb4a64110e0ef6a9eb67312e4283dba670ecb7ba6cda2c",
+          "overall_visual_signal": "none",
+          "people_present": "none_visible",
+          "visibility": "good"
+        },
+        {
+          "camera_id": "montrose_pier_boat",
+          "capture_ok": true,
+          "detectability": "moderate",
+          "flashlight_activity": "none_visible",
+          "human_sensor_detectability": "limited",
+          "integrity_issues": [],
+          "latest_image_sha256": "1f539f24db55be7bc181b0dfd35ab93927e286d3e7e2edfe69c52e02ddaf5b24",
+          "overall_visual_signal": "none",
+          "people_present": "none_visible",
+          "visibility": "fair"
+        },
+        {
+          "camera_id": "montrose_pier_bird",
+          "capture_ok": true,
+          "detectability": "high",
+          "flashlight_activity": "none_visible",
+          "human_sensor_detectability": "good",
+          "integrity_issues": [],
+          "latest_image_sha256": "c47c1df0c8ece3951505a6cec927e6bc728a39647d1107e6654704681325e407",
+          "overall_visual_signal": "none",
+          "people_present": "none_visible",
+          "visibility": "good"
+        }
+      ],
+      "control_eligibility": "CANDIDATE_VISIBLE_SCOPE_CONTROL",
+      "independent_private_site_group": "montrose_owner_cluster",
+      "negative_evidence_strength": "moderate",
+      "primary_contact_camera": "montrose_shoreline",
+      "private_camera_expected_count": 3,
+      "private_camera_fresh_or_ok_count": 3,
+      "scope_note": "If eligible, negative evidence is restricted to the 437 waterline/beach segments visible in montrose_shoreline.",
+      "shoreline_cell": "Montrose"
+    },
+    {
+      "camera_rows": [
+        {
+          "camera_id": "pcl_e2_back_deck",
+          "capture_ok": true,
+          "detectability": "low",
+          "flashlight_activity": "none_visible",
+          "human_sensor_detectability": "poor",
+          "integrity_issues": [],
+          "latest_image_sha256": "928c36c0814ec5108d8de8a5153addb5ced01b0cb278893ac3de3db91d7d66b1",
+          "overall_visual_signal": "none",
+          "people_present": "none_visible",
+          "visibility": "poor"
+        },
+        {
+          "camera_id": "pcl_e2_bay_mouth",
+          "capture_ok": true,
+          "detectability": "moderate",
+          "flashlight_activity": "none_visible",
+          "human_sensor_detectability": "limited",
+          "integrity_issues": [],
+          "latest_image_sha256": "06a69d717817c8f68f035d8e5f2bf29ee8a94fb0b1b222d586465b3638263e2d",
+          "overall_visual_signal": "none",
+          "people_present": "none_visible",
+          "visibility": "fair"
+        },
+        {
+          "camera_id": "pcl_e3_bay_mouth",
+          "capture_ok": true,
+          "detectability": "low",
+          "flashlight_activity": "none_visible",
+          "human_sensor_detectability": "poor",
+          "integrity_issues": [],
+          "latest_image_sha256": "cc1e5dcbaea901c3f05c0720cac2c667ad3dce7db12f730102fe6ed715ba8896",
+          "overall_visual_signal": "none",
+          "people_present": "none_visible",
+          "visibility": "fair"
+        }
+      ],
+      "control_eligibility": "PARTIAL_OBSERVABILITY_NOT_CLEAN_CELL_CONTROL",
+      "independent_private_site_group": "point_clear_landing_owner_cluster",
+      "negative_evidence_strength": "none",
+      "primary_contact_camera": null,
+      "private_camera_expected_count": 3,
+      "private_camera_fresh_or_ok_count": 3,
+      "scope_note": "Point Clear private cameras provide marina/Bay context but no close beach waterline; retain as observation effort only.",
+      "shoreline_cell": "Point Clear/Grand Hotel"
+    }
+  ],
+  "clean_training_negative_count": 0,
+  "cycle_in_target_predawn_dawn_window": true,
+  "evaluated_at_utc": "2026-09-09T11:13:14.438556+00:00",
+  "generated_from_capture_time_ct": "2026-09-09T06:08:16.632668-05:00",
+  "guardrails": [
+    "This file records observation effort and detectability, not Jubilee probability.",
+    "No-report is never promoted to an observed non-event.",
+    "Dark, stale, frozen, obstructed or low-detectability views are UNKNOWN.",
+    "A camera negative applies only to the geometry actually visible in that frame.",
+    "Point Clear owner cameras do not provide a close swash-zone negative; private cameras alone cannot create a full-cell Point Clear control."
+  ],
+  "input_hashes": {
+    "burst_status.json": "ccde688f24c7abd90337f353522d103e05a05043c63f334a074f1a134fe6750e",
+    "status.json": "0fa31816c1c6fe4bf8a8f9e1c97d1cdb9bdea8c437475662cd1ec26ae6a13afc",
+    "vision.json": "3b585e26f01e57425301be412613fb0d51a1c46846856ffcd4ed9d48a2a6fd0e"
+  },
+  "production_action": "NO_CHANGE",
+  "public_camera_structured_records_available": 72,
+  "schema_version": "1.2",
+  "target_window_end_ct": "2026-09-09T08:08:11.530488-05:00",
+  "target_window_start_ct": "2026-09-09T04:08:11.530488-05:00"
+}
