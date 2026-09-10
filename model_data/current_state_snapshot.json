@@ -1,6 +1,6 @@
 {
   "schema_version": "1.4",
-  "snapshot_time_ct": "2026-09-10T05:29:30.000-05:00",
+  "snapshot_time_ct": "2026-09-10T05:33:30.000-05:00",
   "layer": "production_sensing_only",
   "scope": [
     "Point Clear/Grand Hotel/Zundel's",
@@ -12,9 +12,9 @@
   "forecast_weights_changed": false,
   "deep_research_or_recalibration_performed": false,
   "forecast_opportunity_status": "NOT_RECOMPUTED_BY_SENSING_LAYER",
-  "material_change_since_prior_snapshot": false,
-  "notification_condition_met": false,
-  "notification_reason": "NONE_NO_MATERIAL_CHANGE",
+  "material_change_since_prior_snapshot": true,
+  "notification_condition_met": true,
+  "notification_reason": "NGOFS2_POINT_CLEAR_3H_6H_SHOREWARD_REVERSAL",
   "dawn_ct": "2026-09-10T06:08:46.634024-05:00",
   "principal_dawn_visual_assessment_status": "PENDING_PREDAWN_WINDOW; first at/after-dawn burst targets 06:08:46 CT, with dawn-plus-20 fallback if needed",
   "active_faults": [
@@ -34,10 +34,10 @@
     "authoritative numerical Point Clear tide prediction and current observed Point Clear water level",
     "travel-time/lag from upstream river stations to the Eastern Shore"
   ],
-  "change_summary": "New 05:08 CT private capture identity confirms the existing `pcl_e3_bay_mouth` fault persists with Point Clear 2/3; this is not a new degradation beyond the already alerted state. Both public live players advanced in isolated 36-second samples at 05:25–05:26 CT with no searching, collecting, flashlights or feeding-bird concentration in visible scope; biology remained unassessable in predawn darkness. Fresh NWS 03:02 CDT guidance keeps east winds around 5 knots and waves 1 foot or less this morning. NGOFS2 03Z guidance is unchanged. No independent September 10 Jubilee report was found.",
+  "change_summary": "Fresh NGOFS2 Point Clear forecast guidance advanced its reference from 01:54 to 04:54 CT. One-hour guidance became more seaward (-2 m to -28 m), while three-hour reversed from -57 m seaward to +31 m shoreward and six-hour reversed from -26 m to +199 m shoreward; twelve-hour remains shoreward but eased from +215 m to +137 m. This is model guidance only, not observed current or oxygen. The existing `pcl_e3_bay_mouth` fault persists at 05:08 CT with Point Clear 2/3, without further degradation. Both public players were probably fresh at 05:25–05:26 CT; no searching, collecting, flashlights or feeding-bird concentration appeared in visible scope, and biology remained unassessable in predawn darkness. No independent September 10 Jubilee report was found.",
   "alert_gates": {
     "credible_same_day_jubilee_report": false,
-    "material_current_state_change": false,
+    "material_current_state_change": true,
     "material_fresh_camera_or_human_evidence": false,
     "meaningful_direct_or_multistation_oxygen_reload": false,
     "priority_zone_probability_above_20_percent": "not_evaluated_by_sensing_layer_without_current_forecast_value",
@@ -56,7 +56,7 @@
     "fox10_hampton_inn_daphne_delta_camera": "public upper-bay context camera; current view unresolved",
     "USGS_lower_river": "explicit station series; Coffeeville pool/tailwater are not additive; lag to shore uncalibrated",
     "fly_creek_user_supplied_report_chain": "single apparent eyewitness chain; not independent corroboration; supplied photo not biologically diagnostic",
-    "NOAA_NGOFS2_03Z": "single NOAA NGOFS2 Point Clear 03Z cycle; nowcast and forecast kept separate but not independent; model guidance only"
+    "NOAA_NGOFS2_03Z": "single NOAA NGOFS2 Point Clear 03Z cycle; refreshed forward reference 04:54 CT; nowcast and forecast kept separate but not independent; model guidance only"
   },
   "input_rows": [
     {
@@ -508,9 +508,9 @@
       "parameter_evidence_type": "modeled_point_clear_antecedent_mixed_transport",
       "observed_vs_model": "MODEL nowcast guidance",
       "valid_time_ct": "2026-09-09T22:00:00.000-05:00",
-      "retrieval_time_ct": "2026-09-10T05:29:30.000-05:00",
-      "age_minutes": 449.5,
-      "qc_health": "NOAA NGOFS2 03Z nowcast manifest cb07b63e49b7cb8fc3a9d43596813f656cbe59de; complete model output; 100% window coverage; provisional geometry; not an observed current or oxygen measurement",
+      "retrieval_time_ct": "2026-09-10T05:33:30.000-05:00",
+      "age_minutes": 453.5,
+      "qc_health": "NOAA NGOFS2 03Z nowcast manifest cb07b63e49b7cb8fc3a9d43596813f656cbe59de; refreshed complete model output; 100% window coverage; provisional geometry; not an observed current or oxygen measurement",
       "units": "meters signed transport; positive shoreward/east, negative seaward/west",
       "timezone_datum_depth": "valid time America/Chicago; station bathymetry 1.83 m; model sigma water-column guidance",
       "shoreline_cell": "Point Clear",
@@ -523,16 +523,16 @@
       "station_camera": "NOAA NGOFS2 Point Clear station 8733821",
       "parameter_evidence_type": "modeled_point_clear_forward_mixed_transport",
       "observed_vs_model": "MODEL forecast guidance",
-      "valid_time_ct": "2026-09-10T01:54:00.000-05:00",
-      "retrieval_time_ct": "2026-09-10T05:29:30.000-05:00",
-      "age_minutes": 215.5,
-      "qc_health": "NOAA NGOFS2 03Z forecast manifest 97ecd9d6506d8dc0c02b1cdd44f42bd324521b7d; complete model output; 100% window coverage; provisional geometry; not an observed current or oxygen measurement",
+      "valid_time_ct": "2026-09-10T04:54:00.000-05:00",
+      "retrieval_time_ct": "2026-09-10T05:33:30.000-05:00",
+      "age_minutes": 39.5,
+      "qc_health": "NOAA NGOFS2 03Z forecast manifest 97ecd9d6506d8dc0c02b1cdd44f42bd324521b7d; refreshed complete model output; 100% window coverage; provisional geometry; not an observed current or oxygen measurement",
       "units": "meters signed transport; positive shoreward/east, negative seaward/west",
       "timezone_datum_depth": "valid time America/Chicago; station bathymetry 1.83 m; model sigma water-column guidance",
       "shoreline_cell": "Point Clear",
       "independence_group": "NOAA_NGOFS2_03Z",
       "admitted_status": "ADMITTED_MODEL_GUIDANCE_ONLY",
-      "observation": "Forward modeled Point Clear transport: -2 m (1 h), -57 m (3 h), -26 m (6 h), +215 m (12 h). Positive is shoreward; negative seaward."
+      "observation": "Forward modeled Point Clear transport: -28 m (1 h), +31 m (3 h), +199 m (6 h), +137 m (12 h). Positive is shoreward; negative seaward."
     }
   ],
   "public_camera_checks_this_run": [
