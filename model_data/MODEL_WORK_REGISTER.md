@@ -403,3 +403,8 @@ Full state-space estimate after the final sanity check: Point Clear/Grand Hotel/
 - Fresh indexed searching through 08:47 CDT found no independently dated September 10 Jubilee report. NGOFS2 09Z guidance is unchanged and model-only; direct local bottom oxygen and observed nearshore transport remain UNKNOWN.
 - Canonical public-camera log blob: `95e40b52877ca8b416897d4fd01d760fd5f751e5`. Canonical snapshot blob: `54ee6f6b8c630fc413e89e804b80cc387ca8828f`. Camera recovery is a material sensing-state change, not Jubilee confirmation. No weights or event labels changed.
 
+
+## J11 routine timing maintenance — 2026-09-10 15:29 CT
+The in-season date guard passed. For 2026-09-11 at observer 30.6035, -87.9036, calculated civil dawn is 06:09:21 CDT (America/Chicago; solar center at -6 degrees). The existing `Jubilee Dawn Brief` automation `6a807c493a4481918aad2d656abd7817` was updated in place to `DTSTART;TZID=America/Chicago:20260911T063421`, exactly dawn+25 minutes.
+
+Read-back verified the brief remains enabled, its prompt is unchanged, and its RRULE remains `FREQ=YEARLY` with all 181 `BYYEARDAY=-228` through `-48` values plus `BYHOUR=6;BYMINUTE=34;BYSECOND=21`. The `Jubilee Dawn Timing` task independently retains the same complete seasonal recurrence. No camera media, API/model execution, research, predictor weight or alert threshold was touched. This was timing-only maintenance, so observation quality and source-clock interpretation are not applicable. J11's completed first-run validation remains controlling; the next scheduled run should perform its normal per-run visibility and source-clock checks.
