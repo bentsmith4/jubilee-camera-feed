@@ -518,3 +518,11 @@ Read-back verified the brief remains enabled, its prompt is unchanged, and its R
 - **Current conclusion:** no active Jubilee confirmed. Production opportunity remains Point Clear 1–3% and Daphne/May Day 1–3%. The forward reversal makes the immediate setup less favorable, but direct local bottom/contact-strip dissolved oxygen and observed nearshore current remain UNKNOWN.
 - **Canonical evidence:** public-camera log blob `2ed27bd50dbd68f651819dbefee34396ad16bcd2`; current-state snapshot blob `7d7efa39ecff48bf6d1e805bfd90cebb25491d6e`; this register update preserves concurrent J11/J19/J20 entries.
 
+## J01 routine 18:00 sensing cycle — 2026-09-11 18:15 CDT
+
+- **Owner cameras:** matching status/burst/vision identity `2026-09-11T18:06:04.856835-05:00`, blobs `70a0329a0e08a9aeb0ac2a47dc488719f752283d`/`150780515ffcfa0f93951c79b8436840ac79db2d`/`13b94dc98d8d1c02a0ed049445b861057cc69416`. All six expected cameras were healthy with 3/3 frames; good visibility and moderate-to-high detectability; no Jubilee biological or human signal.
+- **Validated public players:** direct 32.376-second isolated samples from 18:01:52.249 to 18:02:24.625 CDT verified LIVE state, advancing playback/endpoints, and scene progression on Grand Hotel and Fairhope. No Jubilee-related activity appeared. Fairhope showed sparse ordinary pier/parking use; neither canonical beach nor Fly Creek was visible. Exact source delay remains unknown; source capture times null; no media retained.
+- **Model/human state:** NOAA NGOFS2 15Z guidance is unchanged from the 17:24 snapshot at `-64/-96/+38/-183 m` forward 1/3/6/12 h; model guidance only. Fresh indexed public search through 18:00 CDT found no independently dated September 11 report. Direct bottom/contact-strip oxygen and observed nearshore current remain UNKNOWN.
+- **Conclusion:** no material current-state change and no alert gate met. Production opportunity remains Point Clear 1–3% and Daphne/May Day 1–3%. No weights or event labels changed.
+- **Canonical evidence:** public-camera log blob `562efad8e3a3f0399c2d2ca6fbb4cae30c4c3310`; current-state snapshot blob `fbf092d2213de8e482133b6eafb927000fd9a806`.
+
