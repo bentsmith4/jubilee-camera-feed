@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "retrieved_at": "2026-09-12T16:19:48.574022+00:00",
+  "retrieved_at": "2026-09-12T18:50:18.716328+00:00",
   "status": "complete",
   "source_class": "MODEL",
   "production_action": "NO_CHANGE",
@@ -14,7 +14,12 @@
       "cast": "nowcast",
       "model_initialized_at": "2026-09-12T09:00:00+00:00",
       "reference_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/12/ngofs2.t09z.20260912.regulargrid.n003.nc",
-      "failed_newer_cycle_attempts": [],
+      "failed_newer_cycle_attempts": [
+        {
+          "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/12/ngofs2.t15z.20260912.regulargrid.n003.nc",
+          "error_type": "OSError"
+        }
+      ],
       "selected_nodes": [
         {
           "cell": "Daphne/May Day",
@@ -516,7 +521,12 @@
       "cast": "forecast",
       "model_initialized_at": "2026-09-12T09:00:00+00:00",
       "reference_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/12/ngofs2.t09z.20260912.regulargrid.f000.nc",
-      "failed_newer_cycle_attempts": [],
+      "failed_newer_cycle_attempts": [
+        {
+          "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/12/ngofs2.t15z.20260912.regulargrid.f000.nc",
+          "error_type": "OSError"
+        }
+      ],
       "selected_nodes": [
         {
           "cell": "Daphne/May Day",
@@ -1032,8 +1042,8 @@
   ],
   "normalized_rows": 1848,
   "derived_feature_rows": 696,
-  "raw_subset_sha256": "414b7757ea8e8df7e507aef3beb885e22062e523f7ce468ae217887b1a673cd1",
-  "raw_subset_archive": "public_archive/ngofs2_shoreline_grid_subset/414b7757ea8e8df7e507aef3beb885e22062e523f7ce468ae217887b1a673cd1.json.gz",
+  "raw_subset_sha256": "5af6d0c1500bb0cd76074196b0816028ba37c06fd9cead6bf3fd2e40f23b8ebf",
+  "raw_subset_archive": "public_archive/ngofs2_shoreline_grid_subset/5af6d0c1500bb0cd76074196b0816028ba37c06fd9cead6bf3fd2e40f23b8ebf.json.gz",
   "normalized_data": "ngofs2_shoreline_grid_normalized.csv",
   "derived_features": "ngofs2_shoreline_grid_features.csv",
   "guardrails": [
