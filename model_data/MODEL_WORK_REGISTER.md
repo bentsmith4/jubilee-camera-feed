@@ -671,3 +671,8 @@ Read-back verified the brief remains enabled, its prompt is unchanged, and its R
 - **Conclusion:** no material change from the 08:15 CDT state. Point Clear/Grand Hotel/Zundel's remains 1–3%; Daphne/Village Point/May Day remains 1–3%. Direct bottom/contact-strip oxygen and observed nearshore current remain UNKNOWN. No alert gate was met, and no weights, numerical features, event labels, clean non-event labels, timing, or sensor policy changed.
 - **Canonical evidence:** public-camera log blob `e7302d2eab35ec1507345fd62b1538e06224ef8a`; current-state snapshot blob `5c6753c259afe3d3114ccb1e8f2e81be0d9814ef`.
 
+
+## J11 routine timing maintenance — 2026-09-12 15:26 CT
+The in-season date guard passed. For 2026-09-13 at observer 30.6035, -87.9036, calculated civil dawn is 06:10:31 CDT (America/Chicago; solar center at -6 degrees); published Daphne tables independently confirm 06:10 at minute resolution. The existing `Jubilee Dawn Brief` automation `6a807c493a4481918aad2d656abd7817` was updated in place to `DTSTART;TZID=America/Chicago:20260913T063531`, exactly dawn+25 minutes.
+
+Read-back verified the brief remains enabled, its prompt is unchanged, and its RRULE remains `FREQ=YEARLY` with all 181 `BYYEARDAY=-228` through `-48` values plus `BYHOUR=6;BYMINUTE=35;BYSECOND=31`. The `Jubilee Dawn Timing` task independently retains the same complete seasonal recurrence. No camera media, API/model execution, research, predictor weight or alert threshold was touched. This was timing-only maintenance, so observation quality and source-clock interpretation are not applicable. J11's completed first-run validation remains controlling; the next scheduled run should perform its normal per-run visibility and source-clock checks.
