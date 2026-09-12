@@ -1,6 +1,6 @@
 {
   "schema_version": "2.1",
-  "generated_at_utc": "2026-09-11T22:01:33.218947+00:00",
+  "generated_at_utc": "2026-09-12T01:25:41.543453+00:00",
   "legend": [
     "DIRECT",
     "PROXY",
@@ -8,7 +8,7 @@
     "HUMAN",
     "MISSING"
   ],
-  "owner_camera_health_basis": "degraded",
+  "owner_camera_health_basis": "pass",
   "cells": [
     {
       "cell": "Daphne/May Day",
@@ -95,8 +95,14 @@
     },
     {
       "cell": "Point Clear/Grand Hotel",
-      "private_camera_metadata_passing_ids": [],
-      "independent_private_site_groups": [],
+      "private_camera_metadata_passing_ids": [
+        "pcl_e2_back_deck",
+        "pcl_e2_bay_mouth",
+        "pcl_e3_bay_mouth"
+      ],
+      "independent_private_site_groups": [
+        "point_clear_landing_owner_cluster"
+      ],
       "public_candidates_not_production_evidence": [
         "grand_hotel_public"
       ],
@@ -108,7 +114,7 @@
       "current_transport": "MODEL_OR_REGIONAL_PROXY_NOT_DIRECT_LOCAL",
       "water_level": "OFFICIAL_TIDE_REFERENCE_GEOMETRY_OBSERVED_LEVEL_CHECK_SEPARATELY",
       "upstream_river_forcing": "REGIONAL_PROXY_COMPLETE",
-      "human_search_schema": "MISSING_OR_UNVERIFIED",
+      "human_search_schema": "PRESENT",
       "same_day_social_reports": "HUMAN_HIGH_VALUE_MODERN_EVENT_REPORTING",
       "historical_calibration": "2013_2024_AND_2026_DATED_POSITIVES",
       "highest_value_gap": "co-located near-bottom DO+salinity+temperature and direct nearshore current"
