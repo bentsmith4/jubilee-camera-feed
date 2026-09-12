@@ -526,3 +526,11 @@ Read-back verified the brief remains enabled, its prompt is unchanged, and its R
 - **Conclusion:** no material current-state change and no alert gate met. Production opportunity remains Point Clear 1–3% and Daphne/May Day 1–3%. No weights or event labels changed.
 - **Canonical evidence:** public-camera log blob `562efad8e3a3f0399c2d2ca6fbb4cae30c4c3310`; current-state snapshot blob `fbf092d2213de8e482133b6eafb927000fd9a806`.
 
+## J01 routine 19:00 sensing cycle — 2026-09-11 19:14 CDT
+
+- **Owner cameras:** matching status/burst/vision identity `2026-09-11T19:06:01.071803-05:00`, blobs `82fd73e3ce7c0acd67c6fee872d7ecf10baa7032`/`713e0b8d05804bb748fc7836a1d43826fdb8227c`/`213a7ae1392552b7bad53f91e14ec08e614a25a3`. All six expected cameras were healthy with 3/3 dusk frames, good visibility, moderate-to-high detectability, and no Jubilee biological or human signal.
+- **Validated public players:** direct two-sample checks from 19:08:11.216 to 19:08:53.675 CDT (42.459 seconds between isolated samples) verified LIVE state, advancing playback/endpoints, and visible progression on Grand Hotel and Fairhope. No Jubilee-related activity appeared. Fairhope showed sparse ordinary pier/parking use; neither canonical beach nor Fly Creek was visible. Exact source delay remains unknown; source capture times null; no media retained.
+- **Model/human state:** NOAA NGOFS2 15Z guidance is unchanged at `-64/-96/+38/-183 m` forward 1/3/6/12 h; model guidance only. Fresh indexed public search through 19:09 CDT found no independently dated September 11 report. Direct bottom/contact-strip oxygen and observed nearshore current remain UNKNOWN.
+- **Conclusion:** no material current-state change and no alert gate met. Production opportunity remains Point Clear 1–3% and Daphne/May Day 1–3%. No weights or event labels changed.
+- **Canonical evidence:** public-camera log blob `dfbf4df3b93ca4732ec16510426a646af244bf15`; current-state snapshot blob `7c5a73c6f63e86eb5e40dfe3d554aafc0dbab872`.
+
