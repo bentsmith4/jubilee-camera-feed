@@ -771,3 +771,11 @@ Direct Grand Hotel and Fairhope live-player checks used two isolated samples at 
 
 KBFM reported calm, fair/clear conditions, 9-mile visibility and 75 F at 02:53 CDT; displayed precipitation fields were blank. Fresh indexed searches found no independently dated September 13 Jubilee report. Direct local bottom/contact-strip oxygen remains UNKNOWN. Both production opportunity ranges remain 1–3%. Canonical snapshot content SHA `fcba7bfcfad1906cef90d4ea360ce215413389fc`. No forecast weights changed; no research, feature promotion or architecture change was performed.
 
+## J01 routine sensing / no new gate — 2026-09-13 04:03 CDT
+
+The in-season date guard passed. No owner-camera, burst, vision or NGOFS2 file changed after the 03:20 CDT recovery alert: status `7f9855275061a1a0d7c45070c8747f80452f126c`, burst `29abd4a0857f490366e3a171a5f4b22bede99922`, vision `c3a9b18063295009f661768daeb6627dd006be83`, forecast `e6f3079a77886eacdf914a3cd6e0f3ef150d1633`, nowcast `dba58b165aa09fd6d6b6845e8ef62a0a22fe5340`. All six owner cameras remain healthy at the latest 03:06–03:09 identity; Point Clear remains closed/VERIFIED_COMPLETE. Nighttime biological evidence remains mostly UNKNOWN.
+
+Direct Grand Hotel and Fairhope players advanced across isolated 27.327- and 27.325-second samples at 04:01 CDT, with rolling endpoints and visible nighttime scene progression. Grand Hotel's behind-live control remained hidden and non-actionable; Fairhope reported currently playing live. No clustered searching, handheld lights, collecting or concentrated feeding birds appeared. Water biology was not assessable; Fairhope showed neither beach nor Fly Creek. Structured records were appended at public-camera log content SHA `e5bab549fa19aa4b19a0eb2fc8595327a1675ebd`, with capture time null, exact source delay unknown and no media retained.
+
+KBFM reported calm, fair/clear conditions, 8-mile visibility and 75 F at 03:53 CDT, with no hourly precipitation value displayed. No independently dated September 13 Jubilee report surfaced in fresh indexed results. Direct local bottom/contact-strip oxygen remains UNKNOWN. Both opportunity ranges remain 1–3%; no alert gate is newly met. Canonical snapshot content SHA `02ba5b84439bea40960b6a98d560685c67306662`. No forecast weights, numerical features, event labels, automation timing or sensor policy changed.
+
