@@ -1,13 +1,18 @@
 {
   "schema_version": "1.1",
   "cast": "forecast",
-  "retrieved_at": "2026-09-14T15:53:14.089772+00:00",
+  "retrieved_at": "2026-09-14T18:53:24.802100+00:00",
   "status": "complete",
   "evidence_class": "MODEL",
   "production_action": "NO_CHANGE",
   "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/14/ngofs2.t09z.20260914.stations.forecast.nc",
   "model_initialized_at": "2026-09-14T09:00:00+00:00",
-  "failed_newer_attempts": [],
+  "failed_newer_attempts": [
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/14/ngofs2.t15z.20260914.stations.forecast.nc",
+      "error_type": "OSError"
+    }
+  ],
   "station_count": 5,
   "stations": [
     {
@@ -119,8 +124,8 @@
   ],
   "unresolved_targets": [],
   "normalized_rows": 21645,
-  "subset_sha256": "a9a44816d75750981057d8e6d459fe532987e83063d8ee55d80c703c7132b26d",
-  "subset_archive": "public_archive/ngofs2_named_station_subset/a9a44816d75750981057d8e6d459fe532987e83063d8ee55d80c703c7132b26d.json.gz",
+  "subset_sha256": "91a909732f80d94cd4b05f7af0155b23e217da422956ae26329426026229b84a",
+  "subset_archive": "public_archive/ngofs2_named_station_subset/91a909732f80d94cd4b05f7af0155b23e217da422956ae26329426026229b84a.json.gz",
   "normalized_csv": "ngofs2_mobile_bay_named_stations_forecast_normalized.csv",
   "guardrails": [
     "All values are MODEL guidance, not observations.",
