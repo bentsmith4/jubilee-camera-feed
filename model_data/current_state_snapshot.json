@@ -14,7 +14,7 @@
   "forecast_opportunity_status": "COMPUTED_WITH_WIDENED_UNCERTAINTY_FOR_MISSING_BOTTOM_AND_CONTACT_STRIP_OXYGEN",
   "material_change_since_prior_snapshot": true,
   "notification_condition_met": true,
-  "notification_reason": "A significant new Point Clear sensing fault and a material NGOFS2 guidance reversal meet the alert policy. Two of three Point Clear owner cameras failed the current cycle, and the six-hour model window reversed from strongly shoreward to seaward. No Jubilee is confirmed.",
+  "notification_reason": "A significant new Point Clear sensing fault and a material refreshed NGOFS2 guidance reversal meet the alert policy. Two of three Point Clear owner cameras failed the current cycle, and the six-hour model window reversed from strongly shoreward to seaward. No Jubilee is confirmed.",
   "dawn_ct": "2026-09-13T06:10:31.334750-05:00",
   "principal_dawn_visual_assessment_status": "COMPLETED. The first after-dawn owner burst at 06:10–06:14 CDT had limited Point Clear detectability, so the principal call uses the first published dawn+20 follow-up at 06:31–06:34 CDT. All six cameras were healthy with valid three-frame bursts; five had moderate and montrose_pier_bird high detectability; no Jubilee, searching, flashlight or collecting signal was resolved. Post-dawn public live-player checks at 06:36–06:37 CDT were probably fresh and yielded scoped no-event evidence in their visible areas.",
   "active_faults": [
@@ -38,7 +38,7 @@
     "Point Clear close beach/swash and both Fairhope beaches remain outside validated public views; Fairhope also does not show Fly Creek.",
     "Exact capture time and total upstream delay for both probably-fresh public live sessions remain unknown."
   ],
-  "change_summary": "The 23:07–23:10 CDT owner-camera cycle introduced a significant Point Clear fault: `pcl_e2_back_deck` and `pcl_e3_bay_mouth` failed, leaving 1/3 Point Clear owner cameras operational. The four surviving cameras produced coherent 3-frame bursts; nighttime biological detectability was low except one moderate Montrose view, so most biology remains UNKNOWN. Fresh NGOFS2 03Z guidance changed from approximately +44/+162/+237/−119 m to +62/+75/−109/−304 m at 1/3/6/12 hours, reversing the six-hour window seaward and strengthening twelve-hour seaward transport. Grand Hotel and Fairhope live players advanced across isolated 34.662- and 34.661-second samples at 23:48 CDT; Fairhope was already in its disabled currently-playing-live state. No searching, flashlights or collecting appeared, and water biology remained UNKNOWN in darkness. KBFM was calm and clear at 22:53 CDT. No independently dated September 13 Jubilee report surfaced.",
+  "change_summary": "The 23:07–23:10 CDT owner-camera cycle introduced a significant Point Clear fault: `pcl_e2_back_deck` and `pcl_e3_bay_mouth` failed, leaving 1/3 Point Clear owner cameras operational. The four surviving cameras produced coherent 3-frame bursts; nighttime biological detectability was low except one moderate Montrose view, so most biology remains UNKNOWN. Refreshed NGOFS2 21Z guidance changed from approximately +44/+162/+237/−119 m to +62/+75/−109/−304 m at 1/3/6/12 hours, reversing the six-hour window seaward and strengthening twelve-hour seaward transport. Grand Hotel and Fairhope live players advanced across isolated 34.662- and 34.661-second samples at 23:48 CDT; Fairhope was already in its disabled currently-playing-live state. No searching, flashlights or collecting appeared, and water biology remained UNKNOWN in darkness. KBFM was calm and clear at 22:53 CDT. No independently dated September 13 Jubilee report surfaced.",
   "alert_gates": {
     "credible_same_day_jubilee_report": false,
     "material_current_state_change": true,
@@ -201,7 +201,7 @@
       "observation": "Advancing nighttime Fairhope view showed a brightly illuminated pier and parking area, moderate flag motion, routine parked vehicles, and broad dark bay water. No clustered searching, handheld lights, collecting or concentrated feeding-bird activity appeared. Water biology was not assessable; neither Fairhope beach nor Fly Creek was visible."
     },
     {
-      "source": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/13/ngofs2.t03z.20260914.stations.nowcast.nc",
+      "source": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/13/ngofs2.t21z.20260913.stations.nowcast.nc",
       "station_camera": "NOAA NGOFS2 Point Clear station 8733821",
       "parameter_evidence_type": "modeled_point_clear_antecedent_transport",
       "observed_vs_model": "MODEL",
@@ -213,12 +213,12 @@
       "timezone_datum_depth": "UTC model times normalized to CDT context; station bathymetry 1.83 m; provisional eastward-shoreward projection",
       "transformation": "antecedent windows from normalized NGOFS2 station subset; no predictor-weight change",
       "shoreline_cell": "Point Clear",
-      "independence_group": "NOAA_NGOFS2_8733821_03Z",
+      "independence_group": "NOAA_NGOFS2_8733821_21Z",
       "admitted_status": "ADMITTED_MODEL_GUIDANCE_ONLY",
       "observation": "NGOFS2 antecedent model guidance: approximately −14/+45/+204 m at 1/3/6 hours. Not an observed current or oxygen measurement."
     },
     {
-      "source": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/13/ngofs2.t03z.20260914.stations.forecast.nc",
+      "source": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/13/ngofs2.t21z.20260913.stations.forecast.nc",
       "station_camera": "NOAA NGOFS2 Point Clear station 8733821",
       "parameter_evidence_type": "modeled_point_clear_forward_transport",
       "observed_vs_model": "MODEL",
@@ -230,7 +230,7 @@
       "timezone_datum_depth": "UTC model times normalized to CDT context; station bathymetry 1.83 m; provisional eastward-shoreward projection",
       "transformation": "forward windows from normalized NGOFS2 station subset; no predictor-weight change",
       "shoreline_cell": "Point Clear",
-      "independence_group": "NOAA_NGOFS2_8733821_03Z",
+      "independence_group": "NOAA_NGOFS2_8733821_21Z",
       "admitted_status": "ADMITTED_MODEL_GUIDANCE_ONLY",
       "observation": "NGOFS2 forward model guidance: approximately +62/+75/−109/−304 m at 1/3/6/12 hours. Not an observed current or oxygen measurement."
     },
@@ -648,7 +648,7 @@
       }
     ],
     "strongest_positive_drivers": [
-      "Current NGOFS2 03Z forward guidance is approximately +62/+75/−109/−304 m at 1/3/6/12 hours, indicating modest shoreward transport through three hours before seaward reversal. This is model guidance only.",
+      "Refreshed NGOFS2 21Z forward guidance is approximately +62/+75/−109/−304 m at 1/3/6/12 hours, indicating modest shoreward transport through three hours before seaward reversal. This is model guidance only.",
       "The astronomical tide is rising toward the September 14 00:54 CDT high."
     ],
     "strongest_negative_drivers": [
