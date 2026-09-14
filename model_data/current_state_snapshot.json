@@ -1,6 +1,6 @@
 {
   "schema_version": "1.4",
-  "snapshot_time_ct": "2026-09-13T23:52:00.000-05:00",
+  "snapshot_time_ct": "2026-09-14T01:13:00.000-05:00",
   "layer": "full_current_state",
   "scope": [
     "Point Clear/Grand Hotel/Zundel's",
@@ -14,20 +14,20 @@
   "forecast_opportunity_status": "COMPUTED_WITH_WIDENED_UNCERTAINTY_FOR_MISSING_BOTTOM_AND_CONTACT_STRIP_OXYGEN",
   "material_change_since_prior_snapshot": true,
   "notification_condition_met": true,
-  "notification_reason": "A significant new Point Clear sensing fault and a material refreshed NGOFS2 guidance reversal meet the alert policy. Two of three Point Clear owner cameras failed the current cycle, and the six-hour model window reversed from strongly shoreward to seaward. No Jubilee is confirmed.",
+  "notification_reason": "Point Clear recovery began: all six owner cameras were healthy in the current cycle, recovery 1 of 2. The previously alerted fault remains open pending one more consecutive all-six healthy cycle. No Jubilee is confirmed.",
   "dawn_ct": "2026-09-13T06:10:31.334750-05:00",
   "principal_dawn_visual_assessment_status": "COMPLETED. The first after-dawn owner burst at 06:10–06:14 CDT had limited Point Clear detectability, so the principal call uses the first published dawn+20 follow-up at 06:31–06:34 CDT. All six cameras were healthy with valid three-frame bursts; five had moderate and montrose_pier_bird high detectability; no Jubilee, searching, flashlight or collecting signal was resolved. Post-dawn public live-player checks at 06:36–06:37 CDT were probably fresh and yielded scoped no-event evidence in their visible areas.",
   "active_faults": [
     {
       "fault_id": "owner_camera_point_clear_partial_outage_20260913T230733",
       "first_observed_ct": "2026-09-13T23:07:33.841691-05:00",
-      "status": "OPEN",
+      "status": "RECOVERY_1_OF_2",
       "affected_cameras": [
         "pcl_e2_back_deck",
         "pcl_e3_bay_mouth"
       ],
       "affected_cell": "Point Clear",
-      "impact": "Point Clear owner-camera coverage reduced to 1/3; failed inputs remain UNKNOWN. Two consecutive all-six healthy cycles are required to close the fault."
+      "impact": "All six cameras were healthy in the current cycle, completing recovery 1 of 2. One more consecutive all-six healthy cycle is required to close the fault."
     }
   ],
   "known_unknowns": [
@@ -38,14 +38,14 @@
     "Point Clear close beach/swash and both Fairhope beaches remain outside validated public views; Fairhope also does not show Fly Creek.",
     "Exact capture time and total upstream delay for both probably-fresh public live sessions remain unknown."
   ],
-  "change_summary": "The 23:07–23:10 CDT owner-camera cycle introduced a significant Point Clear fault: `pcl_e2_back_deck` and `pcl_e3_bay_mouth` failed, leaving 1/3 Point Clear owner cameras operational. The four surviving cameras produced coherent 3-frame bursts; nighttime biological detectability was low except one moderate Montrose view, so most biology remains UNKNOWN. Refreshed NGOFS2 21Z guidance changed from approximately +44/+162/+237/−119 m to +62/+75/−109/−304 m at 1/3/6/12 hours, reversing the six-hour window seaward and strengthening twelve-hour seaward transport. Grand Hotel and Fairhope live players advanced across isolated 34.662- and 34.661-second samples at 23:48 CDT; Fairhope was already in its disabled currently-playing-live state. No searching, flashlights or collecting appeared, and water biology remained UNKNOWN in darkness. KBFM was calm and clear at 22:53 CDT. No independently dated September 13 Jubilee report surfaced.",
+  "change_summary": "All six owner cameras were healthy during the 00:06–00:10 CDT cycle, beginning recovery 1 of 2 from the Point Clear partial outage. Five views had low biological detectability and `montrose_pier_bird` moderate detectability; no scoped temporal Jubilee signal appeared, but most nighttime biology remains UNKNOWN. Refreshed NGOFS2 21Z guidance is unchanged at approximately +62/+75/−109/−304 m at 1/3/6/12 hours. Grand Hotel and Fairhope live players advanced across isolated 43.857- and 43.859-second samples at 01:08–01:09 CDT. Fairhope became behind live after the samples; the visible Seek-to-live control was clicked and changed to disabled “currently playing live,” verified with a post-seek sample at 01:09:37 CDT. No searching, flashlights or collecting appeared, and water biology remained UNKNOWN in darkness. KBFM was calm and clear at 00:53 CDT. No independently dated September 14 Jubilee report surfaced.",
   "alert_gates": {
     "credible_same_day_jubilee_report": false,
     "material_current_state_change": true,
     "material_fresh_camera_or_human_evidence": false,
     "meaningful_direct_or_multistation_oxygen_reload": false,
     "priority_zone_probability_above_20_percent": false,
-    "significant_new_sensing_or_input_quality_fault": true,
+    "significant_new_sensing_or_input_quality_fault": false,
     "current_probability_ranges": "Point Clear 1–3%; Daphne/May Day 1–2%"
   },
   "independence_groups": [
@@ -69,10 +69,10 @@
       "station_camera": "montrose_pier_boat",
       "parameter_evidence_type": "private_camera_three_frame_burst_post_dawn_followup",
       "observed_vs_model": "OWNER_CAMERA_OBSERVATION_PLUS_VISION_CLASSIFICATION",
-      "valid_time_ct": "2026-09-13T23:07:38.932062-05:00/2026-09-13T23:07:59.061172-05:00",
-      "retrieval_time_ct": "2026-09-13T23:47:00.000-05:00",
-      "age_minutes": 44,
-      "qc_health": "healthy; matching capture identity 2026-09-13T23:07:33.841691-05:00; 3/3 frames; visibility fair; detectability low; status SHA ff8fc12419bbfc737a3fd95cb11055f8b7b9deb5; burst SHA d5207fcf56732088dfb6f32585c7834056b30ccd; vision SHA 23c0b8a28a42f192aff9d0debe7b98299cf3b4fa",
+      "valid_time_ct": "2026-09-14T00:06:23.847711-05:00/2026-09-14T00:06:43.984639-05:00",
+      "retrieval_time_ct": "2026-09-14T01:10:00.000-05:00",
+      "age_minutes": 66,
+      "qc_health": "healthy; matching capture identity 2026-09-14T00:06:19.194999-05:00; 3/3 frames; visibility fair; detectability low; status SHA a3058b67f14644415d569d290fe21fe742cb7edd; burst SHA 20d5a0d22e360542c9f1aaf49d790f7b235d4a82; vision SHA d798cda91243bcb8c5357929ac9be34d48d91b40",
       "units": "categorical visual evidence",
       "timezone_datum_depth": "America/Chicago (CDT); camera-visible surface/shoreline scope only; no water datum or DO depth",
       "transformation": "three-frame temporal rubric v1.1; same-location cameras retained in dependent clusters; no numerical feature promotion",
@@ -86,27 +86,10 @@
       "station_camera": "montrose_pier_bird",
       "parameter_evidence_type": "private_camera_three_frame_burst_post_dawn_followup",
       "observed_vs_model": "OWNER_CAMERA_OBSERVATION_PLUS_VISION_CLASSIFICATION",
-      "valid_time_ct": "2026-09-13T23:09:43.800172-05:00/2026-09-13T23:10:03.920606-05:00",
-      "retrieval_time_ct": "2026-09-13T23:47:00.000-05:00",
-      "age_minutes": 42,
-      "qc_health": "healthy; matching capture identity 2026-09-13T23:07:33.841691-05:00; 3/3 frames; visibility fair; detectability low; status SHA ff8fc12419bbfc737a3fd95cb11055f8b7b9deb5; burst SHA d5207fcf56732088dfb6f32585c7834056b30ccd; vision SHA 23c0b8a28a42f192aff9d0debe7b98299cf3b4fa",
-      "units": "categorical visual evidence",
-      "timezone_datum_depth": "America/Chicago (CDT); camera-visible surface/shoreline scope only; no water datum or DO depth",
-      "transformation": "three-frame temporal rubric v1.1; same-location cameras retained in dependent clusters; no numerical feature promotion",
-      "shoreline_cell": "Montrose",
-      "independence_group": "montrose_owner_cluster",
-      "admitted_status": "ADMITTED_CAPTURE_HEALTH_BIOLOGY_UNKNOWN",
-      "observation": "fair visibility and low detectability; slight_ripple; no temporal Jubilee signal; no searching, flashlights or collecting in visible scope; biological absence remains UNKNOWN under nighttime conditions."
-    },
-    {
-      "source": "bentsmith4/jubilee-camera-feed status.json, burst_status.json and vision.json",
-      "station_camera": "montrose_shoreline",
-      "parameter_evidence_type": "private_camera_three_frame_burst_post_dawn_followup",
-      "observed_vs_model": "OWNER_CAMERA_OBSERVATION_PLUS_VISION_CLASSIFICATION",
-      "valid_time_ct": "2026-09-13T23:08:56.588644-05:00/2026-09-13T23:09:16.719757-05:00",
-      "retrieval_time_ct": "2026-09-13T23:47:00.000-05:00",
-      "age_minutes": 43,
-      "qc_health": "healthy; matching capture identity 2026-09-13T23:07:33.841691-05:00; 3/3 frames; visibility fair; detectability moderate; status SHA ff8fc12419bbfc737a3fd95cb11055f8b7b9deb5; burst SHA d5207fcf56732088dfb6f32585c7834056b30ccd; vision SHA 23c0b8a28a42f192aff9d0debe7b98299cf3b4fa",
+      "valid_time_ct": "2026-09-14T00:09:03.471505-05:00/2026-09-14T00:09:23.599741-05:00",
+      "retrieval_time_ct": "2026-09-14T01:10:00.000-05:00",
+      "age_minutes": 64,
+      "qc_health": "healthy; matching capture identity 2026-09-14T00:06:19.194999-05:00; 3/3 frames; visibility fair; detectability moderate; status SHA a3058b67f14644415d569d290fe21fe742cb7edd; burst SHA 20d5a0d22e360542c9f1aaf49d790f7b235d4a82; vision SHA d798cda91243bcb8c5357929ac9be34d48d91b40",
       "units": "categorical visual evidence",
       "timezone_datum_depth": "America/Chicago (CDT); camera-visible surface/shoreline scope only; no water datum or DO depth",
       "transformation": "three-frame temporal rubric v1.1; same-location cameras retained in dependent clusters; no numerical feature promotion",
@@ -117,64 +100,81 @@
     },
     {
       "source": "bentsmith4/jubilee-camera-feed status.json, burst_status.json and vision.json",
-      "station_camera": "pcl_e2_back_deck",
+      "station_camera": "montrose_shoreline",
       "parameter_evidence_type": "private_camera_three_frame_burst_post_dawn_followup",
       "observed_vs_model": "OWNER_CAMERA_OBSERVATION_PLUS_VISION_CLASSIFICATION",
-      "valid_time_ct": "2026-09-13T23:07:33.841691-05:00",
-      "retrieval_time_ct": "2026-09-13T23:47:00.000-05:00",
-      "age_minutes": 44,
-      "qc_health": "FAULT; matching capture identity 2026-09-13T23:07:33.841691-05:00; capture failed and no canonical 3-frame burst/vision evidence is admissible; status SHA ff8fc12419bbfc737a3fd95cb11055f8b7b9deb5; burst SHA d5207fcf56732088dfb6f32585c7834056b30ccd; vision SHA 23c0b8a28a42f192aff9d0debe7b98299cf3b4fa",
+      "valid_time_ct": "2026-09-14T00:07:59.072070-05:00/2026-09-14T00:08:19.204583-05:00",
+      "retrieval_time_ct": "2026-09-14T01:10:00.000-05:00",
+      "age_minutes": 65,
+      "qc_health": "healthy; matching capture identity 2026-09-14T00:06:19.194999-05:00; 3/3 frames; visibility fair; detectability low; status SHA a3058b67f14644415d569d290fe21fe742cb7edd; burst SHA 20d5a0d22e360542c9f1aaf49d790f7b235d4a82; vision SHA d798cda91243bcb8c5357929ac9be34d48d91b40",
       "units": "categorical visual evidence",
       "timezone_datum_depth": "America/Chicago (CDT); camera-visible surface/shoreline scope only; no water datum or DO depth",
       "transformation": "three-frame temporal rubric v1.1; same-location cameras retained in dependent clusters; no numerical feature promotion",
-      "shoreline_cell": "Point Clear",
-      "independence_group": "point_clear_landing_owner_cluster",
-      "admitted_status": "UNKNOWN_CAMERA_CAPTURE_FAULT",
-      "observation": "Current owner-camera capture failed. Biological and human-sensor evidence are UNKNOWN; no negative event inference is permitted."
+      "shoreline_cell": "Montrose",
+      "independence_group": "montrose_owner_cluster",
+      "admitted_status": "ADMITTED_CAPTURE_HEALTH_BIOLOGY_UNKNOWN",
+      "observation": "fair visibility and low detectability; slight_ripple; no temporal Jubilee signal; no searching, flashlights or collecting in visible scope; biological absence remains UNKNOWN under nighttime conditions."
     },
     {
       "source": "bentsmith4/jubilee-camera-feed status.json, burst_status.json and vision.json",
-      "station_camera": "pcl_e2_bay_mouth",
+      "station_camera": "pcl_e2_back_deck",
       "parameter_evidence_type": "private_camera_three_frame_burst_post_dawn_followup",
       "observed_vs_model": "OWNER_CAMERA_OBSERVATION_PLUS_VISION_CLASSIFICATION",
-      "valid_time_ct": "2026-09-13T23:08:27.788240-05:00/2026-09-13T23:08:47.929094-05:00",
-      "retrieval_time_ct": "2026-09-13T23:47:00.000-05:00",
-      "age_minutes": 43,
-      "qc_health": "healthy; matching capture identity 2026-09-13T23:07:33.841691-05:00; 3/3 frames; visibility poor; detectability low; status SHA ff8fc12419bbfc737a3fd95cb11055f8b7b9deb5; burst SHA d5207fcf56732088dfb6f32585c7834056b30ccd; vision SHA 23c0b8a28a42f192aff9d0debe7b98299cf3b4fa",
+      "valid_time_ct": "2026-09-14T00:07:03.103716-05:00/2026-09-14T00:07:23.103716-05:00",
+      "retrieval_time_ct": "2026-09-14T01:10:00.000-05:00",
+      "age_minutes": 66,
+      "qc_health": "healthy; matching capture identity 2026-09-14T00:06:19.194999-05:00; 3/3 frames; visibility poor; detectability low; status SHA a3058b67f14644415d569d290fe21fe742cb7edd; burst SHA 20d5a0d22e360542c9f1aaf49d790f7b235d4a82; vision SHA d798cda91243bcb8c5357929ac9be34d48d91b40",
       "units": "categorical visual evidence",
       "timezone_datum_depth": "America/Chicago (CDT); camera-visible surface/shoreline scope only; no water datum or DO depth",
       "transformation": "three-frame temporal rubric v1.1; same-location cameras retained in dependent clusters; no numerical feature promotion",
       "shoreline_cell": "Point Clear",
       "independence_group": "point_clear_landing_owner_cluster",
       "admitted_status": "ADMITTED_CAPTURE_HEALTH_BIOLOGY_UNKNOWN",
-      "observation": "poor visibility and low detectability; unclear; no temporal Jubilee signal; searching/people evidence UNKNOWN because visibility was poor; biological absence remains UNKNOWN under nighttime conditions."
+      "observation": "poor visibility and low detectability; slight_ripple; no temporal Jubilee signal; searching/people evidence UNKNOWN because visibility was poor; biological absence remains UNKNOWN under nighttime conditions."
+    },
+    {
+      "source": "bentsmith4/jubilee-camera-feed status.json, burst_status.json and vision.json",
+      "station_camera": "pcl_e2_bay_mouth",
+      "parameter_evidence_type": "private_camera_three_frame_burst_post_dawn_followup",
+      "observed_vs_model": "OWNER_CAMERA_OBSERVATION_PLUS_VISION_CLASSIFICATION",
+      "valid_time_ct": "2026-09-14T00:07:30.324438-05:00/2026-09-14T00:07:50.472834-05:00",
+      "retrieval_time_ct": "2026-09-14T01:10:00.000-05:00",
+      "age_minutes": 65,
+      "qc_health": "healthy; matching capture identity 2026-09-14T00:06:19.194999-05:00; 3/3 frames; visibility poor; detectability low; status SHA a3058b67f14644415d569d290fe21fe742cb7edd; burst SHA 20d5a0d22e360542c9f1aaf49d790f7b235d4a82; vision SHA d798cda91243bcb8c5357929ac9be34d48d91b40",
+      "units": "categorical visual evidence",
+      "timezone_datum_depth": "America/Chicago (CDT); camera-visible surface/shoreline scope only; no water datum or DO depth",
+      "transformation": "three-frame temporal rubric v1.1; same-location cameras retained in dependent clusters; no numerical feature promotion",
+      "shoreline_cell": "Point Clear",
+      "independence_group": "point_clear_landing_owner_cluster",
+      "admitted_status": "ADMITTED_CAPTURE_HEALTH_BIOLOGY_UNKNOWN",
+      "observation": "poor visibility and low detectability; slight_ripple; no temporal Jubilee signal; searching/people evidence UNKNOWN because visibility was poor; biological absence remains UNKNOWN under nighttime conditions."
     },
     {
       "source": "bentsmith4/jubilee-camera-feed status.json, burst_status.json and vision.json",
       "station_camera": "pcl_e3_bay_mouth",
       "parameter_evidence_type": "private_camera_three_frame_burst_post_dawn_followup",
       "observed_vs_model": "OWNER_CAMERA_OBSERVATION_PLUS_VISION_CLASSIFICATION",
-      "valid_time_ct": "2026-09-13T23:07:33.841691-05:00",
-      "retrieval_time_ct": "2026-09-13T23:47:00.000-05:00",
-      "age_minutes": 44,
-      "qc_health": "FAULT; matching capture identity 2026-09-13T23:07:33.841691-05:00; capture failed and no canonical 3-frame burst/vision evidence is admissible; status SHA ff8fc12419bbfc737a3fd95cb11055f8b7b9deb5; burst SHA d5207fcf56732088dfb6f32585c7834056b30ccd; vision SHA 23c0b8a28a42f192aff9d0debe7b98299cf3b4fa",
+      "valid_time_ct": "2026-09-14T00:08:36.640966-05:00/2026-09-14T00:08:56.640966-05:00",
+      "retrieval_time_ct": "2026-09-14T01:10:00.000-05:00",
+      "age_minutes": 64,
+      "qc_health": "healthy; matching capture identity 2026-09-14T00:06:19.194999-05:00; 3/3 frames; visibility fair; detectability low; status SHA a3058b67f14644415d569d290fe21fe742cb7edd; burst SHA 20d5a0d22e360542c9f1aaf49d790f7b235d4a82; vision SHA d798cda91243bcb8c5357929ac9be34d48d91b40",
       "units": "categorical visual evidence",
       "timezone_datum_depth": "America/Chicago (CDT); camera-visible surface/shoreline scope only; no water datum or DO depth",
       "transformation": "three-frame temporal rubric v1.1; same-location cameras retained in dependent clusters; no numerical feature promotion",
       "shoreline_cell": "Point Clear",
       "independence_group": "point_clear_landing_owner_cluster",
-      "admitted_status": "UNKNOWN_CAMERA_CAPTURE_FAULT",
-      "observation": "Current owner-camera capture failed. Biological and human-sensor evidence are UNKNOWN; no negative event inference is permitted."
+      "admitted_status": "ADMITTED_CAPTURE_HEALTH_BIOLOGY_UNKNOWN",
+      "observation": "fair visibility and low detectability; slight_ripple; no temporal Jubilee signal; no searching, flashlights or collecting in visible scope; biological absence remains UNKNOWN under nighttime conditions."
     },
     {
       "source": "Hazcams permitted live player",
       "station_camera": "grand_hotel_public",
       "parameter_evidence_type": "public_live_player_scoped_visual_observation_post_dawn",
       "observed_vs_model": "DIRECT_QUALITATIVE_OBSERVATION",
-      "valid_time_ct": "2026-09-13T23:48:13.252-05:00/2026-09-13T23:48:47.914-05:00",
-      "retrieval_time_ct": "2026-09-13T23:48:47.914-05:00",
+      "valid_time_ct": "2026-09-14T01:08:34.677-05:00/2026-09-14T01:09:18.534-05:00",
+      "retrieval_time_ct": "2026-09-14T01:09:18.534-05:00",
       "age_minutes": 4,
-      "qc_health": "probably_fresh; Stream Type LIVE; playing; readyState 4; playback and rolling endpoint advanced across 34.662 seconds with visible nighttime scene progression; exact source delay unknown",
+      "qc_health": "probably_fresh; Stream Type LIVE; playing; readyState 4; playback and rolling endpoint advanced across 43.857 seconds with visible nighttime scene progression; exact source delay unknown",
       "units": "categorical visual evidence",
       "timezone_datum_depth": "America/Chicago observation time; capture time null; camera-visible surface only; no water datum/depth",
       "transformation": "PUBLIC-CAM-001 scoped observation; no quantitative feature promotion or clean training label",
@@ -188,17 +188,17 @@
       "station_camera": "fairhope_awn_public",
       "parameter_evidence_type": "public_live_player_scoped_visual_observation_post_dawn",
       "observed_vs_model": "DIRECT_QUALITATIVE_OBSERVATION",
-      "valid_time_ct": "2026-09-13T23:48:13.262-05:00/2026-09-13T23:48:47.923-05:00",
-      "retrieval_time_ct": "2026-09-13T23:48:47.923-05:00",
-      "age_minutes": 4,
-      "qc_health": "probably_fresh; Stream Type LIVE; visible Seek to live control disabled as currently playing live; playback and rolling endpoint advanced across 34.661 seconds with visible nighttime scene progression; exact source delay unknown",
+      "valid_time_ct": "2026-09-14T01:08:34.686-05:00/2026-09-14T01:09:18.545-05:00",
+      "retrieval_time_ct": "2026-09-14T01:09:37.443-05:00",
+      "age_minutes": 3,
+      "qc_health": "probably_fresh; Stream Type LIVE; playback and rolling endpoint advanced across 43.859 seconds with visible nighttime scene progression; subsequent Seek-to-live action changed the control to disabled currently-playing-live and playback continued; exact source delay unknown",
       "units": "categorical visual evidence",
       "timezone_datum_depth": "America/Chicago observation time; capture time null; camera-visible surface only; no water datum/depth",
       "transformation": "PUBLIC-CAM-001 scoped observation; no quantitative feature promotion or clean training label",
       "shoreline_cell": "Fairhope",
       "independence_group": "fairhope_awn_hazcams_physical_camera",
       "admitted_status": "ADMITTED_SCOPED_HUMAN_NO_SIGNAL_BIOLOGY_UNKNOWN",
-      "observation": "Advancing nighttime Fairhope view showed a brightly illuminated pier and parking area, moderate flag motion, routine parked vehicles, and broad dark bay water. No clustered searching, handheld lights, collecting or concentrated feeding-bird activity appeared. Water biology was not assessable; neither Fairhope beach nor Fly Creek was visible."
+      "observation": "Advancing nighttime Fairhope view showed a brightly illuminated pier and parking area, routine parked vehicles, and broad dark bay water. No clustered searching, handheld lights, collecting or concentrated feeding-bird activity appeared. Water biology was not assessable; neither Fairhope beach nor Fly Creek was visible."
     },
     {
       "source": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/09/13/ngofs2.t21z.20260913.stations.nowcast.nc",
@@ -207,7 +207,7 @@
       "observed_vs_model": "MODEL",
       "valid_time_ct": "2026-09-13T16:00:00.000-05:00",
       "retrieval_time_ct": "2026-09-13T22:48:41.961-05:00",
-      "age_minutes": 472,
+      "age_minutes": 553,
       "qc_health": "complete model guidance; 1/3/6-hour antecedent transport −14/+45/+204 m; nowcast SHA 1ed946d1812e86b5f91f9f9d594a2b4b4288edae",
       "units": "signed transport metres; positive shoreward, negative seaward",
       "timezone_datum_depth": "UTC model times normalized to CDT context; station bathymetry 1.83 m; provisional eastward-shoreward projection",
@@ -224,7 +224,7 @@
       "observed_vs_model": "MODEL",
       "valid_time_ct": "2026-09-13T22:54:00.000-05:00",
       "retrieval_time_ct": "2026-09-13T22:49:17.472-05:00",
-      "age_minutes": 58,
+      "age_minutes": 139,
       "qc_health": "complete model guidance; 1/3/6/12-hour forward transport +62/+75/−109/−304 m; forecast SHA 9cc87757493e3ba1e6c50780deca26d3cc384355",
       "units": "signed transport metres; positive shoreward, negative seaward",
       "timezone_datum_depth": "UTC model times normalized to CDT context; station bathymetry 1.83 m; provisional eastward-shoreward projection",
@@ -241,7 +241,7 @@
       "observed_vs_model": "NOAA_COOPS_PREDICTION",
       "valid_time_ct": "2026-09-13 00:03 high 1.41 ft; 2026-09-13 09:50 low 0.65 ft; 2026-09-14 00:54 high 1.63 ft; 2026-09-14 11:17 low 0.54 ft; 2026-09-15 01:41 high 1.78 ft; 2026-09-15 12:31 low 0.47 ft",
       "retrieval_time_ct": "2026-09-13T18:59:30.000-05:00",
-      "age_minutes": 293,
+      "age_minutes": 374,
       "qc_health": "official station/date directly verified; prior snapshot height conflict resolved in favor of current NOAA table; tide times unchanged; no >15-minute discrepancy source admitted",
       "units": "feet",
       "timezone_datum_depth": "LST/LDT (CDT); MLLW; predicted astronomical tide",
@@ -249,7 +249,7 @@
       "shoreline_cell": "Point Clear",
       "independence_group": "NOAA_COOPS_8733821",
       "admitted_status": "ADMITTED_PREDICTED_TIDE_ONLY",
-      "observation": "At 23:52 CDT the astronomical tide was rising from the 09:50 low 0.65 ft toward the September 14 00:54 high 1.63 ft; NOAA CO-OPS prediction, MLLW/LST-LDT. The last successful official table retrieval was 18:59 CDT; no newer value is claimed."
+      "observation": "At 01:13 CDT the astronomical tide was falling from the September 14 00:54 high 1.63 ft toward the 11:17 low 0.54 ft; NOAA CO-OPS prediction, MLLW/LST-LDT. The last successful official table retrieval was 18:59 CDT September 13; no observed water level is claimed."
     },
     {
       "source": "NOAA CO-OPS station metadata / water-level availability",
@@ -273,9 +273,9 @@
       "station_camera": "KBFM Mobile Downtown Airport",
       "parameter_evidence_type": "observed_weather_wind_rain",
       "observed_vs_model": "NWS_ASOS_OBSERVATION",
-      "valid_time_ct": "2026-09-13T22:53:00.000-05:00",
-      "retrieval_time_ct": "2026-09-13T23:50:00.000-05:00",
-      "age_minutes": 59,
+      "valid_time_ct": "2026-09-14T00:53:00.000-05:00",
+      "retrieval_time_ct": "2026-09-14T01:10:00.000-05:00",
+      "age_minutes": 20,
       "qc_health": "official NWS observation; calm; fair/clear; 10-mile visibility; precipitation fields blank",
       "units": "wind mph; visibility miles; temperature °F; precipitation inches when reported",
       "timezone_datum_depth": "CDT; airport surface; no water datum/depth",
@@ -283,7 +283,7 @@
       "shoreline_cell": "Mobile near-bay atmospheric context",
       "independence_group": "NWS_KBFM",
       "admitted_status": "ADMITTED_OBSERVED_WEATHER",
-      "observation": "KBFM reported calm wind, fair/clear conditions, 10-mile visibility, 80.1°F, 77°F dew point and 90% relative humidity at 22:53 CDT. No hourly precipitation value was displayed."
+      "observation": "KBFM reported calm wind, fair/clear conditions, 10-mile visibility, 78.1°F, 75°F dew point and 90% relative humidity at 00:53 CDT. No hourly precipitation value was displayed."
     },
     {
       "source": "NWS Mobile Coastal Waters Forecast / Area Forecast Discussion",
@@ -292,7 +292,7 @@
       "observed_vs_model": "NWS_FORECAST",
       "valid_time_ct": "CWF issued 2026-09-13T03:02:00-05:00; AFD updated 00:24–00:29 CDT",
       "retrieval_time_ct": "2026-09-13T18:59:30.000-05:00",
-      "age_minutes": 1250,
+      "age_minutes": 1331,
       "qc_health": "official forecast guidance issued 03:02 CDT and still current for the valid period",
       "units": "knots; feet; qualitative precipitation",
       "timezone_datum_depth": "CDT; marine surface; no water datum/depth",
@@ -309,7 +309,7 @@
       "observed_vs_model": "USGS_PROVISIONAL_OBSERVATION",
       "valid_time_ct": "raw discharge 3960 ft3/s at 2026-09-12T21:30:00-05:00; tidally filtered series only through 2026-09-04",
       "retrieval_time_ct": "2026-09-13T06:39:14.000-05:00",
-      "age_minutes": 1582,
+      "age_minutes": 1663,
       "qc_health": "preferred tidally filtered series stale; raw discharge is tidally affected and provisional",
       "units": "ft3/s",
       "timezone_datum_depth": "CDT; river discharge; no bay depth/datum",
@@ -326,7 +326,7 @@
       "observed_vs_model": "USGS_PROVISIONAL_ESTIMATED_OBSERVATION",
       "valid_time_ct": "2026-09-12T05:45:00-05:00",
       "retrieval_time_ct": "2026-09-13T06:39:14.000-05:00",
-      "age_minutes": 2527,
+      "age_minutes": 2608,
       "qc_health": "7360 ft3/s; provisional/estimated; stale for live scoring and propagation lag uncalibrated",
       "units": "ft3/s",
       "timezone_datum_depth": "CDT; upstream river discharge; no bay depth/datum",
@@ -375,17 +375,17 @@
       "station_camera": "Eastern Shore public-report channel",
       "parameter_evidence_type": "same_day_event_report_search",
       "observed_vs_model": "PUBLIC_REPORT_SEARCH",
-      "valid_time_ct": "2026-09-13",
-      "retrieval_time_ct": "2026-09-13T23:50:00.000-05:00",
+      "valid_time_ct": "2026-09-14",
+      "retrieval_time_ct": "2026-09-14T01:11:00.000-05:00",
       "age_minutes": 2,
-      "qc_health": "fresh indexed public search completed through 23:50 CDT; no independently dated September 13 first-person Jubilee report found; generic explainers and unrelated results were excluded",
+      "qc_health": "fresh indexed public search completed through 01:11 CDT; no independently dated September 14 first-person Jubilee report found; generic explainers and unrelated results were excluded",
       "units": "categorical",
       "timezone_datum_depth": "Central day context; no depth",
       "transformation": "date resolution and deduplication; absence not treated as clean negative",
       "shoreline_cell": "Eastern Shore",
       "independence_group": "public_report_search",
       "admitted_status": "UNKNOWN_NO_INDEPENDENT_SAME_DAY_REPORT",
-      "observation": "No independently dated September 13 first-person Jubilee report was recovered in fresh indexed results. Search absence is not a clean negative."
+      "observation": "No independently dated September 14 first-person Jubilee report was recovered in fresh indexed results. Search absence is not a clean negative."
     }
   ],
   "public_camera_checks_this_run": [
@@ -447,24 +447,24 @@
       "independence_group": "grand_hotel_awn_hazcams_unresolved_mirror_group",
       "shoreline_cell": "Point Clear",
       "public_viewer_url": "https://hazcams.com/station/point-clear-al-us-001",
-      "check_time_ct": "2026-09-13T23:48:47.914-05:00",
-      "observation_start_ct": "2026-09-13T23:48:13.252-05:00",
-      "observation_end_ct": "2026-09-13T23:48:47.914-05:00",
-      "observation_duration_seconds": 34.662,
+      "check_time_ct": "2026-09-14T01:09:18.534-05:00",
+      "observation_start_ct": "2026-09-14T01:08:34.677-05:00",
+      "observation_end_ct": "2026-09-14T01:09:18.534-05:00",
+      "observation_duration_seconds": 43.857,
       "playback_samples": [
         {
-          "current_time_seconds": 60684.865553,
-          "seekable_end_seconds": 60713.776127,
-          "observation_time_ct": "2026-09-13T23:48:13.252-05:00"
+          "current_time_seconds": 65498.357323,
+          "seekable_end_seconds": 65529.094127,
+          "observation_time_ct": "2026-09-14T01:08:34.677-05:00"
         },
         {
-          "current_time_seconds": 60719.527883,
-          "seekable_end_seconds": 60745.768127,
-          "observation_time_ct": "2026-09-13T23:48:47.914-05:00"
+          "current_time_seconds": 65542.214101,
+          "seekable_end_seconds": 65573.126127,
+          "observation_time_ct": "2026-09-14T01:09:18.534-05:00"
         }
       ],
-      "freshness_basis": "The player reported Stream Type LIVE; playback advanced 34.662 seconds and the rolling seekable endpoint advanced 31.992 seconds across two isolated samples 34.662 seconds apart, with visibly different advancing nighttime frames. The final sampled position was about 26.2 seconds behind the endpoint; exact upstream/source delay remains unknown.",
-      "inspection_method": "direct live-player interaction with two transient metadata and visual samples 34.662 seconds apart; visible pause/resume controls were exercised and the final state verified playing; no recording or media retention",
+      "freshness_basis": "The player reported Stream Type LIVE; playback advanced 43.857 seconds and the rolling seekable endpoint advanced 44.032 seconds across two isolated samples 43.857 seconds apart, with visibly different advancing nighttime frames. The final sampled position was about 30.9 seconds behind the endpoint; exact upstream/source delay remains unknown.",
+      "inspection_method": "direct live-player interaction with two transient metadata and visual samples 43.857 seconds apart; visible pause/resume controls were exercised and the final state verified playing; no recording or media retention",
       "visibility": "poor_for_biology",
       "glare": "artificial_light",
       "flag_motion_strength": null,
@@ -537,7 +537,7 @@
         "description": "Darkness and viewing distance prevented reliable crab-scale assessment."
       },
       "overall": "no_human_response_signal_biology_unknown",
-      "seek_to_live_action": "The visible Seek to live control was already disabled in the “currently playing live” state, so no seek action was required. Playback and rolling-endpoint advancement were independently verified.",
+      "seek_to_live_action": "After the two-sample check the visible control reported behind live. It was clicked, then changed to disabled “currently playing live”; a post-seek metadata sample verified playback continuing near the rolling endpoint. Successful catch-up is claimed only for this player state, not as proof of exact source delay.",
       "live_indicator": "Stream Type LIVE; playing; readyState 4; playback, rolling endpoint and visible nighttime scene advancing",
       "player_position_state": "advancing_live_window_exact_source_delay_unknown",
       "camera_id": "fairhope_awn_public",
@@ -545,24 +545,30 @@
       "independence_group": "fairhope_awn_hazcams_physical_camera",
       "shoreline_cell": "Fairhope",
       "public_viewer_url": "https://hazcams.com/station/fairhope-al-us-001",
-      "check_time_ct": "2026-09-13T23:48:47.923-05:00",
-      "observation_start_ct": "2026-09-13T23:48:13.262-05:00",
-      "observation_end_ct": "2026-09-13T23:48:47.923-05:00",
-      "observation_duration_seconds": 34.661,
+      "check_time_ct": "2026-09-14T01:09:37.443-05:00",
+      "observation_start_ct": "2026-09-14T01:08:34.686-05:00",
+      "observation_end_ct": "2026-09-14T01:09:18.545-05:00",
+      "observation_duration_seconds": 43.859,
       "playback_samples": [
         {
-          "current_time_seconds": 60973.996006,
-          "seekable_end_seconds": 61007.739329,
-          "observation_time_ct": "2026-09-13T23:48:13.262-05:00"
+          "current_time_seconds": 65792.743733,
+          "seekable_end_seconds": 65824.405996,
+          "observation_time_ct": "2026-09-14T01:08:34.686-05:00"
         },
         {
-          "current_time_seconds": 61008.657411,
-          "seekable_end_seconds": 61041.072663,
-          "observation_time_ct": "2026-09-13T23:48:47.923-05:00"
+          "current_time_seconds": 65836.602213,
+          "seekable_end_seconds": 65874.405996,
+          "observation_time_ct": "2026-09-14T01:09:18.545-05:00"
+        },
+        {
+          "current_time_seconds": 65873.206487,
+          "seekable_end_seconds": 65899.405996,
+          "observation_time_ct": "2026-09-14T01:09:37.443-05:00",
+          "sample_role": "post_seek_to_live_verification"
         }
       ],
-      "freshness_basis": "The player reported Stream Type LIVE; playback advanced 34.661 seconds and the rolling seekable endpoint advanced 33.333 seconds across two isolated samples 34.661 seconds apart, with visibly different advancing nighttime frames. The final sampled position was about 32.4 seconds behind the endpoint; exact upstream/source delay remains unknown.",
-      "inspection_method": "direct live-player interaction with two transient metadata and visual samples 34.661 seconds apart; visible pause/resume controls were exercised and the final state verified playing; no recording or media retention",
+      "freshness_basis": "The player reported Stream Type LIVE; playback advanced 43.858 seconds and the rolling seekable endpoint advanced 50.000 seconds across two isolated samples 43.859 seconds apart, with visibly different advancing nighttime frames. The final sampled position was about 37.8 seconds behind the endpoint; exact upstream/source delay remains unknown.",
+      "inspection_method": "direct live-player interaction with two transient metadata and visual samples 43.859 seconds apart; visible pause/resume controls were exercised and the final state verified playing; no recording or media retention",
       "visibility": "fair_for_human_activity_poor_for_small_biology",
       "glare": "artificial_light",
       "flag_motion_strength": "moderate",
@@ -581,13 +587,13 @@
         "status": "not_assessable",
         "description": "Neither canonical Fairhope beach nor the shoreline contact strip was visible; darkness further limited assessment."
       },
-      "observation": "Advancing nighttime Fairhope view showed a brightly illuminated pier and parking area, moderate flag motion, routine parked vehicles, and broad dark bay water. No clustered searching, handheld lights, collecting or concentrated feeding-bird activity appeared. Water biology was not assessable; neither Fairhope beach nor Fly Creek was visible.",
-      "confidence": 0.6,
-      "notes": "Scoped nighttime observation from two isolated samples, not continuous viewing. Human-response negative applies only to the visible pier/parking/broad-bay scope; biological evidence is UNKNOWN. Exact total source delay remains unknown. No public media retained."
+      "observation": "Advancing nighttime Fairhope view showed a brightly illuminated pier and parking area, routine parked vehicles, and broad dark bay water. No clustered searching, handheld lights, collecting or concentrated feeding-bird activity appeared. Water biology was not assessable; neither Fairhope beach nor Fly Creek was visible.",
+      "confidence": 0.61,
+      "notes": "Scoped nighttime observation from two isolated samples plus a post-seek live-position verification, not continuous viewing. Human-response negative applies only to the visible pier/parking/broad-bay scope; biological evidence is UNKNOWN. Exact total source delay remains unknown. No public media retained."
     }
   ],
   "model_output": {
-    "as_of_ct": "2026-09-13T23:52:00.000-05:00",
+    "as_of_ct": "2026-09-14T01:13:00.000-05:00",
     "civil_dawn_ct": "2026-09-13T06:10:31.334750-05:00",
     "confidence": "moderate for fresh validated owner-camera and public-player evidence plus authoritative tide/weather; widened by missing direct bottom/contact-strip oxygen, missing observed nearshore current and incomplete freshwater forcing",
     "current_opportunity": {
@@ -648,15 +654,14 @@
       }
     ],
     "strongest_positive_drivers": [
-      "Refreshed NGOFS2 21Z forward guidance is approximately +62/+75/−109/−304 m at 1/3/6/12 hours, indicating modest shoreward transport through three hours before seaward reversal. This is model guidance only.",
-      "The astronomical tide is rising toward the September 14 00:54 CDT high."
+      "Current NGOFS2 21Z forward guidance remains approximately +62/+75/−109/−304 m at 1/3/6/12 hours, indicating modest shoreward transport through three hours before seaward reversal. This is model guidance only."
     ],
     "strongest_negative_drivers": [
-      "Two of three Point Clear owner cameras failed the current cycle; the only surviving Point Clear view had poor visibility and low biological detectability, so Point Clear visual biology is UNKNOWN.",
+      "All three Point Clear cameras recovered in the current cycle, but all had low biological detectability and two had poor visibility, so Point Clear visual biology is still predominantly UNKNOWN.",
       "The NGOFS2 six-hour window reversed from strongly shoreward to seaward and twelve-hour guidance strengthened seaward; model guidance only.",
       "Both probably-fresh public players showed no clustered searching, flashlights, collecting or concentrated feeding birds; water biology was not assessable in darkness and Fairhope shows neither beach nor Fly Creek.",
       "No direct local bottom/contact-strip dissolved oxygen is available, so the LOAD gate remains unverified."
     ],
-    "recommendation": "Alert on the new Point Clear partial camera outage and material guidance reversal; continue automated sensing. Opportunity remains far below 20% and no Jubilee is confirmed."
+    "recommendation": "Alert that Point Clear recovery cycle 1 of 2 completed; keep the fault open pending one more consecutive all-six healthy cycle. Continue automated sensing. Opportunity remains far below 20% and no Jubilee is confirmed."
   }
 }
