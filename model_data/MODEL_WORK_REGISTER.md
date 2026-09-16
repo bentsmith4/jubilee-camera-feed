@@ -1237,3 +1237,12 @@ The official KBFM history page still ended at 16:53 CDT when retrieved at 19:31,
 - **Publication evidence:** Canonical public-camera log content SHA `56d0c7c86ec8eaed3ab894a664f40562768ed78e`; canonical current-state snapshot content SHA `84e166e99f9bae5c47acb78aa9f9cb5b6a4662df`.
 - **Scope guardrails:** No research, recalibration, feature promotion, forecast-weight, architecture, schedule or sensor changes were made.
 
+## J11 sensing continuity — 2026-09-15 23:36 CDT
+
+- **No new alert:** No material Jubilee-state change occurred after the 23:26 CDT guidance/proxy alert. Opportunity remained **3-7% Point Clear** and **2-4% Daphne/May Day**; direct local bottom/contact-strip oxygen and observed nearshore current remained UNKNOWN, and no Jubilee was confirmed.
+- **Unchanged production inputs:** The production audit, NGOFS2 and river manifests remained unchanged: **0/6 owner cameras passing**; NGOFS2 approximately **+50/+128/+64/-211 m** at 1/3/6/12 hours; Claiborne **13,500 ft3/s** and Coffeeville **4,460 ft3/s** as provisional estimated upstream proxies with uncalibrated Mobile Bay arrival lag.
+- **Direct public-player evidence:** Grand Hotel and Fairhope advanced across direct 23:34:52-23:35:24 CDT samples after pause/resume interaction. Sample intervals were 32.412 and 32.409 seconds. Fairhope was visibly behind live, so its Seek to live control was used and the player subsequently reported currently playing live. Grand Hotel metadata reported behind live, but its visible interaction surface did not expose an actionable Seek control. No clustered searching, directed flashlights or collecting appeared in the limited lit scopes. Biology remained unassessable in full darkness; Fairhope showed neither beach nor Fly Creek. Exact capture times and total upstream delays remain unknown; no public media was retained.
+- **Weather and human sensor:** KBFM's latest official row remained southeast 10 mph, mostly cloudy and 10-mile visibility at 22:53 CDT; precipitation fields remained blank. Fresh indexed searches recovered no independently dated September 15 first-person Jubilee report; search absence was not treated as a clean negative.
+- **Publication evidence:** Canonical public-camera log content SHA `248bc16ff6e7bbbfaffee5f10ddf5605cd69e106`; canonical current-state snapshot content SHA `6b12ecf288b71246819ff5736c57f3eca054d396`.
+- **Scope guardrails:** No research, recalibration, feature promotion, forecast-weight, architecture, schedule or sensor changes were made.
+
