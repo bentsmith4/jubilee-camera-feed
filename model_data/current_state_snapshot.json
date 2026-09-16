@@ -8,17 +8,17 @@
   "forecast_opportunity_status": "COMPUTED_WITH_FRESH_OWNER_CAMERA_RECOVERY_AND_WIDENED_UNCERTAINTY_FOR_NGOFS2_503_KBFM_STALENESS_AND_MISSING_BOTTOM_OXYGEN",
   "material_change_since_prior_snapshot": true,
   "notification_condition_met": true,
-  "notification_reason": "Fresh matching 17:06-17:09 CDT owner-camera status/burst/vision restored 6/6 private coverage. The canonical sensing audit did not publish that recovery after the environmental workflow encountered repeated NOAA NGOFS2 HTTP 503 responses. KBFM has also stopped updating after 07:53 CDT; KMOB is admitted separately as a regional fallback.",
+  "notification_reason": "Fresh matching 17:06-17:09 CDT owner-camera status/burst/vision restored 6/6 private coverage and the canonical sensing audit was reconciled to that cycle. The environmental workflow separately encountered repeated NOAA NGOFS2 HTTP 503 responses. KBFM has also stopped updating after 07:53 CDT; KMOB is admitted separately as a regional fallback.",
   "dawn_ct": "2026-09-16T06:12:15-05:00",
   "principal_dawn_visual_assessment_status": "DEGRADED / PARTIAL: no owner-camera burst was published for the 06:12 CDT dawn. Current 17:06-17:09 daylight owner bursts are healthy but apply only to their late-day intervals.",
   "active_faults": [
     {
       "fault_id": "owner_camera_production_audit_publication_lag_20260916T1646",
       "first_observed_ct": "2026-09-16T16:46:00-05:00",
-      "status": "OPEN_ARTIFACT_LAG_CAMERA_CAPTURE_HEALTHY",
+      "status": "RECONCILED_THIS_RUN",
       "affected_cameras": ["montrose_pier_boat", "montrose_pier_bird", "montrose_shoreline", "pcl_e2_back_deck", "pcl_e2_bay_mouth", "pcl_e3_bay_mouth"],
       "affected_cell": "Point Clear and Montrose owner-camera audit surface",
-      "impact": "status.json, burst_status.json and vision.json match a healthy 17:06:25 identity with six complete three-frame bursts, but model_data/sensing_audit.json remains the stale 22:47 CDT September 15 artifact showing 0/6. Current camera evidence is admitted from the matching source trio; the audit artifact is not current."
+      "impact": "status.json, burst_status.json and vision.json match a healthy 17:06:25 identity with six complete three-frame bursts. model_data/sensing_audit.json was refreshed at 17:32 CDT to record 6/6 passing. The prior stale audit artifact is superseded."
     },
     {
       "fault_id": "ngofs2_opendap_http_503_20260916T1646",
@@ -56,7 +56,7 @@
     "Fresh USGS and Weeks Bay retrieval steps reportedly succeeded inside the failed environmental run, but no current canonical manifest was published for admission.",
     "No independently dated September 16 first-person Jubilee report was recovered; search absence is not a clean negative."
   ],
-  "change_summary": "Owner-camera capture has recovered: status, burst and vision match the 17:06:25 CDT identity, all six expected cameras are healthy, and all have 3/3 frames with good visibility. No Jubilee visual signal appears in either owner independence group. The sensing audit is still stale because the environmental workflow failed later on NOAA NGOFS2 HTTP 503. KBFM is stale after 07:53 CDT; KMOB provides a regional fallback. Both public players advanced normally at 17:29 CDT with no human-event signal; Fairhope biology was partly UNKNOWN because of severe glare.",
+  "change_summary": "Owner-camera capture has recovered: status, burst and vision match the 17:06:25 CDT identity, all six expected cameras are healthy, all have 3/3 frames with good visibility, and the sensing audit was reconciled to 6/6. No Jubilee visual signal appears in either owner independence group. The separate environmental workflow fault on NOAA NGOFS2 HTTP 503 leaves current model guidance UNKNOWN. KBFM is stale after 07:53 CDT; KMOB provides a regional fallback. Both public players advanced normally at 17:29 CDT with no human-event signal; Fairhope biology was partly UNKNOWN because of severe glare.",
   "alert_gates": {
     "credible_same_day_jubilee_report": false,
     "material_current_state_change": true,
@@ -66,7 +66,7 @@
     "significant_new_sensing_or_input_quality_fault": true,
     "current_probability_ranges": "Point Clear 3-7%; Daphne/May Day 2-4%",
     "notification_suppressed_reason": null,
-    "notification_reason": "Report healthy 6/6 owner-camera recovery while separating the NGOFS2 503, stale KBFM input and lagging sensing-audit artifact."
+    "notification_reason": "Report healthy 6/6 owner-camera recovery and reconciled audit while separating the NGOFS2 503 and stale KBFM input."
   },
   "independence_groups": ["montrose_owner_cluster", "point_clear_landing_owner_cluster", "grand_hotel_awn_hazcams_unresolved_mirror_group", "fairhope_awn_hazcams_physical_camera", "NOAA_NGOFS2_8733821_PRIOR_GUIDANCE_ONLY", "NOAA_COOPS_8733821", "NWS_KBFM_STALE", "NWS_KMOB_REGIONAL_FALLBACK", "USGS_LOWER_RIVER_PUBLISHED_MANIFEST_STALE", "public_report_search"],
   "input_rows": [
@@ -78,7 +78,7 @@
       "valid_time_ct": "2026-09-16T17:06:25.645419-05:00 identity; frames 17:06:31-17:09:43 CDT",
       "retrieval_time_ct": "2026-09-16T17:27:00-05:00",
       "age_minutes": 18,
-      "qc_health": "PASS: matching capture identity across status, burst and vision; 6/6 expected cameras ok; every camera has 3/3 frames; visibility good; sensing_audit.json remains stale and is excluded as current evidence",
+      "qc_health": "PASS: matching capture identity across status, burst and vision; 6/6 expected cameras ok; every camera has 3/3 frames; visibility good; sensing_audit.json reconciled to 6/6 at 17:32 CDT",
       "units": "categorical visual evidence",
       "timezone_datum_depth": "America/Chicago (CDT); camera-visible surface/shoreline only",
       "transformation": "same-identity source-trio reconciliation; same-site cameras deduplicated into two groups; not a dawn assessment or clean training label",
