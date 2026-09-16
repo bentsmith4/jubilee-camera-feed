@@ -1,6 +1,6 @@
 {
   "schema_version": "1.4",
-  "snapshot_time_ct": "2026-09-16T06:27:00-05:00",
+  "snapshot_time_ct": "2026-09-16T06:40:00-05:00",
   "layer": "full_current_state",
   "scope": [
     "Point Clear/Grand Hotel/Zundel's",
@@ -12,9 +12,9 @@
   "forecast_weights_changed": false,
   "deep_research_or_recalibration_performed": false,
   "forecast_opportunity_status": "COMPUTED_WITH_MATERIAL_OBSERVED_REGIONAL_WIND_CHANGE_AND_WIDENED_UNCERTAINTY_FOR_STALE_OWNER_CAMERAS_MISSING_BOTTOM_OXYGEN_AND_NIGHT_VISIBILITY",
-  "material_change_since_prior_snapshot": true,
-  "notification_condition_met": true,
-  "notification_reason": "New significant sensing/input-quality fault: Fairhope's probably-fresh public player is severely out of focus after dawn, making current biological and detailed human evidence UNKNOWN while all six owner-camera inputs also remain stale.",
+  "material_change_since_prior_snapshot": false,
+  "notification_condition_met": false,
+  "notification_reason": "Both priority-zone opportunity ranges remain below the owner’s >20% alert threshold and no positive event evidence was observed. The Fairhope focus fault is already recorded and does not justify a repeat notification.",
   "dawn_ct": "2026-09-16T06:12:00-05:00",
   "principal_dawn_visual_assessment_status": "DEGRADED / PARTIAL: no September 16 dawn owner-camera burst is available. Grand Hotel's permitted public player was clear and advancing during isolated 06:24-06:25 post-dawn samples, with no event signal in its limited visible area. Fairhope's player advanced but suffered severe whole-scene defocus, so its scene evidence is UNKNOWN; neither beach nor Fly Creek is visible in any case.",
   "active_faults": [
@@ -66,7 +66,7 @@
     "Claiborne 02428400 and Coffeeville 02469761 discharge are regional upstream observations, but propagation lag to Mobile Bay is uncalibrated and no local arrival inference is admitted.",
     "Grand Hotel and Fairhope exact capture times and total upstream delays remain unknown even though both live players advanced during the direct post-dawn samples."
   ],
-  "change_summary": "Material sensing-quality change: Fairhope's permitted public player advanced during isolated 06:24-06:25 CDT post-dawn samples but was severely out of focus across the entire scene, so its biological and detailed human evidence are UNKNOWN. Grand Hotel remained clear and advancing, with no concentrated feeding birds, repeated fish surfacing, clustered searching, directed lights or collecting in its limited visible area; most shallow contact strip remained obscured. Owner cameras remain stale with no September 16 dawn burst, and production audit, NGOFS2 and river manifests have not refreshed since 22:47 CDT September 15. KBFM strengthened from east 9 to east 14 mph at 05:53. Opportunity remains Point Clear 3-7% and Daphne/May Day 2-4%; no Jubilee is confirmed.",
+  "change_summary": "No material model change since the 06:27 CDT snapshot. Direct player checks at 06:36–06:39 CDT verified that both Hazcams sessions remained advancing with rolling endpoints after pause/resume; no new biological scene inference was admitted. Official 03:02 CDT marine guidance and the 05:53 CDT KBFM observation remain consistent with strong easterly transport direction but meaningful mixing. Owner cameras remain stale from September 14.",
   "alert_gates": {
     "credible_same_day_jubilee_report": false,
     "material_current_state_change": false,
@@ -151,8 +151,8 @@
       "station_camera": "8733821 Point Clear, Mobile Bay, AL",
       "parameter_evidence_type": "astronomical_tide_prediction",
       "observed_vs_model": "NOAA_OFFICIAL_PREDICTION",
-      "valid_time_ct": "2026-09-15T12:31:00-05:00 low 0.47 ft; 2026-09-16T02:25:00-05:00 high 1.89 ft",
-      "retrieval_time_ct": "2026-09-15T17:28:00-05:00",
+      "valid_time_ct": "2026-09-16T02:25:00-05:00 high 1.89 ft; 2026-09-16T15:16:00-05:00 low 0.42 ft; 2026-09-17T03:11:00-05:00 high 1.94 ft; 2026-09-17T16:29:00-05:00 low 0.39 ft; 2026-09-18T04:03:00-05:00 high 1.96 ft; 2026-09-18T17:39:00-05:00 low 0.36 ft",
+      "retrieval_time_ct": "2026-09-16T06:38:00-05:00",
       "age_minutes": null,
       "qc_health": "authoritative prediction page verified directly; station/date/timezone/datum confirmed; no >15-minute discrepancy",
       "units": "ft",
@@ -161,7 +161,7 @@
       "shoreline_cell": "Point Clear",
       "independence_group": "NOAA_COOPS_8733821",
       "admitted_status": "ADMITTED_PREDICTION",
-      "observation": "Falling tide from the September 16 02:25 high toward the 15:16 low."
+      "observation": "At current dawn the tide is falling from the September 16 02:25 high toward the 15:16 low. The next two dawns also occur shortly after predawn highs."
     },
     {
       "source": "NWS ASOS observation history",
@@ -169,9 +169,9 @@
       "parameter_evidence_type": "wind_weather_visibility_precipitation",
       "observed_vs_model": "ASOS_OBSERVATION",
       "valid_time_ct": "2026-09-16T05:53:00-05:00",
-      "retrieval_time_ct": "2026-09-16T06:27:00-05:00",
-      "age_minutes": 34,
-      "qc_health": "latest official history-page row at retrieval; observation is 34 minutes old and precipitation columns are blank",
+      "retrieval_time_ct": "2026-09-16T06:37:00-05:00",
+      "age_minutes": 44,
+      "qc_health": "latest official history-page row at retrieval; observation is 44 minutes old and precipitation columns are blank",
       "units": "wind mph; visibility miles; precipitation inches when reported",
       "timezone_datum_depth": "CDT; near-surface atmosphere",
       "transformation": "none; blank precipitation retained UNKNOWN",
@@ -185,17 +185,17 @@
       "station_camera": "GMZ630 Northern Mobile Bay and GMZ631 Southern Mobile Bay",
       "parameter_evidence_type": "marine_wind_wave_forecast",
       "observed_vs_model": "NWS_OFFICIAL_FORECAST",
-      "valid_time_ct": "2026-09-15 evening through next 48 hours",
-      "retrieval_time_ct": "2026-09-15T17:26:00-05:00",
-      "age_minutes": 465,
-      "qc_health": "official NWS forecast updated 15:02 CDT September 15; current valid period",
+      "valid_time_ct": "issued 2026-09-16T03:02:00-05:00; valid through next 72 hours",
+      "retrieval_time_ct": "2026-09-16T06:37:00-05:00",
+      "age_minutes": 215,
+      "qc_health": "official NWS coastal-waters forecast issued 03:02 CDT September 16; current valid period",
       "units": "knots; feet",
       "timezone_datum_depth": "CDT; surface marine forecast",
       "transformation": "dawn/daytime and next-two-dawn periods mapped to mixing/delivery context",
       "shoreline_cell": "Mobile Bay",
       "independence_group": "NWS_MOB",
       "admitted_status": "ADMITTED_FORECAST",
-      "observation": "Northern Bay tonight southeast 5–10 kt becoming east after midnight with waves <=1 ft/light chop; Wednesday east 10–15 kt/moderate chop; Wednesday night and Thursday east 5–10 kt/light chop."
+      "observation": "Northern Bay today east 10–15 kt with <=1 ft waves/moderate chop, easing tonight and Thursday to east 5–10 kt/light chop; Friday east around 5 kt/smooth. Southern Bay today east 10–15 kt with gusts to 20 and up to about 2 ft/moderate chop; Thursday remains 10–15 kt gusting 20, then northeast-to-east 5–10 kt Friday."
     },
     {
       "source": "NOAA NGOFS2 repository snapshot guidance",
@@ -220,9 +220,9 @@
       "parameter_evidence_type": "freshwater_forcing",
       "observed_vs_model": "USGS_PROVISIONAL_OBSERVATION",
       "valid_time_ct": "2026-09-12T21:30:00-05:00 raw discharge; tidally filtered series only through 2026-09-04",
-      "retrieval_time_ct": "2026-09-15T06:41:00-05:00",
-      "age_minutes": 3540,
-      "qc_health": "raw value 3960 ft3/s is stale and tide affected; preferred filtered series stale/unavailable",
+      "retrieval_time_ct": "2026-09-16T06:37:00-05:00",
+      "age_minutes": 4897,
+      "qc_health": "raw series latest displayed value is stale at 21:30 CDT September 12; preferred tidally filtered series is unavailable for the requested period and only listed through September 4",
       "units": "ft3/s",
       "timezone_datum_depth": "CDT; river discharge; no bay depth/datum",
       "transformation": "rejected for live score; no direct bay-arrival inference",
@@ -288,7 +288,7 @@
       "parameter_evidence_type": "bottom_DO_salinity_station_health",
       "observed_vs_model": "AGENCY_STATION_STATUS",
       "valid_time_ct": null,
-      "retrieval_time_ct": "2026-09-15T06:41:00-05:00",
+      "retrieval_time_ct": "2026-09-16T06:37:00-05:00",
       "age_minutes": null,
       "qc_health": "offline; instrumentation removed during lighthouse restoration",
       "units": "DO/salinity unavailable",
@@ -524,9 +524,9 @@
     }
   ],
   "model_output": {
-    "as_of_ct": "2026-09-16T06:27:00-05:00",
+    "as_of_ct": "2026-09-16T06:40:00-05:00",
     "civil_dawn_ct": "2026-09-16T06:12:00-05:00",
-    "confidence": "low: authoritative tide and marine forecast, current east KBFM regional wind, aging complete NGOFS2 model guidance, lag-uncalibrated upstream river proxies and one probably-fresh clear limited Grand Hotel post-dawn view; substantially widened by stale owner cameras, new severe Fairhope focus fault, absent bottom/contact-strip oxygen, no observed nearshore current, unknown rainfall and unrefreshed production manifests",
+    "confidence": "low: authoritative Point Clear tides and current official marine guidance, a 05:53 CDT regional wind observation, aging complete NGOFS2 model guidance, lag-uncalibrated upstream river proxies and a probably-fresh clear but limited Grand Hotel post-dawn view; substantially widened by stale owner cameras, severe Fairhope focus fault, absent bottom/contact-strip oxygen, no observed nearshore current, unknown observed rainfall and unrefreshed production manifests",
     "current_opportunity": {
       "point_clear_grand_hotel_zundels": {
         "range_percent": [
@@ -545,19 +545,6 @@
     },
     "three_dawn_outlook": [
       {
-        "date_ct": "2026-09-15",
-        "point_clear_percent": [
-          1,
-          3
-        ],
-        "daphne_may_day_percent": [
-          1,
-          2
-        ],
-        "tide_phase_at_dawn": "falling from 01:41 CDT high 1.78 ft toward 12:31 low 0.47 ft; NOAA CO-OPS prediction, MLLW, LST/LDT",
-        "weather_transport": "observed NW 5 mph near dawn; north around 5 kt becoming southeast late, <=1 ft/light chop"
-      },
-      {
         "date_ct": "2026-09-16",
         "point_clear_percent": [
           3,
@@ -568,7 +555,7 @@
           4
         ],
         "tide_phase_at_dawn": "falling from 02:25 CDT high 1.89 ft toward 15:16 low 0.42 ft; NOAA CO-OPS prediction, MLLW, LST/LDT",
-        "weather_transport": "observed east 14 mph at 05:53 CDT and falling tide after the 02:25 high; favorable direction offset by strong mixing, weaker six-hour last-published NGOFS2 transport, aging production guidance, degraded visual coverage and no oxygen confirmation"
+        "weather_transport": "observed east 14 mph at 05:53 CDT and falling tide; favorable direction offset by meaningful mixing, aging model guidance, degraded visual coverage and no oxygen confirmation"
       },
       {
         "date_ct": "2026-09-17",
@@ -581,7 +568,20 @@
           3
         ],
         "tide_phase_at_dawn": "falling from 03:11 CDT high 1.94 ft toward 16:29 low 0.39 ft; NOAA CO-OPS prediction, MLLW, LST/LDT",
-        "weather_transport": "northeast 5–10 kt/light chop north and east 10–15 kt gusts 20/moderate chop south; favorable direction but no oxygen confirmation"
+        "weather_transport": "east 5–10 kt/light chop north; east 10–15 kt gusting 20/moderate chop south; favorable direction but continued mixing and no oxygen confirmation"
+      },
+      {
+        "date_ct": "2026-09-18",
+        "point_clear_percent": [
+          2,
+          5
+        ],
+        "daphne_may_day_percent": [
+          1,
+          3
+        ],
+        "tide_phase_at_dawn": "falling from 04:03 CDT high 1.96 ft toward 17:39 low 0.36 ft; NOAA CO-OPS prediction, MLLW, LST/LDT",
+        "weather_transport": "east around 5 kt/smooth north and northeast-to-east 5–10 kt/light chop south; lower mixing but no current bottom/contact-strip oxygen confirmation"
       }
     ],
     "strongest_positive_drivers": [
@@ -599,6 +599,6 @@
       "Fairhope's advancing post-dawn player was severely out of focus across the whole scene, making biological and detailed human evidence UNKNOWN; neither Fairhope beach nor Fly Creek is visible even when focused. Grand Hotel still obscures most of the shallow contact strip.",
       "East wind strengthened to 14 mph, increasing mixing even though its direction is favorable; the tide is falling and current rainfall remains UNKNOWN."
     ],
-    "recommendation": "Alert on the new Fairhope public-camera focus fault and continue sensing. No Jubilee is confirmed: opportunity remains below 20%, Grand Hotel's limited clear post-dawn view showed no event signal, and direct local bottom oxygen and observed nearshore current remain UNKNOWN."
+    "recommendation": "No alert. Continue sensing: both priority zones remain below 20%, no Jubilee is confirmed, and direct local bottom oxygen plus observed nearshore current remain UNKNOWN."
   }
 }
