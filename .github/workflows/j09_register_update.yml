@@ -1,0 +1,46 @@
+name: J09 canonical register update
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j09_register_update.yml'
+permissions:
+  contents: write
+jobs:
+  update-register:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Append J09 evidence to latest main without force push
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'jubilee-model-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          marker='J09 high-information archive execution update — 2026-09-17'
+          for attempt in 1 2 3; do
+            git rebase --abort >/dev/null 2>&1 || true
+            git fetch origin main
+            git checkout -B j09-register-write origin/main
+            if grep -Fq "$marker" model_data/MODEL_WORK_REGISTER.md; then exit 0; fi
+            cat >> model_data/MODEL_WORK_REGISTER.md <<'EOF'
+
+## J09 high-information archive execution update — 2026-09-17 15:50 CDT
+
+- **Scope and safety:** Research-only J09/J20 work. Production weights, forecast thresholds, event labels, clean-control labels, schedules, cameras and physical sensors were unchanged. `model_data/j09_data_access_upgrade_20260917.json` is the machine-readable evidence record.
+- **J09 advanced from discovery to actual payload recovery, but is not complete:** Native DISL ARCOS payloads were retrieved and QC-audited for Meaher Park 2019 (17,109 rows; 14,171 source-flag-3 DO rows), Bon Secour 2019 (16,228 rows; all source-flag-3 DO), and a Battleship Park Dec-2022 sample (734 rows; QC flag columns null, therefore not QC-eligible). NCEI 0224293 Middle Bay 2019 hydrography was retrieved directly from the static archive: 4,409 rows, all temperature/salinity/DO flag 3, raw SHA256 `49e04d4903d6f6edc4f6bbbc91e9b7e81a6c6ed560318a0621d1d9c454c5e7fb`. The delivered file shows substantial hypoxia (439 rows <2 mg/L) but contains no explicit observation-depth column or repeated vertical dimension, so the metadata phrase “different depths” is not sufficient to create a vertical-gradient/stratification feature.
+- **NCEI 0188979 is now real data, not a metadata-only lead:** Archive root `arc0138/0188979` was resolved and all three Mobile Bay July-2016 moored CTD NetCDF files were retrieved and schema-audited: 3,009 + 3,003 + 3,002 = 9,014 time rows. Raw hashes are retained in the J09 evidence file. All three contain 10-minute depth, salinity, temperature and dissolved-oxygen series. Critical semantics: `DO` is percent saturation, not mg/L; time uses non-CF `days since 0000-01-00 00:00:00 CDT`, so canonical time joins remain blocked until the intended datenum conversion is independently validated. No concentration threshold or event join was inferred from these values.
+- **J20 materially advanced but remains pending:** Native ARCOS payloads confirm `dis_oxy2_avg` is mg/L and provide native quality flags, resolving the mirror-unit ambiguity for native DISL rows. This does **not** resolve sonde height/deployment geometry. Meaher/Battleship remain ineligible for BOTTOM_DO, vertical-gradient or stratification promotion until geometry is recovered; Battleship's sampled 2022 flags are null.
+- **Observed-current validation access improved:** Static NCEI archive roots were resolved for FOCAL 2007–2016 (`arc0195/0248354`) and FOCAL AWAC 2018–2019 (`arc0157/0211052`). The AWAC archive exposes an approximately 87 MB `Dump_rep.dat` current payload. These are now prioritized ahead of multi-gigabyte HFR for NGOFS2 validation because they are direct, vertically resolved/co-located and higher information-per-byte. No NGOFS2 validation score or transport-weight change exists yet.
+- **Model-quality effect:** data/QC observability and research efficiency improved materially; predictive skill did not. Existing WQP depth coverage remains poor (7,507/7,794 rows missing depth), direct live Point Clear/Daphne bottom DO remains UNKNOWN, zero verified matched clean controls remain, and there is no 2016 or 2019 canonical Jubilee positive for direct scoring of these newly recovered payloads. J10 therefore remains blocked and held-out discrimination is still NOT_ESTABLISHED.
+- **Next gate:** validate 0188979 time semantics and deployment interpretation; recover Middle Bay deployment geometry; normalize FOCAL/AWAC observed currents and score NGOFS2 direction/phase/magnitude; then construct leakage-safe matched event/control windows before considering any feature promotion.
+EOF
+            git add model_data/MODEL_WORK_REGISTER.md
+            git commit -m 'Record J09 high-information archive execution evidence'
+            if git pull --rebase origin main && git push origin HEAD:main; then exit 0; fi
+            sleep 2
+          done
+          exit 1
