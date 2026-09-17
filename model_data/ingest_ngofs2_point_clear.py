@@ -266,7 +266,7 @@ def open_latest(cast, now):
         try:
             return Dataset(url, mode="r"), url, cycle, errors
         except Exception as exc:
-            errors.append({"url": url, "error_type": type(exc).__name__})
+            errors.append({"url": url, "error_type": type(exc).__name__, "error": str(exc)[:160]})
     raise RuntimeError(f"Unable to open any recent NGOFS2 station dataset: {errors}")
 
 

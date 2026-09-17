@@ -52,6 +52,14 @@ def main():
         if changed:
             changes.append({'source_id': source_id, 'updates': changed})
 
+    def clear(source_id, *keys):
+        row = by_id[source_id]
+        removed = [key for key in keys if key in row]
+        for key in removed:
+            del row[key]
+        if removed:
+            changes.append({'source_id': source_id, 'removed': removed})
+
     # Static direct CTD profiles.
     main_pass = load('griidc_main_pass_20160419_manifest.json')
     if completed(main_pass):
@@ -129,6 +137,24 @@ def main():
     point_clear_ok = completed(pc_now) and completed(pc_fc)
     multicell_ok = completed(multi_now) and completed(multi_fc)
     grid_ok = completed(grid)
+    if not point_clear_ok:
+        clear('noaa_ngofs2_mobile_bay', 'point_clear_nowcast_rows', 'point_clear_forecast_rows', 'point_clear_manifest')
+    if not multicell_ok:
+        clear('noaa_ngofs2_mobile_bay', 'named_station_nowcast_rows', 'named_station_forecast_rows',
+              'named_station_count', 'named_station_unresolved_targets', 'named_station_manifest')
+    if not grid_ok:
+        clear('noaa_ngofs2_mobile_bay', 'shoreline_grid_manifest', 'shoreline_grid_normalized_rows',
+              'shoreline_grid_derived_feature_rows', 'shoreline_grid_source_hash',
+              'shoreline_grid_cells', 'shoreline_grid_unique_nodes')
+    availability = {
+        'point_clear_nowcast': pc_now.get('status') if pc_now else 'missing',
+        'point_clear_forecast': pc_fc.get('status') if pc_fc else 'missing',
+        'named_stations_nowcast': multi_now.get('status') if multi_now else 'missing',
+        'named_stations_forecast': multi_fc.get('status') if multi_fc else 'missing',
+        'shoreline_grid': grid.get('status') if grid else 'missing',
+    }
+    mark('noaa_ngofs2_mobile_bay', current_run_availability=availability,
+         current_guidance='PARTIAL_MODEL_GUIDANCE' if (point_clear_ok or multicell_ok or grid_ok) else 'UNKNOWN')
     if point_clear_ok or multicell_ok or grid_ok:
         if grid_ok:
             status = 'PARTIALLY_INGESTED_SHORELINE_REGULAR_GRID'
@@ -149,7 +175,8 @@ def main():
                     grid_cells.append(node.get('cell'))
                     seen_nodes.add((node.get('grid_y'), node.get('grid_x')))
             grid_node_count = len(seen_nodes)
-        times = [manifest_time(x) for x in (pc_now, pc_fc, multi_now, multi_fc, grid) if manifest_time(x)]
+        times = [manifest_time(x) for x in (pc_now, pc_fc, multi_now, multi_fc, grid)
+                 if completed(x) and manifest_time(x)]
         mark(
             'noaa_ngofs2_mobile_bay',
             status=status,
@@ -172,6 +199,10 @@ def main():
             shoreline_grid_unique_nodes=grid_node_count if grid_ok else None,
             production_weight=0.0,
         )
+    else:
+        mark('noaa_ngofs2_mobile_bay', status='UNAVAILABLE_CURRENT_RUN',
+             ingestion_status='upstream_retrieval_unavailable',
+             observation_status='MODEL_GUIDANCE_UNKNOWN', production_weight=0.0)
 
     doc['schema_version'] = '1.4'
     doc['last_reconciled_at'] = datetime.now(timezone.utc).isoformat()
