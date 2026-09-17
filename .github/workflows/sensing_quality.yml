@@ -208,7 +208,20 @@ jobs:
           if git diff --cached --quiet; then exit 0; fi
           git commit -m 'Record verified sensing audit and environmental data snapshot'
           for attempt in 1 2 3; do
-            git pull --rebase origin "$REF_NAME"
+            git fetch origin "$REF_NAME"
+            if ! git rebase "origin/$REF_NAME"; then
+              conflicts="$(git diff --name-only --diff-filter=U)"
+              if [ "$conflicts" = 'model_data/sensing_audit.json' ]; then
+                echo 'Benign concurrent sensing_audit update detected; preserving the newer upstream audit and continuing the environmental snapshot publish.'
+                git checkout --ours -- model_data/sensing_audit.json
+                git add model_data/sensing_audit.json
+                GIT_EDITOR=true git rebase --continue
+              else
+                echo "Unexpected publish conflict(s): $conflicts"
+                git rebase --abort || true
+                exit 1
+              fi
+            fi
             if git push origin "HEAD:$REF_NAME"; then exit 0; fi
             sleep 3
           done
