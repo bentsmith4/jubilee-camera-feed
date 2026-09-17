@@ -1,0 +1,54 @@
+name: J09 NCEI archive locator
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j09_ncei_locator.yml'
+permissions:
+  contents: read
+jobs:
+  locate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Locate public static archive roots
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ncei_locator
+          python - <<'PY'
+          import json,time,urllib.request,urllib.error
+          from pathlib import Path
+          UA={'User-Agent':'jubilee-model-research/1.0'}
+          targets={
+            '0188979':range(120,151),
+            '0248354':range(180,211),
+            '0211052':range(145,181),
+          }
+          report={}
+          for acc,rng in targets.items():
+            hits=[]; attempted=[]
+            for n in rng:
+              root=f'https://www.ncei.noaa.gov/data/oceans/archive/arc{n:04d}/{acc}/'
+              req=urllib.request.Request(root,headers=UA,method='GET')
+              try:
+                with urllib.request.urlopen(req,timeout=8) as r:
+                  body=r.read(2000)
+                  attempted.append({'arc':n,'status':getattr(r,'status',None),'content_type':r.headers.get('Content-Type')})
+                  if getattr(r,'status',None)==200:
+                    hits.append(root); break
+              except urllib.error.HTTPError as e:
+                attempted.append({'arc':n,'status':e.code})
+              except Exception as e:
+                attempted.append({'arc':n,'error':f'{type(e).__name__}: {e}'})
+              time.sleep(0.03)
+            report[acc]={'hits':hits,'attempted':attempted}
+          Path('ncei_locator/locator.json').write_text(json.dumps(report,indent=2)+'\n')
+          print(json.dumps(report,indent=2))
+          PY
+      - name: Upload locator evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: j09-ncei-locator-${{ github.run_number }}
+          path: ncei_locator/
+          retention-days: 30
