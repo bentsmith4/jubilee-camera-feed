@@ -1,0 +1,130 @@
+name: J09 high-information public data probe
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j09_high_information_probe.yml'
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Probe and sample public oxygen/current archives
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import csv, hashlib, html.parser, io, json, os, re, urllib.error, urllib.parse, urllib.request, zipfile
+          from pathlib import Path
+
+          OUT=Path('j09_probe'); OUT.mkdir()
+          UA={'User-Agent':'jubilee-model-research/1.0'}
+          report={'schema_version':'1.0','production_action':'NO_CHANGE','accessions':{},'arcos':{},'errors':[]}
+
+          def get(url, cap=8_000_000, timeout=45):
+              req=urllib.request.Request(url,headers=UA)
+              with urllib.request.urlopen(req,timeout=timeout) as r:
+                  body=r.read(cap)
+                  return {'status':getattr(r,'status',None),'final_url':r.geturl(),'content_type':r.headers.get('Content-Type'),'content_length':r.headers.get('Content-Length'),'body':body}
+
+          class Links(html.parser.HTMLParser):
+              def __init__(self): super().__init__(); self.links=[]
+              def handle_starttag(self, tag, attrs):
+                  if tag=='a':
+                      h=dict(attrs).get('href')
+                      if h: self.links.append(h)
+
+          def list_links(url):
+              x=get(url)
+              txt=x['body'].decode('utf-8','replace')
+              p=Links(); p.feed(txt)
+              return x,[urllib.parse.urljoin(x['final_url'],h) for h in p.links],txt
+
+          def accession_probe(accession):
+              n=int(accession)
+              status_url=f'https://www.ncei.noaa.gov/archive/archive-management-system/OAS/bin/prd/jquery/accession_status/details/{n}'
+              out={'accession':accession,'status_url':status_url,'candidate_roots':[],'discovered_files':[]}
+              try:
+                  sx,links,txt=list_links(status_url)
+                  out['status_http']=sx['status']
+                  m=re.search(r'Archive path:\s*</?[^>]*>?\s*([^<\s]+)',txt,re.I)
+                  if not m:
+                      plain=re.sub('<[^>]+>',' ',txt); plain=re.sub(r'\s+',' ',plain)
+                      m=re.search(r'Archive path:\s*(/nodc/archive/arc\d+/\d+)',plain,re.I)
+                  archive_path=m.group(1) if m else None
+                  out['archive_path']=archive_path
+                  unit=re.search(r'Archive unit:\s*</?[^>]*>?\s*([^<\s]+)',txt,re.I)
+                  out['archive_unit']=unit.group(1) if unit else None
+                  size=re.search(r'Size in Megabytes:\s*</?[^>]*>?\s*([0-9.]+)',txt,re.I)
+                  out['size_mb']=float(size.group(1)) if size else None
+                  if archive_path:
+                      rel=archive_path.replace('/nodc/archive/','').strip('/')
+                      roots=[
+                        f'https://www.ncei.noaa.gov/data/oceans/archive/{rel}/',
+                        f'https://www.ncei.noaa.gov/data/oceans/archive/{rel}/1.1/',
+                        f'https://www.ncei.noaa.gov/data/oceans/archive/{rel}/1.1/data/',
+                        f'https://www.ncei.noaa.gov/data/oceans/archive/{rel}/1.1/data/0-data/',
+                      ]
+                  else: roots=[]
+                  for root in roots:
+                      ent={'url':root}
+                      try:
+                          rx,rlinks,rtxt=list_links(root)
+                          ent.update(status=rx['status'],final_url=rx['final_url'],content_type=rx['content_type'],content_length=rx['content_length'])
+                          files=[]
+                          for u in rlinks:
+                              low=u.lower()
+                              if any(low.endswith(ext) for ext in ('.nc','.csv','.txt','.zip','.gz','.dat','.xml','.json')):
+                                  files.append(u)
+                          ent['files']=files[:250]
+                          out['discovered_files'] += [u for u in files if u not in out['discovered_files']]
+                      except Exception as e:
+                          ent['error']=f'{type(e).__name__}: {e}'
+                      out['candidate_roots'].append(ent)
+              except Exception as e:
+                  out['error']=f'{type(e).__name__}: {e}'
+              return out
+
+          for acc in ['0188979','0224293','0116496','0248354','0211052']:
+              report['accessions'][acc]=accession_probe(acc)
+
+          # Native ARCOS station-year downloads: retrieve small high-value examples and inspect schema only.
+          arcos={
+            'meaher_2019':'https://api.disl.edu/arcos/pregen/mp_hyd_sum.2019.csv.zip',
+            'battleship_2022':'https://api.disl.edu/arcos/pregen/bsp_hyd_sum.2022.csv.zip',
+            'bon_secour_2019':'https://api.disl.edu/arcos/pregen/bs_hyd_sum.2019.csv.zip',
+          }
+          for key,url in arcos.items():
+              rec={'url':url}
+              try:
+                  x=get(url,cap=25_000_000)
+                  rec.update(status=x['status'],content_type=x['content_type'],bytes=len(x['body']),sha256=hashlib.sha256(x['body']).hexdigest())
+                  p=OUT/f'{key}.zip'; p.write_bytes(x['body'])
+                  with zipfile.ZipFile(io.BytesIO(x['body'])) as z:
+                      rec['members']=z.namelist()
+                      member=next((m for m in z.namelist() if m.lower().endswith('.csv')),None)
+                      if member:
+                          raw=z.read(member)
+                          text=raw.decode('utf-8-sig','replace')
+                          rows=list(csv.reader(io.StringIO(text)))
+                          rec['csv_member']=member
+                          rec['header']=rows[0] if rows else []
+                          rec['data_row_count']=max(0,len(rows)-1)
+                          rec['first_data_row']=rows[1] if len(rows)>1 else None
+                          rec['last_data_row']=rows[-1] if len(rows)>1 else None
+              except Exception as e:
+                  rec['error']=f'{type(e).__name__}: {e}'
+              report['arcos'][key]=rec
+
+          (OUT/'probe_report.json').write_text(json.dumps(report,indent=2)+'\n')
+          print(json.dumps(report,indent=2))
+          PY
+      - name: Upload public probe evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: j09-high-information-probe-${{ github.run_number }}
+          path: j09_probe/
+          retention-days: 30
