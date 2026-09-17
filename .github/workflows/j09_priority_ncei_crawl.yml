@@ -1,0 +1,75 @@
+name: J09 priority NCEI archive crawl
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j09_priority_ncei_crawl.yml'
+permissions:
+  contents: read
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Enumerate resolved public NCEI archives
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p priority_ncei
+          python - <<'PY'
+          import html.parser,json,urllib.parse,urllib.request
+          from pathlib import Path
+          UA={'User-Agent':'jubilee-model-research/1.0'}
+          roots={
+            '0188979':'https://www.ncei.noaa.gov/data/oceans/archive/arc0138/0188979/',
+            '0248354':'https://www.ncei.noaa.gov/data/oceans/archive/arc0195/0248354/',
+            '0211052':'https://www.ncei.noaa.gov/data/oceans/archive/arc0157/0211052/',
+          }
+          class Links(html.parser.HTMLParser):
+            def __init__(self): super().__init__(); self.links=[]
+            def handle_starttag(self,tag,attrs):
+              if tag=='a':
+                h=dict(attrs).get('href')
+                if h: self.links.append(h)
+          def fetch(url,method='GET'):
+            req=urllib.request.Request(url,headers=UA,method=method)
+            with urllib.request.urlopen(req,timeout=25) as r:
+              b=r.read(2_000_000) if method=='GET' else b''
+              return r.geturl(),dict(r.headers),b
+          def crawl(root,max_depth=5):
+            todo=[(root,0)]; seen=set(); files=[]; dirs=[]; errors=[]
+            while todo:
+              url,depth=todo.pop(0)
+              if url in seen or depth>max_depth: continue
+              seen.add(url)
+              try:
+                final,h,b=fetch(url); ct=h.get('Content-Type','')
+                if 'text/html' not in ct.lower():
+                  files.append({'url':final,'content_type':ct,'content_length':h.get('Content-Length')}); continue
+                p=Links(); p.feed(b.decode('utf-8','replace'))
+                dirs.append({'url':final,'depth':depth,'link_count':len(p.links)})
+                for href in p.links:
+                  u=urllib.parse.urljoin(final,href)
+                  if not u.startswith(root): continue
+                  if u.endswith('/'):
+                    if u not in seen: todo.append((u,depth+1))
+                  else:
+                    low=u.lower().split('?',1)[0]
+                    if any(low.endswith(ext) for ext in ('.nc','.csv','.txt','.zip','.gz','.dat','.xml','.json','.pdf','.mat')):
+                      ent={'url':u}
+                      try:
+                        _,hh,_=fetch(u,method='HEAD'); ent['content_length']=hh.get('Content-Length'); ent['content_type']=hh.get('Content-Type')
+                      except Exception as e: ent['head_error']=f'{type(e).__name__}: {e}'
+                      files.append(ent)
+              except Exception as e: errors.append({'url':url,'error':f'{type(e).__name__}: {e}'})
+            return {'root':root,'directories':dirs,'files':files,'errors':errors}
+          report={k:crawl(v) for k,v in roots.items()}
+          Path('priority_ncei/crawl.json').write_text(json.dumps(report,indent=2)+'\n')
+          print(json.dumps(report,indent=2))
+          PY
+      - name: Upload crawl evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: j09-priority-ncei-crawl-${{ github.run_number }}
+          path: priority_ncei/
+          retention-days: 30
