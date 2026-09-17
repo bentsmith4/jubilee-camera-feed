@@ -1,8 +1,8 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "work_id": "J09",
-  "recorded_at_utc": "2026-09-17T20:27:00Z",
-  "scope": "Research-only source-access and prioritization evidence for Jubilee Model Research & Calibration.",
+  "recorded_at_utc": "2026-09-17T20:50:00Z",
+  "scope": "Research-only source-access, payload recovery, QC and prioritization evidence for Jubilee Model Research & Calibration.",
   "production_action": "NO_CHANGE",
   "forecast_weights_changed": false,
   "event_labels_changed": false,
@@ -10,10 +10,12 @@
   "new_physical_sensors": false,
   "predictive_skill_change": "NOT_ESTABLISHED",
   "validated_improvements": {
-    "source_access_map": "IMPROVED",
-    "bottom_oxygen_production_observability": "UNCHANGED_UNKNOWN",
+    "source_access_map": "MATERIALLY_IMPROVED",
+    "actual_high_information_payload_access": "IMPROVED",
+    "source_qc_semantics": "IMPROVED",
+    "bottom_oxygen_live_production_observability": "UNCHANGED_UNKNOWN",
     "held_out_discrimination": "UNCHANGED_NOT_ESTABLISHED",
-    "ingestion_priority_efficiency": "IMPROVED_BY_REPRIORITIZATION"
+    "ingestion_priority_efficiency": "IMPROVED_BY_MECHANISM_AND_INFORMATION_PER_BYTE_REPRIORITIZATION"
   },
   "current_wqp_depth_audit": {
     "manifest": "model_data/water_quality_ingest_manifest.json",
@@ -21,138 +23,109 @@
     "rows_missing_depth": 7507,
     "missing_depth_fraction": 0.9631768026687195,
     "rows_with_depth_field_present": 287,
-    "interpretation": "The current WQP corpus is useful for shoreline/watershed context but cannot be treated as a robust bottom-oxygen or vertical-stratification panel. ADEM beach rows are 91.6% missing depth and the Alabama Water Watch Magnolia rows are 100% missing depth."
+    "interpretation": "The current WQP corpus is useful for shoreline/watershed context but cannot be treated as a robust bottom-oxygen or vertical-stratification panel. ADEM beach rows are 91.6% missing depth and Alabama Water Watch Magnolia rows are 100% missing depth."
   },
-  "verified_source_access": [
+  "actual_payload_recovery": [
     {
-      "source_id": "disl_arcos_native_station_year_downloads",
-      "provider": "Dauphin Island Sea Lab ARCOS",
-      "status": "METADATA_AND_DOWNLOAD_PATTERN_VERIFIED_PAYLOAD_NOT_INGESTED_THIS_RUN",
-      "landing_url": "https://www.disl.edu/arcos/",
-      "download_pattern_examples": [
-        "https://api.disl.edu/arcos/pregen/mp_hyd_sum.2019.csv.zip",
-        "https://api.disl.edu/arcos/pregen/bsp_hyd_sum.2022.csv.zip"
-      ],
-      "timestamp_semantics": "UTC",
-      "hydro_columns": {
-        "watertemp1_avg": "degC",
-        "salinity1_avg": "PSU",
-        "pressure": "PSI",
-        "depth1_avg": "m",
-        "dis_oxy1_avg": "percent",
-        "dis_oxy2_avg": "mg/L",
-        "turbidity1_avg": "FNU"
-      },
-      "high_value_history": "Meaher Park hydro 2003-2025; Battleship Park hydro 2022-2025; Bon Secour hydro 2010-2025; Cedar Point hydro 2008-2025; Dauphin Island hydro 2003-2025; Katrina Cut and Perdido Pass hydro 2011-2025.",
-      "guardrail": "Native depth values still require deployment-geometry interpretation before any bottom-state promotion."
+      "source_id": "disl_arcos_meaher_park_2019_native",
+      "status": "PAYLOAD_RECOVERED_AND_QC_AUDITED_RESEARCH_ONLY",
+      "url": "https://api.disl.edu/arcos/pregen/mp_hyd_sum.2019.csv.zip",
+      "raw_zip_sha256": "69b5124575848aba9653d12ea6bd5fb68d6c83ee8c406cc140ad4f46a4d65336",
+      "rows": 17109,
+      "timestamps_utc_unique": 17109,
+      "good_do_rows": 14171,
+      "bad_do_rows": 2938,
+      "good_do_fraction": 0.8282775147583143,
+      "good_do_mg_l": {"min": 0.0, "median": 6.98, "max": 13.1, "lt_2_rows": 29, "lt_3_rows": 190, "lt_4_rows": 780},
+      "depth_flag_counts": {"good_3": 11569, "questionable_2": 601, "bad_1": 4939},
+      "guardrail": "Meaher is an upper-bay proxy for Daphne forcing, not direct Eastern Shore bottom oxygen. Native depth still requires deployment-geometry interpretation before bottom-state eligibility."
     },
     {
-      "source_id": "ncei_0116496_mobile_bay_1989_1999",
-      "provider": "NOAA NCEI / DISL",
-      "status": "NEW_HIGH_PRIORITY_METADATA_VERIFIED_PAYLOAD_NOT_INGESTED",
-      "url": "https://www.ncei.noaa.gov/archive/accession/0116496",
-      "period": "1989-05-25 to 1999-12-08",
-      "sampling": "near-monthly shipboard surveys with hydrographic profiles and water samples throughout Mobile Bay and adjacent shelf",
-      "variables_relevant_to_jubilee": ["dissolved_oxygen", "oxygen_percent_saturation", "salinity", "water_temperature", "observation_depth", "bottom_depth", "pH", "nutrients", "chlorophyll_a"],
-      "research_role": "Long historical physical-state climatology and matched-control construction; monthly cadence is too coarse for lead-hour event timing."
+      "source_id": "disl_arcos_bon_secour_2019_native",
+      "status": "PAYLOAD_RECOVERED_AND_QC_AUDITED_RESEARCH_ONLY",
+      "url": "https://api.disl.edu/arcos/pregen/bs_hyd_sum.2019.csv.zip",
+      "raw_zip_sha256": "e176285a469fbeb13734f6481b4d2acd058e675d657a59fdb6124707f7c77f38",
+      "rows": 16228,
+      "timestamps_utc_unique": 16228,
+      "good_do_rows": 16228,
+      "good_do_fraction": 1.0,
+      "good_do_mg_l": {"min": 0.14, "median": 6.53, "max": 14.29, "lt_2_rows": 521, "lt_3_rows": 1020, "lt_4_rows": 2003},
+      "low_do_lt_2_episode_count": 122,
+      "low_do_lt_2_episodes_at_least_2h": 33,
+      "longest_contiguous_lt_2_episode_hours": 17.0,
+      "depth_flag_counts": {"good_3": 16043, "bad_1": 185},
+      "guardrail": "Bon Secour is a regional lower-bay/tributary proxy, not direct Point Clear/Daphne bottom oxygen."
+    },
+    {
+      "source_id": "disl_arcos_battleship_park_2022_native_sample",
+      "status": "PAYLOAD_RECOVERED_NOT_QC_ELIGIBLE",
+      "url": "https://api.disl.edu/arcos/pregen/bsp_hyd_sum.2022.csv.zip",
+      "raw_zip_sha256": "075ee9e865dc5b240cbedf4de91d45ccbccaf6ca3be2452f1df81f3be3723dad",
+      "rows": 734,
+      "period_observed": "2022-12-16 17:00 UTC through 2022-12-31 23:30 UTC",
+      "qc_note": "Hydro quality-flag columns are null in this sample, so it is retained as access/schema evidence and is not promoted as QC-good oxygen evidence."
     },
     {
       "source_id": "ncei_0224293_middle_bay_2019",
-      "provider": "NOAA NCEI / DISL",
-      "status": "HIGH_PRIORITY_METADATA_REVERIFIED_PAYLOAD_NOT_INGESTED",
-      "url": "https://www.ncei.noaa.gov/archive/accession/0224293",
-      "period": "2019-01-01 to 2019-12-16; hydrography available through 2019-07-03 due instrument failure",
-      "sampling": "hourly hydrography at different water-column depths",
-      "variables_relevant_to_jubilee": ["water_temperature", "salinity", "dissolved_oxygen", "water_height"],
-      "research_role": "Direct multi-depth stratification and hypoxic-layer persistence calibration."
+      "status": "PAYLOAD_RECOVERED_AND_QC_AUDITED_RESEARCH_ONLY",
+      "archive_root": "https://www.ncei.noaa.gov/data/oceans/archive/arc0171/0224293/",
+      "payload_url": "https://www.ncei.noaa.gov/data/oceans/archive/arc0171/0224293/1.1/data/0-data/middlebay_hyd_2019.txt",
+      "raw_sha256": "49e04d4903d6f6edc4f6bbbc91e9b7e81a6c6ed560318a0621d1d9c454c5e7fb",
+      "rows": 4409,
+      "period_utc": "2019-01-01 00:30 through 2019-07-03 13:10, with an approximately 84.8-day spring data gap",
+      "qc": "All 4409 temperature, salinity and dissolved-oxygen rows have source flag 3; water-height has 4403 flag-3 and 6 flag-1 rows.",
+      "do_mg_l": {"min": 0.51, "median": 6.43, "max": 10.6, "lt_2_rows": 439, "lt_3_rows": 883, "lt_4_rows": 1154},
+      "monthly_hypoxia_lt_2_rows": {"2019-01": 0, "2019-02": 0, "2019-05": 390, "2019-06": 45, "2019-07_partial": 4},
+      "important_correction": "The delivered hydro file contains one station/time series with pressure and water height but no explicit observation-depth column or repeated vertical dimension. NCEI metadata describes hydrography at different depths, but this file alone does not support a vertical-gradient/stratification feature. Deployment/instrument geometry must be recovered before such use."
     },
     {
       "source_id": "ncei_0188979_mobile_bay_moored_ctd_2016",
-      "provider": "NOAA NCEI / DISL",
-      "status": "HIGH_PRIORITY_METADATA_REVERIFIED_PAYLOAD_NOT_INGESTED",
-      "url": "https://www.ncei.noaa.gov/archive/archive-management-system/OAS/bin/prd/jquery/accession/details/188979",
-      "period": "2016-07-12 to 2016-08-02",
-      "sampling": "three moored CTD stations in Mobile Bay",
-      "variables_relevant_to_jubilee": ["dissolved_oxygen", "bottom_salinity", "water_temperature", "observation_depth"],
-      "research_role": "Direct in-bay summer oxygen/stratification state during the documented 2016 upwelling/downwelling study period."
-    },
-    {
-      "source_id": "griidc_mobile_bay_ship_channel_ctd_adcp_2010",
-      "provider": "GRIIDC / DISL",
-      "status": "NEW_HIGH_PRIORITY_DISCOVERY_METADATA_VERIFIED_PAYLOAD_NOT_INGESTED",
-      "datasets": [
-        {
-          "udi": "Y1.x122.038:0001",
-          "doi": "10.7266/N7G15XTX",
-          "title": "CTD casting data along the ship channel of Mobile Bay, 2010-08-18 to 2010-10-27",
-          "size_mb": 13.98
-        },
-        {
-          "udi": "Y1.x122.038:0002",
-          "doi": "10.7266/N7B85630",
-          "title": "ADCP transecting data along the ship channel of Mobile Bay",
-          "size_mb": 94.57
-        }
+      "status": "THREE_NETCDF_PAYLOADS_RECOVERED_AND_SCHEMA_AUDITED_RESEARCH_ONLY",
+      "archive_root": "https://www.ncei.noaa.gov/data/oceans/archive/arc0138/0188979/",
+      "files": [
+        {"name": "Mobile_Bay_Station01_July2016.nc", "rows": 3009, "bytes": 105449, "sha256": "10256bc936c78171bd962b3708798353c11b784a6c6b1992627a26394837bd93", "depth_m": {"min": 3.164, "median": 3.59, "max": 3.974}, "salinity_psu": {"min": 12.24, "median": 20.64, "max": 22.88}, "do_percent_saturation": {"min": 0.8, "median": 10.3, "max": 95.4}},
+        {"name": "Mobile_Bay_Station02_July2016.nc", "rows": 3003, "bytes": 105281, "sha256": "39bc4253393f7d41ee3129531fbbac0e8b28d0fae7bc41dccc1230f0bff25702", "depth_m": {"min": 3.751, "median": 4.135, "max": 4.501}, "salinity_psu": {"min": 16.36, "median": 22.87, "max": 27.24}, "do_percent_saturation": {"min": 5.7, "median": 32.1, "max": 100.5}},
+        {"name": "Mobile_Bay_Station03_July2016.nc", "rows": 3002, "bytes": 105253, "sha256": "e5ad513ba8962bca3525555bf276caeacc4e99b2456cee89e3abbd9fd991deb1", "depth_m": {"min": 1.846, "median": 2.21, "max": 2.627}, "salinity_psu": {"min": 15.49, "median": 19.35, "max": 24.28}, "do_percent_saturation": {"min": 1.1, "median": 67.5, "max": 122.3}}
       ],
-      "research_role": "Efficient in-bay observed hydrography/current validation path for NGOFS2 before larger offshore HFR ingestion."
-    },
-    {
-      "source_id": "ncei_0248354_focal_2007_2016",
-      "provider": "NOAA NCEI / DISL",
-      "status": "NEW_HIGH_PRIORITY_METADATA_VERIFIED_PAYLOAD_NOT_INGESTED",
-      "url": "https://www.ncei.noaa.gov/metadata/geoportal/rest/metadata/item/gov.noaa.nodc%3A0248354",
-      "period": "2007-10-01 to 2016-08-19, non-continuous",
-      "location": "FOCAL mooring approximately 25 km southwest of Mobile Bay mouth",
-      "variables_relevant_to_jubilee": ["temperature", "salinity", "dissolved_oxygen", "current_velocity"],
-      "research_role": "Co-located shelf hydrography plus observed currents; preferred first boundary-condition validation dataset for NGOFS2."
-    },
-    {
-      "source_id": "ncei_0211052_focal_awac_2018_2019",
-      "provider": "NOAA NCEI / DISL",
-      "status": "NEW_OBSERVED_CURRENT_METADATA_VERIFIED_PAYLOAD_NOT_INGESTED",
-      "url": "https://www.ncei.noaa.gov/archive/archive-management-system/OAS/bin/prd/jquery/accession/details/211052",
-      "period": "2018-06-21 to 2019-05-15",
-      "sampling": "0.5 m water-column bins, 5-minute averages every 20 minutes",
-      "variables_relevant_to_jubilee": ["u_current", "v_current", "w_current"],
-      "research_role": "Vertical observed-current validation at FOCAL boundary site."
-    },
-    {
-      "source_id": "griidc_hfr_candidates",
-      "provider": "GRIIDC",
-      "status": "METADATA_VERIFIED_PAYLOAD_NOT_INGESTED",
-      "datasets": [
-        {
-          "udi": "Y1.x115.047:0001",
-          "doi": "10.7266/N7MS3QRM",
-          "period": "2010-05-01 to 2014-05-31",
-          "size": "2.25 GB",
-          "coverage": "Mississippi Bight surface currents from Pascagoula, Orange Beach and Destin HFR stations"
-        },
-        {
-          "udi": "MS.x841.000:0001",
-          "doi": "10.7266/XQYPAGWF",
-          "period": "2018-01-01 to 2019-12-31",
-          "size": "3.3 MB",
-          "coverage": "Mississippi Sound near-surface HFR velocities; surface 0.3-2.5 m depending on radar frequency/profile"
-        }
-      ],
-      "research_role": "Secondary surface-current validation after smaller, more directly relevant in-bay/FOCAL observed-current datasets."
+      "total_rows": 9014,
+      "cadence": "approximately 10 minutes",
+      "time_encoding_issue": "NetCDF time is encoded as days since 0000-01-00 00:00:00 CDT; generic CF num2date rejects day zero. Research normalization must explicitly document/validate the intended datenum conversion before canonical temporal joins.",
+      "important_correction": "The NetCDF DO variable is percent saturation, not mg/L. Do not silently treat these values as concentration or compare directly to mg/L hypoxia thresholds.",
+      "research_value": "This is now actual dense summer in-bay oxygen/salinity/temperature/depth evidence rather than a metadata-only lead. It is high priority for mechanism testing after time/deployment semantics are finalized."
     }
   ],
+  "resolved_archive_access": {
+    "0188979": "https://www.ncei.noaa.gov/data/oceans/archive/arc0138/0188979/",
+    "0224293": "https://www.ncei.noaa.gov/data/oceans/archive/arc0171/0224293/",
+    "0248354": "https://www.ncei.noaa.gov/data/oceans/archive/arc0195/0248354/",
+    "0211052": "https://www.ncei.noaa.gov/data/oceans/archive/arc0157/0211052/"
+  },
+  "observed_current_validation_access": {
+    "ncei_0211052_focal_awac": "Archive resolved; contains observed u/v/w current data in 0.5 m bins at 20-minute output cadence. A visible Dump_rep.dat payload is approximately 87 MB. Payload not yet normalized in this run.",
+    "ncei_0248354_focal_2007_2016": "Archive root resolved; deeper nested payload inventory still required.",
+    "griidc_mobile_bay_ship_channel_ctd_adcp_2010": "Metadata-verified candidate retained ahead of large HFR because it is in-bay and mechanism-matched.",
+    "hfr": "Retained as secondary validation after direct in-bay/FOCAL currents because of lower information-per-byte and weaker spatial match to Eastern Shore Jubilee transport."
+  },
+  "source_qc_semantics": {
+    "disl_arcos_flags": {"-9": "missing", "0": "not evaluated", "1": "bad", "2": "questionable/suspect", "3": "good"},
+    "disl_hydro_range_checks": {"temperature_c": "-5 to 45", "salinity_psu": "0 to 40", "dissolved_oxygen_percent": "0 to 200", "dissolved_oxygen_mg_l": "0 to 20", "turbidity_fnu": "-3 to 1000"},
+    "effect": "Bad/suspect rows can now be excluded explicitly instead of relying on numeric plausibility alone."
+  },
   "revised_ingestion_priority": [
-    "1. NCEI 0188979 2016 Mobile Bay moored CTDs plus related 2016 CTD casts: direct summer oxygen/stratification.",
-    "2. NCEI 0224293 Middle Bay 2019 multi-depth hydrography: direct vertical DO/salinity structure.",
-    "3. Mobile Bay ship-channel CTD+ADCP 2010: in-bay observed circulation/hydrography validation at about 109 MB total.",
-    "4. NCEI 0248354 FOCAL 2007-2016 current+hydrography and 0211052 AWAC: co-located shelf boundary validation.",
-    "5. NCEI 0116496 1989-1999 profiles: long climatology/control baseline.",
-    "6. Native ARCOS station-year history: recurrent regional DO/salinity/depth context after deployment-geometry reconciliation.",
-    "7. HFR archives: useful surface-current validation, but lower information-per-byte for Jubilee mechanism than direct in-bay/FOCAL datasets."
+    "1. Finish canonical normalization and time/deployment validation of NCEI 0188979; it is now downloaded and schema-audited.",
+    "2. Recover Middle Bay 2019 deployment/depth metadata so the 4409 QC-good rows can be classified correctly; do not invent a vertical gradient from the current single series.",
+    "3. Normalize observed currents from FOCAL AWAC 0211052 and compare directly with NGOFS2 direction/magnitude/phase before any transport-weight promotion.",
+    "4. Inventory/ingest FOCAL 0248354 co-located current+hydrography and Mobile Bay ship-channel CTD+ADCP 2010.",
+    "5. Expand native ARCOS station-year history with QC flags and deployment geometry, especially Meaher/Middle Bay where relevant.",
+    "6. Use NCEI 0116496 1989-1999 profiles for long physical-state climatology and matched-control context.",
+    "7. Ingest large HFR archives only after the smaller direct-current datasets establish the validation design."
   ],
   "remaining_blockers": [
-    "No newly recovered payload from the high-priority NCEI/DISL/GRIIDC archives has yet been parsed into the canonical feature panel in this run.",
     "No direct Point Clear/Daphne bottom dissolved-oxygen observation is available for live production.",
-    "Zero verified matched clean controls remain; held-out forecast skill is not established.",
-    "ARCOS native depth values require deployment-geometry interpretation before bottom-state eligibility.",
+    "Zero verified matched clean controls remain; held-out forecast skill and incremental discrimination are not established.",
+    "No 2016 or 2019 canonical Jubilee positive is presently available for direct event-aligned scoring of the recovered 0188979/0224293 payloads.",
+    "Middle Bay 2019 vertical/deployment geometry is not encoded in the delivered hydro file; stratification promotion remains blocked.",
+    "NCEI 0188979 time encoding requires explicit validated datenum normalization, and its DO variable is percent saturation rather than mg/L.",
     "Observed-current versus NGOFS2 validation has not yet been scored; no model transport weight change is justified."
   ]
 }
