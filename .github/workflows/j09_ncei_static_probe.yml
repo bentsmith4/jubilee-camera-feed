@@ -1,0 +1,74 @@
+name: J09 NCEI static archive route probe
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j09_ncei_static_probe.yml'
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Probe known and likely static NCEI accession roots
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import html.parser, json, urllib.parse, urllib.request, urllib.error
+          from pathlib import Path
+          OUT=Path('ncei_probe'); OUT.mkdir()
+          UA={'User-Agent':'jubilee-model-research/1.0'}
+          roots={
+            '0224293':['https://www.ncei.noaa.gov/data/oceans/archive/arc0171/0224293/'],
+            '0188979':['https://www.ncei.noaa.gov/data/oceans/archive/arc0137/0188979/'],
+            '0248354':['https://www.ncei.noaa.gov/data/oceans/archive/arc0197/0248354/'],
+          }
+          class Links(html.parser.HTMLParser):
+            def __init__(self): super().__init__(); self.links=[]
+            def handle_starttag(self,tag,attrs):
+              if tag=='a':
+                h=dict(attrs).get('href')
+                if h: self.links.append(h)
+          def fetch(url):
+            req=urllib.request.Request(url,headers=UA)
+            with urllib.request.urlopen(req,timeout=20) as r:
+              b=r.read(2_000_000); return r.geturl(),r.headers,b
+          def crawl(root,max_depth=4):
+            todo=[(root,0)]; seen=set(); files=[]; dirs=[]; errors=[]
+            while todo:
+              url,depth=todo.pop(0)
+              if url in seen: continue
+              seen.add(url)
+              if depth>max_depth: continue
+              try:
+                final,h,b=fetch(url); ct=h.get('Content-Type','')
+                if 'text/html' not in ct.lower():
+                  files.append({'url':final,'content_type':ct,'content_length':h.get('Content-Length')}); continue
+                p=Links(); p.feed(b.decode('utf-8','replace'))
+                dirs.append({'url':final,'depth':depth,'links':len(p.links)})
+                for href in p.links:
+                  u=urllib.parse.urljoin(final,href)
+                  if not u.startswith(root): continue
+                  low=u.lower().split('?',1)[0]
+                  if u.endswith('/'):
+                    if u not in seen: todo.append((u,depth+1))
+                  elif any(low.endswith(ext) for ext in ('.nc','.csv','.txt','.zip','.gz','.dat','.xml','.json','.pdf')):
+                    files.append({'url':u})
+              except Exception as e:
+                errors.append({'url':url,'error':f'{type(e).__name__}: {e}'})
+            return {'root':root,'directories':dirs,'files':files,'errors':errors}
+          report={}
+          for acc,rs in roots.items():
+            report[acc]=[crawl(r) for r in rs]
+          (OUT/'ncei_static_probe.json').write_text(json.dumps(report,indent=2)+'\n')
+          print(json.dumps(report,indent=2))
+          PY
+      - name: Upload probe evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: j09-ncei-static-probe-${{ github.run_number }}
+          path: ncei_probe/
+          retention-days: 30
