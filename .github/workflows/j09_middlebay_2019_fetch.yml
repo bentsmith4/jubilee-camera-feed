@@ -1,0 +1,40 @@
+name: J09 Middle Bay 2019 hydrography fetch
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j09_middlebay_2019_fetch.yml'
+permissions:
+  contents: read
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Download and fingerprint public NCEI Middle Bay hydrography
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p middlebay_2019
+          python - <<'PY'
+          import hashlib,json,urllib.request
+          from pathlib import Path
+          url='https://www.ncei.noaa.gov/data/oceans/archive/arc0171/0224293/1.1/data/0-data/middlebay_hyd_2019.txt'
+          req=urllib.request.Request(url,headers={'User-Agent':'jubilee-model-research/1.0'})
+          with urllib.request.urlopen(req,timeout=60) as r:
+              body=r.read(50_000_000)
+              meta={'url':url,'status':getattr(r,'status',None),'final_url':r.geturl(),'content_type':r.headers.get('Content-Type'),'reported_content_length':r.headers.get('Content-Length'),'bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()}
+          Path('middlebay_2019/middlebay_hyd_2019.txt').write_bytes(body)
+          text=body.decode('utf-8','replace')
+          lines=text.splitlines()
+          meta['line_count']=len(lines)
+          meta['first_40_lines']=lines[:40]
+          Path('middlebay_2019/fetch_manifest.json').write_text(json.dumps(meta,indent=2)+'\n')
+          print(json.dumps(meta,indent=2))
+          PY
+      - name: Upload public research payload
+        uses: actions/upload-artifact@v4
+        with:
+          name: j09-middlebay-2019-${{ github.run_number }}
+          path: middlebay_2019/
+          retention-days: 30
