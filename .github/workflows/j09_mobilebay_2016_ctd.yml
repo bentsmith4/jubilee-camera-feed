@@ -16,88 +16,45 @@ jobs:
           python-version: '3.12'
       - name: Install netCDF dependency
         run: python -m pip install netCDF4
-      - name: Fetch inspect and normalize public NCEI CTDs
+      - name: Fetch and inspect public NCEI CTDs without assuming CF time semantics
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p mobilebay_2016_ctd/raw
           python - <<'PY'
-          import csv, datetime as dt, hashlib, json, math, urllib.request
+          import hashlib,json,urllib.request
           from pathlib import Path
           import netCDF4, numpy as np
           root='https://www.ncei.noaa.gov/data/oceans/archive/arc0138/0188979/1.1/data/0-data/'
           files=[f'Mobile_Bay_Station0{i}_July2016.nc' for i in (1,2,3)]
-          manifest={'schema_version':'1.0','accession':'0188979','production_action':'NO_CHANGE','source_root':root,'files':[],'stations':[]}
-          all_rows=[]
+          out={'schema_version':'1.1','accession':'0188979','production_action':'NO_CHANGE','source_root':root,'stations':[]}
           for fn in files:
             url=root+fn; raw=Path('mobilebay_2016_ctd/raw')/fn
             req=urllib.request.Request(url,headers={'User-Agent':'jubilee-model-research/1.0'})
             with urllib.request.urlopen(req,timeout=45) as r: body=r.read()
             raw.write_bytes(body)
-            rec={'filename':fn,'url':url,'bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()}
             ds=netCDF4.Dataset(raw)
-            rec['dimensions']={k:len(v) for k,v in ds.dimensions.items()}
-            rec['global_attributes']={a:str(getattr(ds,a)) for a in ds.ncattrs()}
-            vars_meta={}
+            rec={'filename':fn,'url':url,'bytes':len(body),'sha256':hashlib.sha256(body).hexdigest(),'dimensions':{k:len(v) for k,v in ds.dimensions.items()},'global_attributes':{a:str(getattr(ds,a)) for a in ds.ncattrs()},'variables':{}}
             for name,v in ds.variables.items():
               attrs={a:str(getattr(v,a)) for a in v.ncattrs()}
-              vars_meta[name]={'dimensions':list(v.dimensions),'shape':list(v.shape),'dtype':str(v.dtype),'attributes':attrs}
-            rec['variables']=vars_meta
-            names=list(ds.variables)
-            # Resolve time and candidate science variables conservatively by names/metadata.
-            def findvar(keys):
-              for n,v in ds.variables.items():
-                text=(' '.join([n]+[str(getattr(v,a,'')) for a in ('standard_name','long_name','units')])).lower()
-                if all(k in text for k in keys): return n
-              return None
-            tname=next((n for n,v in ds.variables.items() if 'time' in n.lower() and getattr(v,'units',None)),None)
-            if not tname: raise RuntimeError(f'no time variable in {fn}')
-            tv=ds.variables[tname]; times=netCDF4.num2date(tv[:],tv.units,getattr(tv,'calendar','standard'),only_use_cftime_datetimes=False)
-            do_name=findvar(['oxygen'])
-            sal_name=findvar(['salin'])
-            temp_name=findvar(['temp'])
-            pressure_name=findvar(['press'])
-            depth_name=findvar(['depth'])
-            lat_name=findvar(['latitude']) or next((n for n in names if n.lower() in ('lat','latitude')),None)
-            lon_name=findvar(['longitude']) or next((n for n in names if n.lower() in ('lon','longitude')),None)
-            rec['resolved']={'time':tname,'dissolved_oxygen':do_name,'salinity':sal_name,'temperature':temp_name,'pressure':pressure_name,'depth':depth_name,'latitude':lat_name,'longitude':lon_name}
-            def vals(name):
-              if not name: return None
-              a=np.ma.filled(ds.variables[name][:],np.nan).astype(float).reshape(-1)
-              return a
-            science={k:vals(n) for k,n in rec['resolved'].items() if k not in ('time','latitude','longitude')}
-            N=len(times)
-            lat=float(np.ma.filled(ds.variables[lat_name][:],np.nan).reshape(-1)[0]) if lat_name else None
-            lon=float(np.ma.filled(ds.variables[lon_name][:],np.nan).reshape(-1)[0]) if lon_name else None
-            # Variables may be scalar, N, or another dimension. Only align N-length series.
-            aligned={k:a if a is not None and len(a)==N else None for k,a in science.items()}
-            station_rows=[]
-            for i,t in enumerate(times):
-              row={'station_file':fn,'time_utc':t.replace(tzinfo=dt.timezone.utc).isoformat() if getattr(t,'tzinfo',None) is None else t.astimezone(dt.timezone.utc).isoformat(),'lat':lat,'lon':lon}
-              for k,a in aligned.items(): row[k]=None if a is None or not np.isfinite(a[i]) else float(a[i])
-              station_rows.append(row); all_rows.append(row)
-            stats={}
-            for k,a in aligned.items():
-              if a is None: continue
-              good=a[np.isfinite(a)]
-              if good.size: stats[k]={'n':int(good.size),'min':float(np.min(good)),'median':float(np.median(good)),'max':float(np.max(good)),'p05':float(np.quantile(good,.05)),'p95':float(np.quantile(good,.95))}
-            rec['series_stats']=stats
-            rec['row_count']=N
-            rec['time_start_utc']=station_rows[0]['time_utc'] if station_rows else None
-            rec['time_end_utc']=station_rows[-1]['time_utc'] if station_rows else None
-            rec['lat']=lat; rec['lon']=lon
-            manifest['files'].append(rec)
-            manifest['stations'].append({'filename':fn,'row_count':N,'lat':lat,'lon':lon,'time_start_utc':rec['time_start_utc'],'time_end_utc':rec['time_end_utc'],'resolved':rec['resolved'],'series_stats':stats})
-            ds.close()
-          cols=['station_file','time_utc','lat','lon','dissolved_oxygen','salinity','temperature','pressure','depth']
-          with open('mobilebay_2016_ctd/normalized.csv','w',newline='') as f:
-            w=csv.DictWriter(f,fieldnames=cols); w.writeheader(); w.writerows([{c:r.get(c) for c in cols} for r in all_rows])
-          manifest['normalized_rows']=len(all_rows)
-          manifest['normalized_sha256']=hashlib.sha256(Path('mobilebay_2016_ctd/normalized.csv').read_bytes()).hexdigest()
-          Path('mobilebay_2016_ctd/manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
-          print(json.dumps({'normalized_rows':manifest['normalized_rows'],'stations':manifest['stations'],'normalized_sha256':manifest['normalized_sha256']},indent=2))
+              arr=np.ma.filled(v[:],np.nan)
+              flat=np.asarray(arr).reshape(-1)
+              sample=[]
+              for x in flat[:8]:
+                try: sample.append(float(x))
+                except Exception: sample.append(str(x))
+              stats=None
+              try:
+                q=np.asarray(arr,dtype=float).reshape(-1); q=q[np.isfinite(q)]
+                if q.size: stats={'n':int(q.size),'min':float(q.min()),'median':float(np.median(q)),'max':float(q.max())}
+              except Exception: pass
+              rec['variables'][name]={'dimensions':list(v.dimensions),'shape':list(v.shape),'dtype':str(v.dtype),'attributes':attrs,'sample':sample,'stats':stats}
+            out['stations'].append(rec); ds.close()
+          Path('mobilebay_2016_ctd/manifest.json').write_text(json.dumps(out,indent=2)+'\n')
+          print(json.dumps(out,indent=2))
           PY
       - name: Upload research ingest
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: j09-mobilebay-2016-ctd-${{ github.run_number }}
