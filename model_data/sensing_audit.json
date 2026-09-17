@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "generated_at_utc": "2026-09-17T10:04:30+00:00",
+  "generated_at_utc": "2026-09-17T10:36:00+00:00",
   "audit_type": "matching_status_burst_vision_identity_and_latest_file_integrity_not_independent_vision",
   "status": "pass",
   "expected_private_cameras": 6,
@@ -9,21 +9,21 @@
     "montrose_owner_cluster",
     "point_clear_landing_owner_cluster"
   ],
-  "capture_identity_ct": "2026-09-17T04:53:28.975655-05:00",
+  "capture_identity_ct": "2026-09-17T05:12:54.978596-05:00",
   "private_cameras": [
     {
       "camera_id": "montrose_pier_boat",
       "site_group": "montrose_owner_cluster",
       "shoreline_cell": "Montrose",
-      "captured_at_ct": "2026-09-17T04:53:53.844858-05:00",
-      "age_minutes": 10.61,
+      "captured_at_ct": "2026-09-17T05:13:20.141030-05:00",
+      "age_minutes": 22.66,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
       "visibility": "fair",
       "detectability": "low",
       "issues": [
-        "night darkness; dark water largely occluded; camera-level signal unclear because detectability is low"
+        "night darkness and low biological detectability"
       ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED_THIS_RUN",
@@ -36,15 +36,15 @@
       "camera_id": "montrose_pier_bird",
       "site_group": "montrose_owner_cluster",
       "shoreline_cell": "Montrose",
-      "captured_at_ct": "2026-09-17T04:56:33.084114-05:00",
-      "age_minutes": 7.95,
+      "captured_at_ct": "2026-09-17T05:16:00.601407-05:00",
+      "age_minutes": 19.99,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
-      "visibility": "poor",
+      "visibility": "fair",
       "detectability": "low",
       "issues": [
-        "night darkness and low-light reflections"
+        "night darkness and low biological detectability"
       ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED_THIS_RUN",
@@ -57,13 +57,13 @@
       "camera_id": "montrose_shoreline",
       "site_group": "montrose_owner_cluster",
       "shoreline_cell": "Montrose",
-      "captured_at_ct": "2026-09-17T04:55:28.716413-05:00",
-      "age_minutes": 9.02,
+      "captured_at_ct": "2026-09-17T05:14:56.172681-05:00",
+      "age_minutes": 21.06,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
       "visibility": "fair",
-      "detectability": "low",
+      "detectability": "moderate",
       "issues": [
         "night darkness and artificial-light reflections"
       ],
@@ -78,8 +78,8 @@
       "camera_id": "pcl_e2_back_deck",
       "site_group": "point_clear_landing_owner_cluster",
       "shoreline_cell": "Point Clear",
-      "captured_at_ct": "2026-09-17T04:54:32.791704-05:00",
-      "age_minutes": 9.95,
+      "captured_at_ct": "2026-09-17T05:14:00.169336-05:00",
+      "age_minutes": 22.00,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
@@ -99,15 +99,15 @@
       "camera_id": "pcl_e2_bay_mouth",
       "site_group": "point_clear_landing_owner_cluster",
       "shoreline_cell": "Point Clear",
-      "captured_at_ct": "2026-09-17T04:54:59.992228-05:00",
-      "age_minutes": 9.50,
+      "captured_at_ct": "2026-09-17T05:14:27.236726-05:00",
+      "age_minutes": 21.55,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
       "visibility": "poor",
       "detectability": "low",
       "issues": [
-        "night darkness, glare and possible rain-surface interference; detailed human and biological activity unclear"
+        "night darkness and glare; detailed human and biological activity unclear"
       ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED_THIS_RUN",
@@ -120,12 +120,12 @@
       "camera_id": "pcl_e3_bay_mouth",
       "site_group": "point_clear_landing_owner_cluster",
       "shoreline_cell": "Point Clear",
-      "captured_at_ct": "2026-09-17T04:56:06.059173-05:00",
-      "age_minutes": 8.40,
+      "captured_at_ct": "2026-09-17T05:15:33.670904-05:00",
+      "age_minutes": 20.44,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
-      "visibility": "poor",
+      "visibility": "fair",
       "detectability": "low",
       "issues": [
         "night darkness and limited surface detail"
@@ -140,6 +140,6 @@
   ],
   "unknown_upstream_camera_ids": [],
   "public_capture_contract": "separate_direct_live_player_observation_not_a_temporal_owner_burst",
-  "forecast_changed": false,
-  "caveat": "This audit verifies matching metadata and available vision results for the unattended 04:53-04:56 CDT cycle, the latest healthy post-AC-recovery cycle, not independent re-analysis of retained pixels. All six cameras passed with 3/3 frames, but night darkness and low detectability make biology UNKNOWN rather than a negative. Montrose Pier Boat was camera-level unclear under low detectability while the cross-camera aggregate remained none. Same-site cameras share one independence group, Point Clear close beach/swash is not visible, and no clean training label is allowed."
+  "forecast_changed": true,
+  "caveat": "This audit verifies matching metadata and available vision results for the unattended 05:12-05:16 CDT cycle, another healthy post-AC-recovery cycle, not independent re-analysis of retained pixels. All six cameras passed with 3/3 frames, but night darkness and low detectability make biology UNKNOWN rather than a negative. The cross-camera aggregate signal remained none. Same-site cameras share one independence group, Point Clear close beach/swash is not visible, and no clean training label is allowed. Current NGOFS2 MODEL guidance changed materially to seaward transport across all four windows."
 }
