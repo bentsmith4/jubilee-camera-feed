@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "generated_at_utc": "2026-09-17T05:22:00+00:00",
+  "generated_at_utc": "2026-09-17T06:12:00+00:00",
   "audit_type": "matching_status_burst_vision_identity_and_integrity_not_independent_vision",
   "status": "complete",
   "expected_private_cameras": 6,
@@ -9,21 +9,21 @@
     "montrose_owner_cluster",
     "point_clear_landing_owner_cluster"
   ],
-  "capture_identity_ct": "2026-09-17T00:06:29.742311-05:00",
+  "capture_identity_ct": "2026-09-17T01:06:01.209196-05:00",
   "private_cameras": [
     {
       "camera_id": "montrose_pier_boat",
       "site_group": "montrose_owner_cluster",
       "shoreline_cell": "Montrose",
-      "captured_at_ct": "2026-09-17T00:06:54.219336-05:00",
-      "age_minutes": 15.10,
+      "captured_at_ct": "2026-09-17T01:06:25.892811-05:00",
+      "age_minutes": 5.57,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
-      "visibility": "good",
+      "visibility": "fair",
       "detectability": "low",
       "issues": [
-        "night darkness; possible artificial-light confounding"
+        "night darkness; dark water largely obscured"
       ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED_THIS_RUN",
@@ -33,15 +33,15 @@
       "camera_id": "montrose_pier_bird",
       "site_group": "montrose_owner_cluster",
       "shoreline_cell": "Montrose",
-      "captured_at_ct": "2026-09-17T00:09:34.003880-05:00",
-      "age_minutes": 12.43,
+      "captured_at_ct": "2026-09-17T01:09:06.361272-05:00",
+      "age_minutes": 2.89,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
       "visibility": "fair",
       "detectability": "low",
       "issues": [
-        "night darkness; possible artificial-light confounding"
+        "night darkness and limited surface detail"
       ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED_THIS_RUN",
@@ -51,15 +51,15 @@
       "camera_id": "montrose_shoreline",
       "site_group": "montrose_owner_cluster",
       "shoreline_cell": "Montrose",
-      "captured_at_ct": "2026-09-17T00:08:29.440289-05:00",
-      "age_minutes": 13.51,
+      "captured_at_ct": "2026-09-17T01:08:01.833621-05:00",
+      "age_minutes": 3.97,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
       "visibility": "poor",
       "detectability": "low",
       "issues": [
-        "night darkness and strong artificial-light confounding"
+        "night darkness and artificial-light reflections"
       ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED_THIS_RUN",
@@ -69,15 +69,15 @@
       "camera_id": "pcl_e2_back_deck",
       "site_group": "point_clear_landing_owner_cluster",
       "shoreline_cell": "Point Clear",
-      "captured_at_ct": "2026-09-17T00:07:33.352581-05:00",
-      "age_minutes": 14.44,
+      "captured_at_ct": "2026-09-17T01:07:05.720321-05:00",
+      "age_minutes": 4.90,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
       "visibility": "poor",
       "detectability": "low",
       "issues": [
-        "night darkness and strong artificial-light confounding"
+        "night darkness, low contrast and artificial-light reflections"
       ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED_THIS_RUN",
@@ -87,15 +87,15 @@
       "camera_id": "pcl_e2_bay_mouth",
       "site_group": "point_clear_landing_owner_cluster",
       "shoreline_cell": "Point Clear",
-      "captured_at_ct": "2026-09-17T00:08:00.460946-05:00",
-      "age_minutes": 13.99,
+      "captured_at_ct": "2026-09-17T01:07:33.081040-05:00",
+      "age_minutes": 4.45,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
       "visibility": "poor",
       "detectability": "low",
       "issues": [
-        "night darkness and strong artificial-light confounding"
+        "night darkness, glare and optical artifacts"
       ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED_THIS_RUN",
@@ -105,15 +105,15 @@
       "camera_id": "pcl_e3_bay_mouth",
       "site_group": "point_clear_landing_owner_cluster",
       "shoreline_cell": "Point Clear",
-      "captured_at_ct": "2026-09-17T00:09:07.048695-05:00",
-      "age_minutes": 12.88,
+      "captured_at_ct": "2026-09-17T01:08:39.244574-05:00",
+      "age_minutes": 3.35,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
-      "visibility": "fair",
+      "visibility": "poor",
       "detectability": "low",
       "issues": [
-        "night darkness and strong artificial-light confounding"
+        "night darkness and limited surface detail"
       ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED_THIS_RUN",
@@ -122,6 +122,6 @@
   ],
   "unknown_upstream_camera_ids": [],
   "public_capture_contract": "separate_direct_live_player_observation_not_a_temporal_owner_burst",
-  "forecast_changed": true,
-  "caveat": "This audit verifies matching metadata and available vision results for the unattended 00:06-00:09 CDT cycle, the seventh consecutive healthy hourly cycle after AC-power recovery, not independent re-analysis of retained pixels. No detection is not a whole-cell non-event; same-site cameras share one independence group, Point Clear close beach/swash is not visible, nighttime biology is poorly observable, and no clean training label is allowed. Forecast guidance changed materially in a separate model input."
+  "forecast_changed": false,
+  "caveat": "This audit verifies matching metadata and available vision results for the unattended 01:06-01:09 CDT cycle, the eighth consecutive healthy hourly cycle after AC-power recovery, not independent re-analysis of retained pixels. No detection is not a whole-cell non-event; same-site cameras share one independence group, Point Clear close beach/swash is not visible, nighttime biology is poorly observable, and no clean training label is allowed."
 }
