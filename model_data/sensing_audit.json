@@ -1,6 +1,6 @@
 {
   "schema_version": "2.0",
-  "generated_at_utc": "2026-09-17T11:40:00+00:00",
+  "generated_at_utc": "2026-09-17T13:00:00+00:00",
   "audit_type": "matching_status_burst_vision_identity_and_latest_file_integrity_not_independent_vision",
   "status": "pass",
   "expected_private_cameras": 6,
@@ -9,21 +9,21 @@
     "montrose_owner_cluster",
     "point_clear_landing_owner_cluster"
   ],
-  "capture_identity_ct": "2026-09-17T06:12:50.956726-05:00",
+  "capture_identity_ct": "2026-09-17T07:32:53.561940-05:00",
   "private_cameras": [
     {
       "camera_id": "montrose_pier_boat",
       "site_group": "montrose_owner_cluster",
       "shoreline_cell": "Montrose",
-      "captured_at_ct": "2026-09-17T06:13:17.072046-05:00",
-      "age_minutes": 26.72,
+      "captured_at_ct": "2026-09-17T07:33:18.316771-05:00",
+      "age_minutes": 26.7,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
       "visibility": "good",
-      "detectability": "moderate",
+      "detectability": "high",
       "issues": [
-        "dawn broad-water view; fine shoreline biology limited by camera geometry"
+        "morning broad-water view; no visible temporal signal in this camera scope"
       ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED_THIS_RUN",
@@ -36,15 +36,15 @@
       "camera_id": "montrose_pier_bird",
       "site_group": "montrose_owner_cluster",
       "shoreline_cell": "Montrose",
-      "captured_at_ct": "2026-09-17T06:15:58.018553-05:00",
-      "age_minutes": 24.03,
+      "captured_at_ct": "2026-09-17T07:35:59.657587-05:00",
+      "age_minutes": 24,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
       "visibility": "good",
       "detectability": "high",
       "issues": [
-        "dawn view; no visible temporal signal in this camera scope"
+        "morning pier/broad-water view; no visible temporal signal in this camera scope"
       ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED_THIS_RUN",
@@ -57,15 +57,15 @@
       "camera_id": "montrose_shoreline",
       "site_group": "montrose_owner_cluster",
       "shoreline_cell": "Montrose",
-      "captured_at_ct": "2026-09-17T06:14:53.107163-05:00",
-      "age_minutes": 25.12,
+      "captured_at_ct": "2026-09-17T07:34:53.357579-05:00",
+      "age_minutes": 25.1,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
-      "visibility": "good",
+      "visibility": "fair",
       "detectability": "moderate",
       "issues": [
-        "dawn shoreline view; no visible temporal signal in this camera scope"
+        "strong sunlight glare and reflection persist; no visible temporal signal"
       ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED_THIS_RUN",
@@ -78,15 +78,15 @@
       "camera_id": "pcl_e2_back_deck",
       "site_group": "point_clear_landing_owner_cluster",
       "shoreline_cell": "Point Clear",
-      "captured_at_ct": "2026-09-17T06:13:56.950485-05:00",
-      "age_minutes": 26.05,
+      "captured_at_ct": "2026-09-17T07:33:57.631038-05:00",
+      "age_minutes": 26,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
-      "visibility": "fair",
+      "visibility": "good",
       "detectability": "low",
       "issues": [
-        "dim Point Clear deck view with low detectability"
+        "narrow, partially obstructed water view limits biological detectability"
       ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED_THIS_RUN",
@@ -99,15 +99,15 @@
       "camera_id": "pcl_e2_bay_mouth",
       "site_group": "point_clear_landing_owner_cluster",
       "shoreline_cell": "Point Clear",
-      "captured_at_ct": "2026-09-17T06:14:24.185138-05:00",
-      "age_minutes": 25.60,
+      "captured_at_ct": "2026-09-17T07:34:24.643429-05:00",
+      "age_minutes": 25.6,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
-      "visibility": "fair",
-      "detectability": "moderate",
+      "visibility": "good",
+      "detectability": "high",
       "issues": [
-        "dawn marina/bay-mouth view; Point Clear close beach not visible"
+        "morning marina/bay-mouth view; Point Clear close beach not visible"
       ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED_THIS_RUN",
@@ -120,15 +120,15 @@
       "camera_id": "pcl_e3_bay_mouth",
       "site_group": "point_clear_landing_owner_cluster",
       "shoreline_cell": "Point Clear",
-      "captured_at_ct": "2026-09-17T06:15:31.128554-05:00",
-      "age_minutes": 24.48,
+      "captured_at_ct": "2026-09-17T07:35:31.884146-05:00",
+      "age_minutes": 24.5,
       "upstream_metadata_pass": true,
       "burst_frame_count": 3,
       "vision_status": "ok",
       "visibility": "good",
       "detectability": "moderate",
       "issues": [
-        "dawn marina view; same Point Clear independence cluster"
+        "morning marina view; same Point Clear independence cluster"
       ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED_THIS_RUN",
@@ -141,5 +141,5 @@
   "unknown_upstream_camera_ids": [],
   "public_capture_contract": "separate_direct_live_player_observation_not_a_temporal_owner_burst",
   "forecast_changed": false,
-  "caveat": "This audit verifies matching metadata and available vision results for the first completed owner-camera burst at or after 06:12:49.902887 CDT civil dawn. The capture identity began 1.054 seconds after dawn and frames ran 06:12:56-06:15:58 CDT. All six cameras passed with 3/3 frames. The aggregate visual Jubilee signal was none, but this scoped dawn assessment does not cover unseen Point Clear/Fairhope beaches and is not a clean non-event training label. Same-site cameras share one independence group; no direct local bottom oxygen is available."
+  "caveat": "All six expected owner cameras passed matching 3-frame status/burst/vision reconciliation for the current post-dawn cycle. Same-site views remain two independence groups; Point Clear close beach/swash and all Fairhope beach/Fly Creek scopes remain outside these owner cameras. No clean non-event label."
 }
