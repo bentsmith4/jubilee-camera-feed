@@ -14,7 +14,8 @@ PRODUCTS = {
 
 def retrieval_outage(manifest):
     error = str(manifest.get("error", ""))
-    return ("HTTP 503" in error or "503 Service Unavailable" in error
+    return (manifest.get("error_type") == "RetrievalTimeout"
+            or "HTTP 503" in error or "503 Service Unavailable" in error
             or error.startswith(("Unable to open any recent NGOFS2 station dataset:",
                                  "No recent NGOFS2 ")) and "file opened:" in error
             or error.startswith("No recent NGOFS2 regular-grid ") and "reference file opened:" in error)

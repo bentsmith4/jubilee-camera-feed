@@ -18,6 +18,7 @@ on:
       - 'model_data/ingest_ngofs2_mobile_bay_named_stations.py'
       - 'model_data/ingest_ngofs2_shoreline_grid.py'
       - 'model_data/validate_ngofs2_availability.py'
+      - 'model_data/run_ngofs2_bounded.py'
       - 'model_data/ngofs2_target_cells.json'
       - 'model_data/ingest_griidc_main_pass_20160419.py'
       - 'model_data/promote_may1971_events.py'
@@ -99,19 +100,19 @@ jobs:
             model_data/ngofs2_shoreline_grid_manifest.json
       - name: Retrieve Point Clear NGOFS2 antecedent transport guidance
         continue-on-error: true
-        run: python model_data/ingest_ngofs2_point_clear.py --cast nowcast
+        run: python model_data/run_ngofs2_bounded.py point_clear_nowcast
       - name: Retrieve Point Clear NGOFS2 forward transport guidance
         continue-on-error: true
-        run: python model_data/ingest_ngofs2_point_clear.py --cast forecast
+        run: python model_data/run_ngofs2_bounded.py point_clear_forecast
       - name: Retrieve wider Mobile Bay NGOFS2 named-station nowcast guidance
         continue-on-error: true
-        run: python model_data/ingest_ngofs2_mobile_bay_named_stations.py --cast nowcast
+        run: python model_data/run_ngofs2_bounded.py named_stations_nowcast
       - name: Retrieve wider Mobile Bay NGOFS2 named-station forecast guidance
         continue-on-error: true
-        run: python model_data/ingest_ngofs2_mobile_bay_named_stations.py --cast forecast
+        run: python model_data/run_ngofs2_bounded.py named_stations_forecast
       - name: Retrieve Eastern Shore NGOFS2 regular-grid transects
         continue-on-error: true
-        run: python model_data/ingest_ngofs2_shoreline_grid.py --casts nowcast,forecast
+        run: python model_data/run_ngofs2_bounded.py shoreline_grid
       - name: Allow upstream NGOFS2 outages but reject parser failures
         run: python model_data/validate_ngofs2_availability.py
       - name: Ingest static Main Pass 2016 CTD profiles on top-five research branch

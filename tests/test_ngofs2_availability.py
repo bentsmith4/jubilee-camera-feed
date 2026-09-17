@@ -8,6 +8,10 @@ path = Path(__file__).resolve().parents[1] / "model_data" / "validate_ngofs2_ava
 spec = importlib.util.spec_from_file_location("ngofs2_availability", path)
 module = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(module)
+runner_path = Path(__file__).resolve().parents[1] / "model_data" / "run_ngofs2_bounded.py"
+runner_spec = importlib.util.spec_from_file_location("ngofs2_bounded", runner_path)
+bounded = importlib.util.module_from_spec(runner_spec)
+runner_spec.loader.exec_module(bounded)
 
 
 class AvailabilityTests(unittest.TestCase):
@@ -43,3 +47,15 @@ class AvailabilityTests(unittest.TestCase):
             }))
             with self.assertRaises(RuntimeError):
                 module.validate(root)
+
+    def test_bounded_timeout_becomes_explicit_unavailable(self):
+        import subprocess
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            self.make_root(root)
+            def timeout(*args, **kwargs):
+                raise subprocess.TimeoutExpired(args[0], kwargs["timeout"])
+            self.assertEqual(bounded.run("named_stations_forecast", root, timeout), 1)
+            result = module.validate(root)
+            self.assertEqual(result["ngofs2_mobile_bay_named_stations_forecast"], "unavailable")
+            self.assertFalse((root / "ngofs2_mobile_bay_named_stations_forecast_normalized.csv").exists())
