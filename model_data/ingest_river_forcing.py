@@ -15,6 +15,7 @@ import math
 import time
 import urllib.parse
 import urllib.request
+import urllib.error
 from collections import Counter, defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
@@ -158,6 +159,25 @@ def fetch(url):
                 raise
             time.sleep(2 ** attempt)
 
+def failure_details(exc, previous, now):
+    """Only network/service outages are eligible for a one-cycle quiet retry."""
+    if isinstance(exc, urllib.error.HTTPError):
+        transient = exc.code in (408, 429) or 500 <= exc.code <= 599
+    else:
+        transient = isinstance(exc, (urllib.error.URLError, TimeoutError, ConnectionError))
+    previous_time = utc(previous.get('started_at_utc'))
+    recent = previous_time is not None and 0 <= (now - previous_time).total_seconds() <= 21600
+    prior_count = previous.get('consecutive_upstream_failures', 0)
+    prior_count = prior_count if isinstance(prior_count, int) and prior_count >= 0 else 0
+    count = (prior_count + 1 if recent else 1) if transient else 0
+    return {'status': 'unavailable' if transient else 'failed',
+            'error_type': type(exc).__name__,
+            'http_status': exc.code if isinstance(exc, urllib.error.HTTPError) else None,
+            'normalized_rows': 0, 'series': [],
+            'consecutive_upstream_failures': count,
+            'action_required': not transient or count >= 2,
+            'availability_note': 'No current river data admitted; historical CSV is not a fresh observation.'}
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--days', type=int, default=16)
@@ -165,11 +185,14 @@ def main():
     if not 1 <= args.days <= 31:
         raise SystemExit('--days must be 1..31; use explicit archival batches for longer history')
     now = datetime.now(timezone.utc)
+    manifest_path = HERE / 'river_forcing_manifest.json'
+    previous = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
     params = {'format': 'json', 'sites': ','.join(SITES), 'period': 'P' + str(args.days) + 'D',
               'parameterCd': '00060,00065,45592', 'siteStatus': 'all'}
     url = 'https://waterservices.usgs.gov/nwis/iv/?' + urllib.parse.urlencode(params)
     manifest = {'schema_version': '2.1', 'started_at_utc': now.isoformat(), 'source_url': url,
-                'requested_sites': list(SITES), 'production_action': 'NO_CHANGE'}
+                'requested_sites': list(SITES), 'production_action': 'NO_CHANGE',
+                'consecutive_upstream_failures': 0, 'action_required': False}
     try:
         payload = fetch(url)
         retrieved = datetime.now(timezone.utc)
@@ -192,7 +215,7 @@ def main():
                          'missing_sites': sorted(set(SITES) - observed_sites),
                          'series': summarize(rows, retrieved)})
     except Exception as exc:
-        manifest.update({'status': 'failed', 'error_type': type(exc).__name__, 'normalized_rows': 0})
+        manifest.update(failure_details(exc, previous, now))
     manifest['guardrails'] = [
         'Coffeeville 02469761 and 02469762 are pool/tailwater of the same river, never additive inflows.',
         'Claiborne discharge excludes uncomputed overtopping flow at stages above 50 ft.',
