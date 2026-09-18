@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "scope": "RESEARCH_ONLY_OBSERVED_CURRENT_VALIDATION",
+  "production_action": "NO_CHANGE",
+  "run_id": 35304977611,
+  "source_period_utc": "2026-09-15 through 2026-09-17",
+  "observed_sources": ["NOAA PORTS mb0302", "NOAA PORTS mb0402", "NOAA PORTS mb0501"],
+  "model_source": "NOAA NGOFS2 station nowcasts, nine 6-hour cycles",
+  "method": "PORTS current speed/direction converted to u/v in m/s; observation times aligned to NGOFS2 station nowcast support by time interpolation with <=4-minute nearest-native-time guard. Surface, bottom, and depth-mean model representations scored separately. PORTS predefined-bin vertical equivalence to model sigma layers is not assumed.",
+  "stations": {
+    "mb0302": {
+      "observed_rows": 756,
+      "aligned_rows": 539,
+      "nearest_model_distance_km": 0.124,
+      "surface": {"vector_rmse_m_s": 0.343, "speed_corr": 0.282, "mean_direction_abs_error_deg": 87.1, "principal_axis_zero_lag_corr": 0.620, "best_lag_minutes_model_after_obs": 60, "best_lag_corr": 0.661},
+      "depth_mean": {"vector_rmse_m_s": 0.326, "principal_axis_zero_lag_corr": 0.699, "best_lag_minutes_model_after_obs": -60, "best_lag_corr": 0.752, "transport_1h_principal_axis_corr": 0.741, "transport_3h_principal_axis_corr": 0.770, "transport_6h_principal_axis_corr": 0.822, "transport_6h_direction_abs_error_deg": 93.0},
+      "bottom": {"model_mean_speed_m_s": 0.0236, "principal_axis_zero_lag_corr": -0.082}
+    },
+    "mb0402": {
+      "observed_rows": 752,
+      "aligned_rows": 534,
+      "nearest_model_distance_km": 0.743,
+      "surface": {"vector_rmse_m_s": 0.386, "speed_corr": 0.143, "mean_direction_abs_error_deg": 87.5, "principal_axis_zero_lag_corr": 0.516, "best_lag_minutes_model_after_obs": -60, "best_lag_corr": 0.681},
+      "depth_mean": {"vector_rmse_m_s": 0.166, "mean_direction_abs_error_deg": 75.0, "principal_axis_zero_lag_corr": 0.477, "best_lag_minutes_model_after_obs": -60, "best_lag_corr": 0.651, "transport_1h_principal_axis_corr": 0.523, "transport_3h_principal_axis_corr": 0.621, "transport_6h_principal_axis_corr": 0.731, "transport_6h_direction_abs_error_deg": 76.7},
+      "bottom": {"model_mean_speed_m_s": 0.0184, "principal_axis_zero_lag_corr": -0.527}
+    },
+    "mb0501": {
+      "observed_rows": 749,
+      "aligned_rows": 534,
+      "nearest_model_distance_km": 0.158,
+      "surface": {"vector_rmse_m_s": 0.266, "speed_corr": 0.475, "mean_direction_abs_error_deg": 82.8, "principal_axis_zero_lag_corr": 0.610, "best_lag_minutes_model_after_obs": -60, "best_lag_corr": 0.691},
+      "depth_mean": {"vector_rmse_m_s": 0.210, "mean_direction_abs_error_deg": 83.3, "principal_axis_zero_lag_corr": 0.555, "best_lag_minutes_model_after_obs": -60, "best_lag_corr": 0.697, "transport_1h_principal_axis_corr": 0.609, "transport_3h_principal_axis_corr": 0.648, "transport_6h_principal_axis_corr": 0.706, "transport_6h_direction_abs_error_deg": 94.8},
+      "bottom": {"model_mean_speed_m_s": 0.0160, "principal_axis_zero_lag_corr": -0.095}
+    }
+  },
+  "interpretation": "NGOFS2 captures some oscillatory principal-axis timing, particularly after aggregation and approximately one-hour phase adjustment, but absolute vector direction errors are large (roughly 75-95 degrees), sign agreement is near chance at many comparisons, and magnitude bias varies strongly by station and vertical representation. This materially lowers confidence in using raw NGOFS2 direction/magnitude as a precise Point Clear transport predictor. It remains provisional model guidance until local Point Clear observed-current validation exists.",
+  "guardrails": [
+    "PORTS real-time observations are preliminary.",
+    "These stations are in upper Mobile Bay and do not directly validate Point Clear shoreline-normal transport.",
+    "Vertical equivalence is unresolved; poor bottom-layer comparison is not by itself proof of model bottom-current failure.",
+    "No production feature, weight, threshold, or forecast logic changed."
+  ]
+}
