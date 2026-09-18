@@ -1,0 +1,74 @@
+name: J09 analyze NCEI 0190491 profiles
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j09_0190491_profile_analysis.yml'
+permissions:
+  contents: read
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install netCDF4 numpy requests
+      - name: Normalize vertical profiles and test stratification vs low oxygen saturation
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python - <<'PY'
+          import json,hashlib,requests
+          from pathlib import Path
+          from datetime import datetime,timedelta
+          import netCDF4,numpy as np
+          URL='https://www.ncei.noaa.gov/data/oceans/archive/arc0139/0190491/1.1/data/0-data/Mobile_Bay_CTD_July2016.nc'
+          r=requests.get(URL,headers={'User-Agent':'jubilee-model-research/1.0'},timeout=45);r.raise_for_status();raw=r.content;Path('out/raw.nc').write_bytes(raw)
+          ds=netCDF4.Dataset('out/raw.nc');lat=np.asarray(ds['lat'][:],float);lon=np.asarray(ds['lon'][:],float);tv=np.asarray(ds['time'][:],float);z=np.asarray(ds['depth'][:],float);S=np.ma.filled(ds['sal'][:],np.nan).astype(float);T=np.ma.filled(ds['temp'][:],np.nan).astype(float);O=np.ma.filled(ds['DO'][:],np.nan).astype(float);units=str(ds['time'].units);attrs={a:str(getattr(ds,a)) for a in ds.ncattrs()};ds.close()
+          def matlab(x):
+            d=int(x);return datetime.fromordinal(d)+timedelta(days=x-d)-timedelta(days=366)
+          dts=[matlab(float(x)) for x in tv];dates=sorted(set(x.date().isoformat() for x in dts));expected=['2016-07-11','2016-07-14','2016-07-19']
+          if dates!=expected:raise RuntimeError(f'datenum conversion not independently validated: {dates}')
+          def ranks(x):
+            order=np.argsort(x);r=np.empty(len(x),float);i=0
+            while i<len(x):
+              j=i
+              while j+1<len(x) and x[order[j+1]]==x[order[i]]:j+=1
+              r[order[i:j+1]]=(i+j)/2+1;i=j+1
+            return r
+          def corr(a,b):
+            a=np.asarray(a,float);b=np.asarray(b,float);m=np.isfinite(a)&np.isfinite(b)
+            return None if m.sum()<5 else float(np.corrcoef(a[m],b[m])[0,1])
+          def auc(scores,y):
+            scores=np.asarray(scores);y=np.asarray(y);p=scores[y==1];n=scores[y==0]
+            if len(p)==0 or len(n)==0:return None
+            return float(sum((x>n).sum()+.5*(x==n).sum() for x in p)/(len(p)*len(n)))
+          P=[]
+          for i in range(len(tv)):
+            m=np.isfinite(z)&np.isfinite(S[i])&np.isfinite(T[i])&np.isfinite(O[i]);zz=z[m];ss=S[i,m];tt=T[i,m];oo=O[i,m]
+            if len(zz)<4:continue
+            q=np.argsort(zz);zz=zz[q];ss=ss[q];tt=tt[q];oo=oo[q];span=zz[-1]-zz[0]
+            if span<.5:continue
+            surf=zz<=zz[0]+max(.5,.2*span);bot=zz>=zz[-1]-max(.5,.2*span)
+            if surf.sum()<2:surf=np.arange(len(zz))<min(3,len(zz))
+            if bot.sum()<2:bot=np.arange(len(zz))>=max(0,len(zz)-3)
+            sm=float(np.median(ss[surf]));bm=float(np.median(ss[bot]));om=float(np.median(oo[bot]))
+            P.append({'index':i,'source_local_time':dts[i].isoformat(),'source_timezone_label':'CDT_as_written','date':dts[i].date().isoformat(),'lat':float(lat[i]),'lon':float(lon[i]),'n_depth':int(len(zz)),'z_max_m':float(zz[-1]),'sal_bottom_minus_surface_psu':bm-sm,'do_bottom_median_percent_saturation':om,'do_min_percent_saturation':float(np.min(oo)),'low_sat_bottom_lt20pct':bool(om<20),'low_sat_bottom_lt30pct':bool(om<30)})
+          g=np.array([p['sal_bottom_minus_surface_psu'] for p in P]);o=np.array([p['do_bottom_median_percent_saturation'] for p in P]);y=np.array([p['low_sat_bottom_lt20pct'] for p in P],int)
+          summary={'raw_sha256':hashlib.sha256(raw).hexdigest(),'profile_count':len(P),'time_units':units,'dates':dates,'time_validation_passed':True,'bottom_do_percent_sat_median':float(np.median(o)),'bottom_do_percent_sat_min':float(np.min(o)),'bottom_lt20pct_count':int(y.sum()),'sal_gradient_median_psu':float(np.median(g)),'sal_gradient_vs_bottom_percent_sat_pearson':corr(g,o),'sal_gradient_vs_bottom_percent_sat_spearman':corr(ranks(g),ranks(o)),'sal_gradient_auc_for_bottom_lt20pct':auc(g,y),'daily':{}}
+          for d in dates:
+            Q=[p for p in P if p['date']==d];gg=np.array([p['sal_bottom_minus_surface_psu'] for p in Q]);oo=np.array([p['do_bottom_median_percent_saturation'] for p in Q]);yy=np.array([p['low_sat_bottom_lt20pct'] for p in Q]);summary['daily'][d]={'profiles':len(Q),'bottom_lt20pct':int(yy.sum()),'bottom_percent_sat_median':float(np.median(oo)),'bottom_percent_sat_min':float(np.min(oo)),'gradient_median_psu':float(np.median(gg))}
+          summary['gradient_thresholds']={}
+          for th in (1,2,4,6):
+            pred=g>=th;tp=int(np.sum(pred&(y==1)));fp=int(np.sum(pred&(y==0)));fn=int(np.sum((~pred)&(y==1)));tn=int(np.sum((~pred)&(y==0)));summary['gradient_thresholds'][str(th)]={'flagged':int(pred.sum()),'low_sat_rate_flagged':float(tp/(tp+fp)) if tp+fp else None,'low_sat_rate_not_flagged':float(fn/(fn+tn)) if fn+tn else None,'sensitivity':float(tp/(tp+fn)) if tp+fn else None,'specificity':float(tn/(tn+fp)) if tn+fp else None}
+          out={'schema_version':'1.0','scope':'RESEARCH_ONLY_2016_VERTICAL_PROFILE_PERCENT_SATURATION','production_action':'NO_CHANGE','source':{'accession':'0190491','url':URL,'global_attrs':attrs},'summary':summary,'profiles':P,'guardrails':['Source dissolved oxygen unit is percent saturation, not mg/L; no concentration threshold is inferred.','Low-saturation threshold is a research state diagnostic, not a Jubilee label.','Source time says CDT and survey dates were independently validated.','No production change.']}
+          Path('out/result.json').write_text(json.dumps(out,indent=2)+'\n');print('ANALYSIS0190491_START');print(json.dumps(summary,indent=2));print('ANALYSIS0190491_END')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: j09-0190491-profile-analysis-${{ github.run_number }}
+          path: out/result.json
+          retention-days: 30
