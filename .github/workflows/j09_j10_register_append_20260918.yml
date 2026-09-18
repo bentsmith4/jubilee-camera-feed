@@ -14,6 +14,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Preserve append payload from research branch
+        run: cp model_data/register_append_payload_j09_j10_20260918.md /tmp/register_append_payload.md
       - name: Append research evidence to latest main without force push
         shell: bash
         run: |
@@ -28,27 +30,7 @@ jobs:
               echo 'Register marker already present.'
               exit 0
             fi
-            python - <<'PY'
-          from pathlib import Path
-          p=Path('model_data/MODEL_WORK_REGISTER.md')
-          block='''
-
-## J09/J10 predictive push — 2026-09-18
-
-- **Scope and production boundary:** Research-only work under owner authorization. Production forecast weights, alert thresholds, event labels, clean-control labels, sensing cadence, cameras, sensors and scheduled production roles were unchanged. No force push or canonical-data replacement was used.
-- **2016 Mobile Bay oxygen loading state is now normalized and episode-tested:** NCEI 0188979 produced 9,014 ten-minute rows across three Mobile Bay moored CTDs. The non-CF time field was independently resolved as MATLAB datenum with explicit source CDT semantics; DO is percent saturation, not mg/L. Station 01 stayed below 20% saturation for about 200.7 hours and below 10% for about 147 hours; Stations 02 and 03 also contained multi-hour low-saturation episodes. This materially supports a persistent `hypoxic_water_available` state but is not a Jubilee label or concentration-threshold substitute. Research evidence: `model_data/j09_oxygen_episode_research_20260918.json`.
-- **Middle Bay and ARCOS oxygen evidence improved but geometry remains a gate:** NCEI 0224293 yielded 4,409 QC-flag-3 hydrography rows, including 439 rows below 2 mg/L and a 0.51 mg/L minimum. The delivered table has no explicit observation-depth field/repeated vertical dimension and its source-clock timezone remains unresolved, so no vertical-gradient feature is created. Native DISL confirms `dis_oxy2_avg` is mg/L, but Meaher/Battleship sensor height above bottom remains unresolved and Bon Secour contains physically suspicious negative values despite source flags. These remain research observations/proxies, not promoted bottom-state features.
-- **Observed-current ingestion advanced from metadata to real data:** NCEI 0211052 FOCAL AWAC `Dump_rep.dat` (87,043,552 bytes; raw SHA256 `fdbd358009c0ac75ab3a411ec0468a213445b414838d520816dd0b86f5abdfc4`) was downloaded and normalized to 23,664 robust profile vectors and 7,888 hourly vectors. Median observed speed was about 0.101 m/s. Median integrated vector-displacement magnitude was about 1.08 km over 3 h, 2.10 km over 6 h, 3.99 km over 12 h, 7.38 km over 24 h and 13.86 km over 48 h. This validates kilometer-scale hour/day transport as physically material, but it is an offshore FOCAL boundary record and does not yet validate Point Clear NGOFS2 shore-normal direction/phase/magnitude. Research evidence: `model_data/j09_awac_observed_current_research_20260918.json`.
-- **Leakage-aware loading-state shadow model produced a measurable result:** Using contiguous 3-day held-out time blocks with 12-hour train/test buffers on common complete-case rows, current oxygen state predicted whether station oxygen saturation would be below 20% at +6 h with ROC AUC 0.888, Brier 0.113 and log loss 0.389 (n=1,468), and at +12 h with ROC AUC 0.815, Brier 0.141 and log loss 0.474 (n=1,450). At a 0.5 threshold false-alert rates were 7.7% and 8.1%, respectively. Adding depth/salinity/temperature and short-term hydrographic/DO trends worsened common-case ROC AUC, Brier and log loss at both horizons; those additions fail the incremental feature-promotion gate for this dataset. These are loading-state metrics, not Jubilee-event forecast skill. Research evidence: `model_data/j10_loading_shadow_model_20260918.json`.
-- **Two-stage architecture is better supported, not production-validated:** Direct 2016 reservoir persistence, the May 1971 event mechanism and observed AWAC transport scales support separating `hypoxic_water_available` from `shoreline_transport/contact`. Event-level discrimination/calibration/lead time remains NOT_ESTABLISHED. Research evidence: `model_data/j10_two_stage_hypothesis_research_20260918.json`.
-- **Matched controls were deepened without relabeling:** The June 12, 2024 May Day same-morning spatial control candidate is strengthened by contemporaneous evidence that Point Clear had a Jubilee while May Day checks reported nothing and a 05:30 May Day observer described choppy/muddy conditions. Observation duration/scope/detectability still fail the clean-control contract. The September 8, 2026 Montrose visible-scope dawn record remains a prospective scoped candidate only. Verified matched clean training controls therefore remain **zero**; no uncertain day was converted to a negative. Research evidence: `model_data/j10_control_deepening_20260918.json`.
-- **Additional high-value source lead:** Park, Kim & Schroeder (2007) documents an 86-day summer-2004 Mobile Bay mooring with vertically separated sondes and strong salinity-gradient/hypoxia relationships; the raw time series has not yet been recovered into the canonical panel and remains a source lead, not ingested data.
-- **Storage/transfer guardrail applied:** FOCAL 2016 inventory resolved five approximately 141-142 MB raw files (roughly 708 MB total) plus metadata; West End CP includes an approximately 4.23 GB file. They were not blindly downloaded. Targeted metadata/file selection should precede the 2016 FOCAL transfer; the 4.23 GB West End payload requires explicit owner approval if it becomes necessary.
-- **Measured impact:** Data/QC observability improved; a persistent oxygen-loading state now has measured 6- and 12-hour shadow predictability, and physically plausible but non-incremental hydrographic features were rejected rather than promoted. Jubilee-event predictive skill itself remains NOT_ESTABLISHED because clean matched controls remain zero and Point Clear observed-current/bottom-oxygen validation is still incomplete.
-- **Next gate:** finish direct observed-current versus NGOFS2 validation with verified station/depth/time semantics; recover the 2004 vertical mooring or equivalent direct stratification series; construct leakage-safe event/control windows with known observation effort; then score the two-stage event hazard against simple baselines before any production promotion.
-'''
-          p.write_text(p.read_text()+block)
-          PY
+            cat /tmp/register_append_payload.md >> model_data/MODEL_WORK_REGISTER.md
             git add model_data/MODEL_WORK_REGISTER.md
             git commit -m 'Record J09 J10 predictive push evidence'
             if git push origin HEAD:main; then
