@@ -1,82 +1,26 @@
-name: J09 J10 continuation evidence integration
+name: J09 J10 continuation evidence validation
 on:
   push:
     branches: [research/j09-oxygen-current-20260917]
     paths:
       - '.github/workflows/j09_j10_continuation_integrate.yml'
 permissions:
-  contents: write
+  contents: read
 jobs:
-  integrate:
+  validate-evidence:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 3
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Add validated research evidence to latest main without force push
+      - name: Validate expected research evidence exists
         shell: bash
         run: |
           set -euo pipefail
-          git config user.name 'jubilee-model-bot'
-          git config user.email 'actions@users.noreply.github.com'
-          files=(
-            model_data/j09_ports_ngofs_validation_20260918.json
-            model_data/j09_0176497_vertical_profile_research_20260918.json
-            model_data/j09_0190491_vertical_profile_research_20260918.json
-            model_data/j10_0176497_dateblocked_shadow_20260918.json
-            model_data/j10_control_candidate_20240612_mayday_20260918.json
-            model_data/j10_two_stage_hypothesis_validation_20260918.json
-            model_data/j09_middle_bay_geometry_research_20260918.json
-          )
-          tmp=$(mktemp -d)
-          for f in "${files[@]}"; do
-            mkdir -p "$tmp/$(dirname "$f")"
-            cp "$f" "$tmp/$f"
-          done
-          marker='J09/J10 predictive continuation — observed-current and vertical-profile validation — 2026-09-18'
-          for attempt in 1 2 3; do
-            git rebase --abort >/dev/null 2>&1 || true
-            git fetch origin main
-            git checkout -B j09-continuation-main-write origin/main
-            conflict=0
-            for f in "${files[@]}"; do
-              if [ -f "$f" ]; then
-                if ! cmp -s "$f" "$tmp/$f"; then
-                  echo "Refusing to overwrite differing canonical research artifact: $f" >&2
-                  conflict=1
-                fi
-              else
-                mkdir -p "$(dirname "$f")"
-                cp "$tmp/$f" "$f"
-              fi
-            done
-            if [ "$conflict" -ne 0 ]; then exit 3; fi
-            if ! grep -Fq "$marker" model_data/MODEL_WORK_REGISTER.md; then
-              python - <<'PY'
-          from pathlib import Path
-          p=Path('model_data/MODEL_WORK_REGISTER.md')
-          addition=r'''
-
-## J09/J10 predictive continuation — observed-current and vertical-profile validation — 2026-09-18
-
-- **Scope/safety:** Research-only continuation. No production forecast weight, threshold, camera cadence, alert policy, sensor, event label, clean-control label, credential, or paid service changed. Evidence files are `model_data/j09_ports_ngofs_validation_20260918.json`, `j09_0176497_vertical_profile_research_20260918.json`, `j09_0190491_vertical_profile_research_20260918.json`, `j10_0176497_dateblocked_shadow_20260918.json`, `j10_control_candidate_20240612_mayday_20260918.json`, `j10_two_stage_hypothesis_validation_20260918.json`, and `j09_middle_bay_geometry_research_20260918.json`.
-- **Observed-current validation materially changed NGOFS2 confidence:** Three active NOAA PORTS current stations (mb0302, mb0402, mb0501) were aligned to nine Sep. 15–17 NGOFS2 station-nowcast cycles, yielding 1,607 aligned station-observation rows. NGOFS2 captured some principal-axis oscillatory timing (depth-mean zero-lag correlations about 0.48–0.70; 6-hour principal-axis transport correlations about 0.71–0.82), often with approximately one-hour phase adjustment, but absolute vector direction errors were large (roughly 75–95 degrees), sign agreement was often near chance, and speed bias varied by station/vertical representation. Raw NGOFS2 direction/magnitude therefore remains provisional MODEL guidance and should not be treated as a precise Point Clear transport observation. These upper-bay stations do not directly validate Point Clear shoreline-normal transport.
-- **NCEI 0176497 added true local vertical profiles with mg/L oxygen:** 268 usable July-2016 Mobile Bay profiles were normalized after MATLAB-datenum date validation. Six profiles had analysis-derived bottom-layer median DO <2 mg/L. Bottom-minus-surface salinity gradient had an inverse relationship with bottom DO (Pearson -0.459; descriptive AUC 0.866 for the rare <2 mg/L state). This independently supports stratification as part of the latent hypoxic-water-availability state; it is not Jubilee-event discrimination.
-- **Date-blocked loading-state shadow model produced a real incremental result:** Leave-one-survey-date-out validation on the 268 profiles found salinity-gradient-only AUC 0.768, Brier 0.0235, log loss 0.105. Adding depth, bottom temperature and temperature gradient improved AUC to 0.958, Brier to 0.0185 and log loss to 0.0662 (six positive profiles; uncertainty is large). Adding absolute surface/bottom salinity on top did not improve the simpler four-feature set. This feature family is retained for SHADOW loading-state work only; no production promotion.
-- **NCEI 0190491 independently corroborated stratification/low-oxygen structure:** 31 valid July-2016 vertical profiles with oxygen in percent saturation were retained; one source timestamp converting to year 0206 was quarantined rather than repaired. Salinity gradient was inversely related to bottom oxygen saturation (Pearson -0.641, Spearman -0.509); all three retained profiles below 20% bottom saturation occurred on July 11. Small-positive-count descriptive AUC was 1.0. Units remain percent saturation and are never converted to mg/L without source support.
-- **Matched-control work advanced without weakening the label gate:** Eighteen same-date, spatial/depth-matched non-hypoxic profile contrasts were built for the six 0176497 hypoxic profiles; these are physical loading-state controls, NOT Jubilee non-events. The June 12, 2024 May Day candidate was strengthened as a same-morning spatial contrast to the confirmed Point Clear Jubilee using an explicit 05:30 local choppy/muddy/north-wind observation and reported absence at May Day. Exact search duration, shoreline scope, detectability, direct-vs-relayed observation status and full environmental join remain incomplete, so verified clean Jubilee training controls remain **zero**.
-- **Two-stage architecture now has asymmetric evidence:** Stage 1 (`hypoxic_water_available`) is quantitatively supported by sustained 2016 moored low-oxygen episodes plus two independent vertical-profile archives and date-blocked loading-state models. Stage 2 (`shoreward_transport/contact`) remains physically plausible but predictively unvalidated because local Point Clear observed-current/contact data are absent and NGOFS2 vector fidelity is mixed. Event-level Jubilee discrimination, calibration, false-alert behavior and useful lead time remain **NOT_ESTABLISHED**.
-- **Middle Bay geometry improved but historical depth remains guarded:** independent site documentation describes Middle Bay Lighthouse as an approximately 4-m site and a documented 2021 deployment about 1 m above bottom, while the 2019 NCEI metadata says observations occurred at different depths. The delivered 2019 payload still lacks per-observation depth identifiers, so the 2021 geometry is not retroactively assigned to 2019 rows and no reconstructed 2019 vertical-gradient feature is created.
-- **Next gates:** recover/validate observed current closer to Point Clear/Eastern Shore; expand source-backed scoped control mornings with explicit effort/visibility; join validated event/control windows to features using `available_at <= issue_time`; then test loading-only, trigger-only and loading×trigger models under event/episode-blocked validation. Do not claim Jubilee predictive skill until those gates pass.
-'''
-          p.write_text(p.read_text()+addition)
-          PY
-            fi
-            git add model_data/MODEL_WORK_REGISTER.md "${files[@]}"
-            if git diff --cached --quiet; then exit 0; fi
-            git commit -m 'Record J09 J10 observed-current and vertical-profile validation'
-            if git pull --rebase origin main && git push origin HEAD:main; then exit 0; fi
-            sleep 2
-          done
-          exit 1
+          test -s model_data/j09_ports_ngofs_validation_20260918.json
+          test -s model_data/j09_0176497_vertical_profile_research_20260918.json
+          test -s model_data/j09_0190491_vertical_profile_research_20260918.json
+          test -s model_data/j10_0176497_dateblocked_shadow_20260918.json
+          test -s model_data/j10_control_candidate_20240612_mayday_20260918.json
+          test -s model_data/j10_two_stage_hypothesis_validation_20260918.json
+          test -s model_data/j09_middle_bay_geometry_research_20260918.json
+          echo 'Research evidence paths validated. Canonical writeback uses explicit current-SHA compare-and-swap, not this workflow.'
