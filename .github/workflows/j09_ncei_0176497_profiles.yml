@@ -1,0 +1,147 @@
+name: J09 NCEI 0176497 vertical profile ingest
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j09_ncei_0176497_profiles.yml'
+permissions:
+  contents: read
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install numpy netCDF4 requests beautifulsoup4
+      - name: Locate, download, and normalize accession 0176497
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p ncei0176497/raw
+          python - <<'PY'
+          import re, json, math, hashlib, requests
+          from pathlib import Path
+          from urllib.parse import urljoin, urlparse
+          import numpy as np
+          from bs4 import BeautifulSoup
+
+          ACC='0176497'; sess=requests.Session(); sess.headers.update({'User-Agent':'jubilee-model-research/1.0'})
+          report={'schema_version':'1.0','accession':ACC,'scope':'RESEARCH_ONLY_VERTICAL_PROFILE_INGEST','production_action':'NO_CHANGE','archive_root':None,'files':[],'casts':[],'guardrails':['No unit conversion without explicit source units.','Vertical gradients are calculated only within a single cast with a recognized depth/pressure coordinate.','No Jubilee event label is inferred from hypoxia or stratification alone.']}
+          # Locate static NCEI archive root. 2018-era accessions are expected in this bounded range.
+          for n in range(100,151):
+            u=f'https://www.ncei.noaa.gov/data/oceans/archive/arc{n:04d}/{ACC}/'
+            try:
+              r=sess.get(u,timeout=8)
+              if r.status_code==200 and ACC in r.text:
+                report['archive_root']=u; break
+            except Exception: pass
+          if not report['archive_root']: raise RuntimeError('NCEI static archive root not found in bounded arc0100-arc0150 search')
+
+          # Bounded recursive directory crawl within accession.
+          root=report['archive_root']; todo=[(root,0)]; seen=set(); candidates=[]
+          while todo:
+            u,depth=todo.pop(0)
+            if u in seen or depth>5: continue
+            seen.add(u)
+            rr=sess.get(u,timeout=20); rr.raise_for_status()
+            soup=BeautifulSoup(rr.text,'html.parser')
+            for a in soup.find_all('a',href=True):
+              href=a['href']; v=urljoin(u,href)
+              if not v.startswith(root) or v==u or '/..' in v: continue
+              p=urlparse(v).path
+              if v.endswith('/'):
+                if v not in seen: todo.append((v,depth+1))
+              else:
+                ext=Path(p).suffix.lower()
+                if ext in {'.cnv','.csv','.txt','.dat','.nc','.nc4'}: candidates.append(v)
+          candidates=sorted(set(candidates))
+          report['candidate_file_count']=len(candidates)
+          total=0; limit=75*1024*1024
+          for url in candidates:
+            try:
+              r=sess.get(url,timeout=45); r.raise_for_status(); body=r.content
+              if total+len(body)>limit:
+                report['files'].append({'url':url,'status':'skipped_size_guard','bytes':len(body)}); continue
+              total+=len(body); fn=Path('ncei0176497/raw')/Path(urlparse(url).path).name; fn.write_bytes(body)
+              report['files'].append({'url':url,'path':str(fn),'status':'downloaded','bytes':len(body),'sha256':hashlib.sha256(body).hexdigest()})
+            except Exception as e: report['files'].append({'url':url,'status':'error','error':repr(e)})
+          report['downloaded_bytes']=total
+
+          def norm(s): return re.sub(r'[^a-z0-9]+','',s.lower())
+          def parse_cnv(path):
+            text=path.read_text(errors='replace'); lines=text.splitlines(); names={}; units={}; lat=lon=None; time_text=None; end=None
+            for i,line in enumerate(lines):
+              m=re.match(r'\s*#\s*name\s+(\d+)\s*=\s*([^:]+):\s*(.*)',line,re.I)
+              if m:
+                j=int(m.group(1)); names[j]=m.group(2).strip(); desc=m.group(3); um=re.search(r'\[([^\]]+)\]',desc); units[j]=um.group(1).strip() if um else None
+              if 'NMEA Latitude' in line:
+                mm=re.search(r'(\d+)\s+(\d+(?:\.\d+)?)\s*([NS])',line)
+                if mm: lat=(int(mm.group(1))+float(mm.group(2))/60)*(1 if mm.group(3)=='N' else -1)
+              if 'NMEA Longitude' in line:
+                mm=re.search(r'(\d+)\s+(\d+(?:\.\d+)?)\s*([EW])',line)
+                if mm: lon=(int(mm.group(1))+float(mm.group(2))/60)*(1 if mm.group(3)=='E' else -1)
+              if 'NMEA UTC' in line or 'System UpLoad Time' in line: time_text=line.split('=',1)[-1].strip() if '=' in line else line.strip()
+              if line.strip().upper()=='*END*': end=i+1; break
+            if end is None or not names: return None
+            rows=[]
+            for line in lines[end:]:
+              if not line.strip() or line.lstrip().startswith(('#','*')): continue
+              try: vals=[float(x) for x in line.split()]
+              except Exception: continue
+              if len(vals)>=max(names)+1: rows.append(vals)
+            if len(rows)<3: return None
+            arr=np.asarray(rows,float)
+            # Conservative variable selection from Sea-Bird short names/descriptions.
+            def pick(tokens,exclude=()):
+              for j,nm in names.items():
+                z=norm(nm)
+                if any(t in z for t in tokens) and not any(e in z for e in exclude): return j
+              return None
+            depth=pick(['depm','depth']); pressure=pick(['prdm','prdbar','pressure']); sal=pick(['sal']); temp=pick(['t090c','tv290c','temp']); oxy=pick(['sbeox','oxygen','dox','oxmg','oxml'])
+            zcol=depth if depth is not None else pressure
+            if zcol is None: return {'file':path.name,'rows':len(rows),'lat':lat,'lon':lon,'time_text':time_text,'variables':{str(j):{'name':names[j],'unit':units.get(j)} for j in names},'profile_status':'no_depth_or_pressure'}
+            z=arr[:,zcol]; order=np.argsort(z); z=z[order];
+            rec={'file':path.name,'rows':len(rows),'lat':lat,'lon':lon,'time_text':time_text,'vertical_coordinate':names[zcol],'vertical_unit':units.get(zcol),'z_min':float(np.nanmin(z)),'z_max':float(np.nanmax(z)),'variables':{str(j):{'name':names[j],'unit':units.get(j)} for j in names},'profile_status':'usable_vertical_profile'}
+            # Surface = shallowest 20%, bottom = deepest 20%; report deltas only with enough finite data.
+            n=max(1,int(math.ceil(len(z)*0.2))); surf=order[:n]; bot=order[-n:]
+            for key,j in [('salinity',sal),('temperature',temp),('oxygen',oxy)]:
+              if j is None: continue
+              a=arr[:,j]; good=np.isfinite(a)
+              if good.sum()<3: continue
+              sv=float(np.nanmedian(a[surf])); bv=float(np.nanmedian(a[bot]));
+              rec[key]={'source_name':names[j],'unit':units.get(j),'n':int(good.sum()),'min':float(np.nanmin(a)),'max':float(np.nanmax(a)),'surface_median':sv,'bottom_median':bv,'bottom_minus_surface':bv-sv}
+              if key=='salinity': rec['salinity_surface_minus_bottom']=sv-bv
+            return rec
+
+          for f in Path('ncei0176497/raw').iterdir():
+            if f.suffix.lower()=='.cnv':
+              try:
+                r=parse_cnv(f)
+                if r: report['casts'].append(r)
+              except Exception as e: report['casts'].append({'file':f.name,'profile_status':'parse_error','error':repr(e)})
+          usable=[x for x in report['casts'] if x.get('profile_status')=='usable_vertical_profile']
+          report['usable_vertical_casts']=len(usable)
+          salcasts=[x for x in usable if 'salinity' in x]
+          oxycasts=[x for x in usable if 'oxygen' in x]
+          report['summary']={'usable_vertical_casts':len(usable),'casts_with_salinity':len(salcasts),'casts_with_oxygen':len(oxycasts)}
+          if salcasts:
+            vals=[x['salinity']['bottom_median']-x['salinity']['surface_median'] for x in salcasts]
+            report['summary']['bottom_minus_surface_salinity_median']=float(np.median(vals)); report['summary']['bottom_minus_surface_salinity_max']=float(np.max(vals))
+          # Preserve source-native units; only count <2 if explicit mg/L-like source unit.
+          hyp=[]
+          for x in oxycasts:
+            u=(x['oxygen'].get('unit') or '').lower().replace(' ','')
+            if u in {'mg/l','mgl-1','mg/liter','mg/litre'}: hyp.append(x['oxygen']['min'])
+          if hyp: report['summary']['oxygen_mg_l_casts_below_2']=sum(v<2 for v in hyp); report['summary']['oxygen_mg_l_min']=float(min(hyp))
+          Path('ncei0176497/result.json').write_text(json.dumps(report,indent=2)+'\n')
+          print('NCEI0176497_COMPACT_START')
+          print(json.dumps({'archive_root':report['archive_root'],'candidate_file_count':report['candidate_file_count'],'downloaded_bytes':report['downloaded_bytes'],'summary':report['summary'],'casts':report['casts'][:8]},indent=2))
+          print('NCEI0176497_COMPACT_END')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: j09-ncei-0176497-profiles-${{ github.run_number }}
+          path: ncei0176497/result.json
+          retention-days: 30
