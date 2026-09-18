@@ -1,0 +1,108 @@
+name: J10 date-blocked stratification shadow model
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j10_0176497_dateblocked_shadow.yml'
+permissions:
+  contents: read
+jobs:
+  shadow:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install netCDF4 numpy requests scikit-learn scipy
+      - name: Leave-one-survey-date-out shadow models and matched physical controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python - <<'PY'
+          import json, math, hashlib, requests
+          from pathlib import Path
+          from datetime import datetime,timedelta
+          import numpy as np, netCDF4
+          from sklearn.pipeline import Pipeline
+          from sklearn.preprocessing import StandardScaler
+          from sklearn.linear_model import LogisticRegression
+          from sklearn.metrics import roc_auc_score,brier_score_loss,log_loss
+
+          URL='https://www.ncei.noaa.gov/data/oceans/archive/arc0125/0176497/1.1/data/0-data/Mobile_Bay_CTD_July2016.nc'
+          rr=requests.get(URL,headers={'User-Agent':'jubilee-model-research/1.0'},timeout=45);rr.raise_for_status();raw=rr.content;Path('out/raw.nc').write_bytes(raw)
+          ds=netCDF4.Dataset('out/raw.nc');lat=np.asarray(ds['lat'][:],float);lon=np.asarray(ds['lon'][:],float);tv=np.asarray(ds['time'][:],float);z=np.asarray(ds['depth'][:],float);S=np.ma.filled(ds['sal'][:],np.nan).astype(float);T=np.ma.filled(ds['temp'][:],np.nan).astype(float);O=np.ma.filled(ds['DO'][:],np.nan).astype(float);ds.close()
+          def matlab(x):
+            d=int(x);return datetime.fromordinal(d)+timedelta(days=x-d)-timedelta(days=366)
+          dts=[matlab(float(x)) for x in tv]; dates=np.array([x.date().isoformat() for x in dts]); expected={'2016-07-14','2016-07-19','2016-07-21','2016-07-28','2016-07-30'}
+          if set(dates)!=expected:raise RuntimeError(f'date validation failed {sorted(set(dates))}')
+          rec=[]
+          for i in range(len(tv)):
+            m=np.isfinite(z)&np.isfinite(S[i])&np.isfinite(T[i])&np.isfinite(O[i]);zz=z[m];ss=S[i,m];tt=T[i,m];oo=O[i,m]
+            if len(zz)<4:continue
+            q=np.argsort(zz);zz=zz[q];ss=ss[q];tt=tt[q];oo=oo[q];span=zz[-1]-zz[0]
+            if span<.5:continue
+            sf=zz<=zz[0]+max(.5,.2*span);bt=zz>=zz[-1]-max(.5,.2*span)
+            if sf.sum()<2:sf=np.arange(len(zz))<min(3,len(zz))
+            if bt.sum()<2:bt=np.arange(len(zz))>=max(0,len(zz)-3)
+            sm=float(np.median(ss[sf]));bm=float(np.median(ss[bt]));st=float(np.median(tt[sf]));btemp=float(np.median(tt[bt]));bo=float(np.median(oo[bt]))
+            rec.append({'i':i,'date':dates[i],'lat':float(lat[i]),'lon':float(lon[i]),'zmax':float(zz[-1]),'gradient':bm-sm,'bottom_sal':bm,'surface_sal':sm,'temp_gradient':btemp-st,'bottom_temp':btemp,'bottom_do':bo,'y':int(bo<2.0)})
+          y=np.array([x['y'] for x in rec]); groups=np.array([x['date'] for x in rec])
+          feature_sets={
+            'constant_prevalence':[],
+            'salinity_gradient_only':['gradient'],
+            'gradient_plus_depth_temp':['gradient','zmax','bottom_temp','temp_gradient'],
+            'full_physical':['gradient','zmax','bottom_temp','temp_gradient','bottom_sal','surface_sal']
+          }
+          oof={k:np.full(len(rec),np.nan) for k in feature_sets}; fold_rows=[]
+          for hold in sorted(set(groups)):
+            tr=groups!=hold;te=groups==hold
+            prev=float(y[tr].mean());oof['constant_prevalence'][te]=prev
+            row={'held_out_date':hold,'train_n':int(tr.sum()),'test_n':int(te.sum()),'train_positive':int(y[tr].sum()),'test_positive':int(y[te].sum()),'train_prevalence':prev}
+            for name,cols in feature_sets.items():
+              if not cols:continue
+              X=np.array([[r[c] for c in cols] for r in rec],float)
+              pipe=Pipeline([('scale',StandardScaler()),('lr',LogisticRegression(C=1.0,max_iter=5000,solver='lbfgs'))])
+              pipe.fit(X[tr],y[tr]);oof[name][te]=pipe.predict_proba(X[te])[:,1]
+            fold_rows.append(row)
+          def calib(y,p):
+            p=np.clip(p,1e-6,1-1e-6);x=np.log(p/(1-p)).reshape(-1,1)
+            try:
+              lr=LogisticRegression(C=1e6,max_iter=5000,solver='lbfgs').fit(x,y)
+              return {'intercept':float(lr.intercept_[0]),'slope':float(lr.coef_[0,0])}
+            except:return {'intercept':None,'slope':None}
+          metrics={}
+          for name,p in oof.items():
+            m=np.isfinite(p); yy=y[m];pp=np.clip(p[m],1e-6,1-1e-6)
+            d={'n':int(m.sum()),'positives':int(yy.sum()),'roc_auc':float(roc_auc_score(yy,pp)),'brier':float(brier_score_loss(yy,pp)),'log_loss':float(log_loss(yy,pp,labels=[0,1])),'calibration':calib(yy,pp)}
+            for th in (.05,.10,.20,.50):
+              pred=pp>=th;tp=int(np.sum(pred&(yy==1)));fp=int(np.sum(pred&(yy==0)));fn=int(np.sum((~pred)&(yy==1)));tn=int(np.sum((~pred)&(yy==0)))
+              d[f'threshold_{th:.2f}']={'alerts':int(pred.sum()),'sensitivity':float(tp/(tp+fn)) if tp+fn else None,'false_alert_rate':float(fp/(fp+tn)) if fp+tn else None,'precision':float(tp/(tp+fp)) if tp+fp else None}
+            metrics[name]=d
+          # Incremental comparison to gradient-only.
+          base=metrics['salinity_gradient_only'];incremental={}
+          for name in ('gradient_plus_depth_temp','full_physical'):
+            q=metrics[name];incremental[name]={'delta_auc_vs_gradient_only':q['roc_auc']-base['roc_auc'],'delta_brier_vs_gradient_only':q['brier']-base['brier'],'delta_log_loss_vs_gradient_only':q['log_loss']-base['log_loss']}
+          # Matched physical loading-state controls: up to 3 same-date non-hypoxic profiles per hypoxic profile, minimize spatial distance + depth mismatch.
+          def hav(a,b,c,d):
+            R=6371.;p1,p2=np.radians([a,c]);dp=np.radians(c-a);dl=np.radians(d-b);v=np.sin(dp/2)**2+np.cos(p1)*np.cos(p2)*np.sin(dl/2)**2;return float(2*R*np.arcsin(np.sqrt(v)))
+          matches=[];used=set()
+          for pos in [r for r in rec if r['y']==1]:
+            cand=[]
+            for neg in rec:
+              if neg['y'] or neg['date']!=pos['date'] or neg['i'] in used:continue
+              dd=abs(neg['zmax']-pos['zmax']);dist=hav(pos['lat'],pos['lon'],neg['lat'],neg['lon']);score=dist+2*dd
+              cand.append((score,dist,dd,neg))
+            for score,dist,dd,neg in sorted(cand,key=lambda x:x[0])[:3]:
+              used.add(neg['i']);matches.append({'positive_index':pos['i'],'control_index':neg['i'],'date':pos['date'],'distance_km':dist,'depth_difference_m':dd,'positive_gradient_psu':pos['gradient'],'control_gradient_psu':neg['gradient'],'positive_bottom_do_mg_l':pos['bottom_do'],'control_bottom_do_mg_l':neg['bottom_do']})
+          pg=np.array([x['positive_gradient_psu'] for x in matches]);cg=np.array([x['control_gradient_psu'] for x in matches]);
+          matched_summary={'pairs':len(matches),'unique_hypoxic_profiles':len(set(x['positive_index'] for x in matches)),'unique_controls':len(set(x['control_index'] for x in matches)),'positive_gradient_median_psu':float(np.median(pg)) if len(pg) else None,'control_gradient_median_psu':float(np.median(cg)) if len(cg) else None,'median_pair_gradient_difference_psu':float(np.median(pg-cg)) if len(pg) else None,'positive_gradient_gt_control_fraction':float(np.mean(pg>cg)) if len(pg) else None}
+          out={'schema_version':'1.0','scope':'RESEARCH_ONLY_LOADING_STATE_SHADOW_MODEL','production_action':'NO_CHANGE','source_url':URL,'raw_sha256':hashlib.sha256(raw).hexdigest(),'validation':'leave-one-survey-date-out out-of-fold predictions; each entire survey date held out','outcome':'analysis-derived bottom-layer median dissolved oxygen <2 mg/L','feature_sets':feature_sets,'folds':fold_rows,'metrics':metrics,'incremental_tests':incremental,'matched_physical_controls':matched_summary,'matches':matches,'interpretation':'This tests oxygen-loading state, not Jubilee events. Survey-date blocking reduces within-day leakage. Additional variables are retained only if they improve out-of-date AUC and probabilistic scores versus salinity gradient alone. Matched controls are physical-state controls and MUST NOT be counted as Jubilee non-events.','guardrails':['Only six positive profiles; uncertainty is large and metrics are exploratory.','No Jubilee event/control label is created.','No production change.']}
+          Path('out/result.json').write_text(json.dumps(out,indent=2)+'\n');print('DATEBLOCKED_START');print(json.dumps({'metrics':metrics,'incremental_tests':incremental,'matched_physical_controls':matched_summary,'folds':fold_rows},indent=2));print('DATEBLOCKED_END')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: j10-0176497-dateblocked-shadow-${{ github.run_number }}
+          path: out/result.json
+          retention-days: 30
