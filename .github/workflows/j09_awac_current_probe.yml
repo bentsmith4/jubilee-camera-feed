@@ -1,0 +1,41 @@
+name: J09 FOCAL AWAC current probe
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j09_awac_current_probe.yml'
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Probe public NCEI AWAC archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p awac_probe
+          base='https://www.ncei.noaa.gov/data/oceans/archive/arc0157/0211052/1.1'
+          curl -fL --retry 3 --retry-delay 2 -A 'jubilee-model-research/1.0' "$base/data/0-data/ReadMe_updated.txt" -o awac_probe/ReadMe_updated.txt
+          curl -fL --retry 3 --retry-delay 2 -A 'jubilee-model-research/1.0' "$base/about/NBMGJW-report.txt" -o awac_probe/NBMGJW-report.txt
+          curl -fL --retry 3 --retry-delay 2 -A 'jubilee-model-research/1.0' "$base/about/journal.txt" -o awac_probe/journal.txt
+          url="$base/data/0-data/Coastal_alabama_focal_AWAC_data_2018_2019/Dump_rep.dat"
+          curl -fL --retry 3 --retry-delay 2 -A 'jubilee-model-research/1.0' -r 0-262143 "$url" -o awac_probe/Dump_rep_head.dat
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          out={}
+          for p in Path('awac_probe').iterdir():
+              b=p.read_bytes()
+              out[p.name]={'bytes':len(b),'sha256':hashlib.sha256(b).hexdigest(),'head_text':b[:8000].decode('utf-8','replace')}
+          Path('awac_probe/probe.json').write_text(json.dumps(out,indent=2)+'\n')
+          print(Path('awac_probe/ReadMe_updated.txt').read_text(errors='replace'))
+          print(Path('awac_probe/NBMGJW-report.txt').read_text(errors='replace'))
+          print(Path('awac_probe/probe.json').read_text()[:12000])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: j09-awac-current-probe-${{ github.run_number }}
+          path: awac_probe/
+          retention-days: 30
