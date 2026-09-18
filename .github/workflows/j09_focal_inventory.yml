@@ -1,0 +1,56 @@
+name: J09 FOCAL deep inventory
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j09_focal_inventory.yml'
+permissions:
+  contents: read
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Crawl public NCEI FOCAL archive metadata only
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p focal_inventory
+          python - <<'PY'
+          import json,re,urllib.request,urllib.parse
+          from collections import deque
+          root='https://www.ncei.noaa.gov/data/oceans/archive/arc0195/0248354/1.1/data/0-data/'
+          q=deque([(root,0)]); seen={root}; files=[]; dirs=[]; errors=[]
+          while q:
+            url,d=q.popleft()
+            if d>9: continue
+            try:
+              req=urllib.request.Request(url,headers={'User-Agent':'jubilee-model-research/1.0'})
+              html=urllib.request.urlopen(req,timeout=30).read().decode('utf-8','replace')
+            except Exception as e:
+              errors.append({'url':url,'error':repr(e)}); continue
+            dirs.append({'url':url,'depth':d})
+            for href,label in re.findall(r'href=["\']([^"\']+)["\'][^>]*>(.*?)</a>',html,re.I|re.S):
+              label=re.sub('<.*?>','',label).strip()
+              if href.startswith('?') or href.startswith('/') or href in ('../','./'): continue
+              u=urllib.parse.urljoin(url,href)
+              if not u.startswith(root): continue
+              if href.endswith('/'):
+                if u not in seen: seen.add(u); q.append((u,d+1))
+              else:
+                # parse size from line tail where possible
+                line=next((ln for ln in html.splitlines() if href in ln), '')
+                files.append({'url':u,'name':urllib.parse.unquote(u.rsplit('/',1)[-1]),'context':re.sub('<.*?>',' ',line)[:500]})
+          out={'root':root,'directory_count':len(dirs),'file_count':len(files),'directories':dirs,'files':files,'errors':errors}
+          open('focal_inventory/inventory.json','w').write(json.dumps(out,indent=2)+'\n')
+          for f in files:
+            n=f['name'].lower()
+            if any(k in n for k in ('2016','adcp','current','velocity','vel','focal','moor')):
+              print(f['url'], f['context'])
+          print('dirs',len(dirs),'files',len(files),'errors',len(errors))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: j09-focal-inventory-${{ github.run_number }}
+          path: focal_inventory/
+          retention-days: 30
