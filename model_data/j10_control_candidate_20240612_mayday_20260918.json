@@ -1,0 +1,47 @@
+{
+  "schema_version": "1.0",
+  "scope": "RESEARCH_ONLY_CONTROL_CANDIDATE_EVIDENCE",
+  "production_action": "NO_CHANGE",
+  "candidate_id": "human_2024-06-12-may-day-reported-nothing",
+  "candidate_status": "SCOPED_SPATIAL_CONTROL_CANDIDATE_NOT_TRAINING_NEGATIVE",
+  "positive_episode": {
+    "date_ct": "2024-06-12",
+    "location": "Zundel Road / Grand Hotel / Point Clear area",
+    "first_reports": "about 06:00 CDT",
+    "event_status": "confirmed Jubilee in canonical event history"
+  },
+  "candidate_control_episode": {
+    "location": "May Day Pier / Daphne",
+    "time_anchor": "05:30 CDT contemporaneous observer update",
+    "reported_surface_state": "wind a little stronger and out of the north; pretty choppy and muddy at Mayday",
+    "reported_event_evidence": "article says quick checks of other Eastern Shore spots indicated nothing and specifically says May Day Pier reported nothing"
+  },
+  "source": {
+    "provider": "1819 News",
+    "title": "'Jubilee' brings sealife to surface near Grand Hotel Wednesday sunrise",
+    "published_date": "2024-06-12",
+    "url": "https://1819news.com/news/item/jubilee-brings-sealife-to-surface-near-grand-hotel-wednesday-sunrise",
+    "retrieved_date": "2026-09-18"
+  },
+  "matched_dimensions_supported": [
+    "same calendar date",
+    "same early-morning regional episode",
+    "same Eastern Shore season",
+    "known active Jubilee-watch effort",
+    "contemporaneous May Day local surface-condition observation"
+  ],
+  "unresolved_before_clean_control": [
+    "exact May Day shoreline segment actually searched beyond pier reference",
+    "search start/end time and duration",
+    "biological visibility/detectability basis",
+    "whether 'reported nothing' was a direct first-person check or relayed from another watcher",
+    "exact tide/current phase and environmental feature join at the candidate control location"
+  ],
+  "interpretation": "This is stronger than a no-report day because it has explicit same-morning checking and a 05:30 local conditions observation while a Jubilee occurred farther south at Point Clear. It is useful as a spatial contrast episode and for qualitative model falsification. It still fails the clean-training-negative gate because observation scope/duration/detectability remain incomplete.",
+  "guardrails": [
+    "Do not convert this candidate to a clean negative.",
+    "Do not infer whole-cell absence from one pier/check.",
+    "The choppy/muddy observation is a local surface-state fact, not proof of why a Jubilee was absent.",
+    "No production change."
+  ]
+}
