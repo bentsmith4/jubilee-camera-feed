@@ -1,0 +1,47 @@
+name: J09 inspect NCEI 0190491
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j09_ncei_0190491_inspect.yml'
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install requests beautifulsoup4 netCDF4
+      - name: Inspect static archive and NetCDF schemas
+        shell: bash
+        run: |
+          python - <<'PY'
+          import requests,json
+          from bs4 import BeautifulSoup
+          from urllib.parse import urljoin,urlparse
+          from pathlib import Path
+          import netCDF4
+          root='https://www.ncei.noaa.gov/data/oceans/archive/arc0139/0190491/'
+          s=requests.Session();s.headers.update({'User-Agent':'jubilee-model-research/1.0'})
+          todo=[(root,0)];seen=set();files=[]
+          while todo:
+            u,d=todo.pop(0)
+            if u in seen or d>5:continue
+            seen.add(u);r=s.get(u,timeout=20);r.raise_for_status();q=BeautifulSoup(r.text,'html.parser')
+            for a in q.find_all('a',href=True):
+              v=urljoin(u,a['href'])
+              if not v.startswith(root) or v==u:continue
+              if v.endswith('/'):todo.append((v,d+1))
+              elif Path(urlparse(v).path).suffix.lower() in {'.nc','.nc4','.txt','.csv','.dat'}:files.append(v)
+          out=[]
+          for u in sorted(set(files)):
+            r=s.get(u,timeout=30);r.raise_for_status();b=r.content;rec={'url':u,'bytes':len(b),'suffix':Path(urlparse(u).path).suffix.lower()}
+            if rec['suffix'] in {'.nc','.nc4'}:
+              p='/tmp/x.nc';open(p,'wb').write(b);ds=netCDF4.Dataset(p);rec['dimensions']={k:len(v) for k,v in ds.dimensions.items()};rec['variables']={k:{'shape':list(v.shape),'dtype':str(v.dtype),'attrs':{a:str(getattr(v,a)) for a in v.ncattrs()}} for k,v in ds.variables.items()};rec['global_attrs']={a:str(getattr(ds,a)) for a in ds.ncattrs()};ds.close()
+            else:rec['head']=b[:1500].decode('utf-8','replace')
+            out.append(rec)
+          print('INSPECT0190491_START');print(json.dumps(out,indent=2));print('INSPECT0190491_END')
+          PY
