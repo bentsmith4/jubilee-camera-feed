@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.1",
+  "scope": "RESEARCH_ONLY_VERTICAL_PROFILE_VALIDATION",
+  "production_action": "NO_CHANGE",
+  "accession": "NCEI 0190491",
+  "source_url": "https://www.ncei.noaa.gov/data/oceans/archive/arc0139/0190491/1.1/data/0-data/Mobile_Bay_CTD_July2016.nc",
+  "raw_sha256": "174114064b221fffe8f410e334507e3e9668707eefe86d2130bc68e62fc403f8",
+  "run_id": 35305387869,
+  "source_rows": 32,
+  "quarantined_invalid_time_rows": 1,
+  "quarantined_source_index": 4,
+  "quarantined_converted_time": "0206-07-14T11:01:00",
+  "retained_profiles": 31,
+  "time_semantics": {
+    "source_units": "days since 0000-01-00 00:00:00 CDT",
+    "validated_dates": ["2016-07-11", "2016-07-14", "2016-07-19"],
+    "validation": "PASS for 31 retained rows against source global survey-date summary; one corrupted/anomalous source timestamp quarantined without repair"
+  },
+  "oxygen_unit": "percent saturation",
+  "bottom_oxygen_percent_saturation": {"median": 57.1323, "minimum": 14.8743, "lt20_count": 3, "lt30_count": 6},
+  "salinity_gradient_bottom_minus_surface_psu": {"median": 7.5448, "p90": 16.9908},
+  "relationship_to_bottom_oxygen_saturation": {"pearson": -0.6413, "spearman": -0.5089, "auc_for_bottom_lt20_percent_saturation": 1.0},
+  "daily": {
+    "2016-07-11": {"profiles": 10, "bottom_lt20pct": 3, "bottom_percent_sat_median": 39.2602, "bottom_percent_sat_min": 14.8743, "gradient_median_psu": 13.6420},
+    "2016-07-14": {"profiles": 11, "bottom_lt20pct": 0, "bottom_percent_sat_median": 57.1323, "bottom_percent_sat_min": 26.5547, "gradient_median_psu": 12.7251},
+    "2016-07-19": {"profiles": 10, "bottom_lt20pct": 0, "bottom_percent_sat_median": 71.3294, "bottom_percent_sat_min": 57.8135, "gradient_median_psu": 6.7637}
+  },
+  "interpretation": "A second independent 2016 Mobile Bay vertical-profile archive again shows a strong inverse relationship between vertical salinity stratification and bottom oxygen state. All three <20% saturation profiles occurred on the most oxygen-stressed survey date, but the sample is very small. This corroborates stratification as an oxygen-loading state marker; it does not establish a Jubilee trigger or event probability.",
+  "guardrails": [
+    "Source dissolved oxygen is percent saturation, not mg/L; no concentration threshold was inferred.",
+    "One anomalous time row was quarantined rather than repaired or relabeled.",
+    "Low-saturation profiles are physical-state observations, not Jubilee events.",
+    "No production feature, weight, threshold, or alert logic changed."
+  ]
+}
