@@ -1,0 +1,58 @@
+name: J10 canonical register CAS append
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j10_canonical_register_cas_20260918.yml'
+permissions:
+  contents: write
+jobs:
+  append-main-register:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Append research evidence to canonical main register with blob CAS
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'jubilee-model-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          expected='a031fc345e75ad958081c148ba4293772043a869'
+          marker='J09/J10 predictive continuation — loading robustness and transport trust bounds — 2026-09-18'
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git checkout -B j10-register-main origin/main
+            actual=$(git rev-parse HEAD:model_data/MODEL_WORK_REGISTER.md)
+            if [ "$actual" != "$expected" ]; then
+              if grep -Fq "$marker" model_data/MODEL_WORK_REGISTER.md; then exit 0; fi
+              echo "Canonical register blob changed from expected $expected to $actual; refusing append" >&2
+              exit 3
+            fi
+            if grep -Fq "$marker" model_data/MODEL_WORK_REGISTER.md; then exit 0; fi
+            printf '%s\n' '' \
+              '## J09/J10 predictive continuation — loading robustness and transport trust bounds — 2026-09-18' \
+              '' \
+              '- **Scope/safety:** Research evidence only. No production forecast weight, threshold, alert policy, camera cadence, event label, clean-control label, physical sensor, credential, paid service, or canonical data was changed or deleted.' \
+              '- **Stage-1 loading data are now normalized and episodic rather than discovery-only:** NCEI 0188979 contributes 9,014 ten-minute moored CTD rows with validated MATLAB-datenum/CDT conversion. DO is percent saturation, not mg/L. Station 01 contains a 200.7-hour episode below 20% saturation and a 147-hour episode below 10%. NCEI 0176497 adds 268 vertical profiles with mg/L oxygen; six profiles have analysis-derived bottom-median DO <2 mg/L. NCEI 0190491 independently corroborates the salinity-gradient/low-oxygen relationship in percent saturation.' \
+              '- **Loading-state shadow skill survived additional stress tests:** research artifact `model_data/j10_loading_robustness_20260918.json` on branch `research/j09-oxygen-current-20260917` reanalyzed the 0176497 profile artifact. Leave-one-survey-date-out AUC/Brier/log-loss were 0.768/0.02350/0.10513 for salinity-gradient-only and 0.961/0.01840/0.06453 after adding profile depth and bottom temperature. A within-date depth+temperature permutation test (500 permutations) gave one-sided empirical p=0.001996 for the observed +0.193 AUC increment. Three-way latitude spatial blocking scored 0.842/0.01590/0.07736 versus 0.803/0.02126/0.09815 for gradient-only. Absolute surface/bottom salinity degraded spatial-blocked scores and remains rejected by default. Six positives only; this is oxygen-loading skill, not Jubilee-event skill.' \
+              '- **Observed-current validation materially limits NGOFS2 interpretation:** branch artifact `model_data/j09_ports_ngofs_validation_20260918.json` aligns 1,607 NOAA PORTS observations at mb0302/mb0402/mb0501 to nine Sep. 15–17 NGOFS2 cycles. Depth-mean principal-axis 6-hour transport correlations are about 0.71–0.82, but vector direction errors are roughly 75–95 degrees and sign agreement is often near chance. NOAA historical validation at Mobile Bay Buoy M reports older NGOFS flood/ebb direction RMSE about 41–44 degrees. NGOFS2 remains timing/oscillation MODEL guidance, not a precise Point Clear shoreline-normal current observation.' \
+              '- **Observed transport has multi-hour memory:** NCEI 0211052 FOCAL AWAC retained 23,664 current profiles and 7,888 hourly vectors; median observed displacement magnitude grows from 1.08 km at 3 h to 3.99 km at 12 h, 7.38 km at 24 h and 13.86 km at 48 h. This supports separate multi-hour/multi-day loading and short-term contact/transport latent states.' \
+              '- **Control-label discipline is unchanged:** 18 same-date spatial/depth controls around the six hypoxic 0176497 profiles are physical loading-state controls only, not Jubilee non-events. The June 12, 2024 May Day same-morning contrast is stronger than a no-report day but is still not a clean whole-cell negative. Verified clean Jubilee training controls remain **zero**.' \
+              '- **Measured model-quality effect:** Stage 1 (`hypoxic_water_available`) is quantitatively supported with a compact shadow feature family that improves out-of-date and spatially blocked oxygen-loading discrimination and probabilistic scoring. Stage 2 (`shoreward_transport/contact`) remains unvalidated at Point Clear. Event-level Jubilee discrimination, calibration, false-alert behavior and useful lead time remain **NOT_ESTABLISHED**; no production promotion is justified.' \
+              '- **Next gates:** recover observed current closer to Point Clear/Eastern Shore; expand source-backed scoped control mornings with explicit observation effort/visibility; build leakage-safe event/control feature windows using `available_at <= issue_time`; compare loading-only, trigger-only and loading×trigger shadow models under event/episode-blocked validation.' \
+              >> model_data/MODEL_WORK_REGISTER.md
+            git add model_data/MODEL_WORK_REGISTER.md
+            git commit -m 'Record J09 J10 predictive research evidence'
+            base=$(git rev-parse HEAD^)
+            git fetch origin main
+            if [ "$(git rev-parse origin/main)" != "$base" ]; then
+              sleep 1
+              continue
+            fi
+            if git push origin HEAD:main; then exit 0; fi
+            sleep 1
+          done
+          exit 4
