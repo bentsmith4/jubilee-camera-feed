@@ -90,6 +90,7 @@ jobs:
           done
           python model_data/audit_sensing.py --root "$snapshot" --out model_data/sensing_audit.json
       - name: Retrieve and validate public river data
+        continue-on-error: true
         run: python model_data/ingest_river_forcing.py --days 16
       - name: Retrieve Weeks Bay realtime water quality and meteorology
         run: python model_data/ingest_weeks_bay_realtime.py
@@ -226,3 +227,24 @@ jobs:
             sleep 3
           done
           exit 1
+
+      - name: Escalate persistent river outages and unexpected ingestion defects
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+          p = Path('model_data/river_forcing_manifest.json')
+          if not p.exists():
+              raise SystemExit('River manifest missing; ingestion did not complete')
+          m = json.loads(p.read_text())
+          started = datetime.fromisoformat(m['started_at_utc'])
+          age = (datetime.now(timezone.utc) - started).total_seconds()
+          if not 0 <= age <= 3600:
+              raise SystemExit('River manifest is stale; current ingestion did not complete')
+          if m.get('status') == 'failed' or m.get('action_required'):
+              raise SystemExit('River source needs attention: persistent outage or ingestion defect; see river_forcing_manifest.json')
+          if m.get('status') == 'unavailable':
+              print('Temporary river outage recorded as UNKNOWN; other sources processed; next scheduled cycle retries.')
+          PY
