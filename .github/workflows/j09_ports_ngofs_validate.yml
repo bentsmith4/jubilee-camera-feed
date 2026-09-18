@@ -1,0 +1,192 @@
+name: J09 PORTS versus NGOFS2 current validation
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j09_ports_ngofs_validate.yml'
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install netCDF4 numpy requests
+      - name: Quantitatively compare observed PORTS currents with NGOFS2 nowcasts
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p j09_ports_ngofs_validate
+          python - <<'PY'
+          import json, math, requests
+          from pathlib import Path
+          from datetime import datetime, timezone
+          import numpy as np, netCDF4
+
+          stations=['mb0302','mb0402','mb0501']
+          cycles=[
+            ('20260915','21'),
+            ('20260916','03'),('20260916','09'),('20260916','15'),('20260916','21'),
+            ('20260917','03'),('20260917','09'),('20260917','15'),('20260917','21')]
+          base='https://opendap.co-ops.nos.noaa.gov/threddsdev/fileServer/NOAA/NGOFS2/MODELS/{y}/{m}/{d}/ngofs2.t{cy}z.{date}.stations.nowcast.nc'
+          sess=requests.Session(); sess.headers.update({'User-Agent':'jubilee-model-research/1.0'})
+          out={'schema_version':'1.0','scope':'RESEARCH_ONLY_CURRENT_VALIDATION','production_action':'NO_CHANGE','direction_convention':'NOAA current direction treated as degrees true clockwise from north toward which current flows; u=speed*sin(theta), v=speed*cos(theta)','cycles_requested':cycles,'stations':{},'model_downloads':[],'guardrails':['PORTS observations are preliminary real-time observations and may not meet final QA standards.','No production feature or weight promotion is authorized by this validation.','Observed predefined PORTS bin is compared separately with surface, bottom, and depth-mean NGOFS2; exact vertical equivalence is not assumed.']}
+
+          def hav(lat1,lon1,lat2,lon2):
+            r=6371.; p1,p2=np.radians([lat1,lat2]); dp=np.radians(lat2-lat1); dl=np.radians(lon2-lon1)
+            a=np.sin(dp/2)**2+np.cos(p1)*np.cos(p2)*np.sin(dl/2)**2
+            return float(2*r*np.arcsin(np.sqrt(a)))
+          def corr(a,b):
+            a=np.asarray(a,float); b=np.asarray(b,float); m=np.isfinite(a)&np.isfinite(b)
+            if m.sum()<8 or np.nanstd(a[m])==0 or np.nanstd(b[m])==0: return None
+            return float(np.corrcoef(a[m],b[m])[0,1])
+          def angdiff(a,b): return np.abs((a-b+180.)%360.-180.)
+          def vecdir(u,v): return (np.degrees(np.arctan2(u,v))+360.)%360.
+          def stats(obs_u,obs_v,mod_u,mod_v,times):
+            ou=np.asarray(obs_u); ov=np.asarray(obs_v); mu=np.asarray(mod_u); mv=np.asarray(mod_v)
+            mask=np.isfinite(ou)&np.isfinite(ov)&np.isfinite(mu)&np.isfinite(mv)
+            ou,ov,mu,mv=ou[mask],ov[mask],mu[mask],mv[mask]
+            tt=np.asarray(times,dtype='datetime64[s]')[mask]
+            if len(ou)<20: return {'n':int(len(ou)),'status':'insufficient'}
+            os=np.hypot(ou,ov); ms=np.hypot(mu,mv); od=vecdir(ou,ov); md=vecdir(mu,mv)
+            C=np.cov(np.vstack([ou,ov])); vals,vecs=np.linalg.eigh(C); axis=vecs[:,np.argmax(vals)]
+            oa=ou*axis[0]+ov*axis[1]; ma=mu*axis[0]+mv*axis[1]
+            zero=corr(oa,ma)
+            lag_rows=[]
+            for lag in range(-12,13):
+              if lag<0: x,y=oa[-lag:],ma[:len(ma)+lag]
+              elif lag>0: x,y=oa[:-lag],ma[lag:]
+              else: x,y=oa,ma
+              lag_rows.append((lag,corr(x,y)))
+            valid=[x for x in lag_rows if x[1] is not None]
+            best=max(valid,key=lambda x:x[1]) if valid else (0,None)
+            base_stats={
+              'n':int(len(ou)),
+              'vector_rmse_m_s':float(np.sqrt(np.mean((mu-ou)**2+(mv-ov)**2))),
+              'mean_speed_obs_m_s':float(np.mean(os)),'mean_speed_model_m_s':float(np.mean(ms)),
+              'speed_bias_m_s':float(np.mean(ms-os)),'speed_corr':corr(os,ms),
+              'mean_direction_abs_error_deg':float(np.mean(angdiff(md,od))),
+              'principal_axis_obs_zero_lag_corr':zero,
+              'principal_axis_best_lag_minutes':int(best[0]*6),
+              'principal_axis_best_corr':best[1],
+              'principal_axis_sign_agreement':float(np.mean(np.sign(oa)==np.sign(ma))),
+              'time_start_utc':str(tt.min()).replace(' ','T')+'Z','time_end_utc':str(tt.max()).replace(' ','T')+'Z'
+            }
+            transports={}
+            # complete rolling displacement comparisons at native 6-min cadence
+            for hours in (1,3,6):
+              n=int(hours*10)
+              if len(ou)<n+20: continue
+              O_u=np.convolve(ou,np.ones(n),mode='valid')*360.; O_v=np.convolve(ov,np.ones(n),mode='valid')*360.
+              M_u=np.convolve(mu,np.ones(n),mode='valid')*360.; M_v=np.convolve(mv,np.ones(n),mode='valid')*360.
+              Od=vecdir(O_u,O_v); Md=vecdir(M_u,M_v)
+              Oa=O_u*axis[0]+O_v*axis[1]; Ma=M_u*axis[0]+M_v*axis[1]
+              transports[f'{hours}h']={
+                'n':int(len(O_u)),'vector_displacement_rmse_km':float(np.sqrt(np.mean((M_u-O_u)**2+(M_v-O_v)**2))/1000.),
+                'mean_obs_displacement_km':float(np.mean(np.hypot(O_u,O_v))/1000.),'mean_model_displacement_km':float(np.mean(np.hypot(M_u,M_v))/1000.),
+                'mean_direction_abs_error_deg':float(np.mean(angdiff(Md,Od))),
+                'principal_axis_transport_corr':corr(Oa,Ma),'principal_axis_sign_agreement':float(np.mean(np.sign(Oa)==np.sign(Ma)))
+              }
+            base_stats['transport_windows']=transports
+            return base_stats
+
+          # observed station metadata and data
+          obs={}
+          for sid in stations:
+            md=sess.get(f'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/{sid}.json',timeout=30).json()['stations'][0]
+            bins=sess.get(f'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/{sid}/bins.json',timeout=30).json()
+            url=('https://api.tidesandcurrents.noaa.gov/api/prod/datagetter?product=currents&application=jubilee_model_research&begin_date=20260915&end_date=20260918&station='+sid+'&time_zone=gmt&units=metric&interval=6&format=json')
+            dat=sess.get(url,timeout=45).json()
+            rows=[]
+            for r in dat.get('data',[]):
+              try:
+                t=datetime.strptime(r['t'],'%Y-%m-%d %H:%M').replace(tzinfo=timezone.utc)
+                sp=float(r['s'])/100.; deg=float(r['d']); th=math.radians(deg)
+                rows.append((t,sp*math.sin(th),sp*math.cos(th),sp,deg,int(r.get('b',0))))
+              except Exception: pass
+            if not rows: raise RuntimeError(f'No observed rows for {sid}: {dat}')
+            bins_used=sorted(set(x[5] for x in rows))
+            obs[sid]={'meta':md,'bins_raw':bins,'rows':rows,'bins_used':bins_used}
+            out['stations'][sid]={'name':md.get('name'),'lat':md.get('lat'),'lon':md.get('lng'),'height_from_bottom_m':md.get('height_from_bottom'),'center_bin_1_dist_m':md.get('center_bin_1_dist'),'observed_bins_used':bins_used,'observed_rows':len(rows),'bins_metadata':bins}
+
+          # model data for all cycles; nearest model station locked from first successful file per obs station
+          model={sid:{} for sid in stations}
+          nearest={}
+          for date,cy in cycles:
+            y,m,d=date[:4],date[4:6],date[6:]
+            url=base.format(y=y,m=m,d=d,cy=cy,date=date)
+            fn=Path('j09_ports_ngofs_validate')/f'ngofs2.t{cy}z.{date}.stations.nowcast.nc'
+            try:
+              r=sess.get(url,timeout=90); r.raise_for_status(); fn.write_bytes(r.content)
+              out['model_downloads'].append({'date':date,'cycle':cy,'bytes':len(r.content),'status':'ok'})
+              ds=netCDF4.Dataset(fn); lat=np.array(ds['lat'][:],float); lon=np.array(ds['lon'][:],float); lon=np.where(lon>180,lon-360,lon)
+              names=[]
+              if 'name_station' in ds.variables:
+                a=ds['name_station'][:]
+                for row in a:
+                  names.append(b''.join(row).decode('utf-8','ignore').strip('\x00 ').strip())
+              times=netCDF4.num2date(ds['time'][:],ds['time'].units,only_use_cftime_datetimes=False)
+              u=np.ma.filled(ds['u'][:],np.nan); v=np.ma.filled(ds['v'][:],np.nan)
+              for sid in stations:
+                om=obs[sid]['meta']; la=float(om['lat']); lo=float(om['lng'])
+                if sid not in nearest:
+                  dists=np.array([hav(la,lo,float(lat[i]),float(lon[i])) for i in range(len(lat))]); ix=int(np.argmin(dists))
+                  nearest[sid]={'index':ix,'distance_km':float(dists[ix]),'model_name':names[ix] if names else None,'model_lat':float(lat[ix]),'model_lon':float(lon[ix]),'bathymetry_m':float(ds['h'][ix])}
+                ix=nearest[sid]['index']
+                reps={'surface':(u[:,0,ix],v[:,0,ix]),'bottom':(u[:,-1,ix],v[:,-1,ix]),'depth_mean':(np.nanmean(u[:,:,ix],axis=1),np.nanmean(v[:,:,ix],axis=1))}
+                for j,t in enumerate(times):
+                  ts=t.replace(tzinfo=timezone.utc) if getattr(t,'tzinfo',None) is None else t.astimezone(timezone.utc)
+                  key=ts.replace(second=0,microsecond=0)
+                  model[sid][key]={rep:(float(uv[0][j]),float(uv[1][j])) for rep,uv in reps.items()}
+              ds.close(); fn.unlink()
+            except Exception as e:
+              out['model_downloads'].append({'date':date,'cycle':cy,'status':'error','error':repr(e)})
+
+          # align model and obs to exact/near-6-minute UTC stamps; aggregate duplicate observed timestamp by last record
+          for sid in stations:
+            out['stations'][sid]['nearest_model_station']=nearest.get(sid)
+            orows=obs[sid]['rows']; bytime={r[0].replace(second=0,microsecond=0):r for r in orows}
+            common=sorted(set(bytime)&set(model[sid]))
+            out['stations'][sid]['matched_rows']=len(common)
+            out['stations'][sid]['representations']={}
+            for rep in ('surface','bottom','depth_mean'):
+              ou=[];ov=[];mu=[];mv=[];tt=[]
+              for t in common:
+                r=bytime[t]; mm=model[sid][t][rep]
+                if all(np.isfinite([r[1],r[2],mm[0],mm[1]])):
+                  ou.append(r[1]);ov.append(r[2]);mu.append(mm[0]);mv.append(mm[1]);tt.append(t.replace(tzinfo=None))
+              out['stations'][sid]['representations'][rep]=stats(ou,ov,mu,mv,tt)
+            # diagnostic best by vector RMSE, not a promotion decision
+            candidates=[(v.get('vector_rmse_m_s',999),k) for k,v in out['stations'][sid]['representations'].items() if v.get('status')!='insufficient']
+            out['stations'][sid]['diagnostic_lowest_rmse_representation']=min(candidates)[1] if candidates else None
+
+          # cross-station aggregate for each representation (all matched station-time pairs)
+          out['aggregate']={}
+          for rep in ('surface','bottom','depth_mean'):
+            vals=[]
+            for sid in stations:
+              s=out['stations'][sid]['representations'][rep]
+              if 'vector_rmse_m_s' in s: vals.append(s)
+            if vals:
+              n=sum(x['n'] for x in vals)
+              out['aggregate'][rep]={
+                'n':n,
+                'weighted_vector_rmse_m_s':float(np.sqrt(sum(x['n']*x['vector_rmse_m_s']**2 for x in vals)/n)),
+                'weighted_mean_direction_abs_error_deg':float(sum(x['n']*x['mean_direction_abs_error_deg'] for x in vals)/n),
+                'weighted_principal_axis_sign_agreement':float(sum(x['n']*x['principal_axis_sign_agreement'] for x in vals)/n)
+              }
+          out['interpretation']='Quantitative same-period validation of NGOFS2 station nowcasts against active Mobile Bay PORTS current observations. Results constrain current-direction/phase/magnitude credibility but do not validate Point Clear shoreline transport because these stations are elsewhere in the bay and vertical equivalence is not assumed.'
+          Path('j09_ports_ngofs_validate/result.json').write_text(json.dumps(out,indent=2)+'\n')
+          compact={'model_downloads':out['model_downloads'],'stations':{sid:{k:v for k,v in rec.items() if k not in ('bins_metadata',)} for sid,rec in out['stations'].items()},'aggregate':out['aggregate'],'interpretation':out['interpretation']}
+          print('VALIDATION_COMPACT_JSON_START')
+          print(json.dumps(compact,indent=2))
+          print('VALIDATION_COMPACT_JSON_END')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: j09-ports-ngofs-validation-${{ github.run_number }}
+          path: j09_ports_ngofs_validate/result.json
+          retention-days: 30
