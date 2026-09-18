@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-09-18T03:40:00Z",
+  "scope": "RESEARCH_ONLY_MATCHED_CONTROL_EVIDENCE",
+  "production_action": "NO_CHANGE",
+  "clean_training_controls_before": 0,
+  "clean_training_controls_after": 0,
+  "contract": "model_data/matched_control_contract.json",
+  "candidates": [
+    {
+      "date": "2024-06-12",
+      "cell": "Daphne/May Day",
+      "status": "STRENGTHENED_SPATIAL_CONTROL_CANDIDATE_NOT_CLEAN",
+      "paired_event": "same-morning Point Clear/Zundel Road/Grand Hotel Jubilee",
+      "new_evidence": "Contemporaneous 1819 News report says first Point Clear reports began about 06:00, that quick checks at May Day Pier reported nothing, and separately quotes a 05:30 May Day observation as choppy and muddy with north wind.",
+      "why_not_clean": "Observation duration, exact visible shoreline scope, biological detectability and a formal known-effort protocol are insufficient to satisfy the clean-control contract. Preserve as a same-morning spatial candidate only.",
+      "source_url": "https://1819news.com/news/item/jubilee-brings-sealife-to-surface-near-grand-hotel-wednesday-sunrise"
+    },
+    {
+      "date": "2026-09-08",
+      "cell": "Montrose visible owner-camera scope",
+      "status": "PROSPECTIVE_VISIBLE_SCOPE_CANDIDATE_NOT_CLEAN",
+      "evidence": "Immutable dawn+20 observation record 950aa0cf9652bff0cfd268b6.json has 6/6 healthy cameras and moderate negative strength for the visible Montrose scope.",
+      "why_not_clean": "Canonical record explicitly disallows a negative event label; visible scope is not a whole shoreline-cell observation."
+    },
+    {
+      "date": "2012-07-02",
+      "cell": "Point Clear Hotel area",
+      "status": "EXCLUDED_CONTRADICTORY_NEAR_EVENT",
+      "reason": "Existing historical-human-control record contains contradictory/possible near-event evidence; not eligible as a negative."
+    }
+  ],
+  "decision": "No uncertain day was converted into a clean non-event. J10 remains blocked for Jubilee-event discrimination/calibration because verified matched clean controls remain zero."
+}
