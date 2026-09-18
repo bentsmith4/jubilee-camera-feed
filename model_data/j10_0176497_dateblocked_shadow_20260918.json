@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "scope": "RESEARCH_ONLY_LOADING_STATE_SHADOW_MODEL",
+  "production_action": "NO_CHANGE",
+  "run_id": 35305494243,
+  "source": "NCEI 0176497 July 2016 Mobile Bay vertical CTD profiles",
+  "validation_design": "leave-one-survey-date-out; each of five survey dates held out in turn; 268 profiles total; 6 analysis-derived bottom-median DO <2 mg/L positives",
+  "outcome": "bottom-layer median dissolved oxygen <2 mg/L; physical loading state only, not Jubilee event",
+  "models": {
+    "constant_prevalence": {"roc_auc": 0.2513, "brier": 0.02214, "log_loss": 0.11396},
+    "salinity_gradient_only": {"roc_auc": 0.7678, "brier": 0.02350, "log_loss": 0.10513, "calibration_intercept": -1.5444, "calibration_slope": 0.5605},
+    "gradient_plus_depth_temp": {"roc_auc": 0.9580, "brier": 0.01852, "log_loss": 0.06621, "calibration_intercept": -0.2539, "calibration_slope": 0.8368},
+    "full_physical": {"roc_auc": 0.9497, "brier": 0.01886, "log_loss": 0.06858, "calibration_intercept": -0.3351, "calibration_slope": 0.7980}
+  },
+  "incremental_tests_vs_gradient_only": {
+    "gradient_plus_depth_temp": {"delta_auc": 0.1902, "delta_brier": -0.00498, "delta_log_loss": -0.03893, "decision": "RETAIN_AS_SHADOW_LOADING_FEATURE_SET"},
+    "full_physical": {"delta_auc": 0.1819, "delta_brier": -0.00464, "delta_log_loss": -0.03655, "decision": "DO_NOT_PREFER_OVER_GRADIENT_PLUS_DEPTH_TEMP; extra surface/bottom salinity terms did not add value"}
+  },
+  "threshold_diagnostics_gradient_plus_depth_temp": {
+    "p_ge_0.05": {"alerts": 18, "sensitivity": 0.6667, "false_alert_rate": 0.05344, "precision": 0.2222},
+    "p_ge_0.10": {"alerts": 13, "sensitivity": 0.6667, "false_alert_rate": 0.03435, "precision": 0.3077},
+    "p_ge_0.20": {"alerts": 12, "sensitivity": 0.6667, "false_alert_rate": 0.03053, "precision": 0.3333}
+  },
+  "matched_physical_controls": {
+    "purpose": "loading-state contrast only; NOT Jubilee non-events",
+    "pairs": 18,
+    "unique_hypoxic_profiles": 6,
+    "unique_controls": 18,
+    "matching": "same survey date; controls selected by combined geographic distance and depth mismatch; controls used once",
+    "hypoxic_gradient_median_psu": 14.4406,
+    "control_gradient_median_psu": 12.4389,
+    "median_pair_gradient_difference_psu": 1.8172,
+    "hypoxic_gradient_gt_control_fraction": 0.7778
+  },
+  "interpretation": "Date-blocked validation strengthens the case that salinity stratification belongs in the latent hypoxic-water-availability state. Adding depth and temperature structure materially improved out-of-date discrimination and probabilistic scoring in this small dataset; adding absolute surface/bottom salinity on top did not. This is physical-state skill, not Jubilee-event forecast skill.",
+  "limitations": [
+    "Only six positive profiles; confidence intervals would be wide and point estimates can be unstable.",
+    "Some held-out survey dates have zero positives; aggregate out-of-fold metrics are more meaningful than per-fold event metrics.",
+    "The constant-prevalence comparator varies with held-out date and its AUC is not a meaningful physical baseline; Brier/log-loss are retained for context.",
+    "No lead-time claim is possible from spatial survey casts.",
+    "No production promotion is authorized."
+  ]
+}
