@@ -1,0 +1,42 @@
+{
+  "schema_version": "1.0",
+  "scope": "RESEARCH_ONLY_VERTICAL_PROFILE_VALIDATION",
+  "production_action": "NO_CHANGE",
+  "accession": "NCEI 0176497",
+  "source_url": "https://www.ncei.noaa.gov/data/oceans/archive/arc0125/0176497/1.1/data/0-data/Mobile_Bay_CTD_July2016.nc",
+  "raw_sha256": "085c624ed636a8d260b76c4d27bc3c41cc82c885895f55c230c61927d05956a7",
+  "run_id": 35305151073,
+  "time_semantics": {
+    "source_units": "days since 0000-01-00 00:00:00 CST",
+    "conversion": "MATLAB datenum via Python ordinal minus 366 days",
+    "validated_dates": ["2016-07-14", "2016-07-19", "2016-07-21", "2016-07-28", "2016-07-30"],
+    "validation": "PASS against NetCDF global survey-date summary",
+    "timezone_guardrail": "CST label preserved as written; daylight-saving correction was not silently inferred"
+  },
+  "profiles": 268,
+  "bottom_do_mg_l": {"median": 6.1981, "minimum": 1.3066, "lt2_count": 6, "lt2_fraction": 0.02239},
+  "salinity_gradient_bottom_minus_surface_psu": {"median": 5.8440, "p90": 13.1906},
+  "relationship_to_bottom_do": {"pearson": -0.4587, "spearman": -0.2931, "auc_for_bottom_median_do_lt2": 0.8664},
+  "gradient_threshold_diagnostics": {
+    ">=4_psu": {"sensitivity": 1.0, "specificity": 0.3893, "flagged_profiles": 166, "hypoxia_rate_when_flagged": 0.03614, "hypoxia_rate_when_not_flagged": 0.0},
+    ">=6_psu": {"sensitivity": 0.8333, "specificity": 0.5153, "flagged_profiles": 132, "hypoxia_rate_when_flagged": 0.03788, "hypoxia_rate_when_not_flagged": 0.00735}
+  },
+  "daily": {
+    "2016-07-14": {"profiles": 33, "bottom_lt2": 3, "bottom_do_min_mg_l": 1.4988, "gradient_median_psu": 7.6767},
+    "2016-07-19": {"profiles": 56, "bottom_lt2": 0, "bottom_do_min_mg_l": 2.2411, "gradient_median_psu": 8.1060},
+    "2016-07-21": {"profiles": 62, "bottom_lt2": 1, "bottom_do_min_mg_l": 1.3066, "gradient_median_psu": 9.7785},
+    "2016-07-28": {"profiles": 58, "bottom_lt2": 1, "bottom_do_min_mg_l": 1.8710, "gradient_median_psu": 2.5243},
+    "2016-07-30": {"profiles": 59, "bottom_lt2": 1, "bottom_do_min_mg_l": 1.8480, "gradient_median_psu": 4.5514}
+  },
+  "point_clear_proximity": {
+    "within_5km": {"profiles": 20, "bottom_lt2_fraction": 0.0, "bottom_do_median_mg_l": 5.7507, "bottom_do_min_mg_l": 2.8361, "gradient_median_psu": 1.2987},
+    "within_10km": {"profiles": 123, "bottom_lt2_fraction": 0.03252, "bottom_do_median_mg_l": 5.8911, "bottom_do_min_mg_l": 1.3066, "gradient_median_psu": 7.8313}
+  },
+  "interpretation": "This is independent in-bay evidence that stronger vertical salinity stratification is associated with lower bottom dissolved oxygen. The raw gradient has strong within-survey discrimination for bottom-median DO <2 mg/L, but low prevalence means precision is poor and this is not Jubilee-event discrimination. Stratification is supported as an oxygen-loading state feature family, not as a standalone Jubilee trigger.",
+  "guardrails": [
+    "Robust surface/bottom layer medians are analysis-derived, not source-provided labels.",
+    "Survey profiles document physical hypoxia/stratification state, not Jubilee events or clean non-events.",
+    "The nearest Point Clear profiles cannot be relabeled as Jubilee non-events.",
+    "No production change."
+  ]
+}
