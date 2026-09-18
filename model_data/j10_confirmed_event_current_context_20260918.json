@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-09-18T04:36:00Z",
+  "scope": "RESEARCH_ONLY_CONFIRMED_EVENT_CURRENT_CONTEXT",
+  "production_action": "NO_CHANGE",
+  "source_artifact": {
+    "github_actions_run_id": 35307426755,
+    "artifact_id": 10532121830,
+    "artifact_digest": "sha256:fdd38ea7329edad7650072b715187491631e562a9178ac1a22aa01a4223b6fc8",
+    "retrieved_at_utc": "2026-09-18T04:33:45.203880+00:00"
+  },
+  "selection": "For each NOAA PORTS station, use metadata real_time_bin as the representative current bin. Local window is 00:00-10:00 America/Chicago; displacement integrates from first available local-midnight sample.",
+  "modern_upper_bay_summary": {
+    "events": 5,
+    "station_event_pairs": 15,
+    "eastward_displacement_summary": {
+      "1": {"n": 15, "eastward_positive_n": 13, "eastward_positive_fraction": 0.8666666666666667, "median_east_m": 81.98912094107055, "mean_east_m": 115.58874645549226},
+      "3": {"n": 15, "eastward_positive_n": 14, "eastward_positive_fraction": 0.9333333333333333, "median_east_m": 213.1247006753183, "mean_east_m": 297.946901144278},
+      "6": {"n": 15, "eastward_positive_n": 15, "eastward_positive_fraction": 1.0, "median_east_m": 285.21815512502377, "mean_east_m": 380.0942759465143},
+      "9": {"n": 15, "eastward_positive_n": 12, "eastward_positive_fraction": 0.8, "median_east_m": 250.5744228053991, "mean_east_m": 280.7205847924137}
+    },
+    "event_mean_east_displacement_m": {
+      "2024-06-12-point-clear": {"1": 207.85288961334618, "3": 655.7119402253852, "6": 813.4528510304211, "9": 753.3197187720971},
+      "2025-07-17-fairhope": {"1": 76.3297884615978, "3": 224.58799905789942, "6": 348.44511871087707, "9": 163.5554016040143},
+      "2025-07-24-fairhope": {"1": 133.5750156290894, "3": 291.81484547980045, "6": 236.38746654868183, "9": -64.57354789941826},
+      "2026-08-29-fairhope-point-clear": {"1": 110.3721139336793, "3": 173.92530855582936, "6": 247.6928853293081, "9": 343.89618534107757},
+      "2026-08-30-fairhope": {"1": 49.813924639748585, "3": 143.6944124024757, "6": 254.49305811328284, "9": 207.4051661442977}
+    },
+    "interpretation": "All 15 modern upper-bay station-event pairs had positive eastward displacement over the first 6 hours; 14/15 were eastward over 3 hours. Across the three stations, every one of the five event mornings had positive mean eastward displacement at 1, 3, and 6 hours. This is a candidate Stage-2 directional pattern, not a predictive result because the panel contains confirmed events only and no clean non-event controls."
+  },
+  "historic_2010_point_clear_bay_mouth": {
+    "station_id": "mb0101",
+    "name": "Mobile Bay Buoy M",
+    "real_time_bin": 1,
+    "n": 83,
+    "east_displacement_m": {"1": -1882.6479280279314, "3": -5527.119803349656, "6": -9461.66614162424, "9": -11303.45173828943},
+    "interpretation": "The historic bay-mouth representative bin was strongly westward during the 2010-08-12 Point Clear event morning. This falsifies any universal requirement that the bay-mouth current itself be eastward on every Jubilee morning and reinforces the need for location/vertical-state-specific transport features."
+  },
+  "guardrails": [
+    "Upper-bay PORTS stations are not Point Clear shoreline-current observations.",
+    "The current real_time_bin is used as a stable representative vertical bin; this does not establish the same vertical layer was most relevant historically.",
+    "Event mornings only cannot estimate discrimination, false-alert rate, calibration, or causal effect.",
+    "The 00-06 local integration is largely pre-dawn for these events but may overlap event onset when exact onset is not known; do not treat it as a leakage-safe forecast feature until event-specific issue times are established.",
+    "No uncertain day is labeled a negative and no production change is authorized."
+  ]
+}
