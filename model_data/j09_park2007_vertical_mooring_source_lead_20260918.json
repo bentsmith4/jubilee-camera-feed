@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-09-18T04:39:00Z",
+  "status": "SOURCE_DISCOVERED_NOT_INGESTED",
+  "production_action": "NO_CHANGE",
+  "citation": {
+    "authors": ["Kyeong Park", "Choong-Ki Kim", "William W. Schroeder"],
+    "title": "Temporal variability in summertime bottom hypoxia in shallow areas of Mobile Bay, Alabama",
+    "journal": "Estuaries and Coasts",
+    "year": 2007,
+    "volume": 30,
+    "pages": "54-65",
+    "doi": "10.1007/BF02782967",
+    "url": "https://doi.org/10.1007/BF02782967"
+  },
+  "mooring": {
+    "collection_period": "2004-07-01 to 2004-09-24",
+    "latitude_deg": 30.5470833333,
+    "longitude_deg": -87.9559,
+    "mean_water_depth_m": 4.0,
+    "bottom_sonde": "YSI 6600 EDS",
+    "bottom_sonde_height_above_bottom_m": 0.8,
+    "upper_sonde": "YSI 6920",
+    "upper_sonde_height_above_bottom_m": 3.3,
+    "vertical_separation_m": 2.5,
+    "sample_interval_minutes": 20,
+    "adcp": "RDI Workhorse Sentinel 600 kHz; bottom mounted; 20-min current profiles; 0.1-m vertical bins"
+  },
+  "published_relationships": {
+    "salinity_gradient_definition": "upper minus bottom salinity over approximately 2.5 m vertical separation",
+    "hypoxia_threshold": "bottom DO <2 mg/L",
+    "low_gradient_result": "When salinity gradient was <2 psu, about 1% of observations were hypoxic and mean bottom DO was nearly 6 mg/L.",
+    "strong_gradient_result": "When salinity gradient remained >4 psu, approximately 65-78% of observations were hypoxic and mean bottom DO remained below 2 mg/L; hypoxia occurred almost all the time when gradient exceeded 8 psu absent extreme events.",
+    "dynamic_result": "Bottom DO increased during destratification events and decreased rapidly after stratification re-established; the paper concludes oxygen supply can be exhausted within hours to days after mixing terminates.",
+    "decay_rate_per_day_at_20c": [0.175, 0.322]
+  },
+  "model_relevance": "This is a high-value independent vertical-mooring dataset for Stage-1 hypoxic-water loading because it has known sensor heights, bottom DO concentration, upper/bottom salinity and 20-minute cadence. The published threshold behavior independently supports salinity-gradient nonlinearity and rapid reload after destratification. Raw time-series bytes have not yet been located in a public archive, so the record remains a source lead and no row-level feature/backtest is claimed.",
+  "next_action": "Recover the original 2004 time-series from DISL/USA/NOAA or another public archive using the exact coordinates, dates, instrument names and publication provenance; then hash, normalize and independently reproduce the paper's gradient-hypoxia relationships before use in any shadow model.",
+  "guardrails": [
+    "Published aggregate relationships are not substitute raw observations.",
+    "No event/non-event labels are inferred from the 2004 mooring period.",
+    "Do not count this source as ingested until raw rows are recovered, hashed and normalized.",
+    "No production feature or weight change."
+  ]
+}
