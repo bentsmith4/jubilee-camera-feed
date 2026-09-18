@@ -1,0 +1,110 @@
+name: J09 analyze 2016 Mobile Bay vertical CTD profiles
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j09_0176497_profile_analysis.yml'
+permissions:
+  contents: read
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install netCDF4 numpy requests
+      - name: Normalize profiles and quantify stratification-hypoxia relationship
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python - <<'PY'
+          import json, math, hashlib, requests
+          from pathlib import Path
+          from datetime import datetime,timedelta,timezone
+          import netCDF4, numpy as np
+
+          URL='https://www.ncei.noaa.gov/data/oceans/archive/arc0125/0176497/1.1/data/0-data/Mobile_Bay_CTD_July2016.nc'
+          b=requests.get(URL,headers={'User-Agent':'jubilee-model-research/1.0'},timeout=45); b.raise_for_status(); raw=b.content; Path('out/raw.nc').write_bytes(raw)
+          ds=netCDF4.Dataset('out/raw.nc'); lat=np.asarray(ds['lat'][:],float);lon=np.asarray(ds['lon'][:],float);tv=np.asarray(ds['time'][:],float);depth=np.asarray(ds['depth'][:],float);sal=np.ma.filled(ds['sal'][:],np.nan).astype(float);temp=np.ma.filled(ds['temp'][:],np.nan).astype(float);do=np.ma.filled(ds['DO'][:],np.nan).astype(float)
+          time_units=str(ds['time'].units); global_attrs={a:str(getattr(ds,a)) for a in ds.ncattrs()};ds.close()
+
+          # MATLAB datenum conversion. Validate against source survey dates before use.
+          def matlab_dt(x):
+            day=int(x); frac=x-day
+            return datetime.fromordinal(day)+timedelta(days=frac)-timedelta(days=366)
+          dts=[matlab_dt(float(x)) for x in tv]
+          dates=sorted(set(x.date().isoformat() for x in dts))
+          expected=['2016-07-14','2016-07-19','2016-07-21','2016-07-28','2016-07-30']
+          time_validated=dates==expected
+          if not time_validated: raise RuntimeError(f'datenum conversion failed validation: {dates}')
+
+          def hav(a,b,c,d):
+            r=6371.;p1,p2=np.radians([a,c]);dp=np.radians(c-a);dl=np.radians(d-b);q=np.sin(dp/2)**2+np.cos(p1)*np.cos(p2)*np.sin(dl/2)**2;return float(2*r*np.arcsin(np.sqrt(q)))
+          targets={'point_clear':(30.48664,-87.93453),'daphne_reference':(30.6035,-87.9036)}
+          def auc(scores,y):
+            scores=np.asarray(scores,float);y=np.asarray(y,int);pos=scores[y==1];neg=scores[y==0]
+            if len(pos)==0 or len(neg)==0:return None
+            return float((sum((p>neg).sum()+0.5*(p==neg).sum() for p in pos))/(len(pos)*len(neg)))
+          def corr(a,b):
+            a=np.asarray(a,float);b=np.asarray(b,float);m=np.isfinite(a)&np.isfinite(b)
+            if m.sum()<5:return None
+            return float(np.corrcoef(a[m],b[m])[0,1])
+          def ranks(x):
+            order=np.argsort(x);r=np.empty(len(x),float);i=0
+            while i<len(x):
+              j=i
+              while j+1<len(x) and x[order[j+1]]==x[order[i]]:j+=1
+              r[order[i:j+1]]=(i+j)/2+1;i=j+1
+            return r
+
+          profiles=[]
+          for i in range(len(tv)):
+            m=np.isfinite(depth)&np.isfinite(sal[i])&np.isfinite(temp[i])&np.isfinite(do[i])
+            z=depth[m]; S=sal[i,m];T=temp[i,m];O=do[i,m]
+            if len(z)<4:continue
+            idx=np.argsort(z);z=z[idx];S=S[idx];T=T[idx];O=O[idx]
+            zmin,zmax=float(z[0]),float(z[-1]); span=zmax-zmin
+            if span<0.5:continue
+            # Robust surface/bottom layer: shallowest/deepest 20% of observed vertical span, minimum fallback 2 points.
+            surf=(z<=zmin+max(0.5,0.2*span));bot=(z>=zmax-max(0.5,0.2*span))
+            if surf.sum()<2:surf=np.arange(len(z))<min(3,len(z))
+            if bot.sum()<2:bot=np.arange(len(z))>=max(0,len(z)-3)
+            sm=float(np.nanmedian(S[surf]));bm=float(np.nanmedian(S[bot]));om=float(np.nanmedian(O[bot]));tm=float(np.nanmedian(T[bot]));
+            rec={'index':i,'source_local_time':dts[i].isoformat(),'source_timezone_label':'CST_as_written_in_NetCDF_units_not_dst_corrected','date':dts[i].date().isoformat(),'lat':float(lat[i]),'lon':float(lon[i]),'n_depth':int(len(z)),'z_min_m':zmin,'z_max_m':zmax,'sal_surface_psu':sm,'sal_bottom_psu':bm,'sal_bottom_minus_surface_psu':bm-sm,'do_bottom_median_mg_l':om,'do_min_mg_l':float(np.nanmin(O)),'temp_bottom_c':tm,'hypoxic_bottom_lt2':bool(om<2.0),'severe_bottom_lt1':bool(om<1.0)}
+            for k,(la,lo) in targets.items():rec[f'distance_{k}_km']=hav(float(lat[i]),float(lon[i]),la,lo)
+            profiles.append(rec)
+
+          g=np.array([p['sal_bottom_minus_surface_psu'] for p in profiles]);o=np.array([p['do_bottom_median_mg_l'] for p in profiles]);y=np.array([p['hypoxic_bottom_lt2'] for p in profiles],int)
+          # Higher stratification expected to predict lower DO; use gradient as positive score for hypoxia.
+          summary={'raw_sha256':hashlib.sha256(raw).hexdigest(),'source_url':URL,'time_units':time_units,'converted_dates':dates,'time_conversion':'MATLAB datenum converted via Python ordinal minus 366 days; exact survey dates validated against NetCDF global summary','time_validation_passed':time_validated,'profile_count':len(profiles),'bottom_hypoxic_lt2_count':int(y.sum()),'bottom_hypoxic_lt2_fraction':float(y.mean()) if len(y) else None,'bottom_do_median_mg_l':float(np.median(o)),'bottom_do_min_mg_l':float(np.min(o)),'salinity_gradient_bottom_minus_surface_median_psu':float(np.median(g)),'salinity_gradient_bottom_minus_surface_p90_psu':float(np.quantile(g,.9)),'salinity_gradient_vs_bottom_do_pearson':corr(g,o),'salinity_gradient_vs_bottom_do_spearman':corr(ranks(g),ranks(o)),'salinity_gradient_auc_for_bottom_do_lt2':auc(g,y)}
+          # Threshold diagnostics, descriptive not optimized/promoted.
+          summary['gradient_thresholds']={}
+          for th in (1,2,4,6):
+            pred=g>=th;tp=int(np.sum(pred&(y==1)));fp=int(np.sum(pred&(y==0)));fn=int(np.sum((~pred)&(y==1)));tn=int(np.sum((~pred)&(y==0)))
+            summary['gradient_thresholds'][str(th)]={'n_flagged':int(pred.sum()),'hypoxia_rate_when_flagged':float(tp/(tp+fp)) if tp+fp else None,'hypoxia_rate_when_not_flagged':float(fn/(fn+tn)) if fn+tn else None,'sensitivity':float(tp/(tp+fn)) if tp+fn else None,'specificity':float(tn/(tn+fp)) if tn+fp else None}
+          # Daily stats and nearest-target profiles.
+          daily={}
+          for d in dates:
+            P=[p for p in profiles if p['date']==d];gg=np.array([p['sal_bottom_minus_surface_psu'] for p in P]);oo=np.array([p['do_bottom_median_mg_l'] for p in P]);yy=np.array([p['hypoxic_bottom_lt2'] for p in P])
+            daily[d]={'profiles':len(P),'bottom_hypoxic_lt2':int(yy.sum()),'hypoxic_fraction':float(yy.mean()),'bottom_do_median_mg_l':float(np.median(oo)),'bottom_do_min_mg_l':float(np.min(oo)),'gradient_median_psu':float(np.median(gg)),'gradient_p90_psu':float(np.quantile(gg,.9))}
+            for target in targets:
+              p=min(P,key=lambda x:x[f'distance_{target}_km']);daily[d][f'nearest_{target}']={k:p[k] for k in ('lat','lon',f'distance_{target}_km','sal_bottom_minus_surface_psu','do_bottom_median_mg_l','do_min_mg_l','z_max_m','source_local_time')}
+          summary['daily']=daily
+          # Eastern-shore / Point Clear vicinity diagnostics.
+          for radius in (5,10,20):
+            P=[p for p in profiles if p['distance_point_clear_km']<=radius]
+            if P:
+              yy=np.array([p['hypoxic_bottom_lt2'] for p in P]);gg=np.array([p['sal_bottom_minus_surface_psu'] for p in P]);oo=np.array([p['do_bottom_median_mg_l'] for p in P])
+              summary[f'point_clear_within_{radius}km']={'n':len(P),'hypoxic_fraction':float(yy.mean()),'bottom_do_median_mg_l':float(np.median(oo)),'bottom_do_min_mg_l':float(np.min(oo)),'gradient_median_psu':float(np.median(gg))}
+          out={'schema_version':'1.0','scope':'RESEARCH_ONLY_2016_VERTICAL_PROFILE_ANALYSIS','production_action':'NO_CHANGE','source':{'accession':'0176497','url':URL,'global_attrs':global_attrs},'summary':summary,'profiles':profiles,'guardrails':['Survey profiles document Mobile Bay vertical structure and hypoxia, not Jubilee events.','The NetCDF time unit literally says CST; conversion preserves that source label and does not silently apply daylight-saving correction. Calendar dates are independently validated against the five survey dates in the source global summary.','Surface/bottom robust medians are analysis-derived layers, not source-provided labels.','Salinity-gradient discrimination is within these 2016 surveys and is not Jubilee-event discrimination.','No production weight or threshold change.']}
+          Path('out/result.json').write_text(json.dumps(out,indent=2)+'\n');Path('out/profiles.json').write_text(json.dumps(profiles,indent=2)+'\n')
+          print('PROFILE_ANALYSIS_START');print(json.dumps(summary,indent=2));print('PROFILE_ANALYSIS_END')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: j09-0176497-profile-analysis-${{ github.run_number }}
+          path: out/*.json
+          retention-days: 30
