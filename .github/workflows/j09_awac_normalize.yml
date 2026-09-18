@@ -1,0 +1,110 @@
+name: J09 normalize FOCAL AWAC observed currents
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j09_awac_normalize.yml'
+permissions:
+  contents: read
+jobs:
+  normalize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Download and normalize observed AWAC currents
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p awac_norm/raw
+          base='https://www.ncei.noaa.gov/data/oceans/archive/arc0157/0211052/1.1'
+          datadir="$base/data/0-data/Coastal_alabama_focal_AWAC_data_2018_2019"
+          curl -fL --retry 3 --retry-delay 2 -A 'jubilee-model-research/1.0' "$datadir/Dump_rep.dat" -o awac_norm/raw/Dump_rep.dat
+          for fn in Dump_rep.hrd ReadMe_updated.txt; do
+            curl -fL --retry 3 --retry-delay 2 -A 'jubilee-model-research/1.0' "$datadir/$fn" -o "awac_norm/raw/$fn" || true
+          done
+          curl -fL --retry 3 --retry-delay 2 -A 'jubilee-model-research/1.0' "$base/about/0211052_lonlat.txt" -o awac_norm/raw/0211052_lonlat.txt || true
+          python - <<'PY'
+          import csv, datetime as dt, hashlib, json, math, statistics
+          from pathlib import Path
+          raw=Path('awac_norm/raw/Dump_rep.dat')
+          cutoff=dt.datetime(2019,5,16)
+          rows=[]; bad=0; blocks=0
+          # Native ASCII: one header line followed by N cell rows; sample shows N=40.
+          # Last two cell fields are native horizontal speed and direction. Direction
+          # is numerically consistent with degrees clockwise from north; units remain
+          # SOURCE_NATIVE until header metadata independently establishes them.
+          with raw.open(errors='replace') as f:
+            it=iter(f)
+            for line in it:
+              p=line.split()
+              if len(p)<6: continue
+              try:
+                mo,day,yr,hh,mm,ss=map(int,p[:6])
+                t=dt.datetime(yr,mo,day,hh,mm,ss)
+              except Exception:
+                continue
+              if t>=cutoff: break
+              try: ncell=int(p[-1])
+              except Exception:
+                bad+=1; continue
+              cells=[]
+              for _ in range(ncell):
+                try: cp=next(it).split()
+                except StopIteration: cp=[]
+                if len(cp)<10: continue
+                try:
+                  cell=int(cp[0]); pos=float(cp[1]); c1=float(cp[2]); c2=float(cp[3]); c3=float(cp[4]); speed=float(cp[-2]); direction=float(cp[-1])
+                except Exception:
+                  continue
+                if not (math.isfinite(speed) and math.isfinite(direction)): continue
+                # Conservative plausibility screen for robust vertically averaged research vector.
+                # Keep raw cell count but exclude cell 1 and extreme speeds >2 native units.
+                cells.append((cell,pos,c1,c2,c3,speed,direction))
+              if not cells: continue
+              usable=[c for c in cells if c[0]>=2 and c[5]>=0 and c[5]<=2]
+              if len(usable)<5: usable=cells
+              east=[c[5]*math.sin(math.radians(c[6])) for c in usable]
+              north=[c[5]*math.cos(math.radians(c[6])) for c in usable]
+              ue=statistics.median(east); vn=statistics.median(north)
+              sp=math.hypot(ue,vn); dr=(math.degrees(math.atan2(ue,vn))%360.0) if sp else 0.0
+              rows.append({'source_clock':t.isoformat(),'usable_cells':len(usable),'median_east_native':ue,'median_north_native':vn,'vector_speed_native':sp,'vector_direction_deg_true_like':dr,'min_cell_position':min(c[1] for c in usable),'max_cell_position':max(c[1] for c in usable)})
+              blocks+=1
+          out=Path('awac_norm/observed_current_robust.csv')
+          with out.open('w',newline='') as f:
+            w=csv.DictWriter(f,fieldnames=list(rows[0]) if rows else ['source_clock']); w.writeheader(); w.writerows(rows)
+          # Hourly vector means from native-clock records; no timezone conversion asserted.
+          buckets={}
+          for r in rows:
+            h=r['source_clock'][:13]+':00:00'
+            buckets.setdefault(h,[]).append(r)
+          hrs=[]
+          for h,rr in sorted(buckets.items()):
+            ue=sum(x['median_east_native'] for x in rr)/len(rr); vn=sum(x['median_north_native'] for x in rr)/len(rr)
+            sp=math.hypot(ue,vn); dr=(math.degrees(math.atan2(ue,vn))%360.0) if sp else 0.0
+            hrs.append({'source_clock_hour':h,'n_records':len(rr),'east_native':ue,'north_native':vn,'speed_native':sp,'direction_deg_true_like':dr})
+          hout=Path('awac_norm/observed_current_hourly.csv')
+          with hout.open('w',newline='') as f:
+            w=csv.DictWriter(f,fieldnames=list(hrs[0]) if hrs else ['source_clock_hour']); w.writeheader(); w.writerows(hrs)
+          meta={
+            'schema_version':'1.0','accession':'0211052','evidence_class':'OBSERVED_CURRENT','production_action':'NO_CHANGE',
+            'valid_range_source':'ReadMe_updated.txt','valid_start':'2018-06-21','valid_end_inclusive':'2019-05-15',
+            'raw_bytes':raw.stat().st_size,'raw_sha256':hashlib.sha256(raw.read_bytes()).hexdigest(),
+            'record_blocks':blocks,'normalized_records':len(rows),'hourly_rows':len(hrs),'bad_headers':bad,
+            'normalization':'robust median vector across cells >=2 after excluding speed >2 source-native units when >=5 cells remain; then hourly vector mean',
+            'direction_semantics':'last native column is numerically consistent with degrees clockwise from north; converted to east/north for aggregation, but exact source coordinate/unit semantics remain pending header verification',
+            'time_semantics':'source clock preserved; timezone not inferred',
+            'lonlat_text':Path('awac_norm/raw/0211052_lonlat.txt').read_text(errors='replace') if Path('awac_norm/raw/0211052_lonlat.txt').exists() else None,
+            'header_text':Path('awac_norm/raw/Dump_rep.hrd').read_text(errors='replace')[:20000] if Path('awac_norm/raw/Dump_rep.hrd').exists() else None,
+            'normalized_sha256':hashlib.sha256(out.read_bytes()).hexdigest(),
+            'hourly_sha256':hashlib.sha256(hout.read_bytes()).hexdigest()
+          }
+          Path('awac_norm/manifest.json').write_text(json.dumps(meta,indent=2)+'\n')
+          print(json.dumps({k:v for k,v in meta.items() if k not in ('header_text',)},indent=2))
+          print('header:', meta['header_text'])
+          PY
+          rm -f awac_norm/raw/Dump_rep.dat
+      - uses: actions/upload-artifact@v4
+        with:
+          name: j09-awac-normalized-${{ github.run_number }}
+          path: awac_norm/
+          retention-days: 30
