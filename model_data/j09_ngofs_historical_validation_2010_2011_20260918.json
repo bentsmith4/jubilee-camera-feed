@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-09-18T04:30:00Z",
+  "scope": "RESEARCH_ONLY_MODEL_VALIDATION_CONTEXT",
+  "production_action": "NO_CHANGE",
+  "source": {
+    "provider": "NOAA CO-OPS",
+    "title": "Technical Report NOS CS 33: NGOFS skill assessment",
+    "url": "https://tidesandcurrents.noaa.gov/ofs/publications/retired/CS_Techrpt_033_SA_NGOFS_2014.pdf",
+    "validation_period": "2010-10-13 to 2011-02-14 for mb0101 Mobile Bay Buoy M",
+    "station": {
+      "id": "mb0101",
+      "name": "Mobile Bay Buoy M",
+      "lat_approx": 30.1253,
+      "lon_approx": -88.0687,
+      "role": "historic observed current station near Mobile Bay entrance; substantially closer to bay-mouth exchange than the current 2026 upper-bay PORTS validation stations"
+    }
+  },
+  "reported_hindcast_metrics": {
+    "mean_direction_difference_deg": -0.257,
+    "direction_rmse_deg": 8.643,
+    "direction_sd_deg": 8.640,
+    "direction_criterion_fit_percent": 97.9,
+    "flood_direction_rmse_deg": 41.046,
+    "ebb_direction_rmse_deg": 43.735,
+    "note": "NOAA report labels D-d as direction comparison and DFC/DEC as flood/ebb current-direction comparisons; these are historical NGOFS hindcast metrics, not NGOFS2 2026 nowcast skill."
+  },
+  "nested_model_report_context": {
+    "source_url": "https://repository.library.noaa.gov/view/noaa/16911/noaa_16911_DS1.pdf",
+    "mobile_bay_buoy_m_current_speed_rmse_m_s": {
+      "NEGOFS": 0.111,
+      "NGOFS": 0.123
+    },
+    "mobile_bay_buoy_m_criterion_fit_percent": {
+      "NEGOFS": 96.9,
+      "NGOFS": 95.6
+    }
+  },
+  "interpretation": "Historical NOAA skill studies show that the operational-model lineage can reproduce substantial current variability at the Mobile Bay entrance, but flood/ebb direction errors of roughly 41-44 degrees remain material. This is consistent with the new Sep 2026 PORTS comparison: use NGOFS2 as useful oscillatory/transport-timing guidance, but do not treat raw model vectors as precise Point Clear shoreline-normal observed transport. The historical result improves the evidence base for bounding model trust but does not validate current NGOFS2 at Point Clear.",
+  "guardrails": [
+    "Historic NGOFS and current NGOFS2 are not the same model version; no skill metric is transferred numerically to current Point Clear guidance.",
+    "mb0101 is near the bay entrance, not Point Clear shoreline contact.",
+    "Reported direction and speed metrics come from NOAA technical reports and are not recomputed in this research artifact.",
+    "No production feature, weight, threshold, or forecast logic changed."
+  ]
+}
