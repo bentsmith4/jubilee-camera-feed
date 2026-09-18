@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "scope": "RESEARCH_ONLY_DEPLOYMENT_GEOMETRY_EVIDENCE",
+  "production_action": "NO_CHANGE",
+  "station": "Middle Bay Lighthouse / ARCOS",
+  "coordinates": {"lat": 30.438457, "lon": -88.011351},
+  "evidence": [
+    {
+      "source": "NCEI accession 0224293",
+      "period": "2019",
+      "finding": "Archive metadata says hydrographic observations were collected hourly at different depths with a YSI 6600 EDS, but the delivered static file inspected in the research pipeline does not expose an explicit observation-depth field or repeated vertical dimension.",
+      "url": "https://www.ncei.noaa.gov/archive/archive-management-system/OAS/bin/prd/jquery/accession/details/224293"
+    },
+    {
+      "source": "EPA National Estuary Program coastal acidification sensor report",
+      "period": "2021 deployment description",
+      "finding": "The Middle Bay Lighthouse site is described as approximately 4 m deep, with instruments deployed about 1 m above the bottom; the report states the site had been continuously monitored for temperature, salinity and dissolved oxygen since 2005 through ARCOS.",
+      "url": "https://www.epa.gov/system/files/documents/2021-08/coastal-acidification-nep-report_july-2021.pdf"
+    },
+    {
+      "source": "Current DISL ARCOS station registry",
+      "period": "current registry",
+      "finding": "Registry gives Middle Bay Lighthouse coordinates 30.438457, -88.011351; ARCOS hydrographic parameters include depth in meters and dissolved oxygen in both percent and mg/L. Current registry does not expose a historical hydrographic year link for Middle Bay on the rendered page.",
+      "url": "https://www.disl.edu/arcos/"
+    }
+  ],
+  "interpretation": "This materially improves station-level geometry: Middle Bay is a shallow approximately 4-m site and at least a documented 2021 instrument deployment was near-bottom at about 1 m above bottom. It does NOT justify assigning the 2019 NCEI rows to a specific depth, because the 2019 delivered payload lacks an observation-depth field and historical deployment details were not recovered. The 2019 rows remain ineligible for a reconstructed vertical-gradient feature until per-observation/per-sensor depth mapping is recovered.",
+  "guardrails": [
+    "Do not retroactively apply the 2021 sensor height to every 2019 observation.",
+    "Do not treat metadata phrase 'different depths' as a recoverable vertical profile without depth identifiers.",
+    "No production change."
+  ]
+}
