@@ -1,0 +1,99 @@
+name: J10 event currents vs unlabeled monthly background
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j10_event_current_background.yml'
+permissions:
+  contents: read
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install requests
+      - name: Compare event-morning eastward displacement with unlabeled month background
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python - <<'PY'
+          import json, math, calendar, requests, statistics
+          from datetime import datetime, timezone
+          from zoneinfo import ZoneInfo
+          from pathlib import Path
+          sess=requests.Session(); sess.headers.update({'User-Agent':'jubilee-model-research/1.0'})
+          CT=ZoneInfo('America/Chicago')
+          stations={'mb0302':25,'mb0402':15,'mb0501':28}
+          months=[('202406',['20240612']),('202507',['20250717','20250724']),('202608',['20260829','20260830'])]
+          def uv(speed,deg):
+            q=math.radians(deg); return speed*math.sin(q),speed*math.cos(q)
+          def summarize_window(rows,h):
+            rows=sorted(rows,key=lambda x:x['t'])
+            if len(rows)<2:return None
+            start=datetime.fromtimestamp(rows[0]['t'],timezone.utc).astimezone(CT)
+            cutoff=start.replace(hour=0,minute=0,second=0,microsecond=0).timestamp()+h*3600
+            sub=[r for r in rows if r['local_hour']<h and r['t']<=cutoff+360]
+            if len(sub)<2:return None
+            dx=dy=dur=0.0
+            for a,b in zip(sub[:-1],sub[1:]):
+              d=b['t']-a['t']
+              if d<=0 or d>900: continue
+              dx+=(a['u']+b['u'])*.5*d; dy+=(a['v']+b['v'])*.5*d; dur+=d
+            if dur < (h-.5)*3600:return None
+            return {'coverage_h':dur/3600,'east_m':dx,'north_m':dy,'vector_m':math.hypot(dx,dy)}
+          R={'schema_version':'1.0','scope':'RESEARCH_ONLY_UNLABELED_BACKGROUND_COMPARISON','production_action':'NO_CHANGE','months':[],'guardrails':['Background calendar days are UNLABELED, not clean non-events; unknown Jubilee contamination is expected and biases contrast toward the null.','This is a distribution/rank diagnostic only; it does not estimate false-alert rate, specificity, calibration, or causal effect.','Upper-bay PORTS stations are regional transport context, not Point Clear shoreline current.','No production change.']}
+          for ym,event_dates in months:
+            y=int(ym[:4]); m=int(ym[4:]); last=calendar.monthrange(y,m)[1]; begin=f'{ym}01'; end=f'{ym}{last:02d}'
+            station_daily={}; source=[]
+            for sid,bn in stations.items():
+              p={'begin_date':begin,'end_date':end,'station':sid,'product':'currents','time_zone':'gmt','units':'metric','interval':'6','format':'json','application':'jubilee_model_research','bin':bn}
+              rr=sess.get('https://api.tidesandcurrents.noaa.gov/api/prod/datagetter',params=p,timeout=60); jj=rr.json(); dat=jj.get('data') or []
+              source.append({'station':sid,'bin':bn,'http':rr.status_code,'rows':len(dat),'error':jj.get('error')})
+              byday={}
+              for x in dat:
+                try:
+                  dt=datetime.strptime(x['t'],'%Y-%m-%d %H:%M').replace(tzinfo=timezone.utc); loc=dt.astimezone(CT)
+                  if loc.strftime('%Y%m')!=ym:continue
+                  sp=float(x['s'])/100.; dg=float(x['d']);u,v=uv(sp,dg); byday.setdefault(loc.strftime('%Y%m%d'),[]).append({'t':dt.timestamp(),'local_hour':loc.hour+loc.minute/60.,'u':u,'v':v})
+                except:pass
+              station_daily[sid]={}
+              for day,rows in byday.items():
+                d={str(h):summarize_window(rows,h) for h in (1,3,6)}
+                if d['6'] is not None: station_daily[sid][day]=d
+            # date-level three-station mean, only complete days
+            days=[]
+            for d in sorted(set.intersection(*[set(station_daily[s]) for s in stations])):
+              rec={'date':d,'station_count':3}
+              for h in (1,3,6):
+                vals=[station_daily[s][d][str(h)]['east_m'] for s in stations if station_daily[s][d][str(h)] is not None]
+                if len(vals)==3:rec[f'mean_east_{h}h_m']=sum(vals)/3
+              if 'mean_east_6h_m' in rec:days.append(rec)
+            comp=[]
+            for ed in event_dates:
+              er=next((d for d in days if d['date']==ed),None)
+              if not er:
+                comp.append({'event_date':ed,'status':'missing_complete_background_day'});continue
+              cr={'event_date':ed,'status':'complete'}
+              for h in (1,3,6):
+                key=f'mean_east_{h}h_m'; allv=[d[key] for d in days if key in d]; ev=er[key]
+                cr[f'{h}h']={'event_mean_east_m':ev,'background_n':len(allv),'percentile_fraction_le_event':sum(x<=ev for x in allv)/len(allv),'rank_desc_1_is_most_eastward':1+sum(x>ev for x in allv),'background_median_m':statistics.median(allv),'background_mean_m':sum(allv)/len(allv),'background_min_m':min(allv),'background_max_m':max(allv)}
+              comp.append(cr)
+            R['months'].append({'month':ym,'sources':source,'complete_three_station_days':len(days),'event_comparisons':comp,'daily_three_station_mean':days})
+          # pooled event diagnostics for 6h ranks only
+          vals=[]
+          for mo in R['months']:
+            for e in mo['event_comparisons']:
+              if e.get('status')=='complete': vals.append(e['6h']['percentile_fraction_le_event'])
+          R['pooled_event_6h_percentiles']=vals
+          R['interpretation']='Ranks event mornings against unlabeled same-month current distributions without declaring other days negative. A repeatable high percentile would nominate a Stage-2 feature for later clean-control validation; a mixed result would weaken a simple upper-bay eastward-current hypothesis.'
+          Path('out/result.json').write_text(json.dumps(R,indent=2)+'\n');print(json.dumps({'event_comparisons':[{ 'month':m['month'],'events':m['event_comparisons'],'days':m['complete_three_station_days']} for m in R['months']], 'pooled':vals},indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: j10-event-current-background-${{ github.run_number }}
+          path: out/result.json
+          retention-days: 30
