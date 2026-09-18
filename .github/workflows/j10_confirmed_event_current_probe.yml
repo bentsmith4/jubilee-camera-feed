@@ -1,0 +1,124 @@
+name: J10 confirmed-event observed-current probe
+on:
+  push:
+    branches: [research/j09-oxygen-current-20260917]
+    paths:
+      - '.github/workflows/j10_confirmed_event_current_probe.yml'
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Retrieve and summarize NOAA observed currents on confirmed Jubilee mornings
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          python - <<'PY'
+          import json, math, statistics, requests, hashlib
+          from datetime import datetime, timezone
+          from zoneinfo import ZoneInfo
+          from pathlib import Path
+
+          sess=requests.Session(); sess.headers.update({'User-Agent':'jubilee-model-research/1.0'})
+          CT=ZoneInfo('America/Chicago')
+          cases=[
+            {'event':'2010-08-12-point-clear','date':'20100812','stations':['mb0101'],'station_class':'historic_bay_mouth'},
+            {'event':'2024-06-12-point-clear','date':'20240612','stations':['mb0302','mb0402','mb0501'],'station_class':'active_upper_bay'},
+            {'event':'2025-07-17-fairhope','date':'20250717','stations':['mb0302','mb0402','mb0501'],'station_class':'active_upper_bay'},
+            {'event':'2025-07-24-fairhope','date':'20250724','stations':['mb0302','mb0402','mb0501'],'station_class':'active_upper_bay'},
+            {'event':'2026-08-29-fairhope-point-clear','date':'20260829','stations':['mb0302','mb0402','mb0501'],'station_class':'active_upper_bay'},
+            {'event':'2026-08-30-fairhope','date':'20260830','stations':['mb0302','mb0402','mb0501'],'station_class':'active_upper_bay'}
+          ]
+          def dtparse(x): return datetime.strptime(x,'%Y-%m-%d %H:%M').replace(tzinfo=timezone.utc)
+          def uv(speed,deg):
+            q=math.radians(deg); return speed*math.sin(q), speed*math.cos(q)
+          def corr(a,b):
+            if len(a)<3:return None
+            ma=sum(a)/len(a); mb=sum(b)/len(b); va=sum((x-ma)**2 for x in a); vb=sum((x-mb)**2 for x in b)
+            return None if va<=0 or vb<=0 else sum((x-ma)*(y-mb) for x,y in zip(a,b))/math.sqrt(va*vb)
+          def q(xs,p):
+            xs=sorted(xs)
+            if not xs:return None
+            z=(len(xs)-1)*p; i=int(z); f=z-i
+            return xs[i] if i==len(xs)-1 else xs[i]*(1-f)+xs[i+1]*f
+          def summarize(rows):
+            if not rows:return {'n':0}
+            rows=sorted(rows,key=lambda r:r['t']); speeds=[r['s'] for r in rows]
+            us=[r['u'] for r in rows]; vs=[r['v'] for r in rows]
+            out={'n':len(rows),'start_utc':rows[0]['dt'].isoformat(),'end_utc':rows[-1]['dt'].isoformat(),'mean_speed_m_s':sum(speeds)/len(speeds),'median_speed_m_s':statistics.median(speeds),'p90_speed_m_s':q(speeds,.9),'mean_u_m_s':sum(us)/len(us),'mean_v_m_s':sum(vs)/len(vs)}
+            # forward displacement from local midnight through each horizon, trapezoid over available 6-min rows
+            t0=rows[0]['t']
+            for h in (1,3,6,9):
+              sub=[r for r in rows if r['t']<=t0+h*3600+60]
+              if len(sub)<2: continue
+              dx=dy=dur=0.0
+              for a,b in zip(sub[:-1],sub[1:]):
+                d=min(b['t']-a['t'],900)
+                if d<=0:continue
+                dx+=(a['u']+b['u'])*0.5*d; dy+=(a['v']+b['v'])*0.5*d; dur+=d
+              out[f'from_first_{h}h']={'coverage_hours':dur/3600,'east_m':dx,'north_m':dy,'vector_m':math.hypot(dx,dy),'bearing_toward_deg':(math.degrees(math.atan2(dx,dy))+360)%360 if math.hypot(dx,dy)>0 else None}
+            return out
+
+          R={'schema_version':'1.0','scope':'RESEARCH_ONLY_CONFIRMED_EVENT_CURRENT_CONTEXT','production_action':'NO_CHANGE','retrieved_at_utc':datetime.now(timezone.utc).isoformat(),'direction_convention':'NOAA current direction is degrees true toward which flow moves; speed metric cm/s converted to m/s.','cases':[],'guardrails':['Observed currents are not at Point Clear shoreline except as regional/bay-mouth context.','Upper-bay stations are spatial proxies and must not be treated as local shoreline contact.','A confirmed-event-only panel cannot estimate false-alert rate or discrimination.','No production change.']}
+          for case in cases:
+            eventdt=datetime.strptime(case['date'],'%Y%m%d').replace(tzinfo=CT)
+            begin=(eventdt.replace(hour=0)-__import__('datetime').timedelta(hours=2)).strftime('%Y%m%d')
+            end=(eventdt+__import__('datetime').timedelta(days=1)).strftime('%Y%m%d')
+            crec={k:v for k,v in case.items()}; crec['stations']=[]
+            for sid in case['stations']:
+              mdurl=f'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/{sid}.json?units=metric'
+              try: md=sess.get(mdurl,timeout=30).json()
+              except Exception as e: md={'error':repr(e)}
+              st=(md.get('stations') or [{}])[0] if isinstance(md,dict) else {}
+              binsurl=f'https://api.tidesandcurrents.noaa.gov/mdapi/prod/webapi/stations/{sid}/bins.json?units=metric'
+              try: bj=sess.get(binsurl,timeout=30).json()
+              except Exception as e: bj={'error':repr(e)}
+              bl=bj.get('bins') or bj.get('Bins') or []
+              rt=bj.get('real_time_bin') or bj.get('realTimeBin')
+              candidates=[]
+              if rt is not None:
+                try:candidates=[int(rt)]
+                except:pass
+              if not candidates:
+                for x in bl:
+                  try:candidates.append(int(x.get('num')))
+                  except:pass
+              # Use all-bin retrieval for one-day window; if rejected, fall back candidate bins.
+              got=[]; errors=[]
+              bin_order=[0]+candidates[:8]
+              for bn in bin_order:
+                params={'begin_date':case['date'],'end_date':case['date'],'station':sid,'product':'currents','time_zone':'gmt','units':'metric','interval':'6','format':'json','application':'jubilee_model_research','bin':bn}
+                try:
+                  rr=sess.get('https://api.tidesandcurrents.noaa.gov/api/prod/datagetter',params=params,timeout=45); jj=rr.json()
+                  dat=jj.get('data') or []
+                  if dat:
+                    for x in dat:
+                      try:
+                        dt=dtparse(x['t']); local=dt.astimezone(CT)
+                        if local.strftime('%Y%m%d')!=case['date'] or not (0<=local.hour<10): continue
+                        sp=float(x['s'])/100.0; dg=float(x['d']); u,v=uv(sp,dg); bnum=int(x.get('b',bn or 0)); got.append({'dt':dt,'t':dt.timestamp(),'local':local.isoformat(),'s':sp,'d':dg,'u':u,'v':v,'b':bnum})
+                      except: pass
+                    if got: break
+                  errors.append({'bin':bn,'error':jj.get('error') or f'http {rr.status_code} no data'})
+                except Exception as e: errors.append({'bin':bn,'error':repr(e)})
+              bybin={}
+              for x in got: bybin.setdefault(x['b'],[]).append(x)
+              summaries={str(b):summarize(r) for b,r in sorted(bybin.items())}
+              best=None
+              if bybin: best=max(bybin,key=lambda b:len(bybin[b]))
+              crec['stations'].append({'station_id':sid,'name':st.get('name'),'lat':st.get('lat'),'lon':st.get('lng'),'deployed':st.get('deployed'),'retrieved':st.get('retrieved'),'metadata_real_time_bin':rt,'metadata_bin_count':len(bl),'selected_retrieval_bin':0 if got else None,'rows_local_00_10':len(got),'bins_present':sorted(bybin),'best_coverage_bin':best,'best_coverage_summary':summaries.get(str(best)) if best is not None else None,'all_bin_summaries':summaries,'errors':errors[-3:]})
+            R['cases'].append(crec)
+          Path('out/result.json').write_text(json.dumps(R,indent=2)+'\n')
+          print(json.dumps(R,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: j10-confirmed-event-current-probe-${{ github.run_number }}
+          path: out/result.json
+          retention-days: 30
