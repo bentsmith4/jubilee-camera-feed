@@ -1096,3 +1096,7 @@ Read-back verified the brief remains enabled, its current prompt is preserved un
 - Timing note for J11: the 16:06 capture was published even though source metadata still reports `window_end_ct` 08:13:24 CDT. Coverage was preserved and no schedule was changed; the existing intent-versus-implementation mismatch remains with J11.
 - No production weights, thresholds, camera cadence, sensors, recurring tasks, acquisition services, event/control labels or databases were changed.
 
+## J01 sensing continuation addendum — 2026-09-18 17:04 CDT
+
+A newer canonical NGOFS2 manifest arrived during read-back and superseded the 14:00 CDT reference used in the immediately preceding J01 entry. Current blob `2de7228208ca5de47238e1f38bee3f89287d0ce5` has a 16:48 CDT reference and approximately +36.2/+143.9/+267.6/+326.8 m at 1/3/6/12 hours, shoreward at every window under the provisional geometry. The current-state snapshot was reconciled to Point Clear 4-9% and Daphne/May Day 2-5%, still below the 20% threshold, in blob `8b4e42f4451b33a2613e2500b40f8b3b76107885` from commit `321e6daf0299e695db02c51189c3b4d3083f0d52`. This supersedes only the transport values and probability ranges in the prior J01 entry; all camera, weather, tide, oxygen-UNKNOWN, scope and no-weight-change statements remain controlling. No Jubilee is confirmed.
+
