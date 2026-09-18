@@ -1,0 +1,68 @@
+{
+  "schema_version": "1.0",
+  "scope": "RESEARCH_ONLY_TWO_STAGE_HYPOTHESIS",
+  "production_action": "NO_CHANGE",
+  "hypothesis": {
+    "stage_1": "multi-hour to multi-day accumulation/persistence of low-oxygen bottom water under vertical stratification",
+    "stage_2": "short-term shoreward transport/contact of that loaded bottom water with an Eastern Shore shallow-water strip, producing Jubilee behavior when biological detectability is sufficient"
+  },
+  "stage_1_evidence": [
+    {
+      "source": "NCEI 0188979 July 2016 moored CTD",
+      "result": "9,014 ten-minute rows across three Mobile Bay stations; long low-oxygen-saturation episodes, including approximately 200.7 h below 20% saturation at station 01 and approximately 147 h below 10% saturation; validates persistence/loading as a real state variable",
+      "evidence_file": "model_data/j09_oxygen_episode_research_20260918.json"
+    },
+    {
+      "source": "NCEI 0176497 July 2016 Mobile Bay vertical CTD surveys",
+      "result": "268 profiles; bottom-median DO <2 mg/L in 6 profiles; salinity-gradient AUC 0.866 in descriptive scoring; leave-one-survey-date-out shadow model using gradient+depth+temperature achieved AUC 0.958, Brier 0.0185, log loss 0.0662 with only six positives",
+      "evidence_files": ["model_data/j09_0176497_vertical_profile_research_20260918.json", "model_data/j10_0176497_dateblocked_shadow_20260918.json"]
+    },
+    {
+      "source": "NCEI 0190491 July 2016 Mobile Bay vertical CTD surveys",
+      "result": "31 retained profiles after quarantining one invalid timestamp; salinity gradient inversely related to bottom oxygen saturation (Pearson -0.641, Spearman -0.509); three bottom profiles <20% saturation all on July 11; descriptive gradient AUC 1.0 with very small positive count",
+      "evidence_file": "model_data/j09_0190491_vertical_profile_research_20260918.json"
+    },
+    {
+      "source": "Park, Kim & Schroeder 2007, Estuaries and Coasts 30:54-65, DOI 10.1007/BF02782967",
+      "result": "Independent 2004 Mobile Bay time-series literature reports bottom DO closely related to vertical salinity gradient; hypoxia seldom when gradient <2 psu and nearly continuous when gradient >8 psu absent extreme events",
+      "source_url": "https://doi.org/10.1007/BF02782967"
+    },
+    {
+      "source": "May 1973, Limnology and Oceanography 18:353-366",
+      "result": "Primary mechanism states extensive oxygen-poor bottom-water masses can be forced against the beach, producing Jubilees; canonical event history includes Aug 7-8 1971 Jubilees following extensive Aug 5-6 bottom oxygen depletion",
+      "source_url": "https://doi.org/10.4319/lo.1973.18.3.0353"
+    }
+  ],
+  "stage_1_assessment": "SUPPORTED_AS_PHYSICAL_LOADING_STATE; predictive skill for oxygen loading is demonstrated in two separate 2016 data families, but Jubilee-event skill is not established.",
+  "stage_2_evidence": [
+    {
+      "source": "NOAA PORTS observed currents vs NGOFS2 Sep 15-17 2026",
+      "result": "NGOFS2 shows moderate/high correlation for principal-axis oscillatory timing after aggregation/phase adjustment at three upper-bay stations, but vector-direction errors are large (roughly 75-95 deg), sign agreement often near chance, and magnitude bias depends strongly on station/vertical representation.",
+      "evidence_file": "model_data/j09_ports_ngofs_validation_20260918.json"
+    },
+    {
+      "source": "NCEI 0211052 FOCAL AWAC observed current archive",
+      "result": "23,664 robust observed current profiles and 7,888 hourly vectors demonstrate km-scale 3-48 h displacement capacity, but offshore FOCAL cannot validate Point Clear shoreline-normal transport.",
+      "evidence_file": "model_data/j09_awac_observed_current_research_20260918.json"
+    },
+    {
+      "source": "June 12 2024 Point Clear positive / May Day scoped contrast",
+      "result": "same-morning Point Clear Jubilee and May Day report of nothing with 05:30 local north wind/choppy/muddy conditions strengthens a spatial transport/contact contrast, but incomplete search scope/duration/detectability prevents a clean negative label.",
+      "evidence_file": "model_data/j10_control_candidate_20240612_mayday_20260918.json"
+    }
+  ],
+  "stage_2_assessment": "PHYSICALLY_PLAUSIBLE_AND_PARTIALLY_CONSTRAINED_BUT_NOT_PREDICTIVELY_VALIDATED; lack of observed Point Clear current/contact data and zero verified clean matched Jubilee controls prevents event-level scoring.",
+  "combined_assessment": "The two-stage architecture is now better supported than a one-stage generic weather/tide score because the loading state has independent quantitative evidence and transport/contact is clearly a separate uncertainty. However, event-level discrimination, calibration, false-alert rate, and useful Jubilee lead time remain NOT_ESTABLISHED. Treat the latent states separately in shadow research; do not promote production weights.",
+  "highest_value_next_gates": [
+    "recover observed current data closer to Point Clear/Eastern Shore or a defensible local proxy and score phase/direction/magnitude against model guidance",
+    "expand source-backed scoped control mornings with explicit observation effort and visibility",
+    "join validated historical event/control windows to available-at-time environmental features without post-event leakage",
+    "test whether loading-state probability interacts with short-term transport/wind/tide alignment to improve held-out Jubilee discrimination over loading-only and trigger-only baselines"
+  ],
+  "guardrails": [
+    "No physical hypoxia observation is itself relabeled a Jubilee.",
+    "No same-day report/camera confirmation is used as a pre-event forecast feature.",
+    "No uncertain day is converted into a clean negative.",
+    "No production change."
+  ]
+}
