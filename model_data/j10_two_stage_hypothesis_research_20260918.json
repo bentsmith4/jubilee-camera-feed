@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-09-18T03:47:00Z",
+  "scope": "RESEARCH_ONLY_TWO_STAGE_HYPOTHESIS",
+  "production_action": "NO_CHANGE",
+  "hypothesis": {
+    "stage_1": "hypoxic_water_available: multi-hour to multi-day low-oxygen reservoir exists in or adjacent to Mobile Bay",
+    "stage_2": "shoreline_trigger: current/water-level/wind forcing transports that reservoir into shallow Eastern Shore contact zones where biological detectability becomes possible"
+  },
+  "stage_1_evidence": [
+    {
+      "source": "NCEI 0188979 Mobile Bay 2016 moored CTDs",
+      "status": "DIRECT_NORMALIZED_RESEARCH_EVIDENCE",
+      "result": "Station 01 remained below 20% oxygen saturation for about 200.7 hours and below 10% for about 147 hours; Stations 02 and 03 also showed multi-hour low-saturation episodes.",
+      "limit": "DO is percent saturation, not mg/L, and no 2016 Jubilee label is joined."
+    },
+    {
+      "source": "Park, Kim & Schroeder 2007",
+      "status": "PEER_REVIEWED_SCIENTIFIC_SUPPORT",
+      "result": "Summer 2004 bottom hypoxia varied over hours to days and tracked vertical salinity gradient; hypoxia was uncommon below about 2 psu salinity difference and nearly continuous above about 8 psu absent extreme events.",
+      "limit": "Published single-station study; raw 2004 time series not yet ingested into the canonical research panel."
+    },
+    {
+      "source": "May 1973 / August 1971",
+      "status": "PRIMARY_EVENT_MECHANISM_SUPPORT",
+      "result": "Extensive bottom oxygen depletion on August 5-6 preceded early-morning Eastern Shore Jubilees August 7-8; August 26 north-of-Daphne Jubilee included bottom DO 0-1.6 mg/L, mean about 0.7 mg/L.",
+      "limit": "Small number of primary positive episodes and no leakage-safe matched clean controls."
+    }
+  ],
+  "stage_2_evidence": [
+    {
+      "source": "May 1973",
+      "status": "PRIMARY_MECHANISM_SUPPORT",
+      "result": "Low-oxygen bottom water forced against the beach is the reported proximate mechanism for demersal fish/crustacean shoreline migration."
+    },
+    {
+      "source": "NCEI 0211052 FOCAL AWAC 2018-2019",
+      "status": "OBSERVED_CURRENT_SCALE_NORMALIZED",
+      "result": "Robust observed-current vectors integrate to median displacement magnitudes of about 1.08 km over 3 h, 2.10 km over 6 h, 3.99 km over 12 h, 7.38 km over 24 h and 13.86 km over 48 h at the offshore FOCAL AWAC site.",
+      "limit": "Offshore boundary-site transport scale only; not Point Clear shore-normal delivery."
+    },
+    {
+      "source": "Coogan, Dzwonkowski & Lehrter 2019",
+      "status": "PEER_REVIEWED_ADVECTION_SUPPORT",
+      "result": "Summer 2016 observations documented offshore forcing and advection of low-oxygen water into Mobile Bay, supporting separable reservoir and transport states.",
+      "limit": "Scientific-process support, not a Jubilee-event classifier."
+    }
+  ],
+  "shadow_model_implication": {
+    "loading_state": "SUPPORTED",
+    "loading_lead_time": "Current DO percent saturation retained useful predictive information at 6 h (ROC AUC 0.888; Brier 0.113) and 12 h (ROC AUC 0.815; Brier 0.141) under contiguous time-block testing.",
+    "incremental_feature_result": "Adding depth/salinity/temperature and short-term trends did not improve common-case Brier, log loss or ROC AUC over current oxygen state in the 2016 shadow task; these features fail the current incremental promotion gate.",
+    "shoreline_trigger_predictive_skill": "NOT_ESTABLISHED"
+  },
+  "conclusion": "The two-stage architecture is materially better supported as a physical decomposition than a single contemporaneous weighted-rule score: low-oxygen reservoir persistence is directly observed and transport can operate on hour-to-day scales. However, Jubilee-event discrimination, calibration, false-alert behavior and event-level lead time remain unquantified because verified matched clean controls are still zero and observed-current validation at Point Clear remains incomplete.",
+  "next_gate": "Obtain leakage-safe event/control windows with known observation effort and independently validate NGOFS2/shore-normal transport against observed Mobile Bay currents before any production feature promotion."
+}
