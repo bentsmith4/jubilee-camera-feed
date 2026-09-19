@@ -1,10 +1,10 @@
 {
   "schema_version": "2.0",
-  "generated_at_utc": "2026-09-19T03:55:02.294249+00:00",
-  "audit_type": "metadata_and_latest_file_integrity_not_independent_vision",
-  "status": "pass",
+  "generated_at_utc": "2026-09-19T06:30:00+00:00",
+  "audit_type": "current_status_burst_vision_reconciliation_not_independent_latest_file_integrity_or_vision",
+  "status": "degraded",
   "expected_private_cameras": 6,
-  "private_metadata_pass": 6,
+  "private_metadata_pass": 4,
   "passing_site_groups": [
     "montrose_owner_cluster",
     "point_clear_landing_owner_cluster"
@@ -15,14 +15,15 @@
       "site_group": "montrose_owner_cluster",
       "shoreline_cell": "Montrose",
       "configuration_state": "desktop_fresh_capture_and_archive_verified_20260906",
-      "captured_at_utc": "2026-09-19T03:06:32.731886+00:00",
-      "age_minutes": 48.49,
+      "captured_at_utc": "2026-09-19T06:06:43.533750+00:00",
+      "age_minutes": 23.27,
       "upstream_metadata_pass": true,
       "issues": [],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED",
       "missing_human_sensor_fields": [],
-      "latest_image_sha256": "1d2a76fdc63f6e2c280386d14498a86c700a295aab325ac074a0ed450299e031",
+      "latest_image_sha256": null,
+      "latest_file_integrity_verification": "NOT_INDEPENDENTLY_RECHECKED_THIS_RUN",
       "negative_event_label_allowed": false
     },
     {
@@ -30,14 +31,15 @@
       "site_group": "montrose_owner_cluster",
       "shoreline_cell": "Montrose",
       "configuration_state": "desktop_fresh_capture_and_archive_verified_20260906",
-      "captured_at_utc": "2026-09-19T03:09:16.450122+00:00",
-      "age_minutes": 45.76,
+      "captured_at_utc": "2026-09-19T06:08:49.087840+00:00",
+      "age_minutes": 21.18,
       "upstream_metadata_pass": true,
       "issues": [],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED",
       "missing_human_sensor_fields": [],
-      "latest_image_sha256": "c4ee0db013443e25e34c650d5de6976a3845383a2169fdbeb219cf8b27e5223f",
+      "latest_image_sha256": null,
+      "latest_file_integrity_verification": "NOT_INDEPENDENTLY_RECHECKED_THIS_RUN",
       "negative_event_label_allowed": false
     },
     {
@@ -45,14 +47,15 @@
       "site_group": "montrose_owner_cluster",
       "shoreline_cell": "Montrose",
       "configuration_state": "desktop_fresh_capture_publication_and_archive_verified_20260906",
-      "captured_at_utc": "2026-09-19T03:08:11.124376+00:00",
-      "age_minutes": 46.85,
+      "captured_at_utc": "2026-09-19T06:08:01.866481+00:00",
+      "age_minutes": 21.97,
       "upstream_metadata_pass": true,
       "issues": [],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED",
       "missing_human_sensor_fields": [],
-      "latest_image_sha256": "e99b5bbd06fce6d6bbfb6d301c7998f5866f50560ec9dad6e011765b35364189",
+      "latest_image_sha256": null,
+      "latest_file_integrity_verification": "NOT_INDEPENDENTLY_RECHECKED_THIS_RUN",
       "negative_event_label_allowed": false
     },
     {
@@ -60,14 +63,26 @@
       "site_group": "point_clear_landing_owner_cluster",
       "shoreline_cell": "Point Clear",
       "configuration_state": "desktop_fresh_capture_and_archive_verified_20260906",
-      "captured_at_utc": "2026-09-19T03:07:14.478211+00:00",
-      "age_minutes": 47.8,
-      "upstream_metadata_pass": true,
-      "issues": [],
+      "captured_at_utc": "2026-09-19T06:07:05.864688+00:00",
+      "age_minutes": 22.9,
+      "upstream_metadata_pass": false,
+      "issues": [
+        "CAPTURE_FAILED",
+        "INVALID_OR_MISSING_TEMPORAL_BURST",
+        "VISION_UNAVAILABLE"
+      ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED",
-      "missing_human_sensor_fields": [],
-      "latest_image_sha256": "26088f7ef1689f506098ab4a2df09358891b741e12d5e19c0e357046a8c21430",
+      "missing_human_sensor_fields": [
+        "people_present",
+        "flashlight_activity",
+        "motion_pattern",
+        "clustered_search_behavior",
+        "temporal_persistence",
+        "human_sensor_score"
+      ],
+      "latest_image_sha256": null,
+      "latest_file_integrity_verification": "NOT_INDEPENDENTLY_RECHECKED_THIS_RUN",
       "negative_event_label_allowed": false
     },
     {
@@ -75,14 +90,15 @@
       "site_group": "point_clear_landing_owner_cluster",
       "shoreline_cell": "Point Clear",
       "configuration_state": "desktop_fresh_capture_and_archive_verified_20260906",
-      "captured_at_utc": "2026-09-19T03:07:41.711306+00:00",
-      "age_minutes": 47.34,
+      "captured_at_utc": "2026-09-19T06:07:32.932152+00:00",
+      "age_minutes": 22.45,
       "upstream_metadata_pass": true,
       "issues": [],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED",
       "missing_human_sensor_fields": [],
-      "latest_image_sha256": "aff10656e906c94a09fea5526172bab97fa8286c3c32c94994f61294266fb856",
+      "latest_image_sha256": null,
+      "latest_file_integrity_verification": "NOT_INDEPENDENTLY_RECHECKED_THIS_RUN",
       "negative_event_label_allowed": false
     },
     {
@@ -90,19 +106,37 @@
       "site_group": "point_clear_landing_owner_cluster",
       "shoreline_cell": "Point Clear",
       "configuration_state": "desktop_fresh_capture_and_archive_verified_20260906",
-      "captured_at_utc": "2026-09-19T03:08:49.484772+00:00",
-      "age_minutes": 46.21,
-      "upstream_metadata_pass": true,
-      "issues": [],
+      "captured_at_utc": "2026-09-19T06:08:22.128482+00:00",
+      "age_minutes": 21.63,
+      "upstream_metadata_pass": false,
+      "issues": [
+        "CAPTURE_FAILED",
+        "INVALID_OR_MISSING_TEMPORAL_BURST",
+        "VISION_UNAVAILABLE"
+      ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED",
-      "missing_human_sensor_fields": [],
-      "latest_image_sha256": "ad5daa01735a0274cf8f9b51738f8ffdcf6c7413ec13dc0f9746d7cf6a1b6552",
+      "missing_human_sensor_fields": [
+        "people_present",
+        "flashlight_activity",
+        "motion_pattern",
+        "clustered_search_behavior",
+        "temporal_persistence",
+        "human_sensor_score"
+      ],
+      "latest_image_sha256": null,
+      "latest_file_integrity_verification": "NOT_INDEPENDENTLY_RECHECKED_THIS_RUN",
       "negative_event_label_allowed": false
     }
   ],
   "unknown_upstream_camera_ids": [],
   "public_capture_contract": "separate_snapshot_probe_not_a_temporal_burst",
   "forecast_changed": false,
-  "caveat": "No detection is not an observed non-event; missing cameras remain explicitly visible."
+  "source_identity": {
+    "capture_time_ct": "2026-09-19T01:06:17.895644-05:00",
+    "status_blob": "6e56a45f8f2dc689ad1869be3f7726e5c1acb73c",
+    "burst_blob": "0064d0323d9370d92e5038a2b35f6151dcbbbfc3",
+    "vision_blob": "dc141dd676cd32b80d6ce02f8e4709d76e4e5f10"
+  },
+  "caveat": "No detection is not an observed non-event; failed and poorly visible cameras remain explicitly UNKNOWN. Latest-file pixels, raw archive and vision classifications were not independently re-run in this sensing pass."
 }
