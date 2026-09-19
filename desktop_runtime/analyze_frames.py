@@ -32,7 +32,7 @@ client = OpenAI()
 
 
 API_USAGE_PATH = FRAMES / "api_usage.jsonl"
-RUNTIME_VERSION = "2026-09-08-season-efficiency-timing-v1"
+RUNTIME_VERSION = "2026-09-18-cache-compact-synthesis-v2"
 
 
 def api_response(stage, **kwargs):
@@ -105,51 +105,15 @@ def image_content(path):
     }
 
 
-def analyze_burst(
-    camera_id,
-    camera_label,
-    image_paths,
-    shot_metadata,
-    rubric
-):
+def camera_stable_prompt(rubric):
+    """Stable, cacheable vision instructions shared by every camera."""
+    return f"""
+You analyze THREE sequential images from one Mobile Bay Jubilee monitoring camera.
+The images are presented in chronological order. Use the supplied shot timestamps
+and preserve actual versus nominal/estimated timing provenance.
 
-    camera_guidance = (
-        rubric.get(
-            "camera_role_guidance",
-            {}
-        ).get(
-            camera_id,
-            []
-        )
-    )
-
-    shot_timing = [
-        {key: shot[key] for key in ("shot", "timestamp_ct", "timing") if key in shot}
-        for shot in shot_metadata
-    ]
-
-    prompt = f"""
-You are analyzing THREE sequential images from one
-Mobile Bay Jubilee monitoring camera.
-
-The images are approximately ten seconds apart; use the supplied shot timestamps. They are
-presented in chronological order:
-
-FRAME 1
-FRAME 2
-FRAME 3
-
-SHOT TIMING (retain actual versus nominal/estimated labels; missing timing is unknown):
-{json.dumps(shot_timing, separators=(",", ":"))}
-
-CAMERA ID:
-{camera_id}
-
-CAMERA LABEL:
-{camera_label}
-
-CAMERA ROLE:
-{json.dumps(camera_guidance, separators=(",", ":"))}
+Use the camera-specific role only as viewing-context guidance. Do not invent
+biological detail that cannot be resolved in the images.
 
 JUBILEE RUBRIC VERSION:
 {rubric.get("rubric_version")}
@@ -169,341 +133,377 @@ SIGNAL WEIGHTING:
 TEMPORAL RULE:
 {rubric.get("temporal_rule")}
 
-Study the THREE images both individually and as a short
-time sequence.
-
-Especially look for change between frames that could reveal:
-
-- shrimp popping or flicking at the surface
-- repeated shrimp-like surface rings
-- fish jumping or breaking the surface
-- fish mouths repeatedly breaking the surface
-- fish gulping or "smoking"
-- repeated surface boils
-- animals holding abnormally at the surface
-- crabs swimming at the surface
-- crabs appearing/disappearing at the surface
-- crabs climbing pilings or structures
+PRIORITY OBSERVATIONS:
+- shrimp popping, flicking, repeated rings, or surface concentration
+- fish jumping, repeated surface breaks, gulping, smoking, or boils
+- surface-swimming crabs or crabs climbing structures
 - flounder, eels, rays, or other bottom fauna displaced upward
-- bird diving or repeated strikes at the water
-- movement toward shoreline or structure
-- biological activity appearing in multiple consecutive frames
+- dense shoreline/structure accumulation or offshore abnormal aggregation
+- repeated bird feeding strikes as supporting evidence
+- people, flashlights, clustered searching, or seafood collection only as weak
+  descriptive human-sensor evidence
 
-Distinguish these carefully from:
-
-- rain drops
-- normal wavelets
-- changing reflections
-- glare
-- insects
-- floating debris
-- ordinary mullet jumps
-- boat wake
-- moving boats
-- artificial light attraction
-- logs or branches
-- birds
-- wakes or wave crests
-- floating debris
+CONFOUNDERS TO DISTINGUISH:
+rain, normal wavelets, reflections, glare, insects, floating debris, ordinary
+mullet jumps, boat wake, moving boats, artificial light attraction, logs,
+branches, birds, wave crests, and camera artifacts.
 
 ALLIGATOR SAFETY CHECK:
+Inspect every frame for an American alligator. Mark "clear" only when
+recognizable alligator anatomy is visible (head/eyes/snout profile, body/scutes,
+or tail), not merely a dark shape or wake. Use "possible" for unresolved
+candidates. Compare all three frames for persistence or biologically plausible
+motion. "near_people" means both are visibly in the same local area; do not
+infer distance the image cannot show.
 
-Inspect each frame explicitly for an American alligator. Only mark
-"clear" when recognizable alligator anatomy is visible (for example
-the head/eyes/snout profile, body/scutes, or tail), not merely a dark
-shape or wake. Use "possible" for unresolved candidates. Never label
-logs, birds, wakes, wave shadows, reflections, or floating debris as
-alligators. Compare all three frames to confirm plausible persistence
-or motion. "near_people" means an alligator and people are visibly in
-the same local area; do not infer distance that the image cannot show.
+RULES:
+- Multi-frame persistence is more credible than a one-frame feature.
+- Biologically plausible motion is more credible than a stationary reflection.
+- Do not diagnose dissolved oxygen.
+- Darkness or occlusion means unknown, not absence.
+- Human observations are anonymous only. Never identify or track people.
+- human_sensor_score is descriptive only: 0=no visible search, 0.5=possible
+  search, 1=clear persistent clustered search; otherwise null.
+- Keep all free-text strings extremely short: frame summaries <=8 words,
+  location descriptions <=8 words, temporal_summary <=18 words.
+- Return ONLY valid JSON and no markdown.
 
-IMPORTANT:
-
-A feature that appears in more than one frame is more credible
-than an isolated one-frame feature.
-
-A feature that clearly changes position in a biologically plausible
-way may be more credible than a stationary reflection.
-
-Do not diagnose dissolved oxygen.
-
-Do not invent small animals that cannot be resolved.
-
-Return ONLY valid JSON with exactly these fields:
-
+Use exactly these fields and enum vocabularies:
 {{
-  "visibility":
-    "poor|fair|good",
-
-  "detectability":
-    "low|moderate|high",
-
-  "water_surface":
-    "flat|slight_ripple|moderate_chop|choppy|unclear",
-
-  "rain_surface_interference":
-    "none|possible|strong|unclear",
-
-  "wake_interference":
-    "none|possible|strong|unclear",
-
-  "fish_surface_activity":
-    "none_visible|isolated|possible_abnormal|clear_abnormal|dense|unclear",
-
-  "fish_jump_activity":
-    "none_visible|isolated|multiple|dense|unclear",
-
-  "fish_gulping_or_smoking":
-    "none_visible|possible|clear|widespread|unclear",
-
-  "shrimp_surface_popping":
-    "none_visible|possible|multiple|dense|unclear",
-
-  "shrimp_surface_concentration":
-    "none_visible|possible|clear|dense|unclear",
-
-  "crab_surface_swimming":
-    "none_visible|possible|clear|multiple|unclear",
-
-  "crab_climbing_structure":
-    "none_visible|possible|clear|multiple|unclear",
-
-  "flounder_or_flatfish_shallow":
-    "none_visible|possible|clear|multiple|unclear",
-
-  "eel_displacement":
-    "none_visible|possible|clear|multiple|unclear",
-
-  "stingray_or_other_bottom_fauna_displacement":
-    "none_visible|possible|clear|multiple|unclear",
-
-  "shoreline_or_structure_accumulation":
-    "none_visible|possible|clear|dense|unclear",
-
-  "offshore_bottom_fauna_surface_aggregation":
-    "none_visible|possible|clear|dense|unclear",
-
-  "bird_feeding_activity":
-    "none_visible|possible|active|dense_active|unclear",
-
-  "people_present": "none_visible|possible|clear|unknown",
-  "flashlight_activity": "none_visible|possible|clear|unknown",
-  "motion_pattern": "none_visible|stationary|walking|searching|unknown",
-  "clustered_search_behavior": "none_visible|possible|clear|unknown",
-  "temporal_persistence": "none_visible|one_frame|multiple_frames|unknown",
-  "human_sensor_score": null,
-  "human_sensor_confidence": 0.0,
-  "human_sensor_detectability": "good|limited|poor|unknown",
-  "people_collecting_seafood":
-    "none_visible|possible|clear|unclear",
-
-  "animal_lethargy_or_abnormal_motion":
-    "none_visible|possible|clear|widespread|unclear",
-
-  "alligator_frame_detections": [
-    {{
-      "frame": 1,
-      "visible": "none|possible|clear|unclear",
-      "count_estimate": 0,
-      "behavior": "none|swimming|stationary|feeding_or_striking|near_people|other|unclear",
-      "location_in_frame": "short description or none",
-      "confidence": 0.0
-    }},
-    {{"frame": 2, "visible": "none|possible|clear|unclear", "count_estimate": 0, "behavior": "none|swimming|stationary|feeding_or_striking|near_people|other|unclear", "location_in_frame": "short description or none", "confidence": 0.0}},
-    {{"frame": 3, "visible": "none|possible|clear|unclear", "count_estimate": 0, "behavior": "none|swimming|stationary|feeding_or_striking|near_people|other|unclear", "location_in_frame": "short description or none", "confidence": 0.0}}
+  "visibility":"poor|fair|good",
+  "detectability":"low|moderate|high",
+  "water_surface":"flat|slight_ripple|moderate_chop|choppy|unclear",
+  "rain_surface_interference":"none|possible|strong|unclear",
+  "wake_interference":"none|possible|strong|unclear",
+  "fish_surface_activity":"none_visible|isolated|possible_abnormal|clear_abnormal|dense|unclear",
+  "fish_jump_activity":"none_visible|isolated|multiple|dense|unclear",
+  "fish_gulping_or_smoking":"none_visible|possible|clear|widespread|unclear",
+  "shrimp_surface_popping":"none_visible|possible|multiple|dense|unclear",
+  "shrimp_surface_concentration":"none_visible|possible|clear|dense|unclear",
+  "crab_surface_swimming":"none_visible|possible|clear|multiple|unclear",
+  "crab_climbing_structure":"none_visible|possible|clear|multiple|unclear",
+  "flounder_or_flatfish_shallow":"none_visible|possible|clear|multiple|unclear",
+  "eel_displacement":"none_visible|possible|clear|multiple|unclear",
+  "stingray_or_other_bottom_fauna_displacement":"none_visible|possible|clear|multiple|unclear",
+  "shoreline_or_structure_accumulation":"none_visible|possible|clear|dense|unclear",
+  "offshore_bottom_fauna_surface_aggregation":"none_visible|possible|clear|dense|unclear",
+  "bird_feeding_activity":"none_visible|possible|active|dense_active|unclear",
+  "people_present":"none_visible|possible|clear|unknown",
+  "flashlight_activity":"none_visible|possible|clear|unknown",
+  "motion_pattern":"none_visible|stationary|walking|searching|unknown",
+  "clustered_search_behavior":"none_visible|possible|clear|unknown",
+  "temporal_persistence":"none_visible|one_frame|multiple_frames|unknown",
+  "human_sensor_score":null,
+  "human_sensor_confidence":0.0,
+  "human_sensor_detectability":"good|limited|poor|unknown",
+  "people_collecting_seafood":"none_visible|possible|clear|unclear",
+  "animal_lethargy_or_abnormal_motion":"none_visible|possible|clear|widespread|unclear",
+  "alligator_frame_detections":[
+    {{"frame":1,"visible":"none|possible|clear|unclear","count_estimate":0,"behavior":"none|swimming|stationary|feeding_or_striking|near_people|other|unclear","location_in_frame":"short description or none","confidence":0.0}},
+    {{"frame":2,"visible":"none|possible|clear|unclear","count_estimate":0,"behavior":"none|swimming|stationary|feeding_or_striking|near_people|other|unclear","location_in_frame":"short description or none","confidence":0.0}},
+    {{"frame":3,"visible":"none|possible|clear|unclear","count_estimate":0,"behavior":"none|swimming|stationary|feeding_or_striking|near_people|other|unclear","location_in_frame":"short description or none","confidence":0.0}}
   ],
-
-  "alligator_visible":
-    "none|possible|clear|unclear",
-
-  "alligator_count_estimate":
-    0,
-
-  "alligator_behavior":
-    "none|swimming|stationary|feeding_or_striking|near_people|other|unclear",
-
-  "alligator_location_in_frame":
-    "short description or none",
-
-  "alligator_temporal_change":
-    "none|stationary|moving|appeared|disappeared|behavior_changed|unclear",
-
-  "alligator_confidence":
-    0.0,
-
-  "artificial_light_confounding":
-    "none|possible|strong|unclear",
-
-  "repeated_surface_activity":
-    "none_visible|possible|clear|unclear",
-
-  "activity_changed_across_frames":
-    "no|possible|yes|unclear",
-
-  "likely_temporal_artifact":
-    "none|rain|wake|reflection|camera|other|unclear",
-
-  "temporal_jubilee_signal":
-    "none|weak_possible|moderate|strong|unclear",
-
-  "overall_jubilee_visual_signal":
-    "none|weak_possible|moderate|strong|unclear",
-
-  "frame_1_summary":
-    "short description",
-
-  "frame_2_summary":
-    "short description",
-
-  "frame_3_summary":
-    "short description",
-
-  "temporal_summary":
-    "1 to 3 sentences describing what changed or persisted",
-
-  "confidence":
-    0.0
+  "alligator_visible":"none|possible|clear|unclear",
+  "alligator_count_estimate":0,
+  "alligator_behavior":"none|swimming|stationary|feeding_or_striking|near_people|other|unclear",
+  "alligator_location_in_frame":"short description or none",
+  "alligator_temporal_change":"none|stationary|moving|appeared|disappeared|behavior_changed|unclear",
+  "alligator_confidence":0.0,
+  "artificial_light_confounding":"none|possible|strong|unclear",
+  "repeated_surface_activity":"none_visible|possible|clear|unclear",
+  "activity_changed_across_frames":"no|possible|yes|unclear",
+  "likely_temporal_artifact":"none|rain|wake|reflection|camera|other|unclear",
+  "temporal_jubilee_signal":"none|weak_possible|moderate|strong|unclear",
+  "overall_jubilee_visual_signal":"none|weak_possible|moderate|strong|unclear",
+  "frame_1_summary":"short description",
+  "frame_2_summary":"short description",
+  "frame_3_summary":"short description",
+  "temporal_summary":"short description",
+  "confidence":0.0
 }}
 """
 
-    prompt += "\nHuman observations are anonymous only. Never identify people or track identities. Score human_sensor_score from 0 to 1 only when observable (0=no visible search, 0.5=possible search, 1=clear persistent clustered search); otherwise null. This score is a descriptive weak precursor, never a Jubilee probability or confirmation. Darkness and occlusion mean unknown, not absence.\n"
-    content = [
+
+def analyze_burst(
+    camera_id,
+    camera_label,
+    image_paths,
+    shot_metadata,
+    rubric
+):
+    camera_guidance = (
+        rubric.get("camera_role_guidance", {}).get(camera_id, [])
+    )
+    shot_timing = [
         {
-            "type": "input_text",
-            "text": prompt
+            key: shot[key]
+            for key in ("shot", "timestamp_ct", "timing")
+            if key in shot
         }
+        for shot in shot_metadata
     ]
 
-    for path in image_paths:
-        content.append(
-            image_content(path)
-        )
+    stable_prompt = camera_stable_prompt(rubric)
+    dynamic_prompt = (
+        "CAMERA ID:\n"
+        f"{camera_id}\n\n"
+        "CAMERA LABEL:\n"
+        f"{camera_label}\n\n"
+        "CAMERA ROLE:\n"
+        f"{json.dumps(camera_guidance, separators=(',', ':'))}\n\n"
+        "SHOT TIMING (actual/nominal labels are provenance, not guesses):\n"
+        f"{json.dumps(shot_timing, separators=(',', ':'))}\n\n"
+        "Analyze FRAME 1, FRAME 2, FRAME 3 in chronological order."
+    )
 
+    content = [{"type": "input_text", "text": dynamic_prompt}]
+    for path in image_paths:
+        content.append(image_content(path))
+
+    cache_key = f"jubilee-camera-v2-{rubric.get('rubric_version', 'unknown')}"
     response = api_response(
         f"camera:{camera_id}",
         model="gpt-5.6-luna",
+        prompt_cache_key=cache_key[:64],
+        prompt_cache_options={"mode": "explicit", "ttl": "30m"},
+        max_output_tokens=1800,
         input=[
             {
-                "role": "user",
-                "content": content
-            }
+                "role": "developer",
+                "content": [
+                    {
+                        "type": "input_text",
+                        "text": stable_prompt,
+                        "prompt_cache_breakpoint": {"mode": "explicit"}
+                    }
+                ]
+            },
+            {"role": "user", "content": content}
         ]
     )
 
-    result = clean_json(
-        response.output_text
-    )
+    result = clean_json(response.output_text)
 
-    required_human = {'people_present', 'flashlight_activity', 'motion_pattern', 'clustered_search_behavior', 'temporal_persistence', 'human_sensor_score', 'human_sensor_confidence', 'human_sensor_detectability'}
+    required_human = {
+        "people_present", "flashlight_activity", "motion_pattern",
+        "clustered_search_behavior", "temporal_persistence",
+        "human_sensor_score", "human_sensor_confidence",
+        "human_sensor_detectability"
+    }
     if not required_human.issubset(result):
         raise ValueError("Missing human-observation schema fields")
-    score = result['human_sensor_score']
-    if score is not None and (not isinstance(score, (int, float)) or isinstance(score, bool) or not 0 <= score <= 1):
+
+    score = result["human_sensor_score"]
+    if (
+        score is not None
+        and (
+            not isinstance(score, (int, float))
+            or isinstance(score, bool)
+            or not 0 <= score <= 1
+        )
+    ):
         raise ValueError("Invalid descriptive human score")
-    if result['human_sensor_detectability'] in {'poor', 'unknown'}:
-        result['human_sensor_score'] = None
-    result['human_sensor_schema_version'] = '1.0-descriptive-unvalidated'
-    # Machine-controlled identifiers.
+
+    if result["human_sensor_detectability"] in {"poor", "unknown"}:
+        result["human_sensor_score"] = None
+
+    result["human_sensor_schema_version"] = "1.0-descriptive-unvalidated"
     result["camera_id"] = camera_id
     result["camera_label"] = camera_label
-
     result["burst_shots"] = shot_metadata
     result["burst_frame_count"] = len(image_paths)
-
     return result
 
 
-def cross_camera_analysis(
-    analyses,
-    rubric
-):
+SYNTHESIS_FIELDS = (
+    "camera_id", "camera_label", "visibility", "detectability", "water_surface",
+    "rain_surface_interference", "wake_interference",
+    "fish_surface_activity", "fish_jump_activity", "fish_gulping_or_smoking",
+    "shrimp_surface_popping", "shrimp_surface_concentration",
+    "crab_surface_swimming", "crab_climbing_structure",
+    "flounder_or_flatfish_shallow", "eel_displacement",
+    "stingray_or_other_bottom_fauna_displacement",
+    "shoreline_or_structure_accumulation",
+    "offshore_bottom_fauna_surface_aggregation",
+    "bird_feeding_activity", "people_present", "flashlight_activity",
+    "motion_pattern", "clustered_search_behavior", "temporal_persistence",
+    "human_sensor_score", "people_collecting_seafood",
+    "animal_lethargy_or_abnormal_motion", "alligator_visible",
+    "alligator_behavior", "alligator_confidence",
+    "artificial_light_confounding", "repeated_surface_activity",
+    "activity_changed_across_frames", "likely_temporal_artifact",
+    "temporal_jubilee_signal", "overall_jubilee_visual_signal",
+    "confidence", "burst_shots"
+)
 
+
+def compact_analysis_for_synthesis(analysis):
+    """Keep only fields that can affect cross-camera judgment."""
+    return {
+        key: analysis.get(key)
+        for key in SYNTHESIS_FIELDS
+        if key in analysis
+    }
+
+
+def cross_camera_stable_prompt():
+    return """
+Synthesize Mobile Bay Jubilee camera analyses. Each camera result came from
+THREE sequential frames with a nominal ten-second target spacing. Use retained
+burst_shots timestamps and timing labels. Different cameras may have different
+capture times; do not assume simultaneous observations.
+
+Spatial dependence:
+- Montrose Pier Bird, Montrose Pier Boat, and Montrose Shoreline are one site.
+- Point Clear E2 Bay Mouth and E2 Back Deck are one location.
+- Point Clear E3 is about 50 feet from E2.
+These are correlated views, not fully independent confirmations.
+
+Biological priority:
+1 shrimp popping / surface concentration
+2 fish gulping or smoking
+3 multiple surface-swimming crabs
+4 crabs climbing structures
+5 displaced bottom fauna
+6 dense shoreline/offshore abnormal aggregation
+7 repeated abnormal behavior across frames
+8 birds/people only as supporting evidence
+
+Do not invent evidence. Darkness, poor detectability, missing cameras, or
+unclear observations increase uncertainty; they are not biological negatives.
+Keep free-text fields <=12 words and important_confounders to at most 3 items.
+Return ONLY valid JSON:
+{
+  "overall_visual_jubilee_signal":"none|weak_possible|moderate|strong|unclear",
+  "montrose_visual_signal":"none|weak_possible|moderate|strong|unclear",
+  "point_clear_visual_signal":"none|weak_possible|moderate|strong|unclear",
+  "temporal_confirmation":"none|limited|moderate|strong",
+  "highest_value_observation":"short string",
+  "highest_value_temporal_change":"short string",
+  "important_confounders":["short strings"],
+  "spatial_confirmation":"none|limited|moderate|strong",
+  "recommendation_for_next_burst":"short string",
+  "alligator_summary":"short factual summary",
+  "confidence":0.0
+}
+"""
+
+
+def cross_camera_analysis(analyses, rubric):
     compact = {
-        camera_id: analysis
-        for camera_id, analysis
-        in analyses.items()
+        camera_id: compact_analysis_for_synthesis(analysis)
+        for camera_id, analysis in analyses.items()
         if analysis.get("status") == "ok"
     }
 
-    prompt = f"""
-Synthesize this burst-based Mobile Bay Jubilee camera analysis.
-
-Each camera result was generated from THREE images with a nominal target
-spacing of ten seconds. Use its burst_shots timestamps and timing labels;
-nominal/estimated timing is not an exact measurement. Different cameras
-may have different capture times; do not assume simultaneous observations.
-
-Do not invent evidence beyond these observations.
-
-Spatial dependence rules:
-
-- Montrose Pier Bird and Montrose Pier Boat are the same pier system.
-- Point Clear E2 Bay Mouth and E2 Back Deck are the same location.
-- Point Clear E3 is only about 50 feet from E2.
-- Therefore those views are not fully independent confirmations.
-
-Biological priority:
-
-1. shrimp popping / surface concentration
-2. fish gulping or smoking
-3. multiple surface-swimming crabs
-4. crabs climbing structures
-5. displaced bottom fauna
-6. dense shoreline or offshore abnormal aggregation
-7. repeated abnormal behavior across frames
-8. birds/people as supporting evidence
-
-CAMERA RESULTS:
-
-{json.dumps(compact, separators=(",", ":"))}
-
-Return ONLY valid JSON:
-
-{{
-  "overall_visual_jubilee_signal":
-    "none|weak_possible|moderate|strong|unclear",
-
-  "montrose_visual_signal":
-    "none|weak_possible|moderate|strong|unclear",
-
-  "point_clear_visual_signal":
-    "none|weak_possible|moderate|strong|unclear",
-
-  "temporal_confirmation":
-    "none|limited|moderate|strong",
-
-  "highest_value_observation":
-    "short string",
-
-  "highest_value_temporal_change":
-    "short string",
-
-  "important_confounders":
-    ["short strings"],
-
-  "spatial_confirmation":
-    "none|limited|moderate|strong",
-
-  "recommendation_for_next_burst":
-    "short string",
-
-  "alligator_summary":
-    "short factual summary; do not treat possible shapes as confirmed",
-
-  "confidence":
-    0.0
-}}
-"""
-
+    dynamic_prompt = (
+        "CAMERA RESULTS:\n"
+        + json.dumps(compact, separators=(",", ":"))
+    )
     response = api_response(
         "cross_camera",
         model="gpt-5.6-luna",
-        input=prompt
+        prompt_cache_key="jubilee-cross-camera-v2",
+        prompt_cache_options={"mode": "explicit", "ttl": "30m"},
+        max_output_tokens=800,
+        input=[
+            {
+                "role": "developer",
+                "content": [
+                    {
+                        "type": "input_text",
+                        "text": cross_camera_stable_prompt(),
+                        "prompt_cache_breakpoint": {"mode": "explicit"}
+                    }
+                ]
+            },
+            {
+                "role": "user",
+                "content": [{"type": "input_text", "text": dynamic_prompt}]
+            }
+        ]
     )
+    result = clean_json(response.output_text)
+    result["synthesis_mode"] = "model"
+    return result
 
-    return clean_json(
-        response.output_text
-    )
+
+BIOLOGICAL_BASELINES = {
+    "fish_surface_activity": {"none_visible"},
+    "fish_jump_activity": {"none_visible"},
+    "fish_gulping_or_smoking": {"none_visible"},
+    "shrimp_surface_popping": {"none_visible"},
+    "shrimp_surface_concentration": {"none_visible"},
+    "crab_surface_swimming": {"none_visible"},
+    "crab_climbing_structure": {"none_visible"},
+    "flounder_or_flatfish_shallow": {"none_visible"},
+    "eel_displacement": {"none_visible"},
+    "stingray_or_other_bottom_fauna_displacement": {"none_visible"},
+    "shoreline_or_structure_accumulation": {"none_visible"},
+    "offshore_bottom_fauna_surface_aggregation": {"none_visible"},
+    "bird_feeding_activity": {"none_visible"},
+    "people_collecting_seafood": {"none_visible"},
+    "animal_lethargy_or_abnormal_motion": {"none_visible"},
+    "repeated_surface_activity": {"none_visible"},
+}
+
+
+def requires_cross_camera_model(analyses):
+    """Skip synthesis only for a complete, high-detectability, clearly quiet burst."""
+    ok = [a for a in analyses.values() if a.get("status") == "ok"]
+    if len(ok) != len(CAMERAS):
+        return True
+
+    for analysis in ok:
+        if analysis.get("visibility") not in {"fair", "good"}:
+            return True
+        if analysis.get("detectability") not in {"moderate", "high"}:
+            return True
+        if analysis.get("overall_jubilee_visual_signal") != "none":
+            return True
+        if analysis.get("temporal_jubilee_signal") != "none":
+            return True
+        if analysis.get("alligator_visible") != "none":
+            return True
+        if analysis.get("flashlight_activity") not in {"none_visible", None}:
+            return True
+        if analysis.get("clustered_search_behavior") not in {"none_visible", None}:
+            return True
+        score = analysis.get("human_sensor_score")
+        if score not in {None, 0, 0.0}:
+            return True
+        for field, baseline in BIOLOGICAL_BASELINES.items():
+            if analysis.get(field) not in baseline:
+                return True
+    return False
+
+
+def quiet_cross_camera_analysis(analyses):
+    """Deterministic result for a complete burst with no positive/ambiguous signals."""
+    confidences = []
+    for analysis in analyses.values():
+        if analysis.get("status") != "ok":
+            continue
+        try:
+            confidences.append(float(analysis.get("confidence", 0.0) or 0.0))
+        except (TypeError, ValueError):
+            pass
+
+    confidence = min(confidences) if confidences else 0.0
+    return {
+        "overall_visual_jubilee_signal": "none",
+        "montrose_visual_signal": "none",
+        "point_clear_visual_signal": "none",
+        "temporal_confirmation": "none",
+        "highest_value_observation": "No abnormal biological activity visible.",
+        "highest_value_temporal_change": "No persistent abnormal change visible.",
+        "important_confounders": [],
+        "spatial_confirmation": "none",
+        "recommendation_for_next_burst": "Continue scheduled burst cadence.",
+        "alligator_summary": "No clear alligator detected.",
+        "confidence": round(confidence, 3),
+        "synthesis_mode": "deterministic_quiet"
+    }
 
 
 def build_alligator_alert(analyses, capture_time_ct):
@@ -852,12 +852,16 @@ def main():
         "TEMPORAL STATE"
     )
 
-    output["cross_camera"] = (
-        cross_camera_analysis(
+    if requires_cross_camera_model(output["cameras"]):
+        output["cross_camera"] = cross_camera_analysis(
             output["cameras"],
             rubric
         )
-    )
+    else:
+        print("CROSS-CAMERA MODEL SKIPPED: complete quiet burst")
+        output["cross_camera"] = quiet_cross_camera_analysis(
+            output["cameras"]
+        )
 
     output["cross_camera"]["alligator_alert"] = build_alligator_alert(
         output["cameras"],
