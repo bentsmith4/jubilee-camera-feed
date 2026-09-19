@@ -73,3 +73,5 @@ Acceptance after deployment:
 
 Measured dollar savings should be reported only after at least 24 hours of in-season production
 usage. No savings percentage is claimed from source code alone.
+
+CI workflow status: repository runtime regression workflow is present on main and runs on this pull request.
