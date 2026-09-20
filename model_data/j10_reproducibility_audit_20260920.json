@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "j10-reproducibility-audit-2026-09-20",
+  "audited_at_utc": "2026-09-20T14:56:56Z",
+  "scope": "Canonical research artifacts cited by the September 18 J09/J10 work-register update",
+  "production_action": "NO_CHANGE",
+  "canonical_inputs_verified": [
+    {
+      "path": "model_data/event_history.json",
+      "blob_sha": "43205ae6ebc962f331ab2e096ee33a1068d52854"
+    },
+    {
+      "path": "model_data/ongoing_source_registry_20260906.json",
+      "blob_sha": "1de1de007ec67c16a568ed0fa43ab9f341d5556e"
+    },
+    {
+      "path": "model_data/feature_catalog.json",
+      "blob_sha_before_this_audit": "c72b7d0f3a5c64914a6f5dfe74edad1481e44d80"
+    },
+    {
+      "path": "model_data/model_validation_contract.json",
+      "blob_sha": "85ff6aa814a79c16e441e5c55b09c50ba0270604"
+    },
+    {
+      "path": "model_data/matched_control_contract.json",
+      "blob_sha": "091f586f36902be96e9d1bd07ebfbfc19444303c"
+    }
+  ],
+  "persisted_reproducible_artifacts": [
+    {
+      "path": "model_data/j09_data_access_upgrade_20260917.json",
+      "blob_sha": "7dc36a0c711936c92a5f302006b885522436413f"
+    },
+    {
+      "path": "model_data/j09_ports_ngofs_validation_20260918.json",
+      "blob_sha": "a0a85b073401eec75777db00e2b4022d8d200b1c"
+    },
+    {
+      "path": "model_data/j10_0176497_dateblocked_shadow_20260918.json",
+      "blob_sha": "07f5be320fe0a598682f0484828d3ff36ac45a29"
+    },
+    {
+      "path": "model_data/j10_control_candidate_20240612_mayday_20260918.json",
+      "blob_sha": "317de38b36cbcf4a71b727ce04aa563c9387329b"
+    }
+  ],
+  "missing_cited_artifacts": [
+    "model_data/j10_loading_shadow_model_20260918.json",
+    "model_data/j09_awac_observed_current_research_20260918.json",
+    "model_data/j10_two_stage_hypothesis_research_20260918.json",
+    "model_data/j10_control_deepening_20260918.json"
+  ],
+  "missing_status": "MISSING_ON_MAIN_VERIFIED_2026-09-20",
+  "impact": {
+    "reproducibility": "Metrics whose only support is one of the missing artifacts are not reproducible from the canonical repository and must not be used for promotion decisions until code and outputs are recovered or rerun.",
+    "retained_evidence": "The persisted date-blocked oxygen-loading and PORTS-versus-NGOFS2 artifacts remain usable within their stated scopes.",
+    "event_accuracy_claim": "No oxygen-state or current-validation score is relabeled as Jubilee-event accuracy."
+  },
+  "label_and_manifest_state": {
+    "confirmed_event_rows": 15,
+    "independent_event_episodes_for_lunar_audit": 13,
+    "clean_matched_controls": 0,
+    "september_9_marina_outcome": "UNKNOWN_SEPARATE_RECORD",
+    "event_history_changed": false,
+    "source_registry_changed": false,
+    "raw_manifest_changed": false,
+    "normalized_manifest_changed": false
+  },
+  "required_follow_up": [
+    "Recover or reproducibly regenerate the four missing artifacts before citing their metrics as canonical evidence.",
+    "Continue using explicit scoped owner reports and observation-effort fields; do not promote no-report dates to negatives.",
+    "Keep production weights, thresholds, sensing coverage, and schedules unchanged."
+  ]
+}
