@@ -1334,3 +1334,14 @@ The in-season guard passed. This sensing run preserved production architecture, 
 - **Decision:** production opportunity increased to Point Clear **3-7%** and Daphne/May Day **2-4%**, still below 20%. No Jubilee is confirmed. The notification gate is met for the material all-window shoreward model transition, not event confirmation. Direct local bottom oxygen and observed nearshore current remain UNKNOWN.
 - **Canonical outputs:** snapshot blob `c857f6287f1c92726ba48439cea2c9932c760fd3`, commit `65d1519a9faade24ed2742efa1634d93a9f026e2`; sensing-audit blob `5b4a7f98eb8b6dab513fe27879ee08eb86b9ae1d`, commit `771e1b3b12efc5fba8c8b45ef2666b1dfe30a089`. J11 timing remains unchanged.
 
+
+
+## J01 short-interval routine continuity check — 2026-09-20 18:41 CDT
+
+- Seasonal gate: in season under `model_data/seasonal_policy.json`.
+- Reuse/QC: the canonical NOAA NGOFS2 manifest and owner-camera trio were unchanged from the 18:28 CDT alert snapshot. Guidance remains MODEL-only at approximately +23/+102/+239/+110 m over 1/3/6/12 hours; the 18:06:02 CDT capture identity still matches status/burst/vision across all six expected cameras with 3/3 frames each.
+- Direct public-player observation: Grand Hotel and Fairhope were sampled from 18:38:42.367 to 18:39:00.811 CDT (18.444 seconds between isolated samples) after direct pause/resume. Both displayed LIVE, readyState 4, advancing playback/endpoints and visible scene progression. Grand Hotel playback advanced 18.446 s, endpoint 6.016 s, final gap 10.660 s; Fairhope advanced 18.446/18.000 s, final gap 13.611 s. Both are `probably_fresh` with capture time null and exact upstream delay unknown. Water remained choppy; no searching, collecting, directed lights, concentrated bird feeding or repeated fish surfacing was resolved. Fairhope beach and Fly Creek remain out of view. No public media was retained and no clean non-event label was created.
+- Current result: Point Clear remains 3–7% and Daphne/May Day 2–4%, below 20%. Direct local bottom oxygen remains UNKNOWN. No credible Jubilee is confirmed.
+- Notification decision: no new notification. The 18:28 CDT transport alert already covers the unchanged guidance; probability, evidence quality, sensing health and recommended action did not change materially.
+- Canonical evidence: public log blob `bc69fdc578ec10a58f6a87d8ea20712cf3483925` (commit `cbd2b19cb3e0074ca94f0686744751f0fe825e5b`); snapshot blob `07e98808bd8d3193f0d57de42cd769db24287e7e` (commit `b6838d65a1bf8a3bd547768cdf5825b460b5ef00`); audit blob `d3b154b3371ffce279aeae8e1fdd2712c979e902` (commit `e52e16a197591c38fbc8837524eb7ad83527dd90`).
+- Blockers unchanged: no current validated local bottom/contact-strip oxygen, no observed nearshore current, and incomplete visibility of priority shoreline strips.
