@@ -1,16 +1,16 @@
 {
   "runtime_version": "2026-09-18-cache-compact-synthesis-v2",
-  "capture_time_ct": "2026-09-19T23:06:29.229219-05:00",
-  "dawn_ct": "2026-09-19T06:13:58.946049-05:00",
-  "window_start_ct": "2026-09-19T04:13:58.946049-05:00",
-  "window_end_ct": "2026-09-19T08:13:58.946049-05:00",
+  "capture_time_ct": "2026-09-20T00:06:14.984415-05:00",
+  "dawn_ct": "2026-09-20T06:14:33.448881-05:00",
+  "window_start_ct": "2026-09-20T04:14:33.448881-05:00",
+  "window_end_ct": "2026-09-20T08:14:33.448881-05:00",
   "analysis_model": "gpt-5.6-luna",
   "rubric_version": "1.1",
   "analysis_type": "three_frame_temporal_burst",
   "burst_target_spacing_seconds": 10.0,
   "cameras": {
     "montrose_pier_boat": {
-      "visibility": "fair",
+      "visibility": "poor",
       "detectability": "low",
       "water_surface": "slight_ripple",
       "rain_surface_interference": "none",
@@ -25,7 +25,7 @@
       "flounder_or_flatfish_shallow": "unclear",
       "eel_displacement": "unclear",
       "stingray_or_other_bottom_fauna_displacement": "unclear",
-      "shoreline_or_structure_accumulation": "none_visible",
+      "shoreline_or_structure_accumulation": "unclear",
       "offshore_bottom_fauna_surface_aggregation": "unclear",
       "bird_feeding_activity": "none_visible",
       "people_present": "none_visible",
@@ -33,77 +33,77 @@
       "motion_pattern": "none_visible",
       "clustered_search_behavior": "none_visible",
       "temporal_persistence": "none_visible",
-      "human_sensor_score": 0,
-      "human_sensor_confidence": 0.95,
-      "human_sensor_detectability": "good",
+      "human_sensor_score": null,
+      "human_sensor_confidence": 0.0,
+      "human_sensor_detectability": "limited",
       "people_collecting_seafood": "none_visible",
       "animal_lethargy_or_abnormal_motion": "unclear",
       "alligator_frame_detections": [
         {
           "frame": 1,
-          "visible": "unclear",
+          "visible": "none",
           "count_estimate": 0,
-          "behavior": "unclear",
-          "location_in_frame": "dark water gaps",
-          "confidence": 0.12
+          "behavior": "none",
+          "location_in_frame": "none",
+          "confidence": 0.85
         },
         {
           "frame": 2,
-          "visible": "unclear",
+          "visible": "none",
           "count_estimate": 0,
-          "behavior": "unclear",
-          "location_in_frame": "dark water gaps",
-          "confidence": 0.12
+          "behavior": "none",
+          "location_in_frame": "none",
+          "confidence": 0.85
         },
         {
           "frame": 3,
-          "visible": "unclear",
+          "visible": "none",
           "count_estimate": 0,
-          "behavior": "unclear",
-          "location_in_frame": "dark water gaps",
-          "confidence": 0.12
+          "behavior": "none",
+          "location_in_frame": "none",
+          "confidence": 0.85
         }
       ],
-      "alligator_visible": "unclear",
+      "alligator_visible": "none",
       "alligator_count_estimate": 0,
-      "alligator_behavior": "unclear",
-      "alligator_location_in_frame": "dark water gaps",
-      "alligator_temporal_change": "unclear",
-      "alligator_confidence": 0.12,
+      "alligator_behavior": "none",
+      "alligator_location_in_frame": "none",
+      "alligator_temporal_change": "none",
+      "alligator_confidence": 0.85,
       "artificial_light_confounding": "strong",
       "repeated_surface_activity": "none_visible",
       "activity_changed_across_frames": "no",
       "likely_temporal_artifact": "none",
-      "temporal_jubilee_signal": "none",
-      "overall_jubilee_visual_signal": "none",
-      "frame_1_summary": "Empty dock over dark water",
-      "frame_2_summary": "Dock remains empty and unchanged",
-      "frame_3_summary": "No visible activity on dock",
-      "temporal_summary": "No detectable animal activity across three frames.",
-      "confidence": 0.88,
+      "temporal_jubilee_signal": "unclear",
+      "overall_jubilee_visual_signal": "unclear",
+      "frame_1_summary": "Dark dock and lightly rippled water",
+      "frame_2_summary": "Similar dark water and dock",
+      "frame_3_summary": "Scene remains visually unchanged",
+      "temporal_summary": "No visible biological activity changed across frames",
+      "confidence": 0.72,
       "human_sensor_schema_version": "1.0-descriptive-unvalidated",
       "camera_id": "montrose_pier_boat",
       "camera_label": "Montrose Boat Camera",
       "burst_shots": [
         {
           "shot": 1,
-          "timestamp_ct": "2026-09-19T23:06:34.083066-05:00",
+          "timestamp_ct": "2026-09-20T00:06:19.767247-05:00",
           "file": "montrose_pier_boat_1.jpg",
-          "bytes": 132066,
+          "bytes": 128100,
           "timing": "actual_screenshot_time"
         },
         {
           "shot": 2,
-          "timestamp_ct": "2026-09-19T23:06:44.153067-05:00",
+          "timestamp_ct": "2026-09-20T00:06:29.837735-05:00",
           "file": "montrose_pier_boat_2.jpg",
-          "bytes": 213601,
+          "bytes": 181209,
           "timing": "actual_screenshot_time"
         },
         {
           "shot": 3,
-          "timestamp_ct": "2026-09-19T23:06:54.218089-05:00",
+          "timestamp_ct": "2026-09-20T00:06:39.919511-05:00",
           "file": "montrose_pier_boat_3.jpg",
-          "bytes": 200825,
+          "bytes": 197655,
           "timing": "actual_screenshot_time"
         }
       ],
@@ -111,6 +111,107 @@
       "status": "ok"
     },
     "montrose_pier_bird": {
+      "visibility": "poor",
+      "detectability": "low",
+      "water_surface": "slight_ripple",
+      "rain_surface_interference": "none",
+      "wake_interference": "none",
+      "fish_surface_activity": "none_visible",
+      "fish_jump_activity": "none_visible",
+      "fish_gulping_or_smoking": "none_visible",
+      "shrimp_surface_popping": "none_visible",
+      "shrimp_surface_concentration": "none_visible",
+      "crab_surface_swimming": "none_visible",
+      "crab_climbing_structure": "none_visible",
+      "flounder_or_flatfish_shallow": "none_visible",
+      "eel_displacement": "none_visible",
+      "stingray_or_other_bottom_fauna_displacement": "none_visible",
+      "shoreline_or_structure_accumulation": "none_visible",
+      "offshore_bottom_fauna_surface_aggregation": "none_visible",
+      "bird_feeding_activity": "none_visible",
+      "people_present": "none_visible",
+      "flashlight_activity": "none_visible",
+      "motion_pattern": "stationary",
+      "clustered_search_behavior": "none_visible",
+      "temporal_persistence": "none_visible",
+      "human_sensor_score": null,
+      "human_sensor_confidence": 0.0,
+      "human_sensor_detectability": "poor",
+      "people_collecting_seafood": "none_visible",
+      "animal_lethargy_or_abnormal_motion": "none_visible",
+      "alligator_frame_detections": [
+        {
+          "frame": 1,
+          "visible": "none",
+          "count_estimate": 0,
+          "behavior": "none",
+          "location_in_frame": "none",
+          "confidence": 0.82
+        },
+        {
+          "frame": 2,
+          "visible": "none",
+          "count_estimate": 0,
+          "behavior": "none",
+          "location_in_frame": "none",
+          "confidence": 0.82
+        },
+        {
+          "frame": 3,
+          "visible": "none",
+          "count_estimate": 0,
+          "behavior": "none",
+          "location_in_frame": "none",
+          "confidence": 0.82
+        }
+      ],
+      "alligator_visible": "none",
+      "alligator_count_estimate": 0,
+      "alligator_behavior": "none",
+      "alligator_location_in_frame": "none",
+      "alligator_temporal_change": "none",
+      "alligator_confidence": 0.82,
+      "artificial_light_confounding": "possible",
+      "repeated_surface_activity": "none_visible",
+      "activity_changed_across_frames": "no",
+      "likely_temporal_artifact": "none",
+      "temporal_jubilee_signal": "none",
+      "overall_jubilee_visual_signal": "none",
+      "frame_1_summary": "Dark dock and calm water",
+      "frame_2_summary": "Similar dark water view",
+      "frame_3_summary": "No visible animal activity",
+      "temporal_summary": "No visible activity change across ten seconds",
+      "confidence": 0.86,
+      "human_sensor_schema_version": "1.0-descriptive-unvalidated",
+      "camera_id": "montrose_pier_bird",
+      "camera_label": "Montrose Pier Bird Camera",
+      "burst_shots": [
+        {
+          "shot": 1,
+          "timestamp_ct": "2026-09-20T00:09:01.094531-05:00",
+          "file": "montrose_pier_bird_1.jpg",
+          "bytes": 74298,
+          "timing": "actual_screenshot_time"
+        },
+        {
+          "shot": 2,
+          "timestamp_ct": "2026-09-20T00:09:11.162725-05:00",
+          "file": "montrose_pier_bird_2.jpg",
+          "bytes": 138200,
+          "timing": "actual_screenshot_time"
+        },
+        {
+          "shot": 3,
+          "timestamp_ct": "2026-09-20T00:09:21.229457-05:00",
+          "file": "montrose_pier_bird_3.jpg",
+          "bytes": 134339,
+          "timing": "actual_screenshot_time"
+        }
+      ],
+      "burst_frame_count": 3,
+      "status": "ok"
+    },
+    "montrose_shoreline": {
       "visibility": "fair",
       "detectability": "low",
       "water_surface": "slight_ripple",
@@ -134,9 +235,9 @@
       "motion_pattern": "stationary",
       "clustered_search_behavior": "none_visible",
       "temporal_persistence": "none_visible",
-      "human_sensor_score": 0,
-      "human_sensor_confidence": 0.98,
-      "human_sensor_detectability": "good",
+      "human_sensor_score": 0.0,
+      "human_sensor_confidence": 0.9,
+      "human_sensor_detectability": "limited",
       "people_collecting_seafood": "none_visible",
       "animal_lethargy_or_abnormal_motion": "none_visible",
       "alligator_frame_detections": [
@@ -146,7 +247,7 @@
           "count_estimate": 0,
           "behavior": "none",
           "location_in_frame": "none",
-          "confidence": 0.98
+          "confidence": 0.9
         },
         {
           "frame": 2,
@@ -154,7 +255,7 @@
           "count_estimate": 0,
           "behavior": "none",
           "location_in_frame": "none",
-          "confidence": 0.98
+          "confidence": 0.9
         },
         {
           "frame": 3,
@@ -162,7 +263,7 @@
           "count_estimate": 0,
           "behavior": "none",
           "location_in_frame": "none",
-          "confidence": 0.98
+          "confidence": 0.9
         }
       ],
       "alligator_visible": "none",
@@ -170,142 +271,41 @@
       "alligator_behavior": "none",
       "alligator_location_in_frame": "none",
       "alligator_temporal_change": "none",
-      "alligator_confidence": 0.98,
-      "artificial_light_confounding": "possible",
-      "repeated_surface_activity": "none_visible",
-      "activity_changed_across_frames": "no",
-      "likely_temporal_artifact": "reflection",
-      "temporal_jubilee_signal": "none",
-      "overall_jubilee_visual_signal": "none",
-      "frame_1_summary": "Dark water and empty dock",
-      "frame_2_summary": "Water remains quiet and empty",
-      "frame_3_summary": "No visible animals or people",
-      "temporal_summary": "No visible biological activity across three frames",
-      "confidence": 0.9,
-      "human_sensor_schema_version": "1.0-descriptive-unvalidated",
-      "camera_id": "montrose_pier_bird",
-      "camera_label": "Montrose Pier Bird Camera",
-      "burst_shots": [
-        {
-          "shot": 1,
-          "timestamp_ct": "2026-09-19T23:09:16.791896-05:00",
-          "file": "montrose_pier_bird_1.jpg",
-          "bytes": 73494,
-          "timing": "actual_screenshot_time"
-        },
-        {
-          "shot": 2,
-          "timestamp_ct": "2026-09-19T23:09:26.858357-05:00",
-          "file": "montrose_pier_bird_2.jpg",
-          "bytes": 159922,
-          "timing": "actual_screenshot_time"
-        },
-        {
-          "shot": 3,
-          "timestamp_ct": "2026-09-19T23:09:36.923888-05:00",
-          "file": "montrose_pier_bird_3.jpg",
-          "bytes": 141927,
-          "timing": "actual_screenshot_time"
-        }
-      ],
-      "burst_frame_count": 3,
-      "status": "ok"
-    },
-    "montrose_shoreline": {
-      "visibility": "poor",
-      "detectability": "low",
-      "water_surface": "unclear",
-      "rain_surface_interference": "none",
-      "wake_interference": "none",
-      "fish_surface_activity": "unclear",
-      "fish_jump_activity": "unclear",
-      "fish_gulping_or_smoking": "unclear",
-      "shrimp_surface_popping": "unclear",
-      "shrimp_surface_concentration": "unclear",
-      "crab_surface_swimming": "unclear",
-      "crab_climbing_structure": "unclear",
-      "flounder_or_flatfish_shallow": "unclear",
-      "eel_displacement": "unclear",
-      "stingray_or_other_bottom_fauna_displacement": "unclear",
-      "shoreline_or_structure_accumulation": "unclear",
-      "offshore_bottom_fauna_surface_aggregation": "unclear",
-      "bird_feeding_activity": "none_visible",
-      "people_present": "none_visible",
-      "flashlight_activity": "none_visible",
-      "motion_pattern": "stationary",
-      "clustered_search_behavior": "none_visible",
-      "temporal_persistence": "none_visible",
-      "human_sensor_score": null,
-      "human_sensor_confidence": 0.0,
-      "human_sensor_detectability": "poor",
-      "people_collecting_seafood": "none_visible",
-      "animal_lethargy_or_abnormal_motion": "unclear",
-      "alligator_frame_detections": [
-        {
-          "frame": 1,
-          "visible": "none",
-          "count_estimate": 0,
-          "behavior": "none",
-          "location_in_frame": "none",
-          "confidence": 0.98
-        },
-        {
-          "frame": 2,
-          "visible": "none",
-          "count_estimate": 0,
-          "behavior": "none",
-          "location_in_frame": "none",
-          "confidence": 0.98
-        },
-        {
-          "frame": 3,
-          "visible": "none",
-          "count_estimate": 0,
-          "behavior": "none",
-          "location_in_frame": "none",
-          "confidence": 0.98
-        }
-      ],
-      "alligator_visible": "none",
-      "alligator_count_estimate": 0,
-      "alligator_behavior": "none",
-      "alligator_location_in_frame": "none",
-      "alligator_temporal_change": "none",
-      "alligator_confidence": 0.98,
+      "alligator_confidence": 0.9,
       "artificial_light_confounding": "strong",
       "repeated_surface_activity": "none_visible",
       "activity_changed_across_frames": "no",
       "likely_temporal_artifact": "reflection",
       "temporal_jubilee_signal": "none",
       "overall_jubilee_visual_signal": "none",
-      "frame_1_summary": "Dark dock and reflected lights",
-      "frame_2_summary": "Similar dark dock scene",
-      "frame_3_summary": "Unchanged dark water scene",
-      "temporal_summary": "No visible biological activity changes across frames",
-      "confidence": 0.86,
+      "frame_1_summary": "Dark dock and calm reflective water",
+      "frame_2_summary": "Similar dock view with reflections",
+      "frame_3_summary": "No visible animal surface activity",
+      "temporal_summary": "No meaningful biological change across three frames",
+      "confidence": 0.88,
       "human_sensor_schema_version": "1.0-descriptive-unvalidated",
       "camera_id": "montrose_shoreline",
       "camera_label": "Montrose Looking at Beach Camera",
       "burst_shots": [
         {
           "shot": 1,
-          "timestamp_ct": "2026-09-19T23:08:12.046540-05:00",
+          "timestamp_ct": "2026-09-20T00:07:56.058248-05:00",
           "file": "montrose_shoreline_1.jpg",
-          "bytes": 55860,
+          "bytes": 57048,
           "timing": "actual_screenshot_time"
         },
         {
           "shot": 2,
-          "timestamp_ct": "2026-09-19T23:08:22.108427-05:00",
+          "timestamp_ct": "2026-09-20T00:08:06.128386-05:00",
           "file": "montrose_shoreline_2.jpg",
-          "bytes": 91913,
+          "bytes": 91324,
           "timing": "actual_screenshot_time"
         },
         {
           "shot": 3,
-          "timestamp_ct": "2026-09-19T23:08:32.179983-05:00",
+          "timestamp_ct": "2026-09-20T00:08:16.217877-05:00",
           "file": "montrose_shoreline_3.jpg",
-          "bytes": 91466,
+          "bytes": 91220,
           "timing": "actual_screenshot_time"
         }
       ],
@@ -333,7 +333,7 @@
       "bird_feeding_activity": "none_visible",
       "people_present": "none_visible",
       "flashlight_activity": "none_visible",
-      "motion_pattern": "stationary",
+      "motion_pattern": "unknown",
       "clustered_search_behavior": "none_visible",
       "temporal_persistence": "none_visible",
       "human_sensor_score": null,
@@ -348,7 +348,7 @@
           "count_estimate": 0,
           "behavior": "none",
           "location_in_frame": "none",
-          "confidence": 0.96
+          "confidence": 0.9
         },
         {
           "frame": 2,
@@ -356,7 +356,7 @@
           "count_estimate": 0,
           "behavior": "none",
           "location_in_frame": "none",
-          "confidence": 0.96
+          "confidence": 0.9
         },
         {
           "frame": 3,
@@ -364,7 +364,7 @@
           "count_estimate": 0,
           "behavior": "none",
           "location_in_frame": "none",
-          "confidence": 0.96
+          "confidence": 0.9
         }
       ],
       "alligator_visible": "none",
@@ -372,41 +372,41 @@
       "alligator_behavior": "none",
       "alligator_location_in_frame": "none",
       "alligator_temporal_change": "none",
-      "alligator_confidence": 0.96,
+      "alligator_confidence": 0.9,
       "artificial_light_confounding": "strong",
       "repeated_surface_activity": "none_visible",
       "activity_changed_across_frames": "no",
       "likely_temporal_artifact": "reflection",
       "temporal_jubilee_signal": "none",
       "overall_jubilee_visual_signal": "none",
-      "frame_1_summary": "Dark marina view with fixed lights",
-      "frame_2_summary": "Unchanged dark marina view",
-      "frame_3_summary": "Unchanged dark marina view",
+      "frame_1_summary": "Dark marina with fixed lights",
+      "frame_2_summary": "Unchanged dark marina scene",
+      "frame_3_summary": "Unchanged dark marina scene",
       "temporal_summary": "No visible biological activity changes across frames",
-      "confidence": 0.91,
+      "confidence": 0.84,
       "human_sensor_schema_version": "1.0-descriptive-unvalidated",
       "camera_id": "pcl_e2_back_deck",
       "camera_label": "Point Clear E2 Deck",
       "burst_shots": [
         {
           "shot": 1,
-          "timestamp_ct": "2026-09-19T23:07:14.665131-05:00",
+          "timestamp_ct": "2026-09-20T00:07:00.175831-05:00",
           "file": "pcl_e2_back_deck_1.jpg",
-          "bytes": 181644,
+          "bytes": 173575,
           "timing": "nominal_interval_single_stream"
         },
         {
           "shot": 2,
-          "timestamp_ct": "2026-09-19T23:07:24.665131-05:00",
+          "timestamp_ct": "2026-09-20T00:07:10.175831-05:00",
           "file": "pcl_e2_back_deck_2.jpg",
-          "bytes": 175740,
+          "bytes": 175739,
           "timing": "nominal_interval_single_stream"
         },
         {
           "shot": 3,
-          "timestamp_ct": "2026-09-19T23:07:34.665131-05:00",
+          "timestamp_ct": "2026-09-20T00:07:20.175831-05:00",
           "file": "pcl_e2_back_deck_3.jpg",
-          "bytes": 200545,
+          "bytes": 173988,
           "timing": "nominal_interval_single_stream"
         }
       ],
@@ -417,31 +417,31 @@
       "visibility": "poor",
       "detectability": "low",
       "water_surface": "unclear",
-      "rain_surface_interference": "none",
+      "rain_surface_interference": "unclear",
       "wake_interference": "none",
-      "fish_surface_activity": "none_visible",
-      "fish_jump_activity": "none_visible",
-      "fish_gulping_or_smoking": "none_visible",
-      "shrimp_surface_popping": "none_visible",
-      "shrimp_surface_concentration": "none_visible",
-      "crab_surface_swimming": "none_visible",
-      "crab_climbing_structure": "none_visible",
-      "flounder_or_flatfish_shallow": "none_visible",
-      "eel_displacement": "none_visible",
-      "stingray_or_other_bottom_fauna_displacement": "none_visible",
-      "shoreline_or_structure_accumulation": "none_visible",
-      "offshore_bottom_fauna_surface_aggregation": "none_visible",
-      "bird_feeding_activity": "none_visible",
+      "fish_surface_activity": "unclear",
+      "fish_jump_activity": "unclear",
+      "fish_gulping_or_smoking": "unclear",
+      "shrimp_surface_popping": "unclear",
+      "shrimp_surface_concentration": "unclear",
+      "crab_surface_swimming": "unclear",
+      "crab_climbing_structure": "unclear",
+      "flounder_or_flatfish_shallow": "unclear",
+      "eel_displacement": "unclear",
+      "stingray_or_other_bottom_fauna_displacement": "unclear",
+      "shoreline_or_structure_accumulation": "unclear",
+      "offshore_bottom_fauna_surface_aggregation": "unclear",
+      "bird_feeding_activity": "unclear",
       "people_present": "none_visible",
       "flashlight_activity": "none_visible",
       "motion_pattern": "stationary",
       "clustered_search_behavior": "none_visible",
       "temporal_persistence": "none_visible",
       "human_sensor_score": null,
-      "human_sensor_confidence": 0.88,
+      "human_sensor_confidence": 0.95,
       "human_sensor_detectability": "poor",
       "people_collecting_seafood": "none_visible",
-      "animal_lethargy_or_abnormal_motion": "none_visible",
+      "animal_lethargy_or_abnormal_motion": "unclear",
       "alligator_frame_detections": [
         {
           "frame": 1,
@@ -449,7 +449,7 @@
           "count_estimate": 0,
           "behavior": "none",
           "location_in_frame": "none",
-          "confidence": 0.8
+          "confidence": 0.92
         },
         {
           "frame": 2,
@@ -457,7 +457,7 @@
           "count_estimate": 0,
           "behavior": "none",
           "location_in_frame": "none",
-          "confidence": 0.8
+          "confidence": 0.92
         },
         {
           "frame": 3,
@@ -465,7 +465,7 @@
           "count_estimate": 0,
           "behavior": "none",
           "location_in_frame": "none",
-          "confidence": 0.8
+          "confidence": 0.92
         }
       ],
       "alligator_visible": "none",
@@ -473,17 +473,17 @@
       "alligator_behavior": "none",
       "alligator_location_in_frame": "none",
       "alligator_temporal_change": "none",
-      "alligator_confidence": 0.8,
+      "alligator_confidence": 0.92,
       "artificial_light_confounding": "strong",
-      "repeated_surface_activity": "none_visible",
+      "repeated_surface_activity": "unclear",
       "activity_changed_across_frames": "no",
       "likely_temporal_artifact": "reflection",
-      "temporal_jubilee_signal": "none",
-      "overall_jubilee_visual_signal": "none",
-      "frame_1_summary": "Glare-obscured marina view",
-      "frame_2_summary": "Glare-obscured marina view",
-      "frame_3_summary": "Glare-obscured marina view",
-      "temporal_summary": "Similar glare-obscured views show no visible biological activity",
+      "temporal_jubilee_signal": "unclear",
+      "overall_jubilee_visual_signal": "unclear",
+      "frame_1_summary": "Glare and reflections obscure marina view",
+      "frame_2_summary": "Similar obscured nighttime marina view",
+      "frame_3_summary": "Persistent glare obscures visible surface",
+      "temporal_summary": "Frames remain visually obscured without discernible biological change",
       "confidence": 0.9,
       "human_sensor_schema_version": "1.0-descriptive-unvalidated",
       "camera_id": "pcl_e2_bay_mouth",
@@ -491,23 +491,23 @@
       "burst_shots": [
         {
           "shot": 1,
-          "timestamp_ct": "2026-09-19T23:07:41.909098-05:00",
+          "timestamp_ct": "2026-09-20T00:07:27.249521-05:00",
           "file": "pcl_e2_bay_mouth_1.jpg",
-          "bytes": 65235,
+          "bytes": 75850,
           "timing": "actual_screenshot_time"
         },
         {
           "shot": 2,
-          "timestamp_ct": "2026-09-19T23:07:51.962389-05:00",
+          "timestamp_ct": "2026-09-20T00:07:37.336818-05:00",
           "file": "pcl_e2_bay_mouth_2.jpg",
-          "bytes": 114875,
+          "bytes": 122459,
           "timing": "actual_screenshot_time"
         },
         {
           "shot": 3,
-          "timestamp_ct": "2026-09-19T23:08:02.031762-05:00",
+          "timestamp_ct": "2026-09-20T00:07:47.411576-05:00",
           "file": "pcl_e2_bay_mouth_3.jpg",
-          "bytes": 125704,
+          "bytes": 127599,
           "timing": "actual_screenshot_time"
         }
       ],
@@ -535,11 +535,11 @@
       "bird_feeding_activity": "unclear",
       "people_present": "none_visible",
       "flashlight_activity": "none_visible",
-      "motion_pattern": "stationary",
+      "motion_pattern": "none_visible",
       "clustered_search_behavior": "none_visible",
-      "temporal_persistence": "unknown",
+      "temporal_persistence": "none_visible",
       "human_sensor_score": null,
-      "human_sensor_confidence": 0.0,
+      "human_sensor_confidence": 0.98,
       "human_sensor_detectability": "poor",
       "people_collecting_seafood": "none_visible",
       "animal_lethargy_or_abnormal_motion": "unclear",
@@ -550,7 +550,7 @@
           "count_estimate": 0,
           "behavior": "none",
           "location_in_frame": "none",
-          "confidence": 0.96
+          "confidence": 0.95
         },
         {
           "frame": 2,
@@ -558,7 +558,7 @@
           "count_estimate": 0,
           "behavior": "none",
           "location_in_frame": "none",
-          "confidence": 0.96
+          "confidence": 0.95
         },
         {
           "frame": 3,
@@ -566,7 +566,7 @@
           "count_estimate": 0,
           "behavior": "none",
           "location_in_frame": "none",
-          "confidence": 0.96
+          "confidence": 0.95
         }
       ],
       "alligator_visible": "none",
@@ -574,41 +574,41 @@
       "alligator_behavior": "none",
       "alligator_location_in_frame": "none",
       "alligator_temporal_change": "none",
-      "alligator_confidence": 0.96,
-      "artificial_light_confounding": "strong",
+      "alligator_confidence": 0.95,
+      "artificial_light_confounding": "possible",
       "repeated_surface_activity": "unclear",
-      "activity_changed_across_frames": "no",
-      "likely_temporal_artifact": "none",
+      "activity_changed_across_frames": "unclear",
+      "likely_temporal_artifact": "reflection",
       "temporal_jubilee_signal": "unclear",
       "overall_jubilee_visual_signal": "unclear",
-      "frame_1_summary": "Dark empty boat and dock scene",
-      "frame_2_summary": "Similar dark stationary marina view",
-      "frame_3_summary": "No visible biological activity",
-      "temporal_summary": "Three similar frames; water activity unresolved",
-      "confidence": 0.88,
+      "frame_1_summary": "Dark dock and boat scene",
+      "frame_2_summary": "Dark dock and boat scene",
+      "frame_3_summary": "Dark dock and boat scene",
+      "temporal_summary": "No resolvable biological activity across frames",
+      "confidence": 0.89,
       "human_sensor_schema_version": "1.0-descriptive-unvalidated",
       "camera_id": "pcl_e3_bay_mouth",
       "camera_label": "Point Clear Landing House Deck",
       "burst_shots": [
         {
           "shot": 1,
-          "timestamp_ct": "2026-09-19T23:08:49.659104-05:00",
+          "timestamp_ct": "2026-09-20T00:08:34.363756-05:00",
           "file": "pcl_e3_bay_mouth_1.jpg",
-          "bytes": 96788,
+          "bytes": 99626,
           "timing": "nominal_interval_single_stream"
         },
         {
           "shot": 2,
-          "timestamp_ct": "2026-09-19T23:08:59.659104-05:00",
+          "timestamp_ct": "2026-09-20T00:08:44.363756-05:00",
           "file": "pcl_e3_bay_mouth_2.jpg",
-          "bytes": 97909,
+          "bytes": 99873,
           "timing": "nominal_interval_single_stream"
         },
         {
           "shot": 3,
-          "timestamp_ct": "2026-09-19T23:09:09.659104-05:00",
+          "timestamp_ct": "2026-09-20T00:08:54.363756-05:00",
           "file": "pcl_e3_bay_mouth_3.jpg",
-          "bytes": 89382,
+          "bytes": 90510,
           "timing": "nominal_interval_single_stream"
         }
       ],
@@ -618,25 +618,25 @@
   },
   "cross_camera": {
     "overall_visual_jubilee_signal": "unclear",
-    "montrose_visual_signal": "unclear",
+    "montrose_visual_signal": "none",
     "point_clear_visual_signal": "unclear",
     "temporal_confirmation": "none",
-    "highest_value_observation": "No clear shrimp, fish, crab, or bottom-fauna indicators.",
-    "highest_value_temporal_change": "No activity changed across any three-frame burst.",
+    "highest_value_observation": "No confirmed shrimp, fish, crab, or displaced-fauna activity.",
+    "highest_value_temporal_change": "No biological activity changed across available ten-second bursts.",
     "important_confounders": [
       "Poor visibility and low detectability",
-      "Strong artificial-light interference",
-      "Some nominal rather than actual timestamps"
+      "Strong artificial-light reflections",
+      "Cameras captured at different times"
     ],
     "spatial_confirmation": "none",
-    "recommendation_for_next_burst": "Repeat bursts with improved illumination and closer water-surface views.",
+    "recommendation_for_next_burst": "Repeat brighter, higher-resolution bursts targeting water surfaces.",
     "alligator_summary": "No confirmed alligator seen today or in the last 7 days of retained analysis history.",
-    "confidence": 0.79,
+    "confidence": 0.8,
     "synthesis_mode": "model",
     "alligator_alert": {
       "triggered": false,
       "priority": "none",
-      "capture_time_ct": "2026-09-19T23:06:29.229219-05:00",
+      "capture_time_ct": "2026-09-20T00:06:14.984415-05:00",
       "minimum_confidence": 0.8,
       "criteria": "clear aggregate detection at >=0.80 confidence and clear in >=2 frames, or >=0.95 aggregate confidence",
       "detections": [],
