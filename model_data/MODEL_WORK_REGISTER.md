@@ -1271,3 +1271,36 @@ Read-back verified the brief remains enabled, its current prompt is preserved un
 - New NOAA NGOFS2 manifest blob `89cf06b4fc54387bfc4564c56beead60675b1eeb` (07:54 CDT reference) shifted modeled transport from about −35/−114/−228/−252 m to −22/−72/−118/+45 m at 1/3/6/12 hours. Near-term transport remains seaward but weakened; the 12-hour horizon reversed to weakly shoreward. This is MODEL guidance, not observed current or oxygen. KBFM reported northeast wind 3 mph at 08:53 CDT and KMOB north wind 3 mph at 08:56 CDT, both with 10-mile visibility. The astronomical tide remains falling after the predicted 05:50 CDT high. Direct local bottom oxygen remains UNKNOWN. Focused same-day search recovered no independently dated September 20 first-person Jubilee report through about 09:15 CDT; search absence is not a negative label.
 - Production opportunity remains Point Clear 2–5% and Daphne/May Day 1–3%, below 20%. The material-change notification gate is true for the NGOFS2 transport shift, not Jubilee confirmation. Sensing-audit blob `dfd86101f99ed7a2d3fdfcac0ace2865417ded08`, commit `81c67647387b60fd6948826e7a01d2e3e6895575`; snapshot blob `dcdf820152cefa2053c040992c4bf1af00e638eb`, commit `11a166c3bfa66ee253ee5ae66722212d815771f2`.
 - J11 timing remains unchanged and existing coverage was preserved.
+
+## J10 lunar-phase and reproducibility audit — 2026-09-20
+
+**Run time:** 2026-09-20 09:56 CDT. **Role:** Research & Calibration only. No production model weight, threshold, alert, camera, sensing window, or schedule changed.
+
+### Current-head inputs and continuation checks
+
+- Verified canonical event-history blob `43205ae6ebc962f331ab2e096ee33a1068d52854` (15 confirmed event rows); source-registry blob `1de1de007ec67c16a568ed0fa43ab9f341d5556e`; validation-contract blob `85ff6aa814a79c16e441e5c55b09c50ba0270604`; and matched-control-contract blob `091f586f36902be96e9d1bd07ebfbfc19444303c`.
+- The transient source-discovery queue remains absent and there were no open PRs at review. Existing September 18 artifacts were inspected before new work.
+- The remote aggregate usage summary was available at blob `cc405a13ffb2058f0c657eed55d1f3956d6d8bd6`, generated 2026-09-20 14:10:42 UTC, with status `available` and `invalid_records=0`. The schema contains no `missing_records` field, so missingness is not represented as zero. Billing remains unpriced and no coverage-normalized savings claim is made in this predictive-quality run.
+
+### Moon-phase request: implemented and tested, not promoted
+
+- Repository/commit search and the prior feature catalog found no committed lunar feature, code, or result. The requested moon-phase work was therefore outstanding, not complete by memory.
+- Added reproducible standard-library code at `model_data/evaluate_lunar_phase.py`, tests at `tests/test_lunar_phase.py`, and result `model_data/j10_lunar_phase_feature_audit_20260920.json`. Both unit tests passed locally before publication.
+- Leakage-safe sample: 15 confirmed rows collapsed to 13 independent episodes; adjacent 1971-08-07/08 and 2026-08-29/30 dates were episode-blocked. No-report days were not used as negatives. Clean matched controls remain **0**.
+- Result: event-level Rayleigh approximate `p=0.752103`; episode-level `p=0.349392` (1959 alternate-date sensitivity `p=0.335050`). Six of 13 episodes (46.15%) were within three days of new/full moon versus a 40.64% uniform-calendar expectation. Leave-one-episode-out mean resultant length ranged 0.228324–0.392520.
+- Strong spatial falsification: the 2024-06-12 Point Clear confirmed event and same-morning May Day scoped reported-nothing candidate necessarily have identical lunar phase, so a standalone lunar term cannot explain contact location. Decision: `BLOCKED_BY_DATA`, incremental value `NOT_ESTABLISHED`, production weight 0.0. The feature catalog now records this explicitly.
+
+### Label governance and reproducibility correction
+
+- Added `model_data/owner_reports/2026-09-09-marina-unknown.json`: the September 9 marina outcome is explicitly UNKNOWN and is ineligible as an event, negative, matched control, or training label.
+- The June 12, 2024 May Day observation remains a valuable same-morning spatial candidate with known observation effort, but it is not promoted to a clean whole-cell control. Owner-reported September 7 and September 12 negatives remain scoped sensitivity records, not verified matched controls.
+- Added `model_data/j10_reproducibility_audit_20260920.json`. Four artifacts cited by the September 18 work-register narrative are missing from `main`: `j10_loading_shadow_model_20260918.json`, `j09_awac_observed_current_research_20260918.json`, `j10_two_stage_hypothesis_research_20260918.json`, and `j10_control_deepening_20260918.json`. Metrics supported only by those missing files are non-reproducible and cannot support promotion until recovered or rerun.
+- Persisted evidence remains valid within its stated scope: `j10_0176497_dateblocked_shadow_20260918.json` (date-blocked oxygen-loading classification, not Jubilee-event accuracy), `j09_ports_ngofs_validation_20260918.json` (PORTS/NGOFS2 current comparison), `j09_data_access_upgrade_20260917.json`, and `j10_control_candidate_20240612_mayday_20260918.json`.
+
+### Performance and next priority
+
+- **No Jubilee-event predictive gain was demonstrated this run.** The lunar hypothesis was rejected for production now; the outcome is useful feature pruning rather than improved forecast skill.
+- The best persisted held-out physical-state result remains the 268-profile date-blocked oxygen-loading shadow test with 6 low-bottom-DO positives: gradient+depth+temperature AUC 0.9580, Brier 0.01852, log loss 0.06621 versus constant-prevalence Brier 0.02214/log loss 0.11396. This is oxygen-loading discrimination only and must not be reported as Jubilee accuracy.
+- The persisted observed-current validation still supports NGOFS2 as provisional phase guidance, not precise Point Clear transport: six-hour principal-axis correlations were 0.822/0.731/0.706 at three PORTS stations, while vector-direction and bottom-current agreement remained inadequate.
+- Next: recover/rerun the missing September 18 artifacts; deepen independently observed event/control mornings with explicit effort/as-of/geography; then compare loading-only, transport-only, and combined Jubilee-event models only when labels support honest episode-blocked scoring. Raw/normalized manifests, event history, source registry, thresholds, and production weights were unchanged.
+
