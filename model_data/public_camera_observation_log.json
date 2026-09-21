@@ -46177,46 +46177,7 @@
       "visible_scope": "Illuminated Fairhope pier and broad bay view; neither Fairhope beach nor Fly Creek is visible.",
       "shoreline_directly_visible": false,
       "observation": "The advancing Fairhope night view showed the illuminated pier and a smooth-to-slightly-rippled broad bay beneath low clouds. No people, searching, collecting or directed handheld lights were resolved; birds and biological activity were not reliably assessable. Neither Fairhope beach nor Fly Creek is visible."
-    }
-  ],
-  "live_player_freshness_policy": {
-    "checks": [
-      "Observe player state (LIVE/live-position control), advancing playback and seekable endpoint across two samples, and actual visible scene progression.",
-      "Use roughly 10–30 seconds between observations when possible. Measure actual interval; do not claim continuous viewing between sampled inspections.",
-      "A fresh live session with advancing frames and advancing live window near its endpoint supports probably_fresh live observation; total source-to-view delay remains unknown.",
-      "An unlabelled Update Timestamp is not a capture timestamp until its semantics are independently established. UTC conversion is an assumption, not proof of image age.",
-      "If live playback is verified despite ambiguous metadata, admit scoped qualitative observations as probably_fresh, exact delay unknown. If only a still or page text is accessible, freshness=unknown, not stale merely from the page clock.",
-      "Use stale only with established capture-age evidence; use frozen only with sufficient playback/scene evidence. A motionless scene alone need not be frozen.",
-      "Do not promote these observations into clean training controls or change predictor weights without the existing validation gates."
-    ],
-    "historical_correction": "Earlier September 7 stale-image conclusions based solely on the Hazcams page Update Timestamp are unverified. Preserve original records; reinterpret freshness as unknown unless independent capture evidence exists. No retrospective conversion to fresh observations.",
-    "method": "Inspect permitted live player directly; page/search text and preview stills alone do not verify video freshness.",
-    "required_fields": [
-      "check_time_ct",
-      "observation_start_ct",
-      "observation_end_ct",
-      "source_capture_time",
-      "page_update_timestamp_raw",
-      "page_timestamp_semantics",
-      "live_indicator",
-      "playback_samples",
-      "freshness_state",
-      "exact_source_delay_seconds",
-      "visible_scope",
-      "media_retained"
-    ],
-    "retention": "Retain structured observations and playback metadata only in the model. Transient visual inspection is not an image archive; do not save/download/upload media to repository, Library or other storage.",
-    "version": "2026-09-07-live-player-v1"
-  },
-  "corrections": [
-    {
-      "recorded_at_ct": "2026-09-07T10:29:00-05:00",
-      "scope": "September 7 Hazcams records using page Update Timestamp as capture time",
-      "correction": "Earlier September 7 stale-image conclusions based solely on the Hazcams page Update Timestamp are unverified. Preserve original records; reinterpret freshness as unknown unless independent capture evidence exists. No retrospective conversion to fresh observations.",
-      "original_records_preserved": true
-    }
-  ],
-  "observations": [
+    },
     {
       "source_capture_time": null,
       "page_update_timestamp_raw": null,
@@ -46229,11 +46190,11 @@
       "vehicle_count": null,
       "vehicle_density_vs_expected": "not_assessable",
       "flag_direction_class": null,
-      "observation_start_ct": "2026-09-20T22:29:00.560-05:00",
-      "observation_end_ct": "2026-09-20T22:29:25.694-05:00",
-      "check_time_ct": "2026-09-20T22:29:25.694-05:00",
-      "observation_duration_seconds": 25.134,
-      "inspection_method": "direct live-player click pause/resume plus two isolated transient metadata/visual samples 25.134 seconds apart; no recording or media retention",
+      "observation_start_ct": "2026-09-20T22:44:52.755-05:00",
+      "observation_end_ct": "2026-09-20T22:45:10.897-05:00",
+      "check_time_ct": "2026-09-20T22:45:10.897-05:00",
+      "observation_duration_seconds": 18.142,
+      "inspection_method": "direct live-player click pause/resume plus two isolated transient metadata/visual samples 18.142 seconds apart; no recording or media retention",
       "freshness_state": "probably_fresh",
       "illumination_state": "night",
       "darkness": "high",
@@ -46301,21 +46262,21 @@
       "seek_to_live_action": "No actionable Seek to live control was exposed; playback and rolling endpoint were directly verified.",
       "playback_samples": [
         {
-          "observation_time_ct": "2026-09-20T22:29:00.560-05:00",
-          "current_time_seconds": 35.270999,
-          "seekable_endpoint_seconds": 54.236625,
+          "observation_time_ct": "2026-09-20T22:44:52.755-05:00",
+          "current_time_seconds": 33.443482,
+          "seekable_endpoint_seconds": 56.110625,
           "ready_state": 4,
           "visible_scene_progression": true
         },
         {
-          "observation_time_ct": "2026-09-20T22:29:25.694-05:00",
-          "current_time_seconds": 60.398904,
-          "seekable_endpoint_seconds": 84.186625,
+          "observation_time_ct": "2026-09-20T22:45:10.897-05:00",
+          "current_time_seconds": 51.578706,
+          "seekable_endpoint_seconds": 74.160625,
           "ready_state": 4,
           "visible_scene_progression": true
         }
       ],
-      "freshness_basis": "Playback advanced 25.128 seconds and the rolling endpoint advanced 29.950 seconds across two isolated samples 25.134 seconds apart; the illuminated night scene progressed. Final playback was about 23.788 seconds behind the endpoint; exact upstream delay remains unknown.",
+      "freshness_basis": "Playback advanced 18.135 seconds and the rolling endpoint advanced 18.050 seconds across two isolated samples 18.142 seconds apart; the illuminated night scene progressed. Final playback was about 22.582 seconds behind the endpoint; exact upstream delay remains unknown.",
       "visible_scope": "Grand Hotel broad Point Clear west-southwest bay view and partial shore/grounds; broad water surface visible, while most close shallow contact strip remains obscured or below useful resolution.",
       "shoreline_directly_visible": "partial",
       "observation": "The advancing night broad-bay view remained very dark, with distant shore lights and illuminated grounds. No people, clustered searching, collecting or directed handheld lights were resolved, but water state, biology, birds and fine shoreline activity were not reliably assessable."
@@ -46332,11 +46293,11 @@
       "vehicle_count": null,
       "vehicle_density_vs_expected": "not_assessable",
       "flag_direction_class": null,
-      "observation_start_ct": "2026-09-20T22:29:00.560-05:00",
-      "observation_end_ct": "2026-09-20T22:29:25.694-05:00",
-      "check_time_ct": "2026-09-20T22:29:25.694-05:00",
-      "observation_duration_seconds": 25.134,
-      "inspection_method": "direct live-player click pause/resume plus two isolated transient metadata/visual samples 25.134 seconds apart; no recording or media retention",
+      "observation_start_ct": "2026-09-20T22:44:52.755-05:00",
+      "observation_end_ct": "2026-09-20T22:45:10.897-05:00",
+      "check_time_ct": "2026-09-20T22:45:10.897-05:00",
+      "observation_duration_seconds": 18.142,
+      "inspection_method": "direct live-player click pause/resume plus two isolated transient metadata/visual samples 18.142 seconds apart; no recording or media retention",
       "freshness_state": "probably_fresh",
       "illumination_state": "night",
       "darkness": "high",
@@ -46387,7 +46348,7 @@
       "person_density_vs_expected": "not_assessable",
       "player_position_state": "advancing_live_window_exact_source_delay_unknown",
       "notes": "Probably-fresh scoped qualitative evidence from two isolated direct samples, not continuous viewing. Darkness and current framing make biology and unseen beaches UNKNOWN. Exact capture time and total source delay unknown. No public media retained; not a clean non-event training label.",
-      "visibility": "poor_for_biology_and_people",
+      "visibility": "poor_for_biology",
       "flag_motion_strength": "not_visible_or_not_assessable",
       "water_surface_state": "dark_smooth_to_slightly_rippled_surface",
       "camera_id": "fairhope_awn_public",
@@ -46404,21 +46365,266 @@
       "seek_to_live_action": "Seek to live was displayed disabled as currently live; no action was needed. Playback and rolling endpoint were directly verified.",
       "playback_samples": [
         {
-          "observation_time_ct": "2026-09-20T22:29:00.560-05:00",
-          "current_time_seconds": 52.137361,
-          "seekable_endpoint_seconds": 74.999987,
+          "observation_time_ct": "2026-09-20T22:44:52.755-05:00",
+          "current_time_seconds": 47.620961,
+          "seekable_endpoint_seconds": 74.999986,
           "ready_state": 4,
           "visible_scene_progression": true
         },
         {
-          "observation_time_ct": "2026-09-20T22:29:25.694-05:00",
-          "current_time_seconds": 77.259892,
-          "seekable_endpoint_seconds": 99.999987,
+          "observation_time_ct": "2026-09-20T22:45:10.897-05:00",
+          "current_time_seconds": 65.757037,
+          "seekable_endpoint_seconds": 91.666653,
           "ready_state": 4,
           "visible_scene_progression": true
         }
       ],
-      "freshness_basis": "Playback advanced 25.123 seconds and the rolling endpoint advanced 25.000 seconds across two isolated samples 25.134 seconds apart; cloud/water texture and light reflections progressed. Final playback was about 22.740 seconds behind the endpoint; exact upstream delay remains unknown.",
+      "freshness_basis": "Playback advanced 18.136 seconds and the rolling endpoint advanced 16.667 seconds across two isolated samples 18.142 seconds apart; cloud/water texture and light reflections progressed. Final playback was about 25.910 seconds behind the endpoint; exact upstream delay remains unknown.",
+      "visible_scope": "Illuminated Fairhope pier and broad bay view; neither Fairhope beach nor Fly Creek is visible.",
+      "shoreline_directly_visible": false,
+      "observation": "The advancing Fairhope night view showed the illuminated pier and a smooth-to-slightly-rippled broad bay beneath low clouds. No people, searching, collecting or directed handheld lights were resolved; birds and biological activity were not reliably assessable. Neither Fairhope beach nor Fly Creek is visible."
+    }
+  ],
+  "live_player_freshness_policy": {
+    "checks": [
+      "Observe player state (LIVE/live-position control), advancing playback and seekable endpoint across two samples, and actual visible scene progression.",
+      "Use roughly 10–30 seconds between observations when possible. Measure actual interval; do not claim continuous viewing between sampled inspections.",
+      "A fresh live session with advancing frames and advancing live window near its endpoint supports probably_fresh live observation; total source-to-view delay remains unknown.",
+      "An unlabelled Update Timestamp is not a capture timestamp until its semantics are independently established. UTC conversion is an assumption, not proof of image age.",
+      "If live playback is verified despite ambiguous metadata, admit scoped qualitative observations as probably_fresh, exact delay unknown. If only a still or page text is accessible, freshness=unknown, not stale merely from the page clock.",
+      "Use stale only with established capture-age evidence; use frozen only with sufficient playback/scene evidence. A motionless scene alone need not be frozen.",
+      "Do not promote these observations into clean training controls or change predictor weights without the existing validation gates."
+    ],
+    "historical_correction": "Earlier September 7 stale-image conclusions based solely on the Hazcams page Update Timestamp are unverified. Preserve original records; reinterpret freshness as unknown unless independent capture evidence exists. No retrospective conversion to fresh observations.",
+    "method": "Inspect permitted live player directly; page/search text and preview stills alone do not verify video freshness.",
+    "required_fields": [
+      "check_time_ct",
+      "observation_start_ct",
+      "observation_end_ct",
+      "source_capture_time",
+      "page_update_timestamp_raw",
+      "page_timestamp_semantics",
+      "live_indicator",
+      "playback_samples",
+      "freshness_state",
+      "exact_source_delay_seconds",
+      "visible_scope",
+      "media_retained"
+    ],
+    "retention": "Retain structured observations and playback metadata only in the model. Transient visual inspection is not an image archive; do not save/download/upload media to repository, Library or other storage.",
+    "version": "2026-09-07-live-player-v1"
+  },
+  "corrections": [
+    {
+      "recorded_at_ct": "2026-09-07T10:29:00-05:00",
+      "scope": "September 7 Hazcams records using page Update Timestamp as capture time",
+      "correction": "Earlier September 7 stale-image conclusions based solely on the Hazcams page Update Timestamp are unverified. Preserve original records; reinterpret freshness as unknown unless independent capture evidence exists. No retrospective conversion to fresh observations.",
+      "original_records_preserved": true
+    }
+  ],
+  "observations": [
+    {
+      "source_capture_time": null,
+      "page_update_timestamp_raw": null,
+      "page_timestamp_semantics": "unverified; not used as capture time",
+      "exact_source_delay_seconds": null,
+      "media_type": "video",
+      "media_retained": false,
+      "retrospective_visual_review_available": false,
+      "training_control_eligible": false,
+      "vehicle_count": null,
+      "vehicle_density_vs_expected": "not_assessable",
+      "flag_direction_class": null,
+      "observation_start_ct": "2026-09-20T22:44:52.755-05:00",
+      "observation_end_ct": "2026-09-20T22:45:10.897-05:00",
+      "check_time_ct": "2026-09-20T22:45:10.897-05:00",
+      "observation_duration_seconds": 18.142,
+      "inspection_method": "direct live-player click pause/resume plus two isolated transient metadata/visual samples 18.142 seconds apart; no recording or media retention",
+      "freshness_state": "probably_fresh",
+      "illumination_state": "night",
+      "darkness": "high",
+      "glare": "low",
+      "source_clock_interpretation": "No camera capture clock established; source capture time remains null.",
+      "flashlights": {
+        "status": "not_observed",
+        "description": "No directed handheld light was resolved in the visible scope."
+      },
+      "clustered_search_behavior": {
+        "status": "not_observed",
+        "description": "No coordinated shoreline-search pattern was resolved in the visible scope."
+      },
+      "people_present": {
+        "status": "not_observed",
+        "description": "No people were resolved in the visible scope during the isolated samples."
+      },
+      "people_looking_at_water": {
+        "status": "not_observed",
+        "description": "No clustered or sustained water-focused behavior was resolved."
+      },
+      "people_collecting": {
+        "status": "not_observed",
+        "description": "No collecting action was resolved in the visible scope."
+      },
+      "searching_or_flashlights": {
+        "status": "not_observed",
+        "description": "No searching or directed handheld-light activity was resolved."
+      },
+      "diving_or_feeding_birds": {
+        "status": "not_assessable",
+        "description": "Bird activity was not reliably assessable in darkness."
+      },
+      "fish_surfacing_or_gulping": {
+        "status": "not_assessable",
+        "description": "Water biology was not reliably assessable in darkness at broad-view scale."
+      },
+      "shrimp_like_activity": {
+        "status": "not_assessable",
+        "description": "Shrimp-scale activity was not assessable at this broad-view scale."
+      },
+      "swimming_crabs": {
+        "status": "not_assessable",
+        "description": "Crab-scale activity was not assessable at this broad-view scale."
+      },
+      "overall": "unknown",
+      "person_count": null,
+      "person_density_vs_expected": "not_assessable",
+      "player_position_state": "advancing_live_window_exact_source_delay_unknown",
+      "notes": "Probably-fresh scoped qualitative evidence from two isolated direct samples, not continuous viewing. Darkness makes biological evidence UNKNOWN. Exact capture time and total source delay unknown. No public media retained; not a clean non-event training label.",
+      "visibility": "poor_for_biology",
+      "flag_motion_strength": "not_assessable",
+      "water_surface_state": "dark_surface_fine_state_unknown",
+      "camera_id": "grand_hotel_public",
+      "physical_camera_identity": "Hazcams Grand Hotel Point Clear public view",
+      "independence_group": "grand_hotel_awn_hazcams_unresolved_mirror_group",
+      "shoreline_cell": "Point Clear",
+      "public_viewer_url": "https://hazcams.com/station/point-clear-al-us-001",
+      "shoreline_animal_concentrations": {
+        "status": "not_assessable",
+        "description": "Most shallow Point Clear contact strip remained obscured or below useful resolution."
+      },
+      "confidence": 0.68,
+      "live_indicator": "LIVE shown; readyState 4; direct click pause/resume succeeded; playback, rolling seekable endpoint and illuminated night scene advanced across two isolated samples",
+      "seek_to_live_action": "No actionable Seek to live control was exposed; playback and rolling endpoint were directly verified.",
+      "playback_samples": [
+        {
+          "observation_time_ct": "2026-09-20T22:44:52.755-05:00",
+          "current_time_seconds": 33.443482,
+          "seekable_endpoint_seconds": 56.110625,
+          "ready_state": 4,
+          "visible_scene_progression": true
+        },
+        {
+          "observation_time_ct": "2026-09-20T22:45:10.897-05:00",
+          "current_time_seconds": 51.578706,
+          "seekable_endpoint_seconds": 74.160625,
+          "ready_state": 4,
+          "visible_scene_progression": true
+        }
+      ],
+      "freshness_basis": "Playback advanced 18.135 seconds and the rolling endpoint advanced 18.050 seconds across two isolated samples 18.142 seconds apart; the illuminated night scene progressed. Final playback was about 22.582 seconds behind the endpoint; exact upstream delay remains unknown.",
+      "visible_scope": "Grand Hotel broad Point Clear west-southwest bay view and partial shore/grounds; broad water surface visible, while most close shallow contact strip remains obscured or below useful resolution.",
+      "shoreline_directly_visible": "partial",
+      "observation": "The advancing night broad-bay view remained very dark, with distant shore lights and illuminated grounds. No people, clustered searching, collecting or directed handheld lights were resolved, but water state, biology, birds and fine shoreline activity were not reliably assessable."
+    },
+    {
+      "source_capture_time": null,
+      "page_update_timestamp_raw": null,
+      "page_timestamp_semantics": "unverified; not used as capture time",
+      "exact_source_delay_seconds": null,
+      "media_type": "video",
+      "media_retained": false,
+      "retrospective_visual_review_available": false,
+      "training_control_eligible": false,
+      "vehicle_count": null,
+      "vehicle_density_vs_expected": "not_assessable",
+      "flag_direction_class": null,
+      "observation_start_ct": "2026-09-20T22:44:52.755-05:00",
+      "observation_end_ct": "2026-09-20T22:45:10.897-05:00",
+      "check_time_ct": "2026-09-20T22:45:10.897-05:00",
+      "observation_duration_seconds": 18.142,
+      "inspection_method": "direct live-player click pause/resume plus two isolated transient metadata/visual samples 18.142 seconds apart; no recording or media retention",
+      "freshness_state": "probably_fresh",
+      "illumination_state": "night",
+      "darkness": "high",
+      "glare": "low",
+      "source_clock_interpretation": "No camera capture clock established; source capture time remains null.",
+      "flashlights": {
+        "status": "not_observed",
+        "description": "No directed handheld light was resolved in the visible scope."
+      },
+      "clustered_search_behavior": {
+        "status": "not_observed",
+        "description": "No coordinated shoreline-search pattern was resolved in the visible scope."
+      },
+      "people_present": {
+        "status": "not_observed",
+        "description": "No people were resolved in the visible scope during the isolated samples."
+      },
+      "people_looking_at_water": {
+        "status": "not_observed",
+        "description": "No clustered or sustained water-focused behavior was resolved."
+      },
+      "people_collecting": {
+        "status": "not_observed",
+        "description": "No collecting action was resolved in the visible scope."
+      },
+      "searching_or_flashlights": {
+        "status": "not_observed",
+        "description": "No searching or directed handheld-light activity was resolved."
+      },
+      "diving_or_feeding_birds": {
+        "status": "not_assessable",
+        "description": "Bird activity was not reliably assessable in darkness."
+      },
+      "fish_surfacing_or_gulping": {
+        "status": "not_assessable",
+        "description": "Water biology was not reliably assessable in darkness at broad-view scale."
+      },
+      "shrimp_like_activity": {
+        "status": "not_assessable",
+        "description": "Shrimp-scale activity was not assessable at this broad-view scale."
+      },
+      "swimming_crabs": {
+        "status": "not_assessable",
+        "description": "Crab-scale activity was not assessable at this broad-view scale."
+      },
+      "overall": "unknown",
+      "person_count": null,
+      "person_density_vs_expected": "not_assessable",
+      "player_position_state": "advancing_live_window_exact_source_delay_unknown",
+      "notes": "Probably-fresh scoped qualitative evidence from two isolated direct samples, not continuous viewing. Darkness and current framing make biology and unseen beaches UNKNOWN. Exact capture time and total source delay unknown. No public media retained; not a clean non-event training label.",
+      "visibility": "poor_for_biology",
+      "flag_motion_strength": "not_visible_or_not_assessable",
+      "water_surface_state": "dark_smooth_to_slightly_rippled_surface",
+      "camera_id": "fairhope_awn_public",
+      "physical_camera_identity": "Hazcams Fairhope public view",
+      "independence_group": "fairhope_awn_hazcams_physical_camera",
+      "shoreline_cell": "Fairhope",
+      "public_viewer_url": "https://hazcams.com/station/fairhope-al-us-001",
+      "shoreline_animal_concentrations": {
+        "status": "not_assessable",
+        "description": "Neither Fairhope beach nor Fly Creek is visible in this view."
+      },
+      "confidence": 0.7,
+      "live_indicator": "Seek to live displayed disabled/currently live; readyState 4; direct click pause/resume succeeded; playback, rolling seekable endpoint and cloud/water reflections advanced across two isolated samples",
+      "seek_to_live_action": "Seek to live was displayed disabled as currently live; no action was needed. Playback and rolling endpoint were directly verified.",
+      "playback_samples": [
+        {
+          "observation_time_ct": "2026-09-20T22:44:52.755-05:00",
+          "current_time_seconds": 47.620961,
+          "seekable_endpoint_seconds": 74.999986,
+          "ready_state": 4,
+          "visible_scene_progression": true
+        },
+        {
+          "observation_time_ct": "2026-09-20T22:45:10.897-05:00",
+          "current_time_seconds": 65.757037,
+          "seekable_endpoint_seconds": 91.666653,
+          "ready_state": 4,
+          "visible_scene_progression": true
+        }
+      ],
+      "freshness_basis": "Playback advanced 18.136 seconds and the rolling endpoint advanced 16.667 seconds across two isolated samples 18.142 seconds apart; cloud/water texture and light reflections progressed. Final playback was about 25.910 seconds behind the endpoint; exact upstream delay remains unknown.",
       "visible_scope": "Illuminated Fairhope pier and broad bay view; neither Fairhope beach nor Fly Creek is visible.",
       "shoreline_directly_visible": false,
       "observation": "The advancing Fairhope night view showed the illuminated pier and a smooth-to-slightly-rippled broad bay beneath low clouds. No people, searching, collecting or directed handheld lights were resolved; birds and biological activity were not reliably assessable. Neither Fairhope beach nor Fly Creek is visible."
