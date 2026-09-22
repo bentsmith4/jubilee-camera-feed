@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-09-18T03:35:00Z",
+  "scope": "RESEARCH_ONLY_LOADING_STATE_SHADOW_MODEL",
+  "production_action": "NO_CHANGE",
+  "source": {
+    "accession": "NCEI 0188979",
+    "normalized_rows": 9014,
+    "normalized_sha256": "d7d47d363fa4626bba82aafc5e4d81e222bee6c7d17d9e6e5c15890721439bcb",
+    "time_semantics": "MATLAB datenum converted to source CDT using ordinal + fraction - 366 days; UTC = CDT +05:00 for Jul-Aug 2016; date range independently matches accession",
+    "do_unit": "percent saturation; NOT mg/L",
+    "station_count": 3
+  },
+  "target": "whether station DO percent saturation is <20% at +6h or +12h; loading-state target, not Jubilee-event target",
+  "validation": {
+    "scheme": "contiguous 3-day held-out time blocks; training excludes 12h buffer before and after each held-out block; pooled out-of-block predictions",
+    "common_case_rows": "all feature families evaluated on identical complete-case rows per horizon",
+    "models": {
+      "persistence": "station + current DO percent saturation",
+      "hydrography": "station + depth/salinity/temperature, 3h/6h changes, hour-of-day sin/cos; excludes current DO",
+      "combined": "persistence plus hydrography plus 3h/6h DO changes"
+    }
+  },
+  "metrics": {
+    "6h": {
+      "n": 1468,
+      "positive_rate": 0.3093,
+      "persistence": {"roc_auc": 0.8881, "pr_auc": 0.7743, "brier": 0.11335, "log_loss": 0.38894, "calibration_intercept": 0.0056, "calibration_slope": 0.9690, "threshold_0_5": {"sensitivity": 0.6674, "specificity": 0.9231, "precision": 0.7953, "false_alert_rate": 0.0769}},
+      "hydrography": {"roc_auc": 0.7358, "pr_auc": 0.6822, "brier": 0.17486, "log_loss": 0.60479},
+      "combined": {"roc_auc": 0.8666, "pr_auc": 0.8059, "brier": 0.12059, "log_loss": 0.42192},
+      "combined_minus_persistence": {"delta_roc_auc": -0.02149, "delta_brier": 0.00724, "delta_log_loss": 0.03298}
+    },
+    "12h": {
+      "n": 1450,
+      "positive_rate": 0.3076,
+      "persistence": {"roc_auc": 0.8153, "pr_auc": 0.6983, "brier": 0.14064, "log_loss": 0.47436, "calibration_intercept": -0.0963, "calibration_slope": 0.8676, "threshold_0_5": {"sensitivity": 0.6009, "specificity": 0.9193, "precision": 0.7679, "false_alert_rate": 0.0807}},
+      "hydrography": {"roc_auc": 0.7447, "pr_auc": 0.6557, "brier": 0.17280, "log_loss": 0.57811},
+      "combined": {"roc_auc": 0.8032, "pr_auc": 0.6913, "brier": 0.14363, "log_loss": 0.50057},
+      "combined_minus_persistence": {"delta_roc_auc": -0.01205, "delta_brier": 0.00299, "delta_log_loss": 0.02621}
+    }
+  },
+  "decision": "Current low-oxygen state has strong persistence at 6h and useful persistence at 12h. Hydrography/trend features do not improve common-case Brier/log-loss/AUC over current DO and therefore fail the incremental feature-promotion gate in this dataset. This validates a reservoir/loading-state concept only; it does not validate shoreline transport/contact or Jubilee-event forecast skill.",
+  "limits": [
+    "Only one short 2016 deployment and three stations.",
+    "DO is percent saturation; no mg/L hypoxia threshold is inferred.",
+    "Deployment geometry/official station aliases remain incompletely mapped.",
+    "No canonical 2016 Jubilee event labels are joined.",
+    "Out-of-block rows are serially correlated within episodes despite 3-day blocks and buffers; metrics are shadow research, not production qualification."
+  ]
+}
