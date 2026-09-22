@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "audit_id": "j10-reproducibility-audit-2026-09-20",
   "audited_at_utc": "2026-09-20T14:56:56Z",
   "scope": "Canonical research artifacts cited by the September 18 J09/J10 work-register update",
@@ -62,13 +62,42 @@
     "clean_matched_controls": 0,
     "september_9_marina_outcome": "UNKNOWN_SEPARATE_RECORD",
     "event_history_changed": false,
-    "source_registry_changed": false,
+    "source_registry_changed": true,
     "raw_manifest_changed": false,
-    "normalized_manifest_changed": false
+    "normalized_manifest_changed": false,
+    "source_registry_change_20260922": "0188979 and 0211052 reconciled as ingested research-only with exact files/rows/hashes and zero-weight guardrails."
   },
   "required_follow_up": [
     "Recover or reproducibly regenerate the four missing artifacts before citing their metrics as canonical evidence.",
     "Continue using explicit scoped owner reports and observation-effort fields; do not promote no-report dates to negatives.",
     "Keep production weights, thresholds, sensing coverage, and schedules unchanged."
-  ]
+  ],
+  "resolution_20260922": {
+    "resolved_at_utc": "2026-09-22T14:24:12Z",
+    "status": "PROVENANCE_RECOVERED_AND_INTERNALLY_REVALIDATED_NOT_INDEPENDENTLY_REPRODUCED",
+    "branch": "research/j09-oxygen-current-20260917",
+    "branch_compare": {
+      "main_ahead_by": 683,
+      "branch_unique_commits": 53,
+      "whole_branch_merge": "REJECTED_UNSAFE"
+    },
+    "recovered_to_main": [
+      "model_data/j09_oxygen_episode_research_20260918.json",
+      "model_data/j10_loading_shadow_model_20260918.json",
+      "model_data/j09_awac_observed_current_research_20260918.json"
+    ],
+    "duplicate_paths_not_copied": [
+      {
+        "missing_path": "model_data/j10_two_stage_hypothesis_research_20260918.json",
+        "canonical_equivalent": "model_data/j10_two_stage_hypothesis_validation_20260918.json"
+      },
+      {
+        "missing_path": "model_data/j10_control_deepening_20260918.json",
+        "canonical_equivalent": "model_data/j10_control_candidate_20240612_mayday_20260918.json"
+      }
+    ],
+    "validation_record": "model_data/j10_branch_recovery_revalidation_20260922.json",
+    "remaining_limit": "Original executable fitting/normalization pipeline and immutable raw payloads are not on main, so the recovered numerical results have provenance and consistency support but are not independently rerun."
+  },
+  "current_missing_status": "NO_UNRESOLVED_UNIQUE_EVIDENCE_PATH; FULL_INDEPENDENT_REPRODUCTION_STILL_BLOCKED"
 }
