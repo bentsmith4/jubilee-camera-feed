@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "j09-j10-branch-recovery-revalidation-2026-09-22",
+  "audited_at_utc": "2026-09-22T14:24:12Z",
+  "production_action": "NO_CHANGE",
+  "branch_reconciliation": {
+    "branch": "research/j09-oxygen-current-20260917",
+    "compare_to_main": {
+      "status": "diverged",
+      "main_ahead_by": 683,
+      "branch_unique_commits": 53,
+      "decision": "DO_NOT_MERGE_WHOLE_BRANCH; recover unique artifacts selectively"
+    }
+  },
+  "recovered_unique_artifacts": [
+    {
+      "path": "model_data/j09_oxygen_episode_research_20260918.json",
+      "branch_blob_sha": "b7437370112f3cf534aa585f0aa5fbc7e6921505",
+      "main_blob_sha": "b7437370112f3cf534aa585f0aa5fbc7e6921505",
+      "status": "RECOVERED_TO_MAIN_PROVENANCE_REVALIDATED"
+    },
+    {
+      "path": "model_data/j10_loading_shadow_model_20260918.json",
+      "branch_blob_sha": "005219a09d39ee5d10845df3ac9a23ed67621f57",
+      "main_blob_sha": "005219a09d39ee5d10845df3ac9a23ed67621f57",
+      "status": "RECOVERED_TO_MAIN_PROVENANCE_REVALIDATED"
+    },
+    {
+      "path": "model_data/j09_awac_observed_current_research_20260918.json",
+      "branch_blob_sha": "15ef84eecba15b2b2093520f5107e835937e99ad",
+      "main_blob_sha": "15ef84eecba15b2b2093520f5107e835937e99ad",
+      "status": "RECOVERED_TO_MAIN_PROVENANCE_REVALIDATED"
+    }
+  ],
+  "duplicate_branch_artifacts_not_copied": [
+    {
+      "branch_path": "model_data/j10_two_stage_hypothesis_research_20260918.json",
+      "branch_blob_sha": "cd545ab8f28e4e1f82865112904788767aea31dd",
+      "canonical_path": "model_data/j10_two_stage_hypothesis_validation_20260918.json",
+      "canonical_blob_sha": "d1baad6c936079935ac18032ec87ab0677edcb3e",
+      "reason": "Canonical validation record is broader and now resolves the recovered evidence paths."
+    },
+    {
+      "branch_path": "model_data/j10_control_deepening_20260918.json",
+      "branch_blob_sha": "efed6928a6ecbad601edec9d6cd9ab71cbdd1577",
+      "canonical_path": "model_data/j10_control_candidate_20240612_mayday_20260918.json",
+      "canonical_blob_sha": "317de38b36cbcf4a71b727ce04aa563c9387329b",
+      "reason": "Canonical May Day candidate record is more explicit about observation effort, scope and non-negative guardrails."
+    }
+  ],
+  "consistency_checks": [
+    {
+      "check": "0188979 row count matches episode and shadow artifacts",
+      "pass": true,
+      "values": [
+        9014,
+        9014
+      ]
+    },
+    {
+      "check": "0188979 normalized SHA matches episode and shadow artifacts",
+      "pass": true,
+      "value": "d7d47d363fa4626bba82aafc5e4d81e222bee6c7d17d9e6e5c15890721439bcb"
+    },
+    {
+      "check": "6h combined-minus-persistence metrics recompute",
+      "pass": true,
+      "recomputed": {
+        "delta_roc_auc": -0.0215,
+        "delta_brier": 0.00724,
+        "delta_log_loss": 0.03298
+      },
+      "reported": {
+        "delta_roc_auc": -0.02149,
+        "delta_brier": 0.00724,
+        "delta_log_loss": 0.03298
+      }
+    },
+    {
+      "check": "12h combined-minus-persistence metrics recompute",
+      "pass": false,
+      "recomputed": {
+        "delta_roc_auc": -0.0121,
+        "delta_brier": 0.00299,
+        "delta_log_loss": 0.02621
+      },
+      "reported": {
+        "delta_roc_auc": -0.01205,
+        "delta_brier": 0.00299,
+        "delta_log_loss": 0.02621
+      }
+    },
+    {
+      "check": "AWAC profile/hourly counts and raw hash present",
+      "pass": true,
+      "values": {
+        "record_blocks": 23664,
+        "hourly_rows": 7888,
+        "raw_sha256": "fdbd358009c0ac75ab3a411ec0468a213445b414838d520816dd0b86f5abdfc4"
+      }
+    },
+    {
+      "check": "canonical two-stage record now resolves recovered oxygen and AWAC evidence paths",
+      "pass": true
+    }
+  ],
+  "source_registry": {
+    "path": "model_data/ongoing_source_registry_20260906.json",
+    "blob_sha": "f1274ae884eab0f9e0d3eb30e6f021f334e0296d",
+    "status": "0188979 and 0211052 now classified ingested research-only with rows/files/hashes and production guardrails"
+  },
+  "reproducibility_classification": "PROVENANCE_RECOVERED_AND_INTERNAL_CONSISTENCY_VALIDATED_NOT_INDEPENDENTLY_REPRODUCED",
+  "unresolved": [
+    "Original executable normalization/model-fitting pipeline and immutable raw payloads are not stored on current main.",
+    "NCEI 0188979 exact station aliases and sensor height above bed remain unresolved.",
+    "NCEI 0211052 source-clock timezone and transferability to Point Clear shore-normal transport remain unresolved.",
+    "Verified clean matched Jubilee controls remain zero; event-level discrimination/calibration/miss/false-alert/lead-time comparisons remain blocked."
+  ],
+  "label_guardrails": {
+    "clean_matched_controls": 0,
+    "september_9_marina": "UNKNOWN",
+    "no_report_dates_are_negatives": false
+  },
+  "decision": "Recovered evidence can support research provenance and physical-state conclusions, but cannot promote production weights or be represented as Jubilee-event accuracy."
+}
