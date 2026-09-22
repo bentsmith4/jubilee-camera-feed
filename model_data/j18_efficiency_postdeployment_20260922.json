@@ -1,0 +1,164 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "j18-postdeployment-efficiency-review-2026-09-22",
+  "audited_at_utc": "2026-09-22T14:24:12Z",
+  "production_action": "NO_CHANGE_THIS_RUN",
+  "deployed_runtime": {
+    "version": "2026-09-18-cache-compact-synthesis-v2",
+    "source_commit": "665024dc2b4b44d4d40de1afccb88ee9db559dc3",
+    "mechanisms": [
+      "cacheable camera prompt prefix",
+      "compact camera output strings",
+      "compact cross-camera payload",
+      "deterministic synthesis only for complete high-detectability all-clear bursts"
+    ]
+  },
+  "telemetry": {
+    "path": "api_usage_summary.json",
+    "blob_sha": "c754dd6cee5ad6051008b1a62c6ccbfd6b04cb89",
+    "generated_at_utc": "2026-09-22T14:10:36.769476+00:00",
+    "status": "available",
+    "invalid_records": 0,
+    "coverage": "logged_requests_only; missing_days_are_not_zero; current_day_is_partial",
+    "cycle_coverage": "not_inferred_from_request_counts; inspect_camera_status_separately",
+    "billing_status": "unpriced_token_usage_not_actual_spend",
+    "pre_period_dates": [
+      "2026-09-09",
+      "2026-09-10",
+      "2026-09-11",
+      "2026-09-12",
+      "2026-09-13"
+    ],
+    "post_period_dates": [
+      "2026-09-19",
+      "2026-09-20",
+      "2026-09-21"
+    ],
+    "request_normalized_daily_rows": [
+      {
+        "date": "2026-09-09",
+        "reference_camera_request_index": 33,
+        "camera_tokens_per_six_request_equivalent": 50500.23382209189,
+        "camera_input_per_six_request_equivalent": 44505,
+        "cross_tokens_per_model_call": 5423.848484848485,
+        "cross_model_call_rate_per_reference_index": 1,
+        "request_normalized_total_tokens": 55924.08230694038
+      },
+      {
+        "date": "2026-09-10",
+        "reference_camera_request_index": 32,
+        "camera_tokens_per_six_request_equivalent": 50495.530844155845,
+        "camera_input_per_six_request_equivalent": 44505,
+        "cross_tokens_per_model_call": 5157.909090909091,
+        "cross_model_call_rate_per_reference_index": 1.03125,
+        "request_normalized_total_tokens": 55814.624594155845
+      },
+      {
+        "date": "2026-09-11",
+        "reference_camera_request_index": 33,
+        "camera_tokens_per_six_request_equivalent": 50526.745259042036,
+        "camera_input_per_six_request_equivalent": 44505,
+        "cross_tokens_per_model_call": 5334.666666666667,
+        "cross_model_call_rate_per_reference_index": 1,
+        "request_normalized_total_tokens": 55861.4119257087
+      },
+      {
+        "date": "2026-09-12",
+        "reference_camera_request_index": 33,
+        "camera_tokens_per_six_request_equivalent": 50523.53465909091,
+        "camera_input_per_six_request_equivalent": 44505,
+        "cross_tokens_per_model_call": 5353.727272727273,
+        "cross_model_call_rate_per_reference_index": 1,
+        "request_normalized_total_tokens": 55877.26193181818
+      },
+      {
+        "date": "2026-09-13",
+        "reference_camera_request_index": 33,
+        "camera_tokens_per_six_request_equivalent": 50557.56842619745,
+        "camera_input_per_six_request_equivalent": 44505,
+        "cross_tokens_per_model_call": 5330.606060606061,
+        "cross_model_call_rate_per_reference_index": 1,
+        "request_normalized_total_tokens": 55888.17448680352
+      },
+      {
+        "date": "2026-09-19",
+        "reference_camera_request_index": 33,
+        "camera_tokens_per_six_request_equivalent": 48999.89833822092,
+        "camera_input_per_six_request_equivalent": 43377,
+        "cross_tokens_per_model_call": 3794.217391304348,
+        "cross_model_call_rate_per_reference_index": 0.696969696969697,
+        "request_normalized_total_tokens": 51644.35288367546
+      },
+      {
+        "date": "2026-09-20",
+        "reference_camera_request_index": 34,
+        "camera_tokens_per_six_request_equivalent": 48924.997153700184,
+        "camera_input_per_six_request_equivalent": 43377,
+        "cross_tokens_per_model_call": 3952.5789473684213,
+        "cross_model_call_rate_per_reference_index": 0.5588235294117647,
+        "request_normalized_total_tokens": 51133.79127134724
+      },
+      {
+        "date": "2026-09-21",
+        "reference_camera_request_index": 33,
+        "camera_tokens_per_six_request_equivalent": 48930.82196969697,
+        "camera_input_per_six_request_equivalent": 43377,
+        "cross_tokens_per_model_call": 3856.5714285714284,
+        "cross_model_call_rate_per_reference_index": 0.6363636363636364,
+        "request_normalized_total_tokens": 51385.003787878784
+      }
+    ]
+  },
+  "measured_request_normalized_effect": {
+    "camera_tokens_per_six_request_equivalent": {
+      "pre": 50520.723,
+      "post": 48951.906,
+      "change_percent": -3.105
+    },
+    "camera_input_per_six_request_equivalent": {
+      "pre": 44505,
+      "post": 43377,
+      "change_percent": -2.535
+    },
+    "cross_tokens_per_model_call": {
+      "pre": 5320.152,
+      "post": 3867.789,
+      "change_percent": -27.299
+    },
+    "cross_model_call_rate_per_reference_index": {
+      "pre": 1.006,
+      "post": 0.631,
+      "change_percent": -37.32
+    },
+    "request_normalized_total_tokens": {
+      "pre": 55873.111,
+      "post": 51387.716,
+      "change_percent": -8.028
+    }
+  },
+  "cache_evidence": {
+    "post_period_cached_input_tokens": 1249248,
+    "post_period_input_tokens": 4437243,
+    "cached_share_of_input": 0.281537,
+    "note": "Cached input is a subset of input and is not added to total tokens."
+  },
+  "current_cycle_crosscheck": {
+    "capture_time_ct": "2026-09-22T09:06:04.272847-05:00",
+    "status_blob_sha": "882d8d12b3b6c3af50f85c71e0521ffa1d29240e",
+    "burst_blob_sha": "c43a576f466add72f487a1662ff22d7f113a6d87",
+    "vision_blob_sha": "1ceae450a6fa6607b09fe655753a2f64fb8d7b4f",
+    "all_six_status_ok": true,
+    "all_six_bursts_ok": true,
+    "three_frames_each": true,
+    "all_six_vision_ok": true,
+    "synthesis_mode": "deterministic_quiet"
+  },
+  "interpretation": "Existing deployed compact/cache runtime shows an 8.03% reduction in request-normalized total tokens versus the pre-change five-day baseline, driven by 3.11% lower six-camera request tokens, 27.30% lower cross-camera tokens per model call, and 37.32% lower cross-camera model-call rate. This is materially useful but far short of the 50% target.",
+  "limitations": [
+    "Request-normalized estimate is not a coverage-normalized dollar saving; request counts are not deduplicated cycle counts.",
+    "Only the latest cycle was directly cross-checked here for six cameras, three frames and vision completion; historical daily completeness was not reconstructed.",
+    "No event occurred in the audited post period, so miss/false-alert equivalence is not demonstrated.",
+    "Provider billing/tier rates remain unreconciled; dollar savings are unpriced."
+  ],
+  "decision": "Retain deployed caching/compact/deterministic-quiet changes with rollback. Do not claim 50% savings or equivalent Jubilee-event effectiveness yet. Next efficiency lever remains a bounded cheaper camera-analysis shadow test only after labeled effectiveness criteria are available."
+}
