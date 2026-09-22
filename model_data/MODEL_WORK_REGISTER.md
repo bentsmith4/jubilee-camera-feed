@@ -1555,7 +1555,7 @@ Read-back verified the brief remains enabled, its current prompt is preserved un
 
 ### J18 efficiency measurement
 
-- Reviewed remote summary blob `c754dd6cee5ad6051008b1a62c6ccbfd6b04cb89`, generated 2026-09-22 14:10:36 UTC, status available, invalid records 0. Billing remains unpriced and request counts are not cycle proof.
+- Reviewed remote summary blob `c754dd6cee5ad6051008b1a62c6ccbfd6b04cb89`, generated 2026-09-22 14:10:36 UTC, status available, invalid records 0. Billing remains unpriced and request counts are not cycle proof. The top-level `missing_records` field is absent; that schema gap is not treated as zero missing records.
 - Compared five full pre-change dates (September 9–13) with three post-deployment dates (September 19–21) using a request-normalized six-camera index. Total tokens decreased from 55,873 to 51,388 per request-equivalent cycle, **-8.03%**. Six-camera request tokens fell 3.11%; cross-camera tokens per model call fell 27.30%; cross-camera model-call rate fell 37.32% because only all-clear, complete, sufficiently detectable bursts use deterministic quiet synthesis.
 - Across September 19–21, 1,249,248 cached-input tokens were reported out of 4,437,243 input tokens (28.15%). Cached input is a subset of input and was not double-counted.
 - Latest direct cross-check at 2026-09-22 09:06 CDT: all 6/6 cameras OK, 3/3 frames each, all six vision analyses OK, runtime `2026-09-18-cache-compact-synthesis-v2`, deterministic-quiet synthesis. Exact evidence blobs are in `model_data/j18_efficiency_postdeployment_20260922.json` blob `6fb96353c27e0a97e3367cb3392ae4de4df61e46`.
