@@ -1526,3 +1526,44 @@ Read-back verified the brief remains enabled, its current prompt is preserved un
 - **Decision and canonical evidence:** Opportunity is Point Clear 3–7% and Daphne/May Day 2–5%; the three-dawn ranges are retained in the snapshot. No priority zone exceeds 20%, no credible same-day report was recovered and no new material physical/input-quality alert occurred. The prior NGOFS shift is continuing and was not re-alerted. Current-state content `84ef4fd3a500ff4f51797dc912ab07a916be52f1` (commit `1af2945269650fa313b9182801f2eed3b300dea5`).
 - **J11 continuity:** Existing dawn timing, role division, six-camera coverage and >20% notification gate were preserved. No timing change was made.
 - **Open blockers:** No current validated Point Clear/Daphne bottom or contact-strip dissolved oxygen; no observed local nearshore current or Point Clear water level; today's official tide phase, current ASOS/rain and current lower-river forcing were unavailable; several priority shoreline contact strips remain outside validated views; public-camera exact upstream delay remains unknown.
+
+## J09/J10/J18 selective recovery and revalidation — 2026-09-22
+
+**Run time:** 2026-09-22 09:24 CDT. **Role:** Research & Calibration only. Seasonal-policy v2.1 passed. No production weight, alert threshold, camera, sensing window, dawn timing, schedule, credential, paid service, physical sensor or recurring task changed in this run.
+
+### Continuation and branch safety
+
+- Read current register blob `bb06feaeebefc5e1d209e2d5e4824d37390b2f05`; transient discovery queue remains absent; no open PRs. The sole research branch, `research/j09-oxygen-current-20260917`, is diverged from `main`: current compare shows main ahead by 683 commits and 53 branch-unique commits. A wholesale merge was rejected because it would risk live-state history.
+- Selectively recovered three unique research artifacts byte-for-byte from their branch blobs: `j09_oxygen_episode_research_20260918.json` blob `b7437370112f3cf534aa585f0aa5fbc7e6921505`; `j10_loading_shadow_model_20260918.json` blob `005219a09d39ee5d10845df3ac9a23ed67621f57`; and `j09_awac_observed_current_research_20260918.json` blob `15ef84eecba15b2b2093520f5107e835937e99ad`.
+- Did not copy two redundant branch summaries. `j10_two_stage_hypothesis_research_20260918.json` is superseded by canonical `j10_two_stage_hypothesis_validation_20260918.json`; `j10_control_deepening_20260918.json` is superseded by the more explicit canonical June 12 May Day candidate. This preserves one evidence/model home.
+- Recovery/revalidation record: `model_data/j10_branch_recovery_revalidation_20260922.json`, blob `d5be10f4b416322444d18ce80fa2b4972d64b6da`. The prior reproducibility audit is updated at blob `7ebc5d617ef192e47c2a912d739a984a16a051aa`.
+
+### Effectiveness evidence and rejected increments
+
+- NCEI 0188979 now has canonical episode evidence: 9,014 ten-minute rows across three 2016 in-bay moorings. Station 01 includes a roughly 200.7-hour period below 20% oxygen saturation and 147 hours below 10%. Units are percent saturation, not mg/L; exact station aliases and height above bed remain unresolved.
+- Recovered time-blocked shadow model predicts the **oxygen-loading state**, not Jubilee events. With contiguous three-day held-out blocks and 12-hour train/test buffers, persistence/current oxygen achieved at +6 h: n=1,468, AUC 0.8881, Brier 0.11335, log loss 0.38894; and +12 h: n=1,450, AUC 0.8153, Brier 0.14064, log loss 0.47436.
+- Adding hydrography and short-term trends regressed common-case performance versus persistence at both horizons. At +6 h the combined model changed AUC by -0.02149, Brier by +0.00724 and log loss by +0.03298; at +12 h, AUC -0.01205, Brier +0.00299 and log loss +0.02621. These additions fail the incremental promotion gate for this dataset.
+- NCEI 0211052 FOCAL AWAC evidence now persists canonically: 23,664 native profile blocks and 7,888 hourly vectors; median observed speed 0.1012 m/s; median integrated displacement 1.077/2.103/3.986 km at 3/6/12 h. This validates transport scale at the offshore boundary only; it does not validate Point Clear shore-normal direction, phase or magnitude.
+- The source registry was reconciled at blob `f1274ae884eab0f9e0d3eb30e6f021f334e0296d`: 0188979 and 0211052 are now `ingested` research-only with exact coordinates, cadence, units, QC/time semantics, rows/files/hashes, independence groups and zero-weight production guardrails. The feature catalog at blob `18e4cd016715ab42afa506418b05041269127a23` records vertical-gradient limits and a zero-weight offshore-AWAC transport feature.
+- Reproducibility classification remains deliberately limited: **provenance recovered and internal arithmetic/linkage validated, not independently reproduced**. The original executable fitting/normalization pipeline and immutable raw payloads are not stored on current main.
+
+### Labels, calibration and gaps
+
+- No Jubilee-event model comparison was run because verified clean matched controls remain **0**. September 9 marina remains UNKNOWN. No-report dates were not labeled negative; owner-scoped reports remain separate sensitivity evidence.
+- Therefore Jubilee discrimination, Brier/log loss, calibration, misses, false alerts, location error and event lead time remain NOT_ESTABLISHED. The existing loading-versus-transport-versus-combined event test remains blocked rather than overfit to positives.
+- Coverage-gap delta is recorded in `model_data/research_coverage_gap_update_20260922.json`, blob `e36b5d283522a530ce2764784ea9818bab059a22`. Historical in-bay loading and shelf-current coverage improved; the top three gaps remain direct Eastern Shore bottom state, observation-effort matched controls, and local Point Clear/Eastern Shore observed transport.
+
+### J18 efficiency measurement
+
+- Reviewed remote summary blob `c754dd6cee5ad6051008b1a62c6ccbfd6b04cb89`, generated 2026-09-22 14:10:36 UTC, status available, invalid records 0. Billing remains unpriced and request counts are not cycle proof.
+- Compared five full pre-change dates (September 9–13) with three post-deployment dates (September 19–21) using a request-normalized six-camera index. Total tokens decreased from 55,873 to 51,388 per request-equivalent cycle, **-8.03%**. Six-camera request tokens fell 3.11%; cross-camera tokens per model call fell 27.30%; cross-camera model-call rate fell 37.32% because only all-clear, complete, sufficiently detectable bursts use deterministic quiet synthesis.
+- Across September 19–21, 1,249,248 cached-input tokens were reported out of 4,437,243 input tokens (28.15%). Cached input is a subset of input and was not double-counted.
+- Latest direct cross-check at 2026-09-22 09:06 CDT: all 6/6 cameras OK, 3/3 frames each, all six vision analyses OK, runtime `2026-09-18-cache-compact-synthesis-v2`, deterministic-quiet synthesis. Exact evidence blobs are in `model_data/j18_efficiency_postdeployment_20260922.json` blob `6fb96353c27e0a97e3367cb3392ae4de4df61e46`.
+- This is a material efficiency improvement but is **not** a 50% saving, not dollar-priced, not fully coverage-normalized across the historical period, and not proof of equal Jubilee-event effectiveness because no labeled event occurred during the post-deployment comparison. Retain the deployed change and rollback; no further production change was made this run.
+
+### Net assessment and next priorities
+
+- **Jubilee-event predictive gain this run: none demonstrated.** The useful gains are restored reproducibility, corrected source-ingest status, rejection of non-incremental loading features, and measured operating efficiency.
+- Next effectiveness work: recover or reproducibly rebuild the original fitting pipeline; prioritize closer observed current/ADCP evidence with verified depth/time/geometry; expand known-effort matched controls; only then run loading-only, transport-only and combined episode-blocked Jubilee tests.
+- Next efficiency work: keep measuring complete valid cycles and misses/false alerts/latency; do not initiate an unbounded paid shadow test or reduce camera/frame coverage. A cheaper camera-analysis model remains a bounded future experiment, not a production decision.
+
