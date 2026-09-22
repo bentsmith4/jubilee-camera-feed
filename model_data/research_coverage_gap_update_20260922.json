@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-09-22T14:24:12Z",
+  "role": "MODEL_RESEARCH_COVERAGE_DELTA",
+  "production_action": "NO_CHANGE",
+  "baseline_coverage_snapshot": {
+    "path": "model_data/coverage_snapshot.json",
+    "blob_sha": "b660d0a98dc11fd6eedf7727b0fd7420cb60fc0b",
+    "generated_at_utc": "2026-09-22T13:02:14.866792+00:00"
+  },
+  "coverage_changes": [
+    {
+      "cell": "Mobile Bay interior",
+      "dimension": "historical bottom oxygen/loading state",
+      "before": "REGISTERED_NOT_INGESTED",
+      "after": "DIRECT_HISTORICAL_OBSERVATION_INGESTED_RESEARCH_ONLY",
+      "evidence": "NCEI 0188979; 9,014 rows; DO percent saturation; fixed single-depth geometry with exact sensor height unresolved"
+    },
+    {
+      "cell": "Shelf/FOCAL/West End CP",
+      "dimension": "historical observed current",
+      "before": "HISTORICAL_DIRECT_SOURCE_AVAILABLE",
+      "after": "DIRECT_HISTORICAL_OBSERVED_CURRENT_INGESTED_RESEARCH_ONLY",
+      "evidence": "NCEI 0211052; 23,664 profile blocks and 7,888 hourly vectors; offshore boundary only"
+    }
+  ],
+  "unchanged_priority_gaps": [
+    {
+      "rank": 1,
+      "gap": "Direct near-bottom DO + salinity + temperature at Montrose/Daphne and Point Clear",
+      "reason": "Recovered sources are interior-bay or offshore historical data, not current Eastern Shore contact-strip observations."
+    },
+    {
+      "rank": 2,
+      "gap": "Historical event expansion plus observation-effort matched controls",
+      "reason": "Verified clean matched controls remain zero."
+    },
+    {
+      "rank": 3,
+      "gap": "Local shoreward transport/current measurement or validated high-resolution nowcast extraction",
+      "reason": "FOCAL AWAC cannot validate Point Clear direction/phase/magnitude; upper-bay PORTS comparison still has large direction error."
+    }
+  ],
+  "owner_constraints": {
+    "new_physical_sensors": "ON_HOLD",
+    "routine_manual_predawn_checks": false
+  },
+  "calibration_effect": "Improves mechanism and source coverage; does not establish Jubilee-event discrimination, calibration, false-alert rate, miss rate or lead time."
+}
