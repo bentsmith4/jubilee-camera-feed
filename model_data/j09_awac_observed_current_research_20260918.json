@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-09-18T03:43:00Z",
+  "scope": "RESEARCH_ONLY_OBSERVED_CURRENT",
+  "production_action": "NO_CHANGE",
+  "source": {
+    "accession": "NCEI 0211052",
+    "provider": "Dauphin Island Sea Lab / NCEI",
+    "instrument": "Nortek Acoustic Doppler Wave and Current Profiler (AWAC)",
+    "lat": 30.0902,
+    "lon": -88.2116,
+    "location_description": "southwest of Mobile Bay, Alabama",
+    "valid_start_source_clock": "2018-06-21",
+    "valid_end_inclusive_source_clock": "2019-05-15",
+    "raw_dump_rep_dat_bytes": 87043552,
+    "raw_sha256": "fdbd358009c0ac75ab3a411ec0468a213445b414838d520816dd0b86f5abdfc4"
+  },
+  "normalization": {
+    "record_blocks": 23664,
+    "hourly_rows": 7888,
+    "normalized_record_sha256": "d05bc25c34007f9b0fe32ab3a3a8027a46b810615ddecabb8c977223750ef745",
+    "hourly_sha256": "4512567fa10c5679793e9e65e05dc5ad9ae7397889e277662c8fc04b884888f8",
+    "method": "parse each native profile; robust median east/north vector across cells >=2 after excluding speed >2 m/s when >=5 cells remain; hourly vector means",
+    "native_cell_position_unit": "m",
+    "native_velocity_unit": "m/s",
+    "native_direction_unit": "degrees",
+    "unit_evidence": "Nortek published current-profile ASCII documentation identifies cell position in m, Velocity East/North/Up and Speed in m/s, and Direction in degrees; the delivered row structure and speed/direction are numerically consistent with that layout.",
+    "time_semantics": "source clock preserved; timezone not inferred from delivered archive"
+  },
+  "hourly_current_summary": {
+    "median_speed_m_s": 0.1012,
+    "mean_speed_m_s": 0.1123,
+    "p10_speed_m_s": 0.03595,
+    "p90_speed_m_s": 0.20225,
+    "mean_east_m_s": 0.00249,
+    "mean_north_m_s": -0.01646
+  },
+  "observed_vector_displacement_windows": {
+    "note": "integrated hourly robust vectors; displacement is observed-current context at the AWAC station, not Point Clear shore-normal transport",
+    "1h": {"n": 7888, "median_km": 0.364, "p10_km": 0.129, "p90_km": 0.728},
+    "3h": {"n": 7886, "median_km": 1.077, "p10_km": 0.378, "p90_km": 2.153},
+    "6h": {"n": 7883, "median_km": 2.103, "p10_km": 0.725, "p90_km": 4.229},
+    "12h": {"n": 7877, "median_km": 3.986, "p10_km": 1.365, "p90_km": 8.181},
+    "24h": {"n": 7865, "median_km": 7.381, "p10_km": 2.490, "p90_km": 15.387},
+    "48h": {"n": 7841, "median_km": 13.861, "p10_km": 4.480, "p90_km": 28.369}
+  },
+  "interpretation": "Observed currents can advect water over kilometer scales within 3-12 hours and multi-kilometer scales over 1-2 days. This supports testing transport as a separate trigger state, but this offshore/southwest record does not by itself validate Point Clear NGOFS2 direction, phase, magnitude, or shoreline delivery.",
+  "remaining_validation_gate": "Match active Mobile Bay PORTS observed currents or a temporally overlapping historical observed-current station to NGOFS2 station output with verified station/depth/time semantics, then score vector direction, phase and magnitude."
+}
