@@ -78,7 +78,7 @@
     },
     {
       "check": "12h combined-minus-persistence metrics recompute",
-      "pass": false,
+      "pass": true,
       "recomputed": {
         "delta_roc_auc": -0.0121,
         "delta_brier": 0.00299,
@@ -88,7 +88,8 @@
         "delta_roc_auc": -0.01205,
         "delta_brier": 0.00299,
         "delta_log_loss": 0.02621
-      }
+      },
+      "rounding_note": "Displayed component AUC values are rounded to 4 decimals: 0.8032 - 0.8153 = -0.01210, while reported delta is -0.01205. The 0.00005 difference is within the maximum implied by independent four-decimal rounding; exact unrounded predictions are not stored."
     },
     {
       "check": "AWAC profile/hourly counts and raw hash present",
@@ -114,7 +115,8 @@
     "Original executable normalization/model-fitting pipeline and immutable raw payloads are not stored on current main.",
     "NCEI 0188979 exact station aliases and sensor height above bed remain unresolved.",
     "NCEI 0211052 source-clock timezone and transferability to Point Clear shore-normal transport remain unresolved.",
-    "Verified clean matched Jubilee controls remain zero; event-level discrimination/calibration/miss/false-alert/lead-time comparisons remain blocked."
+    "Verified clean matched Jubilee controls remain zero; event-level discrimination/calibration/miss/false-alert/lead-time comparisons remain blocked.",
+    "Exact unrounded prediction vectors are not stored; reported metric deltas can be checked only to displayed-rounding tolerance."
   ],
   "label_guardrails": {
     "clean_matched_controls": 0,
