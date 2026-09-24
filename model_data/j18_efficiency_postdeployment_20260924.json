@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "j18-postdeployment-efficiency-review-2026-09-24",
+  "audited_at_utc": "2026-09-24T15:03:57Z",
+  "production_action": "NO_CHANGE_THIS_RUN",
+  "deployed_runtime": {
+    "version": "2026-09-18-cache-compact-synthesis-v2",
+    "source_commit": "665024dc2b4b44d4d40de1afccb88ee9db559dc3"
+  },
+  "telemetry": {
+    "path": "api_usage_summary.json",
+    "blob_sha": "8429b41b13244f600767b7827eae67f1eabdd1eb",
+    "generated_at_utc": "2026-09-24T14:10:23.492036+00:00",
+    "status": "available",
+    "invalid_records": 0,
+    "missing_records_top_level": "FIELD_ABSENT_NOT_ZERO",
+    "pre_period_dates": [
+      "2026-09-09",
+      "2026-09-10",
+      "2026-09-11",
+      "2026-09-12",
+      "2026-09-13"
+    ],
+    "post_period_dates": [
+      "2026-09-19",
+      "2026-09-20",
+      "2026-09-21",
+      "2026-09-22",
+      "2026-09-23"
+    ],
+    "current_day_excluded": "2026-09-24 is partial",
+    "method": "For each date, sum each of the six camera-stage mean tokens per completed request, then add cross-camera mean tokens per model call multiplied by cross-camera calls divided by the Montrose-shoreline completed-request reference index. Average daily rows within each period."
+  },
+  "measured_request_normalized_effect": {
+    "camera_tokens_per_six_request_equivalent": {
+      "pre": 50520.723,
+      "post": 48961.64,
+      "change_percent": -3.086
+    },
+    "camera_input_per_six_request_equivalent": {
+      "pre": 44505,
+      "post": 43377,
+      "change_percent": -2.535
+    },
+    "cross_tokens_per_model_call": {
+      "pre": 5320.152,
+      "post": 3790.298,
+      "change_percent": -28.756
+    },
+    "cross_model_call_rate_per_reference_index": {
+      "pre": 1.00625,
+      "post": 0.687522,
+      "change_percent": -31.675
+    },
+    "request_normalized_total_tokens": {
+      "pre": 55873.111,
+      "post": 51554.659,
+      "change_percent": -7.729
+    }
+  },
+  "cache_evidence": {
+    "post_period_cached_input_tokens": 2039492,
+    "post_period_input_tokens": 7241560,
+    "cached_share_of_input": 0.281637,
+    "note": "Cached input is a subset of input and is not added to total tokens."
+  },
+  "incremental_readout_since_2026_09_22": {
+    "prior_three_day_request_normalized_change_percent": -8.028,
+    "extended_five_day_change_percent": -7.729,
+    "interpretation": "The estimated reduction weakened by 0.299 percentage points as September 22-23 were added. September 23 cross-camera call rate was 29/33=0.879, so deterministic quiet synthesis was used less often that day. No additional efficiency gain is claimed."
+  },
+  "latest_coverage_crosscheck": {
+    "capture_time_ct": "2026-09-24T08:16:53.630879-05:00",
+    "commit": "27a1647243dd8d986ab718f73b45bea5eee818d5",
+    "runtime_version": "2026-09-18-cache-compact-synthesis-v2",
+    "all_six_camera_capture_ok": true,
+    "three_frames_each": true,
+    "six_camera_vision_present": true,
+    "synthesis_mode": "deterministic_quiet"
+  },
+  "limitations": [
+    "Request-normalized estimate is not coverage-normalized dollar savings; request counts are not deduplicated cycle counts.",
+    "The top-level summary lacks a missing_records field; absence is not zero missingness.",
+    "Historical daily valid-cycle completeness has not been reconstructed.",
+    "No Jubilee event occurred in the audited post period, so equivalent event-detection effectiveness, misses and false alerts are not established.",
+    "Provider billing/tier rates remain unreconciled and dollar savings remain unpriced."
+  ],
+  "decision": "Retain the deployed runtime with rollback. The extended evidence supports a modest roughly 7.7% token reduction, not the 50% target and not proven equivalent event effectiveness. Do not change camera coverage or alert behavior."
+}
