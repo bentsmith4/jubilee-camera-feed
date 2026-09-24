@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "j10-matched-control-sensitivity-2026-09-24",
+  "generated_at_utc": "2026-09-24T15:03:57Z",
+  "scope": "RESEARCH_ONLY_LABEL_AND_OBSERVATION_PROCESS_AUDIT",
+  "production_action": "NO_CHANGE",
+  "contract": {
+    "path": "model_data/matched_control_contract.json",
+    "blob_sha": "091f586f36902be96e9d1bd07ebfbfc19444303c"
+  },
+  "label_counts": {
+    "fully_verified_clean_matched_controls": 0,
+    "new_independent_scoped_candidate_episodes": 1,
+    "point_clear_observation_effort_only_episodes": 1,
+    "public_camera_training_controls": 0,
+    "september_9_marina": "UNKNOWN_EXCLUDED"
+  },
+  "new_candidate": {
+    "candidate_id": "camera_2026-09-24-montrose-437-visible-scope",
+    "source_path": "model_data/observation_records/d373ba9e13e2c6accdb10c91.json",
+    "source_commit": "0c348eef883215af71909919687f7fe522c1e88b",
+    "capture_time_ct": "2026-09-24T06:36:53.498301-05:00",
+    "target_window_ct": [
+      "2026-09-24T04:16:51.624540-05:00",
+      "2026-09-24T08:16:51.624540-05:00"
+    ],
+    "shoreline_cell": "Montrose",
+    "visible_scope": "Only the 437 waterline/beach segments visible in montrose_shoreline.",
+    "observation_effort": {
+      "expected_private_cameras": 3,
+      "fresh_or_ok_private_cameras": 3,
+      "independent_site_groups": 1,
+      "primary_contact_camera": "montrose_shoreline",
+      "primary_visibility": "fair",
+      "primary_detectability": "moderate",
+      "three_frame_vision": true,
+      "direct_independent_pixel_re_review": false,
+      "public_camera_exact_capture_time": false,
+      "human_field_check": false,
+      "social_search_effort": "not established in this research audit"
+    },
+    "observed_signal": "No camera-visible Jubilee signal in the scoped Montrose waterline at that capture.",
+    "classification": "SCOPED_CAMERA_CONTROL_CANDIDATE_NOT_CLEAN_MATCHED_CONTROL",
+    "reason_not_clean": "Only one private site group and narrow visible scope; no independent human/social confirmation, no full-cell coverage, and event/control environmental matching has not yet been completed."
+  },
+  "excluded_or_limited_evidence": [
+    {
+      "record": "Point Clear private owner cluster at 2026-09-24 06:36 CT",
+      "classification": "OBSERVATION_EFFORT_ONLY",
+      "reason": "Three fresh marina/Bay cameras but no close beach/swash-zone view; cannot establish a Point Clear non-event."
+    },
+    {
+      "record": "Grand Hotel public camera at 2026-09-24 06:48 CT",
+      "classification": "PUBLIC_SCOPED_OBSERVATION_NOT_TRAINING_CONTROL",
+      "reason": "Probably fresh broad view, exact source capture time unknown, close contact strip mostly not assessable, and source record explicitly sets training_control_eligible=false."
+    },
+    {
+      "record": "Fairhope public camera at 2026-09-24 06:48 CT",
+      "classification": "PUBLIC_SCOPED_OBSERVATION_NOT_TRAINING_CONTROL",
+      "reason": "Neither Fairhope beach nor Fly Creek visible; exact source capture time unknown; training_control_eligible=false."
+    },
+    {
+      "record": "2024-06-12 May Day reported-nothing spatial contrast",
+      "classification": "SCOPED_SPATIAL_CONTROL_CANDIDATE_NOT_TRAINING_NEGATIVE",
+      "reason": "Same-morning checking while Point Clear event occurred, but searched segment, duration, directness and biological detectability remain unresolved."
+    },
+    {
+      "record": "2026-09-09 marina outcome",
+      "classification": "UNKNOWN_EXCLUDED",
+      "reason": "Owner instruction explicitly preserves outcome as unknown."
+    }
+  ],
+  "sensitivity_design": [
+    {
+      "tier": "A",
+      "labels": "fully verified matched controls only",
+      "n_controls": 0,
+      "model_comparison": "NOT_ESTIMABLE"
+    },
+    {
+      "tier": "B",
+      "labels": "scoped camera-visible candidates with explicit effort",
+      "n_independent_candidate_episodes": 1,
+      "model_comparison": "NOT_ESTIMABLE; retain for future prospective matching only"
+    },
+    {
+      "tier": "C",
+      "labels": "owner-reported or article-reported scoped negatives/spatial contrasts",
+      "n_known_candidates": "at least one 2024-06-12 May Day spatial contrast plus separately preserved owner reports",
+      "model_comparison": "QUALITATIVE_FALSIFICATION_ONLY"
+    },
+    {
+      "tier": "D",
+      "labels": "no-report mornings, Sep 9 unknown, broad camera views without contact geometry",
+      "model_comparison": "EXCLUDED"
+    }
+  ],
+  "held_out_comparison": {
+    "loading_only": "NOT_RUN",
+    "transport_only": "NOT_RUN",
+    "combined": "NOT_RUN",
+    "reason": "Zero Tier-A controls and only one new independent Tier-B episode cannot support a held-out event classifier, calibration, miss rate, false-alert rate or lead-time estimate.",
+    "leakage_guard": "No post-event report or camera observation is treated as a pre-event predictor."
+  },
+  "decision": "The observation-process pipeline is producing usable scoped candidates, but the clean-control bottleneck remains. Do not inflate the training set by converting narrow camera all-clears into whole-cell negatives."
+}
