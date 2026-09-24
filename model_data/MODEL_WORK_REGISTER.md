@@ -1641,3 +1641,6 @@ Read-back verified the brief remains enabled, its current prompt is preserved un
 - Coverage-gap delta: `model_data/research_coverage_gap_update_20260924.json` (blob `0f6c21dfe36c484ab808cc86c7fb788be63f0650`).
 - Confirmed event history remains 15 rows (blob `43205ae6ebc962f331ab2e096ee33a1068d52854`); no event evidence was added or relabeled.
 - Next priorities: (1) bounded ingestion/QC of the 2010 ship-channel ADCP archive when download authority permits, with exact NMEA geometry and depth/time/unit validation; (2) accumulate independent, explicit-effort Montrose visible-scope control mornings and independently observed Point Clear/Eastern Shore controls; (3) only then run held-out loading-only vs transport-only vs combined Jubilee tests; (4) retain the deployed efficiency changes and continue measuring effectiveness before any cheaper-model experiment.
+
+
+**Branch/PR safety check (2026-09-24):** no open pull requests. `research/j09-oxygen-current-20260917` remains diverged: current `main` is 855 commits ahead and the branch has 53 commits not in `main` (merge base `f7cafaf07766d8d69c2ede36998d52a11c5a2ca8`). Do not merge wholesale; prior unique research artifacts were selectively recovered and revalidated, and any remaining branch-only item requires file-level current-head review.
