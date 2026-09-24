@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-09-24T15:03:57Z",
+  "role": "MODEL_RESEARCH_COVERAGE_DELTA",
+  "production_action": "NO_CHANGE",
+  "changes": [
+    {
+      "cell": "Mobile Bay ship channel",
+      "dimension": "historical observed current",
+      "before": "SOURCE_NOT_REGISTERED",
+      "after": "HIGH_VALUE_SOURCE_REGISTERED_NOT_INGESTED",
+      "evidence": "GRIIDC Y1.x122.038:0002; 11 continuous ship-channel ADCP transects, 68 files, 94.58 MB, raw/un-QC'd"
+    },
+    {
+      "cell": "Montrose 437 visible waterline",
+      "dimension": "prospective control observation effort",
+      "before": "PIPELINE_CONTRACT_ONLY",
+      "after": "ONE_SCOPED_CAMERA_CONTROL_CANDIDATE",
+      "evidence": "2026-09-24 06:36 CT; three owner cameras fresh, shoreline view fair/moderate detectability; not clean full-cell control"
+    }
+  ],
+  "unchanged_priority_gaps": [
+    {
+      "rank": 1,
+      "gap": "Direct near-bottom DO, salinity and temperature at Montrose/Daphne and Point Clear"
+    },
+    {
+      "rank": 2,
+      "gap": "Fully verified observation-effort matched controls",
+      "status": "zero clean controls"
+    },
+    {
+      "rank": 3,
+      "gap": "Local Point Clear/Eastern Shore shore-normal current validation",
+      "status": "ship-channel ADCP registered but not ingested; no local validation"
+    }
+  ],
+  "owner_constraints": {
+    "new_physical_sensors": "ON_HOLD",
+    "routine_manual_predawn_checks": false
+  },
+  "calibration_effect": "No Jubilee-event performance metric or production feature changed."
+}
