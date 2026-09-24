@@ -1644,3 +1644,9 @@ Read-back verified the brief remains enabled, its current prompt is preserved un
 
 
 **Branch/PR safety check (2026-09-24):** no open pull requests. `research/j09-oxygen-current-20260917` remains diverged: current `main` is 855 commits ahead and the branch has 53 commits not in `main` (merge base `f7cafaf07766d8d69c2ede36998d52a11c5a2ca8`). Do not merge wholesale; prior unique research artifacts were selectively recovered and revalidated, and any remaining branch-only item requires file-level current-head review.
+
+## J11 routine timing maintenance — 2026-09-24 15:16 CDT
+
+The in-season date guard passed under `model_data/seasonal_policy.json` v2.1. For September 25, 2026 at observer 30.6035, -87.9036, civil dawn calculated at 06:17:27 CDT using the civil-twilight threshold (solar center 6° below the horizon); General Blue's current Daphne September 2026 table independently confirms 06:17 at minute resolution (https://www.generalblue.com/sunrise-sunset-in-daphne-alabama-usa). The existing `Jubilee Dawn Brief` automation was updated in place to `DTSTART;TZID=America/Chicago:20260925T064227`, exactly dawn+25 minutes.
+
+Read-back verified the brief remains enabled, its current prompt is preserved unchanged at 12,534 characters, and its RRULE remains `FREQ=YEARLY` with all 181 `BYYEARDAY=-228` through `-48` values plus `BYHOUR=6;BYMINUTE=42;BYSECOND=27`. The `Jubilee Dawn Timing` task independently retains the same complete 181-day seasonal recurrence. No task was created, disabled or removed. No camera media, API/model execution, research, predictor weight, alert threshold, sensor policy or coverage was touched. Timing-only maintenance: actual observation quality and source-clock interpretation are not applicable; the computed time is America/Chicago civil time (CDT, UTC-05:00). J11 completed first-run validation remains controlling.
