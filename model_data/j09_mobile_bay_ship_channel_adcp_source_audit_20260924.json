@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "j09-mobile-bay-ship-channel-adcp-source-audit-2026-09-24",
+  "generated_at_utc": "2026-09-24T15:03:57Z",
+  "scope": "RESEARCH_ONLY_OBSERVED_CURRENT_SOURCE_VALIDATION",
+  "production_action": "NO_CHANGE",
+  "source": {
+    "source_id": "griidc_y1_x122_038_0002_mobile_bay_ship_channel_adcp_2010",
+    "provider": "GRIIDC / Dauphin Island Sea Lab",
+    "title": "ADCP transecting data along the ship channel of Mobile Bay",
+    "author": "Kyeong Park",
+    "udi": "Y1.x122.038:0002",
+    "doi": "10.7266/N7B85630",
+    "url": "https://data.griidc.org/data/Y1.x122.038%3A0002",
+    "publication_time_utc": "2016-01-07T15:38:00Z",
+    "collection_period": "2010-08-18 through 2010-10-27",
+    "surveys": 11,
+    "transect_geometry": "Continuous along the Mobile Bay ship channel between the bay mouth and Mobile State Dock; exact ensemble coordinates must be extracted from NMEA sentences.",
+    "instrument": "Nortek Acoustic Wave and Current Profiler (AWAC) used as a vessel transecting ADCP",
+    "files": 68,
+    "total_size_mb": 94.58,
+    "formats": [
+      "DAT",
+      "Word",
+      "TIFF",
+      "TXT"
+    ],
+    "parameters": [
+      "along_channel_velocity",
+      "across_channel_velocity",
+      "profile_currents",
+      "NMEA_position"
+    ],
+    "cadence": "continuous transects within 11 survey days; native ensemble cadence not stated on landing page",
+    "qc_status": "RAW_NOT_QUALITY_CONTROLLED",
+    "access_rights": "Public domain under GRIIDC CC0; appropriate investigator credit encouraged; materials provided as-is."
+  },
+  "verification": {
+    "exact_product": true,
+    "exact_archive_identifier": true,
+    "exact_collection_dates": true,
+    "exact_survey_count": true,
+    "exact_static_coordinates": false,
+    "coordinate_recovery_method": "Parse NMEA sentences from delivered native files.",
+    "depth_bin_geometry": "UNRESOLVED_UNTIL_NATIVE_FILES_AND_README_PARSED",
+    "velocity_units": "UNRESOLVED_UNTIL_NATIVE_FILES_AND_README_PARSED",
+    "source_clock_timezone": "UNRESOLVED_DO_NOT_INFER",
+    "current_depth_class": "PROFILE_TRANSECT_BUT_NATIVE_BIN_REFERENCE_UNRESOLVED",
+    "qc_semantics": "Provider explicitly says raw/not yet quality controlled."
+  },
+  "relevance": {
+    "improvement_over_focal_awac": "In-bay repeated transects span the shipping channel from mouth to head rather than one offshore point, so they can test spatial current phase, magnitude and vertical structure along the principal bay axis.",
+    "point_clear_limit": "A ship-channel transect is not a local Point Clear shore-normal current measurement. Closest approach, survey timing, vertical-bin validity and applicability to Eastern Shore contact must be calculated after ingestion.",
+    "event_overlap_limit": "No confirmed Jubilee-event overlap has yet been established for the 11 survey dates.",
+    "production_eligibility": "ZERO_WEIGHT_REGISTERED_NOT_INGESTED"
+  },
+  "reproducible_ingest_path": [
+    "Download the canonical 68-file dataset or ZIP from UDI Y1.x122.038:0002; preserve each raw file immutably and record byte count plus SHA-256.",
+    "Parse the 11 YYYYMMDD survey folders and retain every native ensemble plus original source clock; do not assign UTC until the source timezone is proven.",
+    "Extract latitude/longitude from NMEA sentences and reject navigation discontinuities, impossible vessel speeds and missing-position ensembles.",
+    "Recover native coordinate system, velocity units, bin size, blanking distance, transducer depth/orientation and time base from the delivered documentation before normalization.",
+    "Apply documented ADCP QC only: navigation/ship-motion consistency, error velocity/correlation/percent-good where present, side-lobe/bottom interference, bad beams, depth-bin validity and ensemble completeness. Preserve raw and QC flags separately.",
+    "Transform only verified velocities to east/north and along/across-channel components; retain original components and transformation metadata.",
+    "Create normalized rows with observed_at, available_at, ingested_at, position, bin depth/reference, vector components, QC flags and source hashes.",
+    "Calculate closest approach to Point Clear and shoreline-normal projection using verified coordinates; do not assume ship-channel flow equals Eastern Shore contact flow.",
+    "Join only to events/controls whose as-of window and geometry overlap; evaluate direction, phase and magnitude separately against NGOFS2."
+  ],
+  "ingest_decision": {
+    "status": "REGISTERED_NOT_INGESTED",
+    "reason": "The archive is high-value but 94.58 MB, raw and explicitly un-QC'd. This run's authority excludes unusually large downloads without approval, and no partial file listing exposed a small QC-ready subset.",
+    "priority": "P0_NEXT_OBSERVED_CURRENT_ARCHIVE",
+    "required_before_ingest": [
+      "download authority for the 94.58 MB archive",
+      "native documentation/units/time verification",
+      "bounded QC and geometry parser"
+    ]
+  },
+  "existing_current_evidence_ladder": [
+    {
+      "rank": 1,
+      "source": "GRIIDC Y1.x122.038:0002 ship-channel transects",
+      "status": "REGISTERED_NOT_INGESTED",
+      "strength": "best in-bay spatial current archive found",
+      "limit": "raw/un-QC'd; no local Point Clear shore-normal validation"
+    },
+    {
+      "rank": 2,
+      "source": "NOAA PORTS mb0302/mb0402/mb0501 versus NGOFS2",
+      "status": "TESTED",
+      "strength": "current observed/model timing evidence",
+      "limit": "upper bay; 6 h principal-axis correlations 0.822/0.731/0.706 but 76.7-94.8 degree direction error and unresolved vertical equivalence"
+    },
+    {
+      "rank": 3,
+      "source": "NCEI 0211052 FOCAL AWAC",
+      "status": "INGESTED_RESEARCH_ONLY",
+      "strength": "7,888 hourly observed vectors quantify transport scale",
+      "limit": "offshore southwest boundary; not Point Clear direction/phase/magnitude"
+    },
+    {
+      "rank": 4,
+      "source": "NGOFS2 Point Clear/shoreline extraction",
+      "status": "MODEL_GUIDANCE_ZERO_WEIGHT",
+      "strength": "location-specific model guidance",
+      "limit": "requires local observed-current validation"
+    }
+  ],
+  "decision": "Promote the source in the registry, not the feature in production. Point Clear local-current validation remains unresolved."
+}
