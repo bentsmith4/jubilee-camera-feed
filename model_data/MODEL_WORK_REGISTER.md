@@ -1600,3 +1600,44 @@ Read-back verified the brief remains enabled, its current prompt is preserved un
 - **J11 continuity:** Existing dawn timing, role division, six-camera coverage and >20% notification gate were preserved. No timing change was made.
 - **Open blockers:** No current validated Point Clear/Daphne bottom or contact-strip dissolved oxygen; no observed local nearshore current or Point Clear observed water level; current ASOS wind/rain unavailable; several priority shoreline contact strips remain outside validated views; public-camera exact upstream delay remains unknown; upstream river propagation to the Bay is unresolved.
 
+## 2026-09-24 research/calibration continuation (J09, J10, J18)
+
+**Run scope:** substantive research-only continuation on `main`; predictive effectiveness first, efficiency second. No production weights, thresholds, alerts, cameras, sensing/dawn schedules or source-access architecture changed. Nothing was deployed in this run.
+
+### J09 — observed-current validation nearer the Eastern Shore
+
+- **New high-value source verified and registered, not ingested:** GRIIDC `Y1.x122.038:0002`, DOI `10.7266/N7B85630`, “ADCP transecting data along the ship channel of Mobile Bay” by Kyeong Park. The authoritative landing page reports 11 continuous ship-channel surveys from the bay mouth to Mobile State Dock, 2010-08-18 through 2010-10-27; 68 files, 94.58 MB; Nortek AWAC data; positions recoverable from NMEA sentences; raw and explicitly not yet quality controlled. GRIIDC terms make downloadable data/metadata public-domain CC0 and encourage investigator credit.
+- **Why it matters:** this is the best in-bay spatial observed-current archive found so far and is more mechanism-proximate than the offshore FOCAL AWAC record. It can eventually test current phase, magnitude and vertical structure along the main bay axis.
+- **Hard applicability boundary:** a ship-channel transect is not a local Point Clear shore-normal current. Exact closest approach, velocity units, source-clock timezone, vertical-bin reference, ship-motion correction and Point Clear geometry remain unresolved until the native files are parsed and QC'd.
+- **Ingest decision:** `REGISTERED_NOT_INGESTED_LARGE_RAW_UNQC_ARCHIVE`, zero production weight. The 94.58 MB archive was not downloaded under the no-unusually-large-download-without-approval constraint. A reproducible parse/QC/geometry path is recorded in `model_data/j09_mobile_bay_ship_channel_adcp_source_audit_20260924.json` (blob `4e8eb37f98e1a841de233476179b08373dc5947d`).
+- **Registry/catalog evidence:** source registry blob `808b1ca12a4c0c16dc0d3263a81e948631793214`; feature catalog blob `c5680cfe46218526c90bc59eb173e2caf79a90a6`. Feature `ship_channel_adcp_transport_structure` remains `ZERO_WEIGHT_PENDING_INGESTION_QC_AND_GEOMETRY`.
+- **Existing validation remains unchanged:** upper-bay PORTS comparisons support NGOFS2 only as provisional phase guidance (6 h principal-axis correlations `0.822/0.731/0.706` with direction errors `76.7–94.8°` and unresolved vertical equivalence). NCEI 0211052 FOCAL AWAC remains offshore transport-scale evidence only.
+
+### J10 — matched controls and held-out comparison gate
+
+- The 2026-09-24 06:36 CT sensing record supplies one **scoped Montrose candidate**: all three owner cameras were fresh/OK; `montrose_shoreline` had fair visibility and moderate detectability with no visible signal. The candidate is restricted to the 437 waterline/beach segments actually visible in that camera and is not a whole-Montrose negative.
+- Point Clear's three private marina/Bay cameras are retained as observation-effort evidence only because none resolves a close beach/swash zone. The 06:48 CT Grand Hotel and Fairhope public records remain non-training observations: exact source capture time is unknown, close biology is not assessable, and the source records explicitly set `training_control_eligible=false`.
+- The 2024-06-12 May Day “reported nothing” row remains a scoped same-morning spatial contrast, not a clean negative. The 2026-09-09 marina outcome remains `UNKNOWN` and excluded.
+- **Clean fully verified matched controls remain 0.** One new independent scoped candidate is insufficient for a train/held-out split. Loading-only, transport-only and combined Jubilee-event classifiers were therefore **not run**; AUC, Brier, log loss, calibration slope/intercept, missed-event rate, false alerts and lead time are not estimable without inventing labels.
+- Evidence: `model_data/j10_matched_control_sensitivity_20260924.json` (blob `8715194ac710029a140267d2e2d06d2f5972bbf0`). No post-event camera/report evidence was used as a forecast feature.
+
+### J18 — extended deployed-efficiency evidence
+
+- Telemetry: `api_usage_summary.json` blob `8429b41b13244f600767b7827eae67f1eabdd1eb`, generated 2026-09-24 14:10:23 UTC, status `available`, `invalid_records=0`; top-level `missing_records` remains absent rather than zero. September 24 was excluded as partial.
+- Extending the post period from three complete Central dates (September 19–21) to five (September 19–23), against the unchanged September 9–13 baseline:
+  - request-normalized total tokens: `55,873.111 -> 51,554.659` (**-7.729%**);
+  - six-camera tokens per request-equivalent: `50,520.723 -> 48,961.640` (**-3.086%**);
+  - cross-camera tokens per model call: `5,320.152 -> 3,790.298` (**-28.756%**);
+  - cross-camera model-call rate: `1.00625 -> 0.687522` (**-31.675%**);
+  - cached input: `2,039,492 / 7,241,560 = 28.164%` of input (subset of input; not additive).
+- **Regression versus the prior three-day estimate:** the total reduction weakened from **8.028%** to **7.729%** as September 22–23 were added; September 23 cross-camera call rate was `29/33 = 0.879`. No additional efficiency gain is claimed.
+- Latest coverage cross-check at 2026-09-24 08:16 CT retained all six cameras, three frames each, six camera analyses and deterministic-quiet synthesis (commit `27a1647243dd8d986ab718f73b45bea5eee818d5`).
+- Limits remain: not coverage-normalized dollar savings, request counts are not deduplicated cycle counts, historical valid-cycle completeness was not reconstructed, billing is unpriced, and no Jubilee event occurred in the post period to establish equal miss/false-alert performance. The 50% target is not met.
+- Evidence: `model_data/j18_efficiency_postdeployment_20260924.json` (blob `b8f692419520985ed6a58f912ee2e5580ffbbc0e`).
+
+### Manifests, ledgers and next priorities
+
+- Run manifest/completeness/conflict/calibration ledger: `model_data/research_run_manifest_20260924.json` (blob `8d5d288640ab941652394a7214f3d7dc03b447f2`). Raw and normalized deltas are explicitly zero because the ADCP archive was registered, not downloaded.
+- Coverage-gap delta: `model_data/research_coverage_gap_update_20260924.json` (blob `0f6c21dfe36c484ab808cc86c7fb788be63f0650`).
+- Confirmed event history remains 15 rows (blob `43205ae6ebc962f331ab2e096ee33a1068d52854`); no event evidence was added or relabeled.
+- Next priorities: (1) bounded ingestion/QC of the 2010 ship-channel ADCP archive when download authority permits, with exact NMEA geometry and depth/time/unit validation; (2) accumulate independent, explicit-effort Montrose visible-scope control mornings and independently observed Point Clear/Eastern Shore controls; (3) only then run held-out loading-only vs transport-only vs combined Jubilee tests; (4) retain the deployed efficiency changes and continue measuring effectiveness before any cheaper-model experiment.
