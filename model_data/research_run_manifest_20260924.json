@@ -1,0 +1,125 @@
+{
+  "schema_version": "1.0",
+  "run_id": "jubilee-model-research-2026-09-24T15:03:57Z",
+  "generated_at_utc": "2026-09-24T15:03:57Z",
+  "role": "MODEL_RESEARCH_AND_CALIBRATION",
+  "season_check": {
+    "local_date_ct": "2026-09-24",
+    "policy_path": "model_data/seasonal_policy.json",
+    "policy_blob_sha": "4a9af6c45214f90a3f67da9656cf73b33cadf0ba",
+    "in_season": true
+  },
+  "source_discovery_queue": {
+    "path": "model_data/source_discovery_queue_20260906.json",
+    "exists": false,
+    "status": "EMPTY_AND_DELETED_PREVIOUSLY"
+  },
+  "raw_manifest_delta": {
+    "new_raw_files": 0,
+    "new_raw_bytes": 0,
+    "note": "No raw payload downloaded. GRIIDC Y1.x122.038:0002 is 94.58 MB and explicitly un-QC'd; registered with an ingest path but not ingested under the no-unusually-large-download constraint."
+  },
+  "normalized_manifest_delta": {
+    "new_rows": 0,
+    "new_features": 0,
+    "note": "No source payload was downloaded, so no normalized rows or derived features were created."
+  },
+  "source_registry": {
+    "path": "model_data/ongoing_source_registry_20260906.json",
+    "blob_sha_after_update": "808b1ca12a4c0c16dc0d3263a81e948631793214",
+    "source_count": 39,
+    "delta": "Added GRIIDC ship-channel ADCP as registered-not-ingested, zero-weight."
+  },
+  "event_evidence": {
+    "path": "model_data/j10_event_history.json",
+    "blob_sha": "43205ae6ebc962f331ab2e096ee33a1068d52854",
+    "confirmed_rows": 15,
+    "delta": "NO_CHANGE",
+    "note": "No new event evidence admitted."
+  },
+  "matched_controls": {
+    "contract_blob_sha": "091f586f36902be96e9d1bd07ebfbfc19444303c",
+    "audit": "model_data/j10_matched_control_sensitivity_20260924.json",
+    "clean_control_count": 0,
+    "new_scoped_candidate_episodes": 1,
+    "september_9_marina": "UNKNOWN_EXCLUDED"
+  },
+  "feature_tests": {
+    "audit": "model_data/j09_mobile_bay_ship_channel_adcp_source_audit_20260924.json",
+    "catalog_blob_sha_after_update": "c5680cfe46218526c90bc59eb173e2caf79a90a6",
+    "production_promotions": 0,
+    "rejections_or_holds": [
+      "ship_channel_adcp_transport_structure remains zero-weight pending ingestion, QC and exact geometry"
+    ]
+  },
+  "calibration_report": {
+    "jubilee_event_model_comparison": "NOT_RUN",
+    "reason": "Zero clean matched controls; one new scoped candidate episode is insufficient for held-out loading-only, transport-only and combined comparison.",
+    "unchanged_oxygen_loading_result_note": "Existing oxygen-state metrics remain physical loading discrimination, not Jubilee accuracy."
+  },
+  "completeness_ledger": [
+    {
+      "item": "GRIIDC ship-channel ADCP native files",
+      "status": "MISSING_NOT_DOWNLOADED",
+      "blocker": "94.58 MB raw archive; download authority/QC work required"
+    },
+    {
+      "item": "ADCP exact ensemble coordinates",
+      "status": "RECOVERABLE_FROM_NMEA_NOT_YET_EXTRACTED"
+    },
+    {
+      "item": "ADCP velocity units/timezone/depth-bin reference",
+      "status": "UNRESOLVED"
+    },
+    {
+      "item": "Direct Point Clear shore-normal observed current",
+      "status": "MISSING"
+    },
+    {
+      "item": "Fully verified matched controls",
+      "status": "MISSING_ZERO"
+    }
+  ],
+  "conflict_ledger": [
+    {
+      "item": "ship-channel current versus Point Clear delivery",
+      "resolution": "Keep distinct; channel transects are research context and cannot establish local Eastern Shore contact."
+    },
+    {
+      "item": "camera all-clear versus whole-cell negative",
+      "resolution": "Keep Montrose 437 candidate geometrically scoped; Point Clear/public-camera records remain observation effort only."
+    },
+    {
+      "item": "September 9 marina",
+      "resolution": "Preserve UNKNOWN; exclude from event and control labels."
+    }
+  ],
+  "efficiency": {
+    "audit": "model_data/j18_efficiency_postdeployment_20260924.json",
+    "extended_post_period_through_ct": "2026-09-23",
+    "request_normalized_token_change_percent": -7.729,
+    "effectiveness_equivalence": "NOT_ESTABLISHED"
+  },
+  "top_gaps": {
+    "path": "model_data/research_coverage_gap_update_20260924.json",
+    "ranks": [
+      "direct local bottom hydrography",
+      "clean matched controls",
+      "local Point Clear/Eastern Shore observed current"
+    ]
+  },
+  "production_state": {
+    "weights_changed": false,
+    "thresholds_changed": false,
+    "alerts_changed": false,
+    "cameras_changed": false,
+    "schedules_changed": false,
+    "deployed_this_run": false
+  },
+  "artifacts_created": [
+    "model_data/j09_mobile_bay_ship_channel_adcp_source_audit_20260924.json",
+    "model_data/j10_matched_control_sensitivity_20260924.json",
+    "model_data/j18_efficiency_postdeployment_20260924.json",
+    "model_data/research_coverage_gap_update_20260924.json"
+  ]
+}
