@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "update_id": "research-coverage-gap-2026-09-26",
+  "generated_at_utc": "2026-09-26T15:05:00Z",
+  "scope": "MODEL_LEARNING_RESEARCH_ONLY",
+  "production_action": "NO_CHANGE",
+  "canonical_source_registry": {
+    "path": "model_data/ongoing_source_registry_20260906.json",
+    "blob_sha": "cd4890e9adc128632cf7f67145f67a5c890f1657",
+    "ship_channel_adcp_entry_present": true,
+    "ship_channel_adcp_status": "registered-not-ingested",
+    "source_id": "griidc_y1_x122_038_0002_mobile_bay_ship_channel_adcp_2010",
+    "row_count": 0,
+    "payload_files_declared": 68,
+    "payload_size_mb": 94.58,
+    "note": "Registry reconciliation preserved the verified entry; no raw payload was downloaded, parsed or quality controlled."
+  },
+  "progress_since_2026_09_24": [
+    {
+      "gap": "Defensible negative/control mornings",
+      "prior_state": "0 clean controls; 1 independent Tier-B Montrose scoped candidate morning",
+      "current_state": "0 clean controls; 2 independent Tier-B Montrose scoped candidate mornings (2026-09-24 and 2026-09-26)",
+      "evidence": "model_data/j10_matched_control_sensitivity_20260926.json",
+      "value": "Prospective observation-effort evidence expanded by one independent morning without inflating repeated same-site captures."
+    },
+    {
+      "gap": "Operational private-camera capture resilience",
+      "current_state": "PR #9 merged to main with one bounded per-camera retry and partial-burst cleanup; desktop deployment not verified",
+      "evidence": "https://github.com/bentsmith4/jubilee-camera-feed/pull/9",
+      "limitation": "Later September 26 Point Clear capture failures show that merge status alone is not deployment or effectiveness evidence."
+    },
+    {
+      "gap": "Operating-season API efficiency",
+      "current_state": "Seven complete days through 2026-09-25 retain a 7.90% request-normalized token reduction proxy versus the September 9-13 baseline",
+      "evidence": "model_data/j18_efficiency_postdeployment_20260926.json",
+      "limitation": "Not dollar-priced and not proof of equivalent event-detection effectiveness."
+    }
+  ],
+  "ranked_gaps": [
+    {
+      "rank": 1,
+      "gap": "Fully verified matched non-event mornings with independent observation effort and environmental matching",
+      "status": "MISSING",
+      "expected_value_of_information": "Very high; blocks Jubilee-event calibration, false-alert/miss estimates and combined-model promotion",
+      "next_action": "Continue prospective scoped capture labeling and obtain independent shoreline/human confirmation where it occurs naturally; never convert no-report to negative."
+    },
+    {
+      "rank": 2,
+      "gap": "Observed current validation near Point Clear/Eastern Shore with known depth, geometry, units and timing",
+      "status": "MISSING_NEARSHORE; historical ship-channel source REGISTERED_NOT_INGESTED",
+      "expected_value_of_information": "Very high; transport direction and contact remain the largest physical uncertainty",
+      "next_action": "Seek a smaller documented subset or metadata/sample file before requesting the 94.58 MB raw archive; preserve zero production weight."
+    },
+    {
+      "rank": 3,
+      "gap": "Held-out loading-only versus transport-only versus combined Jubilee-event comparison",
+      "status": "BLOCKED_BY_LABELS",
+      "expected_value_of_information": "High",
+      "next_action": "Run only after independent control sample and event-feature overlap are sufficient; current two Tier-B same-cell mornings are inadequate."
+    },
+    {
+      "rank": 4,
+      "gap": "Verified deployment/effectiveness of bounded transient camera retry",
+      "status": "MERGED_NOT_DEPLOYMENT_VERIFIED",
+      "expected_value_of_information": "Moderate operational value",
+      "next_action": "Check desktop runtime version and aggregate retry outcomes without exposing raw logs or treating failures as savings."
+    }
+  ],
+  "unchanged_guardrails": [
+    "Point Clear NOAA 8733821 remains astronomical prediction, not live water level.",
+    "GCOOS Battleship/Meaher oxygen remains depth-unknown and zero-weight for bottom-DO/gradient features.",
+    "September 9 marina outcome remains UNKNOWN.",
+    "Moon phase remains zero-weight and blocked by data.",
+    "Production weights, thresholds, cameras, schedules and alerts are unchanged."
+  ]
+}
