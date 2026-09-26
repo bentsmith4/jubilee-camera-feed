@@ -1,0 +1,122 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "j10-matched-control-sensitivity-2026-09-26",
+  "generated_at_utc": "2026-09-26T15:03:00Z",
+  "scope": "RESEARCH_ONLY_LABEL_AND_OBSERVATION_PROCESS_AUDIT",
+  "production_action": "NO_CHANGE",
+  "contract": {
+    "path": "model_data/matched_control_contract.json",
+    "blob_sha": "091f586f36902be96e9d1bd07ebfbfc19444303c"
+  },
+  "label_counts": {
+    "fully_verified_clean_matched_controls": 0,
+    "cumulative_independent_scoped_camera_candidate_episodes": 2,
+    "new_independent_scoped_candidate_episodes_since_2026_09_24": 1,
+    "september_9_marina": "UNKNOWN_EXCLUDED"
+  },
+  "new_episode": {
+    "candidate_id": "camera_2026-09-26-montrose-437-visible-scope",
+    "shoreline_cell": "Montrose",
+    "independent_site_group": "montrose_owner_cluster",
+    "date_ct": "2026-09-26",
+    "target_window_ct": [
+      "2026-09-26T04:18:00.989121-05:00",
+      "2026-09-26T08:18:00.989121-05:00"
+    ],
+    "observed_records": [
+      {
+        "capture_time_ct": "2026-09-26T06:18:12.182550-05:00",
+        "path": "model_data/observation_records/aa6fa547287bf5e84d518f63.json",
+        "commit": "481adb8f81d894cfe0691dd8c13093253aa910d2",
+        "montrose_class": "CANDIDATE_VISIBLE_SCOPE_CONTROL"
+      },
+      {
+        "capture_time_ct": "2026-09-26T06:38:03.859113-05:00",
+        "path": "model_data/observation_records/695ab5db10163433ece41428.json",
+        "commit": "76a56e11b36a1bce904e82c1955b8c0ebd0055b8",
+        "montrose_class": "CANDIDATE_VISIBLE_SCOPE_CONTROL"
+      },
+      {
+        "capture_time_ct": "2026-09-26T06:58:05.260460-05:00",
+        "path": "model_data/observation_records/00faee61fe0fc7194d6159ec.json",
+        "commit": "97988790efe15dbb928dee0ac63901d1da009fc8",
+        "montrose_class": "CANDIDATE_VISIBLE_SCOPE_CONTROL"
+      },
+      {
+        "capture_time_ct": "2026-09-26T07:18:06.233669-05:00",
+        "path": "model_data/observation_records/548f3d0f3642b404b2edcfee.json",
+        "commit": "23a25e698a24c1149ebeea5d7448638d748e2040",
+        "montrose_class": "UNKNOWN_PRIMARY_CONTACT_VIEW_INADEQUATE"
+      },
+      {
+        "capture_time_ct": "2026-09-26T07:39:33.172762-05:00",
+        "path": "model_data/observation_records/0984accecffe87d77bd40b24.json",
+        "commit": "3af28f0cba742d1cf112080a37b490665c6a4509",
+        "montrose_class": "CANDIDATE_VISIBLE_SCOPE_CONTROL"
+      },
+      {
+        "capture_time_ct": "2026-09-26T07:58:03.983750-05:00",
+        "path": "model_data/observation_records/8a8037c21e74b330419ed757.json",
+        "commit": "f1d4ff83c00d09f57dc622da20c4c733fade2044",
+        "montrose_class": "CANDIDATE_VISIBLE_SCOPE_CONTROL"
+      }
+    ],
+    "independence_rule": "All six captures are the same morning and the same private Montrose site group; collapse to one independent episode. The 07:18 record is retained as UNKNOWN within the episode, not a negative.",
+    "visible_scope": "Only the 437 waterline/beach segments visible in montrose_shoreline.",
+    "observation_effort": {
+      "expected_private_cameras": 3,
+      "independent_site_groups": 1,
+      "primary_contact_camera": "montrose_shoreline",
+      "candidate_captures": 5,
+      "inadequate_primary_contact_captures": 1,
+      "three_frame_vision": true,
+      "direct_independent_pixel_re_review": false,
+      "human_field_check": false,
+      "social_search_effort": "not established in this audit"
+    },
+    "point_clear_same_window": "OBSERVATION_EFFORT_ONLY; marina/Bay context without a close beach/swash-zone view",
+    "classification": "SCOPED_CAMERA_CONTROL_CANDIDATE_NOT_CLEAN_MATCHED_CONTROL",
+    "reason_not_clean": "One private site group, narrow visible scope, no independent human/social confirmation, no full-cell coverage, and environmental event/control matching is not yet complete."
+  },
+  "cumulative_sensitivity": [
+    {
+      "tier": "A",
+      "labels": "fully verified matched controls",
+      "n_controls": 0,
+      "model_comparison": "NOT_ESTIMABLE"
+    },
+    {
+      "tier": "B",
+      "labels": "independent scoped camera-visible candidate mornings with explicit effort",
+      "n_independent_candidate_episodes": 2,
+      "dates_ct": [
+        "2026-09-24",
+        "2026-09-26"
+      ],
+      "model_comparison": "NOT_ESTIMABLE; two same-cell candidate mornings cannot support held-out event calibration"
+    },
+    {
+      "tier": "C",
+      "labels": "owner/article reported scoped negatives or spatial contrasts",
+      "model_comparison": "QUALITATIVE_FALSIFICATION_ONLY"
+    },
+    {
+      "tier": "D",
+      "labels": "no-report mornings, September 9 unknown, broad views without contact geometry",
+      "model_comparison": "EXCLUDED"
+    }
+  ],
+  "held_out_comparison": {
+    "loading_only": "NOT_RUN",
+    "transport_only": "NOT_RUN",
+    "combined": "NOT_RUN",
+    "discrimination": "NOT_ESTIMABLE",
+    "calibration": "NOT_ESTIMABLE",
+    "missed_events": "NOT_ESTIMABLE",
+    "false_alerts": "NOT_ESTIMABLE",
+    "lead_time": "NOT_ESTIMABLE",
+    "reason": "Zero Tier-A controls and only two independent Tier-B Montrose candidate mornings cannot support a defensible held-out Jubilee-event comparison.",
+    "leakage_guard": "Camera observations label scoped outcomes only and are not used as pre-event predictors."
+  },
+  "decision": "Prospective camera labeling is accumulating usable observation effort, but the clean-control bottleneck remains. Do not count repeated same-morning captures as independent controls or broaden Montrose waterline evidence to Point Clear or a whole shoreline cell."
+}
