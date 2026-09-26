@@ -33,6 +33,13 @@ INTER_CAMERA_PAUSE_SECONDS = 5
 # for the entire hourly burst.
 DEFAULT_429_WAIT_SECONDS = 30
 
+# Retry one ordinary transient camera failure (for example a WebRTC
+# readiness timeout or an ffmpeg process failure) before marking that
+# individual camera UNKNOWN for the cycle. This is intentionally bounded:
+# it must not turn one bad camera into an unbounded canonical-cycle delay.
+CAMERA_CAPTURE_ATTEMPTS = 2
+DEFAULT_TRANSIENT_RETRY_WAIT_SECONDS = 8
+
 
 def safe_error(exc):
     """Never serialize request URLs, command arguments, or auth material."""
@@ -502,6 +509,64 @@ def capture_rtsp_burst(
     return shots
 
 
+def capture_device_burst_once(browser, token, device, slug, proto):
+    if "WEB_RTC" in proto:
+        return capture_webrtc_burst(
+            browser,
+            token,
+            device,
+            slug,
+        )
+
+    if "RTSP" in proto:
+        return capture_rtsp_burst(
+            token,
+            device,
+            slug,
+        )
+
+    raise RuntimeError(
+        "Unsupported "
+        f"protocols: {proto}"
+    )
+
+
+def capture_device_burst_with_retry(browser, token, device, slug, proto):
+    last_error = None
+
+    for attempt in range(1, CAMERA_CAPTURE_ATTEMPTS + 1):
+        # Never let frames from a failed first attempt satisfy a retry.
+        for old in BURST_DIR.glob(f"{slug}_*.jpg"):
+            try:
+                old.unlink()
+            except FileNotFoundError:
+                pass
+
+        try:
+            return capture_device_burst_once(
+                browser,
+                token,
+                device,
+                slug,
+                proto,
+            )
+        except Exception as exc:
+            last_error = exc
+
+            if attempt >= CAMERA_CAPTURE_ATTEMPTS:
+                raise
+
+            print(
+                "    transient capture failure "
+                f"({safe_error(exc)}); waiting "
+                f"{DEFAULT_TRANSIENT_RETRY_WAIT_SECONDS}s "
+                "and retrying this camera once"
+            )
+            time.sleep(DEFAULT_TRANSIENT_RETRY_WAIT_SECONDS)
+
+    raise last_error
+
+
 def main():
     parser = argparse.ArgumentParser()
 
@@ -635,30 +700,15 @@ def main():
                 )
 
                 try:
-                    if "WEB_RTC" in proto:
-                        shots = (
-                            capture_webrtc_burst(
-                                browser,
-                                token,
-                                device,
-                                slug,
-                            )
+                    shots = (
+                        capture_device_burst_with_retry(
+                            browser,
+                            token,
+                            device,
+                            slug,
+                            proto,
                         )
-
-                    elif "RTSP" in proto:
-                        shots = (
-                            capture_rtsp_burst(
-                                token,
-                                device,
-                                slug,
-                            )
-                        )
-
-                    else:
-                        raise RuntimeError(
-                            "Unsupported "
-                            f"protocols: {proto}"
-                        )
+                    )
 
                     # Shot 3 becomes normal
                     # latest image.
