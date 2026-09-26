@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0",
+  "run_id": "jubilee-model-research-calibration-2026-09-26",
+  "generated_at_utc": "2026-09-26T15:06:00Z",
+  "in_season": true,
+  "canonical_repository": "bentsmith4/jubilee-camera-feed",
+  "canonical_branch": "main",
+  "role": "MODEL_LEARNING",
+  "source_discovery_queue": {
+    "path": "model_data/source_discovery_queue_20260906.json",
+    "exists": false
+  },
+  "inputs": [
+    {
+      "path": "model_data/MODEL_WORK_REGISTER.md",
+      "blob_sha": "4f7d983ee861edb3c557b6aba6e4f635e0b37659"
+    },
+    {
+      "path": "model_data/ongoing_source_registry_20260906.json",
+      "blob_sha": "cd4890e9adc128632cf7f67145f67a5c890f1657"
+    },
+    {
+      "path": "model_data/matched_control_contract.json",
+      "blob_sha": "091f586f36902be96e9d1bd07ebfbfc19444303c"
+    },
+    {
+      "path": "api_usage_summary.json",
+      "blob_sha": "a6933b282786f524dc5f84f0d5041af5a16056fe",
+      "generated_at_utc": "2026-09-26T14:10:36.893676+00:00",
+      "status": "available",
+      "invalid_records": 0
+    },
+    {
+      "path": "model_data/j10_matched_control_sensitivity_20260924.json",
+      "blob_sha": "8715194ac710029a140267d2e2d06d2f5972bbf0"
+    },
+    {
+      "source": "PR #9",
+      "url": "https://github.com/bentsmith4/jubilee-camera-feed/pull/9",
+      "state": "merged",
+      "merge_commit": "a6ab856dffe3032e5450ffd8f3acd6aa62f06166",
+      "deployment_verified": false
+    }
+  ],
+  "outputs": [
+    {
+      "path": "model_data/j10_matched_control_sensitivity_20260926.json",
+      "blob_sha": "50d65d9a376bc3fbedf3684c24888bc52a9f1a81",
+      "commit": "e5f4d3d4c0ece7cd24ee502fb2dad8e3104f3fa1"
+    },
+    {
+      "path": "model_data/j18_efficiency_postdeployment_20260926.json",
+      "blob_sha": "7c739260fd9697c9bfc562ca1552d0f8181e21d0",
+      "commit": "a9b9c276cb3dd3fc5cda1bca9a2d085235dba523"
+    },
+    {
+      "path": "model_data/research_coverage_gap_update_20260926.json",
+      "blob_sha": "09b7041bf9cadf49c9a1c9796ec244bc81dac6ad",
+      "commit": "9891a1853bba3f6a9fdb2c020332d37a8e4556c2"
+    }
+  ],
+  "raw_layer_change": "NONE; no raw source payload downloaded",
+  "normalized_layer_change": "NONE; no physical observation rows normalized",
+  "label_layer_change": "One new independent Tier-B Montrose scoped candidate morning documented from existing structured observation records; zero Tier-A controls",
+  "derived_feature_change": "NONE",
+  "model_artifact_change": "NONE",
+  "performance_change": "No Jubilee-event predictive gain or regression estimable; held-out loading/transport/combined comparison remains blocked by labels",
+  "efficiency_result": "Seven-day post window through 2026-09-25 shows 7.9036% request-normalized token reduction proxy versus 2026-09-09 through 2026-09-13 baseline",
+  "operational_change": "PR #9 merged bounded per-camera retry; deployment and effectiveness not verified in this research run",
+  "production_changes": {
+    "model_weights": false,
+    "thresholds": false,
+    "camera_inventory": false,
+    "sensing_schedule": false,
+    "dawn_schedule": false,
+    "alert_policy": false
+  },
+  "unresolved_blockers": [
+    "Zero fully verified clean matched controls",
+    "No direct near-Point-Clear observed current with resolved depth/geometry/units/timing",
+    "Ship-channel ADCP archive is registered but not ingested or quality controlled",
+    "No deployment evidence for PR #9",
+    "No billing reconciliation or held-out event-effectiveness proof for efficiency changes"
+  ]
+}
