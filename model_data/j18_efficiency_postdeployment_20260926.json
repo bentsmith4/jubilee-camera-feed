@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "j18-efficiency-postdeployment-2026-09-26",
+  "generated_at_utc": "2026-09-26T15:04:00Z",
+  "scope": "RESEARCH_ONLY_AGGREGATE_USAGE_COMPARISON",
+  "production_action": "NO_CHANGE",
+  "source": {
+    "path": "api_usage_summary.json",
+    "blob_sha": "a6933b282786f524dc5f84f0d5041af5a16056fe",
+    "generated_at_utc": "2026-09-26T14:10:36.893676+00:00",
+    "status": "available",
+    "invalid_records": 0,
+    "top_level_missing_records": "FIELD_ABSENT; per-token-group missing_records checked by summary producer",
+    "coverage_note": "logged requests only; missing days are not zero; September 26 is partial and excluded"
+  },
+  "method": {
+    "baseline_dates_ct": [
+      "2026-09-09",
+      "2026-09-10",
+      "2026-09-11",
+      "2026-09-12",
+      "2026-09-13"
+    ],
+    "post_dates_ct": [
+      "2026-09-19",
+      "2026-09-20",
+      "2026-09-21",
+      "2026-09-22",
+      "2026-09-23",
+      "2026-09-24",
+      "2026-09-25"
+    ],
+    "exclusion": [
+      "2026-09-26 partial current day"
+    ],
+    "request_normalized_cycle_proxy": "Sum each of six camera-stage total_tokens/completed_requests, plus cross_camera total_tokens/completed_requests multiplied by cross_camera completed requests / montrose_shoreline completed requests.",
+    "caveats": [
+      "Request counts are not deduplicated retries and do not prove valid complete cycles.",
+      "Cached input is a subset of input and reasoning output is a subset of output; neither is added to total tokens.",
+      "Dollar cost is not estimated because applicable billing/tier reconciliation is absent.",
+      "Effectiveness equivalence is not established because no held-out Jubilee event/control set exists."
+    ]
+  },
+  "baseline": {
+    "days": 5,
+    "request_normalized_tokens_per_cycle_proxy": 55873.11104908532,
+    "six_camera_tokens_per_reference_request": 50520.72260211563,
+    "cross_camera_tokens_per_model_call": 5320.151515151515,
+    "cross_camera_model_calls_per_reference_request": 1.00625,
+    "cached_input_share": 0,
+    "aggregate_completed_requests": 1112,
+    "aggregate_failed_requests": 0
+  },
+  "post": {
+    "days": 7,
+    "request_normalized_tokens_per_cycle_proxy": 51457.13529285468,
+    "six_camera_tokens_per_reference_request": 48960.71652534768,
+    "cross_camera_tokens_per_model_call": 3814.1921839221977,
+    "cross_camera_model_calls_per_reference_request": 0.6574993633817163,
+    "cached_input_share": 0.28216810130435344,
+    "aggregate_completed_requests": 1507,
+    "aggregate_failed_requests": 0
+  },
+  "change_percent": {
+    "request_normalized_tokens_per_cycle_proxy": -7.903579509562553,
+    "six_camera_tokens_per_reference_request": -3.0878538477251083,
+    "cross_camera_tokens_per_model_call": -28.306700043042444,
+    "cross_camera_model_calls_per_reference_request": -34.658448359580994
+  },
+  "comparison_to_2026_09_24_audit": {
+    "prior_post_dates_ct": [
+      "2026-09-19",
+      "2026-09-20",
+      "2026-09-21",
+      "2026-09-22",
+      "2026-09-23"
+    ],
+    "prior_request_normalized_reduction_percent": -7.729,
+    "current_reduction_percent": -7.903579509562553,
+    "change_percentage_points": -0.174579509562553,
+    "interpretation": "The measured reduction held and improved slightly after adding September 24-25; it remains far below the 50% directional target."
+  },
+  "coverage_cross_check": {
+    "latest_complete_evaluation_window": "through 2026-09-25 Central",
+    "aggregate_failures_in_selected_groups": 0,
+    "current_day_note": "September 26 is partial. Scoped records show six-camera success during the central target-window candidates, but later Point Clear capture failures also occurred; current-day partial data are not counted as savings.",
+    "six_camera_contract": "Preserved in calculation; failures or missing camera stages are not credited as efficiency."
+  },
+  "decision": "Retain the deployed compact/cache behavior. The seven-day aggregate supports a stable approximately 7.9% request-normalized token reduction, but not the 50% target and not equivalent Jubilee-event detection. Do not promote cheaper vision models or further reductions without bounded effectiveness tests."
+}
