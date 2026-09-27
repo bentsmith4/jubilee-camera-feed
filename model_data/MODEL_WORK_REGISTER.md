@@ -1737,3 +1737,13 @@ Read-back verified the brief remains enabled, its prompt is preserved unchanged 
 - Source-clock reconciliation: status/burst/vision explicitly label the camera cycle CDT with -05:00 offsets. Derived sensing audit `8b6acbb6500da15dbd01e7d6c41b86ae5b1b1434` rewrites those same wall-clock values as UTC and is rejected for freshness. This does not invalidate the matched source metadata.
 - Current NGOFS2 guidance is UNKNOWN: the named-station manifest `7e00e85ea6174faaae1eda93be645567bce0e360` reports a timeout and the Point Clear manifest `2dfdacc80b7f009f0d6569bef27be4f1986e9807` references 12:18 CDT, over five hours before synthesis. Missing model guidance widens uncertainty; it is not treated as observed current or negative evidence.
 - Opportunity ranges remain Point Clear 2–6% (central 4%) and Daphne/May Day 1–5% (central 3%), both below 20%. This is no material change from the 17:07 CDT alert; no new notification was emitted. Forecast weights, thresholds, schedules, role boundaries and sensor policy were unchanged.
+
+
+## J01 sensing follow-up — 2026-09-27 17:50 CDT
+
+- In-season current-state synthesis completed on production `main` without model, weight, threshold, timing, architecture, or sensor changes.
+- Base head: `4012d9409f1ec762248e8f8f7a30e87458cf73bd`; pre-update snapshot blob `fcdac02f2f8c6d55a523484aa64dd31e9e0c31ca`; public observation log blob `d70c9673fde895f4bbab8f383163e76e10e46f20`.
+- Owner-camera cycle remained matched and healthy 6/6: status `492b4b267d73d758d790f807802849d5936bb6e1`, burst `6606a3dc22e5b3464d8db8039301be307ad9eab3`, vision `4b59cb84c5bacd89095b3469bf4f2a1a1ab6eca1`, capture identity 2026-09-27T17:06:02.702748-05:00. No newer cycle was present.
+- Grand Hotel and Fairhope public players were directly rechecked. Two isolated visual samples 26.000 seconds apart showed scene progression; subsequent metadata samples 23.158 seconds apart showed advancing playback and rolling endpoints. Grand Hotel showed LIVE; Fairhope stated currently playing live. Exact capture times and source delays remain unknown. Fairhope still does not show either beach or Fly Creek. No scoped event signal; no media retained and no clean training label.
+- Current NGOFS2 remained UNKNOWN: Point Clear manifest `2dfdacc80b7f009f0d6569bef27be4f1986e9807` still referenced 12:18 CDT and named-station manifest `7e00e85ea6174faaae1eda93be645567bce0e360` remained unavailable. This widened uncertainty and did not become a negative.
+- Opportunity ranges were preserved at Point Clear 2-6% (central 4%) and Daphne/May Day 1-5% (central 3%). No material change or alert gate was met; routine notification suppressed.

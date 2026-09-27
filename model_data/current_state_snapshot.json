@@ -1,6 +1,6 @@
 {
   "schema_version": "1.4",
-  "snapshot_time_ct": "2026-09-27T17:31:22-05:00",
+  "snapshot_time_ct": "2026-09-27T17:50:38.726-05:00",
   "layer": "full_current_state",
   "scope": [
     "Point Clear/Grand Hotel/Zundel's",
@@ -14,7 +14,7 @@
   "forecast_opportunity_status": "Point Clear 2-6% (central 4%); Daphne/May Day 1-5% (central 3%); both below the >20% alert threshold",
   "material_change_since_prior_snapshot": false,
   "notification_condition_met": false,
-  "notification_reason": "No material change from the 17:07 CDT alert: both zones remain below 20%, all six owner cameras are healthy, both public players are probably fresh with no scoped event evidence, and no credible same-day report was recovered.",
+  "notification_reason": "No material change from the 17:07 CDT alert: both zones remain below 20%, all six owner cameras remain healthy on the latest matched cycle, both public players are probably fresh with no scoped event evidence, and no credible same-day report has been recovered.",
   "dawn_ct": "2026-09-27T06:18:35.785841-05:00",
   "principal_dawn_visual_assessment_status": "CURRENT_6_OF_6_PRIVATE_CAMERAS; TWO_PUBLIC_PLAYERS_PROBABLY_FRESH_AND_SCOPED_NEGATIVE",
   "active_faults": [
@@ -32,7 +32,7 @@
     "Upstream Coffeeville and Claiborne discharge are forcing proxies; the repository manifest is antecedent and arrival timing/magnitude at the Bay remain unresolved.",
     "No credible same-day first-person Jubilee report was recovered, but public-report absence is not a biological negative."
   ],
-  "change_summary": "No material change from the 17:07 CDT alert. The 17:06-17:09 CDT owner cycle supplied matching 6/6 three-frame bursts with good visibility and no scoped Jubilee signal. Grand Hotel and Fairhope live windows advanced across 26.2-second checks ending 17:31 CDT and showed no scoped event evidence. Probability ranges are preserved at Point Clear 2-6% and Daphne/May Day 1-5%; current NGOFS2 refresh is UNKNOWN and widens uncertainty rather than changing those ranges.",
+  "change_summary": "No material change from the 17:07 CDT alert. The latest owner cycle remains the matching 17:06-17:09 CDT 6/6 three-frame set with good visibility and no scoped Jubilee signal. Grand Hotel and Fairhope live players were rechecked directly: visual scenes advanced across isolated samples 26.000 seconds apart, then playback and rolling endpoints advanced across metadata samples 23.158 seconds apart ending 17:50:38 CDT, with no scoped event evidence. Probability ranges remain Point Clear 2-6% and Daphne/May Day 1-5%; current NGOFS2 guidance remains UNKNOWN and widens uncertainty rather than changing those ranges.",
   "alert_gates": {
     "point_clear_over_20_percent": false,
     "daphne_may_day_over_20_percent": false,
@@ -62,14 +62,14 @@
       "parameter": "modeled current and shore-normal transport",
       "observed_vs_predicted_model": "MODEL_GUIDANCE",
       "valid_time_ct": "Point Clear manifest reference 2026-09-27T12:18:00-05:00; named-station refresh reported unavailable",
-      "retrieval_time_ct": "2026-09-27T17:31:22-05:00",
-      "age_minutes": 313,
-      "qc_health": "current named-station acquisition timeout; Point Clear reference not current for synthesis",
+      "retrieval_time_ct": "2026-09-27T17:46:36-05:00",
+      "age_minutes": 329,
+      "qc_health": "named-station acquisition still timed out; Point Clear reference remains 12:18 CDT and is not current for synthesis",
       "units": "m and m/s",
       "timezone_datum_depth": "UTC source times normalized to CDT; MODEL",
       "transformation": "no current transport value admitted; missing model output widens uncertainty",
       "admitted_status": "UNKNOWN_NO_CURRENT_SAFE_MODEL_GUIDANCE",
-      "observation": "No current NGOFS2 direction/magnitude is admitted in this snapshot. Previously configured opportunity ranges are preserved because no new physical evidence justifies a change.",
+      "observation": "No current NGOFS2 direction/magnitude is admitted. Previously configured opportunity ranges are preserved because no new physical evidence justifies a change.",
       "source_file_shas": {
         "point_clear_manifest": "2dfdacc80b7f009f0d6569bef27be4f1986e9807",
         "named_station_manifest": "7e00e85ea6174faaae1eda93be645567bce0e360"
@@ -81,9 +81,9 @@
       "parameter": "surface wind",
       "observed_vs_predicted_model": "DIRECT_AGENCY_OBSERVATION",
       "valid_time_ct": "2026-09-27T16:53:00-05:00",
-      "retrieval_time_ct": "2026-09-27T17:27:54-05:00",
-      "age_minutes": 38,
-      "qc_health": "official ASOS observation reused from the immediately prior sensing cycle with matching station, valid time and units",
+      "retrieval_time_ct": "2026-09-27T17:50:38.726-05:00",
+      "age_minutes": 58,
+      "qc_health": "official ASOS observation reused with matching station, valid time and units; nearing the freshness boundary",
       "units": "mph",
       "timezone_datum_depth": "CDT; 10 m class surface wind",
       "transformation": "none; kept separate from camera surface texture",
@@ -96,9 +96,9 @@
       "parameter": "three-frame visual evidence",
       "observed_vs_predicted_model": "OWNER_CAMERA_OBSERVATION_PLUS_VISION_CLASSIFICATION",
       "valid_time_ct": "capture identity 2026-09-27T17:06:02.702748-05:00; frames 17:06:08-17:09:08 CDT",
-      "retrieval_time_ct": "2026-09-27T17:31:22-05:00",
-      "age_minutes": 22,
-      "qc_health": "MATCHED identity; 6/6 healthy; 3/3 frames each at approximately 10-second spacing; visibility good; detectability moderate-high",
+      "retrieval_time_ct": "2026-09-27T17:46:36-05:00",
+      "age_minutes": 44,
+      "qc_health": "MATCHED identity; 6/6 healthy; 3/3 frames each at approximately 10-second spacing; visibility good; detectability moderate-high; no newer cycle present",
       "units": "categorical visual evidence",
       "timezone_datum_depth": "explicit ISO-8601 CDT offsets; camera-visible surface/shoreline only",
       "transformation": "same-identity reconciliation and same-site deduplication; scoped qualitative evidence only; conflicting derived audit UTC interpretation rejected",
@@ -116,15 +116,15 @@
       "station_location": "Grand Hotel Point Clear and Fairhope AWN",
       "parameter": "direct live-player visual evidence",
       "observed_vs_predicted_model": "PUBLIC_VIDEO_OBSERVATION",
-      "valid_time_ct": "2026-09-27T17:30:56-05:00 to 2026-09-27T17:31:22-05:00",
-      "retrieval_time_ct": "2026-09-27T17:31:22-05:00",
+      "valid_time_ct": "2026-09-27T17:50:15.568-05:00 to 2026-09-27T17:50:38.726-05:00",
+      "retrieval_time_ct": "2026-09-27T17:50:38.726-05:00",
       "age_minutes": 0,
-      "qc_health": "both readyState 4 with LIVE/current-live state; playback, seekable endpoints and visible scenes advanced across two samples 26.2 seconds apart; exact capture times/delays unknown",
+      "qc_health": "both readyState 4 and playing; Grand Hotel showed LIVE and Fairhope stated currently playing live. Visible scenes advanced across isolated samples 26.000 seconds apart; playback and rolling endpoints then advanced across metadata samples 23.158 seconds apart. Exact capture times/delays unknown.",
       "units": "categorical scoped visual evidence",
       "timezone_datum_depth": "observation time CDT; capture times null; broad surface views",
       "transformation": "same-camera deduplication; no numerical promotion or training label",
       "admitted_status": "ADMITTED_PROBABLY_FRESH_SCOPED_QUALITATIVE_EVIDENCE",
-      "observation": "No event evidence in either broad visible area. Grand Hotel showed slight ripple; Fairhope showed lightly rippled water and ordinary vehicle/person/flag motion. Close biology was not assessable; Fairhope beaches and Fly Creek are not visible.",
+      "observation": "No event evidence in either broad visible area. Grand Hotel showed slight ripple and ordinary isolated bird movement; Fairhope showed lightly rippled water, flag/vehicle motion and an isolated bird. Close biology was not assessable; Fairhope beaches and Fly Creek are not visible.",
       "source_blob_precommit": "efabcf5a26dac8707ab5921bbe36d4d67d9dcc55"
     }
   ],
@@ -133,8 +133,8 @@
       "source": "NOAA NGOFS2 current guidance",
       "status": "UNKNOWN_ACQUISITION_OR_CLOCK_MISMATCH",
       "valid_time_ct": "latest safe Point Clear manifest reference 12:18 CDT; named-station refresh unavailable",
-      "retrieval_time_ct": "2026-09-27T17:31:22-05:00",
-      "reason": "Not current enough for this synthesis; missing model guidance widens uncertainty and is not converted to a negative."
+      "retrieval_time_ct": "2026-09-27T17:46:36-05:00",
+      "reason": "Named-station refresh remained unavailable and the Point Clear reference remained 12:18 CDT, not current enough for synthesis; missing model guidance widens uncertainty and is not converted to a negative."
     },
     {
       "source": "USGS NWIS river forcing manifest",
@@ -215,14 +215,14 @@
     ]
   },
   "sanity_check": {
-    "local_date_time_verified": "2026-09-27 17:31:22 CDT",
+    "local_date_time_verified": "2026-09-27 17:50:38 CDT",
     "tide_station_date_timezone_datum_verified": true,
     "tide_phase": "rising toward 23:55 CDT high",
     "wind_status": "KBFM north 7 mph at 16:53 CDT; KMOB older and not admitted",
     "observed_rainfall_status": "UNKNOWN",
     "river_status": "current forcing UNKNOWN; antecedent upstream manifest retained with lag unresolved",
     "do_status": "direct bottom/contact-strip DO UNKNOWN; stale regional water quality rejected",
-    "camera_status": "6/6 matched owner bursts plus two probably-fresh public players",
+    "camera_status": "6/6 matched owner bursts plus two probably-fresh public players rechecked through 17:50 CDT",
     "source_clock_status": "status/burst/vision explicit CDT accepted; derived audit UTC reinterpretation rejected for freshness",
     "abrupt_or_impossible_change_unresolved": false
   }
