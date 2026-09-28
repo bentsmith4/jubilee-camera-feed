@@ -13,8 +13,8 @@
   "deep_research_or_recalibration_performed": false,
   "forecast_opportunity_status": "Frozen low-confidence heuristic: September 28 Point Clear 2-5% (central 3%); Daphne/May Day 1-4% (central 2%). September 29-30 retain the same frozen 2-5%/1-4% baseline; all ranges remain below the unchanged >20% opportunity alert gate.",
   "material_change_since_prior_snapshot": true,
-  "notification_condition_met": true,
-  "notification_reason": "Material recovery of previously stale critical context: official KBFM/KMOB ASOS observations are now fresh and all published Claiborne/Coffeeville river series are again within the 180-minute regional-proxy window. Weeks Bay meteorology remains slightly stale, direct local bottom oxygen remains unavailable, nighttime biology remains UNKNOWN, and probability ranges are unchanged.",
+  "notification_condition_met": false,
+  "notification_reason": "No forecast notification trigger met. The earlier simultaneous ASOS and river freshness fault recovered; that recovery remains operational context in operational_fault_assessment.recovery_notification_required=true. Weeks Bay remains stale, direct local bottom oxygen remains unavailable, nighttime biology remains UNKNOWN, and probability ranges are unchanged.",
   "dawn_ct": "2026-09-28T06:19:10.676243-05:00",
   "principal_dawn_visual_assessment_status": "PRE_DAWN_SENSING_NOT_PRINCIPAL_DAWN_ASSESSMENT; 6_OF_6_PRIVATE_METADATA_PASS; TWO_PUBLIC_PLAYERS_PROBABLY_FRESH; NIGHTTIME_BIOLOGY_UNKNOWN",
   "active_faults": [
@@ -43,7 +43,7 @@
     "daphne_may_day_over_20_percent": false,
     "direct_event_evidence_present": false,
     "material_critical_input_fault": false,
-    "notification_suppressed": false
+    "notification_suppressed": true
   },
   "input_rows": [
     {
@@ -1469,7 +1469,12 @@
       "confidence": "low"
     }
   ],
-  "probability_basis": "Frozen expert-policy baseline retained; all environmental features remain production_weight=0. Fresh regional ASOS/river context narrows the earlier source-freshness uncertainty but does not justify a numerical change.",
+  "probability_basis": {
+    "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
+    "numeric_change_from_prior_snapshot": 0,
+    "reassessment_method": "Preserve existing expert-policy baseline numeric ranges: newly ingested environmental features retain production_weight=0. Recompute transport summaries and admission at issue time; reassess direct-event evidence and unchanged >20% gates. No executable calibrated Jubilee probability model or new coefficient is introduced.",
+    "summary": "Frozen expert-policy baseline retained; all environmental features remain production_weight=0. Fresh regional ASOS/river context narrows the earlier source-freshness uncertainty but does not justify a numerical change."
+  },
   "sanity_check": "All ranges remain below >20%. Recovered regional inputs do not supply direct local bottom oxygen, and poor nighttime detectability is not a biological negative.",
   "operational_fault_assessment": {
     "active_fault_present": false,
