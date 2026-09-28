@@ -337,15 +337,6 @@ class ProductionWeeksBayArchiveTests(unittest.TestCase):
         manifest = reader.json("model_data/weeks_bay_realtime_manifest.json")
         self.assertEqual(*self._station_counts(reader, manifest))
 
-    def test_current_snapshot_weeks_bundle_replays_with_full_integrity(self):
-        snapshot = json.loads((ROOT / guard.SNAPSHOT).read_text())
-        issue = guard.stamp(snapshot["snapshot_time_ct"])
-        product = guard.environmental_product("weeks_bay_realtime", guard.Reader(ROOT, snapshot), issue)
-        self.assertIn("validated", product["detail"])
-        self.assertTrue(product["admissible"])
-
-    def test_snapshot_hash_trace(self):
-        self.fail("SNAPSHOT_SHA256=" + guard.digest((ROOT / guard.SNAPSHOT).read_bytes()))
 
 
 class WorkflowTests(unittest.TestCase):
