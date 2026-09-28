@@ -182,7 +182,7 @@ class FreshnessTests(unittest.TestCase):
         self.assertEqual(r["status"], "STALE")
         self.assertEqual(r["sources"][0]["reason"], "NEWER_SOURCE_EVIDENCE")
 
-    def test_recovered_camera_coverage_is_material(self):
+    def test_camera_coverage_degradation_is_material(self):
         self.cameras(T0 + timedelta(minutes=40), failures=("camera_1",))
         self.assertEqual(self.report("cameras")["status"], "STALE")
 
@@ -203,6 +203,7 @@ class FreshnessTests(unittest.TestCase):
     def test_same_timestamp_camera_vision_and_image_corrections(self):
         for path in ("vision.json", "camera_0.jpg"):
             with self.subTest(path=path):
+                self.cameras(T0 - timedelta(minutes=10))
                 if path.endswith("json"):
                     doc = self.read(path)
                     doc["cameras"]["camera_0"]["biology"] = "CORRECTED_UNKNOWN"
