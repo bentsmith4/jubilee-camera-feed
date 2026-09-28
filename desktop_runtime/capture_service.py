@@ -1,5 +1,6 @@
 """One bounded acquisition queue, distinct live and canonical products."""
 import json
+import os
 import socket
 import subprocess
 import sys
@@ -195,7 +196,14 @@ def main():
     except OSError:
         return
 
-    state = json.loads(STATE.read_text()) if STATE.exists() else {}
+    try:
+        state = json.loads(STATE.read_text(encoding="utf-8")) if STATE.exists() else {}
+        if not isinstance(state, dict):
+            raise ValueError("state is not an object")
+    except (OSError, UnicodeError, ValueError):
+        # Preserve the deployed recovery behavior after an interrupted state write.
+        state = {}
+        log("Coordinator state unreadable; rebuilding from fresh captures")
     if "last_regular_slot" not in state:
         migrated = last_regular_slot(state)
         if migrated is not None:
@@ -250,7 +258,10 @@ def main():
 
         state["heartbeat"] = datetime.now(ra.TZ).isoformat()
         tmp = STATE.with_suffix(".tmp")
-        tmp.write_text(json.dumps(state, indent=2))
+        with tmp.open("w", encoding="utf-8") as out:
+            out.write(json.dumps(state, indent=2))
+            out.flush()
+            os.fsync(out.fileno())
         tmp.replace(STATE)
         time.sleep(5)
 
