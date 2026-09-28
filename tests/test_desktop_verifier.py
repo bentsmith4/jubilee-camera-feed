@@ -178,7 +178,8 @@ class VerifierTests(unittest.TestCase):
         self.assertEqual(report['code'], 'r2_credentials_unavailable')
 
     def test_offline_never_calls_network_or_credentials(self):
-        with patch.object(v, 'remote_tip', side_effect=AssertionError('network')):
+        with patch.object(v, 'remote_tip', side_effect=AssertionError('network')), \
+                patch.object(v, 'github_compare', side_effect=AssertionError('network')):
             report = v.verify(self.f.root, self.f.inventory, now=self.f.now, offline=True,
                 client_factory=lambda root: self.fail('credentials accessed'))
         self.assertEqual(report['status'], 'NOT_VERIFIED')
@@ -457,7 +458,8 @@ class VerifierTests(unittest.TestCase):
         snap = self.f.snapshot()
         (self.f.root / 'capture_service.log').write_text('no receipt')
         self.assertEqual(v.checked(v.publication, self.f.root, snap)['status'], 'NOT_VERIFIED')
-        with patch.object(v, 'remote_tip', return_value='a' * 40):
+        with patch.object(v, 'remote_tip', return_value='a' * 40), \
+                patch.object(v, 'github_compare', side_effect=v.EvidenceError('NOT_VERIFIED', 'github_ancestry_unavailable')):
             value = v.checked(v.publication, self.f.root, snap, self.f.published, self.f.previous)
         self.assertEqual(value['status'], 'NOT_VERIFIED')
         with patch.object(v, 'remote_tip', return_value=self.f.previous):

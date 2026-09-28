@@ -17,7 +17,8 @@ publish entry points, change a task, or create another runtime.
 One sanitized JSON report goes to stdout. There are no report files, temporary
 restores, Python bytecode caches, Git fetches, index refreshes, ref updates,
 commits, pushes, or object-store writes. The default network operations are
-read-only Git `ls-remote` and R2 `GetObject`. `-Offline` disables both and does not
+read-only Git `ls-remote`, bounded GitHub compare GETs when local ancestry is
+inconclusive, and R2 `GetObject`. `-Offline` disables all of these and does not
 read `r2.json`; offline mode cannot produce overall PASS. Saving stdout is an
 explicit caller action, outside this check.
 
@@ -44,7 +45,7 @@ pause; an old canonical capture still cannot receive fresh-capture acceptance.
 Exit codes: **0 PASS**, **1 FAIL**, **2 NOT_VERIFIED**. Overall PASS requires every
 check and every camera to pass. A confirmed failure takes precedence over an
 unavailable check. Missing files, unavailable Task Scheduler, missing R2
-credentials/dependencies/permissions, unavailable Git objects/history, and
+credentials/dependencies/permissions, unavailable Git ancestry evidence, and
 concurrent updates cannot count as verified. Historical manifests without
 original hashes do not establish original integrity.
 
@@ -76,10 +77,40 @@ from the relevant publication evidence:
 
 These values are evidence inputs, not instructions to move refs. An arbitrary
 ancestor is not sufficient: the prior main must equal the publication's direct
-parent. Subsequent unrelated main commits are allowed. If current remote main
-is absent from the local object database, the result is NOT_VERIFIED; the check
-will not fetch to fill the gap. The remote must be the canonical HTTPS GitHub
-repository. Credential helpers and interactive authentication are disabled.
+parent. Subsequent unrelated main commits are allowed. The remote must be the
+canonical HTTPS GitHub repository. Credential helpers and interactive
+authentication are disabled.
+
+Local `merge-base --is-ancestor` remains the first ancestry check. If the current
+remote-main object is missing, Git cannot walk the history, or a shallow
+boundary makes a negative inconclusive, the verifier uses GitHub's compare API
+for each unproven ancestor (the publication parent and publication commit).
+Each GET targets the fixed canonical repository and exact ancestor/tip SHAs,
+never a moving branch name. PASS requires consistent `ahead` or `identical`
+metadata, zero commits behind, and a merge base equal to the ancestor. The
+response URL and base SHA must match the requested comparison. Commit-list
+membership is not used as ancestry evidence.
+
+There are at most two unauthenticated HTTPS compare requests, with a 10-second
+socket timeout, a 2 MiB response limit, no retries and no redirects. Page two
+with one commit per page avoids GitHub's first-page file patches; the comparison
+metadata still covers the full history. No credentials or Git objects are
+downloaded to disk. This path does not fetch, populate an alternate object
+directory, or change refs, FETCH_HEAD, index, configuration or object storage.
+The publication's direct parent, allowlisted diff and captured bytes still
+require local evidence; the API cannot substitute for those checks. Partial
+clones remain refused before object reads to prevent implicit fetches.
+
+Confirmed divergence in complete local history or consistent GitHub comparison
+metadata is FAIL. Unavailable, rate-limited, oversized, malformed or conflicting
+API evidence is NOT_VERIFIED. A shallow negative alone is never FAIL or PASS.
+Remote main is read again after ancestry checks, including negative or
+inconclusive outcomes; movement yields NOT_VERIFIED. Successful reports record
+`ancestry_evidence` as `local_git` or `github_compare` (the latter if either
+ancestor needed the fallback).
+
+GitHub compare contract:
+https://docs.github.com/en/rest/commits/commits#compare-two-commits
 
 This checks the observed publication contract; it cannot reconstruct every
 historical force push or prove that the source file currently on disk was the
@@ -91,7 +122,10 @@ check is safe and never triggers a cycle.
 ## Scope of tests versus desktop evidence
 
 `python -B -m unittest discover -s tests -p 'test_*.py' -v` exercises offline
-fixtures, real JPEG decoding and local Git history. CI also runs the actual
+fixtures, real JPEG decoding and local Git history. The ancestry fixtures keep
+newer main objects in a separate repository, stub only network transport, and
+fingerprint all production files (including the full Git directory) before and
+after success, failure and inconclusive checks. CI also runs the actual
 PowerShell wrapper on Windows with stubbed Task Scheduler data. No CI job uses
 production credentials or contacts the cameras/R2.
 
