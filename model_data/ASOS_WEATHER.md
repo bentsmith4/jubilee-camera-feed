@@ -98,10 +98,16 @@ new products and requires this check rather than trusting a saved KNOWN label.
 
 `sensing_quality.yml` retrieves ASOS before building readiness and includes all
 three products and public raw archives in artifact upload and Git persistence.
+Publication uses the producer-specific outcome allowlist from PR #13, including
+its immutable-archive budget and clean-worktree rebase. Failed/skipped producers
+cannot stage weather products or archives; later NGOFS2 failure cannot discard
+successful ASOS output.
 Its existing three-hour cadence alone cannot satisfy 90-minute weather freshness,
 so `asos_weather.yml` refreshes only this small request hourly at minute 07 UTC.
 The jobs share a concurrency group to prevent simultaneous weather writes.
-The hourly workflow does not run rivers, NGOFS2, cameras, vision or forecasts.
+The hourly workflow also runs on relevant source changes merged to main, providing
+an actual post-merge weather check. It uses the same producer gates and does not
+run rivers, NGOFS2, cameras, vision or forecasts.
 Existing non-LLM GitHub ingestion schedules are year-round under seasonal policy.
 
 Hourly scheduling is best effort, not a freshness guarantee. Workflow delays,
@@ -115,8 +121,10 @@ Fetches use a custom User-Agent, 20-second request timeout, three bounded attemp
 for transient failures, a 2 MB response cap and six-hour lookback. Each run
 invalidates prior products before network access. HTTP/network unavailability
 and HTTP 204 publish UNKNOWN without claiming successful weather coverage;
-malformed payloads publish UNKNOWN and fail the workflow visibly after the
-products are persisted. Manifest/data hash mismatch also reads as UNKNOWN.
+malformed payloads write local UNKNOWN diagnostics and fail the workflow visibly.
+Failed-producer files remain diagnostic artifacts and are not published to main.
+An earlier successfully published observation is still governed by its original
+time and the issue-time freshness gate; a failure never refreshes its clock. Manifest/data hash mismatch also reads as UNKNOWN.
 Parser exceptions are not silently retried forever. Successful download status
 is separate from per-field freshness/coverage.
 

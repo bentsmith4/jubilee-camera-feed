@@ -1,3 +1,4 @@
+import copy
 import importlib.util
 import json
 import sys
@@ -189,6 +190,109 @@ class EfficiencyTests(unittest.TestCase):
             self.assertTrue(NEW.requires_cross_camera_model({"a": base}))
         finally:
             NEW.CAMERAS = old_cameras
+
+class SynthesisConsistencyTests(unittest.TestCase):
+    def setUp(self):
+        fixture = ROOT / "tests/fixtures/vision_quiet_low_detectability_20260927.json"
+        self.vision = json.loads(fixture.read_text(encoding="utf-8"))
+        self.analyses = self.vision["cameras"]
+        self.summary = self.vision["cross_camera"]
+
+    def test_original_quiet_low_detectability_burst_is_guarded_after_model(self):
+        self.assertEqual(self.vision["capture_time_ct"],
+                         "2026-09-27T19:06:05.402643-05:00")
+        original = copy.deepcopy(self.vision)
+        self.assertTrue(NEW.requires_cross_camera_model(self.analyses))
+        response = types.SimpleNamespace(output_text=json.dumps(self.summary))
+        with patch.object(NEW, "api_response", return_value=response) as api:
+            result = NEW.cross_camera_analysis(self.analyses, {})
+        api.assert_called_once()
+        expected = dict(self.summary,
+                        overall_visual_jubilee_signal="unclear",
+                        point_clear_visual_signal="unclear")
+        self.assertEqual(result, expected)
+        self.assertEqual(self.vision, original)
+
+    def test_positive_biological_and_supporting_observations_survive_darkness(self):
+        rubric = json.loads((ROOT / "vision_rubric.json").read_text())
+        cases = [
+            (field, value)
+            for field in NEW.BIOLOGICAL_BASELINES
+            for value in rubric["required_output_fields"].get(
+                field, ["none_visible", "possible", "clear", "unclear"]
+            )
+            if value not in {"none_visible", "unclear"}
+        ]
+        cases.extend([
+            ("flashlight_activity", "possible"),
+            ("flashlight_activity", "clear"),
+            ("clustered_search_behavior", "possible"),
+            ("clustered_search_behavior", "clear"),
+            ("motion_pattern", "searching"),
+            ("human_sensor_score", 0.5),
+            ("human_sensor_score", 1),
+        ])
+        for field, value in cases:
+            with self.subTest(field=field, value=value):
+                analyses = copy.deepcopy(self.analyses)
+                analyses["pcl_e2_back_deck"][field] = value
+                self.assertEqual(
+                    NEW.check_synthesis_consistency(self.summary, analyses),
+                    self.summary,
+                )
+
+    def test_support_is_scoped_to_its_site(self):
+        for camera_id, supported, unsupported in (
+            ("montrose_pier_bird", "montrose_visual_signal", "point_clear_visual_signal"),
+            ("pcl_e2_back_deck", "point_clear_visual_signal", "montrose_visual_signal"),
+        ):
+            with self.subTest(camera=camera_id):
+                analyses = copy.deepcopy(self.analyses)
+                analyses[camera_id]["bird_feeding_activity"] = "possible"
+                summary = dict(self.summary, montrose_visual_signal="weak_possible")
+                result = NEW.check_synthesis_consistency(summary, analyses)
+                self.assertEqual(result["overall_visual_jubilee_signal"], "weak_possible")
+                self.assertEqual(result[supported], "weak_possible")
+                self.assertEqual(result[unsupported], "unclear")
+
+    def test_uncertainty_confounders_and_summary_labels_are_not_support(self):
+        for changes in (
+            {"people_present": "clear", "motion_pattern": "walking"},
+            {"overall_jubilee_visual_signal": "weak_possible",
+             "temporal_jubilee_signal": "weak_possible"},
+            {"activity_changed_across_frames": "yes"},
+            {"fish_surface_activity": "unknown", "flashlight_activity": "unknown"},
+            {"fish_surface_activity": None, "human_sensor_score": True},
+            {"human_sensor_score": "0.5"},
+            {"alligator_visible": "clear", "alligator_confidence": 0.99},
+        ):
+            with self.subTest(changes=changes):
+                analyses = copy.deepcopy(self.analyses)
+                analyses["pcl_e2_back_deck"].update(changes)
+                result = NEW.check_synthesis_consistency(self.summary, analyses)
+                self.assertEqual(result["overall_visual_jubilee_signal"], "unclear")
+                self.assertEqual(result["point_clear_visual_signal"], "unclear")
+
+    def test_failed_or_missing_cameras_cannot_supply_support(self):
+        for analyses in ({}, {"pcl_e2_back_deck": {
+            "status": "burst_not_ok", "shrimp_surface_popping": "possible",
+        }}, {"pcl_e2_back_deck": {"status": "ok"}}):
+            with self.subTest(analyses=analyses):
+                result = NEW.check_synthesis_consistency(self.summary, analyses)
+                self.assertEqual(result["overall_visual_jubilee_signal"], "unclear")
+                self.assertEqual(result["point_clear_visual_signal"], "unclear")
+
+    def test_other_labels_and_safety_metadata_are_unchanged(self):
+        for label in ("none", "unclear", "moderate", "strong"):
+            with self.subTest(label=label):
+                summary = dict(self.summary,
+                               overall_visual_jubilee_signal=label,
+                               point_clear_visual_signal=label,
+                               alligator_alert={"triggered": True})
+                self.assertEqual(
+                    NEW.check_synthesis_consistency(summary, self.analyses), summary
+                )
+
 
 if __name__ == "__main__":
     unittest.main()
