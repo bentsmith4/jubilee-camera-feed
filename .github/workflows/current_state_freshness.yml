@@ -5,14 +5,18 @@ on:
   schedule:
     - cron: '17,47 * * * *'
   # GITHUB_TOKEN producer pushes do not trigger other push workflows. Observe
-  # completion, including partial-success runs, then inspect latest main.
+  # completion, including partial-success runs, then reconcile latest main.
   workflow_run:
-    workflows: [Jubilee sensing quality and environmental forcing, Jubilee official ASOS observed weather]
+    workflows: [Jubilee sensing quality and environmental forcing, Jubilee official ASOS observed weather, Jubilee unattended observation logging]
     types: [completed]
     branches: [main]
   push:
     branches: [main]
     paths:
+      - 'model_data/reconcile_current_state.py'
+      - 'model_data/publish_current_state.py'
+      - 'tests/test_current_state_reconciliation.py'
+      - 'tests/fixtures/state_reconciliation/**'
       - 'status.json'
       - 'burst_status.json'
       - 'vision.json'
@@ -29,6 +33,10 @@ on:
       - '.github/workflows/current_state_freshness.yml'
   pull_request:
     paths:
+      - 'model_data/reconcile_current_state.py'
+      - 'model_data/publish_current_state.py'
+      - 'tests/test_current_state_reconciliation.py'
+      - 'tests/fixtures/state_reconciliation/**'
       - 'model_data/check_current_state_freshness.py'
       - 'model_data/ingest_river_forcing.py'
       - 'model_data/ingest_weeks_bay_realtime.py'
@@ -41,10 +49,34 @@ permissions:
 
 # Separate from every sensing/capture publication concurrency group.
 concurrency:
-  group: jubilee-current-state-freshness-${{ github.ref }}
+  group: jubilee-current-state-freshness-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
   cancel-in-progress: false
 
 jobs:
+  reconcile:
+    # workflow_run can represent a partially failed producer. Read latest main
+    # only; never download its artifacts or execute its head/PR code.
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install existing model-data dependencies
+        run: python -m pip install -r requirements-model-data.txt
+      - name: Rebuild and publish pair from latest committed admissible evidence
+        run: |
+          git config user.name 'jubilee-model-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          python -B model_data/publish_current_state.py
+
   regression:
     runs-on: ubuntu-latest
     steps:
@@ -53,12 +85,15 @@ jobs:
         with:
           python-version: '3.12'
       - name: Run offline freshness regressions
-        run: python -B -m unittest discover -s tests -p 'test_current_state_freshness.py' -v
+        run: |
+          python -B -m unittest discover -s tests -p 'test_current_state_freshness.py' -v
+          python -B -m unittest discover -s tests -p 'test_current_state_reconciliation.py' -v
 
   current-state-status:
     # Live state is an operational status, not an offline regression or a
     # prerequisite for any producer. Never run PR code with workflow_run trust.
-    if: github.event_name != 'pull_request'
+    needs: reconcile
+    if: always() && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
