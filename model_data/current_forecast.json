@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-09-28T00:34:16.492-05:00",
+  "issue_time": "2026-09-28T09:51:17-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "798982d42aec93f8203a4d5f84c2010f788312cb295eba576c09fb4639c361c4",
-  "input_commit_sha": "08cd8c4e47e86d7d230ceaa56fdaf8f0fa76bff6",
+  "input_snapshot_hash": "83e262f36d8c62d4bd2a362900b1c71bfc98360229c7b4bdc0592deae5b929ed",
+  "input_commit_sha": "8f3729ed437b30bed4b2fe96efc4ea5fbf05ca7f",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
@@ -27,13 +27,12 @@
   "missing_inputs": [
     "Direct bottom/contact-strip oxygen, local salinity/temperature profiles and stratification are unavailable.",
     "Observed nearshore transport and Point Clear observed water level are unavailable.",
-    "Current shoreline rainfall and direct shoreline wind remain UNKNOWN; KBFM/KMOB supply fresh regional airport wind-speed context only, with blank rainfall UNKNOWN.",
-    "River-to-Bay travel time is uncalibrated; fresh Claiborne/Coffeeville proxies do not establish a Bay-arrival pulse.",
-    "Named-station model forecast is unavailable; missing grid lead hours and grid guidance beyond 04:00 CDT are not filled.",
-    "Owner-camera nighttime biological absence is UNKNOWN despite 6/6 healthy metadata groups; low/poor detectability is not a negative.",
-    "Public-camera exact capture times and total delays remain unknown; Grand Hotel biological content remains UNKNOWN in darkness.",
-    "Fairhope sees neither beach nor Fly Creek; priority beach/contact strips remain outside validated coverage.",
-    "No credible same-day human report was recovered in the prior check; report absence is not a biological negative."
+    "Current shoreline rainfall and direct shoreline wind remain UNKNOWN; airport observations are regional context and blank precipitation remains UNKNOWN.",
+    "River-to-Bay travel time is uncalibrated; fresh upstream proxies do not establish a Bay-arrival pulse.",
+    "NGOFS2 named-station forecast is currently unavailable; other NGOFS2 products remain MODEL guidance with production_weight=0.",
+    "WKQA1 water-quality observations remain stale.",
+    "Current owner-camera observations cover only visible areas; no visible signal does not establish a Bay-wide non-event.",
+    "No new permitted public-camera viewing or same-day human-report verification was performed in this bounded resynthesis."
   ],
   "outlooks": [
     {
