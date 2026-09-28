@@ -425,7 +425,7 @@ def cross_camera_analysis(analyses, rubric):
     )
     result = clean_json(response.output_text)
     result["synthesis_mode"] = "model"
-    return result
+    return check_synthesis_consistency(result, analyses)
 
 
 BIOLOGICAL_BASELINES = {
@@ -446,6 +446,54 @@ BIOLOGICAL_BASELINES = {
     "animal_lethargy_or_abnormal_motion": {"none_visible"},
     "repeated_surface_activity": {"none_visible"},
 }
+
+
+def check_synthesis_consistency(synthesis, analyses):
+    """Unresolved visibility cannot supply evidence for a weak signal.
+
+    Check each site's own observations independently. Summary labels, temporal
+    change alone, and confounders are not observations of biological activity.
+    This is only a guard on unsupported weak_possible labels, not a reclassifier.
+    """
+    observed_activity = {
+        "isolated", "possible", "possible_abnormal", "clear_abnormal",
+        "clear", "multiple", "dense", "widespread", "active", "dense_active",
+    }
+
+    def has_support(analysis):
+        if analysis.get("status") != "ok":
+            return False
+        if any(analysis.get(field) in observed_activity
+               for field in BIOLOGICAL_BASELINES):
+            return True
+        if any(analysis.get(field) in {"possible", "clear"}
+               for field in ("flashlight_activity", "clustered_search_behavior")):
+            return True
+        if analysis.get("motion_pattern") == "searching":
+            return True
+        score = analysis.get("human_sensor_score")
+        return (
+            isinstance(score, (int, float)) and not isinstance(score, bool)
+            and 0 < score <= 1
+        )
+
+    scopes = {
+        "overall_visual_jubilee_signal": analyses.values(),
+        "montrose_visual_signal": [
+            value for key, value in analyses.items() if key.startswith("montrose_")
+        ],
+        "point_clear_visual_signal": [
+            value for key, value in analyses.items() if key.startswith("pcl_")
+        ],
+    }
+    checked = dict(synthesis)
+    for field, cameras in scopes.items():
+        if synthesis.get(field) == "weak_possible" and not any(
+            has_support(camera) for camera in cameras
+        ):
+            # Do not turn unresolvable or missing observations into absence.
+            checked[field] = "unclear"
+    return checked
 
 
 def requires_cross_camera_model(analyses):
