@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0",
+  "verified_at_utc": "2026-09-28T02:47:45.731795+00:00",
+  "status": "PASS",
+  "scope": "Current-state/forecast reconciliation; not predictive validation or desktop/dawn acceptance",
+  "input_commit_sha": "6729b771c306ee6599dc498f8a0a6bd2dde9bfa1",
+  "snapshot_issue_time": "2026-09-27T21:47:42-05:00",
+  "outputs": {
+    "current_state_snapshot.json": "e9e45df6a13631ab307f95339ac19766004793b36a3032d0ae8d50fbac92c98f",
+    "current_asos_weather.json": "aa23591717fff9fa71c0204b5dac26535fbb4fe3786f0b50d5b372d42ecf4f82",
+    "current_forecast.json": "a0d683e6ae35cace81b67dbfa09138f336577fc9d7cd1a5f7c711ad7d0c3d6ac"
+  },
+  "consistency_checks": [
+    "All pinned source SHA256 and Git blob identities match checkout and source commit",
+    "Forecast is bound to the exact snapshot hash and issue time; frozen heuristic ranges unchanged",
+    "Model/observation separation, antecedent nowcasts, issue-time availability and named-forecast UNKNOWN preserved",
+    "Point Clear 1/3/6/12-hour transport independently recalculated from normalized values",
+    "ASOS issue-time QC matches; blank precipitation/calm direction stay UNKNOWN; later stale observations reject",
+    "All 20 upstream series remain distinct, fresh and qualified; Coffeeville pool/tailwater not summed",
+    "Weeks Bay meteorology admitted per parameter; stale direction and dissolved oxygen UNKNOWN",
+    "Camera health 4/6 with real failures retained; no new public viewing or desktop acceptance invented",
+    "Unchanged strict >20% gates rechecked across every range and central estimate; no event/duplicate-fault notification",
+    "Tracked diff limited to generated state/weather; policy, weights, runtime, schedules and thresholds byte-identical",
+    "Diff whitespace and JSON serialization checks passed"
+  ],
+  "source_archive_validation": {
+    "point_clear_nowcast_rows": 671,
+    "point_clear_forecast_rows": 5291,
+    "named_nowcast_rows": 2745,
+    "shoreline_grid_rows": 1848,
+    "river_rows": 30131,
+    "weeks_bay_rows": 53524,
+    "method": "Decompressed source SHA256 plus normalized row equality; grid physical values cross-checked to raw node/role/time; USGS raw reparsed using unchanged normalizer"
+  },
+  "local_regression_suite": {
+    "command": "python -m unittest discover -s tests -q",
+    "tests_run": 200,
+    "passed": 195,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 5,
+    "skip_reason": "PowerShell-only desktop-preflight tests; pwsh absent in this Linux execution environment"
+  },
+  "latest_existing_ci": {
+    "run_id": "36369780278",
+    "tests_run": 200,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "tests_passed": true,
+    "overall_workflow": "failure",
+    "reason": "Named-station forecast NetCDF DAP server error failed the NGOFS2 validation group; independent river/weather/audit producers published successfully"
+  },
+  "validated_ngofs2_source": {
+    "commit": "513f3595f94f69463f0845c18c73d5c2c1176a92",
+    "run_id": "36369400736",
+    "workflow_conclusion": "success"
+  },
+  "probability_reassessment": "Existing expert-policy heuristic preserved; new environmental feeds remain zero weight. No calibrated probability execution claimed.",
+  "remaining_unknowns": [
+    "Direct bottom/contact-strip oxygen, local salinity/temperature profiles and stratification are unavailable.",
+    "Observed nearshore transport and Point Clear observed water level are unavailable.",
+    "Current shoreline rainfall is UNKNOWN; blank ASOS precipitation is not zero.",
+    "River-to-Bay travel time is uncalibrated; fresh upstream provisional/estimated flow does not establish a Bay-arrival pulse.",
+    "Named-station model forecast is unavailable; missing grid lead hours and grid guidance beyond 04:00 CDT are not filled.",
+    "Owner-camera nighttime biological absence is UNKNOWN, including both failed Point Clear views.",
+    "Public-camera capture times and total delays remain unknown; checks are historical structured observations, not a new viewing in this reconciliation.",
+    "Priority beach/contact strips remain outside validated coverage; absence of a recovered human report is not a non-event."
+  ],
+  "notification_condition_met": false,
+  "forecast_weights_changed": false,
+  "alert_threshold_changed": false
+}

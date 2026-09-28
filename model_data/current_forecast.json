@@ -1,0 +1,108 @@
+{
+  "schema_version": "1.0",
+  "issue_time": "2026-09-27T21:47:42-05:00",
+  "model_version": "expert_policy_baseline / model_policy_v2.1",
+  "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
+  "input_snapshot_file": "model_data/current_state_snapshot.json",
+  "input_snapshot_hash": "e9e45df6a13631ab307f95339ac19766004793b36a3032d0ae8d50fbac92c98f",
+  "input_commit_sha": "6729b771c306ee6599dc498f8a0a6bd2dde9bfa1",
+  "forecast_weights_changed": false,
+  "alert_threshold_percent": 20,
+  "alert_comparator": ">",
+  "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
+  "method": "Preserve existing expert-policy baseline numeric ranges: newly ingested environmental features retain production_weight=0. Recompute transport summaries and admission at issue time; reassess direct-event evidence and unchanged >20% gates. No executable calibrated Jubilee probability model or new coefficient is introduced.",
+  "data_coverage": {
+    "private_camera_metadata_pass": 4,
+    "private_cameras_expected": 6,
+    "ngofs2_products": {
+      "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
+      "ngofs2_point_clear_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
+      "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
+      "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
+      "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
+    },
+    "fresh_river_series": 20,
+    "asos_stations": "KBFM/KMOB partial"
+  },
+  "missing_inputs": [
+    "Direct bottom/contact-strip oxygen, local salinity/temperature profiles and stratification are unavailable.",
+    "Observed nearshore transport and Point Clear observed water level are unavailable.",
+    "Current shoreline rainfall is UNKNOWN; blank ASOS precipitation is not zero.",
+    "River-to-Bay travel time is uncalibrated; fresh upstream provisional/estimated flow does not establish a Bay-arrival pulse.",
+    "Named-station model forecast is unavailable; missing grid lead hours and grid guidance beyond 04:00 CDT are not filled.",
+    "Owner-camera nighttime biological absence is UNKNOWN, including both failed Point Clear views.",
+    "Public-camera capture times and total delays remain unknown; checks are historical structured observations, not a new viewing in this reconciliation.",
+    "Priority beach/contact strips remain outside validated coverage; absence of a recovered human report is not a non-event."
+  ],
+  "outlooks": [
+    {
+      "cell": "Point Clear/Grand Hotel",
+      "forecast_window": {
+        "date_ct": "2026-09-27",
+        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
+      },
+      "range_percent": "2-6",
+      "central_percent": 4,
+      "confidence": "low"
+    },
+    {
+      "cell": "Daphne/May Day",
+      "forecast_window": {
+        "date_ct": "2026-09-27",
+        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
+      },
+      "range_percent": "1-5",
+      "central_percent": 3,
+      "confidence": "low"
+    },
+    {
+      "cell": "Point Clear/Grand Hotel",
+      "forecast_window": {
+        "date_ct": "2026-09-28",
+        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
+      },
+      "range_percent": "2-5",
+      "central_percent": 3,
+      "confidence": "low"
+    },
+    {
+      "cell": "Daphne/May Day",
+      "forecast_window": {
+        "date_ct": "2026-09-28",
+        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
+      },
+      "range_percent": "1-4",
+      "central_percent": 2,
+      "confidence": "low"
+    },
+    {
+      "cell": "Point Clear/Grand Hotel",
+      "forecast_window": {
+        "date_ct": "2026-09-29",
+        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
+      },
+      "range_percent": "2-5",
+      "central_percent": 3,
+      "confidence": "low"
+    },
+    {
+      "cell": "Daphne/May Day",
+      "forecast_window": {
+        "date_ct": "2026-09-29",
+        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
+      },
+      "range_percent": "1-4",
+      "central_percent": 2,
+      "confidence": "low"
+    }
+  ],
+  "alert_gates": {
+    "point_clear_over_20_percent": false,
+    "daphne_may_day_over_20_percent": false,
+    "direct_event_evidence_present": false,
+    "material_critical_input_fault": false,
+    "notification_suppressed": true
+  },
+  "notification_condition_met": false,
+  "later_verification": "PENDING; no future outcome or next-dawn acceptance claimed"
+}
