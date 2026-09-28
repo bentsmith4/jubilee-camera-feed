@@ -1,0 +1,124 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "j09-adcp-offline-decode-validation-2026-09-28",
+  "generated_at_utc": "2026-09-28T15:02:00Z",
+  "scope": "RESEARCH_ONLY_EXTERNAL_HANDOFF_CANONICAL_PROVENANCE_RECORD",
+  "production_action": "NO_CHANGE_ZERO_WEIGHT",
+  "source": {
+    "source_id": "griidc_y1_x122_038_0002_mobile_bay_ship_channel_adcp_2010",
+    "provider": "GRIIDC / Dauphin Island Sea Lab",
+    "archive_identifier": "Y1.x122.038:0002",
+    "doi": "10.7266/N7B85630",
+    "period_of_record": "2010-08-18 through 2010-10-27",
+    "provider_archive_size_mb": 94.58,
+    "provider_archive_member_count": 68,
+    "rights": "Public-domain CC0; investigator credit encouraged; data provided as-is"
+  },
+  "evidence_provenance": {
+    "origin": "Owner-authorized offline research package, independent technical review, frame diagnostic, and vendor-playback preparation completed outside this automation workspace.",
+    "automation_verification_limit": "This run verified the evidence handoff against current GitHub state but could not re-open the PointClearPC local package paths from the cloud workspace. Counts, tests and hashes below are coordinator-verified handoff evidence, not independently rerun by this automation.",
+    "original_provider_get": "HTTP 500 during acquisition",
+    "reconstructed_archive_evidence": "Generated ZIP members matched all 68 provider names, sizes and CRC values; original provider ZIP checksum remains unverified.",
+    "delivered_file_hash_verification": {
+      "count": 27,
+      "result": "independently verified by technical reviewer",
+      "individual_hashes_available_here": false
+    },
+    "original_package_hash_count": 30,
+    "original_package_modified": false
+  },
+  "decode_results": {
+    "native_format": "RDI PD0 / WinRiver",
+    "provider_description_conflict": "Provider/registry previously described Nortek AWAC; native payload is RDI PD0/WinRiver.",
+    "survey_days": 11,
+    "pd0_ensembles": 6210,
+    "profile_bins": 248400,
+    "rmc_navigation_records": 107996,
+    "coordinate_frame": "SHIP",
+    "nearest_track_distance_to_point_clear_km": 7.94,
+    "exact_survey_date_event_registry_overlap": 0
+  },
+  "reproducibility": {
+    "source_package_tests": 17,
+    "reviewed_portable_proposal_tests": 21,
+    "independent_frame_diagnostic_tests": 4,
+    "vendor_playback_packet_tests": 10,
+    "test_sets_are_distinct": true,
+    "original_decode_outputs": {
+      "count": 6,
+      "replay": "byte-identical"
+    },
+    "frame_diagnostic_outputs": {
+      "count": 3,
+      "replay": "byte-identical"
+    },
+    "vendor_packet": {
+      "selected_segments": 7,
+      "timing_anomaly_segments": 4,
+      "opposite_heading_reference_segments": 3,
+      "complete_native_pd0_records": 57,
+      "bytes": 71535,
+      "manifest_sha256": "e3d3c2cf7693034b2d6e13e98af72f3fde5afc3ea6158c62d27f3552c1f9dabe",
+      "corrected_receipt_sha256": "ba1fdbf4b48dc09a2bfa08c0d5226d30b8bbfe33e8b5a83accf9024e100c6a85"
+    }
+  },
+  "software_review": {
+    "boundary_defects_found": [
+      "Motion report indexed pairs[0] for an empty pair set.",
+      "statistics.correlation crashed for a single pair or constant-speed sample."
+    ],
+    "correction": "Minimal research-only proposal adds guards for empty, single-pair and constant-speed samples.",
+    "regression_result": "Three synthetic regressions fail before and pass after the correction.",
+    "full_data_output_change": "None; corrected full-data replay outputs are byte-identical to the reviewed outputs.",
+    "integration_status": "PROPOSAL_ONLY_NOT_COMMITTED_AS_EXECUTABLE_CANONICAL_INGEST"
+  },
+  "diagnostics": {
+    "bottom_track_gps_speed_magnitude": {
+      "pairs": 5743,
+      "median_absolute_difference_m_s": 0.049,
+      "rmse_m_s": 0.12,
+      "correlation": 0.922,
+      "interpretation": "Internal vessel-motion consistency diagnostic only; not Earth-current validation, NGOFS2 skill, Point Clear transport skill or Jubilee forecast accuracy."
+    },
+    "heading_conditioned_direction": {
+      "pairs": 3694,
+      "filter": "both speeds >= 1 m/s and low net turn",
+      "median_direction_mismatch_degrees": 9.97,
+      "date_heading_confounding": "October 21 has opposite sign and opposite heading; no blanket directional calibration is supported."
+    },
+    "timing_association": {
+      "suspect_native_navigation_associations": 4,
+      "maximum_noted_offset_seconds_approximately": 294,
+      "gps_to_gps_proximity_check": "passed earlier proximity screen",
+      "interpretation": "Within-survey RTC continuity does not establish timezone or exclude between-survey resets."
+    },
+    "legacy_winriver": "Some bottom-track fields are replaced or absent; generic QC semantics are unsafe."
+  },
+  "scientific_gates": {
+    "accepted_earth_frame_currents": 0,
+    "accepted_event_labels": 0,
+    "accepted_production_weights": 0,
+    "unresolved": [
+      "Compatible vendor playback/decoder comparison for the seven selected segments",
+      "Deployment, compass/heading, magnetic variation, draft/transducer and clock/timezone calibration evidence",
+      "Defensible ship-to-Earth frame transformation and vessel-motion correction",
+      "Native/configuration depth reconciliation and bottom/side-lobe QC",
+      "Resolution of suspect ensemble/navigation associations",
+      "Independent event/control overlap adequate for held-out incremental testing"
+    ],
+    "explicit_nonclaims": [
+      "No direct Point Clear or Eastern Shore nearshore current observation",
+      "No Jubilee-event predictive improvement",
+      "No Earth-frame current validation",
+      "No forecast skill or model accuracy result",
+      "No support for a blanket 9.97-degree correction"
+    ]
+  },
+  "promotion_decision": {
+    "registry_status": "registered-not-ingested",
+    "research_status": "OFFLINE_DECODED_AND_INDEPENDENTLY_REPLAYED_NOT_CANONICAL_INGESTED",
+    "feature_status": "ZERO_WEIGHT_PENDING_VALIDATION",
+    "production_eligibility": "INELIGIBLE",
+    "next_step": "Use compatible vendor playback on the seven exact segments and obtain deployment/compass/draft/clock metadata before accepting Earth-frame currents or testing transport skill."
+  }
+}
