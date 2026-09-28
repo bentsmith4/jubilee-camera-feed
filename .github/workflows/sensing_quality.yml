@@ -13,6 +13,8 @@ on:
       - 'model_data/private_camera_signal_contracts.json'
       - 'model_data/public_camera_signal_contracts.json'
       - 'model_data/ingest_river_forcing.py'
+      - 'model_data/ingest_asos_weather.py'
+      - 'model_data/sensor_contract.json'
       - 'model_data/ingest_weeks_bay_realtime.py'
       - 'model_data/ingest_ngofs2_point_clear.py'
       - 'model_data/ingest_ngofs2_mobile_bay_named_stations.py'
@@ -98,6 +100,10 @@ jobs:
         id: river
         continue-on-error: true
         run: python model_data/ingest_river_forcing.py --days 16
+      - name: Retrieve official KBFM and KMOB observed weather
+        id: asos
+        continue-on-error: true
+        run: python model_data/ingest_asos_weather.py
       - name: Retrieve Weeks Bay realtime water quality and meteorology
         id: weeks_bay
         run: python model_data/ingest_weeks_bay_realtime.py
@@ -156,6 +162,9 @@ jobs:
             model_data/ongoing_source_registry_20260906.json
             model_data/river_forcing_manifest.json
             model_data/river_forcing_normalized.csv
+            model_data/asos_weather_manifest.json
+            model_data/asos_weather_normalized.json
+            model_data/current_asos_weather.json
             model_data/weeks_bay_realtime_manifest.json
             model_data/weeks_bay_realtime_normalized.csv
             model_data/ngofs2_point_clear_manifest.json
@@ -216,6 +225,10 @@ jobs:
             sleep 3
           done
           exit 1
+
+      - name: Escalate ASOS parser defects after preserving diagnostic artifacts
+        if: always() && steps.asos.outcome == 'failure'
+        run: exit 1
 
       - name: Escalate persistent river outages and unexpected ingestion defects
         if: always()

@@ -46,7 +46,7 @@ class PublicationTests(unittest.TestCase):
         self.write("baseline.txt", "baseline\n")
         self.write("model_data/stage_sensing_outputs.py", (ROOT / "model_data/stage_sensing_outputs.py").read_text())
         for path in publisher.publication_paths(outcomes(**{name: "success" for name in (
-                "regression", "audit", "river", "weeks_bay", "readiness", "ngofs2_validation",
+                "regression", "audit", "river", "asos", "weeks_bay", "readiness", "ngofs2_validation",
                 "history", "historical_diagnostic", "registry", "main_pass")}), "main"):
             if "/public_archive/" in path:
                 self.write(path + "/old.gz", "immutable archive\n")
@@ -75,7 +75,7 @@ class PublicationTests(unittest.TestCase):
         self.assertIn("id: ngofs2_validation", gate)
         self.assertNotIn("continue-on-error", gate)
         # Every producer referenced by the allowlist is wired to a workflow ID.
-        for name in ("regression", "audit", "river", "weeks_bay", "readiness", "ngofs2_validation",
+        for name in ("regression", "audit", "river", "asos", "weeks_bay", "readiness", "ngofs2_validation",
                      "history", "historical_diagnostic", "registry", "main_pass", "water_quality"):
             self.assertIn(f"        id: {name}\n", WORKFLOW)
 
@@ -93,6 +93,44 @@ class PublicationTests(unittest.TestCase):
         self.write("model_data/sensing_audit.json", "new audit\n")
         publisher.stage(self.root, outcomes(regression="failure", audit="success"), "main")
         self.assertEqual(self.staged(), set())
+
+    def test_asos_failure_skipped_or_missing_cannot_publish(self):
+        for result in ("failure", "skipped", None):
+            with self.subTest(result=result):
+                for name in ("asos_weather_manifest.json", "asos_weather_normalized.json", "current_asos_weather.json"):
+                    self.write("model_data/" + name, "failed producer output\n")
+                self.write("model_data/public_archive/asos/partial.gz", "partial\n")
+                steps = outcomes(regression="success")
+                if result:
+                    steps["asos"] = {"outcome": result, "conclusion": "success"}
+                publisher.stage(self.root, steps, "main")
+                self.assertEqual(self.staged(), set())
+
+    def test_asos_accepted_outage_can_publish_unknown_independently(self):
+        expected = {"model_data/asos_weather_manifest.json", "model_data/asos_weather_normalized.json",
+                    "model_data/current_asos_weather.json"}
+        self.write("model_data/asos_weather_manifest.json", '{"status":"unavailable"}\n')
+        self.write("model_data/asos_weather_normalized.json", '[]\n')
+        self.write("model_data/current_asos_weather.json", '{"status":"UNKNOWN"}\n')
+        publisher.stage(self.root, outcomes(regression="success", asos="success",
+                                            weeks_bay="failure", ngofs2_validation="failure"), "main")
+        self.assertEqual(self.staged(), expected)
+
+    def test_asos_archives_obey_append_only_guard(self):
+        self.write("model_data/public_archive/asos/old.gz", "changed\n")
+        with self.assertRaisesRegex(RuntimeError, "append-only"):
+            publisher.stage(self.root, outcomes(regression="success", asos="success"), "main")
+        self.assertEqual(self.staged(), set())
+
+    def test_hourly_workflow_uses_producer_gate_and_clean_worktree(self):
+        hourly = (ROOT / ".github/workflows/asos_weather.yml").read_text()
+        self.assertIn("id: regression", hourly)
+        self.assertIn("if: ${{ !cancelled() && steps.regression.outcome == 'success' }}", hourly)
+        self.assertIn("SENSING_STEPS_JSON: ${{ toJSON(steps) }}", hourly)
+        self.assertIn("python model_data/stage_sensing_outputs.py", hourly)
+        self.assertIn('git worktree add --detach "$publish_dir" HEAD', hourly)
+        self.assertNotIn("git add", hourly)
+        self.assertIn("steps.asos.outcome == 'failure'", hourly)
 
     def test_missing_partial_and_invalid_ngofs2_cannot_leak_into_publication(self):
         path = "model_data/ngofs2_shoreline_grid_manifest.json"
@@ -168,6 +206,8 @@ class PublicationTests(unittest.TestCase):
             subprocess.check_output(["git", *args], cwd=upstream, stderr=subprocess.STDOUT)
 
         independent = {"model_data/river_forcing_manifest.json", "model_data/public_archive/usgs/new.gz",
+                       "model_data/asos_weather_manifest.json", "model_data/asos_weather_normalized.json",
+                       "model_data/current_asos_weather.json", "model_data/public_archive/asos/new.gz",
                        "model_data/weeks_bay_realtime_manifest.json", "model_data/weeks_bay_realtime_normalized.csv",
                        "model_data/public_archive/ndbc/new.gz", "model_data/sensing_audit.json",
                        "model_data/upgrade_test_report.json"}
@@ -185,7 +225,7 @@ class PublicationTests(unittest.TestCase):
             validator.validate(self.root / "model_data")
         self.write("model_data/upgrade_readiness.json", "unfinished report\n")
         self.write("private.jpg", "not allowlisted\n")
-        steps = outcomes(regression="success", audit="success", river="success", weeks_bay="success",
+        steps = outcomes(regression="success", audit="success", river="success", asos="success", weeks_bay="success",
                          ngofs2_validation="failure", readiness="skipped", registry="skipped")
         script = "\n".join(line[10:] for line in PUBLISH_STEP.split("        run: |\n", 1)[1].splitlines())
         script = script.replace("python model_data/stage_sensing_outputs.py",

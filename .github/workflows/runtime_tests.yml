@@ -3,6 +3,11 @@ name: Jubilee Runtime Tests
 on:
   pull_request:
     paths:
+      - "model_data/ingest_asos_weather.py"
+      - "model_data/build_readiness.py"
+      - "model_data/sensor_contract.json"
+      - ".github/workflows/asos_weather.yml"
+      - ".github/workflows/sensing_quality.yml"
       - "desktop_runtime/**"
       - "tests/**"
       - "requirements-tests.txt"
@@ -10,6 +15,11 @@ on:
   push:
     branches: [main]
     paths:
+      - "model_data/ingest_asos_weather.py"
+      - "model_data/build_readiness.py"
+      - "model_data/sensor_contract.json"
+      - ".github/workflows/asos_weather.yml"
+      - ".github/workflows/sensing_quality.yml"
       - "desktop_runtime/**"
       - "tests/**"
       - "requirements-tests.txt"
