@@ -1,0 +1,467 @@
+{
+  "provenance": {
+    "run_id": 36437462308,
+    "research_commit": "7dd1f07534825bf5343fafb0ec592edefae991d6",
+    "note": "Relevant registry rows before the research commit plus its exact ADCP replacement row. Tests create synthetic fresh sensing manifests; they are not new scientific evidence."
+  },
+  "base_registry": {
+    "schema_version": "1.4",
+    "retrieval_date": "2026-09-06",
+    "purpose": "Single machine-readable registry of ongoing and historical physical sources relevant to Eastern Shore Jubilee prediction. Discovery is not ingestion. Production eligibility requires a reproducible parser/extractor, provenance/QC checks, temporal-availability handling and model promotion review.",
+    "sources": [
+      {
+        "source_id": "usgs_02428400_claiborne",
+        "provider": "USGS / USACE",
+        "source_class": "ongoing_upstream_river_forcing",
+        "station_id": "02428400",
+        "url": "https://waterdata.usgs.gov/monitoring-location/USGS-02428400/",
+        "location": {
+          "lat": 31.6151584948194,
+          "lon": -87.5505479826965
+        },
+        "drainage_area_sq_mi": 21473,
+        "period_of_record": "continuous 2007-10-01 to 2026-09-06; daily 1975-10-01 to 2026-09-06",
+        "status": "INGESTED_RECENT",
+        "production_role": "upstream forcing requiring empirically calibrated travel-time kernel",
+        "ingestion_status": "complete_recent_USGS_IV",
+        "last_verified_at": "2026-09-28T14:27:24.522716+00:00",
+        "raw_sha256": "5b14910d771c1e17caa9891021b56f5d741a2d6e8c03720bdd3a72758de0a713",
+        "normalized_rows": 29926,
+        "station_health": {
+          "02428400": {
+            "rows": 11533,
+            "fresh_series": 8,
+            "latest_at_utc": "2026-09-28T14:00:00+00:00",
+            "parameters": [
+              "00060",
+              "00065",
+              "45592"
+            ]
+          },
+          "02469761": {
+            "rows": 15327,
+            "fresh_series": 10,
+            "latest_at_utc": "2026-09-28T13:30:00+00:00",
+            "parameters": [
+              "00060",
+              "00065",
+              "45592"
+            ]
+          },
+          "02469762": {
+            "rows": 3066,
+            "fresh_series": 2,
+            "latest_at_utc": "2026-09-28T13:30:00+00:00",
+            "parameters": [
+              "00060",
+              "00065"
+            ]
+          }
+        },
+        "ingestion_manifest": "model_data/river_forcing_manifest.json",
+        "production_weight": 0
+      },
+      {
+        "source_id": "usgs_02469761_02469762_coffeeville",
+        "provider": "USGS / USACE",
+        "source_class": "upstream_river_forcing_and_dam_operations",
+        "station_ids": [
+          "02469761",
+          "02469762"
+        ],
+        "status": "INGESTED_RECENT_SOURCE_HEALTH_VARIES_BY_SERIES",
+        "current_health_note": "02469762 Water Data page showed no continuous data in last 120 days on 2026-09-06",
+        "production_role": "one Tombigbee river system; pool/tailwater/gate methods must not be double counted",
+        "ingestion_status": "complete_recent_USGS_IV",
+        "last_verified_at": "2026-09-28T14:27:24.522716+00:00",
+        "raw_sha256": "5b14910d771c1e17caa9891021b56f5d741a2d6e8c03720bdd3a72758de0a713",
+        "normalized_rows": 29926,
+        "station_health": {
+          "02428400": {
+            "rows": 11533,
+            "fresh_series": 8,
+            "latest_at_utc": "2026-09-28T14:00:00+00:00",
+            "parameters": [
+              "00060",
+              "00065",
+              "45592"
+            ]
+          },
+          "02469761": {
+            "rows": 15327,
+            "fresh_series": 10,
+            "latest_at_utc": "2026-09-28T13:30:00+00:00",
+            "parameters": [
+              "00060",
+              "00065",
+              "45592"
+            ]
+          },
+          "02469762": {
+            "rows": 3066,
+            "fresh_series": 2,
+            "latest_at_utc": "2026-09-28T13:30:00+00:00",
+            "parameters": [
+              "00060",
+              "00065"
+            ]
+          }
+        },
+        "ingestion_manifest": "model_data/river_forcing_manifest.json",
+        "production_weight": 0
+      },
+      {
+        "source_id": "weeks_bay_nerr_swmp",
+        "provider": "NOAA NERRS / Weeks Bay NERR / CDMO",
+        "source_class": "ongoing_in_situ_estuarine_monitoring",
+        "url": "https://www.coast.noaa.gov/nerrs/reserves/weeks-bay.html",
+        "variables": [
+          "water_temperature",
+          "salinity",
+          "conductivity",
+          "pH",
+          "dissolved_oxygen",
+          "turbidity",
+          "depth",
+          "meteorology"
+        ],
+        "cadence": "hydrographic observations every 15 minutes at four stations; public monitoring display updated about every 10 minutes",
+        "status": "PARTIALLY_INGESTED_REALTIME",
+        "production_role": "high-frequency Eastern Shore sub-estuary proxy; not direct open-bay Eastern Shore bottom state",
+        "ingestion_status": "NDBC_realtime_WKQA1_WKXA1_parser_complete; final_CDME_archive_not_yet_ingested",
+        "realtime_normalized_rows": 53720,
+        "realtime_station_rows": {
+          "WKQA1": 34360,
+          "WKXA1": 19360
+        },
+        "ingestion_manifest": "model_data/weeks_bay_realtime_manifest.json",
+        "production_weight": 0,
+        "last_verified_at": "2026-09-28T14:27:25.595169+00:00",
+        "realtime_raw_sha256": {
+          "WKQA1": "1fa712256b5ef9ac53c1dd5ca016ef5d268f7f16a7ea95526ee036e81b67d6d3",
+          "WKXA1": "ec3d30932f4fb9c2545a7d457988e29ab38c154fb82a3d1744b0740501453a1a"
+        },
+        "realtime_latest_observed_at": {
+          "WKQA1": "2026-09-09T16:15:00+00:00",
+          "WKXA1": "2026-09-28T13:45:00+00:00"
+        }
+      },
+      {
+        "source_id": "griidc_y1_x122_038_0002_mobile_bay_ship_channel_adcp_2010",
+        "provider": "GRIIDC / Dauphin Island Sea Lab",
+        "url": "https://data.griidc.org/data/Y1.x122.038%3A0002",
+        "api_archive_identifier": "GRIIDC UDI Y1.x122.038:0002; DOI 10.7266/N7B85630",
+        "source_class": "historical_in_bay_vessel_transect_current_profile",
+        "station_location_coordinates": {
+          "geometry": "Continuous Mobile Bay ship-channel transects from bay mouth to Mobile State Dock",
+          "coordinates": "embedded in NMEA sentences; exact ensemble coordinates not yet extracted"
+        },
+        "shoreline_cell": "Mobile Bay ship channel; in-bay transport context, not direct Point Clear/Eastern Shore nearshore current",
+        "parameters": [
+          "along_channel_velocity",
+          "across_channel_velocity",
+          "profile_currents",
+          "NMEA_position"
+        ],
+        "cadence": "continuous within 11 ship surveys; native ensemble cadence unresolved pending file parsing",
+        "period_of_record": "2010-08-18 through 2010-10-27",
+        "observation_model_proxy_status": "DIRECT_OBSERVATION_RESEARCH_CANDIDATE",
+        "depth_datum_vertical_reference": "Nortek AWAC profile bins; transducer depth, blanking distance, bin reference and valid-bottom/side-lobe limits unresolved until native documentation and files are parsed",
+        "units": {
+          "velocity": "UNRESOLVED_PENDING_NATIVE_DOCUMENTATION",
+          "position": "latitude/longitude recoverable from NMEA sentences",
+          "time": "SOURCE_CLOCK_TIMEZONE_UNRESOLVED"
+        },
+        "qc_health_semantics": "Provider explicitly states submitted data are raw and have not yet been quality controlled. Require navigation/ship-motion, beam/error-velocity/correlation/percent-good where available, side-lobe/bottom-interference, depth-bin and ensemble-completeness QC.",
+        "freshness": "historical_archive_static; published 2016-01-07",
+        "ingest_method": "Download canonical 68-file/94.58 MB archive, hash raw files, parse 11 YYYYMMDD folders, extract NMEA positions and native AWAC ensembles, verify coordinate system/units/time/depth geometry, apply documented QC, retain observed_at/available_at/ingested_at, then compute channel and Point Clear geometry before any model test. Detailed path: model_data/j09_mobile_bay_ship_channel_adcp_source_audit_20260924.json",
+        "access_rights_restrictions": "GRIIDC public-domain CC0; appropriate investigator credit encouraged; data provided as-is",
+        "independence_group": "DISL_GRIIDC_MOBILE_BAY_SHIP_CHANNEL_ADCP_2010",
+        "first_verified_date": "2026-09-24",
+        "last_verified_date": "2026-09-24",
+        "status": "registered-not-ingested",
+        "ingest_status": "REGISTERED_NOT_INGESTED_LARGE_RAW_UNQC_ARCHIVE",
+        "row_counts_files_hashes": {
+          "rows": 0,
+          "files": 68,
+          "total_size_mb": 94.58,
+          "hashes": [],
+          "survey_count": 11,
+          "note": "Exact source verified; no payload downloaded or ingested in this run."
+        },
+        "production_eligibility": "ZERO_WEIGHT; ingestion, QC, exact geometry, event/control overlap and out-of-sample incremental value required. Never label as direct Point Clear shore-normal current."
+      },
+      {
+        "source_id": "noaa_ngofs2_mobile_bay",
+        "provider": "NOAA NOS CO-OPS",
+        "source_class": "ongoing_3d_hydrodynamic_model_guidance",
+        "url": "https://tidesandcurrents.noaa.gov/ofs/ngofs2/ngofs_mobile.html",
+        "variables": [
+          "water_level",
+          "currents",
+          "water_temperature",
+          "salinity"
+        ],
+        "cadence": "four model cycles per day; forecast guidance out to 48 hours",
+        "status": "PARTIALLY_INGESTED_SHORELINE_REGULAR_GRID",
+        "observation_status": "MODEL",
+        "production_role": "transport/water-level/salinity guidance only; must remain labeled MODEL and be backtested by shoreline cell",
+        "point_clear_nowcast_rows": 671,
+        "point_clear_forecast_rows": 5291,
+        "point_clear_manifest": "model_data/ngofs2_point_clear_nowcast_manifest.json",
+        "production_weight": 0,
+        "last_verified_at": "2026-09-28T14:43:34.977393+00:00",
+        "shoreline_grid_status": "INGESTED_RESEARCH_ZERO_WEIGHT",
+        "shoreline_grid_manifest": "model_data/ngofs2_shoreline_grid_manifest.json",
+        "shoreline_grid_normalized_rows": 1848,
+        "shoreline_grid_derived_feature_rows": 696,
+        "shoreline_grid_source_hash": "b0c62d935580680a5614d68a352ffd8ddfa27f3ec79ecb22414222be72096c7d",
+        "shoreline_grid_cells": [
+          "Battles Wharf",
+          "Daphne/May Day",
+          "Fairhope/Fly Creek/Pier",
+          "Montrose",
+          "Mullet Point",
+          "Point Clear/Grand Hotel"
+        ],
+        "shoreline_grid_unique_nodes": 23,
+        "current_run_availability": {
+          "point_clear_nowcast": "complete",
+          "point_clear_forecast": "complete",
+          "named_stations_nowcast": "complete",
+          "named_stations_forecast": "unavailable",
+          "shoreline_grid": "complete"
+        },
+        "current_guidance": "PARTIAL_MODEL_GUIDANCE"
+      }
+    ],
+    "ingest_counts_as_of_20260907": {
+      "river_rows": 30635,
+      "river_parameter_counts": {
+        "00060_discharge": 4588,
+        "00065_stage": 4597,
+        "45592_gate_related": 21450
+      },
+      "river_distinct_series_including_gate_methods": 20,
+      "water_quality_rows": 7650,
+      "water_quality_unique_event_linked_rows": 86,
+      "water_quality_same_day_pairs_excluded": 5,
+      "confirmed_events_in_database": 11,
+      "confirmed_events_with_any_water_quality_data": 7,
+      "verified_matched_non_event_count": 0,
+      "water_quality_predictive_validity": "NOT_ESTABLISHED"
+    },
+    "priority_next_ingests": [
+      "NCEI 0188979 three Mobile Bay moored CTD stations, 2016-07-12 to 2016-08-02",
+      "NCEI 0224293 Middle Bay Lighthouse multi-depth 2019",
+      "NCEI 0203749 West End CP 2004-2018 and GRIIDC R4.x260.000:0106 FOCAL 2016",
+      "Ralston 2021 Zenodo/SAR payloads plus historical HFR, spatially subset",
+      "Weeks Bay NERR/CDMO station history plus D'Olive Creek WQP history",
+      "NOAA MRMS QPE and NWM small-tributary reconstructions with gauge validation",
+      "NOAA NCEI Mobile Bay DEM plus USACE eHydro channel geometry",
+      "NOAA Gulf Hypoxia Watch Alabama/Mississippi-shelf stations"
+    ],
+    "last_reconciled_at": "2026-09-28T14:43:59.876639+00:00",
+    "registry_rule": "INGESTED requires a successful parser/extractor run, immutable source hash/subset hash where applicable, normalized rows and provenance manifest. Discovery alone never qualifies.",
+    "last_reconciliation_changes": [
+      {
+        "source_id": "weeks_bay_nerr_swmp",
+        "updates": {
+          "last_verified_at": "2026-09-28T14:27:25.595169+00:00",
+          "realtime_normalized_rows": 53720,
+          "realtime_station_rows": {
+            "WKQA1": 34360,
+            "WKXA1": 19360
+          },
+          "realtime_raw_sha256": {
+            "WKQA1": "1fa712256b5ef9ac53c1dd5ca016ef5d268f7f16a7ea95526ee036e81b67d6d3",
+            "WKXA1": "ec3d30932f4fb9c2545a7d457988e29ab38c154fb82a3d1744b0740501453a1a"
+          },
+          "realtime_latest_observed_at": {
+            "WKQA1": "2026-09-09T16:15:00+00:00",
+            "WKXA1": "2026-09-28T13:45:00+00:00"
+          }
+        }
+      },
+      {
+        "source_id": "usgs_02428400_claiborne",
+        "updates": {
+          "last_verified_at": "2026-09-28T14:27:24.522716+00:00",
+          "raw_sha256": "5b14910d771c1e17caa9891021b56f5d741a2d6e8c03720bdd3a72758de0a713",
+          "normalized_rows": 29926,
+          "station_health": {
+            "02428400": {
+              "rows": 11533,
+              "fresh_series": 8,
+              "latest_at_utc": "2026-09-28T14:00:00+00:00",
+              "parameters": [
+                "00060",
+                "00065",
+                "45592"
+              ]
+            },
+            "02469761": {
+              "rows": 15327,
+              "fresh_series": 10,
+              "latest_at_utc": "2026-09-28T13:30:00+00:00",
+              "parameters": [
+                "00060",
+                "00065",
+                "45592"
+              ]
+            },
+            "02469762": {
+              "rows": 3066,
+              "fresh_series": 2,
+              "latest_at_utc": "2026-09-28T13:30:00+00:00",
+              "parameters": [
+                "00060",
+                "00065"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "source_id": "usgs_02469761_02469762_coffeeville",
+        "updates": {
+          "last_verified_at": "2026-09-28T14:27:24.522716+00:00",
+          "raw_sha256": "5b14910d771c1e17caa9891021b56f5d741a2d6e8c03720bdd3a72758de0a713",
+          "normalized_rows": 29926,
+          "station_health": {
+            "02428400": {
+              "rows": 11533,
+              "fresh_series": 8,
+              "latest_at_utc": "2026-09-28T14:00:00+00:00",
+              "parameters": [
+                "00060",
+                "00065",
+                "45592"
+              ]
+            },
+            "02469761": {
+              "rows": 15327,
+              "fresh_series": 10,
+              "latest_at_utc": "2026-09-28T13:30:00+00:00",
+              "parameters": [
+                "00060",
+                "00065",
+                "45592"
+              ]
+            },
+            "02469762": {
+              "rows": 3066,
+              "fresh_series": 2,
+              "latest_at_utc": "2026-09-28T13:30:00+00:00",
+              "parameters": [
+                "00060",
+                "00065"
+              ]
+            }
+          }
+        }
+      },
+      {
+        "source_id": "noaa_ngofs2_mobile_bay",
+        "removed": [
+          "named_station_nowcast_rows",
+          "named_station_forecast_rows",
+          "named_station_count",
+          "named_station_unresolved_targets",
+          "named_station_manifest"
+        ]
+      },
+      {
+        "source_id": "noaa_ngofs2_mobile_bay",
+        "updates": {
+          "current_run_availability": {
+            "point_clear_nowcast": "complete",
+            "point_clear_forecast": "complete",
+            "named_stations_nowcast": "complete",
+            "named_stations_forecast": "unavailable",
+            "shoreline_grid": "complete"
+          }
+        }
+      },
+      {
+        "source_id": "noaa_ngofs2_mobile_bay",
+        "updates": {
+          "last_verified_at": "2026-09-28T14:43:34.977393+00:00",
+          "shoreline_grid_source_hash": "b0c62d935580680a5614d68a352ffd8ddfa27f3ec79ecb22414222be72096c7d"
+        }
+      }
+    ],
+    "source_interpretation_guardrails": [
+      {
+        "guardrail_id": "J19_POINT_CLEAR_PRODUCT_CLASS",
+        "effective_date": "2026-09-11",
+        "rule": "NOAA 8733821 is ASTRONOMICAL_PREDICTION for present-day use. Never emit LIVE/OBSERVED, live-sensor health, observed water-level tendency, or surge residual from this station."
+      },
+      {
+        "guardrail_id": "J20_GCOOS_DISL_DO_DEPTH_UNITS",
+        "effective_date": "2026-09-11",
+        "rule": "GCOOS DISL_BSPA and DISL_MHPA oxygen are DEPTH_UNKNOWN_OBSERVATION_PROXY with an unresolved ug/L-versus-mg/L metadata conflict. No automatic conversion and no BOTTOM_DO/vertical-gradient/stratification eligibility until native DISL units and deployment geometry are reconciled."
+      }
+    ]
+  },
+  "upstream_adcp": {
+    "source_id": "griidc_y1_x122_038_0002_mobile_bay_ship_channel_adcp_2010",
+    "provider": "GRIIDC / Dauphin Island Sea Lab",
+    "url": "https://data.griidc.org/data/Y1.x122.038%3A0002",
+    "api_archive_identifier": "GRIIDC UDI Y1.x122.038:0002; DOI 10.7266/N7B85630",
+    "source_class": "historical_in_bay_vessel_transect_current_profile",
+    "station_location_coordinates": {
+      "geometry": "Eleven vessel transect survey days along the Mobile Bay ship channel from bay mouth toward Mobile State Dock",
+      "coordinates": "107,996 decoded RMC navigation records in the reviewed offline package; four suspect native-ensemble/navigation associations remain unresolved",
+      "nearest_track_to_point_clear_km": 7.94
+    },
+    "shoreline_cell": "Mobile Bay ship channel; in-bay transport context, not direct Point Clear/Eastern Shore nearshore current",
+    "parameters": [
+      "ship_frame_water_velocity_profiles",
+      "bottom_track_speed_magnitude",
+      "RMC_navigation",
+      "heading_and_native_configuration_fields"
+    ],
+    "cadence": "6,210 native PD0 ensembles across 11 survey days; exact trusted observation clock/cadence remains unresolved pending vendor playback and clock metadata",
+    "period_of_record": "2010-08-18 through 2010-10-27",
+    "observation_model_proxy_status": "DIRECT_OBSERVATION_RESEARCH_CANDIDATE_SHIP_FRAME_NOT_EARTH_CURRENT",
+    "depth_datum_vertical_reference": "RDI PD0/WinRiver native/configuration depth fields; draft/transducer reference, bin geometry, bottom/side-lobe limits and config-vs-native depth reconciliation remain unresolved. Legacy WinRiver replaces or omits some bottom-track fields.",
+    "units": {
+      "velocity": "decoded motion diagnostics in m/s; Earth-frame scientific acceptance not established",
+      "position": "latitude/longitude from RMC navigation",
+      "time": "native RTC/timezone unresolved; within-survey continuity does not establish timezone or exclude between-survey resets",
+      "direction": "SHIP frame; no blanket Earth-frame rotation accepted"
+    },
+    "qc_health_semantics": "Provider says raw/un-QC'd. Offline package decoded native RDI PD0/WinRiver (not presumed Nortek AWAC), 6,210 ensembles, 248,400 bins and 107,996 RMC records. Bottom-track/GPS magnitude diagnostic over 5,743 pairs: median absolute difference 0.049 m/s, RMSE 0.120 m/s, correlation 0.922; internal motion consistency only. Heading-conditioned median mismatch 9.97 degrees over 3,694 filtered pairs, but date/heading confounding and four suspect timing associations prohibit blanket calibration. Require compatible vendor playback plus deployment/compass/draft/clock metadata and Earth-frame/motion/depth QC.",
+    "freshness": "historical_archive_static; published 2016-01-07",
+    "ingest_method": "Reviewed offline research package exists outside canonical GitHub: RDI PD0/WinRiver decode, replay and focused vendor-playback packet. Canonical scientific ingest remains blocked until source package/proposal is safely integrated with hashes, vendor playback and metadata. Detailed evidence: model_data/j09_adcp_offline_decode_validation_20260928.json",
+    "access_rights_restrictions": "GRIIDC public-domain CC0; appropriate investigator credit encouraged; data provided as-is",
+    "independence_group": "DISL_GRIIDC_MOBILE_BAY_SHIP_CHANNEL_ADCP_2010",
+    "first_verified_date": "2026-09-24",
+    "last_verified_date": "2026-09-28",
+    "status": "registered-not-ingested",
+    "ingest_status": "OFFLINE_DECODED_AND_INDEPENDENTLY_REPLAYED_NOT_CANONICAL_INGESTED",
+    "row_counts_files_hashes": {
+      "canonical_ingested_rows": 0,
+      "provider_archive_files": 68,
+      "provider_archive_size_mb": 94.58,
+      "survey_days": 11,
+      "decoded_pd0_ensembles": 6210,
+      "decoded_profile_bins": 248400,
+      "decoded_rmc_navigation_records": 107996,
+      "delivered_file_hashes_verified_count": 27,
+      "individual_delivered_hashes_in_canonical_registry": false,
+      "vendor_packet_manifest_sha256": "e3d3c2cf7693034b2d6e13e98af72f3fde5afc3ea6158c62d27f3552c1f9dabe",
+      "vendor_packet_corrected_receipt_sha256": "ba1fdbf4b48dc09a2bfa08c0d5226d30b8bbfe33e8b5a83accf9024e100c6a85",
+      "provider_original_archive_checksum": "UNVERIFIED_PROVIDER_GET_HTTP_500",
+      "note": "Offline decoded evidence is preserved as a research audit. Raw/normalized payloads and executable ingest are not yet canonical."
+    },
+    "production_eligibility": "ZERO_WEIGHT; SHIP frame, ~7.94 km nearest Point Clear track, unresolved clock/timezone/depth/motion associations, zero exact event-date overlap and no clean controls. Never label as direct Point Clear shore-normal current or forecast validation.",
+    "format_conflict": {
+      "provider_description": "Nortek AWAC",
+      "decoded_native_format": "RDI PD0 / WinRiver",
+      "status": "UNRESOLVED_PROVIDER_METADATA_CONFLICT",
+      "decision": "Native bytes control the decoder; provider/native conflict remains explicit until authoritative documentation resolves it."
+    }
+  }
+}
