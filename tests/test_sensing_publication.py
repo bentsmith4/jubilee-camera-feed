@@ -152,13 +152,19 @@ class PublicationTests(unittest.TestCase):
 
     def test_validated_outage_publishes_no_current_guidance_and_csv_deletion(self):
         name = "ngofs2_point_clear_nowcast"
-        self.write(f"model_data/{name}_manifest.json", json.dumps({
-            "status": "failed", "error_type": "RetrievalTimeout"}))
-        validator.validate(self.root / "model_data")
-        publisher.stage(self.root, outcomes(regression="success", ngofs2_validation="success"), "main")
-        self.assertIn(f"model_data/{name}_normalized.csv", self.staged())
-        self.assertIn("NO_CURRENT_GUIDANCE", self.git("show", f":model_data/{name}_manifest.json"))
-        self.assertIn(f"D\tmodel_data/{name}_normalized.csv", self.git("diff", "--cached", "--name-status"))
+        for failure in ({"error_type": "RetrievalTimeout"},
+                        {"error_type": "RuntimeError", "error": "NetCDF: DAP server error"}):
+            with self.subTest(failure=failure):
+                self.git("reset", "--hard", "HEAD")
+                self.write(f"model_data/{name}_manifest.json", json.dumps({"status": "failed", **failure}))
+                validator.validate(self.root / "model_data")
+                publisher.stage(self.root, outcomes(regression="success", ngofs2_validation="success"), "main")
+                self.assertIn(f"model_data/{name}_normalized.csv", self.staged())
+                self.assertIn("NO_CURRENT_GUIDANCE", self.git("show", f":model_data/{name}_manifest.json"))
+                self.assertIn("NO_CURRENT_GUIDANCE", self.git("show", ":model_data/ngofs2_point_clear_manifest.json"))
+                self.assertEqual(json.loads(self.git("show", ":model_data/ngofs2_availability.json"))[name],
+                                 "unavailable")
+                self.assertIn(f"D\tmodel_data/{name}_normalized.csv", self.git("diff", "--cached", "--name-status"))
 
     def test_successful_ngofs2_and_independent_sources_keep_existing_allowlist(self):
         self.write("model_data/public_archive/ngofs2_subset/new.gz", "new validated subset\n")
@@ -215,7 +221,7 @@ class PublicationTests(unittest.TestCase):
             self.write(path, "fresh successful output\n")
         # The validator mutates earlier outage products, then fails on a later parser.
         self.write("model_data/ngofs2_point_clear_nowcast_manifest.json", json.dumps({
-            "status": "failed", "error_type": "RetrievalTimeout"}))
+            "status": "failed", "error_type": "RuntimeError", "error": "NetCDF: DAP server error"}))
         self.write("model_data/ngofs2_shoreline_grid_manifest.json", json.dumps({
             "status": "failed", "error_type": "ValueError", "error": "invalid parsed data"}))
         self.write("model_data/ngofs2_shoreline_grid_features.csv", "partial invalid rows\n")
