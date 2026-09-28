@@ -30,13 +30,13 @@ function Get-ScheduledTask {
         TaskName='Jubilee Live Cameras'; TaskPath='\'; State='Running'
         Settings=[pscustomobject]@{Enabled=$true}
         Principal=[pscustomobject]@{UserId='SENTINEL_ACCOUNT_SECRET'}
-        Actions=@([pscustomobject]@{Execute='C:\Python\python.exe'; Arguments='"ROOT\live_loop.py"'; WorkingDirectory='ROOT'})
+        Actions=@([pscustomobject]@{Execute='python.exe'; Arguments='"SCRIPT"'; WorkingDirectory='ROOT'})
     }
 }
 function Get-ScheduledTaskInfo {
     [pscustomobject]@{LastRunTime=[datetime]'2026-09-27T06:00:00Z'; LastTaskResult=267009; NumberOfMissedRuns=0}
 }
-'''.replace('ROOT', root.replace("'", "''"))
+'''.replace('ROOT', root.replace("'", "''")).replace('SCRIPT', str(self.f.root / 'live_loop.py').replace("'", "''"))
         if task_error:
             code += "function Get-ScheduledTaskInfo { throw 'SENTINEL_TASK_SECRET' }\n"
         code += '& ' + quote(wrapper) + ' -Root ' + quote(root) + ' -Python ' + quote(python or sys.executable) + ' -Offline'
@@ -53,9 +53,8 @@ function Get-ScheduledTaskInfo {
         self.assertEqual(proc.stderr, '')
         self.assertEqual(report['schema_version'], '3.0')
         self.assertEqual(len(report['cameras']), 6)
-        if sys.platform == 'win32':
-            self.assertNotIn(report['checks']['scheduled_tasks']['code'],
-                             ('coordinator_definition_mismatch', 'task_inventory_unavailable'))
+        self.assertNotIn(report['checks']['scheduled_tasks']['code'],
+                         ('coordinator_definition_mismatch', 'task_inventory_unavailable'))
         self.assertNotIn('SENTINEL', proc.stdout)
         self.assertNotIn(str(self.f.root), proc.stdout)
         self.assertEqual(fingerprints(self.f.root), before)

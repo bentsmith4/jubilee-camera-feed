@@ -27,13 +27,18 @@ try {
             $action = $actions[0]
             $executable = [IO.Path]::GetFileName($action.Execute)
             $arg = ([string]$action.Arguments).Trim()
-            $absoluteScript = [regex]::Escape($rootFull + '\') + '(live_loop|capture_service)\.py'
-            $actionMatches = $executable -match '^(python|pythonw)(\.exe)?$' -and (
-                $arg -match ('^(?:-u\s+|-B\s+)*(?:"' + $absoluteScript + '"|' + $absoluteScript + ')$') -or (
-                    $action.WorkingDirectory -eq $rootFull -and
-                    $arg -match '^(?:-u\s+|-B\s+)*"?(live_loop|capture_service)\.py"?$'
-                )
-            )
+            $scriptArg = [regex]::Replace($arg, '^(?:(?:-u|-B)\s+)*', '')
+            # Compare literal arguments, not a regex made from a Windows path.
+            # Reject extra arguments; allow the two existing coordinator entries.
+            $approvedArgs = @()
+            foreach ($entry in @('live_loop.py', 'capture_service.py')) {
+                $absolute = [IO.Path]::Combine($rootFull, $entry)
+                $approvedArgs += @($absolute, ('"' + $absolute + '"'))
+                if ($action.WorkingDirectory -eq $rootFull) {
+                    $approvedArgs += @($entry, ('"' + $entry + '"'))
+                }
+            }
+            $actionMatches = ($executable -match '^(python|pythonw)(\.exe)?$') -and ($scriptArg -in $approvedArgs)
         }
         $role = if ($task.TaskName -eq 'Jubilee Live Cameras') { 'coordinator' } else { 'additional_capture_task' }
         $state = [string]$task.State
