@@ -1,0 +1,112 @@
+{
+  "schema_version": "1.0",
+  "run_id": "jubilee-model-research-calibration-2026-09-28",
+  "generated_at_utc": "2026-09-28T15:08:00Z",
+  "in_season": true,
+  "canonical_repository": "bentsmith4/jubilee-camera-feed",
+  "canonical_branch": "main",
+  "role": "MODEL_LEARNING",
+  "source_discovery_queue": {
+    "path": "model_data/source_discovery_queue_20260906.json",
+    "exists": false
+  },
+  "inputs": [
+    {
+      "path": "model_data/MODEL_WORK_REGISTER.md",
+      "blob_sha": "9bb8362c8fc97b89a9d95ca5bd79d40609e8444c"
+    },
+    {
+      "path": "model_data/ongoing_source_registry_20260906.json",
+      "pre_run_blob_sha": "e963f2bc846d91d12ff3a8956cdfcb5ff24db134"
+    },
+    {
+      "path": "model_data/feature_catalog.json",
+      "pre_run_blob_sha": "c5680cfe46218526c90bc59eb173e2caf79a90a6"
+    },
+    {
+      "path": "api_usage_summary.json",
+      "blob_sha": "ccbfc6dc8b8b181c059067d09ad160a335bca676",
+      "generated_at_utc": "2026-09-28T14:10:30.360743+00:00",
+      "status": "available",
+      "invalid_records": 0
+    },
+    {
+      "evidence": "Owner-authorized independently reviewed offline ADCP handoff",
+      "verification_limit": "Local PointClearPC artifacts were not accessible to this cloud automation; coordinator-reported counts/tests/hashes were canonically recorded with that limitation."
+    }
+  ],
+  "outputs": [
+    {
+      "path": "model_data/j09_adcp_offline_decode_validation_20260928.json",
+      "blob_sha": "f8caf048b423c02382119ba5b341f825318f8e7a",
+      "commit": "d2891bdde6ba48e465809c44724f201874830332"
+    },
+    {
+      "path": "model_data/j10_matched_control_sensitivity_20260928.json",
+      "blob_sha": "48212c5b57e160325feaf68284185f1af787a07a",
+      "commit": "b06a989c663f59bef69d3e45aecbb0f6b1264b3a"
+    },
+    {
+      "path": "model_data/j18_efficiency_postdeployment_20260928.json",
+      "blob_sha": "c3c801a3abf32ba388ef2ee2cf12bcf44c8e52c4",
+      "commit": "267a95588639940eeae9cea1a65e8ee4ad4b6864"
+    },
+    {
+      "path": "model_data/ongoing_source_registry_20260906.json",
+      "blob_sha": "c28b2f04bae20a152a681967425048b090792c25",
+      "commit": "7dd1f07534825bf5343fafb0ec592edefae991d6"
+    },
+    {
+      "path": "model_data/feature_catalog.json",
+      "blob_sha": "b5ccd8ba99cf82504e47957182e278735592e60a",
+      "commit": "9c8ea51ab05b7584876c614db017104f8dbb79df"
+    },
+    {
+      "path": "model_data/research_coverage_gap_update_20260928.json",
+      "blob_sha": "a1c4fefa9cc8e31f913f073313ec56e1620a308c",
+      "commit": "a6cf7fa12216337033bca8ea818f4eaad460dbf4"
+    }
+  ],
+  "raw_layer_change": "NONE_CANONICAL; offline archive/package remains outside GitHub and original provider ZIP checksum is unverified",
+  "normalized_layer_change": "NONE_CANONICAL; decoded counts are recorded as externally reviewed evidence, not accepted normalized Earth-frame observations",
+  "label_layer_change": "One new independent Tier-B Montrose scoped candidate morning documented; zero Tier-A controls",
+  "derived_feature_change": "Ship-channel ADCP feature status/reason corrected to zero-weight pending validation",
+  "model_artifact_change": "NONE",
+  "performance_change": "No Jubilee-event predictive gain or regression estimable; held-out loading/transport/combined comparison remains blocked by labels",
+  "efficiency_result": "Nine complete days through 2026-09-27 show 7.8827% request-normalized token reduction proxy versus 2026-09-09 through 2026-09-13 baseline; effectively unchanged from prior audit",
+  "operational_changes_observed_not_owned": [
+    {
+      "pr": 20,
+      "status": "merged",
+      "scope": "recovery-notification contract"
+    },
+    {
+      "pr": 21,
+      "status": "merged",
+      "scope": "Weeks Bay snapshot provenance"
+    },
+    {
+      "pr": 22,
+      "status": "merged",
+      "scope": "global capture spacing and adaptive pre-dawn cadence"
+    }
+  ],
+  "production_changes_by_this_run": {
+    "model_weights": false,
+    "probabilities": false,
+    "thresholds": false,
+    "camera_inventory": false,
+    "sensing_schedule": false,
+    "dawn_schedule": false,
+    "alert_policy": false,
+    "runtime_code": false
+  },
+  "unresolved_blockers": [
+    "Zero fully verified clean matched controls",
+    "No direct near-Point-Clear observed current with accepted Earth-frame depth/geometry/units/timing",
+    "ADCP vendor playback and deployment/compass/draft/clock metadata absent",
+    "Offline ADCP package not yet canonicalized and original provider archive checksum unverified",
+    "No billing reconciliation or held-out event-effectiveness proof for efficiency changes"
+  ],
+  "open_pull_requests_at_initial_check": 0
+}
