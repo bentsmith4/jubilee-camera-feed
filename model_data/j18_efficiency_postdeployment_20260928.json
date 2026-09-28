@@ -1,0 +1,82 @@
+{
+  "schema_version": "1.0",
+  "audit_id": "j18-efficiency-postdeployment-2026-09-28",
+  "generated_at_utc": "2026-09-28T15:05:00Z",
+  "scope": "RESEARCH_ONLY_AGGREGATE_USAGE_COMPARISON",
+  "production_action": "NO_CHANGE",
+  "source": {
+    "path": "api_usage_summary.json",
+    "blob_sha": "ccbfc6dc8b8b181c059067d09ad160a335bca676",
+    "generated_at_utc": "2026-09-28T14:10:30.360743+00:00",
+    "status": "available",
+    "invalid_records": 0,
+    "top_level_missing_records": "FIELD_ABSENT",
+    "selected_group_missing_records": 0,
+    "coverage_note": "logged requests only; missing days are not zero; September 28 is partial and excluded"
+  },
+  "method": {
+    "baseline_dates_ct": [
+      "2026-09-09",
+      "2026-09-10",
+      "2026-09-11",
+      "2026-09-12",
+      "2026-09-13"
+    ],
+    "post_dates_ct": [
+      "2026-09-19",
+      "2026-09-20",
+      "2026-09-21",
+      "2026-09-22",
+      "2026-09-23",
+      "2026-09-24",
+      "2026-09-25",
+      "2026-09-26",
+      "2026-09-27"
+    ],
+    "exclusion": [
+      "2026-09-28 partial current day"
+    ],
+    "request_normalized_cycle_proxy": "Sum each of six camera-stage total_tokens/completed_requests, plus cross_camera total_tokens/completed_requests multiplied by cross_camera completed requests / montrose_shoreline completed requests.",
+    "caveats": [
+      "Request counts are not deduplicated retries and do not prove valid complete cycles.",
+      "Cached input is a subset of input and reasoning output is a subset of output; neither is added to total tokens.",
+      "Dollar cost is not estimated because applicable billing/tier reconciliation is absent.",
+      "Effectiveness equivalence is not established because no held-out Jubilee event/control set exists.",
+      "The September 28 cadence merge is outside this complete-day window; future comparisons must normalize for intended schedule changes."
+    ]
+  },
+  "baseline": {
+    "days": 5,
+    "request_normalized_tokens_per_cycle_proxy": 55873.11104908532,
+    "six_camera_tokens_per_reference_request": 50520.72260211563,
+    "cross_camera_tokens_per_model_call": 5320.151515151515,
+    "cross_camera_model_calls_per_reference_request": 1.00625,
+    "cached_input_share": 0,
+    "aggregate_completed_requests": 1112,
+    "aggregate_failed_requests": 0
+  },
+  "post": {
+    "days": 9,
+    "request_normalized_tokens_per_cycle_proxy": 51468.81210513204,
+    "six_camera_tokens_per_reference_request": 48953.791506993795,
+    "cross_camera_tokens_per_model_call": 3784.3566019877962,
+    "cross_camera_model_calls_per_reference_request": 0.6673598732422262,
+    "cached_input_share": 0.28226322905599643,
+    "aggregate_completed_requests": 1938,
+    "aggregate_failed_requests": 0
+  },
+  "change_percent": {
+    "request_normalized_tokens_per_cycle_proxy": -7.8826807050068055,
+    "six_camera_tokens_per_reference_request": -3.1015611305928115,
+    "cross_camera_tokens_per_model_call": -28.867503280495953,
+    "cross_camera_model_calls_per_reference_request": -33.67852191381603
+  },
+  "comparison_to_2026_09_26_audit": {
+    "prior_post_days": 7,
+    "prior_request_normalized_reduction_percent": -7.903579509562553,
+    "current_reduction_percent": -7.8826807050068055,
+    "change_percentage_points": 0.0208988045557475,
+    "interpretation": "The measured reduction is effectively unchanged after adding September 26-27; no additional efficiency gain is demonstrated."
+  },
+  "decision": "Retain the compact/cache behavior. Nine complete days support a stable approximately 7.9% request-normalized token reduction, but not the 50% directional target and not equivalent Jubilee-event detection. Do not count future lower request volume caused by cadence changes as model-call efficiency without normalizing coverage and intended schedule."
+}
