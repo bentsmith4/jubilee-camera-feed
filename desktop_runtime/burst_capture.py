@@ -1,4 +1,5 @@
 from camera_lock import serialized
+from capture_diagnostics import record_ffmpeg_failure
 import argparse
 import json
 import re
@@ -418,6 +419,10 @@ def capture_rtsp_burst(
             check=True,
             timeout=60,
         )
+
+    except subprocess.CalledProcessError as exc:
+        record_ffmpeg_failure(slug, 'burst_rtsp', exc)
+        raise
 
     finally:
         # Explicitly stop the Nest RTSP stream
