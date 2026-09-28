@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "evidence_class": "OPERATIONAL_ACCEPTANCE_ONLY",
+  "status": "PASS",
+  "host": "POINTCLEARPC",
+  "production_weight": 0,
+  "negative_event_label_allowed": false,
+  "execution_window": {
+    "started_at": "2026-09-28T10:55:00-05:00",
+    "completed_at": "2026-09-28T10:58:00-05:00",
+    "precision": "minute; bounds reported by the operator, not exact mutation timestamps"
+  },
+  "provenance": {
+    "issue_comment": {
+      "path": "model_data/desktop_acceptance_evidence/20260928/issue-26-pass.md",
+      "sha256": "2bb1cbb42dc3e1cb701e277828a58fd7749050dba528b5e8a3fb6364d4de3371",
+      "id": 5873737867,
+      "author": "bentsmith4",
+      "url": "https://github.com/bentsmith4/jubilee-camera-feed/issues/26#issuecomment-5873737867",
+      "created_at": "2026-09-28T15:58:47Z",
+      "updated_at": "2026-09-28T15:58:47Z"
+    },
+    "verifier_report": {
+      "path": "model_data/desktop_acceptance_evidence/20260928/preflight.json",
+      "sha256": "a85e6d48490738976c06c84ffbe8a64fcfc695ab9a50dc9f810977711705fd5c",
+      "origin": "Exact saved desktop-preflight-postdeployment-20260928.json from the actual execution; corroborated by the linked public PASS comment."
+    }
+  },
+  "deployment": {
+    "reviewed_main_commit": "d56f884596ab8709dfd78d57e5317784c2ea25d4",
+    "pr_url": "https://github.com/bentsmith4/jubilee-camera-feed/pull/29",
+    "pr_head_commit": "26bb1b88638d0d7cb39454ba1d4ec42474636b81",
+    "source_path": "desktop_runtime/capture_service.py",
+    "source_sha256": "2598aa3eb1e2c6f52a6c6d1afed52b8b5e781fbc112ec545c1bf150e5281a464",
+    "deployed_sha256": "2598aa3eb1e2c6f52a6c6d1afed52b8b5e781fbc112ec545c1bf150e5281a464",
+    "required_ancestors": {
+      "cadence": "257482cfe2c0e9f8890417bdb38e403b73bd3b1d",
+      "forecast_contract": "1edd9e97ff7fff13216fee6237e482690ce9dae0"
+    }
+  },
+  "git_evidence_mode": "process_only_alternate_object_directory",
+  "default_verifier_status": "NOT_VERIFIED",
+  "publication_changed_paths": [
+    "api_usage_summary.json",
+    "burst_status.json",
+    "montrose_pier_bird.jpg",
+    "montrose_pier_boat.jpg",
+    "montrose_shoreline.jpg",
+    "pcl_e2_back_deck.jpg",
+    "pcl_e2_bay_mouth.jpg",
+    "pcl_e3_bay_mouth.jpg",
+    "status.json",
+    "vision.json"
+  ],
+  "published_files": {
+    "burst_status.json": {
+      "sha256": "01f595791c121a7a1e63b2c570a7912f526465fca74718fd41f9f5b983cee146",
+      "git_blob": "c30d5cb3b297a632a07a4684a63f5c2f4dc00504"
+    },
+    "montrose_pier_bird.jpg": {
+      "sha256": "e1a42b6ee2f79634c4c6376ccd8fc86815fb663947c94841747e1e80b378debf",
+      "git_blob": "6140b34f83ff256c84ce1eb3c8c55557f97d05bd"
+    },
+    "montrose_pier_boat.jpg": {
+      "sha256": "2a9ea252583dc1d53661ae40732a142abe8fe3d726f387bc7b83f6c3e863aed6",
+      "git_blob": "22beaa4a5e2ef3abe821eb94d4866b6792a54305"
+    },
+    "montrose_shoreline.jpg": {
+      "sha256": "8853ecf482fc8f66b4741fbcb5c182a911b4ae4f46e75842283a54b8f8b22862",
+      "git_blob": "fc7e58afa434c26ee0318386f991cd49421f226f"
+    },
+    "pcl_e2_back_deck.jpg": {
+      "sha256": "87e75857d94ebcb1042f805eac86ffdad097e532c401e19cbe6c0da727eb7227",
+      "git_blob": "ef5833b6ba34e7a71e71038a18221720cd964651"
+    },
+    "pcl_e2_bay_mouth.jpg": {
+      "sha256": "1adf78ed833f777533369b95661dd327430d2bf340986e81e9ed2277a37411be",
+      "git_blob": "8b6d5017ac7706bca84f06ede3e7166b3d78d672"
+    },
+    "pcl_e3_bay_mouth.jpg": {
+      "sha256": "10b4eba739e511ba6f79dbfb238752757d05e5019962b713456c41dfe44698b8",
+      "git_blob": "bc845a548057a21cc885012f1a06126dd88cc17c"
+    },
+    "status.json": {
+      "sha256": "55451ef6334657ed67362b11047bf1d5071e9b65e0409c3c36124164ad4d35c3",
+      "git_blob": "db4c65260eb8842980c047d092e166c13a7e0039"
+    },
+    "vision.json": {
+      "sha256": "2dd6649952baeaa3bc267a1493f79ad11f046c15f484ec782eb830bf9e78323c",
+      "git_blob": "b91aa5ccff89a310215788544e898e640232c22e"
+    }
+  },
+  "limitations": [
+    "The checked capture predates deployment; this is the existing normal canonical cycle, not a forced capture or next-dawn acceptance.",
+    "Desktop task/coordinator health, deployed bytes, snapshot stability, 27 local objects and 30 R2 GET/hash/decode checks are execution attestations, not rerun by reconciliation.",
+    "Only the nine published metadata/latest-image files and reviewed source have independently reproducible Git hashes here. Private burst objects and local/R2 manifests are not embedded; their per-object hashes and capture-ID digest suffix cannot be independently reconstructed from this receipt.",
+    "The issue comment and saved verifier output are hash-bound provenance, not cryptographic signatures. A reviewed commit is the trust boundary.",
+    "No Jubilee event or non-event evidence, biological absence, training label, probability, production weight, alert gate or current desktop-health inference is authorized."
+  ]
+}

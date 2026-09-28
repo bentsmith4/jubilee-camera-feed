@@ -20,6 +20,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -36,6 +38,8 @@ jobs:
             model_data/build_observation_effort_snapshot.py
       - name: Run full offline regression suite
         run: python -m unittest discover -s tests -v
+      - name: Audit bounded desktop receipt against committed public evidence
+        run: python -B model_data/desktop_acceptance.py
       - name: Build historical recovery diagnostic
         run: python model_data/build_historical_recovery_status.py
       - name: Validate machine-readable contracts

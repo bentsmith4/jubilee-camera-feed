@@ -15,6 +15,7 @@ import bind_current_forecast as binding
 import check_current_state_freshness as guard
 import ingest_asos_weather as asos
 import ingest_river_forcing as river
+import desktop_acceptance as desktop
 
 CAMERA = "bentsmith4/jubilee-camera-feed status.json, burst_status.json and vision.json"
 MODEL = "NOAA NGOFS2 repository manifests"
@@ -182,6 +183,7 @@ def build(root, now):
               admitted_status='MODEL_CONTEXT_WITH_EXPLICIT_PRODUCT_GAPS',
               observation='Issue-relative summaries use validated committed rows; MODEL guidance is not an observation.')
 
+    acceptance = desktop.consume(r, now, limits['camera'])
     status, vision = r.json('status.json'), r.json('vision.json')
     registry = r.json('model_data/camera_sources.json')
     cams, failed = [], []
@@ -209,7 +211,7 @@ def build(root, now):
                          biological_detectability=v.get('detectability', 'UNKNOWN') if fresh else 'UNKNOWN',
                          overall_visual_signal=v.get('overall_jubilee_visual_signal', 'UNKNOWN') if fresh else 'UNKNOWN',
                          temporal_visual_signal=v.get('temporal_jubilee_signal', 'UNKNOWN') if fresh else 'UNKNOWN',
-                         negative_event_label_allowed=False, raw_archive_verification='NOT_VERIFIED'))
+                         negative_event_label_allowed=False, raw_archive_verification=acceptance['status']))
     guard.require(len(cams) == 6, 'expected exactly six owner cameras')
     guard.require(all(vision.get('cross_camera', {}).get(k) in quiet for k in
                   ('overall_visual_jubilee_signal', 'montrose_visual_signal', 'point_clear_visual_signal', 'temporal_confirmation')),
@@ -262,11 +264,12 @@ def build(root, now):
         new_fault_notification_required=False, recovery_notification_required=False,
         prior_recovery_context=(dict(snapshot_time_ct=prior['snapshot_time_ct'], recovery_notification_required=True)
                                 if old_fault.get('recovery_notification_required') else old_fault.get('prior_recovery_context')),
-        all_six_desktop_archive_acceptance='NOT_VERIFIED', existing_material_input_quality_alert_policy_changed=False,
+        all_six_desktop_archive_acceptance=acceptance['status'], desktop_acceptance_receipt=acceptance,
+        existing_material_input_quality_alert_policy_changed=False,
         basis='No new assessed critical fault or recovery notification is inferred by this builder.')
     # Include executable/admission contracts, but exclude prior output bytes from dedup identity.
     for path in ('model_data/model_policy.md', 'model_data/operations_contract.json',
-                 'model_data/reconcile_current_state.py', 'model_data/bind_current_forecast.py',
+                 'model_data/reconcile_current_state.py', 'model_data/desktop_acceptance.py', 'model_data/bind_current_forecast.py',
                  'model_data/check_current_state_freshness.py', 'model_data/ingest_asos_weather.py',
                  'model_data/ingest_river_forcing.py', 'model_data/ingest_weeks_bay_realtime.py',
                  'model_data/ingest_ngofs2_point_clear.py'):
@@ -275,6 +278,7 @@ def build(root, now):
     admission = [weather['stations'][st]['status'] for st in sorted(weather['stations'])]
     admission += [x['value_status'] for st in weather['stations'].values() for x in st['parameters'].values()]
     admission += [x['value_status'] for x in series + wa] + [x['admitted_status'] for x in cams] + [p['admitted_status'] for p in mp.values()]
+    admission += [acceptance['status'], acceptance['reason_codes']]
     identity = guard.digest(guard.canonical([hashes, admission]).encode())
     if prior['reconciliation'].get('consumption_identity') == identity:
         return None
@@ -282,7 +286,7 @@ def build(root, now):
         prior_snapshot_time_ct=prior['snapshot_time_ct'], prior_snapshot_blob=r.blob(binding.SNAPSHOT),
         alert_threshold_percent=20, alert_comparator='>', forecast_weights_changed=False,
         consumption_identity=identity,
-        scope='Committed evidence only; no capture, external retrieval, calibration, public/human observation or desktop/dawn acceptance.',
+        scope='Committed evidence only; bounded desktop receipts are operational context. No new capture, retrieval, calibration, public/human observation or desktop/dawn acceptance.',
         source_provenance={p: dict(sha256=h, git_blob=r.blob(p)) for p, h in hashes.items()},
         validation_summary={n: dict(status='VALIDATED_PUBLISHED_CONTEXT' if p['admissible'] else 'SOURCE_UNAVAILABLE',
              available_at_utc=p['available_at'].isoformat(), fingerprint=p['fingerprint']) for n, p in validated.items()})

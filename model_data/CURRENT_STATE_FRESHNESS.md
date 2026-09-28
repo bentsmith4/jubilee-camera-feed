@@ -92,9 +92,14 @@ physical/event fault require explicit review; automation fails rather than
 inventing an alert decision. Recovery history remains operational context and
 is not added as a forecast alert trigger. This path does not send alerts.
 
+Reviewed desktop acceptance receipts now retain bounded operational history;
+current PASS requires exact capture/source binding and the existing capture
+freshness limit. See [receipt rules](DESKTOP_ACCEPTANCE_RECEIPTS.md). Their
+hashes and admission states participate in provenance and deduplication.
+
 Manual tide/public-camera context remains explicitly historical and not
 reassessed. No new human observations, shoreline measurements, biological
-negatives, training controls or desktop/dawn acceptance are claimed. Camera
+negatives, training controls or new desktop/dawn acceptance are claimed. Camera
 staleness produces UNKNOWN even when published metadata is coherent. Stale
 model forecasts lose current-guidance admission; absent slices are never filled.
 
