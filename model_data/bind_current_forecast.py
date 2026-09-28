@@ -45,6 +45,57 @@ def validate_weights(value):
             validate_weights(item)
 
 
+def probability_basis(snapshot):
+    """Validate the writer contract; prose is not a no-change attestation."""
+    basis = snapshot.get("probability_basis")
+    require(isinstance(basis, dict),
+            "probability_basis must be an object with probability_type, "
+            "numeric_change_from_prior_snapshot and reassessment_method; "
+            "repair the snapshot explicitly, do not coerce prose")
+    for field in ("probability_type", "numeric_change_from_prior_snapshot", "reassessment_method"):
+        require(field in basis, f"probability_basis.{field} is required")
+    require(basis["probability_type"] == PROBABILITY_TYPE, "Expected frozen heuristic probability type")
+    change = basis["numeric_change_from_prior_snapshot"]
+    require(type(change) in (int, float) and math.isfinite(change) and change == 0,
+            "probability_basis.numeric_change_from_prior_snapshot must be a numeric zero; "
+            "numerical change requires forecast reassessment")
+    method = basis["reassessment_method"]
+    require(isinstance(method, str) and bool(method.strip()),
+            "probability_basis.reassessment_method must be a nonempty string")
+    return basis
+
+
+def asos_parameters(station, admission):
+    """Read the flat legacy map or the explicit production station envelope."""
+    label = f"ASOS parameter_admission.{station}"
+    require(isinstance(admission, dict) and bool(admission), f"{label} must be a nonempty object")
+    wrapped = "parameters" in admission or "status" in admission
+    if wrapped:
+        require(set(admission) == {"status", "parameters"},
+                f"{label} station envelope requires exactly status and parameters")
+        parameters = admission["parameters"]
+    else:
+        parameters = admission
+    require(isinstance(parameters, dict) and bool(parameters), f"{label}.parameters must be a nonempty object")
+    for name, item in parameters.items():
+        require(isinstance(item, dict) and item.get("value_status") in
+                ("KNOWN", "TRACE", "UNKNOWN", "UNKNOWN_STALE"),
+                f"{label}.{name} requires a valid value_status")
+    if wrapped:
+        status = admission["status"]
+        require(status in ("KNOWN", "PARTIAL", "PARTIAL_FRESH", "UNKNOWN", "UNKNOWN_STALE"),
+                f"{label}.status is invalid")
+        known = [item["value_status"] in ("KNOWN", "TRACE") for item in parameters.values()]
+        expected = "KNOWN" if all(known) else ("PARTIAL" if any(known) else "UNKNOWN")
+        summary = {"UNKNOWN_STALE": "UNKNOWN", "PARTIAL_FRESH": "PARTIAL"}.get(status, status)
+        require(summary == expected,
+                f"{label}.status disagrees with parameter admission")
+        if status == "UNKNOWN_STALE":
+            require(all(item.get("admission_reason") == "STALE_AT_ISSUE_TIME" for item in parameters.values()),
+                    f"{label}.status requires explicit stale parameter evidence")
+    return parameters
+
+
 def coverage(snapshot):
     def row(source):
         matches = [item for item in snapshot["input_rows"] if item["source"] == source]
@@ -55,8 +106,10 @@ def coverage(snapshot):
     products = row("NOAA NGOFS2 repository manifests")["products"]
     river = row("USGS NWIS lower-river forcing manifest")["series"]
     asos = row("NOAA/NWS ASOS KBFM and KMOB")["parameter_admission"]
+    require(isinstance(asos, dict) and bool(asos), "ASOS parameter_admission must be a nonempty object")
     statuses = {}
-    for station, parameters in sorted(asos.items()):
+    for station, admission in sorted(asos.items()):
+        parameters = asos_parameters(station, admission)
         known = [item["value_status"] == "KNOWN" for item in parameters.values()]
         statuses[station] = ("complete" if all(known) else "partial") if any(known) else "UNKNOWN"
     asos_summary = "; ".join(f"{station} {status}" for station, status in statuses.items()) or "UNKNOWN"
@@ -74,11 +127,10 @@ def coverage(snapshot):
 def project(snapshot_bytes):
     """Deterministic projection; never replace UNKNOWN or recalculate probabilities."""
     snapshot = json.loads(snapshot_bytes)
-    basis = snapshot["probability_basis"]
+    require(isinstance(snapshot, dict), "Snapshot must be a JSON object")
+    basis = probability_basis(snapshot)
     reconciliation = snapshot["reconciliation"]
     require(snapshot["forecast_weights_changed"] is False, "Forecast weights changed; cannot rebind")
-    require(basis["probability_type"] == PROBABILITY_TYPE, "Expected frozen heuristic probability type")
-    require(basis["numeric_change_from_prior_snapshot"] == 0, "Numerical change requires forecast reassessment")
     require(reconciliation["alert_threshold_percent"] == 20 and reconciliation["alert_comparator"] == ">",
             "Alert policy must remain strict >20%")
     require(re.fullmatch(r"[0-9a-f]{40}", reconciliation["input_commit_sha"]) is not None,
