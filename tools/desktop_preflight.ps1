@@ -28,17 +28,27 @@ try {
             $executable = [IO.Path]::GetFileName($action.Execute)
             $arg = ([string]$action.Arguments).Trim()
             $scriptArg = [regex]::Replace($arg, '^(?:(?:-u|-B)\s+)*', '')
-            # Compare literal arguments, not a regex made from a Windows path.
-            # Reject extra arguments; allow the two existing coordinator entries.
-            $approvedArgs = @()
-            foreach ($entry in @('live_loop.py', 'capture_service.py')) {
-                $absolute = [IO.Path]::Combine($rootFull, $entry)
-                $approvedArgs += @($absolute, ('"' + $absolute + '"'))
-                if ($action.WorkingDirectory -eq $rootFull) {
-                    $approvedArgs += @($entry, ('"' + $entry + '"'))
+            # Parse one script argument, rejecting extra arguments and quotes.
+            # Normalize its directory by the SAME method as Root (including
+            # Windows short-path aliases); never compare a raw command to Root.
+            $scriptMatch = [regex]::Match($scriptArg, '^(?:"([^"]+)"|([^"\s]+))$')
+            if ($scriptMatch.Success) {
+                $scriptPath = $scriptMatch.Groups[1].Value
+                if (-not $scriptPath) { $scriptPath = $scriptMatch.Groups[2].Value }
+                if (-not [IO.Path]::IsPathRooted($scriptPath)) {
+                    if ($action.WorkingDirectory) {
+                        $scriptPath = [IO.Path]::Combine($action.WorkingDirectory, $scriptPath)
+                    } else {
+                        $scriptPath = ''
+                    }
+                }
+                if ($scriptPath) {
+                    $scriptRoot = [IO.Path]::GetFullPath([IO.Path]::GetDirectoryName($scriptPath)).TrimEnd('\')
+                    $entry = [IO.Path]::GetFileName($scriptPath)
+                    $actionMatches = ($executable -match '^(python|pythonw)(\.exe)?$') -and
+                        ($scriptRoot -eq $rootFull) -and ($entry -in @('live_loop.py', 'capture_service.py'))
                 }
             }
-            $actionMatches = ($executable -match '^(python|pythonw)(\.exe)?$') -and ($scriptArg -in $approvedArgs)
         }
         $role = if ($task.TaskName -eq 'Jubilee Live Cameras') { 'coordinator' } else { 'additional_capture_task' }
         $state = [string]$task.State

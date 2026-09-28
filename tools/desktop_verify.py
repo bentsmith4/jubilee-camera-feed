@@ -188,7 +188,9 @@ def task_health(root, inventory, now):
     require(len(owners) == 1, 'expected_one_coordinator')
     owner = owners[0]
     require(owner.get('state') == 'Running', 'coordinator_not_running')
-    require(owner.get('enabled') is True and owner.get('action_matches') is True, 'coordinator_definition_mismatch')
+    if owner.get('enabled') is not True or owner.get('action_matches') is not True:
+        return result('FAIL', 'coordinator_definition_mismatch', task_enabled=owner.get('enabled') is True,
+                      action_matches=owner.get('action_matches') is True)
     # Microsoft SCHED_S_TASK_RUNNING is informational, not a failed exit code.
     require(owner.get('last_result') in (0, 0x41301), 'coordinator_last_result_failed')
     require(type(owner.get('missed_runs')) is int and owner['missed_runs'] == 0, 'missed_task_runs')

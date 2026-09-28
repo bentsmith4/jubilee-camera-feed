@@ -17,7 +17,7 @@ class PreflightTests(unittest.TestCase):
         self.addCleanup(temp.cleanup)
         self.f = Fixture(Path(temp.name))
 
-    def run_wrapper(self, task_error=False, python=None):
+    def run_wrapper(self, task_error=False, python=None, script=None):
         def quote(value):
             return "'" + str(value).replace("'", "''") + "'"
         wrapper = Path(__file__).resolve().parents[1] / 'tools' / 'desktop_preflight.ps1'
@@ -36,7 +36,7 @@ function Get-ScheduledTask {
 function Get-ScheduledTaskInfo {
     [pscustomobject]@{LastRunTime=[datetime]'2026-09-27T06:00:00Z'; LastTaskResult=267009; NumberOfMissedRuns=0}
 }
-'''.replace('ROOT', root.replace("'", "''")).replace('SCRIPT', str(self.f.root / 'live_loop.py').replace("'", "''"))
+'''.replace('ROOT', root.replace("'", "''")).replace('SCRIPT', str(script or self.f.root / 'live_loop.py').replace("'", "''"))
         if task_error:
             code += "function Get-ScheduledTaskInfo { throw 'SENTINEL_TASK_SECRET' }\n"
         code += '& ' + quote(wrapper) + ' -Root ' + quote(root) + ' -Python ' + quote(python or sys.executable) + ' -Offline'
@@ -54,7 +54,8 @@ function Get-ScheduledTaskInfo {
         self.assertEqual(report['schema_version'], '3.0')
         self.assertEqual(len(report['cameras']), 6)
         self.assertNotIn(report['checks']['scheduled_tasks']['code'],
-                         ('coordinator_definition_mismatch', 'task_inventory_unavailable'))
+                         ('coordinator_definition_mismatch', 'task_inventory_unavailable'),
+                         report['checks']['scheduled_tasks'])
         self.assertNotIn('SENTINEL', proc.stdout)
         self.assertNotIn(str(self.f.root), proc.stdout)
         self.assertEqual(fingerprints(self.f.root), before)
@@ -70,6 +71,16 @@ function Get-ScheduledTaskInfo {
         self.assertEqual(proc.returncode, 2)
         self.assertEqual(json.loads(proc.stdout)['code'], 'verifier_unavailable')
         self.assertNotIn('SENTINEL', proc.stdout + proc.stderr)
+
+    def test_equivalent_directory_is_normalized(self):
+        script = str(self.f.root) + '/./live_loop.py'
+        report = json.loads(self.run_wrapper(script=script).stdout)
+        self.assertNotEqual(report['checks']['scheduled_tasks']['code'], 'coordinator_definition_mismatch')
+
+    def test_wrong_directory_is_rejected(self):
+        script = str(self.f.root.parent / 'live_loop.py')
+        report = json.loads(self.run_wrapper(script=script).stdout)
+        self.assertEqual(report['checks']['scheduled_tasks']['code'], 'coordinator_definition_mismatch')
 
 
 if __name__ == '__main__':
