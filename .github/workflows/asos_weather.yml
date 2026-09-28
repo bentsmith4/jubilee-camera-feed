@@ -1,0 +1,80 @@
+name: Jubilee official ASOS observed weather
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - model_data/ingest_asos_weather.py
+      - model_data/stage_sensing_outputs.py
+      - model_data/sensor_contract.json
+      - tests/test_asos_weather.py
+      - tests/test_sensing_publication.py
+      - .github/workflows/asos_weather.yml
+  schedule:
+    - cron: '7 * * * *'
+permissions:
+  contents: write
+# Serialize with sensing_quality, which also writes these three public files.
+concurrency:
+  group: jubilee-sensing-quality-${{ github.ref_name }}
+  cancel-in-progress: false
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify weather QC and publication offline
+        id: regression
+        run: |
+          python -m unittest discover -s tests -p 'test_asos_weather.py' -v
+          python -m unittest discover -s tests -p 'test_sensing_publication.py' -v
+      - name: Retrieve official airport observations
+        id: asos
+        continue-on-error: true
+        run: python model_data/ingest_asos_weather.py
+      - name: Preserve public weather evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jubilee-asos-${{ github.run_number }}
+          path: |
+            model_data/asos_weather_manifest.json
+            model_data/asos_weather_normalized.json
+            model_data/current_asos_weather.json
+            model_data/public_archive/asos/
+          retention-days: 90
+      - name: Publish weather snapshot, including UNKNOWN on source outage
+        if: ${{ !cancelled() && steps.regression.outcome == 'success' }}
+        env:
+          REF_NAME: ${{ github.ref_name }}
+          SENSING_STEPS_JSON: ${{ toJSON(steps) }}
+        run: |
+          set -euo pipefail
+          python model_data/stage_sensing_outputs.py
+          git config user.name 'jubilee-model-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Record official ASOS weather and freshness status'
+          publish_dir="$(mktemp -d "$RUNNER_TEMP/asos-publication.XXXXXX")"
+          git worktree add --detach "$publish_dir" HEAD
+          cd "$publish_dir"
+          for attempt in 1 2 3; do
+            git fetch origin "$REF_NAME"
+            if ! git rebase "origin/$REF_NAME"; then
+              git rebase --abort
+              exit 1
+            fi
+            if git push origin "HEAD:$REF_NAME"; then exit 0; fi
+            sleep 3
+          done
+          exit 1
+      - name: Escalate parser defects after preserving diagnostic artifacts
+        if: always() && steps.asos.outcome == 'failure'
+        run: exit 1
