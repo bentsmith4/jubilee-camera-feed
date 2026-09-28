@@ -4,6 +4,7 @@ import datetime
 import json
 import os
 from pathlib import Path
+from ingest_asos_weather import load_current as load_asos_weather
 
 HERE = Path(__file__).resolve().parent
 
@@ -176,6 +177,7 @@ def main():
     ]
 
     now = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    weather = load_asos_weather(HERE, datetime.datetime.fromisoformat(now))
     report = {
         'generated_at_utc': now,
         'workflow_run_id': os.environ.get('GITHUB_RUN_ID'),
@@ -188,6 +190,7 @@ def main():
         'passing_site_groups': c.get('passing_site_groups'),
         'new_montrose_camera_metadata_pass': any(x.get('camera_id') == 'montrose_shoreline' for x in passing),
         'river_status': r.get('status'),
+        'asos_observed_weather': weather,
         'river_rows': r.get('normalized_rows'),
         'river_parameter_counts': r.get('parameter_counts'),
         'river_distinct_series_including_gate_methods': len(r.get('series', [])),

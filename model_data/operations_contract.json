@@ -50,7 +50,14 @@
         "later_verification"
       ],
       "timing_rationale": "Allows the local coordinator to publish the first completed burst captured at/after dawn and, if that burst remains too dark, the dawn+20-minute daylight follow-up before the principal visual assessment.",
-      "coverage_preserved": "Pre-daybreak human-search, light, weather and environmental sensing remains active under Jubilee Sensing & Alerting; this schedule change does not remove that coverage or alter alert thresholds."
+      "coverage_preserved": "Pre-daybreak human-search, light, weather and environmental sensing remains active under Jubilee Sensing & Alerting; this schedule change does not remove that coverage or alter alert thresholds.",
+      "observed_weather_input": {
+        "snapshot": "model_data/current_asos_weather.json",
+        "manifest": "model_data/asos_weather_manifest.json",
+        "normalized": "model_data/asos_weather_normalized.json",
+        "issue_time_validation": "python model_data/ingest_asos_weather.py --snapshot-only --as-of <offset-aware-issue-time>",
+        "rule": "Re-evaluate observed_at_utc age against sensor_contract weather freshness and require available_at <= issue time. UNKNOWN for stale/missing/QC-rejected values; blank precipitation is never zero. Refresh selectively if needed. Airport observations are regional context, not local shoreline wind/rain. Do not copy previously saved KNOWN status without issue-time validation."
+      }
     },
     {
       "name": "Jubilee Dawn Timing",
@@ -85,7 +92,8 @@
   "subordinate_jobs": {
     "github_sensing_quality": "Regression tests, metadata integrity and public river forcing every three hours. Not a fifth independent forecast model.",
     "github_water_quality": "Existing weekly historical ingest and diagnostics; zero production weight. No duplicate full historical download on every sensing cycle.",
-    "windows_capture": "One device-acquisition service with separately versioned live and canonical-burst products; integration pending local tests."
+    "windows_capture": "One device-acquisition service with separately versioned live and canonical-burst products; integration pending local tests.",
+    "github_asos_weather": "Hourly official AWC KBFM/KMOB METAR refresh at minute 07 UTC, plus sensing-quality ingestion. Public weather only; no model/weight/alert or dawn-schedule changes."
   },
   "migration_acceptance": [
     "Inspect existing task IDs and schedules; change the existing tasks rather than create duplicates.",
