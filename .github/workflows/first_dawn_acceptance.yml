@@ -1,0 +1,67 @@
+name: Jubilee one-time first dawn acceptance
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'status.json'
+      - 'burst_status.json'
+      - 'vision.json'
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
+# A single bounded observer owns the final receipt. Later camera pushes may
+# replace pending observers, but cannot cancel the active first-dawn observer.
+concurrency:
+  group: jubilee-first-dawn-20260929
+  cancel-in-progress: false
+
+jobs:
+  acceptance:
+    if: >-
+      startsWith(github.event.head_commit.message, 'Latest Jubilee camera burst - 2026-09-29T')
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Arm only on the first canonical burst in the complete dawn window
+        id: gate
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -B tools/first_dawn_acceptance.py gate
+      - name: Install existing validation dependencies
+        if: steps.gate.outputs.armed == 'true'
+        run: python -m pip install -r requirements-tests.txt -r requirements-model-data.txt
+      - name: Observe complete dawn and audit committed evidence
+        if: steps.gate.outputs.armed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -B tools/first_dawn_acceptance.py observe --out "$RUNNER_TEMP/first-dawn.json"
+      - name: Post exactly one final acceptance receipt to issue 26
+        if: always() && steps.gate.outputs.armed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -B tools/first_dawn_acceptance.py report --out "$RUNNER_TEMP/first-dawn.json"
+      - uses: actions/upload-artifact@v4
+        if: always() && steps.gate.outputs.armed == 'true'
+        with:
+          name: first-dawn-acceptance-20260929
+          path: ${{ runner.temp }}/first-dawn.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Expose acceptance result
+        if: always() && steps.gate.outputs.armed == 'true'
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          result = json.loads((pathlib.Path(os.environ['RUNNER_TEMP']) / 'first-dawn.json').read_text())
+          raise SystemExit(0 if result['status'] == 'PASS' else 1)
+          PY
