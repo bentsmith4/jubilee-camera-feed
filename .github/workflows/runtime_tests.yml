@@ -3,6 +3,10 @@ name: Jubilee Runtime Tests
 on:
   pull_request:
     paths:
+      - 'model_data/desktop_acceptance.py'
+      - 'model_data/desktop_acceptance_*.json'
+      - 'model_data/desktop_acceptance_evidence/**'
+      - 'tests/test_desktop_acceptance_receipt.py'
       - "model_data/ingest_asos_weather.py"
       - "model_data/build_readiness.py"
       - "model_data/sensor_contract.json"
@@ -18,6 +22,10 @@ on:
   push:
     branches: [main]
     paths:
+      - 'model_data/desktop_acceptance.py'
+      - 'model_data/desktop_acceptance_*.json'
+      - 'model_data/desktop_acceptance_evidence/**'
+      - 'tests/test_desktop_acceptance_receipt.py'
       - "model_data/ingest_asos_weather.py"
       - "model_data/build_readiness.py"
       - "model_data/sensor_contract.json"

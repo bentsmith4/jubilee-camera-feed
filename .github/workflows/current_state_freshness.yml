@@ -13,6 +13,10 @@ on:
   push:
     branches: [main]
     paths:
+      - 'model_data/desktop_acceptance.py'
+      - 'model_data/desktop_acceptance_*.json'
+      - 'model_data/desktop_acceptance_evidence/**'
+      - 'tests/test_desktop_acceptance_receipt.py'
       - 'model_data/reconcile_current_state.py'
       - 'model_data/publish_current_state.py'
       - 'tests/test_current_state_reconciliation.py'
@@ -33,6 +37,10 @@ on:
       - '.github/workflows/current_state_freshness.yml'
   pull_request:
     paths:
+      - 'model_data/desktop_acceptance.py'
+      - 'model_data/desktop_acceptance_*.json'
+      - 'model_data/desktop_acceptance_evidence/**'
+      - 'tests/test_desktop_acceptance_receipt.py'
       - 'model_data/reconcile_current_state.py'
       - 'model_data/publish_current_state.py'
       - 'tests/test_current_state_reconciliation.py'
@@ -88,6 +96,7 @@ jobs:
         run: |
           python -B -m unittest discover -s tests -p 'test_current_state_freshness.py' -v
           python -B -m unittest discover -s tests -p 'test_current_state_reconciliation.py' -v
+          python -B -m unittest discover -s tests -p 'test_desktop_acceptance_receipt.py' -v
 
   current-state-status:
     # Live state is an operational status, not an offline regression or a
