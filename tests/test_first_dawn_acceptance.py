@@ -194,6 +194,10 @@ class EvidenceTests(unittest.TestCase):
 
     def test_first_event_only_and_non_target_dates_do_not_arm(self):
         self.assertTrue(a.eligible(self.root, self.first['sha']))
+        discussion = self.commit('Document an example\n\n'+a.PREFIX+'not a published capture',
+                                 a.START+timedelta(minutes=10))
+        self.assertEqual(len(a.canonical_commits(self.root, discussion)), 1)
+        self.assertFalse(a.eligible(self.root, discussion))
         later = self.make_cycle(a.START+timedelta(minutes=25))
         self.assertFalse(a.eligible(self.root, later['sha']))
         with patch.object(a, 'START', a.START+timedelta(days=1)), patch.object(a, 'END', a.END+timedelta(days=1)):

@@ -132,6 +132,10 @@ def canonical_commits(root, ref):
                  '--grep=^' + PREFIX, DEPLOYED + '..' + ref).stdout.decode()
     for line in output.splitlines():
         sha, published, subject = line.split('\t', 2)
+        # git --grep also searches message bodies (e.g. a PR describing a
+        # camera commit). Only the publisher's subject is a canonical event.
+        if not subject.startswith(PREFIX):
+            continue
         captured = stamp(subject[len(PREFIX):])
         rows.append(dict(sha=sha, published=published, capture_time_ct=captured.isoformat()))
     return rows
