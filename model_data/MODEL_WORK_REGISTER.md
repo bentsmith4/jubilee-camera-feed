@@ -1747,3 +1747,14 @@ Read-back verified the brief remains enabled, its prompt is preserved unchanged 
 - Grand Hotel and Fairhope public players were directly rechecked. Two isolated visual samples 26.000 seconds apart showed scene progression; subsequent metadata samples 23.158 seconds apart showed advancing playback and rolling endpoints. Grand Hotel showed LIVE; Fairhope stated currently playing live. Exact capture times and source delays remain unknown. Fairhope still does not show either beach or Fly Creek. No scoped event signal; no media retained and no clean training label.
 - Current NGOFS2 remained UNKNOWN: Point Clear manifest `2dfdacc80b7f009f0d6569bef27be4f1986e9807` still referenced 12:18 CDT and named-station manifest `7e00e85ea6174faaae1eda93be645567bce0e360` remained unavailable. This widened uncertainty and did not become a negative.
 - Opportunity ranges were preserved at Point Clear 2-6% (central 4%) and Daphne/May Day 1-5% (central 3%). No material change or alert gate was met; routine notification suppressed.
+
+
+## J01 sensing follow-up — 2026-09-27 19:10 CDT
+
+- In-season current-state synthesis completed on production `main` without model, weight, threshold, timing, architecture, or sensor changes.
+- Base head: `785e3cb5a618714b092cd09d81d7a187bd5c89b8`; pre-update snapshot blob `6d678a43996f8e76a067a88f3c0a3dd3b8902375`; public observation log blob `0e0bbe1445636ac058174269167f918659e9b2ee`.
+- Recovery re-read found a new, matched 19:06-19:09 CDT owner cycle healthy 6/6: status `e7644bfdb3fdf690ab5abf16eae3c38b91c1c6cf`, burst `2ec65a428cee18e3ec6898d9ba7daea3d728a997`, vision `a8591f4ffc9c592e562c78df9623e21dbd433cbe`. The preceding cycle's Point Clear E3 timeout recovered. Five views were usable with no scoped biological/human signal; Point Clear E2 deck was poor/low-detectability and treated as UNKNOWN.
+- Vision's cross-camera `weak_possible` label was not admitted as event evidence because its direct camera fields show no visible fish, shrimp, crab, feeding-bird, searching, collecting, flashlight or temporal confirmation and identify darkness/artificial lighting as confounders.
+- Grand Hotel and Fairhope public players were directly rechecked. Playback, rolling endpoints and visible scenes advanced across two isolated samples 28.566 seconds apart; Grand Hotel showed LIVE and Fairhope stated currently playing live. Exact capture times/source delays remain unknown. Fairhope still does not show either beach or Fly Creek. No scoped event signal; no media retained and no clean training label.
+- Current NGOFS2, ASOS/weather, river forcing, observed rainfall and direct bottom/contact-strip oxygen were recorded as UNKNOWN. Missing inputs widened uncertainty and were not converted to negatives.
+- Opportunity ranges were preserved at Point Clear 2-6% (central 4%) and Daphne/May Day 1-5% (central 3%). No alert gate was met; routine notification suppressed.
