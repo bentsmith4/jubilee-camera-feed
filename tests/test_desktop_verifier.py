@@ -36,21 +36,24 @@ class Fixture:
         self.frames = root / 'frames'
         self.frames.mkdir()
         self.docs = {name: {'capture_time_ct': self.capture.isoformat(), 'cameras': {}} for name in v.METADATA}
+        real_schema = json.loads((Path(__file__).parent / 'fixtures' / 'desktop_shot_metadata.json').read_text())
         for camera in v.CAMERA_IDS:
-            shots = []
+            shots = copy.deepcopy(real_schema['shots'])
+            vision_shots = copy.deepcopy(real_schema['burst_shots'])
             for n in (1, 2, 3):
                 output = io.BytesIO()
                 v.Image.new('RGB', (10, 10), (n * 50, 20, 30)).save(output, format='JPEG')
                 content = output.getvalue()
                 name = f'burst_latest/{camera}_{n}.jpg'
                 self.write(name, content)
-                shots.append(dict(shot=n, timestamp_ct=(self.capture + timedelta(seconds=n * 10)).isoformat(),
-                                  timing='actual_screenshot_time', bytes=len(content), file=Path(name).name))
+                for records in (shots, vision_shots):
+                    records[n - 1].update(timestamp_ct=(self.capture + timedelta(seconds=n * 10)).isoformat(),
+                                          bytes=len(content), file=Path(name).name)
             self.write(camera + '.jpg', content)
             self.docs['status.json']['cameras'][camera] = dict(ok=True, timestamp_ct=shots[-1]['timestamp_ct'], bytes=len(content), burst_count=3)
             self.docs['burst_status.json']['cameras'][camera] = dict(ok=True, shots=shots)
             self.docs['vision.json']['cameras'][camera] = dict(status='ok', burst_frame_count=3,
-                burst_shots=[{k: shot[k] for k in ('shot', 'timestamp_ct', 'timing')} for shot in shots])
+                burst_shots=vision_shots)
         self.save()
         class Clock(datetime):
             @classmethod
@@ -238,6 +241,100 @@ class VerifierTests(unittest.TestCase):
             snap = v.Snapshot(self.f.root)
             snap.load(self.f.now)
             self.assertEqual(v.checked(snap.camera, camera, self.f.now)['status'], 'FAIL')
+
+    def test_real_schema_has_full_independent_shot_records(self):
+        camera = v.CAMERA_IDS[0]
+        burst = self.f.docs['burst_status.json']['cameras'][camera]['shots']
+        vision = self.f.docs['vision.json']['cameras'][camera]['burst_shots']
+        self.assertEqual(vision, burst)
+        self.assertIsNot(vision[0], burst[0])
+        self.assertEqual(set(vision[0]), {'shot', 'timestamp_ct', 'file', 'bytes', 'timing'})
+        self.assertEqual(self.f.verify()['status'], 'PASS')
+
+    def test_vision_file_and_bytes_must_match_burst(self):
+        camera = v.CAMERA_IDS[0]
+        original = copy.deepcopy(self.f.docs)
+        for field, value in (('file', 'other_camera_1.jpg'), ('bytes', 1)):
+            with self.subTest(field=field):
+                self.f.docs = copy.deepcopy(original)
+                self.f.docs['vision.json']['cameras'][camera]['burst_shots'][0][field] = value
+                self.f.save()
+                report = self.f.verify()
+                self.assertEqual(report['cameras'][camera],
+                                 v.result('FAIL', 'vision_shot_identity_mismatch'))
+
+    def test_agreeing_metadata_still_requires_correct_file_and_actual_bytes(self):
+        camera = v.CAMERA_IDS[0]
+        original = copy.deepcopy(self.f.docs)
+        for field, value, code in (('file', '../other.jpg', 'shot_file_identity_mismatch'),
+                                   ('bytes', 1, 'shot_size_mismatch'),
+                                   ('bytes', True, 'shot_size_mismatch')):
+            with self.subTest(field=field, value=value):
+                self.f.docs = copy.deepcopy(original)
+                for name, key in (('burst_status.json', 'shots'), ('vision.json', 'burst_shots')):
+                    self.f.docs[name]['cameras'][camera][key][0][field] = value
+                self.f.save()
+                self.assertEqual(self.f.verify()['cameras'][camera], v.result('FAIL', code))
+
+    def live_refresh_fixture(self, changed_product=None):
+        # Deterministic interleaving: read old status, read an image from the next
+        # refresh (wrong size), then advance status or image before the recheck.
+        camera = v.CAMERA_IDS[0]
+        image = self.f.root / 'live_frames' / (camera + '.jpg')
+        image.write_bytes(image.read_bytes() + b'next refresh')
+        read = v.read_file
+        fired = False
+
+        def interleaved(root, relative):
+            nonlocal fired
+            content = read(root, relative)
+            if relative == 'live_frames/' + camera + '.jpg' and not fired:
+                fired = True
+                if changed_product == 'status':
+                    path = self.f.root / 'live_frames' / 'status.json'
+                    doc = json.loads(path.read_text())
+                    doc['cameras'][camera]['bytes'] = len(content)
+                    path.write_text(json.dumps(doc))
+                elif changed_product == 'image':
+                    image.write_bytes(content + b'changed again')
+            return content
+        return patch.object(v, 'read_file', side_effect=interleaved)
+
+    def test_stable_live_size_failure_remains_fail(self):
+        with self.live_refresh_fixture():
+            self.assertEqual(v.checked(v.live_health, self.f.root, self.f.now),
+                             v.result('FAIL', 'live_size_mismatch'))
+
+    def test_failed_live_check_rechecks_both_status_and_image(self):
+        for changed_product in ('status', 'image'):
+            with self.subTest(changed_product=changed_product):
+                with self.live_refresh_fixture(changed_product):
+                    self.assertEqual(v.checked(v.live_health, self.f.root, self.f.now),
+                                     v.result('NOT_VERIFIED', 'live_changed_during_check'))
+
+    def test_stable_live_jpeg_failure_remains_fail(self):
+        camera = v.CAMERA_IDS[0]
+        path = self.f.root / 'live_frames' / (camera + '.jpg')
+        path.write_bytes(b'x' * len(path.read_bytes()))
+        self.assertEqual(v.checked(v.live_health, self.f.root, self.f.now),
+                         v.result('FAIL', 'invalid_jpeg'))
+
+    def test_live_race_does_not_clear_real_pointclear_failures(self):
+        failed = ('pcl_e2_back_deck', 'pcl_e3_bay_mouth')
+        for camera in failed:
+            self.f.docs['status.json']['cameras'][camera]['ok'] = False
+            self.f.docs['burst_status.json']['cameras'][camera]['ok'] = False
+            self.f.docs['vision.json']['cameras'][camera]['status'] = 'burst_not_ok'
+        self.f.save()
+        with self.live_refresh_fixture('status'):
+            report = self.f.verify()
+        self.assertEqual(report['checks']['near_live']['status'], 'NOT_VERIFIED')
+        self.assertEqual(report['status'], 'FAIL')
+        for camera in v.CAMERA_IDS:
+            self.assertEqual(report['cameras'][camera]['status'], 'FAIL' if camera in failed else 'PASS')
+        for check in ('local_archive', 'git_publication', 'r2_archive'):
+            self.assertEqual(report['checks'][check]['status'], 'NOT_VERIFIED')
+        self.assertEqual(self.f.client.calls, [])
 
     def test_corrupt_jpeg_and_latest_not_shot_three(self):
         camera = v.CAMERA_IDS[0]

@@ -28,7 +28,7 @@ explicit caller action, outside this check.
 | Scheduled tasks | Exactly one running `Jubilee Live Cameras` coordinator with a recognized Python action for the canonical root; enabled state, last result, missed runs, valid last-run time; other Jubilee/capture tasks disabled; fresh coordinator heartbeat and successful live/canonical timestamps. A long-running task may have an old start time; `0x41301` means running, not failed. |
 | Near-live | Its independent status timestamp, all six successful camera timestamps, JPEG sizes and decoding; product bytes unchanged while inspected. Near-live and canonical timestamps are not required to match. |
 | Canonical identity | Fresh timezone-aware `capture_time_ct`, identical across status/burst/vision; exactly the six policy cameras; agreement of optional capture IDs. |
-| Six camera results | Successful status/burst/vision, three ordered shots, fresh increasing timestamps and actual/nominal timing labels, vision shot identity, byte counts, JPEG decode, latest image equal to shot three. Every camera receives a result even if another fails. |
+| Six camera results | Successful status/burst/vision, three ordered shots, fresh increasing timestamps and actual/nominal timing labels, full vision/burst shot-record equality (including filename and bytes), expected filenames, byte counts, JPEG decode, latest image equal to shot three. Every camera receives a result even if another fails. |
 | Local archive | Recompute the existing `freeze()` capture ID and all 27 hashes from canonical metadata + six latest images + 18 burst frames. Compare the existing `captures/<capture_id>/capture_manifest.json` and every archived byte. No call to `freeze()` and no new manifest. |
 | Git publication | Latest bounded-tail coordinator success receipt (or explicit commit), exactly one parent matching prior-main evidence, whole-tree changes confined to the publisher allowlist, all nine published metadata/latest-image files equal to this capture, parent and publication ancestors of current remote main. Read remote main again to detect concurrent movement. |
 | R2 archive | Use local `r2.json` credentials only in memory. Read the current pointer; require matching identity, local hashes, six camera records, 18 shot records and exactly the uploader's expected hash keys. Use `VerifiedStore.read_verified()` from `archive_integrity.py` to GET/hash/decode the 30 expected objects, including the immutable manifest and current status. Re-read the pointer. Burst restores stay in memory. |
@@ -47,6 +47,12 @@ unavailable check. Missing files, unavailable Task Scheduler, missing R2
 credentials/dependencies/permissions, unavailable Git objects/history, and
 concurrent updates cannot count as verified. Historical manifests without
 original hashes do not establish original integrity.
+
+Near-live rechecks its observed status and image bytes even when validation fails.
+If those products change during the check, near-live is NOT_VERIFIED
+(`live_changed_during_check`); a stable size, identity or JPEG failure stays FAIL.
+This does not clear failed canonical cameras or relax all-six archive acceptance.
+Re-run the read-only check after a refresh completes; it does not retry capture.
 
 R2 keys are derived from this validated capture, never arbitrary paths in a
 manifest. The configured endpoint must be HTTPS on Cloudflare's R2 storage
