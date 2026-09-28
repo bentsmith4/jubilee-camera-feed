@@ -5,6 +5,7 @@ contain only constants, validated timestamps/SHA values, counts and booleans.
 """
 import argparse
 import hashlib
+import http.client
 import io
 import json
 import os
@@ -24,6 +25,9 @@ from PIL import Image
 
 METADATA = ('status.json', 'burst_status.json', 'vision.json')
 SHA = re.compile(r'[0-9a-f]{40}')
+CANONICAL_REPO = 'https://github.com/bentsmith4/jubilee-camera-feed'
+GITHUB_API_REPO = 'https://api.github.com/repos/bentsmith4/jubilee-camera-feed'
+GITHUB_COMPARE_BYTES = 2 * 1024 * 1024
 CAPTURE_MINUTES = 60  # Same bound as archive_integrity.freeze/publish_github.payload.
 HEARTBEAT_MINUTES = 25  # 900s canonical + 300s live + 90s upload + margin.
 LIVE_MINUTES = 25
@@ -257,14 +261,73 @@ def git_value(repo, *args):
 
 def remote_tip(repo):
     url = git_value(repo, 'remote', 'get-url', 'origin').decode().strip()
-    require(url in ('https://github.com/bentsmith4/jubilee-camera-feed.git',
-                    'https://github.com/bentsmith4/jubilee-camera-feed'),
+    require(url in (CANONICAL_REPO + '.git', CANONICAL_REPO),
             'remote_not_canonical_https', 'NOT_VERIFIED')
     raw = git_value(repo, 'ls-remote', '--exit-code', url, 'refs/heads/main').decode().strip()
     fields = raw.split()
     require(len(fields) == 2 and SHA.fullmatch(fields[0]) and fields[1] == 'refs/heads/main',
             'remote_main_unavailable', 'NOT_VERIFIED')
     return fields[0]
+
+
+def github_compare(ancestor, tip):
+    # Exact SHAs only, fixed HTTPS host/repository, no credentials, redirects,
+    # retries, disk cache or Git commands. Page two omits the potentially huge
+    # file patches (GitHub includes files only on page one); ancestry metadata
+    # describes the entire comparison, even when this commit page is empty.
+    require(SHA.fullmatch(ancestor) and SHA.fullmatch(tip),
+            'github_ancestry_inconclusive', 'NOT_VERIFIED')
+    connection = http.client.HTTPSConnection('api.github.com', timeout=10)
+    try:
+        path = f'/repos/bentsmith4/jubilee-camera-feed/compare/{ancestor}...{tip}?per_page=1&page=2'
+        connection.request('GET', path, headers={
+            'Accept': 'application/vnd.github+json',
+            'User-Agent': 'jubilee-desktop-read-only-verifier',
+            'X-GitHub-Api-Version': '2022-11-28',
+        })
+        response = connection.getresponse()
+        require(response.status == 200, 'github_ancestry_unavailable', 'NOT_VERIFIED')
+        raw = response.read(GITHUB_COMPARE_BYTES + 1)
+        require(len(raw) <= GITHUB_COMPARE_BYTES, 'github_ancestry_inconclusive', 'NOT_VERIFIED')
+        return json.loads(raw)
+    except (OSError, http.client.HTTPException, ValueError, RecursionError):
+        raise EvidenceError('NOT_VERIFIED', 'github_ancestry_unavailable') from None
+    finally:
+        connection.close()
+
+
+def github_ancestor(ancestor, tip):
+    evidence = github_compare(ancestor, tip)
+    require(isinstance(evidence, dict), 'github_ancestry_inconclusive', 'NOT_VERIFIED')
+    base, merge = evidence.get('base_commit'), evidence.get('merge_base_commit')
+    ahead, behind = evidence.get('ahead_by'), evidence.get('behind_by')
+    require(evidence.get('url') == f'{GITHUB_API_REPO}/compare/{ancestor}...{tip}' and
+            isinstance(base, dict) and base.get('sha') == ancestor and
+            isinstance(merge, dict) and isinstance(merge.get('sha'), str) and SHA.fullmatch(merge['sha']) and
+            type(ahead) is int and ahead >= 0 and type(behind) is int and behind >= 0 and
+            type(evidence.get('total_commits')) is int and evidence['total_commits'] == ahead,
+            'github_ancestry_inconclusive', 'NOT_VERIFIED')
+    status, merge_base = evidence.get('status'), merge['sha']
+    positive = ((status == 'ahead' and ahead > 0 and behind == 0 and merge_base == ancestor and ancestor != tip) or
+                (status == 'identical' and ahead == behind == 0 and merge_base == ancestor == tip))
+    negative = ((status == 'behind' and ahead == 0 and behind > 0 and merge_base == tip and ancestor != tip) or
+                (status == 'diverged' and ahead > 0 and behind > 0 and merge_base not in (ancestor, tip)))
+    require(positive or negative, 'github_ancestry_inconclusive', 'NOT_VERIFIED')
+    require(positive, 'publication_not_on_current_main')
+
+
+def publication_ancestor(repo, ancestor, tip):
+    code, _ = git(repo, 'merge-base', '--is-ancestor', ancestor, tip)
+    if code == 0:
+        return 'local_git'
+    if code == 1:
+        shallow_code, shallow = git(repo, 'rev-parse', '--is-shallow-repository')
+        # Only complete local history can establish a negative. An unavailable
+        # tip, missing history or shallow boundary needs independent evidence.
+        require(not (shallow_code == 0 and shallow.strip() == b'false'),
+                'publication_not_on_current_main')
+    github_ancestor(ancestor, tip)
+    return 'github_compare'
 
 
 def publication(root, snapshot, published=None, previous=None, offline=False):
@@ -282,9 +345,12 @@ def publication(root, snapshot, published=None, previous=None, offline=False):
     # read command. Refuse them in addition to GIT_NO_LAZY_FETCH on newer Git.
     _, promisor = git(repo, 'config', '--get-regexp', r'^(extensions\.partialclone|remote\..*\.promisor)$')
     require(not promisor.strip(), 'partial_clone_requires_existing_full_history', 'NOT_VERIFIED')
-    parents = git_value(repo, 'rev-list', '--parents', '-n', '1', published).decode().split()
-    require(len(parents) == 2 and parents[0] == published, 'publication_not_single_parent')
-    parent = parents[1]
+    # Read intrinsic commit headers: rev-list hides parents at a shallow
+    # boundary, which must not look like a confirmed parentless publication.
+    headers = git_value(repo, 'cat-file', 'commit', published).split(b'\n\n', 1)[0].splitlines()
+    parents = [line[7:].decode('ascii') for line in headers if line.startswith(b'parent ')]
+    require(len(parents) == 1 and SHA.fullmatch(parents[0]), 'publication_not_single_parent')
+    parent = parents[0]
     inferred_previous = previous is None
     if inferred_previous:
         fetch_path = Path(git_value(repo, 'rev-parse', '--git-path', 'FETCH_HEAD').decode().strip())
@@ -308,17 +374,14 @@ def publication(root, snapshot, published=None, previous=None, offline=False):
     if offline:
         return result('NOT_VERIFIED', 'remote_main_check_disabled', local_contract='PASS', **details)
     tip = remote_tip(repo)
-    # Do not fetch. Missing objects and shallow histories are explicitly inconclusive.
-    git_value(repo, 'cat-file', '-e', tip + '^{commit}')
-    for ancestor in (previous, published):
-        code, _ = git(repo, 'merge-base', '--is-ancestor', ancestor, tip)
-        if code == 1:
-            shallow = git_value(repo, 'rev-parse', '--is-shallow-repository').strip() == b'true'
-            require(False, 'shallow_history_inconclusive' if shallow else 'publication_not_on_current_main',
-                    'NOT_VERIFIED' if shallow else 'FAIL')
-        require(code == 0, 'git_ancestry_unavailable', 'NOT_VERIFIED')
-    require(remote_tip(repo) == tip, 'remote_main_changed_during_check', 'NOT_VERIFIED')
-    return result('PASS', 'append_only_publication_verified', current_main=tip, **details)
+    try:
+        sources = [publication_ancestor(repo, ancestor, tip) for ancestor in (previous, published)]
+    finally:
+        # Recheck even on negative/inconclusive evidence: a moving branch is
+        # not a stable failure or success. Never fetch to obtain missing objects.
+        require(remote_tip(repo) == tip, 'remote_main_changed_during_check', 'NOT_VERIFIED')
+    return result('PASS', 'append_only_publication_verified', current_main=tip,
+                  ancestry_evidence='github_compare' if 'github_compare' in sources else 'local_git', **details)
 
 
 def r2_client(root):
