@@ -55,10 +55,19 @@ class VerifiedStore:
         self.client=client
         self.hashes={}
     def verify(self,bucket,key,content):
-        actual=self.client.get_object(Bucket=bucket,Key=key)['Body'].read()
         digest=hashlib.sha256(content).hexdigest()
-        if hashlib.sha256(actual).hexdigest()!=digest:raise ValueError('R2 verification failed')
+        self.read_verified(bucket,key,digest)
         self.hashes[key]=digest
+    def read_verified(self,bucket,key,expected_sha256):
+        """Read-back/restore primitive: GET only, with no local or remote writes."""
+        body=self.client.get_object(Bucket=bucket,Key=key)['Body']
+        try:
+            actual=body.read()
+        finally:
+            body.close()
+        if hashlib.sha256(actual).hexdigest()!=expected_sha256:
+            raise ValueError('R2 verification failed')
+        return actual
     def upload_file(self,filename,bucket,key,**kwargs):
         content=Path(filename).read_bytes()
         self.client.upload_file(filename,bucket,key,**kwargs)
