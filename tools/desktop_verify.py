@@ -140,12 +140,14 @@ class Snapshot:
         require(times == sorted(times) and len(set(times)) == 3, 'invalid_shot_timing')
         require(times[0] >= timestamp(self.capture) - FUTURE_SKEW, 'shot_predates_capture')
         require(status.get('timestamp_ct') == shots[-1]['timestamp_ct'], 'latest_shot_timestamp_mismatch')
-        expected_timing = [{k: shot.get(k) for k in ('shot', 'timestamp_ct', 'timing')} for shot in shots]
-        require(vision.get('burst_shots') == expected_timing, 'vision_shot_identity_mismatch')
+        # analyze_frames preserves the complete producer records, including file/bytes.
+        require(vision.get('burst_shots') == shots, 'vision_shot_identity_mismatch')
         for shot in shots:
             require(shot.get('timing') in ('actual_screenshot_time', 'nominal_interval_single_stream'),
                     'shot_timing_label_missing')
-            content = self.read(f'burst_latest/{camera}_{shot["shot"]}.jpg')
+            filename = f'{camera}_{shot["shot"]}.jpg'
+            require(shot.get('file') == filename, 'shot_file_identity_mismatch')
+            content = self.read('burst_latest/' + filename)
             require(type(shot.get('bytes')) is int and len(content) == shot['bytes'], 'shot_size_mismatch')
             jpeg(content)
         latest = self.read(camera + '.jpg')
@@ -213,20 +215,24 @@ def task_health(root, inventory, now):
 
 def live_health(root, now):
     raw = read_file(root, 'live_frames/status.json')
-    doc = document(raw)
     blobs = {'status.json': raw}
-    captured = fresh(doc['capture_time_ct'], now, LIVE_MINUTES)
-    require(set(doc.get('cameras', {})) == set(CAMERA_IDS), 'live_six_camera_set_mismatch')
-    for camera in CAMERA_IDS:
-        cam = doc['cameras'][camera]
-        require(cam.get('ok') is True, 'live_camera_failed')
-        require(fresh(cam['timestamp_ct'], now, LIVE_MINUTES) >= captured - FUTURE_SKEW, 'live_camera_identity_mismatch')
-        content = read_file(root, 'live_frames/' + camera + '.jpg')
-        blobs[camera + '.jpg'] = content
-        require(len(content) == cam.get('bytes'), 'live_size_mismatch')
-        jpeg(content)
-    require(all(read_file(root, 'live_frames/' + name) == content for name, content in blobs.items()),
-            'live_changed_during_check', 'NOT_VERIFIED')
+    try:
+        doc = document(raw)
+        captured = fresh(doc['capture_time_ct'], now, LIVE_MINUTES)
+        require(set(doc.get('cameras', {})) == set(CAMERA_IDS), 'live_six_camera_set_mismatch')
+        for camera in CAMERA_IDS:
+            cam = doc['cameras'][camera]
+            require(cam.get('ok') is True, 'live_camera_failed')
+            require(fresh(cam['timestamp_ct'], now, LIVE_MINUTES) >= captured - FUTURE_SKEW, 'live_camera_identity_mismatch')
+            content = read_file(root, 'live_frames/' + camera + '.jpg')
+            blobs[camera + '.jpg'] = content
+            require(len(content) == cam.get('bytes'), 'live_size_mismatch')
+            jpeg(content)
+    finally:
+        # A refresh can cause an early size/schema/JPEG failure. Recheck even on
+        # that path; only observed movement supersedes the original failure.
+        require(all(read_file(root, 'live_frames/' + name) == content for name, content in blobs.items()),
+                'live_changed_during_check', 'NOT_VERIFIED')
     return result('PASS', 'six_live_frames_verified')
 
 
