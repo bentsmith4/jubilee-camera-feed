@@ -1,5 +1,5 @@
 from camera_lock import serialized
-from capture_diagnostics import record_ffmpeg_failure
+from capture_diagnostics import capture_failure_summary, record_ffmpeg_failure
 import argparse
 import json
 import re
@@ -536,7 +536,7 @@ def capture_device_burst_once(browser, token, device, slug, proto):
     )
 
 
-def capture_device_burst_with_retry(browser, token, device, slug, proto):
+def capture_device_burst_with_retry(browser, token, device, slug, proto, *, attempts=None):
     last_error = None
 
     for attempt in range(1, CAMERA_CAPTURE_ATTEMPTS + 1):
@@ -548,15 +548,21 @@ def capture_device_burst_with_retry(browser, token, device, slug, proto):
                 pass
 
         try:
-            return capture_device_burst_once(
+            shots = capture_device_burst_once(
                 browser,
                 token,
                 device,
                 slug,
                 proto,
             )
+            if attempts is not None:
+                attempts.append({"attempt": attempt, "ok": True})
+            return shots
         except Exception as exc:
             last_error = exc
+            if attempts is not None:
+                attempts.append({"attempt": attempt, "ok": False,
+                                 **capture_failure_summary(exc)})
 
             if attempt >= CAMERA_CAPTURE_ATTEMPTS:
                 raise
@@ -704,6 +710,7 @@ def main():
                     f"({','.join(proto)})"
                 )
 
+                attempts = []
                 try:
                     shots = (
                         capture_device_burst_with_retry(
@@ -712,6 +719,7 @@ def main():
                             device,
                             slug,
                             proto,
+                            attempts=attempts,
                         )
                     )
 
@@ -789,6 +797,11 @@ def main():
                     print(
                         f"  FAILED: {safe_error(e)}"
                     )
+
+                # Only fixed diagnostic categories and numeric codes escape the
+                # local process. Keep failed attempts even if the retry recovers.
+                for report in (status, burst_status):
+                    report["cameras"][slug]["capture_attempts"] = attempts
 
                 # Avoid immediately opening the next
                 # Google/Nest stream session.

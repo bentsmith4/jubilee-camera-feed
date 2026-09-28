@@ -1,5 +1,6 @@
 """Local, allowlisted capture diagnostics: never retain stderr or stream URLs."""
 import json
+import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -28,6 +29,30 @@ def classify_stderr(stderr):
         if any(marker in text for marker in markers):
             return category
     return "unclassified_ffmpeg_failure"
+
+
+def capture_failure_summary(error):
+    """Public-safe diagnostic codes, never exception text or command arguments.
+
+    Categories describe observed errors, not proven root causes. Unknown errors
+    remain unknown. Diagnostic extraction must not interfere with capture.
+    """
+    try:
+        if isinstance(error, subprocess.TimeoutExpired):
+            return {"category": "capture_process_timeout"}
+        if isinstance(error, subprocess.CalledProcessError):
+            code = error.returncode
+            return {
+                "category": classify_stderr(error.stderr),
+                "returncode": code if type(code) is int else None,
+            }
+        response = getattr(error, "response", None)
+        code = getattr(response, "status_code", None)
+        if type(code) is int and 100 <= code <= 599:
+            return {"category": "http_error", "http_status": code}
+    except Exception:
+        pass
+    return {"category": "unclassified_capture_failure"}
 
 
 def record_ffmpeg_failure(camera_id, stage, error):
