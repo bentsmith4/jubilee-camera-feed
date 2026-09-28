@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-09-28T00:34:16.492-05:00",
+  "issue_time": "2026-09-28T10:23:27-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "798982d42aec93f8203a4d5f84c2010f788312cb295eba576c09fb4639c361c4",
-  "input_commit_sha": "08cd8c4e47e86d7d230ceaa56fdaf8f0fa76bff6",
+  "input_snapshot_hash": "74a6133e36cf11c01b31b238ccbe2bc578b137f87830df910105903f1dbfc2f8",
+  "input_commit_sha": "c1103880663f4bd4dbe7c225f4187022d2ed0f27",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
@@ -22,18 +22,18 @@
       "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
     "fresh_river_series": 20,
-    "asos_stations": "KBFM/KMOB partial"
+    "asos_stations": "KBFM UNKNOWN; KMOB partial"
   },
   "missing_inputs": [
-    "Direct bottom/contact-strip oxygen, local salinity/temperature profiles and stratification are unavailable.",
-    "Observed nearshore transport and Point Clear observed water level are unavailable.",
-    "Current shoreline rainfall and direct shoreline wind remain UNKNOWN; KBFM/KMOB supply fresh regional airport wind-speed context only, with blank rainfall UNKNOWN.",
-    "River-to-Bay travel time is uncalibrated; fresh Claiborne/Coffeeville proxies do not establish a Bay-arrival pulse.",
-    "Named-station model forecast is unavailable; missing grid lead hours and grid guidance beyond 04:00 CDT are not filled.",
-    "Owner-camera nighttime biological absence is UNKNOWN despite 6/6 healthy metadata groups; low/poor detectability is not a negative.",
-    "Public-camera exact capture times and total delays remain unknown; Grand Hotel biological content remains UNKNOWN in darkness.",
-    "Fairhope sees neither beach nor Fly Creek; priority beach/contact strips remain outside validated coverage.",
-    "No credible same-day human report was recovered in the prior check; report absence is not a biological negative."
+    "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
+    "Observed Point Clear water level and observed local nearshore currents remain UNKNOWN; tide prediction and MODEL guidance are not observations.",
+    "Current shoreline wind/rain remain UNKNOWN. Airport observations are regional only; parameters outside 90 minutes and blank precipitation are UNKNOWN at issue time.",
+    "River-to-Bay travel time remains uncalibrated; regional upstream proxies do not establish a Bay-arrival pulse.",
+    "Wider Mobile Bay named-station forecast remains SOURCE_UNAVAILABLE/UNKNOWN after the committed retrieval timeout; missing grid lead hours and post-16:00 CDT grid coverage remain UNKNOWN.",
+    "Good daylight owner-camera visibility supports visible-scope descriptions only. Out-of-view shoreline biology, Point Clear contact-strip absence and full-cell non-events remain UNKNOWN.",
+    "Current public-camera evidence remains UNKNOWN: latest committed direct checks ended about 01:58 CDT and were not refreshed; exact capture times/delays remain unknown.",
+    "WKQA1 water quality remains UNKNOWN_STALE since September 9; WKXA1 admission uses its own issue-time weather limit.",
+    "Current human/social reports were not independently searched in this committed-input-only reconciliation; report absence is not a biological negative."
   ],
   "outlooks": [
     {
