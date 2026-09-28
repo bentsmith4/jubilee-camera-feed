@@ -15,6 +15,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "model_data/bind_current_forecast.py"
+FIXTURES = ROOT / "tests/fixtures/forecast_binding"
 spec = importlib.util.spec_from_file_location("binding", SCRIPT)
 binding = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(binding)
@@ -76,6 +77,31 @@ class BindingTests(unittest.TestCase):
         self.assertFalse(self.forecast["notification_condition_met"])
         self.assertEqual(encode(self.state), self.raw)
         binding.check(self.raw, self.forecast)
+
+    def test_probability_basis_rejects_invalid_shapes_and_missing_fields(self):
+        for value in (None, "Frozen baseline; no numerical change", [], 0, False):
+            with self.subTest(value=value):
+                self.state["probability_basis"] = value
+                with self.assertRaisesRegex(ValueError, "probability_basis must be an object"):
+                    binding.project(encode(self.state))
+        for field in snapshot()["probability_basis"]:
+            self.state = snapshot()
+            del self.state["probability_basis"][field]
+            with self.assertRaisesRegex(ValueError, f"probability_basis.{field} is required"):
+                binding.project(encode(self.state))
+
+    def test_probability_basis_requires_numeric_zero_and_real_method(self):
+        for change in (False, True, "0", None, [], 1, -1, float("nan"), float("inf")):
+            with self.subTest(change=change):
+                self.state["probability_basis"]["numeric_change_from_prior_snapshot"] = change
+                with self.assertRaisesRegex(ValueError, "numeric_change_from_prior_snapshot"):
+                    binding.project(encode(self.state))
+        self.state = snapshot()
+        for method in (None, "", " \t", [], {}, 42):
+            with self.subTest(method=method):
+                self.state["probability_basis"]["reassessment_method"] = method
+                with self.assertRaisesRegex(ValueError, "reassessment_method"):
+                    binding.project(encode(self.state))
 
     def test_new_snapshot_time_rejects_old_forecast(self):
         self.state["snapshot_time_ct"] = "2026-09-27T22:00:00-05:00"
@@ -164,6 +190,57 @@ class BindingTests(unittest.TestCase):
         self.assertEqual(forecast["data_coverage"]["fresh_river_series"], 0)
         self.assertEqual(forecast["outlooks"], self.forecast["outlooks"])
 
+    def test_station_envelope_preserves_flat_admission_including_trace(self):
+        for status, values in (("KNOWN", ("KNOWN", "KNOWN")),
+                               ("PARTIAL", ("KNOWN", "UNKNOWN")),
+                               ("PARTIAL_FRESH", ("KNOWN", "UNKNOWN")),
+                               ("PARTIAL", ("TRACE", "UNKNOWN")),
+                               ("UNKNOWN", ("UNKNOWN", "UNKNOWN"))):
+            with self.subTest(status=status, values=values):
+                state = snapshot()
+                stations = state["input_rows"][3]["parameter_admission"]
+                for params in stations.values():
+                    for parameter, value_status in zip(params.values(), values):
+                        parameter["value_status"] = value_status
+                flat = binding.project(encode(state))
+                for station, params in list(stations.items()):
+                    stations[station] = {"status": status, "parameters": params}
+                wrapped = binding.project(encode(state))
+                self.assertEqual(flat["data_coverage"], wrapped["data_coverage"])
+                self.assertEqual(flat["outlooks"], wrapped["outlooks"])
+
+    def test_material_change_cannot_bypass_explicit_notification_gates(self):
+        # Production 00:34 CT (2d9c17f) declares recovery notification without
+        # any true trigger gate. Schema repair must not silently bless it.
+        self.state["material_change_since_prior_snapshot"] = True
+        self.state["notification_reason"] = "Material input-quality recovery"
+        self.state["notification_condition_met"] = True
+        self.state["alert_gates"]["notification_suppressed"] = False
+        with self.assertRaisesRegex(ValueError, "Snapshot notification gates disagree"):
+            binding.project(encode(self.state))
+
+    def test_production_shaped_recovery_context_is_not_a_forecast_trigger(self):
+        recovery = json.loads((FIXTURES / "recovery_no_forecast_trigger_20260928T0034.json").read_text())
+        state = snapshot()
+        state["material_change_since_prior_snapshot"] = recovery["material_change_since_prior_snapshot"]
+        state["notification_reason"] = recovery["notification_reason"]
+        state["operational_fault_assessment"] = recovery["operational_fault_assessment"]
+        state["alert_gates"].update(recovery["alert_gates"])
+        state["notification_condition_met"] = recovery["notification_condition_met"]
+
+        raw = encode(state)
+        forecast = binding.project(raw)
+        binding.check(raw, forecast)
+
+        self.assertFalse(forecast["notification_condition_met"])
+        self.assertTrue(forecast["alert_gates"]["notification_suppressed"])
+        for field in ("point_clear_over_20_percent", "daphne_may_day_over_20_percent",
+                      "direct_event_evidence_present", "material_critical_input_fault"):
+            self.assertFalse(forecast["alert_gates"][field])
+        self.assertTrue(state["operational_fault_assessment"]["recovery_notification_required"])
+        self.assertFalse(state["operational_fault_assessment"]["existing_material_input_quality_alert_policy_changed"])
+        self.assertEqual(encode(state), raw)
+
     def test_naive_or_inconsistent_issue_time_rejected(self):
         for time in ("2026-09-27T21:56:29.128", "2026-09-27T22:56:29.128-05:00"):
             self.state["snapshot_time_ct"] = time
@@ -218,6 +295,102 @@ class BindingTests(unittest.TestCase):
         self.assertIn("python -B model_data/bind_current_forecast.py --check", workflow)
         self.assertIn("contents: read", workflow)
         self.assertNotIn("continue-on-error", workflow)
+        self.assertEqual(workflow.count('- "tests/fixtures/forecast_binding/**"'), 2)
+
+
+class ProductionSnapshotTests(unittest.TestCase):
+    def setUp(self):
+        self.raw = (FIXTURES / "current_state_snapshot_20260928T0016.json").read_bytes()
+        self.old_forecast_raw = (FIXTURES / "current_forecast_20260928T0016.json").read_bytes()
+        self.state = json.loads(self.raw)
+        self.old_forecast = json.loads(self.old_forecast_raw)
+
+    def repaired(self):
+        # Explicit fixture repair only: the application must never infer these
+        # attestations from prose or fetch them from a potentially stale forecast.
+        state = copy.deepcopy(self.state)
+        state["probability_basis"] = {
+            "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
+            "numeric_change_from_prior_snapshot": 0,
+            "reassessment_method": self.old_forecast["method"],
+            "summary": self.state["probability_basis"],
+        }
+        return state
+
+    def test_exact_failure_fixture_has_valid_hash_but_invalid_schema(self):
+        self.assertEqual(hashlib.sha256(self.raw).hexdigest(),
+                         "c9288fb907e45f9a3ceb28504bdd1de059749cff2d5cf68ff079349e55bc335e")
+        self.assertEqual(self.old_forecast["input_snapshot_hash"], hashlib.sha256(self.raw).hexdigest())
+        with self.assertRaisesRegex(ValueError, "probability_basis must be an object"):
+            binding.check(self.raw, self.old_forecast)
+
+    def test_explicit_repair_projects_full_production_shape_without_reassessment(self):
+        state = self.repaired()
+        before = encode(state)
+        forecast = binding.project(before)
+        binding.check(before, forecast)
+        self.assertEqual(encode(state), before)
+        self.assertEqual({k: v for k, v in state.items() if k != "probability_basis"},
+                         {k: v for k, v in self.state.items() if k != "probability_basis"})
+        for field in ("issue_time", "input_commit_sha", "missing_inputs", "alert_gates",
+                      "notification_condition_met", "forecast_weights_changed", "method",
+                      "alert_threshold_percent", "alert_comparator"):
+            self.assertEqual(forecast[field], self.old_forecast[field], field)
+        for old, new in zip(self.old_forecast["outlooks"], forecast["outlooks"]):
+            for key in ("cell", "range_percent", "central_percent", "confidence"):
+                self.assertEqual(old[key], new[key])
+            self.assertEqual(old["forecast_window"]["date_ct"], new["forecast_window"]["date_ct"])
+        self.assertEqual(len(forecast["outlooks"]), 6)
+        self.assertEqual(forecast["data_coverage"]["fresh_river_series"], 12)
+        self.assertEqual(forecast["data_coverage"]["private_camera_metadata_pass"], 6)
+        self.assertEqual(forecast["data_coverage"]["asos_stations"], "KBFM/KMOB UNKNOWN")
+        self.assertTrue(forecast["alert_gates"]["material_critical_input_fault"])
+        self.assertFalse(forecast["alert_gates"]["point_clear_over_20_percent"])
+
+    def test_production_station_envelope_rejects_schema_or_admission_defects(self):
+        malformed = [None, {}, {"status": "UNKNOWN_STALE"}, {"parameters": {}},
+                     {"status": "UNKNOWN_STALE", "parameters": "UNKNOWN"},
+                     {"status": "UNKNOWN_STALE", "parameters": {}},
+                     {"status": "UNKNOWN", "parameters": {"wind": "UNKNOWN"}},
+                     {"status": "UNKNOWN", "parameters": {"wind": {"value_status": "typo"}}}]
+        valid = next(r for r in self.state["input_rows"] if r["source"] == "NOAA/NWS ASOS KBFM and KMOB")["parameter_admission"]["KBFM"]
+        for mutation in (dict(valid, status="typo"), dict(valid, status="KNOWN"),
+                         dict(valid, extra="ambiguous")):
+            malformed.append(mutation)
+        false_stale = copy.deepcopy(valid)
+        del false_stale["parameters"]["wind_speed"]["admission_reason"]
+        malformed.append(false_stale)
+        for admission in malformed:
+            with self.subTest(admission=admission):
+                state = self.repaired()
+                row = next(r for r in state["input_rows"] if r["source"] == "NOAA/NWS ASOS KBFM and KMOB")
+                row["parameter_admission"]["KBFM"] = admission
+                with self.assertRaisesRegex(ValueError, "ASOS parameter_admission"):
+                    binding.project(encode(state))
+
+    def test_invalid_production_snapshot_never_writes_in_check_or_bind_mode(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "model_data").mkdir()
+            (root / binding.SNAPSHOT).write_bytes(self.raw)
+            (root / binding.FORECAST).write_bytes(self.old_forecast_raw)
+            for args in ([], ["--check"]):
+                result = subprocess.run([sys.executable, "-B", str(SCRIPT), "--root", str(root), *args],
+                                        capture_output=True, text=True)
+                self.assertEqual(result.returncode, 1)
+                self.assertIn("probability_basis must be an object", result.stderr)
+                self.assertNotIn("string indices", result.stderr)
+                self.assertEqual((root / binding.SNAPSHOT).read_bytes(), self.raw)
+                self.assertEqual((root / binding.FORECAST).read_bytes(), self.old_forecast_raw)
+                self.assertFalse(list(root.rglob("*.tmp")))
+
+    def test_parser_errors_and_nonobject_snapshots_are_not_coerced(self):
+        with self.assertRaises(json.JSONDecodeError):
+            binding.project(self.raw[:-2])
+        for value in ([], None, "snapshot"):
+            with self.subTest(value=value):
+                with self.assertRaisesRegex(ValueError, "Snapshot must be a JSON object"):
+                    binding.project(encode(value))
 
 
 if __name__ == "__main__":
