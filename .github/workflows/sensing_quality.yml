@@ -22,6 +22,7 @@ on:
       - 'model_data/validate_ngofs2_availability.py'
       - 'model_data/run_ngofs2_bounded.py'
       - 'model_data/stage_sensing_outputs.py'
+      - 'model_data/resolve_sensing_publication_conflicts.py'
       - 'model_data/ngofs2_target_cells.json'
       - 'model_data/ingest_griidc_main_pass_20160419.py'
       - 'model_data/promote_may1971_events.py'
@@ -209,14 +210,13 @@ jobs:
           for attempt in 1 2 3; do
             git fetch origin "$REF_NAME"
             if ! git rebase "origin/$REF_NAME"; then
-              conflicts="$(git diff --name-only --diff-filter=U)"
-              if [ "$conflicts" = 'model_data/sensing_audit.json' ]; then
-                echo 'Benign concurrent sensing_audit update detected; preserving the newer upstream audit and continuing the environmental snapshot publish.'
-                git checkout --ours -- model_data/sensing_audit.json
-                git add model_data/sensing_audit.json
-                GIT_EDITOR=true git rebase --continue
-              else
-                echo "Unexpected publish conflict(s): $conflicts"
+              # Preserve upstream research/audit metadata, then regenerate only
+              # ingestion-derived registry fields from the admitted manifests.
+              if ! python model_data/resolve_sensing_publication_conflicts.py; then
+                git rebase --abort || true
+                exit 1
+              fi
+              if ! GIT_EDITOR=true git rebase --continue; then
                 git rebase --abort || true
                 exit 1
               fi

@@ -1,4 +1,5 @@
 """Offline publication regressions, including a real mixed-success Git push."""
+import copy
 import importlib.util
 import json
 import os
@@ -45,6 +46,8 @@ class PublicationTests(unittest.TestCase):
         self.git("config", "core.autocrlf", "false")
         self.write("baseline.txt", "baseline\n")
         self.write("model_data/stage_sensing_outputs.py", (ROOT / "model_data/stage_sensing_outputs.py").read_text())
+        for name in ("resolve_sensing_publication_conflicts.py", "reconcile_source_registry.py"):
+            self.write("model_data/" + name, (ROOT / "model_data" / name).read_text())
         for path in publisher.publication_paths(outcomes(**{name: "success" for name in (
                 "regression", "audit", "river", "asos", "weeks_bay", "readiness", "ngofs2_validation",
                 "history", "historical_diagnostic", "registry", "main_pass")}), "main"):
@@ -67,6 +70,170 @@ class PublicationTests(unittest.TestCase):
 
     def staged(self):
         return set(self.git("diff", "--cached", "--name-only").splitlines())
+
+    def run_publication(self, steps):
+        script = "\n".join(line[10:] for line in PUBLISH_STEP.split("        run: |\n", 1)[1].splitlines())
+        script = script.replace("python model_data/", shlex.quote(Path(sys.executable).as_posix()) + " model_data/")
+        runner_temp = Path(self.temp.name) / "runner"
+        runner_temp.mkdir(exist_ok=True)
+        env = {**os.environ, "REF_NAME": "main", "SENSING_STEPS_JSON": json.dumps(steps),
+               "RUNNER_TEMP": runner_temp.as_posix()}
+        return subprocess.run([BASH, "-c", script], cwd=self.root, env=env, capture_output=True, text=True)
+
+    def concurrent_registry(self, *, audit=False, unexpected=False, broken=False, outage=False):
+        fixture = json.loads((ROOT / "tests/fixtures/sensing_publication/concurrent_registry.json").read_text())
+        path = "model_data/ongoing_source_registry_20260906.json"
+        base = fixture["base_registry"]
+        self.write(path, json.dumps(base, separators=(",", ":")) + "\n")
+        # Historical ingestion is absent in this small production-shaped fixture.
+        self.write("model_data/griidc_main_pass_20160419_manifest.json", '{"status":"not_ingested"}\n')
+        self.write("model_data/current_forecast.json", '{"probability":"UNKNOWN","threshold":20,"comparator":">"}\n')
+        self.git("add", ".")
+        self.git("commit", "-m", "registry before concurrent research and sensing")
+        remote = Path(self.temp.name) / "remote.git"
+        self.git("clone", "--bare", str(self.root), str(remote))
+        self.git("remote", "add", "origin", str(remote))
+        upstream = Path(self.temp.name) / "upstream"
+        self.git("worktree", "add", "--detach", str(upstream), "HEAD")
+        research = copy.deepcopy(base)
+        research["sources"] = [fixture["upstream_adcp"] if r["source_id"] == fixture["upstream_adcp"]["source_id"]
+                               else r for r in research["sources"]]
+        # Metadata on a refreshed source and a newly registered source must survive too.
+        research["review_note"] = "Research metadata must survive sensing publication"
+        research["sources"][0]["research_note"] = "Retain deployment uncertainty"
+        research["sources"].append({"source_id": "research_only_new_source", "status": "UNKNOWN", "production_weight": 0})
+        if broken:
+            research["sources"] = [r for r in research["sources"] if r["source_id"] != "weeks_bay_nerr_swmp"]
+        (upstream / path).write_text(json.dumps(research, indent=2) + "\n")
+        if audit:
+            (upstream / "model_data/sensing_audit.json").write_text('{"capture_id":"newer-upstream"}\n')
+        if unexpected:
+            (upstream / "model_data/river_forcing_manifest.json").write_text('{"status":"concurrent"}\n')
+        for args in (("add", "."), ("commit", "-m", "concurrent reviewed research"), ("push", "origin", "HEAD:main")):
+            subprocess.check_output(["git", *args], cwd=upstream, stderr=subprocess.STDOUT)
+        self.git("fetch", "origin", "main")
+        upstream_sha = self.git("rev-parse", "origin/main")
+
+        fresh_time = "2026-09-28T15:02:00+00:00"
+        river = {"status": "complete", "started_at_utc": fresh_time, "normalized_rows": 29934,
+                 "raw_sha256": "a" * 64, "series": [{"station_id": "02428400", "rows": 29934,
+                 "fresh": True, "parameter_code": "00060", "latest_at_utc": "2026-09-28T14:45:00+00:00"}]}
+        weeks = {"status": "complete", "retrieved_at": fresh_time, "normalized_rows": 53740,
+                 "sources": [{"station_id": "WKQA1", "normalized_rows": 34360, "raw_sha256": "b" * 64,
+                              "latest_observed_at": "2026-09-09T16:15:00+00:00"},
+                             {"station_id": "WKXA1", "normalized_rows": 19380, "raw_sha256": "c" * 64,
+                              "latest_observed_at": "2026-09-28T14:45:00+00:00"}]}
+        for name, doc in (("river_forcing", river), ("weeks_bay_realtime", weeks)):
+            self.write(f"model_data/{name}_manifest.json", json.dumps(doc) + "\n")
+        for index, name in enumerate(("ngofs2_point_clear_nowcast", "ngofs2_point_clear_forecast",
+                                     "ngofs2_mobile_bay_named_stations_nowcast",
+                                     "ngofs2_mobile_bay_named_stations_forecast", "ngofs2_shoreline_grid")):
+            doc = {"status": "complete", "retrieved_at": fresh_time, "normalized_rows": 100 + index,
+                   "station_count": 6, "raw_subset_sha256": "d" * 64, "derived_feature_rows": 20,
+                   "casts": [{"selected_nodes": [{"cell": "Point Clear", "grid_y": 1, "grid_x": 2}]}]}
+            if outage:
+                doc = {"status": "unavailable", "current_guidance": "NO_CURRENT_GUIDANCE"}
+                (self.root / f"model_data/{name}_normalized.csv").unlink()
+            self.write(f"model_data/{name}_manifest.json", json.dumps(doc) + "\n")
+        self.write("model_data/current_asos_weather.json", '{"precipitation_in":"UNKNOWN"}\n')
+        self.write("model_data/public_archive/usgs/new.gz", "synthetic append-only archive\n")
+        if audit:
+            self.write("model_data/sensing_audit.json", '{"capture_id":"older-local"}\n')
+        subprocess.check_output([sys.executable, "model_data/reconcile_source_registry.py"], cwd=self.root)
+        local = json.loads((self.root / path).read_text())
+        steps = outcomes(regression="success", registry="success", river="success", weeks_bay="success",
+                         ngofs2_validation="success", asos="success", audit="success" if audit else "skipped")
+        return path, research, local, steps, upstream_sha
+
+    @unittest.skipUnless(BASH, "workflow publication requires bash")
+    def test_concurrent_research_and_sensing_registry_survive_real_publish(self):
+        path, research, local, steps, upstream_sha = self.concurrent_registry()
+        result = self.run_publication(steps)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("CONFLICT", result.stdout)
+        self.git("fetch", "origin", "main")
+        self.assertEqual(self.git("rev-parse", "origin/main^"), upstream_sha)
+        merged = json.loads(self.git("show", "origin/main:" + path))
+        actual = {r["source_id"]: r for r in merged["sources"]}
+        expected = {r["source_id"]: r for r in local["sources"]}
+        for row in research["sources"]:
+            sid = row["source_id"]
+            if sid.startswith("griidc_") or sid == "research_only_new_source":
+                self.assertEqual(actual[sid], row)
+            else:
+                # Every current sensing field must equal the newly reconciled run;
+                # additional upstream metadata must survive on those same rows.
+                self.assertEqual(actual[sid], {**row, **expected[sid]})
+            if sid.startswith("griidc_"):
+                self.assertTrue(actual[sid]["production_eligibility"].startswith("ZERO_WEIGHT;"))
+            else:
+                self.assertEqual(actual[sid]["production_weight"], 0)
+        self.assertEqual(merged["review_note"], research["review_note"])
+        self.assertEqual(merged["source_interpretation_guardrails"], research["source_interpretation_guardrails"])
+        self.assertEqual(actual["weeks_bay_nerr_swmp"]["realtime_normalized_rows"], 53740)
+        self.assertEqual(actual["usgs_02428400_claiborne"]["normalized_rows"], 29934)
+        self.assertTrue(all(v == "complete" for v in actual["noaa_ngofs2_mobile_bay"]["current_run_availability"].values()))
+        self.assertEqual(actual["noaa_ngofs2_mobile_bay"]["observation_status"], "MODEL")
+        self.assertEqual(self.git("show", "origin/main:model_data/current_asos_weather.json"), '{"precipitation_in":"UNKNOWN"}')
+        self.assertEqual(self.git("show", "origin/main:model_data/public_archive/usgs/new.gz"), "synthetic append-only archive")
+        self.assertEqual(self.git("diff", upstream_sha, "origin/main", "--", "model_data/current_forecast.json"), "")
+
+    @unittest.skipUnless(BASH, "workflow publication requires bash")
+    def test_combined_audit_registry_conflict_keeps_upstream_audit_and_unknown(self):
+        path, research, local, steps, _ = self.concurrent_registry(audit=True, outage=True)
+        result = self.run_publication(steps)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.git("fetch", "origin", "main")
+        merged = json.loads(self.git("show", "origin/main:" + path))
+        ngofs = next(r for r in merged["sources"] if r["source_id"] == "noaa_ngofs2_mobile_bay")
+        self.assertEqual(ngofs["current_guidance"], "UNKNOWN")
+        self.assertEqual(ngofs["production_weight"], 0)
+        self.assertNotIn("named_station_nowcast_rows", ngofs)
+        self.assertNotIn("shoreline_grid_source_hash", ngofs)
+        self.assertNotIn("model_data/ngofs2_point_clear_nowcast_normalized.csv",
+                         self.git("ls-tree", "-r", "--name-only", "origin/main").splitlines())
+        self.assertEqual(self.git("show", "origin/main:model_data/sensing_audit.json"), '{"capture_id":"newer-upstream"}')
+        self.assertEqual(next(r for r in merged["sources"] if r["source_id"].startswith("griidc_")),
+                         next(r for r in research["sources"] if r["source_id"].startswith("griidc_")))
+
+    @unittest.skipUnless(BASH, "workflow publication requires bash")
+    def test_unexpected_conflict_blocks_registry_recovery_and_push(self):
+        _, _, _, steps, upstream_sha = self.concurrent_registry(unexpected=True)
+        result = self.run_publication(steps)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Unexpected or ungated publish conflict", result.stderr)
+        self.git("fetch", "origin", "main")
+        self.assertEqual(self.git("rev-parse", "origin/main"), upstream_sha)
+
+    @unittest.skipUnless(BASH, "workflow publication requires bash")
+    def test_reconciliation_failure_aborts_without_publishing(self):
+        _, _, _, steps, upstream_sha = self.concurrent_registry(broken=True)
+        result = self.run_publication(steps)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("Canonical source registry missing weeks_bay_nerr_swmp", result.stderr)
+        self.git("fetch", "origin", "main")
+        self.assertEqual(self.git("rev-parse", "origin/main"), upstream_sha)
+
+    @unittest.skipUnless(BASH, "workflow publication requires bash")
+    def test_failed_registry_producer_cannot_publish_or_reconcile(self):
+        path, research, _, steps, _ = self.concurrent_registry()
+        steps["registry"] = {"outcome": "failure", "conclusion": "success"}
+        result = self.run_publication(steps)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.git("fetch", "origin", "main")
+        self.assertEqual(json.loads(self.git("show", "origin/main:" + path)), research)
+        self.assertNotIn("Resolved sensing publication conflicts", result.stdout)
+
+    @unittest.skipUnless(BASH, "workflow publication requires bash")
+    def test_audit_only_conflict_preserves_existing_upstream_behavior(self):
+        path, research, _, steps, _ = self.concurrent_registry(audit=True)
+        steps["registry"] = {"outcome": "skipped"}
+        result = self.run_publication(steps)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("Resolved sensing publication conflicts", result.stdout)
+        self.git("fetch", "origin", "main")
+        self.assertEqual(self.git("show", "origin/main:model_data/sensing_audit.json"), '{"capture_id":"newer-upstream"}')
+        self.assertEqual(json.loads(self.git("show", "origin/main:" + path)), research)
 
     def test_workflow_uses_outcomes_after_failure_without_masking_validation(self):
         self.assertIn("if: ${{ !cancelled() && steps.regression.outcome == 'success' }}", PUBLISH_STEP)
@@ -233,14 +400,7 @@ class PublicationTests(unittest.TestCase):
         self.write("private.jpg", "not allowlisted\n")
         steps = outcomes(regression="success", audit="success", river="success", asos="success", weeks_bay="success",
                          ngofs2_validation="failure", readiness="skipped", registry="skipped")
-        script = "\n".join(line[10:] for line in PUBLISH_STEP.split("        run: |\n", 1)[1].splitlines())
-        script = script.replace("python model_data/stage_sensing_outputs.py",
-                                shlex.quote(Path(sys.executable).as_posix()) + " model_data/stage_sensing_outputs.py")
-        runner_temp = Path(self.temp.name) / "runner"
-        runner_temp.mkdir()
-        env = {**os.environ, "REF_NAME": "main", "SENSING_STEPS_JSON": json.dumps(steps),
-               "RUNNER_TEMP": runner_temp.as_posix()}
-        result = subprocess.run([BASH, "-c", script], cwd=self.root, env=env, capture_output=True, text=True)
+        result = self.run_publication(steps)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.git("fetch", "origin", "main")
         self.assertEqual(set(self.git("diff", "origin/main^", "origin/main", "--name-only").splitlines()), independent)
