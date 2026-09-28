@@ -1,4 +1,5 @@
 from camera_lock import serialized
+from capture_diagnostics import record_ffmpeg_failure
 import json
 import shutil
 import subprocess
@@ -101,7 +102,8 @@ def capture_rtsp_live(token, device, slug):
                 timeout=45,
             )
 
-        except subprocess.CalledProcessError:
+        except subprocess.CalledProcessError as exc:
+            record_ffmpeg_failure(slug, 'live_rtsp', exc)
             # Deliberately do NOT include the command
             # because it contains a temporary signed URL.
             raise RuntimeError(
