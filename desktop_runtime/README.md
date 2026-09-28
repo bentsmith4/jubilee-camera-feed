@@ -4,6 +4,13 @@ Current owner policy: all six cameras have equal capture, vision and public-feed
 
 Operational home: `C:\JubileeCams`. These are reviewed copies of deployed runtime files, not a second service installation. Keep `go2rtc.yaml`, `r2.json`, Google device resource IDs, private camera frames, and private ROI files outside this public repository.
 
+Current read-only acceptance: run `tools/desktop_preflight.ps1` from a reviewed
+checkout. It checks the existing desktop's tasks, six-camera capture/vision,
+local and R2 archive hashes, and append-only Git ancestry without invoking the
+pipeline or changing runtime/publication state. See
+[`tools/DESKTOP_VERIFICATION.md`](../tools/DESKTOP_VERIFICATION.md) for evidence,
+sanitization, freshness limits, exit codes and offline limitations.
+
 The existing `refresh_all.py` remains local because it owns the authenticated Google client. Its camera-name map now recognizes `Boat Camera` as `montrose_pier_boat`, retaining the old `Pier Boat camera` alias. The new shoreline camera is intentionally absent from this public map. `private_capture.py` independently dispatches by actual supportedProtocols and stores only local private bursts.
 
 `live_loop.py` is the compatibility entry point for `capture_service.py`. One existing Windows job owns the serialized live/hourly/dawn queue. The old dawn and unattended-test jobs are disabled, not deleted. Hourly cadence remains :06 and dawn bursts remain civil dawn +/- two hours at twenty-minute slots. The shared per-device lock also protects manual capture clients using the deployed capture functions.
