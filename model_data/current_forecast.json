@@ -4,7 +4,7 @@
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "e51837a7a36212d4ab8d43de15848dd0bd5c64310ea8c39c066db95a7b6bd1dc",
+  "input_snapshot_hash": "679b3cccb46dd06c70e90e19e3ee9f4d3f2f510057ff80c2e7b25b1530a1d90b",
   "input_commit_sha": "08cd8c4e47e86d7d230ceaa56fdaf8f0fa76bff6",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
@@ -22,7 +22,7 @@
       "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
     "fresh_river_series": 20,
-    "asos_stations": "KBFM/KMOB PARTIAL_FRESH regional airport context; calm speed admitted, direction/gust/rain UNKNOWN"
+    "asos_stations": "KBFM/KMOB partial"
   },
   "missing_inputs": [
     "Direct bottom/contact-strip oxygen, local salinity/temperature profiles and stratification are unavailable.",
@@ -40,7 +40,7 @@
       "cell": "Point Clear/Grand Hotel",
       "forecast_window": {
         "date_ct": "2026-09-28",
-        "scope": "frozen low-confidence dated outlook"
+        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
       },
       "range_percent": "2-5",
       "central_percent": 3,
@@ -50,7 +50,7 @@
       "cell": "Daphne/May Day",
       "forecast_window": {
         "date_ct": "2026-09-28",
-        "scope": "frozen low-confidence dated outlook"
+        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
       },
       "range_percent": "1-4",
       "central_percent": 2,
@@ -60,7 +60,7 @@
       "cell": "Point Clear/Grand Hotel",
       "forecast_window": {
         "date_ct": "2026-09-29",
-        "scope": "frozen low-confidence dated outlook"
+        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
       },
       "range_percent": "2-5",
       "central_percent": 3,
@@ -70,7 +70,7 @@
       "cell": "Daphne/May Day",
       "forecast_window": {
         "date_ct": "2026-09-29",
-        "scope": "frozen low-confidence dated outlook"
+        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
       },
       "range_percent": "1-4",
       "central_percent": 2,
@@ -80,7 +80,7 @@
       "cell": "Point Clear/Grand Hotel",
       "forecast_window": {
         "date_ct": "2026-09-30",
-        "scope": "frozen low-confidence dated outlook"
+        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
       },
       "range_percent": "2-5",
       "central_percent": 3,
@@ -90,7 +90,7 @@
       "cell": "Daphne/May Day",
       "forecast_window": {
         "date_ct": "2026-09-30",
-        "scope": "frozen low-confidence dated outlook"
+        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
       },
       "range_percent": "1-4",
       "central_percent": 2,
@@ -102,8 +102,8 @@
     "daphne_may_day_over_20_percent": false,
     "direct_event_evidence_present": false,
     "material_critical_input_fault": false,
-    "notification_suppressed": false
+    "notification_suppressed": true
   },
-  "notification_condition_met": true,
-  "later_verification": "Material recovery at 00:34 CDT: fresh ASOS and all river series restored regional context; Weeks Bay and direct local bottom oxygen remain unavailable/stale. Low heuristic ranges unchanged; continue scheduled sensing."
+  "notification_condition_met": false,
+  "later_verification": "PENDING; no future outcome or next-dawn acceptance claimed"
 }
