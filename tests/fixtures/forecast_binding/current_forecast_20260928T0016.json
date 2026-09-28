@@ -1,0 +1,109 @@
+{
+  "schema_version": "1.0",
+  "issue_time": "2026-09-28T00:16:01.627-05:00",
+  "model_version": "expert_policy_baseline / model_policy_v2.1",
+  "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
+  "input_snapshot_file": "model_data/current_state_snapshot.json",
+  "input_snapshot_hash": "c9288fb907e45f9a3ceb28504bdd1de059749cff2d5cf68ff079349e55bc335e",
+  "input_commit_sha": "29eb168b10ae4fde1ef41950d5098a3f92a47b6a",
+  "forecast_weights_changed": false,
+  "alert_threshold_percent": 20,
+  "alert_comparator": ">",
+  "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
+  "method": "Preserve existing expert-policy baseline numeric ranges: newly ingested environmental features retain production_weight=0. Recompute transport summaries and admission at issue time; reassess direct-event evidence and unchanged >20% gates. No executable calibrated Jubilee probability model or new coefficient is introduced.",
+  "data_coverage": {
+    "private_camera_metadata_pass": 6,
+    "private_cameras_expected": 6,
+    "ngofs2_products": {
+      "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
+      "ngofs2_point_clear_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
+      "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
+      "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
+      "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
+    },
+    "fresh_river_series": 12,
+    "asos_stations": "KBFM/KMOB UNKNOWN_STALE_AT_ISSUE_TIME"
+  },
+  "missing_inputs": [
+    "Direct bottom/contact-strip oxygen, local salinity/temperature profiles and stratification are unavailable.",
+    "Observed nearshore transport and Point Clear observed water level are unavailable.",
+    "Current shoreline rainfall and direct shoreline wind are UNKNOWN; ASOS and Weeks Bay meteorology are stale and not carried forward.",
+    "River-to-Bay travel time is uncalibrated; only Coffeeville remains within the proxy freshness window, and it does not establish a Bay-arrival pulse.",
+    "Named-station model forecast is unavailable; missing grid lead hours and grid guidance beyond 04:00 CDT are not filled.",
+    "Owner-camera nighttime biological absence is UNKNOWN despite 6/6 healthy metadata groups; low/poor detectability is not a negative.",
+    "Public-camera exact capture times and total delays remain unknown; Grand Hotel biological content remains UNKNOWN in darkness.",
+    "Fairhope sees neither beach nor Fly Creek; priority beach/contact strips remain outside validated coverage.",
+    "No credible same-day human report was recovered; report absence is not a biological negative."
+  ],
+  "outlooks": [
+    {
+      "cell": "Point Clear/Grand Hotel",
+      "forecast_window": {
+        "date_ct": "2026-09-28",
+        "scope": "frozen low-confidence dated outlook"
+      },
+      "range_percent": "2-5",
+      "central_percent": 3,
+      "confidence": "low"
+    },
+    {
+      "cell": "Daphne/May Day",
+      "forecast_window": {
+        "date_ct": "2026-09-28",
+        "scope": "frozen low-confidence dated outlook"
+      },
+      "range_percent": "1-4",
+      "central_percent": 2,
+      "confidence": "low"
+    },
+    {
+      "cell": "Point Clear/Grand Hotel",
+      "forecast_window": {
+        "date_ct": "2026-09-29",
+        "scope": "frozen low-confidence dated outlook"
+      },
+      "range_percent": "2-5",
+      "central_percent": 3,
+      "confidence": "low"
+    },
+    {
+      "cell": "Daphne/May Day",
+      "forecast_window": {
+        "date_ct": "2026-09-29",
+        "scope": "frozen low-confidence dated outlook"
+      },
+      "range_percent": "1-4",
+      "central_percent": 2,
+      "confidence": "low"
+    },
+    {
+      "cell": "Point Clear/Grand Hotel",
+      "forecast_window": {
+        "date_ct": "2026-09-30",
+        "scope": "frozen low-confidence dated outlook"
+      },
+      "range_percent": "2-5",
+      "central_percent": 3,
+      "confidence": "low"
+    },
+    {
+      "cell": "Daphne/May Day",
+      "forecast_window": {
+        "date_ct": "2026-09-30",
+        "scope": "frozen low-confidence dated outlook"
+      },
+      "range_percent": "1-4",
+      "central_percent": 2,
+      "confidence": "low"
+    }
+  ],
+  "alert_gates": {
+    "point_clear_over_20_percent": false,
+    "daphne_may_day_over_20_percent": false,
+    "direct_event_evidence_present": false,
+    "material_critical_input_fault": true,
+    "notification_suppressed": false
+  },
+  "notification_condition_met": true,
+  "later_verification": "PENDING; no future outcome or principal dawn acceptance claimed"
+}
