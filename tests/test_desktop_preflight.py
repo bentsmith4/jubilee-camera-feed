@@ -40,6 +40,9 @@ function Get-ScheduledTaskInfo {
         if task_error:
             code += "function Get-ScheduledTaskInfo { throw 'SENTINEL_TASK_SECRET' }\n"
         code += '& ' + quote(wrapper) + ' -Root ' + quote(root) + ' -Python ' + quote(python or sys.executable) + ' -Offline'
+        # -Command otherwise reduces a called script's nonzero exit to 1.
+        # Preserve the same exact exit code a direct -File invocation returns.
+        code += '; exit $LASTEXITCODE'
         return subprocess.run(['pwsh', '-NoLogo', '-NoProfile', '-NonInteractive', '-Command', code], capture_output=True, text=True, timeout=30)
 
     def test_wrapper_emits_one_sanitized_report_without_file_writes(self):
@@ -50,6 +53,9 @@ function Get-ScheduledTaskInfo {
         self.assertEqual(proc.stderr, '')
         self.assertEqual(report['schema_version'], '3.0')
         self.assertEqual(len(report['cameras']), 6)
+        if sys.platform == 'win32':
+            self.assertNotIn(report['checks']['scheduled_tasks']['code'],
+                             ('coordinator_definition_mismatch', 'task_inventory_unavailable'))
         self.assertNotIn('SENTINEL', proc.stdout)
         self.assertNotIn(str(self.f.root), proc.stdout)
         self.assertEqual(fingerprints(self.f.root), before)
