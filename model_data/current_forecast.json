@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-09-27T21:56:29.128-05:00",
+  "issue_time": "2026-09-27T23:26:06.406-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "603e9dd95ee4fd557898e840db6a90a3658a2529ede1fd9260d69b95edf29253",
-  "input_commit_sha": "da00df9c273f05eb37e8d232e8b49f1828b6c516",
+  "input_snapshot_hash": "72d2592ff484e66a0bc57427b8dd68602b38c752dd8df2c52aa71991e8cbaf90",
+  "input_commit_sha": "44c8d677578e08ada145bc48af5bef495bac4be1",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
   "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
   "method": "Preserve existing expert-policy baseline numeric ranges: newly ingested environmental features retain production_weight=0. Recompute transport summaries and admission at issue time; reassess direct-event evidence and unchanged >20% gates. No executable calibrated Jubilee probability model or new coefficient is introduced.",
   "data_coverage": {
-    "private_camera_metadata_pass": 4,
+    "private_camera_metadata_pass": 6,
     "private_cameras_expected": 6,
     "ngofs2_products": {
       "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
@@ -22,15 +22,15 @@
       "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
     "fresh_river_series": 20,
-    "asos_stations": "KBFM/KMOB partial"
+    "asos_stations": "KBFM/KMOB UNKNOWN_STALE_AT_ISSUE_TIME; selective refresh blocked"
   },
   "missing_inputs": [
     "Direct bottom/contact-strip oxygen, local salinity/temperature profiles and stratification are unavailable.",
     "Observed nearshore transport and Point Clear observed water level are unavailable.",
-    "Current shoreline rainfall is UNKNOWN; blank ASOS precipitation is not zero.",
+    "Current shoreline rainfall and direct shoreline wind are UNKNOWN; stale/blank airport fields are not carried forward.",
     "River-to-Bay travel time is uncalibrated; fresh upstream provisional/estimated flow does not establish a Bay-arrival pulse.",
     "Named-station model forecast is unavailable; missing grid lead hours and grid guidance beyond 04:00 CDT are not filled.",
-    "Owner-camera nighttime biological absence is UNKNOWN, including both failed Point Clear views.",
+    "Owner-camera nighttime biological absence is UNKNOWN despite 6/6 healthy metadata groups; low/poor detectability is not a negative.",
     "Public-camera exact capture times and total delays remain unknown; Grand Hotel biological content remains UNKNOWN in darkness.",
     "Fairhope sees neither beach nor Fly Creek; priority beach/contact strips remain outside validated coverage.",
     "No credible same-day human report was recovered; report absence is not a biological negative."
@@ -102,8 +102,8 @@
     "daphne_may_day_over_20_percent": false,
     "direct_event_evidence_present": false,
     "material_critical_input_fault": false,
-    "notification_suppressed": true
+    "notification_suppressed": false
   },
-  "notification_condition_met": false,
+  "notification_condition_met": true,
   "later_verification": "PENDING; no future outcome or next-dawn acceptance claimed"
 }
