@@ -1,0 +1,101 @@
+name: Jubilee Current State Freshness
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17,47 * * * *'
+  # GITHUB_TOKEN producer pushes do not trigger other push workflows. Observe
+  # completion, including partial-success runs, then inspect latest main.
+  workflow_run:
+    workflows: [Jubilee sensing quality and environmental forcing, Jubilee official ASOS observed weather]
+    types: [completed]
+    branches: [main]
+  push:
+    branches: [main]
+    paths:
+      - 'status.json'
+      - 'burst_status.json'
+      - 'vision.json'
+      - '*.jpg'
+      - 'model_data/*_manifest.json'
+      - 'model_data/*_normalized.*'
+      - 'model_data/public_archive/**'
+      - 'model_data/current_state_snapshot.json'
+      - 'model_data/camera_sources.json'
+      - 'model_data/sensor_contract.json'
+      - 'model_data/check_current_state_freshness.py'
+      - 'model_data/CURRENT_STATE_FRESHNESS.md'
+      - 'tests/test_current_state_freshness.py'
+      - '.github/workflows/current_state_freshness.yml'
+  pull_request:
+    paths:
+      - 'model_data/check_current_state_freshness.py'
+      - 'model_data/ingest_river_forcing.py'
+      - 'model_data/ingest_weeks_bay_realtime.py'
+      - 'model_data/CURRENT_STATE_FRESHNESS.md'
+      - 'tests/test_current_state_freshness.py'
+      - '.github/workflows/current_state_freshness.yml'
+
+permissions:
+  contents: read
+
+# Separate from every sensing/capture publication concurrency group.
+concurrency:
+  group: jubilee-current-state-freshness-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run offline freshness regressions
+        run: python -B -m unittest discover -s tests -p 'test_current_state_freshness.py' -v
+
+  current-state-status:
+    # Live state is an operational status, not an offline regression or a
+    # prerequisite for any producer. Never run PR code with workflow_run trust.
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compare current snapshot to published admissible products
+        run: |
+          set -o pipefail
+          python -B model_data/check_current_state_freshness.py | tee "$RUNNER_TEMP/current-state-freshness.json"
+      - name: Publish visible freshness summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, os, pathlib, subprocess
+          path = pathlib.Path(os.environ['RUNNER_TEMP']) / 'current-state-freshness.json'
+          report = json.loads(path.read_text()) if path.exists() else {'status': 'ERROR', 'reason': 'Guard did not produce a report'}
+          sha = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+              out.write(f"## Current-state freshness: {report['status']}\n\nChecked commit: `{sha}`\n\n")
+              out.write(f"Snapshot: {report.get('snapshot_time_ct', 'UNKNOWN')}\n\n")
+              out.write('Read-only source drift check. No probabilities, UNKNOWN values, weights or alert gates changed.\n\n')
+              out.write('| Source | Status | Reason |\n|---|---|---|\n')
+              for row in report.get('sources', []):
+                  reason = row.get('reason', row.get('detail', '')).replace('|', '/').replace('\n', ' ')
+                  out.write(f"| {row['source']} | {row['status']} | {reason} |\n")
+              if 'reason' in report:
+                  out.write('\n' + report['reason'] + '\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: current-state-freshness-${{ github.run_id }}
+          path: ${{ runner.temp }}/current-state-freshness.json
+          if-no-files-found: error
