@@ -47,30 +47,61 @@ Published NGOFS2 grid slices rely on the existing producer validation contract;
 this guard checks the archive digest, normalized structure and model identity,
 not a second physical model recalculation.
 
-## Execution and scope
+## Post-publication reconciliation and read-only status
 
-The independent `Jubilee Current State Freshness` workflow runs on relevant
-main pushes, producer workflow completion (including mixed-success runs), manual
-dispatch and every 30 minutes. Completion triggers cover GITHUB_TOKEN pushes
-that cannot trigger downstream push workflows. Scheduled checks let a pending
-status expire without another source update. GitHub scheduling can be delayed;
-this is a policy check, not a guaranteed real-time SLA.
+The existing `Jubilee Current State Freshness` workflow now has one dedicated
+writer job followed by the existing independent read-only status job. It runs
+on relevant main pushes, sensing/ASOS/observation workflow completion (including
+partial failures), manual dispatch and the existing half-hour schedule. The
+completion hooks cover producer `GITHUB_TOKEN` pushes, which do not trigger
+other push workflows. No acquisition schedule, camera coordinator, sensing
+publication gate or additional scheduled workflow is introduced.
 
-The live job always checks a pinned checkout of latest main, publishes a job
-summary and JSON artifact, and fails visibly for stale/uncertifiable state. Its
-permissions are read-only and its concurrency group is independent. It is not
-called from, needed by, or used to gate any sensing publication job. PRs run
-deterministic fixture regressions only; source drift must never become a failing
-live assertion inside the producer's offline test suite.
+Only the writer job has `contents: write`. PRs run offline regressions only;
+privileged `workflow_run` execution always checks out main and never downloads
+producer artifacts or executes the triggering run's head. The read-only status
+runs even when reconciliation fails, retaining visible source-drift reporting.
+GitHub queue delays remain possible; this is not a real-time execution SLA.
 
-Coverage: six owner camera metadata/image groups, ASOS, river forcing, Weeks
-Bay and five separate NGOFS2 products. Public-player observations, manually
-entered tide predictions, human reports, desktop burst archives and dawn
-acceptance are outside this guard. Exact snapshot/forecast binding remains the
-separate `Jubilee Forecast Consistency` check. A freshness PASS does not imply
-that check passes, that sensors are fresh now, or that a Jubilee alert is due.
+`publish_current_state.py` fetches main and builds in an isolated detached
+worktree. `reconcile_current_state.py` reads source bytes from that exact Git
+commit, applies existing source validation (plus ASOS raw semantic reparse),
+and reevaluates sensor admission at issue time. Failed/corrupt committed
+products fail closed. Declared unavailable products remain
+SOURCE_UNAVAILABLE/UNKNOWN; retained normalized files are not read. A failed
+producer can still have independently validated committed products; only these
+published products are eligible, never its artifacts or dirty worktree output.
 
-Remediation is explicit review/reconciliation of the differing source products,
-followed by publishing the assessed snapshot and its bound forecast together.
-Do not advance timestamps, rewrite provenance, or promote inputs merely to make
-this check green. This PR intentionally leaves all production state unchanged.
+The publisher commits **only** the snapshot and bound forecast together and
+uses a normal fast-forward push. If camera, sensing, observation, research,
+policy or reviewed state publication advances main, the candidate is discarded
+and both files are rebuilt using the newer commit and its executable rules.
+There is no stale-pair rebase, force push, or overwrite of another publisher.
+Retries are bounded to four; exhaustion fails visibly. Even a deduplicated
+no-op rechecks main before claiming current. The shared workflow concurrency
+group serializes writer invocations, while optimistic retries protect against
+the independent producers. Duplicate triggers do not write again unless
+consumed source/contract bytes or issue-time admission statuses change.
+
+The builder retains the exact existing dated outlooks, probability ranges,
+confidence, zero production weights and four-trigger strict >20% alert contract.
+It does not extend outlook dates or create a calibrated probability model.
+New camera event indications, changed camera failures, simultaneous loss of
+previously available weather and river context, or an active assessed
+physical/event fault require explicit review; automation fails rather than
+inventing an alert decision. Recovery history remains operational context and
+is not added as a forecast alert trigger. This path does not send alerts.
+
+Manual tide/public-camera context remains explicitly historical and not
+reassessed. No new human observations, shoreline measurements, biological
+negatives, training controls or desktop/dawn acceptance are claimed. Camera
+staleness produces UNKNOWN even when published metadata is coherent. Stale
+model forecasts lose current-guidance admission; absent slices are never filled.
+
+Before publication, candidate output must pass exact forecast binding and the
+unchanged source freshness guard. Regression coverage includes both orders of
+back-to-back sensing/camera publication, explicit outages, corrupt archives,
+unpublished files, issue-time expiry, real Git non-fast-forward races,
+concurrent reviewed state, retry exhaustion and the no-op race. Tests use the
+September 28 10:23 CT production snapshot shape with deterministic source
+fixtures; they do not assert that live production is fresh.

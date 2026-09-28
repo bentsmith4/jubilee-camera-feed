@@ -354,7 +354,13 @@ class WorkflowTests(unittest.TestCase):
             self.assertNotIn("check_current_state_freshness", producer)
             self.assertNotIn("current-state-status", producer)
         self.assertNotIn("git push", workflow)
-        self.assertNotIn("contents: write", workflow)
+        # The guard and live status stay read-only; the explicit new writer is
+        # the sole job with write permission and is disabled for pull requests.
+        status_job = workflow.split("  current-state-status:", 1)[1]
+        self.assertNotIn("contents: write", status_job)
+        self.assertNotIn("publish_current_state", status_job)
+        self.assertEqual(workflow.count("contents: write"), 1)
+        self.assertIn("needs: reconcile", status_job)
         self.assertIn("GITHUB_STEP_SUMMARY", workflow)
         self.assertIn("actions/upload-artifact", workflow)
 

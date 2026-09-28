@@ -3,6 +3,9 @@ name: Jubilee Forecast Consistency
 on:
   pull_request:
     paths:
+      - "model_data/reconcile_current_state.py"
+      - "model_data/publish_current_state.py"
+      - "tests/test_current_state_reconciliation.py"
       - "model_data/current_state_snapshot.json"
       - "model_data/current_forecast.json"
       - "model_data/bind_current_forecast.py"
@@ -12,6 +15,9 @@ on:
   push:
     branches: [main]
     paths:
+      - "model_data/reconcile_current_state.py"
+      - "model_data/publish_current_state.py"
+      - "tests/test_current_state_reconciliation.py"
       - "model_data/current_state_snapshot.json"
       - "model_data/current_forecast.json"
       - "model_data/bind_current_forecast.py"
