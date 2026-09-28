@@ -288,6 +288,25 @@ class FreshnessTests(unittest.TestCase):
             self.write("model_data/asos_weather_manifest.json", m)
             self.assertEqual(self.report("asos_weather")["status"], "ERROR")
 
+
+    def test_mixed_weeks_snapshot_provenance_is_rejected(self):
+        baseline = (self.root / "model_data/weeks_bay_realtime_normalized.csv").read_bytes()
+        lines = baseline.splitlines(keepends=True)
+        self.assertGreaterEqual(len(lines), 2)
+        mixed = baseline + lines[-1]
+        self.write("model_data/weeks_bay_realtime_normalized.csv", mixed)
+        self.git("add", "model_data/weeks_bay_realtime_normalized.csv")
+        self.git("commit", "-m", "foreign Weeks CSV generation")
+        foreign_blob = self.git("rev-parse", "HEAD:model_data/weeks_bay_realtime_normalized.csv")
+        self.write("model_data/weeks_bay_realtime_normalized.csv", baseline)
+        s = copy.deepcopy(self.snapshot)
+        s["reconciliation"]["source_provenance"]["model_data/weeks_bay_realtime_normalized.csv"] = {
+            "sha256": guard.digest(mixed), "git_blob": foreign_blob}
+        self.write(guard.SNAPSHOT, s)
+        row = self.report("weeks_bay_realtime")["sources"][0]
+        self.assertEqual(row["status"], "ERROR")
+        self.assertEqual(row["reason"], "Weeks Bay row count mismatch")
+
     def test_cli_is_read_only_and_nonzero_for_stale(self):
         self.asos(T0 + timedelta(minutes=40), T0 + timedelta(minutes=30))
         before = {str(p.relative_to(self.root)): p.read_bytes() for p in self.root.rglob("*") if p.is_file()}
@@ -297,6 +316,36 @@ class FreshnessTests(unittest.TestCase):
         self.assertEqual(json.loads(r.stdout)["status"], "STALE")
         after = {str(p.relative_to(self.root)): p.read_bytes() for p in self.root.rglob("*") if p.is_file()}
         self.assertEqual(before, after)
+
+
+class ProductionWeeksBayArchiveTests(unittest.TestCase):
+    def _station_counts(self, reader, manifest):
+        from ingest_weeks_bay_realtime import parse_met, parse_ocean
+        available = guard.stamp(manifest["retrieved_at"])
+        actual, expected = {}, {}
+        for source in manifest["sources"]:
+            if source["status"] != "complete":
+                continue
+            parser = {"WKXA1": parse_met, "WKQA1": parse_ocean}[source["station_id"]]
+            raw = reader.archive(source["raw_path"], source["raw_sha256"])
+            actual[source["station_id"]] = len(parser(raw.decode("utf-8"), available))
+            expected[source["station_id"]] = source["normalized_rows"]
+        return actual, expected
+
+    def test_current_archives_reparse_to_published_station_counts(self):
+        reader = guard.Reader(ROOT)
+        manifest = reader.json("model_data/weeks_bay_realtime_manifest.json")
+        self.assertEqual(*self._station_counts(reader, manifest))
+
+    def test_current_snapshot_weeks_bundle_replays_with_full_integrity(self):
+        snapshot = json.loads((ROOT / guard.SNAPSHOT).read_text())
+        issue = guard.stamp(snapshot["snapshot_time_ct"])
+        product = guard.environmental_product("weeks_bay_realtime", guard.Reader(ROOT, snapshot), issue)
+        self.assertIn("validated", product["detail"])
+        self.assertTrue(product["admissible"])
+
+    def test_snapshot_hash_trace(self):
+        self.fail("SNAPSHOT_SHA256=" + guard.digest((ROOT / guard.SNAPSHOT).read_bytes()))
 
 
 class WorkflowTests(unittest.TestCase):
