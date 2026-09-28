@@ -1,5 +1,6 @@
 """Accept retrieval outages while rejecting NGOFS2 parser and validation failures."""
 import json
+import re
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -11,10 +12,22 @@ PRODUCTS = {
     "ngofs2_shoreline_grid": ["ngofs2_shoreline_grid_normalized.csv", "ngofs2_shoreline_grid_features.csv"],
 }
 
+# NetCDF NC_EDAPSVC (-70), including netCDF4's OSError form at dataset open.
+# The bare RuntimeError occurs during a lazy remote variable read (run
+# 36374092683). Match the whole message, not arbitrary DAP/NetCDF substrings:
+# generic libcurl/I/O errors and malformed responses can be client/data defects.
+# Reference: https://docs.unidata.ucar.edu/netcdf-c/current/nc-error-codes.html
+NETCDF_DAP_SERVER_ERROR = re.compile(
+    r"(?:\[Errno -70\] )?NetCDF: DAP server error"
+    r"(?:: 'https://opendap\.co-ops\.nos\.noaa\.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/[^\s']+')?"
+)
+
 
 def retrieval_outage(manifest):
     error = str(manifest.get("error", ""))
     return (manifest.get("error_type") == "RetrievalTimeout"
+            or (manifest.get("error_type") in {"RuntimeError", "OSError"}
+                and NETCDF_DAP_SERVER_ERROR.fullmatch(error) is not None)
             or "HTTP 503" in error or "503 Service Unavailable" in error
             or error.startswith(("Unable to open any recent NGOFS2 station dataset:",
                                  "No recent NGOFS2 ")) and "file opened:" in error
