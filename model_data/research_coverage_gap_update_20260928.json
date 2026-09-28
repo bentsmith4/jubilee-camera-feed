@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "update_id": "research-coverage-gap-2026-09-28",
+  "generated_at_utc": "2026-09-28T15:07:00Z",
+  "scope": "MODEL_LEARNING_RESEARCH_ONLY",
+  "production_action": "NO_CHANGE",
+  "progress_since_2026_09_26": [
+    {
+      "gap": "Historical in-bay current-source provenance and decode",
+      "prior_state": "GRIIDC source registered only; presumed Nortek AWAC; 0 rows decoded",
+      "current_state": "Offline package independently decoded/replayed as RDI PD0/WinRiver: 11 days, 6,210 SHIP-frame ensembles, 248,400 bins and 107,996 RMC records. Provider/native-format conflict is now explicit.",
+      "evidence": "model_data/j09_adcp_offline_decode_validation_20260928.json",
+      "value": "Prevents an incorrect decoder/geometry assumption and supplies a reproducible vendor-comparison packet.",
+      "limitation": "Not a canonical ingest or accepted Earth-frame current; nearest track ~7.94 km from Point Clear."
+    },
+    {
+      "gap": "Defensible negative/control mornings",
+      "prior_state": "0 clean controls; 2 independent Tier-B Montrose scoped candidate mornings",
+      "current_state": "0 clean controls; 3 independent Tier-B Montrose scoped candidate mornings (September 24, 26, 28)",
+      "evidence": "model_data/j10_matched_control_sensitivity_20260928.json",
+      "value": "Adds one independent morning while collapsing repeated 20-minute captures and preserving dark views as UNKNOWN."
+    },
+    {
+      "gap": "Operating-season API efficiency",
+      "prior_state": "7-day request-normalized token proxy 7.9036% below baseline",
+      "current_state": "9-day proxy 7.8827% below baseline",
+      "evidence": "model_data/j18_efficiency_postdeployment_20260928.json",
+      "value": "Shows the modest saving is stable.",
+      "limitation": "No additional gain, no dollar pricing, and no held-out event-effectiveness proof."
+    }
+  ],
+  "ranked_gaps": [
+    {
+      "rank": 1,
+      "gap": "Fully verified matched non-event mornings with independent observation effort and environmental matching",
+      "status": "MISSING",
+      "expected_value_of_information": "Very high; blocks Jubilee-event calibration, false-alert/miss estimates and combined-model promotion",
+      "next_action": "Continue prospective scoped labeling and seek naturally occurring independent shoreline/human confirmation; never convert no-report or darkness to negative."
+    },
+    {
+      "rank": 2,
+      "gap": "Observed current validation near Point Clear/Eastern Shore with accepted Earth-frame depth, geometry, units and timing",
+      "status": "MISSING_NEARSHORE; SHIP_CHANNEL_ARCHIVE_DECODED_OFFLINE_NOT_ACCEPTED",
+      "expected_value_of_information": "Very high",
+      "next_action": "Run seven selected PD0 segments through compatible vendor playback and retrieve deployment/compass/draft/clock metadata before accepting transformations."
+    },
+    {
+      "rank": 3,
+      "gap": "Canonical reproducible integration of the reviewed ADCP package",
+      "status": "BLOCKED_BY_ARTIFACT_HANDOFF_AND_SCIENTIFIC_GATES",
+      "expected_value_of_information": "High for research reproducibility, low for immediate production",
+      "next_action": "Integrate only reviewed code/tests/manifests on a focused research branch after current runtime fixes settle; keep raw data immutable and production weight zero."
+    },
+    {
+      "rank": 4,
+      "gap": "Held-out loading-only versus transport-only versus combined Jubilee-event comparison",
+      "status": "BLOCKED_BY_LABELS",
+      "expected_value_of_information": "High",
+      "next_action": "Run only after independent event/control sample and feature overlap are sufficient; three same-cell Tier-B mornings remain inadequate."
+    },
+    {
+      "rank": 5,
+      "gap": "Coverage-normalized efficiency after September 28 cadence changes",
+      "status": "FUTURE_MEASUREMENT_REQUIRED",
+      "expected_value_of_information": "Moderate",
+      "next_action": "Do not count lower request volume from the overnight cadence change as model-call efficiency; normalize for intended six-camera schedule and valid cycles."
+    }
+  ],
+  "unchanged_guardrails": [
+    "Accepted ADCP Earth-frame currents, event labels and production weights remain zero.",
+    "Point Clear NOAA 8733821 remains astronomical prediction, not live water level.",
+    "GCOOS Battleship/Meaher oxygen remains depth-unknown and zero-weight for bottom-DO/gradient features.",
+    "September 9 marina outcome remains UNKNOWN.",
+    "Moon phase remains zero-weight and blocked by data.",
+    "Production model weights, probability thresholds and alert gates are unchanged."
+  ]
+}
