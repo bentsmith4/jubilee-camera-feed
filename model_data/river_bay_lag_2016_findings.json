@@ -1,0 +1,399 @@
+{
+  "scope": "RESEARCH_ONLY_RIVER_BAY_LAG_2016",
+  "production_action": "NO_CHANGE",
+  "target": "NCEI 0188979 daily median DO percent saturation; not mg/L or Jubilee labels",
+  "comparison": "Same-day discharge baseline versus same-day plus strictly antecedent discharge, on identical rows; parallel linear calendar-trend sensitivity; blocked four-fold date holdout, one-day embargo.",
+  "candidate_windows_days_before_target": [
+    [
+      1,
+      3
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      7,
+      14
+    ]
+  ],
+  "findings": {
+    "02428400": [
+      {
+        "status": "EXPLORATORY",
+        "upstream_station": "02428400",
+        "lag_days": [
+          1,
+          3
+        ],
+        "held_out_days": 20,
+        "held_out_rows": 60,
+        "embargo_days": 1,
+        "metrics": {
+          "01": {
+            "rows": 20,
+            "baseline_rmse": 42.2882,
+            "lagged_rmse": 43.6435,
+            "delta_mse_lag_minus_baseline": 116.4634,
+            "trend_baseline_rmse": 49.1586,
+            "trend_lagged_rmse": 35.3866,
+            "delta_mse_lag_minus_trend_baseline": -1164.3607
+          },
+          "02": {
+            "rows": 20,
+            "baseline_rmse": 23.7719,
+            "lagged_rmse": 26.575,
+            "delta_mse_lag_minus_baseline": 141.1233,
+            "trend_baseline_rmse": 32.5782,
+            "trend_lagged_rmse": 20.7508,
+            "delta_mse_lag_minus_trend_baseline": -630.7459
+          },
+          "03": {
+            "rows": 20,
+            "baseline_rmse": 37.8014,
+            "lagged_rmse": 37.1055,
+            "delta_mse_lag_minus_baseline": -52.1319,
+            "trend_baseline_rmse": 50.0015,
+            "trend_lagged_rmse": 36.2273,
+            "delta_mse_lag_minus_trend_baseline": -1187.7297
+          },
+          "all": {
+            "rows": 60,
+            "baseline_rmse": 35.5075,
+            "lagged_rmse": 36.4591,
+            "delta_mse_lag_minus_baseline": 68.4849,
+            "trend_baseline_rmse": 44.6395,
+            "trend_lagged_rmse": 31.5976,
+            "delta_mse_lag_minus_trend_baseline": -994.2788
+          }
+        },
+        "leave_one_day_out_delta_mse_range": [
+          1.6997,
+          127.8377
+        ],
+        "held_out_fold_delta_mse": [
+          638.1197,
+          -271.0174,
+          -16.1442,
+          -77.0185
+        ]
+      },
+      {
+        "status": "EXPLORATORY",
+        "upstream_station": "02428400",
+        "lag_days": [
+          3,
+          7
+        ],
+        "held_out_days": 20,
+        "held_out_rows": 60,
+        "embargo_days": 1,
+        "metrics": {
+          "01": {
+            "rows": 20,
+            "baseline_rmse": 42.2882,
+            "lagged_rmse": 43.8122,
+            "delta_mse_lag_minus_baseline": 131.2175,
+            "trend_baseline_rmse": 49.1586,
+            "trend_lagged_rmse": 62.8962,
+            "delta_mse_lag_minus_trend_baseline": 1539.3634
+          },
+          "02": {
+            "rows": 20,
+            "baseline_rmse": 23.7719,
+            "lagged_rmse": 22.9924,
+            "delta_mse_lag_minus_baseline": -36.4535,
+            "trend_baseline_rmse": 32.5782,
+            "trend_lagged_rmse": 45.2416,
+            "delta_mse_lag_minus_trend_baseline": 985.4595
+          },
+          "03": {
+            "rows": 20,
+            "baseline_rmse": 37.8014,
+            "lagged_rmse": 39.7146,
+            "delta_mse_lag_minus_baseline": 148.3055,
+            "trend_baseline_rmse": 50.0015,
+            "trend_lagged_rmse": 61.3637,
+            "delta_mse_lag_minus_trend_baseline": 1265.3578
+          },
+          "all": {
+            "rows": 60,
+            "baseline_rmse": 35.5075,
+            "lagged_rmse": 36.6306,
+            "delta_mse_lag_minus_baseline": 81.0232,
+            "trend_baseline_rmse": 44.6395,
+            "trend_lagged_rmse": 57.0621,
+            "delta_mse_lag_minus_trend_baseline": 1263.3936
+          }
+        },
+        "leave_one_day_out_delta_mse_range": [
+          4.5078,
+          133.1713
+        ],
+        "held_out_fold_delta_mse": [
+          -31.481,
+          -34.6647,
+          280.2176,
+          110.0206
+        ]
+      },
+      {
+        "status": "EXPLORATORY",
+        "upstream_station": "02428400",
+        "lag_days": [
+          7,
+          14
+        ],
+        "held_out_days": 20,
+        "held_out_rows": 60,
+        "embargo_days": 1,
+        "metrics": {
+          "01": {
+            "rows": 20,
+            "baseline_rmse": 42.2882,
+            "lagged_rmse": 36.2751,
+            "delta_mse_lag_minus_baseline": -472.4047,
+            "trend_baseline_rmse": 49.1586,
+            "trend_lagged_rmse": 38.6302,
+            "delta_mse_lag_minus_trend_baseline": -924.2803
+          },
+          "02": {
+            "rows": 20,
+            "baseline_rmse": 23.7719,
+            "lagged_rmse": 20.6519,
+            "delta_mse_lag_minus_baseline": -138.6047,
+            "trend_baseline_rmse": 32.5782,
+            "trend_lagged_rmse": 22.941,
+            "delta_mse_lag_minus_trend_baseline": -535.0517
+          },
+          "03": {
+            "rows": 20,
+            "baseline_rmse": 37.8014,
+            "lagged_rmse": 35.4377,
+            "delta_mse_lag_minus_baseline": -173.1179,
+            "trend_baseline_rmse": 50.0015,
+            "trend_lagged_rmse": 33.7258,
+            "delta_mse_lag_minus_trend_baseline": -1362.7165
+          },
+          "all": {
+            "rows": 60,
+            "baseline_rmse": 35.5075,
+            "lagged_rmse": 31.6134,
+            "delta_mse_lag_minus_baseline": -261.3758,
+            "trend_baseline_rmse": 44.6395,
+            "trend_lagged_rmse": 32.4346,
+            "delta_mse_lag_minus_trend_baseline": -940.6828
+          }
+        },
+        "leave_one_day_out_delta_mse_range": [
+          -317.2616,
+          -151.7414
+        ],
+        "held_out_fold_delta_mse": [
+          329.6066,
+          -1183.8183,
+          -143.3851,
+          -47.9063
+        ]
+      }
+    ],
+    "02469761": [
+      {
+        "status": "EXPLORATORY",
+        "upstream_station": "02469761",
+        "lag_days": [
+          1,
+          3
+        ],
+        "held_out_days": 20,
+        "held_out_rows": 60,
+        "embargo_days": 1,
+        "metrics": {
+          "01": {
+            "rows": 20,
+            "baseline_rmse": 39.9532,
+            "lagged_rmse": 38.4425,
+            "delta_mse_lag_minus_baseline": -118.4287,
+            "trend_baseline_rmse": 48.1896,
+            "trend_lagged_rmse": 52.1824,
+            "delta_mse_lag_minus_trend_baseline": 400.7658
+          },
+          "02": {
+            "rows": 20,
+            "baseline_rmse": 20.2452,
+            "lagged_rmse": 19.7275,
+            "delta_mse_lag_minus_baseline": -20.6928,
+            "trend_baseline_rmse": 34.5751,
+            "trend_lagged_rmse": 40.6926,
+            "delta_mse_lag_minus_trend_baseline": 460.4454
+          },
+          "03": {
+            "rows": 20,
+            "baseline_rmse": 35.563,
+            "lagged_rmse": 35.667,
+            "delta_mse_lag_minus_baseline": 7.4087,
+            "trend_baseline_rmse": 51.1718,
+            "trend_lagged_rmse": 56.1113,
+            "delta_mse_lag_minus_trend_baseline": 529.9246
+          },
+          "all": {
+            "rows": 60,
+            "baseline_rmse": 33.0194,
+            "lagged_rmse": 32.3478,
+            "delta_mse_lag_minus_baseline": -43.9043,
+            "trend_baseline_rmse": 45.2262,
+            "trend_lagged_rmse": 50.0912,
+            "delta_mse_lag_minus_trend_baseline": 463.712
+          }
+        },
+        "leave_one_day_out_delta_mse_range": [
+          -99.1352,
+          5.1573
+        ],
+        "held_out_fold_delta_mse": [
+          -25.5875,
+          -288.6568,
+          252.8129,
+          -114.1856
+        ]
+      },
+      {
+        "status": "EXPLORATORY",
+        "upstream_station": "02469761",
+        "lag_days": [
+          3,
+          7
+        ],
+        "held_out_days": 20,
+        "held_out_rows": 60,
+        "embargo_days": 1,
+        "metrics": {
+          "01": {
+            "rows": 20,
+            "baseline_rmse": 39.9532,
+            "lagged_rmse": 35.955,
+            "delta_mse_lag_minus_baseline": -303.4928,
+            "trend_baseline_rmse": 48.1896,
+            "trend_lagged_rmse": 43.8097,
+            "delta_mse_lag_minus_trend_baseline": -402.9509
+          },
+          "02": {
+            "rows": 20,
+            "baseline_rmse": 20.2452,
+            "lagged_rmse": 20.6818,
+            "delta_mse_lag_minus_baseline": 17.8695,
+            "trend_baseline_rmse": 34.5751,
+            "trend_lagged_rmse": 29.3461,
+            "delta_mse_lag_minus_trend_baseline": -334.248
+          },
+          "03": {
+            "rows": 20,
+            "baseline_rmse": 35.563,
+            "lagged_rmse": 33.8758,
+            "delta_mse_lag_minus_baseline": -117.1535,
+            "trend_baseline_rmse": 51.1718,
+            "trend_lagged_rmse": 46.716,
+            "delta_mse_lag_minus_trend_baseline": -436.1756
+          },
+          "all": {
+            "rows": 60,
+            "baseline_rmse": 33.0194,
+            "lagged_rmse": 30.9196,
+            "delta_mse_lag_minus_baseline": -134.2589,
+            "trend_baseline_rmse": 45.2262,
+            "trend_lagged_rmse": 40.6729,
+            "delta_mse_lag_minus_trend_baseline": -391.1248
+          }
+        },
+        "leave_one_day_out_delta_mse_range": [
+          -189.42,
+          -92.672
+        ],
+        "held_out_fold_delta_mse": [
+          484.5417,
+          -556.399,
+          -112.0397,
+          -353.1387
+        ]
+      },
+      {
+        "status": "EXPLORATORY",
+        "upstream_station": "02469761",
+        "lag_days": [
+          7,
+          14
+        ],
+        "held_out_days": 20,
+        "held_out_rows": 60,
+        "embargo_days": 1,
+        "metrics": {
+          "01": {
+            "rows": 20,
+            "baseline_rmse": 39.9532,
+            "lagged_rmse": 41.5912,
+            "delta_mse_lag_minus_baseline": 133.5714,
+            "trend_baseline_rmse": 48.1896,
+            "trend_lagged_rmse": 41.0391,
+            "delta_mse_lag_minus_trend_baseline": -638.0335
+          },
+          "02": {
+            "rows": 20,
+            "baseline_rmse": 20.2452,
+            "lagged_rmse": 20.6717,
+            "delta_mse_lag_minus_baseline": 17.4505,
+            "trend_baseline_rmse": 34.5751,
+            "trend_lagged_rmse": 33.284,
+            "delta_mse_lag_minus_trend_baseline": -87.6117
+          },
+          "03": {
+            "rows": 20,
+            "baseline_rmse": 35.563,
+            "lagged_rmse": 37.5368,
+            "delta_mse_lag_minus_baseline": 144.2898,
+            "trend_baseline_rmse": 51.1718,
+            "trend_lagged_rmse": 47.2967,
+            "delta_mse_lag_minus_trend_baseline": -381.5813
+          },
+          "all": {
+            "rows": 60,
+            "baseline_rmse": 33.0194,
+            "lagged_rmse": 34.4778,
+            "delta_mse_lag_minus_baseline": 98.4372,
+            "trend_baseline_rmse": 45.2262,
+            "trend_lagged_rmse": 40.9431,
+            "delta_mse_lag_minus_trend_baseline": -369.0755
+          }
+        },
+        "leave_one_day_out_delta_mse_range": [
+          41.345,
+          138.7439
+        ],
+        "held_out_fold_delta_mse": [
+          -10.379,
+          -26.2242,
+          311.2746,
+          119.0776
+        ]
+      }
+    ],
+    "02469762": [
+      {
+        "status": "INSUFFICIENT_OVERLAP",
+        "days": 0,
+        "rows": 0
+      },
+      {
+        "status": "INSUFFICIENT_OVERLAP",
+        "days": 0,
+        "rows": 0
+      },
+      {
+        "status": "INSUFFICIENT_OVERLAP",
+        "days": 0,
+        "rows": 0
+      }
+    ]
+  },
+  "interpretation_limit": "One short deployment and serially dependent stations/days cannot identify physical travel time. Windows are association tests, not arrival-time estimates; survey profiles are too sparse for independent fitting.",
+  "promotion_eligible": false
+}
