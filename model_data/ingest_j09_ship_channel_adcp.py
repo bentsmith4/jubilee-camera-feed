@@ -16,7 +16,7 @@ from pathlib import Path
 
 SOURCE_ID = "griidc_y1_x122_038_0002_mobile_bay_ship_channel_adcp_2010"
 FIELDS = ("observation_id", "source_id", "raw_sha256", "raw_path", "byte_offset",
-          "ensemble_number", "bin_index", "beam_index", "velocity_mm_s",
+          "ensemble_number", "bin_index", "component_index", "ship_component", "velocity_mm_s",
           "source_clock", "source_clock_timezone", "navigation_association",
           "latitude", "longitude", "coordinate_frame", "velocity_units",
           "bin_size_cm", "blanking_cm", "transducer_draft_m", "vertical_reference",
@@ -94,13 +94,14 @@ def decode(data: bytes, raw_path: str, ingested_at: str):
         blanking = int.from_bytes(fixed[14:16], "little")
         ensembles += 1
         for cell in range(cells):
-            for beam in range(4):
-                value = struct.unpack_from("<h", velocity, 2 + cell*8 + beam*2)[0]
+            for component in range(4):
+                value = struct.unpack_from("<h", velocity, 2 + cell*8 + component*2)[0]
                 rows.append({
-                    "observation_id": sha256(f"{digest}:{offset}:{cell}:{beam}".encode()),
+                    "observation_id": sha256(f"{digest}:{offset}:{cell}:{component}".encode()),
                     "source_id": SOURCE_ID, "raw_sha256": digest, "raw_path": raw_path,
                     "byte_offset": offset, "ensemble_number": ensemble,
-                    "bin_index": cell + 1, "beam_index": beam + 1,
+                    "bin_index": cell + 1, "component_index": component + 1,
+                    "ship_component": ("port_starboard", "aft_forward", "to_surface", "error_velocity")[component],
                     "velocity_mm_s": "" if value == -32768 else value,
                     "source_clock": clock, "source_clock_timezone": "UNKNOWN",
                     "navigation_association": "UNRESOLVED", "latitude": "", "longitude": "",
