@@ -6,16 +6,29 @@ Nortek AWAC, but the independently reviewed native data were RDI PD0/WinRiver.
 The reviewed offline package reported 6,210 ensembles, 248,400 bins and
 107,996 RMC records; those counts have **not** been reproduced by this repository.
 
-## Current blocker
+## PointClearPC handoff reported 2026-09-29
 
-The reviewed source package and portable proposal were on PointClearPC, outside
-the accessible repository history. Neither raw bytes nor normalized rows, the
-27 individual reviewed hashes, the seven-segment packet or its executable
-decoder are on main or the listed remote branches. The provider GET was reported
-HTTP 500 during the original acquisition; this environment returns HTTP 403.
-The provider ZIP SHA-256 is unknown. Matching reconstructed member names, sizes
-and CRCs does not establish the provider ZIP identity. No raw hash, native row
-count, navigation pairing or canonical ingest completion is asserted here.
+The owner reports an acquired/generated archive copy named
+`Y1.x122.038.0002_ACQUIRED_COPY.zip`, 94,580,522 bytes, SHA-256
+`f0552c3aa68267dd7443f8f7ed672f32c938ed91744cee8cb967c3e5b50f18d9`.
+The original retained local copy `Y1.x122.038.0002.zip` reportedly has
+the same hash. A separate
+`REVIEWED_INDIVIDUAL_SHA256_AND_PROVENANCE.json` reportedly contains
+68 `raw_members` entries, SHA-256
+`c52f0aa91b8f1592db6891cf313ba2c4eff7ec76782d2b3a749d0b7257fd1fe6`;
+all 68 expanded members were reported independently rehashed with zero
+mismatches. The portable proposal directory reportedly includes
+`validate_replay.py`, README and `provenance.json`.
+
+These are owner-supplied handoff receipts, **not independently byte-verified
+in this repository**. The package is on PointClearPC and is not mounted in the
+cloud workspace or committed to GitHub. Neither native bytes nor normalized
+rows are on this PR. The original provider GET returned HTTP 500, and this
+acquired/generated ZIP is **not** a provider-original ZIP; the provider ZIP
+checksum remains unverified. Member name/size/CRC agreement and acquired-copy
+hash do not change that status. Preserve the source as
+`registered-not-ingested` until the native bytes and 68 member hashes are
+transferred, independently checked and replayed.
 
 ## Reproducible handoff
 
