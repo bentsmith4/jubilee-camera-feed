@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-09-29T05:21:00.981243-05:00",
+  "issue_time": "2026-09-29T12:11:47.517172-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "30b2bbb20b75ccf79ca8b7db83f77ea34f27325bac1f5ff751749c823b5dd8a2",
-  "input_commit_sha": "2d5a2e6ec9a954a25ef42e4d4b943df2dd92a4e9",
+  "input_snapshot_hash": "5273ccdd415fbb60586e2ce3bf30af341dbda53017128b62bc5cb320183eb0d5",
+  "input_commit_sha": "3cda7f47ada0ed6853fd652c6cecdbe2af44db87",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
@@ -21,7 +21,7 @@
       "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
       "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
-    "fresh_river_series": 12,
+    "fresh_river_series": 0,
     "asos_stations": "KBFM/KMOB partial"
   },
   "missing_inputs": [
@@ -30,6 +30,7 @@
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
     "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
+    "river_forcing: SOURCE_UNAVAILABLE/UNKNOWN",
     "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
   "outlooks": [
