@@ -77,6 +77,8 @@ native SHIP transform, RTC fields and missing velocity sentinel. It emits four
 native SHIP components per bin (port/starboard, aft/forward, toward surface and
 error velocity), not four beams; `velocity_mm_s` is not an Earth vector. Rejected
 records are counted, never interpolated.
+For byte-identical CSV replay, pass the original manifest's `generated_at`
+value as `--ingested-at`; a fresh ingest defaults to the current UTC time.
 
 The parser deliberately leaves RMC navigation association, latitude/longitude,
 timezone, availability, draft and vertical reference unresolved. Four suspect
