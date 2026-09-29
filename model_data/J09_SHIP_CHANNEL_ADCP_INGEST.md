@@ -30,6 +30,33 @@ hash do not change that status. Preserve the source as
 `registered-not-ingested` until the native bytes and 68 member hashes are
 transferred, independently checked and replayed.
 
+## Independent GRIIDC download and replay — 2026-09-29
+
+A direct GRIIDC page download yielded `Y1.x122.038.0002.zip`, 94,580,522
+bytes, SHA-256
+`28f00ff17d5da03b89ae5798adfbf4c4b1882d55b6c9617567a1bcab64718dd5`.
+It has 68 ZIP members and passes all ZIP CRC checks. It is **not byte-identical**
+to the owner-reported acquired/generated ZIP (`f0552c3a…50f18d9`), despite
+equal byte count. The provider download and all 68 member SHA-256 values are
+recorded in `j09_ship_channel_adcp_provider_replay_20260929.json`. The provider
+ZIP and a replay bundle containing source hashes, normalized SHIP rows,
+executable parser and tests were saved to persistent ChatGPT Library and
+byte-for-byte read back; this is a reproducible provider-source route without
+the PointClearPC path. The acquired/generated ZIP, reviewed 68-hash JSON and
+portable proposal were **not** independently transferred or compared here.
+
+On the eleven native `*_000r.000` members, the PR parser independently
+produced 6,210 checksum-valid SHIP-frame ensembles, 248,400 bins and 993,600
+component rows with zero rejected decoded PD0 records. The eleven TXT files
+contain 109,903 RMC sentences; 108,000 are status-A and checksum-valid under
+a simple NMEA screen. The offline review accepted 107,996 RMC records. That
+four-record difference cannot be explained from this screen alone and must
+not be silently equated with the four suspect ensemble/navigation associations.
+The exact proposal filter and anomaly identifiers remain unavailable. No RMC
+position was joined to any ensemble, no UTC conversion or Earth-frame velocity
+was accepted, and all current rows remain zero-weight research observations.
+The registry should not be promoted merely from matching these counts.
+
 ## Reproducible handoff
 
 Preserve the exact native files immutably, including their directory names and
