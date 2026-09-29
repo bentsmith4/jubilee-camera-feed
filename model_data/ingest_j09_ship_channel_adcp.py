@@ -120,12 +120,22 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("inputs", nargs="+", type=Path, help="Preserved native PD0/WinRiver files")
     ap.add_argument("--output-dir", required=True, type=Path)
+    ap.add_argument("--ingested-at", help="Recorded ISO-8601 ingest time for byte-identical replay")
     args = ap.parse_args()
     inputs = sorted(args.inputs)
     if (len(set(inputs)) != len(inputs) or len({p.name for p in inputs}) != len(inputs)
             or any(not p.is_file() for p in inputs)):
         ap.error("each input must be an existing file with a distinct basename")
-    now = datetime.now(timezone.utc).isoformat()
+    if args.ingested_at:
+        try:
+            parsed = datetime.fromisoformat(args.ingested_at)
+            if parsed.tzinfo is None:
+                raise ValueError("timezone required")
+        except ValueError:
+            ap.error("--ingested-at must be a timezone-aware ISO-8601 datetime")
+        now = args.ingested_at
+    else:
+        now = datetime.now(timezone.utc).isoformat()
     all_rows, objects, raw_data = [], [], {}
     for path in inputs:
         data = path.read_bytes()
