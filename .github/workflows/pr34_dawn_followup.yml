@@ -1,0 +1,45 @@
+name: Jubilee PR34 post-dawn handoff
+
+on:
+  issue_comment:
+    types: [created]
+  # The acceptance uses GITHUB_TOKEN, whose comment cannot start another run.
+  # Its completion wakes this reader; the durable terminal comment is the gate.
+  workflow_run:
+    workflows: [Jubilee one-time first dawn acceptance]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+  actions: read
+  issues: write
+
+concurrency:
+  group: jubilee-pr34-after-dawn-20260929
+  cancel-in-progress: false
+
+jobs:
+  handoff:
+    if: >-
+      (github.event_name == 'workflow_run' &&
+       github.event.workflow_run.head_repository.full_name == github.repository &&
+       github.event.workflow_run.event == 'push' &&
+       startsWith(github.event.workflow_run.head_commit.message, 'Latest Jubilee camera burst - 2026-09-29T')) ||
+      (github.event_name == 'issue_comment' && github.event.issue.number == 26 &&
+       !github.event.issue.pull_request && github.event.comment.user.login == 'github-actions[bot]' &&
+       startsWith(github.event.comment.body, '<!-- jubilee-first-full-dawn-20260929-v1 -->'))
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Read terminal receipt and prepare handoff only after PASS
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -B tools/pr34_dawn_followup.py
