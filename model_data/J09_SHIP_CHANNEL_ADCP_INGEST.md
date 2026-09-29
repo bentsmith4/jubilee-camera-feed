@@ -34,7 +34,8 @@ canonical. The raw bytes are copied to immutable content-addressed `raw/` paths;
 existing mismatched files fail closed. The output manifest binds each CSV row to raw SHA-256 and byte offset,
 and binds the CSV by SHA-256. The parser checks PD0 checksum, section bounds,
 native SHIP transform, RTC fields and missing velocity sentinel. It emits four
-native SHIP components per bin; `velocity_mm_s` is not an Earth vector. Rejected
+native SHIP components per bin (port/starboard, aft/forward, toward surface and
+error velocity), not four beams; `velocity_mm_s` is not an Earth vector. Rejected
 records are counted, never interpolated.
 
 The parser deliberately leaves RMC navigation association, latitude/longitude,
