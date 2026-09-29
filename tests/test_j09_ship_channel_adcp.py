@@ -77,6 +77,21 @@ class PD0Tests(unittest.TestCase):
                 (output / manifest["normalized_csv"]).read_bytes()))
             self.assertEqual(manifest["production_weight"], 0)
 
+    def test_recorded_ingest_time_replays_identical_csv(self):
+        with tempfile.TemporaryDirectory() as root:
+            root = Path(root)
+            source = root / "20100818.DAT"
+            source.write_bytes(packet())
+            hashes = []
+            for name in ("one", "two"):
+                output = root / name
+                subprocess.run([sys.executable, str(Path(ingest.__file__)),
+                                "--ingested-at", "2026-09-29T16:00:00+00:00",
+                                "--output-dir", str(output), str(source)], check=True,
+                               capture_output=True)
+                hashes.append(ingest.sha256((output / "j09_ship_channel_adcp_ship_frame.csv").read_bytes()))
+            self.assertEqual(hashes[0], hashes[1])
+
 
 if __name__ == "__main__":
     unittest.main()
