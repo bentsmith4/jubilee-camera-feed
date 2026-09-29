@@ -1,0 +1,151 @@
+{
+  "schema_version": "1.0",
+  "scope": "RESEARCH_ONLY_RIVER_BAY_LAG_2016",
+  "generated_at_utc": "2026-09-29T12:51:54.940799+00:00",
+  "production_action": "NO_CHANGE",
+  "usgs_batches": [
+    {
+      "url": "https://waterservices.usgs.gov/nwis/iv/?format=json&sites=02428400%2C02469761%2C02469762&startDT=2016-06-01&endDT=2016-06-30&parameterCd=00060%2C00065%2C45592&siteStatus=all",
+      "sha256": "f60e8d03bca6a48945dc59a13820c4e77a1c78925d7464544153e377e235c818",
+      "bytes": 299851,
+      "normalized_rows": 3593,
+      "series_counts": {
+        "02428400:00060": 720,
+        "02428400:00065": 720,
+        "02469761:00060": 719,
+        "02469761:00065": 719,
+        "02469762:00065": 715
+      }
+    },
+    {
+      "url": "https://waterservices.usgs.gov/nwis/iv/?format=json&sites=02428400%2C02469761%2C02469762&startDT=2016-07-01&endDT=2016-07-31&parameterCd=00060%2C00065%2C45592&siteStatus=all",
+      "sha256": "205c81567285858eb320c4c59ba5f7ac31530c7c63f4faba260f42f9c3fd7811",
+      "bytes": 309131,
+      "normalized_rows": 3714,
+      "series_counts": {
+        "02428400:00060": 744,
+        "02428400:00065": 744,
+        "02469761:00060": 744,
+        "02469761:00065": 743,
+        "02469762:00065": 739
+      }
+    },
+    {
+      "url": "https://waterservices.usgs.gov/nwis/iv/?format=json&sites=02428400%2C02469761%2C02469762&startDT=2016-08-01&endDT=2016-08-31&parameterCd=00060%2C00065%2C45592&siteStatus=all",
+      "sha256": "8f949d85a5927da491f34969e123128cb4681f5c1d31ecc94a9e02d6d9e00f5e",
+      "bytes": 309520,
+      "normalized_rows": 3714,
+      "series_counts": {
+        "02428400:00060": 741,
+        "02428400:00065": 744,
+        "02469761:00060": 744,
+        "02469761:00065": 744,
+        "02469762:00065": 741
+      }
+    }
+  ],
+  "ncei_sources": [
+    {
+      "accession": "0188979",
+      "station": "01",
+      "url": "https://www.ncei.noaa.gov/data/oceans/archive/arc0138/0188979/1.1/data/0-data/Mobile_Bay_Station01_July2016.nc",
+      "sha256": "10256bc936c78171bd962b3708798353c11b784a6c6b1992627a26394837bd93"
+    },
+    {
+      "accession": "0188979",
+      "station": "02",
+      "url": "https://www.ncei.noaa.gov/data/oceans/archive/arc0138/0188979/1.1/data/0-data/Mobile_Bay_Station02_July2016.nc",
+      "sha256": "39bc4253393f7d41ee3129531fbbac0e8b28d0fae7bc41dccc1230f0bff25702"
+    },
+    {
+      "accession": "0188979",
+      "station": "03",
+      "url": "https://www.ncei.noaa.gov/data/oceans/archive/arc0138/0188979/1.1/data/0-data/Mobile_Bay_Station03_July2016.nc",
+      "sha256": "e5ad513ba8962bca3525555bf276caeacc4e99b2456cee89e3abbd9fd991deb1"
+    },
+    {
+      "accession": "0176497",
+      "url": "https://www.ncei.noaa.gov/data/oceans/archive/arc0125/0176497/1.1/data/0-data/Mobile_Bay_CTD_July2016.nc",
+      "sha256": "085c624ed636a8d260b76c4d27bc3c41cc82c885895f55c230c61927d05956a7",
+      "survey_dates": [
+        "2016-07-14",
+        "2016-07-19",
+        "2016-07-21",
+        "2016-07-28",
+        "2016-07-30"
+      ],
+      "role": "Sparse profile dates overlap archival river history but cannot independently identify a lag; excluded from fitted lag. 0176497 oxygen is mg/L and source clock CST; 0190491 oxygen is percent saturation and clock CDT. Never pool units or silently shift CST."
+    },
+    {
+      "accession": "0190491",
+      "url": "https://www.ncei.noaa.gov/data/oceans/archive/arc0139/0190491/1.1/data/0-data/Mobile_Bay_CTD_July2016.nc",
+      "sha256": "174114064b221fffe8f410e334507e3e9668707eefe86d2130bc68e62fc403f8",
+      "survey_dates": [
+        "2016-07-11",
+        "2016-07-14",
+        "2016-07-19"
+      ],
+      "role": "Sparse profile dates overlap archival river history but cannot independently identify a lag; excluded from fitted lag. 0176497 oxygen is mg/L and source clock CST; 0190491 oxygen is percent saturation and clock CDT. Never pool units or silently shift CST."
+    }
+  ],
+  "usgs_daily_coverage": {
+    "02428400": {
+      "status": "AVAILABLE",
+      "method": "USGS:02428400:00060:00000:method=2974",
+      "qualified_timestamps": 2205,
+      "complete_utc_days": 90,
+      "first": "2016-06-02",
+      "last": "2016-08-31",
+      "raw_discharge_rows": 2205,
+      "estimated_rows": 52,
+      "provisional_rows": 0
+    },
+    "02469761": {
+      "status": "AVAILABLE",
+      "method": "USGS:02469761:00060:00000:method=3121",
+      "qualified_timestamps": 2207,
+      "complete_utc_days": 91,
+      "first": "2016-06-02",
+      "last": "2016-08-31",
+      "raw_discharge_rows": 2207,
+      "estimated_rows": 0,
+      "provisional_rows": 0
+    },
+    "02469762": {
+      "status": "AMBIGUOUS_OR_MISSING_METHOD",
+      "methods": [],
+      "raw_discharge_rows": 0,
+      "estimated_rows": 0,
+      "provisional_rows": 0
+    }
+  },
+  "bay_coverage": {
+    "01": {
+      "rows": 3009,
+      "complete_days": 20,
+      "first_utc": "2016-07-12",
+      "last_utc": "2016-08-02",
+      "oxygen_unit": "% saturation",
+      "source_timezone": "CDT"
+    },
+    "02": {
+      "rows": 3003,
+      "complete_days": 20,
+      "first_utc": "2016-07-12",
+      "last_utc": "2016-08-02",
+      "oxygen_unit": "% saturation",
+      "source_timezone": "CDT"
+    },
+    "03": {
+      "rows": 3002,
+      "complete_days": 20,
+      "first_utc": "2016-07-12",
+      "last_utc": "2016-08-02",
+      "oxygen_unit": "% saturation",
+      "source_timezone": "CDT"
+    }
+  },
+  "non_additivity": "02469761 Coffeeville pool and 02469762 tailwater are the same river; never sum.",
+  "estimated_provisional_policy": "Preserved row-level through normalization; complete daily features include qualified A/P/e with no interpolation.",
+  "source_availability": "Historical retrospective only; not a contemporaneously available operational feature."
+}
