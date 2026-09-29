@@ -157,6 +157,41 @@ class ReconciliationTests(unittest.TestCase):
                 self.commit(event)
                 with self.assertRaisesRegex(ValueError, 'REVIEW_REQUIRED'): builder.build(self.root,T0)
 
+    def test_low_visibility_cross_camera_unclear_remains_uncertain_context(self):
+        """Production-shaped 2026-09-28 19:06 CT ambiguity must not fail closed."""
+        v = self.f.read('vision.json')
+        point_clear = v['cameras']['camera_3']
+        point_clear.update(
+            visibility='poor', detectability='low',
+            overall_jubilee_visual_signal='unclear',
+            temporal_jubilee_signal='unclear',
+            water_surface='unclear',
+            artificial_light_confounding='strong',
+            rain_surface_interference='possible',
+        )
+        v['cross_camera'] = {
+            'overall_visual_jubilee_signal': 'unclear',
+            'montrose_visual_signal': 'none',
+            'point_clear_visual_signal': 'unclear',
+            'temporal_confirmation': 'none',
+            'important_confounders': [
+                'Poor Point Clear visibility',
+                'Strong artificial-light reflections',
+                'Possible rain or camera interference',
+            ],
+        }
+        self.f.write('vision.json', v)
+        self.commit('low-detectability cross-camera ambiguity')
+
+        snapshot, forecast = self.reconcile(T0)
+        cameras = next(row for row in snapshot['input_rows'] if row['source'] == builder.CAMERA)
+        reconciled = {row['camera_id']: row for row in cameras['camera_health']['private_cameras']}
+        self.assertEqual(reconciled['camera_3']['overall_visual_signal'], 'unclear')
+        self.assertEqual(reconciled['camera_3']['temporal_visual_signal'], 'unclear')
+        self.assertFalse(snapshot['alert_gates']['direct_event_evidence_present'])
+        self.assertFalse(snapshot['reconciliation']['forecast_weights_changed'])
+        self.assertEqual(forecast['outlooks'], binding.project(builder.encode(self.state))['outlooks'])
+
     def remote(self):
         tmp = tempfile.TemporaryDirectory()
         self.addCleanup(tmp.cleanup)

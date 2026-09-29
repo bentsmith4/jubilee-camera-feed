@@ -187,7 +187,10 @@ def build(root, now):
     status, vision = r.json('status.json'), r.json('vision.json')
     registry = r.json('model_data/camera_sources.json')
     cams, failed = [], []
-    quiet = (None, 'unknown', 'UNKNOWN', 'none', 'none_visible')
+    # `unclear` is a schema-defined ambiguity label, not a negative or an
+    # event assessment.  It may pass only as unresolved visible context; the
+    # builder never converts it into a non-event, probability, or alert change.
+    quiet = (None, 'unknown', 'UNKNOWN', 'none', 'none_visible', 'unclear')
     for c in registry['cameras']:
         if c['access'] != 'owner_google':
             continue
