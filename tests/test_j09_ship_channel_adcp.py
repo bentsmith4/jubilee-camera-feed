@@ -37,6 +37,7 @@ class PD0Tests(unittest.TestCase):
         self.assertEqual((count, rejected, len(rows)), (1, 0, 4))
         self.assertEqual(rows[0]["source_clock"], "2010-08-18 12:34:56.70")
         self.assertEqual(rows[0]["velocity_mm_s"], 123)
+        self.assertEqual(rows[0]["ship_component"], "port_starboard")
         self.assertEqual(rows[0]["coordinate_frame"], "SHIP")
         self.assertEqual(rows[0]["navigation_association"], "UNRESOLVED")
         self.assertEqual(rows[0]["source_clock_timezone"], "UNKNOWN")
