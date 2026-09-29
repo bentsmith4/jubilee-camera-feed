@@ -1,0 +1,141 @@
+## READY — PointClearPC PR34 deployment handoff (not executed)
+
+The [September 29 terminal dawn acceptance]($receipt) is PASS and its producer has completed. Source review time: `$checked`.
+
+- Reviewed current main: `$main`; PR34 merge: `$merge`.
+- PR34 checks re-read: $check_links.
+- Main contains PR34, the accepted coordinator deployment, cadence, forecast-contract and reconciliation merges. The two source files remain byte-identical to reviewed PR34. Coordinator source remains identical to the September 28 accepted deployment.
+- Published state at review: $observed. This is publication evidence, not a desktop hash check. The historical 20:06 CDT burst at `47f1f6d69408903ed7e6965dcbaf06033330c84e` had no diagnostics in either file.
+
+### Exact source and scope
+
+| Source at pinned main | Git blob ID | SHA-256 of exact source bytes |
+|---|---|---|
+$source_table
+
+Deploy these two files together to `C:\JubileeCams\burst_capture.py` and `C:\JubileeCams\capture_diagnostics.py`. No other runtime file is authorized by this handoff. Do not replace `capture_service.py`, `refresh_all.py`, camera policy/configuration, credentials, `r2.json`, private frames/ROIs, or state files. Preserve six-camera equality, two-attempt retry budget and waits, 15-minute minimum spacing, normal 20-minute dawn cadence, UNKNOWN semantics, zero research production weights, probabilities and alert gates.
+
+### 1. Recheck before touching the desktop
+
+Use a PointClearPC-connected executor. Verify host `POINTCLEARPC`; unavailable desktop access is `DESKTOP_ACCESS_BLOCKER`, not deployment success. Re-read the linked terminal PASS and PR34. Fetch main ONLY in a separate reviewed checkout, never the live production checkout. Confirm current main still descends from `$main` and that both runtime source hashes still match the table. If newer main changed either file, changed the coordinator, reverted the merge, or the acceptance was superseded, STOP for review; do not silently select newer bytes.
+
+Read local deployed bytes and compare both files against the target and these pre-PR34 baseline hashes:
+
+| Local filename | Expected pre-PR34 SHA-256 |
+|---|---|
+$previous_table
+
+- If BOTH already match the target, do not overwrite or restart; verify the next ordinary cycle and report whether this was already deployed.
+- If BOTH match the baseline, proceed with the bounded replacement below.
+- Otherwise stop `BLOCKED_LOCAL_DIVERGENCE`, including missing files or a partially updated pair. Preserve files and report the difference; never discard an unexplained local safeguard.
+
+Inventory the scheduled tasks, coordinator process tree and socket owner on port 47651. Require exactly one intended enabled coordinator, `Jubilee Live Cameras`, and keep `Jubilee Dawn Cameras` and `Jubilee Unattended Test` disabled. Record task XML, process IDs, heartbeat, current capture identity, source/deployed hashes and current canonical slot/state. Save this evidence privately; do not publish credentials, command lines containing secrets, private imagery or local diagnostic logs.
+
+### 2. Stage the exact two source blobs after these gates pass
+
+Set `$$ReviewedRepo` to the actual separate reviewed checkout; it is deliberately not assumed to be the production repository. Use the existing Python installation verified on the desktop. The following writes exact Git blob bytes (avoiding Windows newline conversion); it does not import runtime modules or run cameras:
+
+```powershell
+$$ErrorActionPreference = 'Stop'
+$$Python = 'C:\Users\ben_t\AppData\Local\Programs\Python\Python314\python.exe'
+$$ReviewedMain = '$main'
+$$Stamp = (Get-Date).ToUniversalTime().ToString('yyyyMMddTHHmmssfffZ')
+$$Stage = Join-Path $$env:TEMP ('jubilee-pr34-' + $$Stamp)
+New-Item -ItemType Directory -Path $$Stage | Out-Null
+$$Export = @'
+import pathlib, subprocess, sys, hashlib
+repo, commit, stage = sys.argv[1:]
+expected = {
+    'burst_capture.py': '$burst_hash',
+    'capture_diagnostics.py': '$diagnostics_hash',
+}
+for name, digest in expected.items():
+    raw = subprocess.check_output(['git', '-C', repo, 'show', commit + ':desktop_runtime/' + name])
+    if hashlib.sha256(raw).hexdigest() != digest:
+        raise SystemExit('source hash mismatch: ' + name)
+    compile(raw, name, 'exec')
+    pathlib.Path(stage, name).write_bytes(raw)
+'@
+& $$Python -c $$Export $$ReviewedRepo $$ReviewedMain $$Stage
+if ($$LASTEXITCODE -ne 0) { throw 'Source staging/compile failed; no replacement permitted' }
+Get-FileHash -Algorithm SHA256 (Join-Path $$Stage 'burst_capture.py'), (Join-Path $$Stage 'capture_diagnostics.py')
+```
+
+No dependency installation or runtime imports are required for this syntax check. Verify hashes against the table before proceeding.
+
+### 3. Quiesce, back up and replace as a pair
+
+Wait for the existing capture/analysis/publication child pipeline to finish naturally. Do not kill an active child. Stop ONLY the existing `Jubilee Live Cameras` task during an idle interval with `Stop-ScheduledTask -TaskName 'Jubilee Live Cameras'` (use its inventoried task path if non-default). Immediately recheck that its coordinator, socket owner and capture/analysis/publication descendants are gone; a stop race or remaining child is a blocker. Do not replace either file while another process could read the pair. Do not change task XML, triggers or enabled states.
+
+After quiescence, re-hash the local files to confirm they have not changed since inspection. Save timestamped backups of BOTH original files before replacing EITHER file:
+
+```powershell
+$$RuntimeRoot = 'C:\JubileeCams'
+$$Names = @('burst_capture.py', 'capture_diagnostics.py')
+$$OriginalHashes = @{}
+$$BackupPaths = @{}
+foreach ($$Name in $$Names) {
+    $$Destination = Join-Path $$RuntimeRoot $$Name
+    $$OriginalHashes[$$Name] = (Get-FileHash $$Destination -Algorithm SHA256).Hash
+    $$BackupPaths[$$Name] = $$Destination + '.backup_' + $$Stamp
+    Copy-Item -LiteralPath $$Destination -Destination $$BackupPaths[$$Name] -ErrorAction Stop
+    if ((Get-FileHash $$BackupPaths[$$Name] -Algorithm SHA256).Hash -ne $$OriginalHashes[$$Name]) {
+        throw ('Backup hash mismatch: ' + $$Name)
+    }
+}
+```
+
+Record the two backup paths and original hashes in a durable private receipt before replacement. If backup creation fails, leave originals intact and resume the same coordinator after verifying the unchanged pair. Once BOTH backups are verified, copy `capture_diagnostics.py` first and `burst_capture.py` second from `$$Stage`. Before restart, hash BOTH destinations and require the exact target hashes. Any copy/hash failure requires rollback of BOTH files while still quiescent; never restart a mixed pair.
+
+```powershell
+$$ExpectedHashes = @{
+    'burst_capture.py' = '$burst_hash'
+    'capture_diagnostics.py' = '$diagnostics_hash'
+}
+foreach ($$Name in @('capture_diagnostics.py', 'burst_capture.py')) {
+    Copy-Item -LiteralPath (Join-Path $$Stage $$Name) -Destination (Join-Path $$RuntimeRoot $$Name) -Force -ErrorAction Stop
+}
+foreach ($$Name in $$Names) {
+    if ((Get-FileHash (Join-Path $$RuntimeRoot $$Name) -Algorithm SHA256).Hash -ne $$ExpectedHashes[$$Name]) {
+        throw ('Deployed hash mismatch: ' + $$Name + '; restore BOTH backups before restart')
+    }
+}
+```
+
+Restart ONLY the same existing task with `Start-ScheduledTask -TaskName 'Jubilee Live Cameras'` once the pair is verified (same inventoried task path). Confirm unchanged task XML, exactly one owner, advancing fresh heartbeat, intact canonical slot/state and no extra enabled capture task. Preserve coordinator scheduling state so restart cannot be used to force an extra canonical cycle.
+
+### 4. Rollback
+
+If replacement or post-restart runtime validation fails, record the exact error. Quiesce the same coordinator as above, allowing any active child pipeline to finish; do not terminate a capture or manipulate its output. Restore BOTH originals from the recorded `$$BackupPaths` and require each restored SHA-256 to equal `$$OriginalHashes`. Restart the SAME task only when the original pair is verified. Keep the backups and evidence. If rollback cannot be verified, leave the affected coordinator stopped and report `ROLLBACK_BLOCKED`; do not claim resumed operation. Do not roll back or fabricate production JSON, publication commits, model state or camera evidence.
+
+```powershell
+foreach ($$Name in $$Names) {
+    if ((Get-FileHash $$BackupPaths[$$Name] -Algorithm SHA256).Hash -ne $$OriginalHashes[$$Name]) {
+        throw ('ROLLBACK_BLOCKED: backup changed: ' + $$Name)
+    }
+}
+foreach ($$Name in @('capture_diagnostics.py', 'burst_capture.py')) {
+    Copy-Item -LiteralPath $$BackupPaths[$$Name] -Destination (Join-Path $$RuntimeRoot $$Name) -Force -ErrorAction Stop
+}
+foreach ($$Name in $$Names) {
+    if ((Get-FileHash (Join-Path $$RuntimeRoot $$Name) -Algorithm SHA256).Hash -ne $$OriginalHashes[$$Name]) {
+        throw ('ROLLBACK_BLOCKED: restored hash mismatch: ' + $$Name)
+    }
+}
+```
+
+### 5. Verify on the next ordinary scheduled canonical cycle
+
+**No manual capture.** Do not run `burst_capture.py`, `capture_publish.py`, `dawn_runner.py`, `refresh_all.py`, `--force`, a manual camera acquisition, or a duplicate task to obtain a passing result. An ordinary near-live refresh is not proof of canonical diagnostic publication. Wait for the existing coordinator's next naturally scheduled canonical burst. If none has occurred, report `DEPLOYED_PENDING_SCHEDULED_VERIFICATION`.
+
+For the first canonical cycle whose start is after the deployment/restart time, record its exact capture timestamp/ID and publication SHA, then verify:
+
+1. All six expected camera IDs agree across `status.json`, `burst_status.json` and `vision.json`: `montrose_pier_boat`, `montrose_pier_bird`, `montrose_shoreline`, `pcl_e2_back_deck`, `pcl_e2_bay_mouth`, `pcl_e3_bay_mouth`. Camera-level failures remain failures, with no fabricated biological negative.
+2. Every attempted camera has identical `capture_attempts` arrays in status and burst. Healthy captures normally contain `[{"attempt":1,"ok":true}]`. At most two ordered attempts are allowed. A recovered retry retains attempt 1 failure followed by attempt 2 success. Failures contain only fixed categories and numeric return/HTTP codes. Reject stderr, command arguments, stream/device URLs, credentials, arbitrary exception strings or private logs in these new fields. Do not inject a failure merely to test telemetry.
+3. All successful cameras retain three ordered shots, matching capture/vision/shot identities, byte counts and latest-equals-third-shot integrity. Missing inventory cameras must remain unavailable without invented attempts; that is a failed/incomplete six-camera acceptance, not success. An existing downstream camera-level failure is authoritative even if its capture attempt succeeded.
+4. The current ordinary interval obeys the existing cadence contract and global 15-minute floor. Check publication ancestry and the subsequent successful unattended observation and current-state freshness/reconciliation jobs; confirm snapshot/forecast binding. Separate diagnostic-field deployment from any unrelated environmental freshness blocker, and report both honestly.
+5. Run the documented read-only acceptance from the reviewed checkout with the existing interpreter:
+   `& .\tools\desktop_preflight.ps1 -Root 'C:\JubileeCams' -Python 'C:\Users\ben_t\AppData\Local\Programs\Python\Python314\python.exe'`.
+   Verify local archive hashes, Git ancestry, R2 GET/readback and snapshot stability when accessible. Missing current Git objects may use the previously documented process-only authentic alternate object directory; restore that environment value afterward. Never edit production Git objects/refs/index or thresholds to force PASS, and never capture manually to satisfy freshness.
+
+Post one execution receipt to issue #26 with actual status, source commit, both source/deployed hashes, original hashes/backup paths, local divergence result, task/heartbeat result, replacement/restart/rollback times, next normal capture timestamp/commit, six-camera attempt and shot/vision results, observation/reconciliation run IDs and remaining blockers. Distinguish `HANDOFF_PREPARED`, `DEPLOYED_PENDING_SCHEDULED_VERIFICATION`, `PASS`, `FAIL`, `BLOCKED_LOCAL_DIVERGENCE`, and `DESKTOP_ACCESS_BLOCKER`. This prepared handoff alone proves neither deployment nor live diagnostics.
