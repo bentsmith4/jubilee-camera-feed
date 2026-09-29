@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-09-28T20:23:11.531437-05:00",
+  "issue_time": "2026-09-28T20:32:04.478903-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "019d1bc53cc2055032a5ddc33a958bcd01169c844fdd65424223036002e2c939",
-  "input_commit_sha": "2a307959fa647c9cd494d3a92634252a5c5dd83c",
+  "input_snapshot_hash": "e3b21b6de669dc4c959cbee6b668d53a2d5d30d4ede7fb5cec2e63a4d24252b9",
+  "input_commit_sha": "4d3779bdf959e496055201f79a38bff3f36b3734",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
@@ -18,7 +18,7 @@
       "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
       "ngofs2_point_clear_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
       "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
-      "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
+      "ngofs2_mobile_bay_named_stations_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
       "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
     "fresh_river_series": 20,
@@ -29,8 +29,7 @@
     "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
-    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
-    "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
+    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission."
   ],
   "outlooks": [
     {
