@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "update_id": "research-coverage-gap-2026-09-30",
+  "generated_at_utc": "2026-09-30T14:38:00Z",
+  "scope": "MODEL_LEARNING_RESEARCH_ONLY",
+  "production_action": "NO_CHANGE",
+  "progress_since_2026_09_28": [
+    {
+      "gap": "Defensible negative/control mornings",
+      "prior_state": "0 clean controls; 3 independent Tier-B Montrose scoped candidate mornings",
+      "current_state": "0 clean controls; 4 independent Tier-B Montrose scoped candidate mornings (September 24, 26, 28, 30)",
+      "evidence": "model_data/j10_matched_control_sensitivity_20260930.json",
+      "value": "Adds one independent morning while collapsing repeated captures and preserving six dark records as UNKNOWN.",
+      "limitation": "Same private site/cell, narrow visible scope, no independent human confirmation, environmental matching incomplete."
+    },
+    {
+      "gap": "Historical river-to-Bay response-window evidence",
+      "prior_state": "Upstream river forcing registered but broad response windows not independently tested against the 2016 three-mooring oxygen deployment.",
+      "current_state": "Draft PR #39 tests two gauges and three antecedent windows over 20 adjacent days/60 station-days; best simple-baseline RMSE reductions are 11.0% and 6.4%, but fold signs and calendar-trend sensitivity are unstable.",
+      "evidence": "https://github.com/bentsmith4/jubilee-camera-feed/pull/39#issuecomment-5913748070",
+      "value": "Narrows plausible exploratory windows and records why a physical travel-time/production feature is not identified.",
+      "limitation": "One autocorrelated episode, one-day embargo, overlapping antecedent windows, retrospective same-day comparator, multiple-window selection risk; draft and not merged."
+    },
+    {
+      "gap": "Operating-season API efficiency",
+      "prior_state": "9-day request-normalized token proxy 7.8827% below baseline",
+      "current_state": "11-day proxy 7.9122% below baseline",
+      "evidence": "model_data/j18_efficiency_postdeployment_20260930.json",
+      "value": "Shows the modest saving remains stable.",
+      "limitation": "No additional gain, no dollar pricing, and no held-out event-effectiveness proof."
+    }
+  ],
+  "ranked_gaps": [
+    {
+      "rank": 1,
+      "gap": "Fully verified matched non-event mornings with independent observation effort and environmental matching",
+      "status": "MISSING",
+      "expected_value_of_information": "Very high; blocks Jubilee-event calibration, false-alert/miss estimates and combined-model promotion",
+      "next_action": "Continue prospective scoped labeling and seek naturally occurring independent shoreline/human confirmation; never convert no-report or darkness to negative."
+    },
+    {
+      "rank": 2,
+      "gap": "Observed current validation near Point Clear/Eastern Shore with accepted Earth-frame depth, geometry, units and timing",
+      "status": "MISSING_NEARSHORE; PR_38_RESEARCH_DECODE_OPEN_WITH_UNRESOLVED_REPRODUCIBILITY_AND_CALIBRATION_GATES",
+      "expected_value_of_information": "Very high",
+      "next_action": "Finish current-head PR #38 reconciliation, recover or explain the motion-reference artifact, complete compatible vendor playback and retrieve deployment/compass/magnetic-variation/draft/transducer/clock metadata before accepting Earth-frame transport."
+    },
+    {
+      "rank": 3,
+      "gap": "Independent multi-year river-to-Bay response validation with operationally available features",
+      "status": "BLOCKED_BY_SHORT_SINGLE_2016_EPISODE",
+      "expected_value_of_information": "High",
+      "next_action": "Use a separate year/deployment, preregister response windows, purge temporal overlap, and add hydrometeorological controls; do not select the lowest PR #39 RMSE post hoc."
+    },
+    {
+      "rank": 4,
+      "gap": "Held-out loading-only versus transport-only versus combined Jubilee-event comparison",
+      "status": "BLOCKED_BY_LABELS",
+      "expected_value_of_information": "High",
+      "next_action": "Run only after independent event/control sample and feature overlap are sufficient; four same-cell Tier-B mornings remain inadequate."
+    },
+    {
+      "rank": 5,
+      "gap": "Coverage-normalized efficiency under the current cadence",
+      "status": "ONGOING_MEASUREMENT_REQUIRED",
+      "expected_value_of_information": "Moderate",
+      "next_action": "Continue complete-day request-normalized measurement and separately establish event-detection equivalence; do not count missing or failed coverage as savings."
+    }
+  ],
+  "unchanged_guardrails": [
+    "Accepted ADCP Earth-frame currents, event labels and production weights remain zero.",
+    "Point Clear NOAA 8733821 remains astronomical prediction, not live water level.",
+    "GCOOS Battleship/Meaher oxygen remains depth-unknown and zero-weight for bottom-DO/gradient features.",
+    "September 9 marina outcome remains UNKNOWN.",
+    "Moon phase remains zero-weight and blocked by data.",
+    "Production model weights, probability thresholds and alert gates are unchanged."
+  ]
+}
