@@ -1,16 +1,16 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-09-30T00:14:14-05:00",
+  "issue_time": "2026-09-30T01:16:48-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "b1ba8010e3dc7c53e80fc70fbd737532188b5e47d3d99618a29444b13e1a0de0",
-  "input_commit_sha": "a139830ed2258434962cf9d98efec5a99cd25121",
+  "input_snapshot_hash": "00eda667e9639e5f4d913a17c900f9ca9259d4bb582b029264e9672aab29b28f",
+  "input_commit_sha": "11868a9ff4a9501ac46354f23046119b09591266",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
   "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
-  "method": "Reviewed issue-time admission of the committed 00:06 CT owner-camera generation against the prior 22:33 CT snapshot. One new camera failure was classified UNKNOWN and uncertainty widened; five matching low-detectability bursts were admitted only within visible scope. Stale ASOS/river and unavailable model/direct-bottom inputs remained UNKNOWN. With no new direct event evidence, the prior heuristic ranges and zero production weights were retained.",
+  "method": "Reviewed issue-time admission of the committed environmental refresh and the most recent coherent owner-camera generation against the 00:14 CT snapshot. Camera evidence older than 60 minutes and the failed E3 view were classified UNKNOWN. Fresh KBFM and lower-river observations were admitted only as zero-weight regional/upstream context; KMOB maintenance-flagged fields, rainfall and direct local oxygen/stratification remained UNKNOWN. With no new direct event evidence, the prior heuristic ranges and zero production weights were retained.",
   "data_coverage": {
     "private_camera_metadata_pass": 5,
     "private_cameras_expected": 6,
@@ -19,15 +19,15 @@
       "ngofs2_point_clear_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
       "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
       "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
-      "ngofs2_shoreline_grid": "UNKNOWN_NO_CURRENT_GUIDANCE"
+      "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
-    "fresh_river_series": 0,
-    "asos_stations": "KBFM/KMOB UNKNOWN"
+    "fresh_river_series": 20,
+    "asos_stations": "KBFM partial; KMOB UNKNOWN"
   },
   "missing_inputs": [
-    "pcl_e3_bay_mouth failed capture in the 2026-09-30 00:06 CT cycle and is UNKNOWN; the other five matching three-frame bursts are admitted only within their visible scope.",
-    "KBFM and KMOB ASOS observations are stale at 261.233 and 258.233 minutes respectively; wind and rainfall fields remain UNKNOWN.",
-    "Lower-river forcing series are stale (434.23-464.23 minutes) and remain UNKNOWN; Bay-arrival lag is uncalibrated.",
+    "All six owner-camera views are UNKNOWN at issue time: five successful 00:06 CT captures are 67.646-70.379 minutes old and pcl_e3_bay_mouth failed that cycle; missing or stale views are not negative evidence.",
+    "KMOB fields are QC-rejected because the selected report carries a station-maintenance flag; KBFM is fresh regional context only and rainfall fields remain UNKNOWN.",
+    "Weeks Bay water-quality/oxygen station WKQA1 remains stale; fresh WKXA1 meteorology is regional context only.",
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
     "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
     "River-to-Bay travel time remains uncalibrated.",
