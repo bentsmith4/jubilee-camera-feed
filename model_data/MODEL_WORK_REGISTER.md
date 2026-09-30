@@ -1826,3 +1826,8 @@ Read-back verified the brief remains enabled, its prompt is preserved unchanged 
 ### Coverage gaps and promotion decision
 - Ranked gaps remain: (1) independently verified matched controls, (2) accepted nearshore Earth-frame current, (3) independent multi-year river-response validation, (4) held-out loading/transport/combined Jubilee comparison, and (5) coverage-normalized efficiency with effectiveness evidence. Gap-update blob `29cdf4d4b2e03ca00648eaf18acf347c840901ae`, commit `a08f59a10363c157f1a619c99e9f477f377507e0`.
 - **No Jubilee-event predictive gain or regression is measurable.** No raw/normalized ADCP data were accepted; no event label, model artifact, probability, weight, threshold, alert gate, camera inventory, runtime code or schedule changed. This run created research audits, posted a methodology review and updated the completion register only.
+
+
+### Moon-phase completion verification and run manifest
+- Verified the committed lunar audit still exists at blob `9410078d64058f2ca1dfc77d0ddece2ca26f5a31`: 15 confirmed rows collapsed to 13 independent episodes, episode-blocked Rayleigh p=0.349 (alternate 1959 date p=0.335). The current feature catalog blob `b5ccd8ba99cf82504e47957182e278735592e60a` explicitly keeps `standalone_lunar_phase` at `BLOCKED_BY_DATA`, zero weight. No new Tier-A control or confirmed event justified rerunning or promoting it.
+- Run manifest `model_data/research_run_manifest_20260930.json`, blob `9120bf5f2026c1594ae0e29a184afc10c9581288`, commit `9588c6b146a22c4422edc8f5ceadb957c14cb0d0`.
