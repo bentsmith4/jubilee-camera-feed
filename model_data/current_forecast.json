@@ -1,16 +1,16 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-09-30T01:16:48-05:00",
+  "issue_time": "2026-09-30T02:26:30-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "00eda667e9639e5f4d913a17c900f9ca9259d4bb582b029264e9672aab29b28f",
-  "input_commit_sha": "11868a9ff4a9501ac46354f23046119b09591266",
+  "input_snapshot_hash": "a8f0e05c3b8834b933a9ae056449b97f8919902f41ada8e1a5b4aef79b2e6a45",
+  "input_commit_sha": "eecef17e4d8538cb463004d4e62bb1dad9b38e8f",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
   "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
-  "method": "Reviewed issue-time admission of the committed environmental refresh and the most recent coherent owner-camera generation against the 00:14 CT snapshot. Camera evidence older than 60 minutes and the failed E3 view were classified UNKNOWN. Fresh KBFM and lower-river observations were admitted only as zero-weight regional/upstream context; KMOB maintenance-flagged fields, rainfall and direct local oxygen/stratification remained UNKNOWN. With no new direct event evidence, the prior heuristic ranges and zero production weights were retained.",
+  "method": "Reviewed issue-time reassessment of the pinned 02:06 CT owner-camera cycle and freshly retrieved official ASOS input. Five matching camera groups recovered, pcl_e3_bay_mouth remained failed/UNKNOWN, nighttime detectability remained low, and no direct Jubilee evidence was established. Missing views were not treated as negatives; all environmental/model context retained zero production weight, supporting a numeric change of 0.",
   "data_coverage": {
     "private_camera_metadata_pass": 5,
     "private_cameras_expected": 6,
@@ -25,9 +25,9 @@
     "asos_stations": "KBFM partial; KMOB UNKNOWN"
   },
   "missing_inputs": [
-    "All six owner-camera views are UNKNOWN at issue time: five successful 00:06 CT captures are 67.646-70.379 minutes old and pcl_e3_bay_mouth failed that cycle; missing or stale views are not negative evidence.",
-    "KMOB fields are QC-rejected because the selected report carries a station-maintenance flag; KBFM is fresh regional context only and rainfall fields remain UNKNOWN.",
-    "Weeks Bay water-quality/oxygen station WKQA1 remains stale; fresh WKXA1 meteorology is regional context only.",
+    "pcl_e3_bay_mouth failed with HTTP 503 in the 02:06 CT cycle and is UNKNOWN; the other five owner cameras have matching fresh three-frame evidence but low nighttime biological detectability and are not clean negative labels.",
+    "KMOB fields are QC-rejected because the fresh report carries a station-maintenance flag; KBFM is fresh regional context only and all reported rainfall periods remain UNKNOWN.",
+    "Weeks Bay meteorology and water-quality/oxygen observations are stale; no direct Eastern Shore bottom oxygen or stratification measurement is available.",
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
     "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
     "River-to-Bay travel time remains uncalibrated.",
