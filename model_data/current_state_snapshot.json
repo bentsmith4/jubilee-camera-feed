@@ -1,6 +1,6 @@
 {
   "schema_version": "1.4",
-  "snapshot_time_ct": "2026-09-29T22:33:06-05:00",
+  "snapshot_time_ct": "2026-09-30T00:14:14-05:00",
   "layer": "full_current_state",
   "scope": [
     "Point Clear/Grand Hotel/Zundel's",
@@ -11,18 +11,15 @@
   ],
   "forecast_weights_changed": false,
   "deep_research_or_recalibration_performed": false,
-  "forecast_opportunity_status": "Existing dated heuristic outlooks retained without numerical or horizon change. Six-camera runtime coverage recovered, but visibility is low and weather/river inputs remain stale; no direct Jubilee or local bottom-oxygen evidence supports a probability change.",
+  "forecast_opportunity_status": "Existing dated heuristic outlooks retained without numerical or horizon change; not a new calibrated forecast.",
   "material_change_since_prior_snapshot": true,
   "notification_condition_met": true,
-  "notification_reason": "Material state change: all six owner cameras, including pcl_e2_back_deck, recovered in the 22:06 CT cycle with matching three-frame bursts. The significant input-quality fault remains active because committed KBFM/KMOB weather and lower-river observations are stale at issue time. No direct Jubilee evidence was established.",
+  "notification_reason": "Material sensing/input-quality fault: the 00:06 CT cycle recovered five matching three-frame owner-camera bursts, but pcl_e3_bay_mouth failed capture and is UNKNOWN. ASOS and lower-river context also remain stale/UNKNOWN. This is an input-quality alert, not Jubilee event evidence or a probability-threshold alert.",
   "principal_dawn_visual_assessment_status": "NOT_PERFORMED_BY_POST_PUBLICATION_RECONCILIATION",
   "active_faults": [
-    "KBFM/KMOB ASOS observations are stale at issue time and remain UNKNOWN; rainfall blanks remain UNKNOWN.",
-    "Lower-river observations are stale at issue time and remain UNKNOWN; river-to-Bay lag remains uncalibrated.",
-    "NGOFS2 named-station forecast is SOURCE_UNAVAILABLE/UNKNOWN; model guidance has zero production weight.",
-    "Direct local bottom oxygen, salinity/temperature profiles and stratification remain UNKNOWN."
-  ],
-  "known_unknowns": [
+    "pcl_e3_bay_mouth failed capture in the 2026-09-30 00:06 CT cycle and is UNKNOWN; the other five matching three-frame bursts are admitted only within their visible scope.",
+    "KBFM and KMOB ASOS observations are stale at 261.233 and 258.233 minutes respectively; wind and rainfall fields remain UNKNOWN.",
+    "Lower-river forcing series are stale (434.23-464.23 minutes) and remain UNKNOWN; Bay-arrival lag is uncalibrated.",
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
     "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
     "River-to-Bay travel time remains uncalibrated.",
@@ -30,7 +27,18 @@
     "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
     "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
-  "change_summary": "The 22:06 CT owner-camera cycle restored 6/6 matching three-frame coverage, including recovery of pcl_e2_back_deck. Visibility was fair-to-poor and biological detectability low, so no negative event label is admitted. Committed ASOS and lower-river observations remain stale and UNKNOWN; the material input-quality gate remains active. Existing dated heuristic probability ranges are unchanged.",
+  "known_unknowns": [
+    "pcl_e3_bay_mouth failed capture in the 2026-09-30 00:06 CT cycle and is UNKNOWN; the other five matching three-frame bursts are admitted only within their visible scope.",
+    "KBFM and KMOB ASOS observations are stale at 261.233 and 258.233 minutes respectively; wind and rainfall fields remain UNKNOWN.",
+    "Lower-river forcing series are stale (434.23-464.23 minutes) and remain UNKNOWN; Bay-arrival lag is uncalibrated.",
+    "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
+    "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
+    "River-to-Bay travel time remains uncalibrated.",
+    "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
+    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
+    "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
+  ],
+  "change_summary": "Compared with the 22:33 CT snapshot, owner-camera coverage fell from six of six healthy to five of six: pcl_e3_bay_mouth failed the 00:06 CT capture. The other five cameras have matching status/burst/vision evidence but low nighttime detectability. ASOS and lower-river inputs remain stale/UNKNOWN. No direct Jubilee evidence was established, so the reviewed probability ranges remain unchanged.",
   "alert_gates": {
     "point_clear_over_20_percent": false,
     "daphne_may_day_over_20_percent": false,
@@ -74,7 +82,7 @@
         "ngofs2_point_clear_nowcast": {
           "status": "complete",
           "retrieved_at_utc": "2026-09-29T22:34:52.335109+00:00",
-          "retrieval_age_minutes": 298.228,
+          "retrieval_age_minutes": 399.361,
           "evidence_class": "MODEL",
           "production_weight": 0,
           "current_observed_transport_status": "UNKNOWN_NOT_AN_OBSERVATION",
@@ -88,7 +96,7 @@
         "ngofs2_point_clear_forecast": {
           "status": "complete",
           "retrieved_at_utc": "2026-09-29T22:35:16.549288+00:00",
-          "retrieval_age_minutes": 297.824,
+          "retrieval_age_minutes": 398.958,
           "evidence_class": "MODEL",
           "production_weight": 0,
           "current_observed_transport_status": "UNKNOWN_NOT_AN_OBSERVATION",
@@ -97,39 +105,39 @@
           "valid_time_end_utc": "2026-10-01T15:00:00+00:00",
           "normalized_rows": 5291,
           "admitted_status": "ADMITTED_FORWARD_MODEL_GUIDANCE",
-          "reference_valid_at_utc": "2026-09-30T03:36:00+00:00",
+          "reference_valid_at_utc": "2026-09-30T05:18:00+00:00",
           "forward_transport_windows": {
             "1": {
               "count": 11,
-              "mean_m_s": 0.01055530103092844,
-              "signed_transport_m": 38.12934441491962,
+              "mean_m_s": -0.0031375690040559598,
+              "signed_transport_m": -11.612752560758965,
               "coverage_fraction": 1.0,
-              "start": "2026-09-30T03:36:00+00:00",
-              "end": "2026-09-30T04:36:00+00:00"
+              "start": "2026-09-30T05:18:00+00:00",
+              "end": "2026-09-30T06:18:00+00:00"
             },
             "3": {
               "count": 31,
-              "mean_m_s": 0.002980673671587401,
-              "signed_transport_m": 32.19647117075511,
+              "mean_m_s": -0.004880406915382935,
+              "signed_transport_m": -53.849677039543174,
               "coverage_fraction": 1.0,
-              "start": "2026-09-30T03:36:00+00:00",
-              "end": "2026-09-30T06:36:00+00:00"
+              "start": "2026-09-30T05:18:00+00:00",
+              "end": "2026-09-30T08:18:00+00:00"
             },
             "6": {
               "count": 61,
-              "mean_m_s": -0.001881235400806411,
-              "signed_transport_m": -41.24309218372218,
+              "mean_m_s": -0.008759317251178057,
+              "signed_transport_m": -189.8500441911165,
               "coverage_fraction": 1.0,
-              "start": "2026-09-30T03:36:00+00:00",
-              "end": "2026-09-30T09:36:00+00:00"
+              "start": "2026-09-30T05:18:00+00:00",
+              "end": "2026-09-30T11:18:00+00:00"
             },
             "12": {
               "count": 121,
-              "mean_m_s": -0.00663177994289628,
-              "signed_transport_m": -291.23677236784715,
+              "mean_m_s": -0.006523530056203664,
+              "signed_transport_m": -286.9236793695018,
               "coverage_fraction": 1.0,
-              "start": "2026-09-30T03:36:00+00:00",
-              "end": "2026-09-30T15:36:00+00:00"
+              "start": "2026-09-30T05:18:00+00:00",
+              "end": "2026-09-30T17:18:00+00:00"
             }
           },
           "coverage_caveat": "Only published model locations, depths and valid times; missing slices remain UNKNOWN. No observed-current or skill claim."
@@ -137,7 +145,7 @@
         "ngofs2_mobile_bay_named_stations_nowcast": {
           "status": "complete",
           "retrieved_at_utc": "2026-09-29T22:38:12.356570+00:00",
-          "retrieval_age_minutes": 294.894,
+          "retrieval_age_minutes": 396.027,
           "evidence_class": "MODEL",
           "production_weight": 0,
           "current_observed_transport_status": "UNKNOWN_NOT_AN_OBSERVATION",
@@ -151,7 +159,7 @@
         "ngofs2_mobile_bay_named_stations_forecast": {
           "status": "unavailable",
           "retrieved_at_utc": "2026-09-29T22:47:47.764499+00:00",
-          "retrieval_age_minutes": 285.304,
+          "retrieval_age_minutes": 386.437,
           "evidence_class": "MODEL",
           "production_weight": 0,
           "current_observed_transport_status": "UNKNOWN_NOT_AN_OBSERVATION",
@@ -163,7 +171,7 @@
         "ngofs2_shoreline_grid": {
           "status": "complete",
           "retrieved_at_utc": "2026-09-29T22:47:47.922201+00:00",
-          "retrieval_age_minutes": 285.301,
+          "retrieval_age_minutes": 386.435,
           "evidence_class": "MODEL",
           "production_weight": 0,
           "current_observed_transport_status": "UNKNOWN_NOT_AN_OBSERVATION",
@@ -208,7 +216,7 @@
           "coverage_caveat": "Only published model locations, depths and valid times; missing slices remain UNKNOWN. No observed-current or skill claim."
         }
       },
-      "evaluated_at_ct": "2026-09-29T22:33:06-05:00",
+      "evaluated_at_ct": "2026-09-30T00:14:14-05:00",
       "production_weight": 0,
       "admitted_status": "MODEL_CONTEXT_WITH_EXPLICIT_PRODUCT_GAPS",
       "observation": "Issue-relative summaries use validated committed rows; MODEL guidance is not an observation."
@@ -222,7 +230,7 @@
       "timezone_datum_depth": "CDT; surface meteorology",
       "shoreline_cell": "regional Mobile Bay proxy",
       "independence_group": "noaa_nws_asos_mobile",
-      "evaluated_at_ct": "2026-09-29T22:33:06-05:00",
+      "evaluated_at_ct": "2026-09-30T00:14:14-05:00",
       "retrieval_time_ct": "2026-09-29T20:11:24.005228-05:00",
       "production_weight": 0,
       "parameter_admission": {
@@ -257,7 +265,7 @@
               "observation_id": "e5e9e542226dfdc9e16e4da371df59477f3ee0d0d3bd228af868efc3cb19da99",
               "raw_metar": "METAR KBFM 300053Z 16006KT 10SM CLR 27/20 A2995 RMK AO2 SLP143 T02720200",
               "source_value": 6,
-              "age_minutes": 160.1,
+              "age_minutes": 261.233,
               "admission_reason": "STALE"
             },
             "wind_direction": {
@@ -288,7 +296,7 @@
               "observation_id": "e5e9e542226dfdc9e16e4da371df59477f3ee0d0d3bd228af868efc3cb19da99",
               "raw_metar": "METAR KBFM 300053Z 16006KT 10SM CLR 27/20 A2995 RMK AO2 SLP143 T02720200",
               "source_value": 160,
-              "age_minutes": 160.1,
+              "age_minutes": 261.233,
               "admission_reason": "STALE"
             },
             "wind_gust": {
@@ -319,7 +327,7 @@
               "observation_id": "e5e9e542226dfdc9e16e4da371df59477f3ee0d0d3bd228af868efc3cb19da99",
               "raw_metar": "METAR KBFM 300053Z 16006KT 10SM CLR 27/20 A2995 RMK AO2 SLP143 T02720200",
               "source_value": null,
-              "age_minutes": 160.1,
+              "age_minutes": 261.233,
               "admission_reason": "STALE"
             },
             "air_temperature": {
@@ -350,7 +358,7 @@
               "observation_id": "e5e9e542226dfdc9e16e4da371df59477f3ee0d0d3bd228af868efc3cb19da99",
               "raw_metar": "METAR KBFM 300053Z 16006KT 10SM CLR 27/20 A2995 RMK AO2 SLP143 T02720200",
               "source_value": 27.2,
-              "age_minutes": 160.1,
+              "age_minutes": 261.233,
               "admission_reason": "STALE"
             },
             "dew_point": {
@@ -381,7 +389,7 @@
               "observation_id": "e5e9e542226dfdc9e16e4da371df59477f3ee0d0d3bd228af868efc3cb19da99",
               "raw_metar": "METAR KBFM 300053Z 16006KT 10SM CLR 27/20 A2995 RMK AO2 SLP143 T02720200",
               "source_value": 20,
-              "age_minutes": 160.1,
+              "age_minutes": 261.233,
               "admission_reason": "STALE"
             },
             "sea_level_pressure": {
@@ -412,7 +420,7 @@
               "observation_id": "e5e9e542226dfdc9e16e4da371df59477f3ee0d0d3bd228af868efc3cb19da99",
               "raw_metar": "METAR KBFM 300053Z 16006KT 10SM CLR 27/20 A2995 RMK AO2 SLP143 T02720200",
               "source_value": 1014.3,
-              "age_minutes": 160.1,
+              "age_minutes": 261.233,
               "admission_reason": "STALE"
             },
             "precipitation_1h": {
@@ -443,7 +451,7 @@
               "observation_id": "e5e9e542226dfdc9e16e4da371df59477f3ee0d0d3bd228af868efc3cb19da99",
               "raw_metar": "METAR KBFM 300053Z 16006KT 10SM CLR 27/20 A2995 RMK AO2 SLP143 T02720200",
               "source_value": null,
-              "age_minutes": 160.1,
+              "age_minutes": 261.233,
               "admission_reason": "STALE"
             },
             "precipitation_3h": {
@@ -474,7 +482,7 @@
               "observation_id": "e5e9e542226dfdc9e16e4da371df59477f3ee0d0d3bd228af868efc3cb19da99",
               "raw_metar": "METAR KBFM 300053Z 16006KT 10SM CLR 27/20 A2995 RMK AO2 SLP143 T02720200",
               "source_value": null,
-              "age_minutes": 160.1,
+              "age_minutes": 261.233,
               "admission_reason": "STALE"
             },
             "precipitation_6h": {
@@ -505,7 +513,7 @@
               "observation_id": "e5e9e542226dfdc9e16e4da371df59477f3ee0d0d3bd228af868efc3cb19da99",
               "raw_metar": "METAR KBFM 300053Z 16006KT 10SM CLR 27/20 A2995 RMK AO2 SLP143 T02720200",
               "source_value": null,
-              "age_minutes": 160.1,
+              "age_minutes": 261.233,
               "admission_reason": "STALE"
             },
             "precipitation_24h": {
@@ -536,7 +544,7 @@
               "observation_id": "e5e9e542226dfdc9e16e4da371df59477f3ee0d0d3bd228af868efc3cb19da99",
               "raw_metar": "METAR KBFM 300053Z 16006KT 10SM CLR 27/20 A2995 RMK AO2 SLP143 T02720200",
               "source_value": null,
-              "age_minutes": 160.1,
+              "age_minutes": 261.233,
               "admission_reason": "STALE"
             }
           }
@@ -572,7 +580,7 @@
               "observation_id": "9cb03b8b8214ec1fb72f1c267c9c8502f1d0a951d1c4e749c38c3c7516e7c3e7",
               "raw_metar": "METAR KMOB 300056Z 14005KT 10SM CLR 25/18 A2995 RMK AO2 SLP141 T02500178",
               "source_value": 5,
-              "age_minutes": 157.1,
+              "age_minutes": 258.233,
               "admission_reason": "STALE"
             },
             "wind_direction": {
@@ -603,7 +611,7 @@
               "observation_id": "9cb03b8b8214ec1fb72f1c267c9c8502f1d0a951d1c4e749c38c3c7516e7c3e7",
               "raw_metar": "METAR KMOB 300056Z 14005KT 10SM CLR 25/18 A2995 RMK AO2 SLP141 T02500178",
               "source_value": 140,
-              "age_minutes": 157.1,
+              "age_minutes": 258.233,
               "admission_reason": "STALE"
             },
             "wind_gust": {
@@ -634,7 +642,7 @@
               "observation_id": "9cb03b8b8214ec1fb72f1c267c9c8502f1d0a951d1c4e749c38c3c7516e7c3e7",
               "raw_metar": "METAR KMOB 300056Z 14005KT 10SM CLR 25/18 A2995 RMK AO2 SLP141 T02500178",
               "source_value": null,
-              "age_minutes": 157.1,
+              "age_minutes": 258.233,
               "admission_reason": "STALE"
             },
             "air_temperature": {
@@ -665,7 +673,7 @@
               "observation_id": "9cb03b8b8214ec1fb72f1c267c9c8502f1d0a951d1c4e749c38c3c7516e7c3e7",
               "raw_metar": "METAR KMOB 300056Z 14005KT 10SM CLR 25/18 A2995 RMK AO2 SLP141 T02500178",
               "source_value": 25,
-              "age_minutes": 157.1,
+              "age_minutes": 258.233,
               "admission_reason": "STALE"
             },
             "dew_point": {
@@ -696,7 +704,7 @@
               "observation_id": "9cb03b8b8214ec1fb72f1c267c9c8502f1d0a951d1c4e749c38c3c7516e7c3e7",
               "raw_metar": "METAR KMOB 300056Z 14005KT 10SM CLR 25/18 A2995 RMK AO2 SLP141 T02500178",
               "source_value": 17.8,
-              "age_minutes": 157.1,
+              "age_minutes": 258.233,
               "admission_reason": "STALE"
             },
             "sea_level_pressure": {
@@ -727,7 +735,7 @@
               "observation_id": "9cb03b8b8214ec1fb72f1c267c9c8502f1d0a951d1c4e749c38c3c7516e7c3e7",
               "raw_metar": "METAR KMOB 300056Z 14005KT 10SM CLR 25/18 A2995 RMK AO2 SLP141 T02500178",
               "source_value": 1014.1,
-              "age_minutes": 157.1,
+              "age_minutes": 258.233,
               "admission_reason": "STALE"
             },
             "precipitation_1h": {
@@ -758,7 +766,7 @@
               "observation_id": "9cb03b8b8214ec1fb72f1c267c9c8502f1d0a951d1c4e749c38c3c7516e7c3e7",
               "raw_metar": "METAR KMOB 300056Z 14005KT 10SM CLR 25/18 A2995 RMK AO2 SLP141 T02500178",
               "source_value": null,
-              "age_minutes": 157.1,
+              "age_minutes": 258.233,
               "admission_reason": "STALE"
             },
             "precipitation_3h": {
@@ -789,7 +797,7 @@
               "observation_id": "9cb03b8b8214ec1fb72f1c267c9c8502f1d0a951d1c4e749c38c3c7516e7c3e7",
               "raw_metar": "METAR KMOB 300056Z 14005KT 10SM CLR 25/18 A2995 RMK AO2 SLP141 T02500178",
               "source_value": null,
-              "age_minutes": 157.1,
+              "age_minutes": 258.233,
               "admission_reason": "STALE"
             },
             "precipitation_6h": {
@@ -820,7 +828,7 @@
               "observation_id": "9cb03b8b8214ec1fb72f1c267c9c8502f1d0a951d1c4e749c38c3c7516e7c3e7",
               "raw_metar": "METAR KMOB 300056Z 14005KT 10SM CLR 25/18 A2995 RMK AO2 SLP141 T02500178",
               "source_value": null,
-              "age_minutes": 157.1,
+              "age_minutes": 258.233,
               "admission_reason": "STALE"
             },
             "precipitation_24h": {
@@ -851,7 +859,7 @@
               "observation_id": "9cb03b8b8214ec1fb72f1c267c9c8502f1d0a951d1c4e749c38c3c7516e7c3e7",
               "raw_metar": "METAR KMOB 300056Z 14005KT 10SM CLR 25/18 A2995 RMK AO2 SLP141 T02500178",
               "source_value": null,
-              "age_minutes": 157.1,
+              "age_minutes": 258.233,
               "admission_reason": "STALE"
             }
           }
@@ -869,7 +877,7 @@
       "timezone_datum_depth": "CDT; upstream river stations; travel-time lag to Mobile Bay uncalibrated",
       "shoreline_cell": "regional upstream forcing",
       "independence_group": "usgs_lower_river_forcing",
-      "evaluated_at_ct": "2026-09-29T22:33:06-05:00",
+      "evaluated_at_ct": "2026-09-30T00:14:14-05:00",
       "retrieval_time_ct": "2026-09-29T17:34:50.099374-05:00",
       "production_weight": 0,
       "series": [
@@ -884,7 +892,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T21:45:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 348.1,
+          "latest_age_minutes": 449.23,
           "fresh": false,
           "latest_qualifiers": "P|e",
           "estimated_rows": 1404,
@@ -899,26 +907,26 @@
               "full_window_volume_not_extrapolated": true
             },
             "3": {
-              "observed_interval_volume_m3": 32857779.06,
-              "covered_seconds": 171714.0,
-              "coverage_fraction": 0.66248,
-              "covered_interval_mean_cfs": 6757.524235647644,
+              "observed_interval_volume_m3": 32017502.08,
+              "covered_seconds": 165646.0,
+              "coverage_fraction": 0.63907,
+              "covered_interval_mean_cfs": 6825.926465273331,
               "eligible_for_research_feature": false,
               "full_window_volume_not_extrapolated": true
             },
             "7": {
-              "observed_interval_volume_m3": 92345142.41,
-              "covered_seconds": 466914.0,
-              "coverage_fraction": 0.77201,
-              "covered_interval_mean_cfs": 6984.45094300021,
+              "observed_interval_volume_m3": 91103937.02,
+              "covered_seconds": 460846.0,
+              "coverage_fraction": 0.76198,
+              "covered_interval_mean_cfs": 6981.302154781035,
               "eligible_for_research_feature": false,
               "full_window_volume_not_extrapolated": true
             },
             "14": {
-              "observed_interval_volume_m3": 232296196.05,
-              "covered_seconds": 1071714.0,
-              "coverage_fraction": 0.88601,
-              "covered_interval_mean_cfs": 7654.526061990417,
+              "observed_interval_volume_m3": 230315958.07,
+              "covered_seconds": 1065646.0,
+              "coverage_fraction": 0.88099,
+              "covered_interval_mean_cfs": 7632.488931596418,
               "eligible_for_research_feature": false,
               "full_window_volume_not_extrapolated": true
             }
@@ -938,7 +946,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T22:00:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 333.1,
+          "latest_age_minutes": 434.23,
           "fresh": false,
           "latest_qualifiers": "P",
           "estimated_rows": 0,
@@ -956,7 +964,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T22:00:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 333.1,
+          "latest_age_minutes": 434.23,
           "fresh": false,
           "latest_qualifiers": "P",
           "estimated_rows": 0,
@@ -974,7 +982,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T22:00:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 333.1,
+          "latest_age_minutes": 434.23,
           "fresh": false,
           "latest_qualifiers": "P",
           "estimated_rows": 0,
@@ -992,7 +1000,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T22:00:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 333.1,
+          "latest_age_minutes": 434.23,
           "fresh": false,
           "latest_qualifiers": "P",
           "estimated_rows": 0,
@@ -1010,7 +1018,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T22:00:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 333.1,
+          "latest_age_minutes": 434.23,
           "fresh": false,
           "latest_qualifiers": "P",
           "estimated_rows": 0,
@@ -1028,7 +1036,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T22:00:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 333.1,
+          "latest_age_minutes": 434.23,
           "fresh": false,
           "latest_qualifiers": "P",
           "estimated_rows": 0,
@@ -1046,7 +1054,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T22:00:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 333.1,
+          "latest_age_minutes": 434.23,
           "fresh": false,
           "latest_qualifiers": "P",
           "estimated_rows": 0,
@@ -1064,41 +1072,41 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T21:30:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 363.1,
+          "latest_age_minutes": 464.23,
           "fresh": false,
           "latest_qualifiers": "P|e",
           "estimated_rows": 1532,
           "conflicting_timestamps_excluded": 0,
           "antecedent_windows": {
             "1": {
-              "observed_interval_volume_m3": 4057260.3,
-              "covered_seconds": 64614.0,
-              "coverage_fraction": 0.74785,
-              "covered_interval_mean_cfs": 2217.4883987990224,
+              "observed_interval_volume_m3": 3670854.18,
+              "covered_seconds": 58546.0,
+              "coverage_fraction": 0.67762,
+              "covered_interval_mean_cfs": 2214.2416546153645,
               "eligible_for_research_feature": false,
               "full_window_volume_not_extrapolated": true
             },
             "3": {
-              "observed_interval_volume_m3": 18485909.23,
-              "covered_seconds": 237414.0,
-              "coverage_fraction": 0.91595,
-              "covered_interval_mean_cfs": 2749.7271576233898,
-              "eligible_for_research_feature": true,
+              "observed_interval_volume_m3": 17877119.39,
+              "covered_seconds": 231346.0,
+              "coverage_fraction": 0.89254,
+              "covered_interval_mean_cfs": 2728.9190783982026,
+              "eligible_for_research_feature": false,
               "full_window_volume_not_extrapolated": true
             },
             "7": {
-              "observed_interval_volume_m3": 53400898.39,
-              "covered_seconds": 583014.0,
-              "coverage_fraction": 0.96398,
-              "covered_interval_mean_cfs": 3234.6306078413263,
+              "observed_interval_volume_m3": 52831822.94,
+              "covered_seconds": 576946.0,
+              "coverage_fraction": 0.95395,
+              "covered_interval_mean_cfs": 3233.817756832244,
               "eligible_for_research_feature": true,
               "full_window_volume_not_extrapolated": true
             },
             "14": {
-              "observed_interval_volume_m3": 110604055.41,
-              "covered_seconds": 1187814.0,
-              "coverage_fraction": 0.98199,
-              "covered_interval_mean_cfs": 3288.3476327101685,
+              "observed_interval_volume_m3": 109882538.46,
+              "covered_seconds": 1181746.0,
+              "coverage_fraction": 0.97697,
+              "covered_interval_mean_cfs": 3283.6711307769247,
               "eligible_for_research_feature": true,
               "full_window_volume_not_extrapolated": true
             }
@@ -1118,7 +1126,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T21:30:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 363.1,
+          "latest_age_minutes": 464.23,
           "fresh": false,
           "latest_qualifiers": "P",
           "estimated_rows": 0,
@@ -1136,7 +1144,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T21:30:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 363.1,
+          "latest_age_minutes": 464.23,
           "fresh": false,
           "latest_qualifiers": "P|e",
           "estimated_rows": 1532,
@@ -1154,7 +1162,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T21:30:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 363.1,
+          "latest_age_minutes": 464.23,
           "fresh": false,
           "latest_qualifiers": "P|e",
           "estimated_rows": 1532,
@@ -1172,7 +1180,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T21:30:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 363.1,
+          "latest_age_minutes": 464.23,
           "fresh": false,
           "latest_qualifiers": "P",
           "estimated_rows": 0,
@@ -1190,7 +1198,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T21:30:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 363.1,
+          "latest_age_minutes": 464.23,
           "fresh": false,
           "latest_qualifiers": "P|e",
           "estimated_rows": 1532,
@@ -1208,7 +1216,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T21:30:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 363.1,
+          "latest_age_minutes": 464.23,
           "fresh": false,
           "latest_qualifiers": "P",
           "estimated_rows": 0,
@@ -1226,7 +1234,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T21:30:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 363.1,
+          "latest_age_minutes": 464.23,
           "fresh": false,
           "latest_qualifiers": "P",
           "estimated_rows": 0,
@@ -1244,7 +1252,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T21:30:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 363.1,
+          "latest_age_minutes": 464.23,
           "fresh": false,
           "latest_qualifiers": "P",
           "estimated_rows": 0,
@@ -1262,7 +1270,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T21:30:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 363.1,
+          "latest_age_minutes": 464.23,
           "fresh": false,
           "latest_qualifiers": "P",
           "estimated_rows": 0,
@@ -1280,41 +1288,41 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T21:30:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 363.1,
+          "latest_age_minutes": 464.23,
           "fresh": false,
           "latest_qualifiers": "P|e",
           "estimated_rows": 1528,
           "conflicting_timestamps_excluded": 0,
           "antecedent_windows": {
             "1": {
-              "observed_interval_volume_m3": 5762116.93,
-              "covered_seconds": 64614.0,
-              "coverage_fraction": 0.74785,
-              "covered_interval_mean_cfs": 3149.2747546971254,
+              "observed_interval_volume_m3": 5396944.97,
+              "covered_seconds": 58546.0,
+              "coverage_fraction": 0.67762,
+              "covered_interval_mean_cfs": 3255.411351378024,
               "eligible_for_research_feature": false,
               "full_window_volume_not_extrapolated": true
             },
             "3": {
-              "observed_interval_volume_m3": 18709708.03,
-              "covered_seconds": 237414.0,
-              "coverage_fraction": 0.91595,
-              "covered_interval_mean_cfs": 2783.0166013798694,
-              "eligible_for_research_feature": true,
+              "observed_interval_volume_m3": 18208591.86,
+              "covered_seconds": 231346.0,
+              "coverage_fraction": 0.89254,
+              "covered_interval_mean_cfs": 2779.51792111287,
+              "eligible_for_research_feature": false,
               "full_window_volume_not_extrapolated": true
             },
             "7": {
-              "observed_interval_volume_m3": 42249493.81,
-              "covered_seconds": 583014.0,
-              "coverage_fraction": 0.96398,
-              "covered_interval_mean_cfs": 2559.1611748602936,
+              "observed_interval_volume_m3": 41836611.66,
+              "covered_seconds": 576946.0,
+              "coverage_fraction": 0.95395,
+              "covered_interval_mean_cfs": 2560.804646458342,
               "eligible_for_research_feature": true,
               "full_window_volume_not_extrapolated": true
             },
             "14": {
-              "observed_interval_volume_m3": 92929775.43,
-              "covered_seconds": 1187814.0,
-              "coverage_fraction": 0.98199,
-              "covered_interval_mean_cfs": 2762.877056340469,
+              "observed_interval_volume_m3": 92521602.59,
+              "covered_seconds": 1181746.0,
+              "coverage_fraction": 0.97697,
+              "covered_interval_mean_cfs": 2764.866189519575,
               "eligible_for_research_feature": true,
               "full_window_volume_not_extrapolated": true
             }
@@ -1334,7 +1342,7 @@
           "earliest_at_utc": "2026-09-13T22:45:00+00:00",
           "latest_at_utc": "2026-09-29T21:30:00+00:00",
           "latest_value": null,
-          "latest_age_minutes": 363.1,
+          "latest_age_minutes": 464.23,
           "fresh": false,
           "latest_qualifiers": "P",
           "estimated_rows": 0,
@@ -1354,20 +1362,20 @@
       "timezone_datum_depth": "explicit ISO-8601 CDT offsets; camera-visible surface/shoreline only",
       "shoreline_cell": "Montrose and Point Clear",
       "independence_group": "montrose_owner_cluster + point_clear_landing_owner_cluster",
-      "valid_time_ct": "2026-09-29T22:06:01.615433-05:00",
-      "evaluated_at_ct": "2026-09-29T22:33:06-05:00",
+      "valid_time_ct": "2026-09-30T00:06:00.448107-05:00",
+      "evaluated_at_ct": "2026-09-30T00:14:14-05:00",
       "admitted_status": "VISIBLE_SCOPE_CONTEXT_WITH_EXPLICIT_HEALTH_AND_AGE",
       "observation": "Committed vision classifications only. Unknown or absent visible signals do not establish biological absence or dawn acceptance.",
       "camera_health": {
         "expected_private_cameras": 6,
-        "private_metadata_pass": 6,
+        "private_metadata_pass": 5,
         "private_cameras": [
           {
             "camera_id": "montrose_pier_boat",
             "site_group": "montrose_owner_cluster",
             "shoreline_cell": "Montrose",
-            "captured_at_ct": "2026-09-29T22:06:30.360468-05:00",
-            "age_minutes": 26.594,
+            "captured_at_ct": "2026-09-30T00:06:25.283569-05:00",
+            "age_minutes": 7.812,
             "upstream_metadata_pass": true,
             "admitted_status": "ADMITTED_VISIBLE_SCOPE_CONTEXT",
             "visibility": "fair",
@@ -1381,11 +1389,11 @@
             "camera_id": "montrose_pier_bird",
             "site_group": "montrose_owner_cluster",
             "shoreline_cell": "Montrose",
-            "captured_at_ct": "2026-09-29T22:11:28.995876-05:00",
-            "age_minutes": 21.617,
+            "captured_at_ct": "2026-09-30T00:09:09.255756-05:00",
+            "age_minutes": 5.079,
             "upstream_metadata_pass": true,
             "admitted_status": "ADMITTED_VISIBLE_SCOPE_CONTEXT",
-            "visibility": "fair",
+            "visibility": "poor",
             "biological_detectability": "low",
             "overall_visual_signal": "none",
             "temporal_visual_signal": "none",
@@ -1396,8 +1404,8 @@
             "camera_id": "montrose_shoreline",
             "site_group": "montrose_owner_cluster",
             "shoreline_cell": "Montrose",
-            "captured_at_ct": "2026-09-29T22:09:25.937266-05:00",
-            "age_minutes": 23.668,
+            "captured_at_ct": "2026-09-30T00:08:00.507087-05:00",
+            "age_minutes": 6.225,
             "upstream_metadata_pass": true,
             "admitted_status": "ADMITTED_VISIBLE_SCOPE_CONTEXT",
             "visibility": "poor",
@@ -1411,8 +1419,8 @@
             "camera_id": "pcl_e2_back_deck",
             "site_group": "point_clear_landing_owner_cluster",
             "shoreline_cell": "Point Clear",
-            "captured_at_ct": "2026-09-29T22:07:32.484649-05:00",
-            "age_minutes": 25.559,
+            "captured_at_ct": "2026-09-30T00:07:04.287087-05:00",
+            "age_minutes": 7.162,
             "upstream_metadata_pass": true,
             "admitted_status": "ADMITTED_VISIBLE_SCOPE_CONTEXT",
             "visibility": "poor",
@@ -1426,14 +1434,14 @@
             "camera_id": "pcl_e2_bay_mouth",
             "site_group": "point_clear_landing_owner_cluster",
             "shoreline_cell": "Point Clear",
-            "captured_at_ct": "2026-09-29T22:08:56.849630-05:00",
-            "age_minutes": 24.153,
+            "captured_at_ct": "2026-09-30T00:07:31.646678-05:00",
+            "age_minutes": 6.706,
             "upstream_metadata_pass": true,
             "admitted_status": "ADMITTED_VISIBLE_SCOPE_CONTEXT",
             "visibility": "poor",
             "biological_detectability": "low",
-            "overall_visual_signal": "none",
-            "temporal_visual_signal": "none",
+            "overall_visual_signal": "unclear",
+            "temporal_visual_signal": "unclear",
             "negative_event_label_allowed": false,
             "raw_archive_verification": "NOT_VERIFIED"
           },
@@ -1441,19 +1449,21 @@
             "camera_id": "pcl_e3_bay_mouth",
             "site_group": "point_clear_landing_owner_cluster",
             "shoreline_cell": "Point Clear",
-            "captured_at_ct": "2026-09-29T22:10:08.787377-05:00",
-            "age_minutes": 22.954,
-            "upstream_metadata_pass": true,
-            "admitted_status": "ADMITTED_VISIBLE_SCOPE_CONTEXT",
-            "visibility": "poor",
-            "biological_detectability": "low",
-            "overall_visual_signal": "none",
-            "temporal_visual_signal": "none",
+            "captured_at_ct": null,
+            "age_minutes": null,
+            "upstream_metadata_pass": false,
+            "admitted_status": "UNKNOWN_STALE_OR_FAILED",
+            "visibility": "UNKNOWN",
+            "biological_detectability": "UNKNOWN",
+            "overall_visual_signal": "UNKNOWN",
+            "temporal_visual_signal": "UNKNOWN",
             "negative_event_label_allowed": false,
             "raw_archive_verification": "NOT_VERIFIED"
           }
         ],
-        "unknown_upstream_camera_ids": []
+        "unknown_upstream_camera_ids": [
+          "pcl_e3_bay_mouth"
+        ]
       }
     },
     {
@@ -1533,7 +1543,7 @@
       "parameter": "regional water quality and meteorology",
       "observed_vs_predicted_model": "DIRECT_AGENCY_OBSERVATION_REGIONAL_PROXY",
       "independence_group": "ndbc_weeks_bay_regional_proxy",
-      "evaluated_at_ct": "2026-09-29T22:33:06-05:00",
+      "evaluated_at_ct": "2026-09-30T00:14:14-05:00",
       "retrieval_time_ct": "2026-09-29T17:34:50.983090-05:00",
       "production_weight": 0,
       "parameter_admission": [
@@ -1544,7 +1554,7 @@
           "unit": "mS/cm",
           "observed_at": "2026-09-09T16:15:00+00:00",
           "value_status": "UNKNOWN_STALE",
-          "age_minutes": 29478.1,
+          "age_minutes": 29579.233,
           "freshness_minutes": 180,
           "production_weight": 0
         },
@@ -1555,7 +1565,7 @@
           "unit": "m",
           "observed_at": "2026-09-09T16:15:00+00:00",
           "value_status": "UNKNOWN_STALE",
-          "age_minutes": 29478.1,
+          "age_minutes": 29579.233,
           "freshness_minutes": 180,
           "production_weight": 0
         },
@@ -1566,7 +1576,7 @@
           "unit": "mg/L",
           "observed_at": "2026-09-09T16:15:00+00:00",
           "value_status": "UNKNOWN_STALE",
-          "age_minutes": 29478.1,
+          "age_minutes": 29579.233,
           "freshness_minutes": 180,
           "production_weight": 0
         },
@@ -1577,7 +1587,7 @@
           "unit": "%",
           "observed_at": "2026-09-09T16:15:00+00:00",
           "value_status": "UNKNOWN_STALE",
-          "age_minutes": 29478.1,
+          "age_minutes": 29579.233,
           "freshness_minutes": 180,
           "production_weight": 0
         },
@@ -1588,7 +1598,7 @@
           "unit": "1",
           "observed_at": "2026-09-09T16:15:00+00:00",
           "value_status": "UNKNOWN_STALE",
-          "age_minutes": 29478.1,
+          "age_minutes": 29579.233,
           "freshness_minutes": 180,
           "production_weight": 0
         },
@@ -1599,7 +1609,7 @@
           "unit": "psu",
           "observed_at": "2026-09-09T16:15:00+00:00",
           "value_status": "UNKNOWN_STALE",
-          "age_minutes": 29478.1,
+          "age_minutes": 29579.233,
           "freshness_minutes": 180,
           "production_weight": 0
         },
@@ -1610,7 +1620,7 @@
           "unit": "FTU",
           "observed_at": "2026-09-09T16:15:00+00:00",
           "value_status": "UNKNOWN_STALE",
-          "age_minutes": 29478.1,
+          "age_minutes": 29579.233,
           "freshness_minutes": 180,
           "production_weight": 0
         },
@@ -1621,7 +1631,7 @@
           "unit": "degC",
           "observed_at": "2026-09-09T16:15:00+00:00",
           "value_status": "UNKNOWN_STALE",
-          "age_minutes": 29478.1,
+          "age_minutes": 29579.233,
           "freshness_minutes": 180,
           "production_weight": 0
         },
@@ -1632,7 +1642,7 @@
           "unit": "hPa",
           "observed_at": "2026-09-29T22:00:00+00:00",
           "value_status": "UNKNOWN_STALE",
-          "age_minutes": 333.1,
+          "age_minutes": 434.233,
           "freshness_minutes": 90,
           "production_weight": 0
         },
@@ -1643,7 +1653,7 @@
           "unit": "degC",
           "observed_at": "2026-09-29T22:00:00+00:00",
           "value_status": "UNKNOWN_STALE",
-          "age_minutes": 333.1,
+          "age_minutes": 434.233,
           "freshness_minutes": 90,
           "production_weight": 0
         },
@@ -1654,7 +1664,7 @@
           "unit": "degC",
           "observed_at": "2026-09-29T22:00:00+00:00",
           "value_status": "UNKNOWN_STALE",
-          "age_minutes": 333.1,
+          "age_minutes": 434.233,
           "freshness_minutes": 90,
           "production_weight": 0
         },
@@ -1665,7 +1675,7 @@
           "unit": "degree_true",
           "observed_at": "2026-09-29T22:00:00+00:00",
           "value_status": "UNKNOWN_STALE",
-          "age_minutes": 333.1,
+          "age_minutes": 434.233,
           "freshness_minutes": 90,
           "production_weight": 0
         },
@@ -1676,7 +1686,7 @@
           "unit": "m/s",
           "observed_at": "2026-09-29T22:00:00+00:00",
           "value_status": "UNKNOWN_STALE",
-          "age_minutes": 333.1,
+          "age_minutes": 434.233,
           "freshness_minutes": 90,
           "production_weight": 0
         }
@@ -1715,18 +1725,6 @@
       "source": "ngofs2_mobile_bay_named_stations_forecast",
       "status": "SOURCE_UNAVAILABLE",
       "value_status": "UNKNOWN"
-    },
-    {
-      "source": "NOAA/NWS ASOS KBFM and KMOB",
-      "status": "STALE",
-      "value_status": "UNKNOWN",
-      "detail": "KBFM age 160.1 minutes; KMOB age 157.1 minutes; rainfall fields UNKNOWN"
-    },
-    {
-      "source": "USGS NWIS lower-river forcing",
-      "status": "STALE",
-      "value_status": "UNKNOWN",
-      "detail": "latest series ages 333.1 to 363.1 minutes; river-to-Bay lag remains uncalibrated"
     }
   ],
   "outlook": [
@@ -1758,17 +1756,19 @@
   "probability_basis": {
     "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
     "numeric_change_from_prior_snapshot": 0,
-    "reassessment_method": "Reviewed 22:33 CT recovery reassessment. The fresh six-camera cycle changed coverage quality but retained low biological detectability and no direct event evidence. ASOS and lower-river inputs remain stale; model/proxy products retain zero production weight. Existing dated heuristic ranges are therefore preserved with a genuine numeric change of 0."
+    "reassessment_method": "Reviewed issue-time admission of the committed 00:06 CT owner-camera generation against the prior 22:33 CT snapshot. One new camera failure was classified UNKNOWN and uncertainty widened; five matching low-detectability bursts were admitted only within visible scope. Stale ASOS/river and unavailable model/direct-bottom inputs remained UNKNOWN. With no new direct event evidence, the prior heuristic ranges and zero production weights were retained."
   },
   "sanity_check": "Existing dated outlooks and confidence are unchanged. Point Clear 2-5% (central 3%) and Daphne/May Day 1-4% (central 2%) remain below strict >20%; missing evidence is not a negative.",
   "operational_fault_assessment": {
     "active_fault_present": true,
-    "failed_camera_ids": [],
-    "new_fault_notification_required": false,
+    "failed_camera_ids": [
+      "pcl_e3_bay_mouth"
+    ],
+    "new_fault_notification_required": true,
     "recovery_notification_required": false,
     "prior_recovery_context": {
-      "snapshot_time_ct": "2026-09-28T00:34:16.492-05:00",
-      "recovery_notification_required": true
+      "snapshot_time_ct": "2026-09-29T22:33:06-05:00",
+      "camera_health": "6/6 owner cameras healthy with matching three-frame bursts"
     },
     "all_six_desktop_archive_acceptance": "NOT_VERIFIED",
     "desktop_acceptance_receipt": {
@@ -1784,70 +1784,58 @@
       "historical_acceptance": null
     },
     "existing_material_input_quality_alert_policy_changed": false,
-    "basis": "Reviewed partial recovery: all six owner cameras passed the 22:06 CT cycle, but committed KBFM/KMOB weather ages are 160.1/157.1 minutes and lower-river series ages are 333.1-363.1 minutes, beyond their admission limits. These inputs remain UNKNOWN.",
-    "partial_recovery_notification_required": true,
-    "recovered_camera_ids": [
-      "pcl_e2_back_deck"
-    ],
-    "active_environmental_fault_sources": [
-      "NOAA/NWS ASOS KBFM and KMOB",
-      "USGS NWIS lower-river forcing manifest"
-    ]
+    "basis": "New material camera-level fault after the prior 6/6 recovery: pcl_e3_bay_mouth failed the 00:06 CT capture. Five valid camera groups remain available, so ranges are preserved and uncertainty is widened rather than treating the missing view as negative. Existing stale ASOS/river and other UNKNOWN inputs continue."
   },
   "reconciliation": {
-    "as_of_utc": "2026-09-30T03:33:06+00:00",
-    "input_commit_sha": "e61f4e8caaa4b404db5de3572d762f768bb72f0f",
-    "prior_snapshot_time_ct": "2026-09-29T21:49:30-05:00",
-    "prior_snapshot_blob": "1417d1c73dc589ce187dd093c69737210a4be00f",
+    "as_of_utc": "2026-09-30T05:14:14+00:00",
+    "input_commit_sha": "a139830ed2258434962cf9d98efec5a99cd25121",
+    "prior_snapshot_time_ct": "2026-09-29T22:33:06-05:00",
+    "prior_snapshot_blob": "d7235e157218348277ab7c3ce172ca64dd24bc98",
     "alert_threshold_percent": 20,
     "alert_comparator": ">",
     "forecast_weights_changed": false,
-    "consumption_identity": "8d6c7748a461d415ba22938d401ffc47b82268e51d18d554a0be06a969452f7e",
-    "scope": "Committed evidence with reviewed recovery assessment. Mechanical admission retained zero weights and frozen outlooks; six-camera recovery and continuing stale environmental inputs were reviewed explicitly.",
+    "consumption_identity": "bf677e53e63304489dbdb2ae34271f8603e60cae6b1dd26f39ab932db382c2c7",
+    "scope": "Committed evidence only; bounded desktop receipts are operational context. No new capture, retrieval, calibration, public/human observation or desktop/dawn acceptance.",
     "source_provenance": {
       "model_data/sensor_contract.json": {
         "sha256": "3af4a0dcad52fe85ed26a9e085231158989322e8e3a3a1ecb3332ba7e4eb48aa",
         "git_blob": "f1038dabb3c7f2b53f9f4d01043668fd548ebfa5"
       },
       "status.json": {
-        "sha256": "163beb0c2396d9068a8366de46dc92a2b1c967cc3d7e48b44d1e637dcc65187f",
-        "git_blob": "6640e6f682149f1070fdf74a8174b82fd79faf17"
+        "sha256": "737bde3b32bfc0931c14bc89318c427884e4169985ef7db4ddee52de7eec8f10",
+        "git_blob": "98f9256f062f7cf99ae0e39bf313671711ee9f89"
       },
       "burst_status.json": {
-        "sha256": "946bfcd2c2e3199873df2f4217d05d09fe5b3b256ae26a24566a3faf0b2b3169",
-        "git_blob": "3a3db470d70c975911a3da634719a0731a60ad68"
+        "sha256": "580012d370e89c639bff4217b66a56643c63eb306ed68ac07f51c470ec32182e",
+        "git_blob": "69917e5801d33aabb718b4265c36d7fd00541876"
       },
       "vision.json": {
-        "sha256": "79c8b2f9abe0e0577ffa9c6b59f087180a6de777ef2fb1d72616c3fc2373cab9",
-        "git_blob": "25245e53577db184273beb016c05b5c630ff26bf"
+        "sha256": "48512ded584ac9e2797505a14ded2476ba4320db949e1f22e1e214054b942dbe",
+        "git_blob": "e743136fe64fb7d518ecf377f1b578dcacf8700c"
       },
       "model_data/camera_sources.json": {
         "sha256": "d02a7afca557d38f1be2cf1658c5da5176af9c0014a1ee40c459c58f6e53713f",
         "git_blob": "f5ea5fad302178263918d265550564f574b97390"
       },
       "montrose_pier_bird.jpg": {
-        "sha256": "2eaa1f52fdea4dcdc71a95aef49e428f632cbab62a7857fca2a8993cd2420223",
-        "git_blob": "a9329b79b1eea90cf47da22b6fd7df27badd53a0"
+        "sha256": "747b8c2ce1db1928e5b735469d9a16668581df9613f741d48e70b67650786484",
+        "git_blob": "5e7bccbfe99b6d1e12955e3fb526dd880fcf51e1"
       },
       "montrose_pier_boat.jpg": {
-        "sha256": "de0f3f915d3b02c9accf9888431ad8bf277f5b06f2b99c373ff2cf7c15587d1c",
-        "git_blob": "a77f99953418de9f5c37167a5ad54c01ed1b348b"
+        "sha256": "32d3df15b4b1a4c3378276780d8c3e0bab1e3a65325c62086f10510ee1099cef",
+        "git_blob": "07b3c10deb46e838fe88a87470a2d78d7e1bd4d0"
       },
       "montrose_shoreline.jpg": {
-        "sha256": "3a64eb7708f583d6233d41452ed1dbb4f28248004a1897795f9b33d1e615176e",
-        "git_blob": "e894f2a88b899e0a6bc37332dafcb96cd29264d0"
+        "sha256": "c71950eff783a2a2fdbf6c01ba4fbdb82bad4d796a0172b45e191302eeb04844",
+        "git_blob": "dc689d0e76e2e41ee74d2e78f612108d509f2dc1"
       },
       "pcl_e2_back_deck.jpg": {
-        "sha256": "a1aeb0a38023ce3500654ebcf71d2b93c893ada28a635d9725d88c0498569e1d",
-        "git_blob": "d18ce4220282670792cc662a0cb69cca9537d1c6"
+        "sha256": "1de6423c24f63be22f891df054e888e410d20ff13bae3e54b1a5d250d906641a",
+        "git_blob": "ae387e49773111545db065af9fc1108e22742001"
       },
       "pcl_e2_bay_mouth.jpg": {
-        "sha256": "d074971dcb513987fe1cb91866c28ebc3b01b95fee63a55662df5ac5198e987a",
-        "git_blob": "75b1efc3935e76401f97a20f683f6806d9ef7f5c"
-      },
-      "pcl_e3_bay_mouth.jpg": {
-        "sha256": "ab1e74dd04dc69cfed0e5bf6265666419a27623f63d76b188aa2a82b18fb3402",
-        "git_blob": "baefc45b99d81b8bff097eb7fbaddf8c033f7278"
+        "sha256": "f10c87fed0de0d56d354b93e4f2eb4b14530a77efb44de1f927a6c8c0a0973f6",
+        "git_blob": "007eb78e632ddb61e3776616dede182631272a56"
       },
       "model_data/asos_weather_manifest.json": {
         "sha256": "feb261190d86285a459f5336473d5340b20f7367415cd4a9ab991c9b49f7278c",
@@ -1993,8 +1981,8 @@
     "validation_summary": {
       "cameras": {
         "status": "VALIDATED_PUBLISHED_CONTEXT",
-        "available_at_utc": "2026-09-30T03:11:28.995876+00:00",
-        "fingerprint": "e329db0fe43e3b58faed87f21764099347c08cebfa4b9aaf73fb632c152d64d3"
+        "available_at_utc": "2026-09-30T05:09:09.255756+00:00",
+        "fingerprint": "de4c9e3b1294c7bba4f748d48a7fea2bff89ee09b52fd36a9bbbaebfa278cedb"
       },
       "asos_weather": {
         "status": "VALIDATED_PUBLISHED_CONTEXT",
@@ -2036,61 +2024,6 @@
         "available_at_utc": "2026-09-29T22:47:47.922201+00:00",
         "fingerprint": "0573b33ac592313be099a361ea77490fb029187b3d3d5c549d5b73bb6640a64b"
       }
-    },
-    "reviewed_fault_assessment": {
-      "reviewed_at_ct": "2026-09-29T22:33:06-05:00",
-      "camera_recovery": "6/6 owner cameras passed matching three-frame bursts",
-      "remaining_faults": [
-        "stale ASOS",
-        "stale lower-river forcing"
-      ],
-      "probability_changed": false,
-      "alert_gate": "material_critical_input_fault"
     }
-  },
-  "weather_input_readback": {
-    "issue_time_ct": "2026-09-29T22:33:06-05:00",
-    "pinned_repository_commit": "e61f4e8caaa4b404db5de3572d762f768bb72f0f",
-    "source_manifest": {
-      "path": "model_data/asos_weather_manifest.json",
-      "status": "complete",
-      "sha256": "feb261190d86285a459f5336473d5340b20f7367415cd4a9ab991c9b49f7278c"
-    },
-    "normalized_source": {
-      "path": "model_data/asos_weather_normalized.json",
-      "sha256": "fa4512e3e78a750f78e3a45dad4b608bd63f098f18349876bc5dcf9cf1f08262",
-      "manifest_hash_verified": true
-    },
-    "current_snapshot_source": {
-      "path": "model_data/current_asos_weather.json",
-      "sha256": "afcd9abfa74791559112aa807167895d22b635ab3af893d126d641cb830e3c8b",
-      "git_blob": "c7ab6ea473ad740ee72f6d1e34f1003b89efef27",
-      "status": "consumed_for_readback_only; issue-time admission independently recomputed"
-    },
-    "stations": {
-      "KBFM": {
-        "observed_at_utc": "2026-09-30T00:53:00+00:00",
-        "available_at": "2026-09-30T01:11:24.005228+00:00",
-        "age_minutes": 160.1,
-        "wind_speed_kt": null,
-        "wind_direction_degree_true": null,
-        "wind_status": "UNKNOWN_STALE",
-        "rainfall_status": "UNKNOWN"
-      },
-      "KMOB": {
-        "observed_at_utc": "2026-09-30T00:56:00+00:00",
-        "available_at": "2026-09-30T01:11:24.005228+00:00",
-        "age_minutes": 157.1,
-        "wind_speed_kt": null,
-        "wind_direction_degree_true": null,
-        "wind_status": "UNKNOWN_STALE",
-        "rainfall_status": "UNKNOWN"
-      }
-    },
-    "blockers": [
-      "Both committed station observations exceed the 90-minute weather freshness limit.",
-      "No newer committed official observation was available at the pinned source generation.",
-      "Blank rainfall fields remain UNKNOWN and are not interpreted as zero or no rain."
-    ]
   }
 }
