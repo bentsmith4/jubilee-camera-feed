@@ -6,6 +6,7 @@ on:
       - 'model_data/**'
       - 'tests/**'
       - 'desktop_runtime/**'
+      - 'research/j09_pointclear_reviewed/**'
       - 'requirements-tests.txt'
       - 'requirements-model-data.txt'
       - '.github/workflows/research_quality.yml'
@@ -38,6 +39,8 @@ jobs:
             model_data/build_observation_effort_snapshot.py
       - name: Run full offline regression suite
         run: python -m unittest discover -s tests -v
+      - name: Run preserved J09 portable proposal lightweight tests
+        run: python -m unittest discover -s research/j09_pointclear_reviewed/tests -v
       - name: Audit bounded desktop receipt against committed public evidence
         run: python -B model_data/desktop_acceptance.py
       - name: Build historical recovery diagnostic

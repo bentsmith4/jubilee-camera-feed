@@ -1,0 +1,445 @@
+{
+  "schema_version": 1,
+  "status": "DECODED_RESEARCH_NOT_SCIENTIFICALLY_ACCEPTED",
+  "dataset": "Y1.x122.038:0002",
+  "doi": "10.7266/N7B85630",
+  "source_url": "https://data.griidc.org/data/Y1.x122.038:0002",
+  "archive_url": "https://data.griidc.org/download/dataset/1519",
+  "repository_base_commit": "44c8d677578e08ada145bc48af5bef495bac4be1",
+  "source_package": {
+    "revision": 2,
+    "receipt_sha256": "84b3adbafb02714fc4ed3ee6c72430e6374836f60ea945541161f08a71f06bb2",
+    "delivered_file_count": 30,
+    "tests_passed": 17,
+    "original_code_hashes": {
+      "ingest_ship_channel.py": "f36e802f25456af32d22d6e2e1ee0b3b59596aae944c4a5f4a5787e66d6d5e75",
+      "motion_consistency.py": "f4002eebc9c2fe596aa729724d09cd351903a354d5e0149c346dd464fa76f00a"
+    },
+    "prior_checkpoint_receipt_sha256": "37ad758e85f150e01a4f1d643e896e156be94d230c5cbef12e5c3a9d3eda1403"
+  },
+  "archive": {
+    "all_individual_provider_names_and_sizes_match": true,
+    "bytes": 94580522,
+    "file_count": 68,
+    "original_archive_endpoint": "HTTP_500; generated ZIP endpoint used",
+    "provider_archive_checksum": "811e0b3e75ac3babda1bf7cc2e7c163d760b5c1d9d7dd5d07b1f02dc9f15db8c",
+    "provider_archive_checksum_matches_download": false,
+    "provider_archive_declared_bytes": 94577258,
+    "sha256": "f0552c3aa68267dd7443f8f7ed672f32c938ed91744cee8cb967c3e5b50f18d9",
+    "uncompressed_bytes": 94567040,
+    "zip_crc": "PASS"
+  },
+  "reference_ingested_at_utc": "2026-09-28T04:25:16.517421+00:00",
+  "reference_clock_basis": "Original downloaded ZIP filesystem modification time; different acquisition times legitimately change derived table hashes.",
+  "reference_result_sha256": {
+    "ensembles.csv.gz": "a0f1a8ec023968ff0f13f0f3f9344ed71046d3998502a6ba290d63f11e9f8107",
+    "ingestion_summary.json": "cc57ef623ed19707dfe61477a1ab7c3ac782c14e22a96ab07fced6d4693bcbed",
+    "motion_consistency.json": "949fcede7762f3bce262b10ece13c81937eaca8940143029da332faf50522bb7",
+    "motion_pairs.csv": "2ca3766ec70bc54f75593cd71ef94ea8d226e3f92df3d0d21bf6e1162c4a55ab",
+    "navigation_rmc.csv.gz": "2401a30463448a163bea2d3f7ba24b226d5ebd92e3b49efb7859369b6b028b49",
+    "velocity_bins.csv.gz": "0fb7f203b949171fe672a3c94b66c8791261cedbaf6064eae2eb63f3cd500cb0"
+  },
+  "reference_counts": {
+    "navigation_rmc_rows": 107996,
+    "pd0_ensembles": 6210,
+    "structurally_screened_bin_rows": 138927,
+    "survey_days": 11,
+    "training_labels_created": 0,
+    "validated_current_rows": 0,
+    "velocity_bin_rows": 248400
+  },
+  "raw_members": [
+    {
+      "bytes": 95202,
+      "path": "20100818_transect/20100818.DAT",
+      "sha256": "ed77d2d4864cbfcda828e49ad989a1c8d9d5553097bf306f2fe82056ffba3381"
+    },
+    {
+      "bytes": 1565,
+      "path": "20100818_transect/20100818.RT",
+      "sha256": "73481f2b9630ad79cd317e02bcb419d457d84e5288e56014016ba0d672c9e66a"
+    },
+    {
+      "bytes": 2503709,
+      "path": "20100818_transect/20100818_transect.TXT",
+      "sha256": "0bfbae6c9c0ec2519a0a6d0ac5edddaba7a2f8cb6b38e87090cb61297040d3b9"
+    },
+    {
+      "bytes": 796925,
+      "path": "20100818_transect/20100818_transect_000r.000",
+      "sha256": "b17c4c5f401240c72a8b9fe96cc87349796184d7adea31d5557ad92ab040aac4"
+    },
+    {
+      "bytes": 3202,
+      "path": "20100818_transect/20100818_transect_000w.000",
+      "sha256": "f85c5c23c19a63cc04ee10cf5b4523c8e9bc059f40c4d8da3f32283371cb0210"
+    },
+    {
+      "bytes": 1086946,
+      "path": "20100818_transect/MB_chan_2010_8_18.tif",
+      "sha256": "136d21d020e8ecee92cce9f6302ef2ffa9a610ad14e6efaf6353f014cc0c3018"
+    },
+    {
+      "bytes": 92783,
+      "path": "20100823_transect/20100823.DAT",
+      "sha256": "f1b896c920b42b99edacde427076d0607b3e22f42ee3b9d0d2f820a2c6617af6"
+    },
+    {
+      "bytes": 1561,
+      "path": "20100823_transect/20100823.RT",
+      "sha256": "632aad85721d2e14df35afac919f4cca481f90be6965444ac0f3265ef3c3ccb0"
+    },
+    {
+      "bytes": 7678702,
+      "path": "20100823_transect/20100823_transect.TXT",
+      "sha256": "9a700569d29a18212b30a7be7ce7ab9c9703d5b312801f07f7efd1e77f91f2de"
+    },
+    {
+      "bytes": 735430,
+      "path": "20100823_transect/20100823_transect_000r.000",
+      "sha256": "0ef4c4200db4e731491611bf1bdbe54010ef1cd3db0dda2746ca1b7745dd3ec2"
+    },
+    {
+      "bytes": 3204,
+      "path": "20100823_transect/20100823_transect_000w.000",
+      "sha256": "d619d92234352dfaede93903569ffab45e33dd0000fb247be1d66585cf21f6e0"
+    },
+    {
+      "bytes": 1142470,
+      "path": "20100823_transect/MB_chan_2010_8_23.tif",
+      "sha256": "86da3224c6ced68fabfd3800e2dc5980f9f03db0b1d14f095183157b32f1fb54"
+    },
+    {
+      "bytes": 86737,
+      "path": "20100902_transect/20100902.DAT",
+      "sha256": "4199edbb28178f8128114b1b6b78b22086da2ef0cfe08a63a2962842a8aa5a72"
+    },
+    {
+      "bytes": 1545,
+      "path": "20100902_transect/20100902.RT",
+      "sha256": "ece0f0c402760aea4f63e7faba0f2a4c51920da0dde737d4b086f87192d27e88"
+    },
+    {
+      "bytes": 7925615,
+      "path": "20100902_transect/20100902_transect.TXT",
+      "sha256": "5b7bd861b2094e9b0c1eaa4b78e810d9919de7d4bdcb96d565eecc1d59e9d75c"
+    },
+    {
+      "bytes": 727900,
+      "path": "20100902_transect/20100902_transect_000r.000",
+      "sha256": "bd539cce13784f57098cedc73faf07a891c7e860d2ada57e8be4026f92542f65"
+    },
+    {
+      "bytes": 3234,
+      "path": "20100902_transect/20100902_transect_000w.000",
+      "sha256": "42e0f696bfb6e63c310dce86715c3193ccc17992a1b18ded4dc9e2521cbb4a3a"
+    },
+    {
+      "bytes": 1165446,
+      "path": "20100902_transect/MB_chan_2010_9_2.tif",
+      "sha256": "7ae46c3f2a8a4dbaee66e367d94a15f072f064fe1330b83bd8b5f3a5e6fc082d"
+    },
+    {
+      "bytes": 95038,
+      "path": "20100909_transect/20100909.DAT",
+      "sha256": "9912e3b73bfe79a84261dea852dc3d0674e5f2900269623be8f4215ac175d31d"
+    },
+    {
+      "bytes": 1565,
+      "path": "20100909_transect/20100909.RT",
+      "sha256": "903ac4780dea770f7c7a6c863388ee1c6c3e91f98eed8eecd6841932e2a0bb3d"
+    },
+    {
+      "bytes": 7682237,
+      "path": "20100909_transect/20100909_transect.TXT",
+      "sha256": "47660deffde04e15ffc7fa978d53a57cadbf4f89dadd5d03c729f188aa4cc1fd"
+    },
+    {
+      "bytes": 751745,
+      "path": "20100909_transect/20100909_transect_000r.000",
+      "sha256": "81ef4a21f58fe46eaf5b7e6616dcc6ef929d47284e1082a58af7023f98c9731b"
+    },
+    {
+      "bytes": 3226,
+      "path": "20100909_transect/20100909_transect_000w.000",
+      "sha256": "977af171e25de993af923954fa0c5ed3e886172ebeecd4898f8b0bbb2db41f5a"
+    },
+    {
+      "bytes": 1121608,
+      "path": "20100909_transect/MB_chan_2010_9_9.tif",
+      "sha256": "e9f4def9cfe3578741545bc7daaf632993de910d4d4bb9a5c1620daa976b1eaf"
+    },
+    {
+      "bytes": 81002,
+      "path": "20100915_transect/20100915.DAT",
+      "sha256": "21f9d327f560bac3f58d6145b4b228179b052f76cf34f7aee7af5c97a34160ed"
+    },
+    {
+      "bytes": 1545,
+      "path": "20100915_transect/20100915.RT",
+      "sha256": "a306b60653caeb310dd17e1b2ccbdeaea6fb1fe7f871aa3b482fdcccf1d1ec47"
+    },
+    {
+      "bytes": 7355779,
+      "path": "20100915_transect/20100915_transect.TXT",
+      "sha256": "81f2bf154793964e3ceeb98950fcd024ad86959302d6e06d7523676aac37fc3f"
+    },
+    {
+      "bytes": 722880,
+      "path": "20100915_transect/20100915_transect_000r.000",
+      "sha256": "cb414677a76e87b279a3b1362a1e7f40887861859806817c09f58e3858d521ed"
+    },
+    {
+      "bytes": 3225,
+      "path": "20100915_transect/20100915_transect_000w.000",
+      "sha256": "f6ba0a2ceb6729760b189be0d159b98cc54ef23e9735e6346b2acf4be6e95091"
+    },
+    {
+      "bytes": 1140584,
+      "path": "20100915_transect/MB_chan_2010_9_15.tif",
+      "sha256": "11d23f27ab1203802951b1ea848b04fa0aed8eed6a8ebbdb86f337e6816cac7b"
+    },
+    {
+      "bytes": 1025,
+      "path": "20100923_transect/20100923.DAT",
+      "sha256": "0957c75d688f000a3067e350bc435e0e63d849a89c9df770bdc923672256f993"
+    },
+    {
+      "bytes": 1578,
+      "path": "20100923_transect/20100923.RT",
+      "sha256": "35202354113a79c58eb54771a585735de0662ad5d7e81011588193a29c8a4f3e"
+    },
+    {
+      "bytes": 6909756,
+      "path": "20100923_transect/20100923_transect.TXT",
+      "sha256": "a02c971a982061aa035743f6e2fb6a27be41e7dadf063c731d58b618a7c94398"
+    },
+    {
+      "bytes": 697780,
+      "path": "20100923_transect/20100923_transect_000r.000",
+      "sha256": "fcdb9cc87c5e83ce3de8f68814421a37c7a419985022be3c323190e23bee636b"
+    },
+    {
+      "bytes": 3231,
+      "path": "20100923_transect/20100923_transect_000w.000",
+      "sha256": "c74e2f29bff328aa05b76c22d9b46a5adb9e36076d062559579c257994da627c"
+    },
+    {
+      "bytes": 1139330,
+      "path": "20100923_transect/MB_chan_2010_9_23.tif",
+      "sha256": "9dd56e5db1c023e42a797c91b0ec86ee806e2d72902033cb6b573ea37b27fc0d"
+    },
+    {
+      "bytes": 72825,
+      "path": "20100930_transect/20100930.DAT",
+      "sha256": "8cf55fd0d8d24b5d16c17b0aa8dc64153b8f76ab2321ef8f5106f4b42924dd43"
+    },
+    {
+      "bytes": 1547,
+      "path": "20100930_transect/20100930.RT",
+      "sha256": "8aa0761c2aa29607b894403c94c7693a328bca8e77aa6fa9c5ffcb649eb3ddff"
+    },
+    {
+      "bytes": 6908501,
+      "path": "20100930_transect/20100930_transect.TXT",
+      "sha256": "f93165d234a36b7d4664208e6b42cb672ee86443b03fea082a5cb48364a8d72e"
+    },
+    {
+      "bytes": 665150,
+      "path": "20100930_transect/20100930_transect_000r.000",
+      "sha256": "9b84e989364428da87d653c66acd0c09cd946709fa13a36d32fa8e9e31aaef8a"
+    },
+    {
+      "bytes": 3232,
+      "path": "20100930_transect/20100930_transect_000w.000",
+      "sha256": "9b5ec1599531c27474240712ab237ceb2249eded128ec9f671480e26963d29d4"
+    },
+    {
+      "bytes": 1034264,
+      "path": "20100930_transect/MB_chan_2010_9_30.tif",
+      "sha256": "e239ddaa23c4ad16f0fd3daa631779e785b77ff055d266c1a53e24ec4f83b102"
+    },
+    {
+      "bytes": 82861,
+      "path": "20101007_transect/20101007.DAT",
+      "sha256": "1351d5e4a4dc34f11eb3f665cf05b5e95b488f04770080d779ed4c1c19eb7c2c"
+    },
+    {
+      "bytes": 1565,
+      "path": "20101007_transect/20101007.RT",
+      "sha256": "0a55a27941a44c17894cb3d6495c76f5452689d279924613a0a58230fa2a5a6c"
+    },
+    {
+      "bytes": 5998221,
+      "path": "20101007_transect/20101007_transect.TXT",
+      "sha256": "58f7cf8312e9c4f3c778890ac1aea3f69897582b24dd61174999e6943bedfee0"
+    },
+    {
+      "bytes": 671425,
+      "path": "20101007_transect/20101007_transect_000r.000",
+      "sha256": "a4a0d23a1942e8784eb9c36d977ae8b4b7186abeaca4b7446ba333ae9cceebbc"
+    },
+    {
+      "bytes": 3237,
+      "path": "20101007_transect/20101007_transect_000w.000",
+      "sha256": "29669842013ac6c01c0a27f2107fa77aba0ad1c3f7cb27379557f201e33a3e6c"
+    },
+    {
+      "bytes": 1085812,
+      "path": "20101007_transect/MB_chan_2010_10_7.tif",
+      "sha256": "dfaf19ad92b7a9316dd69bd6eb2cbda170ddf0915112e3f95c77cbc3ae20f560"
+    },
+    {
+      "bytes": 79622,
+      "path": "20101013_transect/20101013.DAT",
+      "sha256": "af7b78edd86ffe8b3b87d2236ecbb33f0204a5afd21fb0330242b37db4323d61"
+    },
+    {
+      "bytes": 1563,
+      "path": "20101013_transect/20101013.RT",
+      "sha256": "791b4b32a5017f769a2299084e8619e2f7690ffa581dd0e3501e912852e2bda5"
+    },
+    {
+      "bytes": 6667164,
+      "path": "20101013_transect/20101013_transect.TXT",
+      "sha256": "a32b38a8fc91c4a7538c7e1fefecab397cb85f5ee1c3c72d169e1d998b5950a1"
+    },
+    {
+      "bytes": 648835,
+      "path": "20101013_transect/20101013_transect_000r.000",
+      "sha256": "5df4c2f05889e1e3ca9f126b6741414da8a2d53777324d102d52b4995836e994"
+    },
+    {
+      "bytes": 3237,
+      "path": "20101013_transect/20101013_transect_000w.000",
+      "sha256": "1f5660c3790b675e92a2de724529898671ba4e14da6ad50dca0a082e97b9667c"
+    },
+    {
+      "bytes": 1164108,
+      "path": "20101013_transect/MB_chan_2010_10_13.tif",
+      "sha256": "6543fbad9dc15f7c71698a748fb7ab7890c49d7292af9fd7819c44af04a87a9e"
+    },
+    {
+      "bytes": 66051,
+      "path": "20101021_transect/20101021.DAT",
+      "sha256": "1fc7678115f47bc08b657bb2e1066d9bae808719e0a6640c62ccc4b33d99ff48"
+    },
+    {
+      "bytes": 1525,
+      "path": "20101021_transect/20101021.RT",
+      "sha256": "185c367909f6dfee53a777a09334bac79ffcc94d375d2b12794de62042a68135"
+    },
+    {
+      "bytes": 6891810,
+      "path": "20101021_transect/20101021_transect.TXT",
+      "sha256": "12d3a40695ed60b6cce6afc1026f7d3a06ecff29a46aa6355bfe4545bf4719df"
+    },
+    {
+      "bytes": 681465,
+      "path": "20101021_transect/20101021_transect_000r.000",
+      "sha256": "e927ac6efdc8b252b06c2e6905bfaba4270c28513ff4353e81026b77580b2225"
+    },
+    {
+      "bytes": 3237,
+      "path": "20101021_transect/20101021_transect_000w.000",
+      "sha256": "91759a53cded721ca1f6093d90431b53cc0ed1e11c97eea3f8c4f1722f7cf78d"
+    },
+    {
+      "bytes": 1159054,
+      "path": "20101021_transect/MB_chan_2010_10_21.tif",
+      "sha256": "012bb44ba0397586bd397ce0b409a192da1241e3a52dd171666df50705c0ffa2"
+    },
+    {
+      "bytes": 66579,
+      "path": "20101027_transect/20101027.DAT",
+      "sha256": "99efd547ea606bb5d1d7e0d88ffb4bf8877c66838bd2ce5e6145916633ac2f95"
+    },
+    {
+      "bytes": 1525,
+      "path": "20101027_transect/20101027.RT",
+      "sha256": "75aee9a981833c6e5ba530d810c9e925b141f35f73fa659da8092a594532f695"
+    },
+    {
+      "bytes": 6929427,
+      "path": "20101027_transect/20101027_transect.TXT",
+      "sha256": "78ab0c78c53509e233ee24a93cc792d497c60b8908087a4045c9e28d7291591a"
+    },
+    {
+      "bytes": 694015,
+      "path": "20101027_transect/20101027_transect_000r.000",
+      "sha256": "85f8de0a7e278c07aadb2c1bca577a7049f7e7bcba3ef22862d823fa175b3ef2"
+    },
+    {
+      "bytes": 3226,
+      "path": "20101027_transect/20101027_transect_000w.000",
+      "sha256": "0023fe68f7b8d53f9157f50bf8b42c4a0d24dc1cee4c5b45a9bf687714453500"
+    },
+    {
+      "bytes": 1151928,
+      "path": "20101027_transect/MB_chan_2010_10_27.tif",
+      "sha256": "c27749c38269c678785d23ea06705e1ad23b4fc2fe6e839a887c7985eb501165"
+    },
+    {
+      "bytes": 15828,
+      "path": "Park_ADCP_read_me.docx",
+      "sha256": "738fcd748723261166c6b0e1d0f8e1841e62ba43f953d293ad7de7246ccf07c2"
+    },
+    {
+      "bytes": 42891,
+      "path": "Park_MB_map.docx",
+      "sha256": "c838bc205d5e0179f91474563affda2cb61d5a39287e41f879be50c31cc109c5"
+    }
+  ],
+  "supporting_file_sha256": {
+    "ingest_ship_channel.py": "f36e802f25456af32d22d6e2e1ee0b3b59596aae944c4a5f4a5787e66d6d5e75",
+    "motion_consistency.py": "f4002eebc9c2fe596aa729724d09cd351903a354d5e0149c346dd464fa76f00a",
+    "point_clear_reference_source.json": "982afc8bdf0383edf1affc269389644822b58e690657de0a174af1626b734201",
+    "provider_metadata/griidc-download-info.json": "496849f89ccc2d67f56c6913e9c2d1a4e177eb59c50462c63f9086d0219ccf2c",
+    "provider_metadata/griidc-file-list.json": "1645f8a5edd4ef0bc2f88c31335140d59813808c57469641e413c38731b5c02c",
+    "provider_metadata/griidc-list-20100818_transect.json": "d7f1c0a16031e8bc7e12188e9a981f388e2bad1282b980675490a3a80ac326a2",
+    "provider_metadata/griidc-list-20100823_transect.json": "4ff45c067dac2c8c08b1dabdf83675a0754f23e8239b25e0f2b9e352142bf6cc",
+    "provider_metadata/griidc-list-20100902_transect.json": "7e519eada1a5fadb3b99c85b93d964a10bc9ffe1e93495f2998190b7fb642880",
+    "provider_metadata/griidc-list-20100909_transect.json": "4e60c7aee75d02a0fa9c9257ed05e27d32f3e6cd11e3098b15ca710e71ed02c3",
+    "provider_metadata/griidc-list-20100915_transect.json": "f37b09c2e53186befc049b5c6fbe32d5f8ff470bf9b020ed0c73824e805aff9c",
+    "provider_metadata/griidc-list-20100923_transect.json": "b86686d5686923be6fe4fb44f4f321ba051908e104a05e8995161fd0fb60d96a",
+    "provider_metadata/griidc-list-20100930_transect.json": "da006fac347ca3e87d1cac8e2fe8b3262f7c761e46c3bd18978d212983848678",
+    "provider_metadata/griidc-list-20101007_transect.json": "6e86cb644745b8ca7d08cdc1a142460ae329df956536705967bc8cc88dd370f6",
+    "provider_metadata/griidc-list-20101013_transect.json": "6a00fbd974787259a85e2fb31b6a99b0a0a7cb399b22e98d62b6ca0e50822e5f",
+    "provider_metadata/griidc-list-20101021_transect.json": "6e73d847f57f5b757fd96a0a416b0f0cb69a895d448fae290c17e7f79eeb29cf",
+    "provider_metadata/griidc-list-20101027_transect.json": "23e669c6a97c5532524b3cbbdbbb1326d3efffa16deed75dde4359973f563119",
+    "provider_metadata/griidc-metadata.xml": "a6639d5fd482809d50fd511a7392177e638febe30a7fc1a38053d6a28cd066ae"
+  },
+  "manufacturer_sources": [
+    {
+      "url": "https://www.teledynemarine.com/en-us/support/SiteAssets/RDI/Manuals%20and%20Guides/Workhorse%20II/WorkHorse_Commands_and_Output_Data_Format.pdf",
+      "local_sha256": "7d0e96cda284d959cc9a8f0f839f93eec9916a325b9d0b0491c8afae7ea79318",
+      "usage": "PD0 Tables 31-39: record checksum, offsets, coordinate system, units, bins and relative velocities"
+    },
+    {
+      "url": "https://static.garmin.com/pumac/GPS_17x_HVS_Tech_Specs.pdf",
+      "local_sha256": "bc429e98748dfeed57421caab9ce48164fd17ac9fc087669750c1282977e20f6",
+      "usage": "Section 4.2.7: RMC UTC date/time, coordinates, knots and navigation validity"
+    },
+    {
+      "url": "https://www.teledynemarine.com/en-us/support/SiteAssets/RDI/Manuals%20and%20Guides/WinRiver%20II/WinRiver%20II_User_Guide.pdf",
+      "local_sha256": "8d11818ac7a6fa9945dc865dcbc7e05a3534f760bc8e55253e24a01b793353a1",
+      "usage": "Reference-frame distinction and bottom relative to instrument"
+    }
+  ],
+  "available_at_utc": "2016-01-07T15:38:00Z",
+  "source_conflicts": [
+    "Provider calls this Nortek AWAC; native files are RDI PD0 plus WinRiver configuration.",
+    "ADCP RTC timezone unresolved; GPS UTC does not establish RTC timezone.",
+    "WinRiver transducer depth setting differs from native leader setting; actual deployment depth is unverified.",
+    "Generated ZIP differs from provider original archive checksum; all 68 individual file names/sizes and ZIP CRC verify, original endpoint fails."
+  ],
+  "acceptance_limits": [
+    "Native SHIP components retained; no absolute Earth vector or shore-normal projection accepted.",
+    "Water-minus-bottom vectors are algebraic diagnostics, without moving-bed, compass, mounting or motion validation.",
+    "Structural and conservative depth/side-lobe screening is not final scientific QC.",
+    "Publication available_at in 2016 is later than all 2010 observations; not valid as-of real-time 2010 forecast input.",
+    "No co-located bottom oxygen, local shoreline control, event matching, predictive skill or production improvement established."
+  ],
+  "production_action": "NO_CHANGE",
+  "production_weight": 0
+}
