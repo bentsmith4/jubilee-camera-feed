@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-09-30T07:15:00-05:00",
+  "issue_time": "2026-09-30T07:40:30-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "ce0eaeba0904bc817c95c3c557529ee7257dde4fcb6f160cf7e8d00a3cc43e04",
-  "input_commit_sha": "f19ec7387ca25a0a93e597cd9b83bf99d239d17c",
+  "input_snapshot_hash": "eb02bf42fb00d5dd3d4f0f70620fa65f602e0a6c0782d66e951bed2e5ede9444",
+  "input_commit_sha": "278d4d0400e7e6547375e7005c5097be5a0fb246",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
   "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
   "method": "Committed-evidence issue-time admission; frozen dated heuristic outlooks and zero production weights retained. No automatic event/fault policy inference.",
   "data_coverage": {
-    "private_camera_metadata_pass": 4,
+    "private_camera_metadata_pass": 6,
     "private_cameras_expected": 6,
     "ngofs2_products": {
       "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
@@ -25,7 +25,7 @@
     "asos_stations": "KBFM/KMOB UNKNOWN"
   },
   "missing_inputs": [
-    "pcl_e2_back_deck and pcl_e3_bay_mouth failed in the latest synchronized cycle; both are UNKNOWN, not negative biological evidence.",
+    "All six owner cameras recovered in the 07:26-07:30 CDT synchronized cycle. Point Clear bay-mouth detectability remains low in one view, and visible-scope negatives are not full-cell biological negatives.",
     "KBFM and KMOB regional weather observations are stale beyond 90 minutes; KMOB also remains QC-rejected, and rainfall is UNKNOWN.",
     "All lower-river observations are stale beyond 180 minutes and remain UNKNOWN upstream proxies with uncalibrated Bay lag.",
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
