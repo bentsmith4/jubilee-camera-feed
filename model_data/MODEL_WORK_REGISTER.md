@@ -1799,3 +1799,30 @@ Read-back verified the brief remains enabled, its prompt is preserved unchanged 
 - PRs #20 (recovery-notification contract), #21 (Weeks Bay snapshot provenance) and #22 (global capture spacing/adaptive pre-dawn cadence) were already merged by their respective operational owners. They are not model-learning gains from this run and were not altered here.
 - No Jubilee-event predictive gain or regression is measurable. No raw or normalized ADCP data were canonically ingested; no model artifact, probability, weight, threshold, alert gate, camera inventory, runtime code or schedule was changed by this research run. Coverage-gap blob `a1c4fefa9cc8e31f913f073313ec56e1620a308c`; run-manifest blob `8d5f92856ee9b6cb9f909b5cfa3b27eeb6eac773`, commit `4b8f7144f931e968e394278738ccfc06e0aae032`.
 
+
+
+## Research & calibration continuation — 2026-09-30 09:41 CDT
+
+### J10 prospective controls and held-out comparison gate
+- Audited all 12 canonical observation records inside the September 30 target window (04:20:20–08:20:20 CDT). Six early Montrose primary-contact views were poor/low-detectability and remain `UNKNOWN_PRIMARY_CONTACT_VIEW_INADEQUATE`; six later records were `CANDIDATE_VISIBLE_SCOPE_CONTROL`. Repeated captures are same morning/same private site and collapse to one independent Tier-B episode.
+- Cumulative evidence is **0 Tier-A clean controls** and **4 Tier-B Montrose scoped candidate mornings** (September 24, 26, 28 and 30). Point Clear remains observation-effort-only because no owner camera shows a close beach/swash-zone contact strip. September 9 remains UNKNOWN; no-report dates remain excluded.
+- Loading-only, transport-only and combined Jubilee-event discrimination, calibration, miss rate, false-alert rate and lead time remain not estimable. No camera observation was used as a pre-event predictor. Audit blob `1bbf5d5a2b0721d1d088746030ac81a5b82e5dfa`, commit `d20eb5742ee37028f00833d25028fd17bfd892e9`.
+
+### River-response feature review (PR #39)
+- Independently reviewed draft PR #39 current head `e1d1c6b48fa966c7284dcda55fc22caaa5343366` (base `85f5f86e2f27467ce3081e2a1c5291b8706cafd9`; mergeability reported false against fast-moving `main` at review time). The study uses 20 adjacent held-out days / 60 station-days from one 2016 three-mooring oxygen deployment.
+- Best simple-baseline comparisons are Claiborne 7–14 days, RMSE 35.51→31.61 oxygen-saturation points (about 11.0%), and Coffeeville pool 3–7 days, 33.02→30.92 (about 6.4%). These are oxygen-state associations, not Jubilee-event accuracy.
+- Feature promotion is rejected: held-out fold delta-MSE changes sign, calendar-trend sensitivity changes or reverses several results, the one-day embargo cannot make overlapping 7–14-day antecedent windows and serially persistent oxygen independent, and the same-day discharge comparator is retrospective rather than dawn-available. Multiple gauges/windows were inspected on the same episode, so selecting the minimum RMSE would leak model selection.
+- Review comment `5913748070` preserves the decision: broad 1–14-day response windows remain research hypotheses at zero production weight until a separate year/deployment, preregistered windows, hydrometeorological controls and temporally independent validation exist. PR #39 remains draft/open and was not merged or deployed.
+
+### J09 observed-current validation
+- No ADCP scientific gate cleared this run. PR #38 current head remains `aaec0848780b4d76476e5e2fa3dafde1968a1e59` and was not merged; GitHub reports it non-mergeable against its stale base `063b2838b19fdbb52dd3b91cc9fc40c6277124ab`.
+- The exact PD0/WinRiver payload/member match, SHIP-frame decode and internal motion diagnostics remain valuable research evidence, but Earth-frame current and transport claims remain zero weight. Compatible vendor playback, deployment/heading/magnetic-variation/draft/transducer/clock metadata, timing-association resolution, canonical hashed ingest and motion-output reference reconciliation remain open. Near-Point-Clear observed current is still missing.
+
+### J18 operating-season API efficiency
+- Extended the sanitized aggregate comparison through September 29 using `api_usage_summary.json` blob `c1c5add23a1307ddbda3423b36f987089ff1bbd8`, generated 2026-09-30 14:10:43 UTC with status available, 0 invalid records and 0 selected-group missing records. September 30 is partial and excluded.
+- Versus the September 9–13 baseline, the eleven-day September 19–29 post window shows a **7.9122%** request-normalized token reduction proxy, **3.1287%** lower summed six-camera tokens/reference request, **29.4559%** lower cross-camera tokens/model call, **33.4613%** lower cross-camera call rate and **28.2721%** cached-input share. The request-normalized estimate changed only -0.0295 percentage point from the September 28 audit: no additional efficiency gain is demonstrated.
+- The selected groups contain 2,323 completed and 0 failed requests, but request counts are not deduplicated cycles or proof of valid coverage. No dollars are priced and equivalent event detection remains unproven. Audit blob `df7a7bd772b357fa953fb34d85b931bb9e230462`, commit `19f2b31c761f52dc992ac8f355120a21e62ed7a0`.
+
+### Coverage gaps and promotion decision
+- Ranked gaps remain: (1) independently verified matched controls, (2) accepted nearshore Earth-frame current, (3) independent multi-year river-response validation, (4) held-out loading/transport/combined Jubilee comparison, and (5) coverage-normalized efficiency with effectiveness evidence. Gap-update blob `29cdf4d4b2e03ca00648eaf18acf347c840901ae`, commit `a08f59a10363c157f1a619c99e9f477f377507e0`.
+- **No Jubilee-event predictive gain or regression is measurable.** No raw/normalized ADCP data were accepted; no event label, model artifact, probability, weight, threshold, alert gate, camera inventory, runtime code or schedule changed. This run created research audits, posted a methodology review and updated the completion register only.
