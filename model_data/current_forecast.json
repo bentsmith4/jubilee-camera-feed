@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-09-29T19:46:59.547183-05:00",
+  "issue_time": "2026-09-29T21:49:30-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "ce68760ca48f389c31abfb45e0101a200752edf911f27691b778e448a1e6ea1d",
-  "input_commit_sha": "3fe212d5924fa81f479c0b288298a66679d412f3",
+  "input_snapshot_hash": "e7230aef8e213d56cee543804af8c112696085346dc23c39027a5c8465e0cd43",
+  "input_commit_sha": "e9cb618b8e022b8f09729516994e17f8700b1b8c",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
   "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
-  "method": "Committed-evidence issue-time admission; frozen dated heuristic outlooks and zero production weights retained. No automatic event/fault policy inference.",
+  "method": "Reviewed post-21:00 CT fault-only reassessment. All newly consumed environmental model/proxy products retain zero production weight; owner-camera, ASOS and lower-river evidence is stale or failed; public live-player evidence is qualitative and visibility-limited; no direct event or oxygen evidence was admitted. The existing dated heuristic ranges are therefore preserved with a genuine numeric change of 0 and widened uncertainty.",
   "data_coverage": {
-    "private_camera_metadata_pass": 6,
+    "private_camera_metadata_pass": 5,
     "private_cameras_expected": 6,
     "ngofs2_products": {
       "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
@@ -21,14 +21,14 @@
       "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
       "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
-    "fresh_river_series": 7,
+    "fresh_river_series": 0,
     "asos_stations": "KBFM/KMOB UNKNOWN"
   },
   "missing_inputs": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
     "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
     "River-to-Bay travel time remains uncalibrated.",
-    "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
+    "Out-of-view biology and full-cell non-events remain UNKNOWN. Both public players were probably fresh during 15-second samples, but nighttime biological detectability was insufficient for a negative.",
     "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
     "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
@@ -98,9 +98,9 @@
     "point_clear_over_20_percent": false,
     "daphne_may_day_over_20_percent": false,
     "direct_event_evidence_present": false,
-    "material_critical_input_fault": false,
-    "notification_suppressed": true
+    "material_critical_input_fault": true,
+    "notification_suppressed": false
   },
-  "notification_condition_met": false,
+  "notification_condition_met": true,
   "later_verification": "PENDING; no future outcome or next-dawn acceptance claimed"
 }
