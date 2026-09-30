@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-09-30T05:53:30-05:00",
+  "issue_time": "2026-09-30T07:15:00-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "ea2f8fbe70199018cd4aeb2dfc99bc3ab5f1dc574fdfa53fbac8d623043c6fd9",
-  "input_commit_sha": "dfdb9de8d7aa737f5b1823a18766febfcbe4ec7e",
+  "input_snapshot_hash": "ce0eaeba0904bc817c95c3c557529ee7257dde4fcb6f160cf7e8d00a3cc43e04",
+  "input_commit_sha": "f19ec7387ca25a0a93e597cd9b83bf99d239d17c",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
   "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
   "method": "Committed-evidence issue-time admission; frozen dated heuristic outlooks and zero production weights retained. No automatic event/fault policy inference.",
   "data_coverage": {
-    "private_camera_metadata_pass": 6,
+    "private_camera_metadata_pass": 4,
     "private_cameras_expected": 6,
     "ngofs2_products": {
       "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
@@ -25,7 +25,7 @@
     "asos_stations": "KBFM/KMOB UNKNOWN"
   },
   "missing_inputs": [
-    "All six owner cameras produced fresh matching three-frame bursts at 05:47-05:50 CDT, but visibility and biological detectability were poor/low; this is not a clean biological negative.",
+    "pcl_e2_back_deck and pcl_e3_bay_mouth failed in the latest synchronized cycle; both are UNKNOWN, not negative biological evidence.",
     "KBFM and KMOB regional weather observations are stale beyond 90 minutes; KMOB also remains QC-rejected, and rainfall is UNKNOWN.",
     "All lower-river observations are stale beyond 180 minutes and remain UNKNOWN upstream proxies with uncalibrated Bay lag.",
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
