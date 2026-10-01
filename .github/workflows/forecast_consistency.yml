@@ -13,7 +13,9 @@ on:
       - "model_data/current_state_snapshot.json"
       - "model_data/current_forecast.json"
       - "model_data/bind_current_forecast.py"
+      - "model_data/roll_forward_dawn_outlook.py"
       - "tests/test_current_forecast.py"
+      - "tests/test_dawn_outlook_rollforward.py"
       - "tests/fixtures/forecast_binding/**"
       - ".github/workflows/forecast_consistency.yml"
   push:
@@ -29,7 +31,9 @@ on:
       - "model_data/current_state_snapshot.json"
       - "model_data/current_forecast.json"
       - "model_data/bind_current_forecast.py"
+      - "model_data/roll_forward_dawn_outlook.py"
       - "tests/test_current_forecast.py"
+      - "tests/test_dawn_outlook_rollforward.py"
       - "tests/fixtures/forecast_binding/**"
       - ".github/workflows/forecast_consistency.yml"
 
@@ -45,6 +49,8 @@ jobs:
         with:
           python-version: "3.12"
       - name: Run binding regressions
-        run: python -B -m unittest discover -s tests -p "test_current_forecast.py" -v
+        run: |
+          python -B -m unittest discover -s tests -p "test_current_forecast.py" -v
+          python -B -m unittest discover -s tests -p "test_dawn_outlook_rollforward.py" -v
       - name: Verify the checked-out snapshot and forecast as one pair
         run: python -B model_data/bind_current_forecast.py --check
