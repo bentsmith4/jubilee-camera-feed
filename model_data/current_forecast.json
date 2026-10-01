@@ -1,16 +1,16 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-01T05:37:45-05:00",
+  "issue_time": "2026-10-01T07:14:55-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "46d4a70f2c6051229f6299ef091aa220cbad81fbbde8762cbf494dee3a005316",
-  "input_commit_sha": "3b7b19d1027338f9fe05f9e29e0a2f55d8b95d53",
+  "input_snapshot_hash": "7ebac3a09e8dc54a4f23341b93f996bdbbf20475d733c5abdee950c8a16b5d10",
+  "input_commit_sha": "b321f374129d673077abd65f70d803098cebdc7f",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
   "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
-  "method": "Committed-evidence issue-time admission with explicit camera-fault and environmental-fault review; frozen dated heuristic outlooks and zero production weights retained. Point Clear E3 is UNKNOWN after a failed capture, five camera views are current, and stale environmental proxies widen uncertainty without creating biological-negative evidence or a numerical probability change.",
+  "method": "Committed-evidence issue-time admission with explicit camera-fault, recovery, public-camera and environmental-fault review; frozen dated heuristic outlooks and zero production weights retained. Point Clear E3 recovered, Point Clear E2 back-deck is UNKNOWN after a failed capture, and stale environmental proxies widen uncertainty without creating a full-cell biological negative or a numerical probability change.",
   "data_coverage": {
     "private_camera_metadata_pass": 5,
     "private_cameras_expected": 6,
@@ -19,9 +19,9 @@
       "ngofs2_point_clear_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
       "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
       "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
-      "ngofs2_shoreline_grid": "UNKNOWN_UNAVAILABLE"
+      "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
-    "fresh_river_series": 0,
+    "fresh_river_series": 20,
     "asos_stations": "KBFM/KMOB UNKNOWN"
   },
   "missing_inputs": [
@@ -30,10 +30,9 @@
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
     "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
-    "Point Clear E3 failed the latest 05:24 CDT cycle and remains UNKNOWN; five owner-camera views are current.",
+    "Point Clear E2 back-deck failed the latest 07:02 CDT cycle and remains UNKNOWN; five owner-camera views are current, including recovered Point Clear E3.",
     "KBFM/KMOB regional surface weather and all lower-river forcing series remain stale/UNKNOWN at issue time; blank or stale precipitation fields are not evidence of no rain.",
-    "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN",
-    "ngofs2_shoreline_grid: SOURCE_UNAVAILABLE/UNKNOWN"
+    "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
   "outlooks": [
     {
