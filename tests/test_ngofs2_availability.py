@@ -152,3 +152,47 @@ class AvailabilityTests(unittest.TestCase):
             result = module.validate(root)
             self.assertEqual(result["ngofs2_mobile_bay_named_stations_forecast"], "unavailable")
             self.assertFalse((root / "ngofs2_mobile_bay_named_stations_forecast_normalized.csv").exists())
+            manifest = json.loads((root / "ngofs2_mobile_bay_named_stations_forecast_manifest.json").read_text())
+            self.assertEqual(manifest["availability_reason"], "retrieval_timeout_cause_unresolved")
+            self.assertEqual(manifest["failure_attribution"], "UNRESOLVED_PROVIDER_OR_CLIENT")
+            self.assertEqual(manifest["product"], "named_stations_forecast")
+            self.assertEqual(manifest["timeout_seconds"], 480)
+            self.assertLessEqual(manifest["started_at"], manifest["retrieved_at"])
+
+    def test_legacy_timeout_has_unresolved_cause_without_invented_diagnostics(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            self.make_root(root)
+            name = "ngofs2_mobile_bay_named_stations_forecast"
+            path = root / f"{name}_manifest.json"
+            path.write_text(json.dumps({"status": "failed", "error_type": "RetrievalTimeout",
+                                       "error": "NGOFS2 retrieval exceeded 480 seconds"}))
+            module.validate(root)
+            manifest = json.loads(path.read_text())
+            self.assertEqual(manifest["status"], "unavailable")
+            self.assertEqual(manifest["availability_reason"], "retrieval_timeout_cause_unresolved")
+            self.assertNotIn("started_at", manifest)
+            self.assertFalse((root / f"{name}_normalized.csv").exists())
+
+    def test_all_product_budgets_preserve_other_products_and_archives(self):
+        import subprocess
+        for product, (_, _, manifest_name, seconds) in bounded.PRODUCTS.items():
+            with self.subTest(product=product), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                self.make_root(root)
+                archive = root / "public_archive" / "old.gz"
+                archive.parent.mkdir()
+                archive.write_bytes(b"immutable research evidence")
+                def timeout(*args, **kwargs):
+                    self.assertEqual(kwargs["timeout"], seconds)
+                    raise subprocess.TimeoutExpired(args[0], kwargs["timeout"])
+                self.assertEqual(bounded.run(product, root, timeout), 1)
+                result = module.validate(root)
+                name = manifest_name.removesuffix("_manifest.json")
+                self.assertEqual(result[name], "unavailable")
+                self.assertTrue(all(value == "complete" for key, value in result.items() if key != name))
+                manifest = json.loads((root / manifest_name).read_text())
+                self.assertEqual(manifest["timeout_seconds"], seconds)
+                self.assertEqual(manifest["availability_reason"], "retrieval_timeout_cause_unresolved")
+                self.assertEqual(manifest["production_action"], "NO_CURRENT_GUIDANCE")
+                self.assertEqual(archive.read_bytes(), b"immutable research evidence")

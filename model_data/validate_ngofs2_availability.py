@@ -48,7 +48,11 @@ def validate(root=HERE):
             raise RuntimeError(f"NGOFS2 validation or parser failure: {path.name}: {manifest.get('error_type')}")
         manifest["status"] = "unavailable"
         manifest["production_action"] = "NO_CURRENT_GUIDANCE"
-        manifest["availability_reason"] = "upstream_retrieval_failure"
+        # A subprocess deadline is not evidence that NOAA itself failed.
+        # Historical timeout manifests lack the new bounded-run diagnostic fields.
+        manifest["availability_reason"] = ("retrieval_timeout_cause_unresolved"
+                                           if manifest.get("error_type") == "RetrievalTimeout"
+                                           else "upstream_retrieval_failure")
         path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
         if name == "ngofs2_point_clear_nowcast":
             (root / "ngofs2_point_clear_manifest.json").write_text(

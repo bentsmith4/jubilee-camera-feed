@@ -18,6 +18,7 @@ PRODUCTS = {
 
 def run(product, root=HERE, runner=subprocess.run):
     script, args, manifest_name, seconds = PRODUCTS[product]
+    started = datetime.now(timezone.utc)
     try:
         return runner([sys.executable, str(root / script), *args], cwd=root, timeout=seconds).returncode
     except subprocess.TimeoutExpired:
@@ -25,6 +26,10 @@ def run(product, root=HERE, runner=subprocess.run):
             "status": "failed", "retrieved_at": datetime.now(timezone.utc).isoformat(),
             "evidence_class": "MODEL", "production_action": "NO_CHANGE",
             "error_type": "RetrievalTimeout", "error": f"NGOFS2 retrieval exceeded {seconds} seconds",
+            "product": product, "started_at": started.isoformat(),
+            "timeout_seconds": seconds,
+            "failure_attribution": "UNRESOLVED_PROVIDER_OR_CLIENT",
+            "diagnostic_note": "The whole-process budget expired; provider outage, remote-read latency and local extraction cost are not distinguished.",
         }
         (root / manifest_name).write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
         if product == "point_clear_nowcast":
