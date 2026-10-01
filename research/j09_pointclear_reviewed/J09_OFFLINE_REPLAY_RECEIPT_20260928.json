@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "work_id": "J09",
+  "date": "2026-09-28",
+  "implementation_status": "VERIFIED_LOCAL_OFFLINE_REPLAY",
+  "scientific_status": "DECODED_RESEARCH_NOT_SCIENTIFICALLY_ACCEPTED",
+  "integration_status": "LOCAL_REVIEWABLE_BRANCH_PROPOSAL_NOT_MERGED_OR_DEPLOYED",
+  "repository_base_commit": "44c8d677578e08ada145bc48af5bef495bac4be1",
+  "local_branch": "codex/adcp-offline-research-20260928",
+  "supersedes_only": "The local proposal advances the 2010 ship-channel payload from discovery to decoded research. Earlier source audit/history stays immutable; canonical source/feature registries remain unchanged pending owner integration.",
+  "historical_source_audit": {
+    "path": "model_data/j09_mobile_bay_ship_channel_adcp_source_audit_20260924.json",
+    "sha256": "610d8272f38b9342431df4734588a5a08902e6e7b16d5ed488b6a2aaf9064833"
+  },
+  "research_directory": "research/ship_channel_adcp",
+  "provenance_manifest": "research/ship_channel_adcp/provenance.json",
+  "source_package_revision": 2,
+  "archive_sha256": "f0552c3aa68267dd7443f8f7ed672f32c938ed91744cee8cb967c3e5b50f18d9",
+  "all_68_member_hashes_verified": true,
+  "provider_original_checksum_verified": false,
+  "counts": {
+    "navigation_rmc_rows": 107996,
+    "pd0_ensembles": 6210,
+    "structurally_screened_bin_rows": 138927,
+    "survey_days": 11,
+    "training_labels_created": 0,
+    "validated_current_rows": 0,
+    "velocity_bin_rows": 248400
+  },
+  "validation": {
+    "python_version": "Python 3.12.14",
+    "lightweight_tests": 13,
+    "archive_tests": 8,
+    "source_package_tests_preserved": 17,
+    "additional_verifier_tests": 4,
+    "all_tests_passed": true,
+    "all_velocity_rows_checked": 248400,
+    "replay_result_sha256": {
+      "ensembles.csv.gz": "a0f1a8ec023968ff0f13f0f3f9344ed71046d3998502a6ba290d63f11e9f8107",
+      "ingestion_summary.json": "cc57ef623ed19707dfe61477a1ab7c3ac782c14e22a96ab07fced6d4693bcbed",
+      "motion_consistency.json": "949fcede7762f3bce262b10ece13c81937eaca8940143029da332faf50522bb7",
+      "motion_pairs.csv": "2ca3766ec70bc54f75593cd71ef94ea8d226e3f92df3d0d21bf6e1162c4a55ab",
+      "navigation_rmc.csv.gz": "2401a30463448a163bea2d3f7ba24b226d5ebd92e3b49efb7859369b6b028b49",
+      "velocity_bins.csv.gz": "0fb7f203b949171fe672a3c94b66c8791261cedbaf6064eae2eb63f3cd500cb0"
+    },
+    "all_six_results_byte_identical_to_revision_2": true
+  },
+  "production_action": "NO_CHANGE",
+  "production_weight": 0,
+  "open_gates": [
+    "Provider calls this Nortek AWAC; native files are RDI PD0 plus WinRiver configuration.",
+    "ADCP RTC timezone unresolved; GPS UTC does not establish RTC timezone.",
+    "WinRiver transducer depth setting differs from native leader setting; actual deployment depth is unverified.",
+    "Generated ZIP differs from provider original archive checksum; all 68 individual file names/sizes and ZIP CRC verify, original endpoint fails.",
+    "Native SHIP components retained; no absolute Earth vector or shore-normal projection accepted.",
+    "Water-minus-bottom vectors are algebraic diagnostics, without moving-bed, compass, mounting or motion validation.",
+    "Structural and conservative depth/side-lobe screening is not final scientific QC.",
+    "Publication available_at in 2016 is later than all 2010 observations; not valid as-of real-time 2010 forecast input.",
+    "No co-located bottom oxygen, local shoreline control, event matching, predictive skill or production improvement established."
+  ],
+  "next_action": "Existing model research owner reviews and selectively integrates this directory/checkpoint against current main; no automatic source promotion, merge, deployment or scheduling."
+}
