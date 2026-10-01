@@ -1,16 +1,16 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-09-30T23:15:00-05:00",
+  "issue_time": "2026-10-01T00:52:41-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "79ef879ed3fbe8ce1a693e815d82d76e9acbbf98d9dfc51a0206bb5402b5ee29",
-  "input_commit_sha": "0a5cb2f0aa3460bbab78dd43f8d42db3339152f2",
+  "input_snapshot_hash": "543392d4d1841acc020b77ee262ca64d6965eebdfd1f4c63127e8b89a8d1c350",
+  "input_commit_sha": "73687286f846db341e553f5fcf1def5d3518e244",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
   "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
-  "method": "Committed-evidence issue-time admission with explicit camera and environmental freshness review; frozen dated heuristic outlooks and zero production weights retained. No probability or event inference from source gaps.",
+  "method": "Reviewed committed-evidence issue-time admission. Five fresh low-detectability camera bursts and refreshed regional ASOS/river proxies do not establish a Jubilee or justify numerical change; the single failed camera, stale Weeks Bay context, missing direct bottom/oxygen observations, frozen dated heuristic outlooks, and zero production weights are retained under the reviewed method.",
   "data_coverage": {
     "private_camera_metadata_pass": 5,
     "private_cameras_expected": 6,
@@ -19,19 +19,23 @@
       "ngofs2_point_clear_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
       "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
       "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
-      "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
+      "ngofs2_shoreline_grid": "UNKNOWN_UNAVAILABLE"
     },
-    "fresh_river_series": 0,
-    "asos_stations": "KBFM/KMOB UNKNOWN"
+    "fresh_river_series": 20,
+    "asos_stations": "KBFM/KMOB partial"
   },
   "missing_inputs": [
-    "All six owner-camera views are UNKNOWN at 23:15 CDT: pcl_e2_back_deck failed; the other five 22:06-22:09 captures exceeded the 60-minute freshness contract after the final reread.",
+    "pcl_e2_back_deck failed its latest owner-camera capture and remains UNKNOWN.",
+    "The five current owner-camera bursts have fair-to-poor visibility and low biological detectability; their visible-scope 'none' labels are not biological negatives.",
+    "Weeks Bay WKQA1 and WKXA1 observations are stale at issue time and remain UNKNOWN.",
+    "ASOS precipitation fields are blank and remain UNKNOWN; no no-rain inference is made.",
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
     "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
     "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
-    "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
+    "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN",
+    "ngofs2_shoreline_grid: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
   "outlooks": [
     {
