@@ -5,13 +5,14 @@ assessment at wall-clock time. Publish the snapshot and forecast in one commit.
 """
 import argparse
 import copy
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 import hashlib
 import json
 import math
 from pathlib import Path
 import re
 import sys
+from zoneinfo import ZoneInfo
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -19,6 +20,22 @@ SNAPSHOT = "model_data/current_state_snapshot.json"
 FORECAST = "model_data/current_forecast.json"
 PROBABILITY_TYPE = "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED"
 CELLS = (("point_clear", "Point Clear/Grand Hotel"), ("daphne_may_day", "Daphne/May Day"))
+CT = ZoneInfo("America/Chicago")
+DAWN_HORIZON_DAYS = 3
+
+
+def expected_dawn_horizon(snapshot_time):
+    issue_date = aware_time(snapshot_time).astimezone(CT).date()
+    return [(issue_date + timedelta(days=offset)).isoformat() for offset in range(DAWN_HORIZON_DAYS)]
+
+
+def require_dawn_horizon(snapshot):
+    require(isinstance(snapshot.get("outlook"), list), "Snapshot outlook must be a list")
+    actual = [item.get("date_ct") for item in snapshot["outlook"]]
+    expected = expected_dawn_horizon(snapshot["snapshot_time_ct"])
+    require(actual == expected,
+            "Dawn forecast horizon must be exactly issue-date through issue-date+2 "
+            f"in America/Chicago; expected {expected}, got {actual}")
 
 
 def require(condition, message):
@@ -203,9 +220,11 @@ def check(snapshot_bytes, forecast):
             + ". Run python model_data/bind_current_forecast.py and commit both files together.")
 
 
-def run(root, check_only=False):
+def run(root, check_only=False, require_horizon=False):
     snapshot_path, forecast_path = root / SNAPSHOT, root / FORECAST
     snapshot_bytes = snapshot_path.read_bytes()
+    if require_horizon:
+        require_dawn_horizon(json.loads(snapshot_bytes))
     if check_only:
         check(snapshot_bytes, json.loads(forecast_path.read_bytes()))
     else:
@@ -228,9 +247,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--root", type=Path, default=ROOT)
     parser.add_argument("--check", action="store_true", help="Read-only; fail if the forecast is not the snapshot projection")
+    parser.add_argument("--require-dawn-horizon", action="store_true",
+                        help="Require issue-date through issue-date+2 outlook coverage for Dawn Brief publication")
     args = parser.parse_args()
     try:
-        run(args.root, args.check)
+        run(args.root, args.check, args.require_dawn_horizon)
     except (OSError, ValueError, KeyError, TypeError) as error:
         print(f"Forecast binding FAIL: {error}", file=sys.stderr)
         return 1
