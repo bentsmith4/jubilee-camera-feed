@@ -144,8 +144,8 @@ class ReconciliationTests(unittest.TestCase):
 
         later = T0 + timedelta(minutes=10)
         self.environment(later)
-        self.cameras(later)
-        self.commit("fresh sources while assessed fault remains active")
+        self.cameras(later, ('camera_0',))
+        self.commit("fresh sources and changed camera health while assessed fault remains active")
 
         result = builder.build(self.root, later + timedelta(minutes=1))
         self.assertIsNotNone(result)
@@ -153,6 +153,8 @@ class ReconciliationTests(unittest.TestCase):
         self.assertTrue(snapshot["alert_gates"]["material_critical_input_fault"])
         self.assertTrue(snapshot["notification_condition_met"])
         self.assertTrue(snapshot["operational_fault_assessment"]["assessed_material_critical_input_fault_preserved"])
+        self.assertTrue(snapshot["operational_fault_assessment"]["camera_failure_set_changed_under_preserved_material_fault"])
+        self.assertEqual(snapshot["operational_fault_assessment"]["failed_camera_ids"], ["camera_0"])
         rows = {r["source"]: r for r in snapshot["input_rows"]}
         self.assertEqual(rows[builder.ASOS]["parameter_admission"]["KBFM"]["parameters"]["wind_speed"]["value_status"], "KNOWN")
         self.assertTrue(any(x["value_status"] == "KNOWN_UPSTREAM_PROXY" for x in rows[builder.RIVER]["series"]))
