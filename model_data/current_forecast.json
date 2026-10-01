@@ -1,36 +1,38 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-09-30T09:12:00-05:00",
+  "issue_time": "2026-10-01T08:27:51-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "9a04a1193a5219f252d22f5a5845a1be7c4e383eb0d05dcfda997d51e45e063a",
-  "input_commit_sha": "00362d2ebf4f69af96d860e34609047f0feb7eae",
+  "input_snapshot_hash": "6bb811aaf9af5dc5119de3fd1ea64f78d5c868d7debf4cfd6ef027a03c2645f5",
+  "input_commit_sha": "7c403d39eb7a6fc811ef6bb61d5d54e067963cef",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
   "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
-  "method": "Committed-evidence issue-time admission; frozen dated heuristic outlooks and zero production weights retained. No automatic event/fault policy inference.",
+  "method": "Committed-evidence issue-time admission with explicit owner-camera recovery and environmental input-quality review. Point Clear E2 back-deck recovered and all six owner cameras are current, while stale regional ASOS, lower-river and Weeks Bay inputs and missing direct local bottom oxygen/stratification widen uncertainty. Frozen dated heuristic outlooks, strict alert thresholds and zero production weights are retained; no visible-scope non-event is generalized to a shoreline cell.",
   "data_coverage": {
-    "private_camera_metadata_pass": 5,
+    "private_camera_metadata_pass": 6,
     "private_cameras_expected": 6,
     "ngofs2_products": {
       "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
       "ngofs2_point_clear_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
       "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
-      "ngofs2_mobile_bay_named_stations_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
+      "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
       "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
-    "fresh_river_series": 12,
-    "asos_stations": "KBFM/KMOB partial"
+    "fresh_river_series": 0,
+    "asos_stations": "KBFM/KMOB UNKNOWN"
   },
   "missing_inputs": [
-    "pcl_e2_back_deck failed capture in the latest 09:06 CDT owner-camera cycle and is UNKNOWN; no negative evidence is inferred for that view.",
+    "KBFM and KMOB ASOS weather and rainfall parameters are stale/UNKNOWN; blank precipitation fields are not interpreted as no rain.",
+    "All 20 USGS lower-river series are stale or QC-rejected and UNKNOWN; River-to-Bay travel time remains uncalibrated.",
+    "Weeks Bay WKQA1 and WKXA1 observations are stale/UNKNOWN.",
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
-    "Observed local water level/currents and shoreline rain remain UNKNOWN; refreshed airport wind and river proxies are regional context, not direct local observations.",
-    "River-to-Bay travel time remains uncalibrated.",
-    "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
-    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission."
+    "Observed local water level/current and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
+    "Out-of-view biology and full-cell non-events remain UNKNOWN; the quiet owner-camera classifications apply only to the sampled visible areas and intervals.",
+    "No new public-player or human-report assessment is claimed; retained prior rows are historical context only.",
+    "NGOFS2 named-stations forecast is unavailable and missing model slices remain UNKNOWN."
   ],
   "outlooks": [
     {
