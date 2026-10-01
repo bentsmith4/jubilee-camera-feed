@@ -60,7 +60,7 @@ def build(snapshot_raw, forecast, as_of):
     binding.validate_weights(snapshot)
 
     issue = binding.aware_time(snapshot["snapshot_time_ct"]).astimezone(CT)
-    now = stamp(as_of) if isinstance(as_of, str) else as_of.astimezone(CT)
+    now = (stamp(as_of) if isinstance(as_of, str) else as_of).astimezone(CT)
     binding.require(SEASON_START <= (issue.month, issue.day) <= SEASON_END,
                     "REVIEW_REQUIRED: Jubilee Dawn Forecast is outside May 18-November 14")
     binding.require(now.date() == issue.date(),
