@@ -228,7 +228,9 @@ def build(root, now):
               camera_health=dict(expected_private_cameras=6, private_metadata_pass=6-len(failed),
                                  private_cameras=cams, unknown_upstream_camera_ids=failed))
     old_fault = prior.get('operational_fault_assessment', {})
-    guard.require(sorted(failed) == sorted(old_fault.get('failed_camera_ids', [])),
+    preserved_material_fault = prior['alert_gates']['material_critical_input_fault']
+    camera_failure_set_changed = sorted(failed) != sorted(old_fault.get('failed_camera_ids', []))
+    guard.require(not camera_failure_set_changed or preserved_material_fault,
                   'REVIEW_REQUIRED: changed camera failures need material-fault assessment')
     prior_weather = by_source[ASOS]['parameter_admission']
     old_weather_known = any(x['value_status'] in ('KNOWN', 'TRACE') for station, v in prior_weather.items()
@@ -238,8 +240,6 @@ def build(root, now):
                   'REVIEW_REQUIRED: simultaneous weather/river loss needs material-fault assessment')
     guard.require(not prior['alert_gates']['direct_event_evidence_present'],
                   'REVIEW_REQUIRED: retain active assessed event until explicit review')
-    preserved_material_fault = prior['alert_gates']['material_critical_input_fault']
-
     # Unsupported manual inputs are preserved as dated evidence, never relabeled current.
     replacements = {CAMERA: ca, MODEL: mr, ASOS: a, RIVER: rv, WEEKS: wb}
     s['input_rows'] = [replacements.get(x['source'], dict(source=x['source'], admitted_status='UNKNOWN_NOT_REASSESSED',
@@ -268,6 +268,7 @@ def build(root, now):
     s['probability_basis'].pop('summary', None)
     s['operational_fault_assessment'] = dict(active_fault_present=bool(failed) or preserved_material_fault, failed_camera_ids=failed,
         assessed_material_critical_input_fault_preserved=preserved_material_fault,
+        camera_failure_set_changed_under_preserved_material_fault=bool(camera_failure_set_changed and preserved_material_fault),
         new_fault_notification_required=False, recovery_notification_required=False,
         prior_recovery_context=(dict(snapshot_time_ct=prior['snapshot_time_ct'], recovery_notification_required=True)
                                 if old_fault.get('recovery_notification_required') else old_fault.get('prior_recovery_context')),
