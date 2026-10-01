@@ -57,6 +57,14 @@
         "normalized": "model_data/asos_weather_normalized.json",
         "issue_time_validation": "python model_data/ingest_asos_weather.py --snapshot-only --as-of <offset-aware-issue-time>",
         "rule": "Re-evaluate observed_at_utc age against sensor_contract weather freshness and require available_at <= issue time. UNKNOWN for stale/missing/QC-rejected values; blank precipitation is never zero. Refresh selectively if needed. Airport observations are regional context, not local shoreline wind/rain. Do not copy previously saved KNOWN status without issue-time validation."
+      },
+      "dawn_horizon_policy": {
+        "days": 3,
+        "timezone": "America/Chicago",
+        "required_dates": "snapshot_issue_date, issue_date+1, issue_date+2",
+        "reviewed_zero_change_rollforward": "python -B model_data/roll_forward_dawn_outlook.py --as-of <offset-aware-time>",
+        "publication_check": "python -B model_data/bind_current_forecast.py --check --require-dawn-horizon",
+        "guardrail": "Only an existing three-day horizon with identical daily heuristic ranges, central estimates and confidence may roll forward without numerical reassessment. Otherwise REVIEW_REQUIRED. Sensing and Dawn Timing do not own this reassessment."
       }
     },
     {

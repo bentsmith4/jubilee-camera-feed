@@ -121,3 +121,30 @@ triggers still fails with `Snapshot notification gates disagree`.
 A production-shaped recovery-with-no-trigger regression captures the 00:34 CT
 operational context and verifies that the binder projects no forecast
 notification while preserving the recovery assessment.
+
+
+## Dawn horizon maintenance
+
+The ordinary sensing reconciler may preserve an older reviewed outlook while it
+updates source state; it does not own forecast-horizon maintenance. Before a
+Jubilee Dawn Forecast publishes numerical ranges, the post-dawn layer must
+require exactly three America/Chicago dates: the snapshot issue date, issue
+date + 1, and issue date + 2.
+
+A narrow reviewed zero-change maintenance path is provided for the case in
+which the existing three dated heuristic rows have identical Point Clear and
+Daphne/May Day ranges, central estimates and confidence. It may move those
+three identical rows onto the current three-day horizon without changing any
+number, weight, alert threshold, UNKNOWN input or evidence classification:
+
+```sh
+python -B model_data/roll_forward_dawn_outlook.py --as-of <offset-aware-time>
+python -B model_data/bind_current_forecast.py --check --require-dawn-horizon
+```
+
+If the source horizon is not exactly three consecutive days, the three daily
+profiles differ, the snapshot is not from the current Central date, the run is
+outside May 18-November 14, or any binding/policy invariant fails, the
+roll-forward stops with `REVIEW_REQUIRED`. Numerical reassessment remains a
+separate Dawn Forecast/model-governance action; sensing and Dawn Timing do not
+inherit it.
