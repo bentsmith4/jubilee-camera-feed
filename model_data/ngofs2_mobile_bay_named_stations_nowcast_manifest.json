@@ -1,13 +1,19 @@
 {
   "schema_version": "1.1",
   "cast": "nowcast",
-  "retrieved_at": "2026-10-01T16:03:53.633978+00:00",
+  "retrieved_at": "2026-10-01T17:10:45.371478+00:00",
   "status": "complete",
   "evidence_class": "MODEL",
   "production_action": "NO_CHANGE",
   "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/01/ngofs2.t09z.20261001.stations.nowcast.nc",
   "model_initialized_at": "2026-10-01T09:00:00+00:00",
-  "failed_newer_attempts": [],
+  "failed_newer_attempts": [
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/01/ngofs2.t15z.20261001.stations.nowcast.nc",
+      "error_type": "OSError",
+      "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/01/ngofs2.t15z.20261001.stations.nowcast.nc'"
+    }
+  ],
   "station_count": 5,
   "stations": [
     {
@@ -119,8 +125,8 @@
   ],
   "unresolved_targets": [],
   "normalized_rows": 2745,
-  "subset_sha256": "480a5885218eae7d2c2eef6e087084d0182052ebbaf6285aae5cc88a162baf9b",
-  "subset_archive": "public_archive/ngofs2_named_station_subset/480a5885218eae7d2c2eef6e087084d0182052ebbaf6285aae5cc88a162baf9b.json.gz",
+  "subset_sha256": "ee5a59ae2f97510c7db1f722459da6da0a14d99baced323420053d562a6676fb",
+  "subset_archive": "public_archive/ngofs2_named_station_subset/ee5a59ae2f97510c7db1f722459da6da0a14d99baced323420053d562a6676fb.json.gz",
   "normalized_csv": "ngofs2_mobile_bay_named_stations_nowcast_normalized.csv",
   "guardrails": [
     "All values are MODEL guidance, not observations.",
