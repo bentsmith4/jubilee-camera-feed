@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-01T08:27:51-05:00",
+  "issue_time": "2026-10-01T12:35:23.788836-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "9d5c30d96cf07243e70e8adb443045091e8df39d43fad808f98f9315a3c240a8",
-  "input_commit_sha": "7c403d39eb7a6fc811ef6bb61d5d54e067963cef",
+  "input_snapshot_hash": "68145b955181ba60594efcc8e9c2a9c3e4d0ec2778b7912a8b0c0f66ac78d4d0",
+  "input_commit_sha": "726ded857f62c8eb65d2d3753093a74b55daa734",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
   "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
-  "method": "Post-dawn horizon-only review: moved an identical existing three-day frozen heuristic profile onto October 1-3, 2026 in America/Chicago. No numerical probability, confidence, production weight, UNKNOWN input or alert threshold changed.",
+  "method": "Committed-evidence issue-time admission; frozen dated heuristic outlooks and zero production weights retained. No automatic event/fault policy inference.",
   "data_coverage": {
-    "private_camera_metadata_pass": 6,
+    "private_camera_metadata_pass": 4,
     "private_cameras_expected": 6,
     "ngofs2_products": {
       "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
@@ -21,18 +21,16 @@
       "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
       "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
-    "fresh_river_series": 0,
-    "asos_stations": "KBFM/KMOB UNKNOWN"
+    "fresh_river_series": 20,
+    "asos_stations": "KBFM/KMOB partial"
   },
   "missing_inputs": [
-    "KBFM and KMOB ASOS weather and rainfall parameters are stale/UNKNOWN; blank precipitation fields are not interpreted as no rain.",
-    "All 20 USGS lower-river series are stale or QC-rejected and UNKNOWN; River-to-Bay travel time remains uncalibrated.",
-    "Weeks Bay WKQA1 and WKXA1 observations are stale/UNKNOWN.",
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
-    "Observed local water level/current and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
-    "Out-of-view biology and full-cell non-events remain UNKNOWN; the quiet owner-camera classifications apply only to the sampled visible areas and intervals.",
-    "No new public-player or human-report assessment is claimed; retained prior rows are historical context only.",
-    "NGOFS2 named-stations forecast is unavailable and missing model slices remain UNKNOWN."
+    "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
+    "River-to-Bay travel time remains uncalibrated.",
+    "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
+    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
+    "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
   "outlooks": [
     {
