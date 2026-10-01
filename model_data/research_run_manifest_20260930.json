@@ -1,0 +1,96 @@
+{
+  "schema_version": "1.0",
+  "run_id": "jubilee-model-research-calibration-2026-09-30",
+  "generated_at_utc": "2026-09-30T14:41:00Z",
+  "in_season": true,
+  "canonical_repository": "bentsmith4/jubilee-camera-feed",
+  "canonical_branch": "main",
+  "role": "MODEL_LEARNING",
+  "source_discovery_queue": {
+    "path": "model_data/source_discovery_queue_20260906.json",
+    "exists": false
+  },
+  "inputs": [
+    {
+      "path": "model_data/MODEL_WORK_REGISTER.md",
+      "pre_run_blob_sha": "a29f94b94f6002a936531323a6095c63b93f3fa6"
+    },
+    {
+      "path": "model_data/ongoing_source_registry_20260906.json",
+      "blob_sha": "641b57f374975051f9ccdb1add7febfeeee9556d",
+      "change_this_run": "NONE"
+    },
+    {
+      "path": "model_data/feature_catalog.json",
+      "blob_sha": "b5ccd8ba99cf82504e47957182e278735592e60a",
+      "change_this_run": "NONE"
+    },
+    {
+      "path": "api_usage_summary.json",
+      "blob_sha": "c1c5add23a1307ddbda3423b36f987089ff1bbd8",
+      "generated_at_utc": "2026-09-30T14:10:43.075618+00:00",
+      "status": "available",
+      "invalid_records": 0,
+      "top_level_missing_records": "FIELD_ABSENT",
+      "selected_group_missing_records": 0
+    },
+    {
+      "source": "canonical observation_records commits",
+      "window_ct": [
+        "2026-09-30T04:20:20.790339-05:00",
+        "2026-09-30T08:20:20.790339-05:00"
+      ],
+      "records": 12,
+      "as_of_commit": "604055697e72cc45db64d13e8814c901bfe2ea0b"
+    },
+    {
+      "source": "GitHub PR #38",
+      "head_sha": "aaec0848780b4d76476e5e2fa3dafde1968a1e59",
+      "status": "OPEN_NOT_MERGED"
+    },
+    {
+      "source": "GitHub PR #39",
+      "head_sha": "e1d1c6b48fa966c7284dcda55fc22caaa5343366",
+      "status": "DRAFT_OPEN_NOT_MERGED"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "model_data/j10_matched_control_sensitivity_20260930.json",
+      "blob_sha": "1bbf5d5a2b0721d1d088746030ac81a5b82e5dfa",
+      "commit": "d20eb5742ee37028f00833d25028fd17bfd892e9"
+    },
+    {
+      "path": "model_data/j18_efficiency_postdeployment_20260930.json",
+      "blob_sha": "df7a7bd772b357fa953fb34d85b931bb9e230462",
+      "commit": "19f2b31c761f52dc992ac8f355120a21e62ed7a0"
+    },
+    {
+      "path": "model_data/research_coverage_gap_update_20260930.json",
+      "blob_sha": "29cdf4d4b2e03ca00648eaf18acf347c840901ae",
+      "commit": "a08f59a10363c157f1a619c99e9f477f377507e0"
+    },
+    {
+      "path": "model_data/MODEL_WORK_REGISTER.md",
+      "blob_sha": "08cd0e6457d8cd33da1faebf5515a8856e9fd606",
+      "commit": "4928ea5d4f27ffb75dd3e60cc5f195b7b149a13a"
+    },
+    {
+      "external_record": "PR #39 methodology review comment",
+      "id": 5913748070
+    }
+  ],
+  "raw_layer_change": "NONE",
+  "normalized_layer_change": "NONE",
+  "label_layer_change": "One new independent Tier-B scoped Montrose camera-visible candidate episode; Tier-A controls remain zero.",
+  "feature_layer_change": "NO PROMOTION; river response windows remain research hypotheses and ADCP Earth-frame current remains blocked.",
+  "model_artifact_change": "NONE",
+  "production_change": "NONE",
+  "tests_and_analysis": {
+    "control_window_records_reviewed": 12,
+    "river_response_review": "Independent current-head methodology review; no rerun and no merge.",
+    "efficiency_days_baseline": 5,
+    "efficiency_days_post": 11
+  },
+  "headline_result": "No measurable Jubilee-event predictive gain or regression. Reproducible control and efficiency audits were committed; PR #39's lowest RMSE was rejected as a calibrated lag; PR #38 current gates remain open."
+}

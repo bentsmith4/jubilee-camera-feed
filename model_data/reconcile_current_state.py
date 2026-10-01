@@ -2,6 +2,8 @@
 
 No probability estimation or alert-policy inference. New event/critical-fault
 assessments require review; they must not be silently suppressed by automation.
+An already-assessed material input-quality fault is preserved while source rows
+continue to reconcile; active direct-event evidence still requires review.
 """
 import argparse
 import copy
@@ -226,7 +228,9 @@ def build(root, now):
               camera_health=dict(expected_private_cameras=6, private_metadata_pass=6-len(failed),
                                  private_cameras=cams, unknown_upstream_camera_ids=failed))
     old_fault = prior.get('operational_fault_assessment', {})
-    guard.require(sorted(failed) == sorted(old_fault.get('failed_camera_ids', [])),
+    preserved_material_fault = prior['alert_gates']['material_critical_input_fault']
+    camera_failure_set_changed = sorted(failed) != sorted(old_fault.get('failed_camera_ids', []))
+    guard.require(not camera_failure_set_changed or preserved_material_fault,
                   'REVIEW_REQUIRED: changed camera failures need material-fault assessment')
     prior_weather = by_source[ASOS]['parameter_admission']
     old_weather_known = any(x['value_status'] in ('KNOWN', 'TRACE') for station, v in prior_weather.items()
@@ -234,9 +238,8 @@ def build(root, now):
     old_river_known = any(x['fresh'] and x['value_status'].startswith('KNOWN') for x in by_source[RIVER]['series'])
     guard.require(not (old_weather_known or old_river_known) or weather_known or river_known,
                   'REVIEW_REQUIRED: simultaneous weather/river loss needs material-fault assessment')
-    guard.require(not prior['alert_gates']['direct_event_evidence_present'] and not prior['alert_gates']['material_critical_input_fault'],
-                  'REVIEW_REQUIRED: retain active assessed event/fault until explicit review')
-
+    guard.require(not prior['alert_gates']['direct_event_evidence_present'],
+                  'REVIEW_REQUIRED: retain active assessed event until explicit review')
     # Unsupported manual inputs are preserved as dated evidence, never relabeled current.
     replacements = {CAMERA: ca, MODEL: mr, ASOS: a, RIVER: rv, WEEKS: wb}
     s['input_rows'] = [replacements.get(x['source'], dict(source=x['source'], admitted_status='UNKNOWN_NOT_REASSESSED',
@@ -263,13 +266,15 @@ def build(root, now):
     s.pop('weather_input_readback', None)
     s['probability_basis']['reassessment_method'] = 'Committed-evidence issue-time admission; frozen dated heuristic outlooks and zero production weights retained. No automatic event/fault policy inference.'
     s['probability_basis'].pop('summary', None)
-    s['operational_fault_assessment'] = dict(active_fault_present=bool(failed), failed_camera_ids=failed,
+    s['operational_fault_assessment'] = dict(active_fault_present=bool(failed) or preserved_material_fault, failed_camera_ids=failed,
+        assessed_material_critical_input_fault_preserved=preserved_material_fault,
+        camera_failure_set_changed_under_preserved_material_fault=bool(camera_failure_set_changed and preserved_material_fault),
         new_fault_notification_required=False, recovery_notification_required=False,
         prior_recovery_context=(dict(snapshot_time_ct=prior['snapshot_time_ct'], recovery_notification_required=True)
                                 if old_fault.get('recovery_notification_required') else old_fault.get('prior_recovery_context')),
         all_six_desktop_archive_acceptance=acceptance['status'], desktop_acceptance_receipt=acceptance,
         existing_material_input_quality_alert_policy_changed=False,
-        basis='No new assessed critical fault or recovery notification is inferred by this builder.')
+        basis='No new assessed critical fault or recovery notification is inferred by this builder. Any previously assessed material input-quality fault is preserved unchanged while current source rows continue to reconcile.')
     # Include executable/admission contracts, but exclude prior output bytes from dedup identity.
     for path in ('model_data/model_policy.md', 'model_data/operations_contract.json',
                  'model_data/reconcile_current_state.py', 'model_data/desktop_acceptance.py', 'model_data/bind_current_forecast.py',

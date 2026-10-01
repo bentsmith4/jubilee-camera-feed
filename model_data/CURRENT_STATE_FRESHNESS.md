@@ -86,11 +86,15 @@ consumed source/contract bytes or issue-time admission statuses change.
 The builder retains the exact existing dated outlooks, probability ranges,
 confidence, zero production weights and four-trigger strict >20% alert contract.
 It does not extend outlook dates or create a calibrated probability model.
-New camera event indications, changed camera failures, simultaneous loss of
-previously available weather and river context, or an active assessed
-physical/event fault require explicit review; automation fails rather than
-inventing an alert decision. Recovery history remains operational context and
-is not added as a forecast alert trigger. This path does not send alerts.
+New camera event indications, changed camera failures without an already-active
+material input-quality alert, or simultaneous loss of previously available
+weather and river context require explicit review. When a material input-quality
+alert is already active, a changed camera failure set is recorded as operational
+context and reconciliation continues while the existing alert gate and its
+notification are preserved unchanged. Active direct-event evidence still fails
+closed. Recovery
+history remains operational context and is not added as a forecast alert
+trigger. This path does not send alerts.
 
 Reviewed desktop acceptance receipts now retain bounded operational history;
 current PASS requires exact capture/source binding and the existing capture

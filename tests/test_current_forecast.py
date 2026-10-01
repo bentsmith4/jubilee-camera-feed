@@ -103,6 +103,21 @@ class BindingTests(unittest.TestCase):
                 with self.assertRaisesRegex(ValueError, "reassessment_method"):
                     binding.project(encode(self.state))
 
+    def test_dawn_horizon_guard_requires_issue_date_through_plus_two(self):
+        state = copy.deepcopy(self.state)
+        state["snapshot_time_ct"] = "2026-10-01T06:45:00-05:00"
+        state["reconciliation"]["as_of_utc"] = "2026-10-01T11:45:00+00:00"
+        template = copy.deepcopy(state["outlook"][0])
+        state["outlook"] = []
+        for date_ct in ("2026-10-01", "2026-10-02", "2026-10-03"):
+            day = copy.deepcopy(template)
+            day["date_ct"] = date_ct
+            state["outlook"].append(day)
+        binding.require_dawn_horizon(state)
+        state["outlook"][2]["date_ct"] = "2026-10-04"
+        with self.assertRaisesRegex(ValueError, "Dawn forecast horizon"):
+            binding.require_dawn_horizon(state)
+
     def test_new_snapshot_time_rejects_old_forecast(self):
         self.state["snapshot_time_ct"] = "2026-09-27T22:00:00-05:00"
         self.state["reconciliation"]["as_of_utc"] = "2026-09-28T03:00:00+00:00"

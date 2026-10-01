@@ -131,6 +131,35 @@ class ReconciliationTests(unittest.TestCase):
                 with self.assertRaises(ValueError): builder.build(self.root, T0)
                 self.assertEqual([(self.root / p).read_bytes() for p in publisher.OUTPUTS], before)
 
+    def test_active_material_input_fault_does_not_freeze_source_reconciliation(self):
+        state = copy.deepcopy(self.state)
+        state["alert_gates"]["material_critical_input_fault"] = True
+        state["alert_gates"]["notification_suppressed"] = False
+        state["notification_condition_met"] = True
+        state.setdefault("operational_fault_assessment", {})
+        state["operational_fault_assessment"].update(active_fault_present=True, failed_camera_ids=[])
+        self.f.write(binding.SNAPSHOT, state)
+        self.f.write(binding.FORECAST, binding.project(builder.encode(state)))
+        self.commit("assessed material input-quality fault")
+
+        later = T0 + timedelta(minutes=10)
+        self.environment(later)
+        self.cameras(later, ('camera_0',))
+        self.commit("fresh sources and changed camera health while assessed fault remains active")
+
+        result = builder.build(self.root, later + timedelta(minutes=1))
+        self.assertIsNotNone(result)
+        snapshot, forecast = map(json.loads, result)
+        self.assertTrue(snapshot["alert_gates"]["material_critical_input_fault"])
+        self.assertTrue(snapshot["notification_condition_met"])
+        self.assertTrue(snapshot["operational_fault_assessment"]["assessed_material_critical_input_fault_preserved"])
+        self.assertTrue(snapshot["operational_fault_assessment"]["camera_failure_set_changed_under_preserved_material_fault"])
+        self.assertEqual(snapshot["operational_fault_assessment"]["failed_camera_ids"], ["camera_0"])
+        rows = {r["source"]: r for r in snapshot["input_rows"]}
+        self.assertEqual(rows[builder.ASOS]["parameter_admission"]["KBFM"]["parameters"]["wind_speed"]["value_status"], "KNOWN")
+        self.assertTrue(any(x["value_status"] == "KNOWN_UPSTREAM_PROXY" for x in rows[builder.RIVER]["series"]))
+        binding.check(result[0], forecast)
+
     def test_issue_time_expiry_is_unknown_and_manual_context_not_refreshed(self):
         self.reconcile(T0)
         s, _ = self.reconcile(T0 + timedelta(minutes=95))
