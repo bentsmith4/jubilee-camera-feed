@@ -1,18 +1,18 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-01T00:52:41-05:00",
+  "issue_time": "2026-10-01T02:20:43-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "543392d4d1841acc020b77ee262ca64d6965eebdfd1f4c63127e8b89a8d1c350",
-  "input_commit_sha": "73687286f846db341e553f5fcf1def5d3518e244",
+  "input_snapshot_hash": "a5dddf23fcc34e939498430849c4c33fde4e56a7b6b66c744289c392ef036acf",
+  "input_commit_sha": "053be4c76d231d4efeba16e7690db542117f71b6",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
   "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
-  "method": "Reviewed committed-evidence issue-time admission. Five fresh low-detectability camera bursts and refreshed regional ASOS/river proxies do not establish a Jubilee or justify numerical change; the single failed camera, stale Weeks Bay context, missing direct bottom/oxygen observations, frozen dated heuristic outlooks, and zero production weights are retained under the reviewed method.",
+  "method": "Reviewed committed-evidence issue-time admission. Six fresh matching but low-detectability owner-camera bursts and refreshed regional ASOS/river proxies support clearing the acute input-quality fault, not a Jubilee probability change. Missing direct bottom/oxygen observations, stale Weeks Bay context, frozen dated heuristic outlooks, and zero production weights are retained under the reviewed method.",
   "data_coverage": {
-    "private_camera_metadata_pass": 5,
+    "private_camera_metadata_pass": 6,
     "private_cameras_expected": 6,
     "ngofs2_products": {
       "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
@@ -21,12 +21,11 @@
       "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
       "ngofs2_shoreline_grid": "UNKNOWN_UNAVAILABLE"
     },
-    "fresh_river_series": 20,
+    "fresh_river_series": 12,
     "asos_stations": "KBFM/KMOB partial"
   },
   "missing_inputs": [
-    "pcl_e2_back_deck failed its latest owner-camera capture and remains UNKNOWN.",
-    "The five current owner-camera bursts have fair-to-poor visibility and low biological detectability; their visible-scope 'none' labels are not biological negatives.",
+    "All six current owner-camera bursts have poor visibility and low biological detectability; their visible-scope 'none' labels are not biological negatives.",
     "Weeks Bay WKQA1 and WKXA1 observations are stale at issue time and remain UNKNOWN.",
     "ASOS precipitation fields are blank and remain UNKNOWN; no no-rain inference is made.",
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
@@ -103,9 +102,9 @@
     "point_clear_over_20_percent": false,
     "daphne_may_day_over_20_percent": false,
     "direct_event_evidence_present": false,
-    "material_critical_input_fault": true,
-    "notification_suppressed": false
+    "material_critical_input_fault": false,
+    "notification_suppressed": true
   },
-  "notification_condition_met": true,
+  "notification_condition_met": false,
   "later_verification": "PENDING; no future outcome or next-dawn acceptance claimed"
 }
