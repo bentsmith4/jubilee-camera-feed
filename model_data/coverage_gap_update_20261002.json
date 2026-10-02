@@ -1,0 +1,79 @@
+{
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-10-02T15:20:00Z",
+  "scope": "Research-only gap and promotion review after PRs #38, #40 and #41 plus 2026-10-02 prospective observation audit.",
+  "ranked_gaps": [
+    {
+      "rank": 1,
+      "gap": "Tier-A independently verified matched Jubilee controls",
+      "status": "MISSING",
+      "evidence": "Five independent Montrose mornings are Tier-B narrow visible-scope candidates only; zero Tier-A controls. Whole-morning, full-cell and Point Clear outcomes remain unknown.",
+      "next_step": "Continue unattended prospective observation-effort logging and independent public/social confirmation without converting silence into negatives."
+    },
+    {
+      "rank": 2,
+      "gap": "Accepted Earth-frame current nearer Point Clear/Eastern Shore",
+      "status": "MISSING",
+      "evidence": "PR #38 makes Y1.x122.038:0002 reproducible in provider SHIP frame but accepts zero Earth-frame rows; nearest track is about 7.94 km from Point Clear.",
+      "next_step": "Clear compatible playback, deployment, heading/magnetic variation, draft/transducer, clock/timezone, motion-reference and depth-QC gates before transport testing."
+    },
+    {
+      "rank": 3,
+      "gap": "Held-out loading-only vs transport-only vs combined Jubilee-event comparison",
+      "status": "BLOCKED",
+      "evidence": "Zero Tier-A controls; oxygen-state and station-proxy results cannot be relabeled Jubilee accuracy.",
+      "next_step": "Accumulate qualified controls, then preregister time-blocked models and metrics."
+    },
+    {
+      "rank": 4,
+      "gap": "Direct Eastern Shore bottom oxygen/salinity/temperature and vertical gradients",
+      "status": "MISSING",
+      "evidence": "Meaher 2017-2018 is an upper-bay oxygen-percent station proxy with unresolved deployment geometry, not direct local bottom state.",
+      "next_step": "Recover authoritative deployment metadata and direct local historical observations; no new sensor purchase authorized."
+    },
+    {
+      "rank": 5,
+      "gap": "Coverage-normalized API effectiveness and dollar cost",
+      "status": "PARTIAL",
+      "evidence": "Thirteen complete postdeployment days show a 7.86% request-normalized token reduction, but dollar pricing and event-detection equivalence remain unverified.",
+      "next_step": "Retain compact/cache behavior and compare only bounded, coverage-equivalent changes against valid labels."
+    }
+  ],
+  "feature_decisions": [
+    {
+      "feature": "Claiborne fixed 7-13 day lag",
+      "decision": "REJECTED",
+      "basis": "2017-train/2018-test Meaher oxygen-percent proxy, n=136; RMSE +3.71% worse; uncertainty spans improvement and harm; sensitivities worsen."
+    },
+    {
+      "feature": "Coffeeville fixed 3-6 day lag",
+      "decision": "REJECTED",
+      "basis": "2017-train/2018-test Meaher oxygen-percent proxy, n=136; RMSE +18.58% worse and 97.5% paired-block interval entirely harmful; estimate-free training unavailable."
+    },
+    {
+      "feature": "Standalone lunar phase",
+      "decision": "BLOCKED_BY_DATA_ZERO_WEIGHT",
+      "basis": "15 confirmed rows collapsed to 13 independent episodes; Rayleigh p=0.349; zero clean matched controls."
+    },
+    {
+      "feature": "Y1.x122.038:0002 Earth-frame transport",
+      "decision": "ZERO_WEIGHT",
+      "basis": "Reproducible SHIP-frame decode only; scientific calibration gates remain open."
+    }
+  ],
+  "merged_research": {
+    "pr38": {
+      "merge_commit": "0de92a65a47bb395f5816813a868379477d8c6a4",
+      "scope": "canonical reproducible PD0/SHIP-frame research decode; no Earth-current acceptance"
+    },
+    "pr40": {
+      "merge_commit": "c7c50441d12a353789c7dff15c87f36087c5872f",
+      "scope": "four Tier-B Montrose candidate mornings through 2026-09-30; zero Tier-A"
+    },
+    "pr41": {
+      "merge_commit": "1a8de4b8b8a4fccf0b8e63dda9183f7cd4a8cc2c",
+      "scope": "independent-year river-lag replication and rejection"
+    }
+  },
+  "production_decision": "NO_PROMOTION_NO_PRODUCTION_CHANGE"
+}
