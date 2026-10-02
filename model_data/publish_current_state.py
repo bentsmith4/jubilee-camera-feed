@@ -1,18 +1,46 @@
 """Publish the state/forecast pair with bounded optimistic retries, never rebase it."""
 import argparse
+from datetime import datetime, timezone
 import json
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
+from zoneinfo import ZoneInfo
 
 from publish_observation_record import git
 
 OUTPUTS = ('model_data/current_state_snapshot.json', 'model_data/current_forecast.json')
+CT = ZoneInfo('America/Chicago')
+
+
+def publication_clock(as_of=None):
+    """Return an aware Central clock for live publication or deterministic replay."""
+    if as_of:
+        value = as_of[:-1] + '+00:00' if as_of.endswith('Z') else as_of
+        now = datetime.fromisoformat(value)
+        if now.tzinfo is None:
+            raise ValueError('--as-of must include a UTC offset')
+    else:
+        now = datetime.now(timezone.utc)
+    return now.astimezone(CT)
+
+
+def in_preforecast_staging(as_of=None):
+    """Hold forecast-pair publication from 17:00 through 20:59:59 Central."""
+    return 17 <= publication_clock(as_of).hour < 21
 
 
 def publish(repo, attempts=4, before_push=None, as_of=None):
     repo = repo.resolve()
+    clock = publication_clock(as_of)
+    if 17 <= clock.hour < 21:
+        return dict(
+            status='staged_preforecast_gate',
+            local_time_ct=clock.isoformat(),
+            publication_window='held_17:00_through_20:59:59_America/Chicago',
+            attempts=0,
+        )
     for attempt in range(attempts):
         git(repo, 'fetch', '--quiet', 'origin', 'refs/heads/main')
         parent = git(repo, 'rev-parse', 'FETCH_HEAD').stdout.decode().strip()
