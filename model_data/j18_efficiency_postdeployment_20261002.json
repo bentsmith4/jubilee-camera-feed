@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-10-02T14:10:31.366601+00:00",
+  "source": {
+    "path": "api_usage_summary.json",
+    "blob_sha": "eeef7e54ad2d40d96cf1f5430258f919c256e713",
+    "status": "available",
+    "invalid_records": 0,
+    "selected_group_missing_records": 0,
+    "window_start": "2026-09-02",
+    "window_end": "2026-10-02"
+  },
+  "comparison": {
+    "baseline_complete_days": [
+      "2026-09-09",
+      "2026-09-10",
+      "2026-09-11",
+      "2026-09-12",
+      "2026-09-13"
+    ],
+    "postdeployment_complete_days_start": "2026-09-19",
+    "postdeployment_complete_days_end": "2026-10-01",
+    "postdeployment_complete_day_count": 13,
+    "excluded_partial_day": "2026-10-02"
+  },
+  "metrics": {
+    "request_normalized_total_tokens": {
+      "baseline": 55872.60398458074,
+      "postdeployment": 51480.02515311296,
+      "percent_change": -7.861775750920796
+    },
+    "six_camera_tokens_per_reference_request": {
+      "baseline": 50520.01252116611,
+      "postdeployment": 48936.080177036405,
+      "percent_change": -3.135257227947219
+    },
+    "cross_camera_tokens_per_model_call": {
+      "baseline": 5320.151515151515,
+      "postdeployment": 3718.073426573427,
+      "percent_change": -30.11339214711185
+    },
+    "cross_camera_model_calls_per_reference_request": {
+      "baseline": 1.0060975609756098,
+      "postdeployment": 0.6842105263157895,
+      "percent_change": -31.99362041467304
+    },
+    "cached_input_share_postdeployment": 0.2830141653812315,
+    "postdeployment_completed_requests": 2688,
+    "postdeployment_failed_requests": 0,
+    "postdeployment_reference_requests": 418,
+    "postdeployment_cross_camera_model_calls": 286
+  },
+  "interpretation": "The compact/cache runtime retains a reproducible token reduction, but the estimate is essentially stable rather than a new gain. Camera-level work still dominates. This is not dollar-priced and does not establish equal Jubilee-event detection effectiveness.",
+  "guardrails": [
+    "Missing days are unknown, not zero.",
+    "Cached input is a subset of input and is not added twice.",
+    "Reasoning tokens are a subset of output and are not added twice.",
+    "No failed or missed-coverage requests are counted as savings.",
+    "No production model, threshold, schedule, camera, or coverage change is authorized by this audit."
+  ],
+  "decision": "MEASURED_EFFICIENCY_GAIN_RETAINED_NO_NEW_PROMOTION"
+}
