@@ -1,5 +1,7 @@
 # J08: Loesch 1960 historical positive recovery (2026-09-29)
 
+> Historical September 29 snapshot. Current retrieval status is superseded by [October 2 primary recovery](LOESCH_1960_PRIMARY_RECOVERY_20261002.md): all seven primary pages recovered; the discrepancy exists within Table I itself.
+
 ## Result
 
 No 1946–1956 event row is admitted. The [publisher record](https://esajournals.onlinelibrary.wiley.com/doi/10.2307/1930218) confirms *Ecology* 41(2), pp. 292–298, DOI 10.2307/1930218. Its PDF link redirected to the abstract/citation page in this retrieval; neither the seven article pages nor an event table was obtained. [JSTOR's indexed excerpt](https://www.jstor.org/stable/1930218) exposes a fragment that says 1950 had ten Jubilees, but the accessible landing page does not expose the whole article or dates. A search of indexed Alabama Department of Archives and History records yielded the already canonical 1959 and 1972 photographs, not a new exact 1946–1956 date.

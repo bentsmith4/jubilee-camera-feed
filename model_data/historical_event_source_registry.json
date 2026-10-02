@@ -13,10 +13,10 @@
       "url": "https://esajournals.onlinelibrary.wiley.com/doi/10.2307/1930218",
       "reported_event_period": "1946-1956",
       "priority": "P0",
-      "status": "primary_citation_verified_full_event_table_not_recovered",
+      "status": "primary_pages_recovered_internal_count_discrepancy_unresolved",
       "use": "historical event dates, seasonality, location, timing, wind/rain/tide hypotheses",
-      "guardrail": "Neither aggregate total is established from the full primary article. Do not create individual event rows or select a count until source pages or contemporaneous dated records are recovered.",
-      "count_reconciliation_status": "unresolved_primary_pages_required",
+      "guardrail": "Narrative and annual entries support a stated 35; monthly entries total 37 within the same primary table. Do not select a canonical aggregate count. Dated research extraction is separate from event admission.",
+      "count_reconciliation_status": "unresolved_internal_primary_table_inconsistency",
       "aggregate_count_claims": [
         {
           "count": 35,
@@ -31,7 +31,16 @@
           "url": "https://en.wikipedia.org/wiki/Mobile_Bay_jubilee"
         }
       ],
-      "recovery_audit": "model_data/loesch_1960_recovery_20260929.json"
+      "recovery_audit": "model_data/loesch_1960_primary_recovery_20261002.json",
+      "previous_recovery_audit": "model_data/loesch_1960_recovery_20260929.json",
+      "primary_scan_url": "https://archive.org/download/ecology_1960-04_41_2/ecology_1960-04_41_2.pdf",
+      "primary_aggregate_evidence": {
+        "narrative_count": 35,
+        "annual_sum": 35,
+        "monthly_sum": 37,
+        "table_page": 293,
+        "production_count_selected": null
+      }
     },
     {
       "source_id": "may_1973_limnology_oceanography",
@@ -99,7 +108,7 @@
       "priority": "P0",
       "status": "verified_event_source",
       "use": "historical Point Clear positive with exact date, morning timing, coordinates and species",
-      "reported_details": "David A. Bagwell states a Jubilee occurred that morning at Point Clear and gives N 30°31'21\", W 87°54'10\"; flounder, crabs, shrimp, stingrays, mullet and other fish are described."
+      "reported_details": "David A. Bagwell states a Jubilee occurred that morning at Point Clear and gives N 30\u00b031'21\", W 87\u00b054'10\"; flounder, crabs, shrimp, stingrays, mullet and other fish are described."
     },
     {
       "source_id": "jon_hauge_2013_08_16_point_clear",
@@ -331,7 +340,7 @@
     }
   ],
   "next_recovery_targets": [
-    "Recover Loesch 1960 primary event table/dates and locations rather than relying on secondary summaries of 37 events.",
+    "Recover the original Loesch 1946-1956 clipping/field roster and Table I correction; primary pages are recovered, with annual/narrative 35 versus monthly sum 37 unresolved.",
     "Normalize May 1973 underlying dated DO stations/profiles and distinguish Jubilee-linked observations from generic hypoxia.",
     "Trace the 2024 Point Clear report back to the original Explore the Eastern Shore/Facebook post and independent contemporaneous reports.",
     "Recover the original WKRG July 24, 2025 resident-video report metadata and exact shoreline scope.",
@@ -342,3 +351,4 @@
     "Build observation-effort-aware non-event controls rather than treating missing reports as negatives."
   ]
 }
+
