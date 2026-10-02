@@ -1,0 +1,254 @@
+{
+  "schema_version": "1.0",
+  "scope": "RESEARCH_ONLY",
+  "production_action": "NO_CHANGE",
+  "audit_date": "2026-10-02",
+  "base_commit": "3ab4b8c84843b04ed80b67b15671d68c2334fbb6",
+  "preregistration_commit": "323d9e65334cf1d2031c27c955df7dc868922583",
+  "contract_sha256": "c78e45e5cd840e15789da6ee300711c2c8387e351541ee9d277f568f9f6cc105",
+  "velocity_payloads_downloaded": 0,
+  "accepted_earth_frame_rows": 0,
+  "candidates": [
+    {
+      "id": "DISL_MBLA",
+      "lat": 30.4367,
+      "lon": -88.0117,
+      "source": "gcoos_mbla",
+      "disposition": "NOT_CLOSER_AND_QC_MISSING",
+      "blocker": "Speed/direction aggregate QC actual_range 9,9; depth actual_range 0,0; no verified heading/declination/deployment metadata. Dedicated AWAC stream is separate and cannot be inferred from MBLA mirror.",
+      "period": {
+        "metadata_start": "2006-08-22T00:00:00Z",
+        "metadata_end": "2026-04-14T18:00:00Z",
+        "metadata_resolution": "PT1H",
+        "caveat": "Global duration P13DT18H inconsistent with range; not a continuous current record or operational freshness proof."
+      },
+      "units": {
+        "speed": "cm s-1",
+        "direction": "degree, sea_water_to_direction",
+        "depth": "m"
+      }
+    },
+    {
+      "id": "mb0302",
+      "lat": 30.7329,
+      "lon": -88.0417,
+      "source": "noaa_active_sos",
+      "disposition": "NOT_CLOSER",
+      "blocker": "Cochrane Bridge; river/port geometry, not local Eastern Shore bottom vector.",
+      "period": {
+        "deployed_utc": "2023-09-28T12:00:00Z"
+      },
+      "units": null
+    },
+    {
+      "id": "mb0402",
+      "lat": 30.6708,
+      "lon": -88.0346,
+      "source": "noaa_active_sos",
+      "disposition": "NOT_CLOSER",
+      "blocker": "APM Terminals; port geometry, not local Eastern Shore bottom vector.",
+      "period": {
+        "deployed_utc": "2023-10-03T16:05:00Z"
+      },
+      "units": null
+    },
+    {
+      "id": "mb0501",
+      "lat": 30.7142,
+      "lon": -88.0414,
+      "source": "noaa_active_sos",
+      "disposition": "NOT_CLOSER",
+      "blocker": "ASPA Grain Elevator; side/shore mounted, sensor depth 5.10 m, 6-minute interval; depth has no NOS datum linkage. Near-surface horizontally sampled current is not local bottom flow.",
+      "period": {
+        "deployed_utc": "2024-01-26T00:00:00Z"
+      },
+      "units": null
+    },
+    {
+      "id": "MOB1101",
+      "lat": 30.22703,
+      "lon": -88.03458,
+      "source": "https://repository.library.noaa.gov/view/noaa/2630/noaa_2630_DS1.pdf#page=29",
+      "disposition": "NOT_CLOSER",
+      "blocker": "NOAA NOS CS 28 printed pp.17-19; surviving survey mooring; 6-minute interval UTC-6 local standard time in station metadata. Payload clock must be checked before conversion.",
+      "period": "2010-11-11/2011-02-06",
+      "units": "Not normalized; obtain source units and QC with payload."
+    },
+    {
+      "id": "MOB1104",
+      "lat": 30.22178,
+      "lon": -88.3708,
+      "source": "https://repository.library.noaa.gov/view/noaa/2630/noaa_2630_DS1.pdf#page=29",
+      "disposition": "NOT_CLOSER",
+      "blocker": "NOAA NOS CS 28 printed pp.17-19; surviving survey mooring; 6-minute interval UTC-6 local standard time in station metadata. Payload clock must be checked before conversion.",
+      "period": "2010-11-05/2011-02-12",
+      "units": "Not normalized; obtain source units and QC with payload."
+    },
+    {
+      "id": "MOB1105",
+      "lat": 30.22569,
+      "lon": -88.53994,
+      "source": "https://repository.library.noaa.gov/view/noaa/2630/noaa_2630_DS1.pdf#page=29",
+      "disposition": "NOT_CLOSER",
+      "blocker": "NOAA NOS CS 28 printed pp.17-19; surviving survey mooring; 6-minute interval UTC-6 local standard time in station metadata. Payload clock must be checked before conversion.",
+      "period": "2010-11-05/2011-02-06",
+      "units": "Not normalized; obtain source units and QC with payload."
+    },
+    {
+      "id": "MOB1106",
+      "lat": 30.29556,
+      "lon": -88.09956,
+      "source": "https://repository.library.noaa.gov/view/noaa/2630/noaa_2630_DS1.pdf#page=29",
+      "disposition": "NOT_CLOSER",
+      "blocker": "NOAA NOS CS 28 printed pp.17-19; surviving survey mooring; 6-minute interval UTC-6 local standard time in station metadata. Payload clock must be checked before conversion.",
+      "period": "2010-12-07/2011-02-06",
+      "units": "Not normalized; obtain source units and QC with payload."
+    },
+    {
+      "id": "MOB1103_LOST",
+      "lat": 30.43649,
+      "lon": -88.01342,
+      "source": "https://repository.library.noaa.gov/view/noaa/2630/noaa_2630_DS1.pdf#page=29",
+      "disposition": "LOST_NO_RECOVERED_DATA",
+      "blocker": "Table 6 footnote and section 4.1 explicitly identify lost instruments. Deployment coordinate is not evidence of recovered current observations.",
+      "period": null,
+      "units": null
+    },
+    {
+      "id": "MOB1102_LOST",
+      "lat": 30.3301,
+      "lon": -88.02948,
+      "source": "https://repository.library.noaa.gov/view/noaa/2630/noaa_2630_DS1.pdf#page=29",
+      "disposition": "LOST_NO_RECOVERED_DATA",
+      "blocker": "Table 6 footnote and section 4.1 explicitly identify lost instruments. Deployment coordinate is not evidence of recovered current observations.",
+      "period": null,
+      "units": null
+    },
+    {
+      "id": "GRIIDC_0032_M1",
+      "lat": 30.1747,
+      "lon": -88.0193,
+      "source": "https://data.griidc.org/data/R4.x260.204:0032",
+      "disposition": "NOT_CLOSER",
+      "blocker": "2016 mixing array is outside the bay; no payload downloaded because geometry fails screen. Landing page retrieved by web service; direct download returned HTTP403.",
+      "period": "2016-03-29/2016-04-15",
+      "units": {
+        "velocity": "u,v,w and error m/s",
+        "time": "MATLAB serial date UTC",
+        "depth": "m",
+        "quality": "echo/correlation counts; percent good %"
+      }
+    },
+    {
+      "id": "GRIIDC_0032_M2",
+      "lat": 30.1822,
+      "lon": -88.0774,
+      "source": "https://data.griidc.org/data/R4.x260.204:0032",
+      "disposition": "NOT_CLOSER",
+      "blocker": "2016 mixing array is outside the bay; no payload downloaded because geometry fails screen. Landing page retrieved by web service; direct download returned HTTP403.",
+      "period": "2016-03-29/2016-04-15",
+      "units": {
+        "velocity": "u,v,w and error m/s",
+        "time": "MATLAB serial date UTC",
+        "depth": "m",
+        "quality": "echo/correlation counts; percent good %"
+      }
+    },
+    {
+      "id": "GRIIDC_0032_M3",
+      "lat": 30.201,
+      "lon": -88.1223,
+      "source": "https://data.griidc.org/data/R4.x260.204:0032",
+      "disposition": "NOT_CLOSER",
+      "blocker": "2016 mixing array is outside the bay; no payload downloaded because geometry fails screen. Landing page retrieved by web service; direct download returned HTTP403.",
+      "period": "2016-03-29/2016-04-15",
+      "units": {
+        "velocity": "u,v,w and error m/s",
+        "time": "MATLAB serial date UTC",
+        "depth": "m",
+        "quality": "echo/correlation counts; percent good %"
+      }
+    },
+    {
+      "id": "GRIIDC_0032_M4",
+      "lat": 30.1294,
+      "lon": -88.1246,
+      "source": "https://data.griidc.org/data/R4.x260.204:0032",
+      "disposition": "NOT_CLOSER",
+      "blocker": "2016 mixing array is outside the bay; no payload downloaded because geometry fails screen. Landing page retrieved by web service; direct download returned HTTP403.",
+      "period": "2016-03-29/2016-04-15",
+      "units": {
+        "velocity": "u,v,w and error m/s",
+        "time": "MATLAB serial date UTC",
+        "depth": "m",
+        "quality": "echo/correlation counts; percent good %"
+      }
+    },
+    {
+      "id": "GRIIDC_0032_M5",
+      "lat": 30.0513,
+      "lon": -88.1226,
+      "source": "https://data.griidc.org/data/R4.x260.204:0032",
+      "disposition": "NOT_CLOSER",
+      "blocker": "2016 mixing array is outside the bay; no payload downloaded because geometry fails screen. Landing page retrieved by web service; direct download returned HTTP403.",
+      "period": "2016-03-29/2016-04-15",
+      "units": {
+        "velocity": "u,v,w and error m/s",
+        "time": "MATLAB serial date UTC",
+        "depth": "m",
+        "quality": "echo/correlation counts; percent good %"
+      }
+    },
+    {
+      "id": "GRIIDC_0032_M6",
+      "lat": 29.978,
+      "lon": -88.1204,
+      "source": "https://data.griidc.org/data/R4.x260.204:0032",
+      "disposition": "NOT_CLOSER",
+      "blocker": "2016 mixing array is outside the bay; no payload downloaded because geometry fails screen. Landing page retrieved by web service; direct download returned HTTP403.",
+      "period": "2016-03-29/2016-04-15",
+      "units": {
+        "velocity": "u,v,w and error m/s",
+        "time": "MATLAB serial date UTC",
+        "depth": "m",
+        "quality": "echo/correlation counts; percent good %"
+      }
+    },
+    {
+      "id": "USGS_392",
+      "lat": 30.296,
+      "lon": -87.99533,
+      "source": "https://cmgds.marine.usgs.gov/erddap/tabledap/MOBILE_BAY_3921tsa_a_cdf.graph",
+      "disposition": "NOT_CLOSER_METADATA_ONLY",
+      "blocker": "Indexed USGS mooring-392 temperature-package metadata establish mooring location; velocity package 3921v2-a access HTTP403. Do not claim temperature package is a current payload.",
+      "period": "1991-11-06/1991-11-11 for temperature package only",
+      "units": null
+    }
+  ],
+  "unresolved_search_leads": [
+    {
+      "id": "USGS_0066111_FULL_INVENTORY",
+      "url": "https://stellwagen.er.usgs.gov/mobile_bay.html",
+      "blocker": "HTTP403 at USGS inventory and alternate cmgds metadata route; complete mooring inventory not recovered. Indexed package locations do not establish archive-wide absence.",
+      "next_request": "USGS CMHRP Woods Hole ocean-time-series data custodian / NCEI accession 0066111: complete Mobile Bay 1990-1992 station/deployment coordinate table, native current records and processing/QC/compass/clock/depth metadata; filter Point Clear 30.48664,-87.93453 within 5 km and separately identify shallow Eastern Shore stations."
+    },
+    {
+      "id": "DISL_2004_SHALLOW_MOORINGS",
+      "url": "https://link.springer.com/article/10.1007/BF02782967",
+      "blocker": "Publisher exposes abstract only, institutional access required for methods; no publicly verified dated current payload with coordinates/QC recovered. Potential Eastern Shore coverage stays UNKNOWN.",
+      "next_request": "DISL data architect and physical oceanography program: 2004 shallow mooring station table and native current series underlying Park/Kim/Schroeder 2007 DOI 10.1007/BF02782967 and Hurricane Ivan study; plus any near-Eastern-Shore deployments. Require UTC, sample units/depth, true-north/declination correction, mounting and QC evidence."
+    },
+    {
+      "id": "DISL_MIDDLE_BAY_AWAC_NATIVE",
+      "url": "https://www.disl.edu/arcos/middle-bay-awac/",
+      "blocker": "Dedicated instrument identified, native deployment position/date/depth, orientation/calibration, current data export and QC not recovered. Lighthouse position is only site proxy. Dedicated iframe contains fixed February-April 2026 time bounds, not a live-data guarantee.",
+      "next_request": "DISL ARCOS data architect: native Middle Bay AWAC export + deployment/configuration/compass/declination/calibration/depth and QC logs; any closer Point Clear/Montrose/Fairhope current deployments. Do not reuse MBLA mirror missing-current placeholders."
+    },
+    {
+      "id": "OLDER_CIRCULATION_RECORDS",
+      "url": "https://repository.library.noaa.gov/view/noaa/42370/noaa_42370_DS1.pdf",
+      "blocker": "Scanned historical report not text-extractable via web service; no machine-readable nearshore vectors and orientation/clock/QC recovered. Not disproved or accepted.",
+      "next_request": "DISL/NOAA archives: station maps/tables and surviving native dated records for descriptive Mobile Bay circulation studies, with coordinate reference, depth and original magnetic/true direction convention."
+    }
+  ]
+}
