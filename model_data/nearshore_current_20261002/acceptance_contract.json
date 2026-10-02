@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "scope": "RESEARCH_ONLY",
+  "production_action": "NO_CHANGE",
+  "registration": "Metadata discovery already inspected; registered before any new velocity payload download, fitting or favorable-result inspection. Existing J09 results are prior evidence, not prospective tests.",
+  "reference": {
+    "lat": 30.48664,
+    "lon": -87.93453,
+    "source": "research/j09_pointclear_reviewed/point_clear_reference_source.json",
+    "meaning": "Point Clear NOAA station reference, not owner pier coordinates"
+  },
+  "baseline_nearest_track_km": 7.94,
+  "geometry_screen": {
+    "materially_closer_point_clear_km": 5.0,
+    "rationale": "Prospective discovery screen (~37% closer than prior track), analyst design choice, not proof of hydrodynamic representativeness. Other Eastern Shore sites require separately versioned target coordinates and geometry; no substitution.",
+    "direct_local_max_distance_km": 1.0,
+    "required": "Same shoreline cell and connected shallow-water pathway, surveyed bed and sample-volume position; distance alone cannot pass."
+  },
+  "required_metadata": [
+    "source_identity_and_raw_sha256",
+    "observed_at_utc_and_clock_verification",
+    "available_at_utc",
+    "units_and_direction_to_convention",
+    "true_north_rotation_and_compass_calibration",
+    "fixed_mount_or_documented_motion_correction",
+    "sample_volume_depth_and_bed_clearance",
+    "deployment_geometry_version",
+    "instrument_configuration_and_calibration",
+    "instrument_specific_qc_thresholds_and_flags"
+  ],
+  "acceptance": {
+    "missing_metadata": "BLOCKED_UNKNOWN",
+    "required_qc_flag": 1,
+    "other_qc_flags": "2 not evaluated, 3 suspect, 4 fail, 9 missing are not accepted; raw rows preserved",
+    "missing_rows": "UNKNOWN; never zero current or no event",
+    "orientation_test": "Known north/east/south/west vector fixtures and independent compass alignment check; direction-to clockwise from true north; u=speed*sin(theta), v=speed*cos(theta). No course-over-ground substitution for heading.",
+    "depth_test": "Reject dry/buried/obstructed samples and ADCP cells intersecting vendor blanking or surface/bed sidelobe masks; depth=0 mirror metadata is not bottom clearance.",
+    "timing_test": "UTC offset documented; monotonic per deployment, duplicate timestamps reconciled, clock error <=30 s; observed/available/ingested timestamps retained separately.",
+    "minimum_validation_window": "14 consecutive deployment days, >=90% expected 5-minute records after QC, no accepted gap >15 min; each represented dawn reported separately. These are provisional research design criteria, not evidence of predictive skill.",
+    "skill_gate": "No event fitting in this source audit. Separate preregistered, episode/day-blocked held-out loading-only/transport-only/combined comparison with verified positives and Tier-A scoped controls and availability-time cutoff is required; currently not estimable."
+  },
+  "local_sensor_design_targets": {
+    "maximum_interval_minutes": 5,
+    "record_interval_seconds": 300,
+    "averaging": "Archive native bursts; log burst rate/duration/count and average method; tune device-specific sampling before acquisition, retain wave variability.",
+    "horizontal_velocity_uncertainty_target_m_s": 0.02,
+    "heading_uncertainty_target_deg": 5,
+    "sample_volume_above_bed_m": [
+      0.15,
+      0.3
+    ],
+    "geometry": "Survey before installation; actual sampling volume must stay submerged at ordinary low water and clear sediment/piling wakes. A point meter can close local bottom-vector gap; profile or second level is needed to infer vertical transport/shear.",
+    "telemetry": "Unattended shore-powered/Wi-Fi or autonomous logger, local buffer and backfill; no routine manual predawn work.",
+    "maintenance": "Daylight retrievable service/calibration, initially every 7-14 days in summer; adapt interval to documented fouling/drift.",
+    "limitations": "Design targets, not vendor specifications or a purchase approval. DO/salinity/temperature kit alone does not measure currents; budget feasibility unverified."
+  }
+}
