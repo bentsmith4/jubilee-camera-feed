@@ -72,6 +72,12 @@ SOURCE_UNAVAILABLE/UNKNOWN; retained normalized files are not read. A failed
 producer can still have independently validated committed products; only these
 published products are eligible, never its artifacts or dirty worktree output.
 
+From 17:00 through 20:59:59 America/Chicago, the publisher exits with
+`staged_preforecast_gate` before reading or writing the repository. Camera,
+environmental and observation producers continue to persist their canonical
+evidence during this window. The first invocation at or after 21:00 Central
+reconciles that accumulated evidence and may publish the pair normally.
+
 The publisher commits **only** the snapshot and bound forecast together and
 uses a normal fast-forward push. If camera, sensing, observation, research,
 policy or reviewed state publication advances main, the candidate is discarded
