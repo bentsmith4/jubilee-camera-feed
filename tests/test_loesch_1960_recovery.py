@@ -36,8 +36,8 @@ class LoeschRecoveryTests(unittest.TestCase):
     def test_registry_retains_source_status_and_separate_claims(self):
         registry = load("historical_event_source_registry.json")
         source = next(s for s in registry["sources"] if s["source_id"] == "loesch_1960_ecology")
-        self.assertEqual(source["status"], "primary_citation_verified_full_event_table_not_recovered")
-        self.assertEqual(source["count_reconciliation_status"], "unresolved_primary_pages_required")
+        self.assertEqual(source["status"], "primary_pages_recovered_internal_count_discrepancy_unresolved")
+        self.assertEqual(source["count_reconciliation_status"], "unresolved_internal_primary_table_inconsistency")
         self.assertEqual({c["count"] for c in source["aggregate_count_claims"]}, {35, 37})
         self.assertNotIn("reported_event_count_secondary", source)
 
