@@ -36,6 +36,13 @@
     {
       "pull_request": 41,
       "merge_commit": "1a8de4b8b8a4fccf0b8e63dda9183f7cd4a8cc2c"
+    },
+    {
+      "pull_request": 37,
+      "state_at_review": "open_nonmergeable",
+      "ahead_by": 2,
+      "behind_by": 337,
+      "head": "c05b4c051c76320e9d2ce4a443d6f4b82ef36a14"
     }
   ],
   "outputs": [
@@ -63,6 +70,31 @@
       "path": "model_data/feature_catalog.json",
       "blob_sha": "58c79a9d44876b09200983dee091337e060845ce",
       "commit_sha": "e7c1189f5025552dae50fb10f548d6f96b7928f1"
+    },
+    {
+      "path": "model_data/LOESCH_1960_RECOVERY.md",
+      "blob_sha": "669656461227cdd08a9dc95b7dc7fe4c2aa1da99",
+      "commit_sha": "a11a53f554b82c8888aca5c2f0599b6542cffc78"
+    },
+    {
+      "path": "model_data/loesch_1960_recovery_20260929.json",
+      "blob_sha": "08dec04e0d4358995fb74be065e8297cd8cfefb3",
+      "commit_sha": "9a7e33529fe889164dd6c62369570c81c255dae9"
+    },
+    {
+      "path": "tests/test_loesch_1960_recovery.py",
+      "blob_sha": "258231e658f388aeb67eeb41e0bc1411b9c7dc9a",
+      "commit_sha": "5c08a185c72cc4c1e2041267bdbe2264a1f71b40"
+    },
+    {
+      "path": "model_data/historical_event_candidate_additions_20260906.json",
+      "blob_sha": "f24e36bea864d6ed5bc10b5e6507d6864184613d",
+      "commit_sha": "77c52fc519c1c24f700a27d43e3ff9ca84e9aca8"
+    },
+    {
+      "path": "model_data/historical_event_source_registry.json",
+      "blob_sha": "69bc411241af2b56c509a6aeee059c51c0c79354",
+      "commit_sha": "b171812a6f980364430985c72fea40864e680922"
     }
   ],
   "findings": {
@@ -72,7 +104,8 @@
     "adcp_earth_frame_current": "ZERO_ACCEPTED_ROWS",
     "oct2_control_evidence": "ONE_ADDITIONAL_TIER_B_NARROW_VISIBLE_SCOPE_MORNING",
     "api_efficiency": "7.8618_PERCENT_REQUEST_NORMALIZED_TOKEN_REDUCTION_STABLE_NOT_NEW_GAIN",
-    "moon_phase": "VERIFIED_COMMITTED_BLOCKED_BY_DATA_ZERO_WEIGHT"
+    "moon_phase": "VERIFIED_COMMITTED_BLOCKED_BY_DATA_ZERO_WEIGHT",
+    "loesch_1946_1956": "35_VS_37_AGGREGATE_COUNT_UNRESOLVED_NO_EVENT_ROWS_ADMITTED"
   },
   "production_changes": [],
   "deployment_changes": [],
@@ -90,5 +123,9 @@
     "continue qualified prospective controls",
     "perform loading/transport/combined Jubilee-event comparison only after adequate labels",
     "retain bounded coverage-normalized efficiency measurement"
-  ]
+  ],
+  "pr_reconciliation": {
+    "pr37": "SELECTIVELY_RECOVERED_TO_CURRENT_MAIN_AND_CLOSED_UNMERGED",
+    "validation": "NINE_INVARIANTS_PASSED"
+  }
 }
