@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-02T08:08:05.451275-05:00",
+  "issue_time": "2026-10-02T08:21:36.904684-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "2c133de231168d454d6faa296d29fb00926a4157a2db1b01e92a8e8067dd27a0",
-  "input_commit_sha": "51bfe955fa4845f940a32cec95101365bf7b3ecd",
+  "input_snapshot_hash": "8585ad3f9c6283110cff4407185eec6910d4fac9a8628dbd3a678792334e070b",
+  "input_commit_sha": "3e79631a236389e8ed8aaa0da06785c5260777da",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
@@ -18,18 +18,19 @@
       "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
       "ngofs2_point_clear_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
       "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
-      "ngofs2_mobile_bay_named_stations_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
-      "ngofs2_shoreline_grid": "UNKNOWN_NO_CURRENT_GUIDANCE"
+      "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
+      "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
-    "fresh_river_series": 0,
-    "asos_stations": "KBFM/KMOB UNKNOWN"
+    "fresh_river_series": 20,
+    "asos_stations": "KBFM/KMOB partial"
   },
   "missing_inputs": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
     "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
-    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission."
+    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
+    "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
   "outlooks": [
     {
