@@ -73,9 +73,13 @@
         {
           "id": "ship_channel_adcp_transport_structure",
           "status": "ZERO_WEIGHT_PENDING_VALIDATION",
-          "reason": "GRIIDC Y1.x122.038:0002 was decoded offline as RDI PD0/WinRiver, not presumed Nortek AWAC: 11 survey days, 6,210 SHIP-frame ensembles, 248,400 bins and 107,996 RMC records. Nearest track is ~7.94 km from Point Clear. Motion-magnitude diagnostics are internally consistent but do not validate Earth-frame water current; a 9.97-degree heading-conditioned mismatch is date/heading-confounded. Clock/timezone, compass/draft/depth, motion correction, four suspect navigation associations, vendor playback and event/control overlap remain unresolved. Zero production weight.",
-          "evidence": "model_data/j09_adcp_offline_decode_validation_20260928.json",
-          "promotion_gate": "Compatible vendor playback plus deployment/compass/draft/clock metadata; accepted Earth-frame transform and QC; canonical hashed ingest; sufficient independent event/control overlap; held-out incremental transport value and calibration."
+          "reason": "PR #38 merged a reproducible pure-Python RDI PD0/WinRiver decode and provider-SHIP normalization: 6,210 ensembles, 248,400 bins and 993,600 component rows, with 68/68 archive member payloads reconciled. No Earth-frame rows are scientifically accepted. Nearest track is ~7.94 km from Point Clear; vendor playback, deployment, heading/magnetic-variation, draft/transducer, clock/timezone, motion-reference and event/control gates remain open. Zero production weight.",
+          "evidence": [
+            "model_data/j09_adcp_offline_decode_validation_20260928.json",
+            "model_data/adcp_ingest/acquisition_manifest.json",
+            "model_data/adcp_ingest/README.md"
+          ],
+          "promotion_gate": "Compatible vendor playback plus deployment/heading/magnetic-variation/draft/transducer/clock-timezone metadata; accepted Earth-frame transform and QC; sufficient independent event/control overlap; held-out incremental transport value and calibration."
         }
       ]
     },
@@ -86,12 +90,12 @@
         {
           "id": "claiborne_flow_1_3_7_14d",
           "status": "ZERO_WEIGHT_PENDING_VALIDATION",
-          "reason": "ingested; upstream forcing, not bay-arrival observation"
+          "reason": "Authoritative observations are ingested as upstream forcing, but fixed 7-13 day lag augmentation worsened independent 2018 Meaher oxygen-percent predictions. Retain zero weight; future work must test transport-consistent magnitude/shape without hard-coding the rejected lag."
         },
         {
           "id": "coffeeville_flow_1_3_7_14d",
           "status": "ZERO_WEIGHT_PENDING_VALIDATION",
-          "reason": "ingested; avoid pool/tailwater double counting"
+          "reason": "Authoritative observations are ingested as upstream forcing, but fixed 3-6 day lag augmentation materially worsened independent 2018 Meaher oxygen-percent predictions; all 2017 training discharge rows were estimated, blocking estimate-free replication. Retain zero weight."
         },
         {
           "id": "alabama_tombigbee_flow_ratio",
@@ -101,7 +105,7 @@
         {
           "id": "distributed_river_to_bay_lag_kernel",
           "status": "BLOCKED_BY_DATA",
-          "reason": "must estimate against downstream salinity/plume response rather than hard-code one lag"
+          "reason": "Fixed Claiborne 7-13 day and Coffeeville 3-6 day windows failed preregistered 2017-to-2018 oxygen-percent station-proxy replication. Any future kernel must be estimated against independent downstream salinity/plume response with robust gauge-quality sensitivity, not inferred from the failed oxygen proxy."
         },
         {
           "id": "local_dolive_runoff_state",
@@ -117,6 +121,18 @@
           "id": "nwm_small_tributary_flow_state",
           "status": "RESEARCH_CANDIDATE",
           "reason": "National Water Model could reconstruct ungauged D'Olive/Fly Creek/small tributary forcing and historical controls; MODEL only and must validate against observed gauges"
+        },
+        {
+          "id": "claiborne_fixed_7_13d_lag",
+          "status": "REJECTED",
+          "reason": "Preregistered 2017-train/2018-test Meaher oxygen-percent replication (n=136 held-out days) worsened RMSE from 14.47156 to 15.00879 (+3.71%); MAE 11.84995 to 11.91685; delta MSE +15.8375; paired 97.5% block interval [-27.10, 69.49]; worsened 7/11 blocks. Calendar and estimate-free sensitivities also worsened. This rejects the fixed lag as a production feature; it is not a Jubilee-event test.",
+          "evidence": "model_data/independent_river_validation/results.json"
+        },
+        {
+          "id": "coffeeville_fixed_3_6d_lag",
+          "status": "REJECTED",
+          "reason": "Preregistered 2017-train/2018-test Meaher oxygen-percent replication (n=136 held-out days) worsened RMSE from 13.73574 to 16.28724 (+18.58%); MAE 11.40170 to 13.60750; delta MSE +76.6036; paired 97.5% block interval [29.49, 133.52]; worsened 10/11 blocks. Calendar sensitivity also worsened, and estimate-free replication was blocked because all 4,233 2017 training discharge rows were estimated. Reject for production; this is not Jubilee-event accuracy.",
+          "evidence": "model_data/independent_river_validation/results.json"
         }
       ]
     },
