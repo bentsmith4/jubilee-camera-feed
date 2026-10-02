@@ -1,0 +1,32 @@
+name: Jubilee prospective matched-control evidence
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'status.json'
+      - 'burst_status.json'
+      - 'vision.json'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  retain-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Collect research packet from the exact triggering commit
+        run: python model_data/collect_matched_control_packet.py --out "$RUNNER_TEMP/matched-control"
+      - name: Retain reviewable evidence without writing to main
+        uses: actions/upload-artifact@v4
+        with:
+          name: jubilee-matched-control-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/matched-control/
+          if-no-files-found: error
+          retention-days: 90
