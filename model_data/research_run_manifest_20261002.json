@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.0",
+  "run_local_date_ct": "2026-10-02",
+  "run_role": "Jubilee Model Research & Calibration",
+  "season_guard": "IN_SEASON",
+  "canonical_repository": "bentsmith4/jubilee-camera-feed",
+  "source_discovery_queue_status": "ABSENT_404",
+  "inputs": [
+    {
+      "path": "model_data/MODEL_WORK_REGISTER.md",
+      "blob_sha_at_start": "b7d90cf38cd5624992f4cf8cff4a9e309a578f15"
+    },
+    {
+      "path": "model_data/matched_control_contract.json",
+      "blob_sha": "091f586f36902be96e9d1bd07ebfbfc19444303c"
+    },
+    {
+      "path": "api_usage_summary.json",
+      "blob_sha": "eeef7e54ad2d40d96cf1f5430258f919c256e713",
+      "generated_at_utc": "2026-10-02T14:10:31.366601+00:00",
+      "status": "available",
+      "invalid_records": 0
+    },
+    {
+      "path": "model_data/independent_river_validation/results.json",
+      "blob_sha": "89245b12fbcd923ca7528bd03dfde22759fc9dfa"
+    },
+    {
+      "pull_request": 38,
+      "merge_commit": "0de92a65a47bb395f5816813a868379477d8c6a4"
+    },
+    {
+      "pull_request": 40,
+      "merge_commit": "c7c50441d12a353789c7dff15c87f36087c5872f"
+    },
+    {
+      "pull_request": 41,
+      "merge_commit": "1a8de4b8b8a4fccf0b8e63dda9183f7cd4a8cc2c"
+    }
+  ],
+  "outputs": [
+    {
+      "path": "model_data/j10_matched_control_sensitivity_20261002.json",
+      "blob_sha": "253344aedab8d8229804c8b74771f8fbe0a089cb",
+      "commit_sha": "98f81903d341e5f7415459fbf9eaed226cd1644f"
+    },
+    {
+      "path": "model_data/j18_efficiency_postdeployment_20261002.json",
+      "blob_sha": "e0ee066a950497de103b100c20c2fef7fd4daf9d",
+      "commit_sha": "f2ae704bd79205852efa895875b3eaf625981ca9"
+    },
+    {
+      "path": "model_data/coverage_gap_update_20261002.json",
+      "blob_sha": "424b9b8b11dc70228f88b69f8cb7936a108efa2b",
+      "commit_sha": "7b1d90b5da2d48f2d0dd06bb42fbb0a0b67d325e"
+    },
+    {
+      "path": "model_data/ongoing_source_registry_20260906.json",
+      "blob_sha": "26ef020787f7e31057c740bf76e71523a3242e9c",
+      "commit_sha": "a0184c8f4607f004a4cc5569b33744a836c52ba8"
+    },
+    {
+      "path": "model_data/feature_catalog.json",
+      "blob_sha": "58c79a9d44876b09200983dee091337e060845ce",
+      "commit_sha": "e7c1189f5025552dae50fb10f548d6f96b7928f1"
+    }
+  ],
+  "findings": {
+    "jubilee_event_predictive_gain": "NOT_MEASURABLE_ZERO_TIER_A_CONTROLS",
+    "fixed_claiborne_7_13d_lag": "REJECTED",
+    "fixed_coffeeville_3_6d_lag": "REJECTED",
+    "adcp_earth_frame_current": "ZERO_ACCEPTED_ROWS",
+    "oct2_control_evidence": "ONE_ADDITIONAL_TIER_B_NARROW_VISIBLE_SCOPE_MORNING",
+    "api_efficiency": "7.8618_PERCENT_REQUEST_NORMALIZED_TOKEN_REDUCTION_STABLE_NOT_NEW_GAIN",
+    "moon_phase": "VERIFIED_COMMITTED_BLOCKED_BY_DATA_ZERO_WEIGHT"
+  },
+  "production_changes": [],
+  "deployment_changes": [],
+  "guardrails_preserved": [
+    "weights",
+    "thresholds",
+    "alerts",
+    "camera inventory",
+    "sensing schedule",
+    "dawn schedule",
+    "seasonal policy"
+  ],
+  "next_priorities": [
+    "clear ADCP scientific calibration gates or locate closer authoritative observed-current data",
+    "continue qualified prospective controls",
+    "perform loading/transport/combined Jubilee-event comparison only after adequate labels",
+    "retain bounded coverage-normalized efficiency measurement"
+  ]
+}
