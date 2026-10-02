@@ -1,16 +1,16 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-02T02:44:59.267843-05:00",
+  "issue_time": "2026-10-02T04:04:12-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "8845c3c1a0c65cb658c36ed0b0256a93bad6fc9c05fed5b81c0a446bc9ceb888",
-  "input_commit_sha": "3b863c0799014591bb11b62ee34cf5b8d1bd8d9b",
+  "input_snapshot_hash": "2744ca8d56c9e1675768cfeca20e5f448a445e8c3bdfbe83417fc11b3d98c932",
+  "input_commit_sha": "e21370d9c01b99f7e0d712b01776898063861ab1",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
   "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
-  "method": "Committed-evidence issue-time admission; frozen dated heuristic outlooks and zero production weights retained. No automatic event/fault policy inference.",
+  "method": "Committed-evidence issue-time admission with explicit operational fault review; frozen dated heuristic outlooks and zero production weights retained. All six owner-camera views and the regional ASOS and river proxies are stale/UNKNOWN, widening uncertainty without creating biological-negative evidence or a numerical probability change.",
   "data_coverage": {
     "private_camera_metadata_pass": 6,
     "private_cameras_expected": 6,
@@ -19,9 +19,9 @@
       "ngofs2_point_clear_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
       "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
       "ngofs2_mobile_bay_named_stations_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
-      "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
+      "ngofs2_shoreline_grid": "UNKNOWN_NO_CURRENT_GUIDANCE"
     },
-    "fresh_river_series": 20,
+    "fresh_river_series": 0,
     "asos_stations": "KBFM/KMOB UNKNOWN"
   },
   "missing_inputs": [
@@ -29,7 +29,8 @@
     "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
-    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission."
+    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
+    "All six owner-camera views, regional ASOS weather and lower-river forcing are stale/UNKNOWN at issue time; this is an input-quality fault, not a biological negative."
   ],
   "outlooks": [
     {
