@@ -8,6 +8,7 @@ import base64
 import json
 import re
 import time
+from attempt_telemetry import attempt_fields, capture_context
 from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
@@ -32,7 +33,8 @@ client = OpenAI()
 
 
 API_USAGE_PATH = FRAMES / "api_usage.jsonl"
-RUNTIME_VERSION = "2026-09-18-cache-compact-synthesis-v2"
+RUNTIME_VERSION = "2026-10-03-prospective-telemetry-v1"
+TELEMETRY_CONTEXT = {}
 
 
 def api_response(stage, **kwargs):
@@ -60,6 +62,7 @@ def api_response(stage, **kwargs):
                 "cached_input_tokens": getattr(getattr(usage, "input_tokens_details", None), "cached_tokens", None),
                 "reasoning_output_tokens": getattr(getattr(usage, "output_tokens_details", None), "reasoning_tokens", None),
                 "elapsed_seconds": round(time.monotonic() - started, 3),
+                **attempt_fields(response, kwargs, RUNTIME_VERSION, TELEMETRY_CONTEXT),
             }
             with API_USAGE_PATH.open("a", encoding="utf-8") as handle:
                 handle.write(json.dumps(record, separators=(",", ":")) + "\n")
@@ -744,6 +747,8 @@ def build_recent_alligator_status(sightings, capture_time_ct):
 
 
 def main():
+    global TELEMETRY_CONTEXT
+    TELEMETRY_CONTEXT = {}
 
     if not STATUS_PATH.exists():
         raise SystemExit(
@@ -777,6 +782,15 @@ def main():
             encoding="utf-8-sig"
         )
     )
+
+    try:
+        status_raw, burst_raw = STATUS_PATH.read_bytes(), BURST_STATUS_PATH.read_bytes()
+        TELEMETRY_CONTEXT = capture_context(status_raw, burst_raw)
+        # Bind the exact objects already loaded for analysis, including BOM/raw hashes.
+        if json.loads(status_raw) != status or json.loads(burst_raw) != burst_status:
+            TELEMETRY_CONTEXT = {}
+    except Exception:
+        print("WARNING: Capture telemetry binding unavailable.")
 
     previous_vision = None
     if VISION_PATH.exists():

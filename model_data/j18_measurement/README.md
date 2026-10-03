@@ -128,3 +128,10 @@ insufficient independent groups blocks review. Thirty groups per label is a scre
 minimum, not a powered equivalence claim; a separate preregistered power analysis
 is required before considering a production trial. Even a clean result returns
 ELIGIBLE_FOR_REVIEW_ONLY and never authorizes deployment.
+
+## Separately reviewed prospective logger
+
+See [PROSPECTIVE_TELEMETRY.md](PROSPECTIVE_TELEMETRY.md) for the next telemetry-only
+proposal, exact canonical integrity readback, provider-field provenance and
+remaining account/transport/archive gaps. The historical 4,748-row receipt above
+remains unchanged. Adding code here is not a live desktop installation.
