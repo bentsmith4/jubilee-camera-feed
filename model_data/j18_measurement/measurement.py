@@ -18,7 +18,7 @@ TZ = ZoneInfo('America/Chicago')
 
 
 def count(value):
-    if value is None:
+    if value is None or value == UNKNOWN:
         return None
     if type(value) is not int or value < 0:
         raise ValueError('Invalid token count')
@@ -77,13 +77,17 @@ def export(raw, key, manifests=()):
                 if tokens['cached_input_tokens'] + tokens['cache_write_tokens'] > tokens['input_tokens']:
                     raise ValueError('Writes exceed input partition')
             line_sha = digest(line)
-            identity = r.get('response_id') or r.get('request_id') or line_sha
+            identity = r.get('attempt_id') or r.get('response_id') or r.get('request_id') or line_sha
             attempt = pseudonym(key, 'attempt', identity)
             if attempt in seen:
                 raise ValueError('Duplicate attempt; no silently dropped charges')
             seen.add(attempt)
             binding, integrity, runtime, capture_time = UNKNOWN, UNKNOWN, UNKNOWN, UNKNOWN
             manifest_sha = UNKNOWN
+            if r.get('telemetry_schema_version') == 1:
+                v = r.get('runtime_version')
+                if isinstance(v, str) and re.fullmatch(r'[A-Za-z0-9._-]{1,100}', v):
+                    runtime = v
             cid = r.get('capture_id')
             if cid is not None and cid in index:
                 m, manifest_sha = index[cid]
@@ -111,8 +115,8 @@ def export(raw, key, manifests=()):
             status = r.get('status')
             if status not in ('completed', 'request_failed', 'failed', 'incomplete', 'cancelled', 'queued', 'in_progress'):
                 status = UNKNOWN
-            tier = r.get('billed_service_tier')
-            tier = tier if tier in ('default', 'standard', 'flex', 'priority', 'scale') else UNKNOWN
+            tier = r.get('actual_service_tier') if r.get('telemetry_schema_version') == 1 else r.get('billed_service_tier')
+            tier = tier if tier in ('default', 'standard', 'flex', 'priority', 'scale', 'fast') else UNKNOWN
             context = r.get('billing_context_class')
             context = context if context in ('short', 'long') else UNKNOWN
             model = r.get('model')
