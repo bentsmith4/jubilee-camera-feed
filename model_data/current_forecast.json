@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-02T17:12:44.454051-05:00",
+  "issue_time": "2026-10-02T21:05:06.271295-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "8854d2bb13e7597269c9a08fa8de96a54eb449865758072b8261d3c12deff96f",
-  "input_commit_sha": "eb21409e72b64cb324774d9d485f794eb79bf0a8",
+  "input_snapshot_hash": "3d0675d9ae7b2b0a284e9073d5edc04f556aa965648ecdd2ec024073776ec689",
+  "input_commit_sha": "5689a21893eb0788528422a63ae6785e9d5a9a9d",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
@@ -16,13 +16,13 @@
     "private_cameras_expected": 6,
     "ngofs2_products": {
       "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
-      "ngofs2_point_clear_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
+      "ngofs2_point_clear_forecast": "UNKNOWN_UNAVAILABLE",
       "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
       "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
       "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
-    "fresh_river_series": 12,
-    "asos_stations": "KBFM/KMOB UNKNOWN"
+    "fresh_river_series": 20,
+    "asos_stations": "KBFM/KMOB partial"
   },
   "missing_inputs": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
@@ -30,6 +30,7 @@
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
     "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
+    "ngofs2_point_clear_forecast: SOURCE_UNAVAILABLE/UNKNOWN",
     "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
   "outlooks": [
