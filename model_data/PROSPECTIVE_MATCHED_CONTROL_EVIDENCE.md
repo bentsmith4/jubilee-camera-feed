@@ -154,3 +154,16 @@ receipt SHA-256 is
 The earlier failed authenticated artifact GET remains as its immutable source-gap
 receipt; the independent public GET recovery resolved that retrieval without
 weakening hash validation. Neither archive receipt assigns a biological label.
+
+## Event-side comparator follow-up — October 3
+
+See `MONTROSE_EVENT_COMPARATOR_20261003.md` for recovered August 29 media,
+the precise unresolved 437 geometry/time binding, and the separate frozen
+matching protocol. Eleven recovered media files were hashed; one has a genuine
+offset-aware capture time and GPS, but none establishes the exact comparator.
+The retained October 3 pixels also require physical geometry and contact-class
+detectability review despite verified archive integrity. No pair was scored.
+`collect_event_comparator.py` now extends the same outcome-blind research
+workflow with immediate verified three-frame GET retention, protocol bytes/hash
+and an empty event-review ledger. Selected packets still use the existing PR52
+durable sealer. This is a research collection change, not Tier-A admission.
