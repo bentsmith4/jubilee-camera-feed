@@ -25,8 +25,9 @@ Facebook/Nextdoor are not universal prerequisites for that narrow label.
 
 ## Smallest unattended collection change
 
-`matched_control_evidence.yml` runs on existing main capture commits. It checks
-out the **triggering SHA**, not later main, and stores an immutable Actions
+`matched_control_evidence.yml` runs on existing main capture commits and on
+collector/workflow changes, so installation itself verifies packet publication
+without waiting for or requesting another capture. It checks out the **triggering SHA**, not later main, and stores an immutable Actions
 artifact keyed by SHA/run/attempt. There is no cron, production writer or
 additional camera capture. All captures, including event signals, poor views
 and outside-window captures, follow the same collection path regardless of
