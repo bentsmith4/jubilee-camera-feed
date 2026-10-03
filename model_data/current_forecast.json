@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-03T10:36:05.813831-05:00",
+  "issue_time": "2026-10-03T10:53:29.046295-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "d111d79cd1546203eb68f70e32b8590d945cb148d9547db680e37b7cdb0a64c6",
-  "input_commit_sha": "849216832c1115f04a5246b8b8626acd8b64d22e",
+  "input_snapshot_hash": "4fc66633c0fea7453e89d515337b424ecb9b231ae3e80eae3e841b55b5ad9f65",
+  "input_commit_sha": "f88a3de3c74963a2c9f1c3f037253dbae2304b73",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
@@ -15,10 +15,10 @@
     "private_camera_metadata_pass": 6,
     "private_cameras_expected": 6,
     "ngofs2_products": {
-      "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
-      "ngofs2_point_clear_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
+      "ngofs2_point_clear_nowcast": "UNKNOWN_UNAVAILABLE",
+      "ngofs2_point_clear_forecast": "UNKNOWN_UNAVAILABLE",
       "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
-      "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
+      "ngofs2_mobile_bay_named_stations_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
       "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
     "fresh_river_series": 20,
@@ -30,7 +30,8 @@
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
     "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
-    "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
+    "ngofs2_point_clear_nowcast: SOURCE_UNAVAILABLE/UNKNOWN",
+    "ngofs2_point_clear_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
   "outlooks": [
     {
