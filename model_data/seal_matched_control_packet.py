@@ -10,7 +10,9 @@ from pathlib import Path, PurePosixPath
 import re
 import shutil
 import tempfile
-from urllib.request import Request, urlopen
+from urllib.error import HTTPError
+from urllib.parse import urlsplit
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 import zipfile
 
 
@@ -40,18 +42,37 @@ def get_bytes(url, token=None):
     headers = {'User-Agent': 'jubilee-research-sealer', 'Cache-Control': 'no-cache'}
     if token:
         headers['Authorization'] = 'Bearer ' + token
-    with urlopen(Request(url, headers=headers), timeout=45) as response:
+    class PublicRedirect(HTTPRedirectHandler):
+        def redirect_request(self, req, fp, code, msg, headers, newurl):
+            redirected = super().redirect_request(req, fp, code, msg, headers, newurl)
+            if redirected and urlsplit(req.full_url).netloc != urlsplit(newurl).netloc:
+                redirected.remove_header('Authorization')
+            return redirected
+    with build_opener(PublicRedirect()).open(Request(url, headers=headers), timeout=45) as response:
         data = response.read(64 * 1024 * 1024 + 1)
     if len(data) > 64 * 1024 * 1024:
         raise ValueError('Evidence object too large')
     return data
 
 
+def artifact_get(url, token, get):
+    try:
+        return get(url, token)
+    except HTTPError as exc:
+        # Public repository GET is an independent recovery route, not admission.
+        if token and exc.code in (401, 403, 404):
+            try:
+                return get(url, None)
+            except HTTPError as retry:
+                raise ValueError('ARTIFACT_HTTP_' + str(retry.code)) from None
+        raise ValueError('ARTIFACT_HTTP_' + str(exc.code)) from None
+
+
 def fetch_artifact(repo, artifact_id, run_id, source_commit, token, get=get_bytes):
     if not re.fullmatch(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+', repo):
         raise ValueError('Invalid repository')
     url = f'https://api.github.com/repos/{repo}/actions/artifacts/{int(artifact_id)}'
-    metadata = json.loads(get(url, token))
+    metadata = json.loads(artifact_get(url, token, get))
     run = metadata['workflow_run']
     if metadata['id'] != int(artifact_id) or run['id'] != int(run_id) or run['head_sha'] != source_commit:
         raise ValueError('Artifact identity mismatch')
@@ -60,7 +81,7 @@ def fetch_artifact(repo, artifact_id, run_id, source_commit, token, get=get_byte
     expected = metadata.get('digest', '')
     if not re.fullmatch(r'sha256:[0-9a-f]{64}', expected):
         raise ValueError('Artifact digest unavailable')
-    raw = get(url + '/zip', token)
+    raw = artifact_get(url + '/zip', token, get)
     if digest(raw) != expected[7:]:
         raise ValueError('Artifact ZIP hash mismatch')
     # Keep stable origin facts, not expiring signed URLs or authentication.
@@ -254,7 +275,8 @@ def main():
                                      args.source_commit, os.environ.get('GH_TOKEN'))
         verify_packet(raw, origin)
     except (OSError, ValueError, KeyError, TypeError, zipfile.BadZipFile) as exc:
-        gap = 'ARTIFACT_READBACK_' + type(exc).__name__
+        gap = (str(exc) if isinstance(exc, ValueError) and str(exc).startswith('ARTIFACT_HTTP_')
+               else 'ARTIFACT_READBACK_' + type(exc).__name__)
     target, receipt = seal(args.archive_root, raw, origin,
                            lambda key: get_bytes(args.r2_public_base.rstrip('/') + '/' + key), gap)
     print(json.dumps({'path': str(target), 'evidence_status': receipt['evidence_status'],
