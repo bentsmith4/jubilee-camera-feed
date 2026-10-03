@@ -82,3 +82,75 @@ Probabilities, weights, thresholds, features, alerts, production labels and
 all existing schedules are unchanged. There is no schedule-only change to
 justify: the missing light/geometry/continuous evidence cannot be obtained by
 merely increasing the existing snapshot cadence.
+
+## Selected packet sealing and durable readback — October 3, 2026
+
+`seal_matched_control_packet.py` is a separate research-only GET consumer. The
+original collector and its packet bytes remain unchanged, including the original
+NOT_VERIFIED discovery pointer. An additional content-addressed receipt records
+verified three-frame retention or EVIDENCE_GAP; this is archive completeness,
+never Tier-A admission, independent pixel review, or a whole-morning label.
+
+The operator explicitly selects an artifact ID, run ID, full capture-source SHA
+and HTTPS public R2 base. The sealer checks Actions expiry and ZIP digest, every
+retained-file hash, packet/capture/shot identity, R2 manifest capture ID and local
+hash bindings, archived vision/burst metadata, all three frame hashes and sizes,
+actual shot times and timing semantics, and the latest-image binding. It GETs
+the manifest again to detect a changed archive. No latest pointer or new capture
+is substituted. Missing hashes or unavailable legacy archives fail closed.
+
+The create-only path is
+`research/matched_control_archive/<receipt-sha256>/`.
+The full packet digest is in the receipt; one hash directory keeps Windows
+checkout paths short. Identical verified reseals reuse the existing receipt.
+It contains the exact source ZIP, unchanged extracted packet, retrieved manifest,
+archived metadata and three frames when fully verified, plus `receipt.json`.
+Partial burst retrieval is not represented as complete retention. Source failures
+are retained under `source-gaps/<receipt-sha256>/`; missing, expired, corrupt or
+failed readback is EVIDENCE_GAP and the biological/whole-morning outcome remains
+UNKNOWN. The readback function reopens the inventory and all hashes and rechecks
+the original packet. Keep the pinned receipt SHA when auditing later reads.
+These are content-addressed, create-only application receipts; Git history is
+the durable provenance path, not an infrastructure-level WORM guarantee.
+
+`matched_control_sealing.yml` runs only on explicitly named research sealing
+branches when code/selection changes; it has no cron and changes no capture
+schedule. It reads the selection in `research/matched_control_selection.json`,
+seals it, commits only the research archive to that same branch (never main),
+fetches the remote commit and reopens every committed evidence byte for readback.
+Review/merge the archive PR before deleting its branch. Durable Git evidence does
+not expire with the source Actions artifact; normal repository backup/retention
+still applies. No credentials or signed download URLs are stored. Existing
+owner-authorized Montrose media publication policy applies.
+
+Example (GH_TOKEN grants Actions read; the R2 endpoint is public):
+
+```sh
+python model_data/seal_matched_control_packet.py \\
+  --artifact-id 11273358871 --run-id 37123527771 \\
+  --source-commit 6563e4682b2c9381a6407e8dd120e00b59146108 \\
+  --r2-public-base https://pub-bf6207fce382460991eaf48ec8090b1a.r2.dev \\
+  --archive-root research/matched_control_archive
+```
+
+Selecting this first post-merge packet is an archival integration test, not an
+outcome-conditioned control sample. Its scoped candidate label, unresolved
+pairing, UNKNOWN intervals/morning, zero training negatives and Tier-A false
+are preserved. Tests cover missing/expired artifacts, failed GETs, corrupt or
+missing frames, identity/timing/hash mismatches, manifest instability and failed
+durable readback. Production probabilities, weights, thresholds, alerts,
+forecasts, event labels and schedules are unchanged.
+
+Verified integration: artifact `11273358871` ZIP SHA-256
+`345ea4f64966c5d2c7381ebfec926dd0cf06ce01ef5f3e06b4024f90c6b3a80a`
+was recovered and all retained bytes verified. R2 capture ID
+`20261003T072614360169-2a6c43079065` matched the 07:26:14 CDT source packet;
+three shoreline frame hashes and capture/shot metadata passed. Sealing run
+`37131230734` committed the complete evidence and reopened the remote Git
+bytes successfully. Packet SHA-256 is
+`402794882f85e2bcb48b1f5c8cf20d8f3c55c4351087478deb9748cc207bca4d`;
+receipt SHA-256 is
+`e634fdfd50a75dd358fc86e745a57fe18e856e9b749959bfd809b0b067fb697d`.
+The earlier failed authenticated artifact GET remains as its immutable source-gap
+receipt; the independent public GET recovery resolved that retrieval without
+weakening hash validation. Neither archive receipt assigns a biological label.
