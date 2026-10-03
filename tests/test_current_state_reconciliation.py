@@ -278,6 +278,28 @@ class ReconciliationTests(unittest.TestCase):
         self.assertEqual(result['status'],'published')
         self.assertEqual(result['attempts'],2)
 
+    def test_preforecast_gate_holds_pair_without_touching_repository(self):
+        before = [(self.root / path).read_bytes() for path in publisher.OUTPUTS]
+        with patch.object(publisher, 'git') as git_call:
+            result = publisher.publish(self.root, as_of='2026-10-02T20:59:59-05:00')
+        self.assertEqual(result['status'], 'staged_preforecast_gate')
+        self.assertEqual(result['attempts'], 0)
+        git_call.assert_not_called()
+        self.assertEqual([(self.root / path).read_bytes() for path in publisher.OUTPUTS], before)
+
+    def test_preforecast_gate_central_time_boundaries(self):
+        for stamp, expected in (
+            ('2026-10-02T16:59:59-05:00', False),
+            ('2026-10-02T17:00:00-05:00', True),
+            ('2026-10-02T20:59:59-05:00', True),
+            ('2026-10-02T21:00:00-05:00', False),
+            ('2026-12-02T23:00:00Z', True),  # 17:00 CST, proving DST-safe conversion.
+        ):
+            with self.subTest(stamp=stamp):
+                self.assertEqual(publisher.in_preforecast_staging(stamp), expected)
+        with self.assertRaisesRegex(ValueError, 'UTC offset'):
+            publisher.in_preforecast_staging('2026-10-02T17:00:00')
+
     def test_concurrent_reviewed_state_is_preserved_on_retry(self):
         self.remote()
         def concurrent(attempt):
