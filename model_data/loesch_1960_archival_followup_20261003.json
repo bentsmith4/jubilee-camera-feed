@@ -20,7 +20,7 @@
       "id": "mobile-request",
       "url": "https://www.cityofmobile.gov/municipal-archives-info-request/",
       "locator": "Archives Information request",
-      "result": "Confirmed archives@cityofmobile.gov. Request preparation only; no submission.",
+      "result": "Confirmed archives@cityofmobile.gov. Initial request sent 2026-10-03; dispatch provenance recorded in requests.",
       "review_date": "2026-10-03",
       "evidence_class": "catalog_or_access_route",
       "exact_source_bytes_recovered": false,
@@ -140,7 +140,7 @@
       "id": "uga-copies",
       "url": "https://www.libs.uga.edu/scl/research/copies",
       "locator": "Hargrett imaging request",
-      "result": "Confirmed sclib@uga.edu and scan request route. No fee commitment or request sent.",
+      "result": "Confirmed sclib@uga.edu and scan request route. Initial request sent 2026-10-03; no fee commitment.",
       "review_date": "2026-10-03",
       "evidence_class": "catalog_or_access_route",
       "exact_source_bytes_recovered": false,
@@ -206,7 +206,8 @@
     "new_exact_dated_positive_events": 0,
     "new_original_negative_or_binder_records": 0,
     "exact_source_records_sha256": [],
-    "hash_policy": "Only hash bytes actually recovered; null is not an assertion that no source exists. Catalog locator metadata is not an original source record."
+    "hash_policy": "Only hash bytes actually recovered; null is not an assertion that no source exists. Catalog locator metadata is not an original source record.",
+    "scope_note": "Original recovery counts describe the pre-dispatch archival search. Three email attachments are now received but their bytes have not been retrieved, hashed, inspected or admitted by this update."
   },
   "canonical_review": {
     "path": "model_data/event_history.json",
@@ -226,7 +227,7 @@
     "status": "UNRESOLVED_INTERNAL_PRIMARY_DISCREPANCY"
   },
   "requests": {
-    "status": "PREPARED_NOT_SENT",
+    "status": "FIVE_INITIAL_REQUESTS_SENT_VERIFIED_ONE_REPLY_RECEIVED",
     "templates": "model_data/LOESCH_1960_ARCHIVAL_FOLLOWUP_20261003.md",
     "four_leads": [
       "Mobile Municipal Archives",
@@ -234,7 +235,118 @@
       "McCall Library",
       "Texas A&M / ESA custodians"
     ],
-    "no_correspondence_invented": true
+    "no_correspondence_invented": true,
+    "dispatches": [
+      {
+        "institution": "Mobile Municipal Archives",
+        "to": [
+          "archives@cityofmobile.gov"
+        ],
+        "cc": [],
+        "subject": "RG34 series 1: Jubilee clipping index and three dated stories",
+        "gmail_message_id": "1a1025c29d23c289",
+        "sent_at_utc": "2026-10-03T15:22:36Z",
+        "from": "bentsmith4@gmail.com",
+        "verified_label": "SENT"
+      },
+      {
+        "institution": "Mobile Public Library Local History & Genealogy",
+        "to": [
+          "mainlhg@mplonline.org"
+        ],
+        "cc": [],
+        "subject": "Original Mobile newspaper issues for Loesch's three Jubilee excerpts",
+        "gmail_message_id": "1a1025c3710f75ea",
+        "sent_at_utc": "2026-10-03T15:22:40Z",
+        "from": "bentsmith4@gmail.com",
+        "verified_label": "SENT"
+      },
+      {
+        "institution": "McCall Library",
+        "to": [
+          "mccalllib@southalabama.edu"
+        ],
+        "cc": [],
+        "subject": "Thigpen 1950 Jubilee: negative, binder entry and collection cross-reference",
+        "gmail_message_id": "1a1025c41d6388cd",
+        "sent_at_utc": "2026-10-03T15:22:42Z",
+        "from": "bentsmith4@gmail.com",
+        "verified_label": "SENT"
+      },
+      {
+        "institution": "Texas A&M/Cushing",
+        "to": [
+          "universityarchivist@library.tamu.edu"
+        ],
+        "cc": [
+          "cushingreference@library.tamu.edu"
+        ],
+        "subject": "Holdings search: Harold Loesch / contribution no. 157 / Ecology 1960 Table I",
+        "gmail_message_id": "1a1025c4dda0c309",
+        "sent_at_utc": "2026-10-03T15:22:45Z",
+        "from": "bentsmith4@gmail.com",
+        "verified_label": "SENT"
+      },
+      {
+        "institution": "UGA Hargrett",
+        "to": [
+          "sclib@uga.edu"
+        ],
+        "cc": [],
+        "subject": "UA97-061: Loesch Ecology 41(2) manuscript, Table I and possible correction",
+        "gmail_message_id": "1a1025c58c984903",
+        "sent_at_utc": "2026-10-03T15:22:48Z",
+        "from": "bentsmith4@gmail.com",
+        "verified_label": "SENT"
+      }
+    ],
+    "response_check": {
+      "date": "2026-10-03",
+      "query": "after:2026/10/03 {from:archives@cityofmobile.gov from:mainlhg@mplonline.org from:mccalllib@southalabama.edu from:universityarchivist@library.tamu.edu from:cushingreference@library.tamu.edu from:sclib@uga.edu}",
+      "reply_count": 1,
+      "earlier_no_reply_check_superseded": true,
+      "no_other_recipient_reply_found": true
+    },
+    "responses": [
+      {
+        "from": "mainlhg@mplonline.org",
+        "gmail_message_id": "1a1039dd3a37f347",
+        "received_at_utc": "2026-10-03T21:13:51Z",
+        "subject": "Re: Original Mobile newspaper issues for Loesch's three Jubilee excerpts",
+        "librarian": "Valerie Ellis",
+        "status": "RECEIVED_ATTACHMENTS_NOT_RETRIEVED_HASHED_OR_INSPECTED",
+        "electronic_scans_free_per_librarian": true,
+        "attachments": [
+          {
+            "filename": "2nd jubilee of season June 16 1947 Mobile Press p1A cols 6,7.pdf",
+            "size_bytes_reported": 1423097,
+            "source_sha256": null,
+            "bytes_retrieved": false,
+            "independently_verified": false
+          },
+          {
+            "filename": "Cry of 'Jubilee' Aug 7 1950 Mobile Press p1 col 3 and 4.pdf",
+            "size_bytes_reported": 1187006,
+            "source_sha256": null,
+            "bytes_retrieved": false,
+            "independently_verified": false
+          },
+          {
+            "filename": "Year's biggest jubilee Sept 18 1950 Mobile Press p6B cols 1 and 2.pdf",
+            "size_bytes_reported": 1387225,
+            "source_sha256": null,
+            "bytes_retrieved": false,
+            "independently_verified": false
+          }
+        ]
+      }
+    ],
+    "fee_commitment": false,
+    "smithsonian": {
+      "to": "osiaref@si.edu",
+      "status": "UNSENT_CONTINGENCY",
+      "locator": "Accession 07-134, Box 3 of 4, Loesch, Harold"
+    }
   },
   "production_action": "NO_CHANGE"
 }
