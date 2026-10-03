@@ -17,7 +17,25 @@ The university announcement's [1950 Jubilee image](https://www.southalabama.edu/
 
 A supplementary author-correspondence route is [Smithsonian Accession 07-134](https://siarchives.si.edu/collections/siris_arc_270837), National Systematics Laboratory records, 1955–1994, **Box 3 of 4, folder “Loesch, Harold”**. Contact osiaref@si.edu. Folder contents and dates are unverified; it may concern shrimp systematics rather than Jubilees.
 
-## Requests ready to use — not sent
+## Initial requests sent — verified 3 October 2026
+
+All five initial requests below were verified in Gmail with the SENT label, from bentsmith4@gmail.com, on 3 October 2026. Dispatch is correspondence provenance, not source admission or resolution of the count discrepancy. Request recipients, subjects and text are retained below.
+
+| Institution | To | Cc | Exact subject | Sent (UTC) | Gmail message ID |
+| --- | --- | --- | --- | --- | --- |
+| Mobile Municipal Archives | archives@cityofmobile.gov | None | RG34 series 1: Jubilee clipping index and three dated stories | 2026-10-03T15:22:36Z | 1a1025c29d23c289 |
+| Mobile Public Library Local History & Genealogy | mainlhg@mplonline.org | None | Original Mobile newspaper issues for Loesch's three Jubilee excerpts | 2026-10-03T15:22:40Z | 1a1025c3710f75ea |
+| McCall Library | mccalllib@southalabama.edu | None | Thigpen 1950 Jubilee: negative, binder entry and collection cross-reference | 2026-10-03T15:22:42Z | 1a1025c41d6388cd |
+| Texas A&M/Cushing | universityarchivist@library.tamu.edu | cushingreference@library.tamu.edu | Holdings search: Harold Loesch / contribution no. 157 / Ecology 1960 Table I | 2026-10-03T15:22:45Z | 1a1025c4dda0c309 |
+| UGA Hargrett | sclib@uga.edu | None | UA97-061: Loesch Ecology 41(2) manuscript, Table I and possible correction | 2026-10-03T15:22:48Z | 1a1025c58c984903 |
+
+The earlier no-reply check is superseded by a fresh check: Mobile Public Library replied on 3 October at 21:13:51 UTC (16:13:51 America/Chicago), Gmail message ID `1a1039dd3a37f347`, subject “Re: Original Mobile newspaper issues for Loesch's three Jubilee excerpts”. Valerie Ellis reports that the cited articles appear to be from the Mobile Press, that the full pages include newspaper names, dates and page numbers, and that none of the articles continued elsewhere. These are librarian statements, not independently verified scan findings. Three PDF attachments were received:
+
+- `2nd jubilee of season June 16 1947 Mobile Press p1A cols 6,7.pdf` (1,423,097 bytes reported by Gmail).
+- `Cry of 'Jubilee' Aug 7 1950 Mobile Press p1 col 3 and 4.pdf` (1,187,006 bytes reported by Gmail).
+- `Year's biggest jubilee Sept 18 1950 Mobile Press p6B cols 1 and 2.pdf` (1,387,225 bytes reported by Gmail).
+
+Attachment bytes have not been retrieved, hashed, inspected or admitted by this update; exact event dates and shoreline scope remain unverified. The librarian states electronic scans are free; no fee commitment has been made. No replies from the other four initial recipients or Cushing cc were found in this bounded check. Smithsonian (osiaref@si.edu) remains an **unsent contingency**. The 35/37 discrepancy remains unresolved and no canonical event is promoted.
 
 Common context for each request: Harold Loesch, *Sporadic Mass Shoreward Migrations of Demersal Fish and Crustaceans in Mobile Bay, Alabama*, *Ecology* 41(2), April 1960, pp. 292–298, DOI 10.2307/1930218. We have the complete article. Table I's annual entries and shore totals support 35, while its monthly entries sum to 37. We seek source records, not a preferred total.
 
@@ -65,4 +83,4 @@ If these custodians report a gap, the Smithsonian contingency request is: please
 - Do not resolve the aggregate mismatch from a few recovered clippings or by matching the numerical difference of two. No total is selected.
 - Canonical history was read at 02d16b7d54d7eee04dcb0a77a449e327ba98edca: 15 records, no existing 1946–1956 row. No new exact-date/location record was recovered; zero rows promoted. Production probabilities, weights, thresholds, labels, alerts, schedules and runtime remain unchanged.
 
-The [machine-readable audit](loesch_1960_archival_followup_20261003.json) records source locators and retrieval limits. Requests are prepared only; no message, fee commitment, librarian response, original-file recovery or correction is represented as completed.
+The [machine-readable audit](loesch_1960_archival_followup_20261003.json) records source locators and retrieval limits. Five initial sends are verified as documented above. One librarian reply with three uninspected attachments is received; no attachment-byte recovery/admission, fee commitment or correction is represented as completed. Original search/recovery counts above describe the pre-dispatch archival search and are not revised by receipt of uninspected attachments.
