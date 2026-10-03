@@ -1,6 +1,6 @@
 # Loesch archival follow-up — 3 October 2026
 
-**Four leads checked; no new original clipping, worksheet, or exact-day event record recovered.** The 35/37 inconsistency remains unresolved. This follows [the primary recovery](LOESCH_1960_PRIMARY_RECOVERY_20261002.md); it does not supersede its article hashes or extraction.
+**Update: three original-issue newspaper scans recovered and visually inspected on 3 October.** The four-lead catalog search below is retained as historical context. The 35/37 inconsistency remains unresolved. This follows [the primary recovery](LOESCH_1960_PRIMARY_RECOVERY_20261002.md); it does not supersede its article hashes or extraction.
 
 ## Verified routes and bounded results
 
@@ -84,3 +84,17 @@ If these custodians report a gap, the Smithsonian contingency request is: please
 - Canonical history was read at 02d16b7d54d7eee04dcb0a77a449e327ba98edca: 15 records, no existing 1946–1956 row. No new exact-date/location record was recovered; zero rows promoted. Production probabilities, weights, thresholds, labels, alerts, schedules and runtime remain unchanged.
 
 The [machine-readable audit](loesch_1960_archival_followup_20261003.json) records source locators and retrieval limits. Five initial sends are verified as documented above. One librarian reply with three uninspected attachments is received; no attachment-byte recovery/admission, fee commitment or correction is represented as completed. Original search/recovery counts above describe the pre-dispatch archival search and are not revised by receipt of uninspected attachments.
+
+## Scan recovery and model research admission — 3 October, Hotmail follow-up
+
+The forwarded reply received in Hotmail at 21:24:14 UTC supplied all three one-page PDFs. Their unmodified downloaded bytes are now preserved with SHA-256 hashes and durable source identifiers in [the scan evidence record](loesch_newspaper_scan_evidence_20261003.json). This supersedes the earlier attachment-uninspected and no-original-clipping-recovered statuses, but not the original catalog-search results.
+
+| Issue date | Calendar-derived event chronology | Reported place |
+| --- | --- | --- |
+| June 16, 1947 | June 14, late afternoon through dark/night; separate earlier June 13 morning report | Point Clear; earlier report located by article context |
+| August 7, 1950 | August 5 about 7:30 p.m. into August 6; Sunday daytime crabs; additional August 6 Point Clear and August 7 Daphne reports | Just north of Montrose / Winding Brook, approximately quarter-mile toward Daphne; other localities as separately reported |
+| September 18, 1950 | September 17 about 5:30 p.m. until around midnight; smaller crab-only report about 10:30 p.m. | Daphne vicinity and separately Battles Wharf |
+
+Full-page mastheads/date lines and enlarged article text were inspected. Dates above are transparent calendar inferences from relative weekday wording. Historical clock standard is UNKNOWN; no UTC conversion is asserted. The September article calls the duration seven hours while its approximate clock bounds imply about six and a half; both descriptions are retained without false precision. The August article explicitly leaves the Daphne report as a new event or continuation. These seven observation records are not seven independently counted events, do not resolve Loesch's 35/37 discrepancy, and cannot be assigned to modern camera ROIs by corridor name alone.
+
+Research value: correct publication-versus-event dates before environmental joins, preserve same-night multi-location structure, and include afternoon/evening events in evaluation. Dawn sampling alone cannot establish whole-day non-events. The scans provide no instrumental oxygen, salinity, current or event-site weather measurements. No production probability, weight, threshold, alert, schedule, runtime, canonical event label, or control label changes are made. No reply was sent and no fee commitment was made.
