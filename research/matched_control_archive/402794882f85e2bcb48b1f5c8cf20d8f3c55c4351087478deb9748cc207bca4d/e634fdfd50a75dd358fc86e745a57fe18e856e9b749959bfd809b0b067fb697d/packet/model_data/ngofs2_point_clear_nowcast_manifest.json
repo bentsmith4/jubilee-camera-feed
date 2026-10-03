@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.2",
+  "retrieved_at": "2026-10-03T09:25:53.360111+00:00",
+  "cast": "nowcast",
+  "status": "complete",
+  "evidence_class": "MODEL",
+  "production_action": "NO_CHANGE",
+  "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/03/ngofs2.t03z.20261003.stations.nowcast.nc",
+  "model_initialized_at": "2026-10-03T03:00:00+00:00",
+  "failed_newer_attempts": [],
+  "normalized_rows": 671,
+  "subset_sha256": "72faf51bbeff9d782ae29e1448ce61695e4eb13da2f3e58d00e458180c7ccf65",
+  "subset_archive": "public_archive/ngofs2_subset/72faf51bbeff9d782ae29e1448ce61695e4eb13da2f3e58d00e458180c7ccf65.json.gz",
+  "normalized_csv": "ngofs2_point_clear_nowcast_normalized.csv",
+  "station": {
+    "station_name": "8733821 Pt Clear, MB",
+    "station_index": 93,
+    "resolution_basis": "nearest_verified_coordinate",
+    "distance_to_point_clear_km": 0.3114,
+    "lat": 30.489032745361328,
+    "lon": -87.93621826171875,
+    "source_lon": 272.06378173828125,
+    "source_lon_convention": "NOAA_dataset_native",
+    "normalized_lon_convention": "-180_to_180",
+    "target_lat": 30.48664,
+    "target_lon": -87.93453,
+    "bathymetry_m": 1.8300000429153442,
+    "surface_sigma_index": 0,
+    "bottom_sigma_index": 39,
+    "surface_sigma": -0.012500000186264515,
+    "bottom_sigma": -0.987500011920929
+  },
+  "reference_valid_at": "2026-10-03T03:00:00+00:00",
+  "transport_window_type": "antecedent",
+  "transport_windows": {
+    "1": {
+      "count": 11,
+      "mean_m_s": 0.014776395887813787,
+      "signed_transport_m": 53.37970023974777,
+      "coverage_fraction": 1.0
+    },
+    "3": {
+      "count": 31,
+      "mean_m_s": 0.013384900055825712,
+      "signed_transport_m": 144.293001126498,
+      "coverage_fraction": 1.0
+    },
+    "6": {
+      "count": 61,
+      "mean_m_s": 0.016435335771959336,
+      "signed_transport_m": 354.84816782176495,
+      "coverage_fraction": 1.0
+    }
+  },
+  "guardrails": [
+    "NGOFS2 is MODEL guidance and is not a direct current, salinity, temperature, water-level or oxygen observation.",
+    "Point Clear station mapping prefers name but may use the official Point Clear coordinate as an auditable fallback; a >10 km nearest station is refused.",
+    "Point Clear shoreward projection uses a provisional west-facing shoreline geometry: true bearing 090 degrees is shoreward (+east).",
+    "Nowcast and forecast outputs are separate; forecast values cannot overwrite antecedent nowcast history.",
+    "No production weight changes until event/control held-out incremental value is demonstrated."
+  ]
+}
