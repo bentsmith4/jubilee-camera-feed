@@ -100,7 +100,9 @@ the manifest again to detect a changed archive. No latest pointer or new capture
 is substituted. Missing hashes or unavailable legacy archives fail closed.
 
 The create-only path is
-`research/matched_control_archive/<packet-sha256>/<receipt-sha256>/`.
+`research/matched_control_archive/<receipt-sha256>/`.
+The full packet digest is in the receipt; one hash directory keeps Windows
+checkout paths short. Identical verified reseals reuse the existing receipt.
 It contains the exact source ZIP, unchanged extracted packet, retrieved manifest,
 archived metadata and three frames when fully verified, plus `receipt.json`.
 Partial burst retrieval is not represented as complete retention. Source failures

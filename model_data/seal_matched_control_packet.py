@@ -231,7 +231,16 @@ def seal(archive_root, raw, origin, get, source_gap=None):
     receipt_raw = encoded(receipt)
     root = Path(archive_root).resolve()
     root.mkdir(parents=True, exist_ok=True)
-    target = root / (receipt['packet_sha256'] or 'source-gaps') / digest(receipt_raw)
+    # A single full receipt hash keeps Windows checkouts below MAX_PATH.
+    # The full packet hash remains in the receipt, without another long folder.
+    parent = root if packet else root / 'source-gaps'
+    for existing in parent.glob('*/receipt.json'):
+        previous = json.loads(existing.read_bytes())
+        if {k: v for k, v in previous.items() if k != 'sealed_at_utc'} == {k: v for k, v in receipt.items() if k != 'sealed_at_utc'}:
+            if readback(existing.parent)['readback_status'] != 'VERIFIED':
+                raise ValueError('Existing durable seal readback failed')
+            return existing.parent, previous
+    target = parent / digest(receipt_raw)
     target.parent.mkdir(parents=True, exist_ok=True)
     stage = Path(tempfile.mkdtemp(prefix='.seal-', dir=root))
     try:

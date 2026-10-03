@@ -85,6 +85,10 @@ class SealTests(unittest.TestCase):
         self.assertEqual(readback(path)['readback_status'], 'VERIFIED')
         self.assertEqual(len(list((path / 'r2/burst').glob('*.jpg'))), 3)
         self.assert_bounded(path, receipt)
+        self.assertEqual(path.parent, self.root)
+        again, same = self.run_seal()
+        self.assertEqual(again, path)
+        self.assertEqual(same, receipt)
 
     def test_missing_manifest_frame_hash_and_failed_readback_are_gaps(self):
         scenarios = ['manifest', 'missing_frame', 'corrupt_frame', 'failed_get']
