@@ -1,0 +1,77 @@
+name: Seal selected matched-control research packet
+on:
+  push:
+    branches: ['research/matched-control-sealing-*']
+    paths:
+      - 'research/matched_control_selection.json'
+      - 'model_data/seal_matched_control_packet.py'
+      - '.github/workflows/matched_control_sealing.yml'
+permissions:
+  actions: read
+  contents: write
+concurrency:
+  group: matched-control-seal-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  seal-selected:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Test archive and UNKNOWN failure semantics
+        run: python -m unittest discover -s tests -p test_matched_control_seal.py -v
+      - name: Retrieve and seal explicitly selected existing evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json, subprocess, sys
+          from pathlib import Path
+          selection = json.loads(Path('research/matched_control_selection.json').read_text())
+          subprocess.run([sys.executable, 'model_data/seal_matched_control_packet.py',
+              '--artifact-id', str(selection['artifact_id']), '--run-id', str(selection['run_id']),
+              '--source-commit', selection['source_commit'], '--r2-public-base', selection['r2_public_base'],
+              '--archive-root', 'research/matched_control_archive'], check=True)
+          PY
+      - name: Commit only create-only research evidence to this research branch
+        env:
+          RESEARCH_BRANCH: ${{ github.ref_name }}
+        run: |
+          case "$RESEARCH_BRANCH" in research/matched-control-sealing-*) ;; *) exit 1 ;; esac
+          git config user.name 'jubilee-research-archive'
+          git config user.email 'jubilee-research-archive@users.noreply.github.com'
+          git add -- research/matched_control_archive/
+          if ! git diff --cached --quiet; then
+            git commit -m 'Seal selected matched-control packet and archive readback receipt'
+            git push origin "HEAD:refs/heads/$RESEARCH_BRANCH"
+          fi
+          git fetch origin "$RESEARCH_BRANCH"
+          test "$(git rev-parse HEAD)" = "$(git rev-parse FETCH_HEAD)"
+      - name: Reopen the remote committed bytes and verify all seal hashes
+        run: |
+          python - <<'PY'
+          import subprocess, sys, tempfile
+          from pathlib import Path
+          sys.path.insert(0, 'model_data')
+          from seal_matched_control_packet import readback
+          names = subprocess.check_output(['git', 'ls-tree', '-r', '--name-only', 'FETCH_HEAD',
+              '--', 'research/matched_control_archive'], text=True).splitlines()
+          with tempfile.TemporaryDirectory() as tmp:
+              root = Path(tmp)
+              for name in names:
+                  dest = root / name
+                  dest.parent.mkdir(parents=True, exist_ok=True)
+                  dest.write_bytes(subprocess.check_output(['git', 'show', 'FETCH_HEAD:' + name]))
+              receipts = list(root.rglob('receipt.json'))
+              assert receipts, 'No durable receipt'
+              for receipt in receipts:
+                  result = readback(receipt.parent)
+                  print(receipt.parent.name, result)
+                  assert result['readback_status'] == 'VERIFIED', result
+          PY
