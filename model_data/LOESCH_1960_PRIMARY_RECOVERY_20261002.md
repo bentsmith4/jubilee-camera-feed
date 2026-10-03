@@ -42,3 +42,7 @@ Sampling sites do not establish event footprint. Table III and its prose describ
 5. **Fallback article copy if the Archive scan becomes unavailable:** ask Mobile Public Library ILL for Harold Loesch (1960), *Sporadic Mass Shoreward Migrations of Demersal Fish and Crustaceans in Mobile Bay, Alabama*, *Ecology* 41(2), April, pp. 292–298, DOI 10.2307/1930218, print ISSN 0012-9658. Request all seven complete pages with Table I legible. [ILL service](https://www.mobilepubliclibrary.org/interlibrary-loan) accepts journal articles; `mainill@mplonline.org`, (251) 340-1418. This fallback is no longer required to inspect the article.
 
 Requests are documented, not sent; no librarian response or correction has been invented.
+
+## Archival follow-up: 3 October 2026
+
+[Four-lead follow-up and precise archive requests](LOESCH_1960_ARCHIVAL_FOLLOWUP_20261003.md) records the bounded catalog search. New verified locators include McCall's separate Museum of Mobile Thigpen holdings, UGA Hargrett UA97-061 and its 1957–1960 logbook container, and a supplementary Smithsonian Harold Loesch correspondence folder. Their specific Jubilee contents remain unverified. No original clipping or worksheet was recovered, no total selected and no canonical row promoted. Requests are prepared, not sent; the accompanying JSON distinguishes catalog access, visual access and exact-byte recovery.
