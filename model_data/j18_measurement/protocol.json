@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "status": "PREREGISTERED_RESEARCH_ONLY",
+  "candidate": "lossless_compact_json_v1",
+  "primary_endpoint": "paired completed-work cost including all charged attempts and reasoning",
+  "minimum_independent_groups_per_label": 30,
+  "labels": ["EVENT", "NON_EVENT", "UNKNOWN", "SAFETY"],
+  "split_unit": "independent event or scoped site-morning; keep frames and adjacent bursts together",
+  "freeze": "Pin corpus, labels, candidate, rubric, unchanged decision adapter and input media hashes before any replay. Exclude every development group.",
+  "pairing": "Same model/runtime, response service tier, billing context class, six cameras, three-frame media and synthesis policy. Record run order, repeats, cache state and every charged attempt; unknown conditions block review.",
+  "acceptance": [
+    "No lost event detection or missed independently labeled held-out event",
+    "No added scoped false alert",
+    "No UNKNOWN-to-absence conversion or safety failure",
+    "Completed valid outputs with unchanged decisions and full schema",
+    "Positive matched-work savings across reported unknown-cache-write bounds"
+  ],
+  "sample_limit": "30 independent groups per stratum is a screening minimum, not a powered equivalence study. Report uncertainty and arrange a separately preregistered power analysis before a production trial.",
+  "production_changes": []
+}
