@@ -1,36 +1,35 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-02T14:12:32.854564-05:00",
+  "issue_time": "2026-10-03T06:52:00.763354-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "be4f4a9e86ce696cae022359772f49afd61a60dc0c96edced5d6c01a57e4e2e7",
-  "input_commit_sha": "b527570bb4ce50ba5010a756334ff08f8a9dbfe5",
+  "input_snapshot_hash": "0a93173088e64b937d48b63bcc90d26cca6f81e30942603284e83038c93dc398",
+  "input_commit_sha": "57c59d11d6b69ba35bc9cfaa72c127555232b09f",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
   "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
   "method": "Committed-evidence issue-time admission; frozen dated heuristic outlooks and zero production weights retained. No automatic event/fault policy inference.",
   "data_coverage": {
-    "private_camera_metadata_pass": 5,
+    "private_camera_metadata_pass": 6,
     "private_cameras_expected": 6,
     "ngofs2_products": {
       "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
       "ngofs2_point_clear_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
       "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
-      "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
+      "ngofs2_mobile_bay_named_stations_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
       "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
-    "fresh_river_series": 0,
-    "asos_stations": "KBFM/KMOB partial"
+    "fresh_river_series": 7,
+    "asos_stations": "KBFM/KMOB UNKNOWN"
   },
   "missing_inputs": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
     "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
-    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
-    "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
+    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission."
   ],
   "outlooks": [
     {

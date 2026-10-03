@@ -1865,3 +1865,9 @@ Read-back verified the brief remains enabled, its prompt is preserved unchanged 
 - The 1946–1956 evidence remains aggregate-only: a secondary scientific source reports 35 events, while a tertiary modern summary reports 37 and month subtotals summing to 37. Full Loesch pages/event table remain unavailable, the two-event discrepancy is unexplained, and no production count was selected.
 - Canonical event history remains 15 records with zero invented 1946–1956 rows. PR #37 was closed unmerged as safely superseded. Recovery audit blob `08dec04e0d4358995fb74be065e8297cd8cfefb3`; source-registry blob `69bc411241af2b56c509a6aeee059c51c0c79354`; updated run-manifest blob `c8c000101a5cf57d51bc80d84bb74ca5ba3c266d`, commit `1adce08d9a64d87237b78b96dc887b19ffa4e288`.
 
+
+### J08 primary pages recovered, 2026-10-02
+- Retrieved and visually checked Loesch pp. 292–298 from Internet Archive item `ecology_1960-04_41_2`; PDF pages 44–50. Byte hashes and page-level locators are in `loesch_1960_primary_recovery_20261002.json`.
+- The primary source itself has narrative/annual 35 versus monthly sum 37. No separate inclusion rule or correction is supplied. Neither aggregate is selected; complete dated roster remains absent.
+- Extracted two explicit dated Daphne positives, three dated clipping leads with unverified event chronology/location, and one scoped evening non-event. All remain research only; canonical history stays 15 and production behavior is unchanged.
+- Next request: Mobile Municipal Archives RG34 series 1 subject index/clipping file, especially 1947-06-16, 1950-08-07 and 1950-09-18, with issue/edition/page and event chronology. Requests are documented, not sent.
