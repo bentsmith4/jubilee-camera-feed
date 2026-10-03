@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "retrieved_at": "2026-10-03T09:25:52.210896+00:00",
+  "sources": [
+    {
+      "station_id": "WKQA1",
+      "url": "https://www.ndbc.noaa.gov/data/realtime2/WKQA1.ocean",
+      "raw_sha256": "b5ac529aadb9417963973d471cfabfac0b36a8ca7687f4db3753bfa633658ae6",
+      "raw_path": "public_archive/ndbc/WKQA1-b5ac529aadb9417963973d471cfabfac0b36a8ca7687f4db3753bfa633658ae6.txt.gz",
+      "normalized_rows": 17104,
+      "latest_observed_at": "2026-10-03T08:00:00+00:00",
+      "status": "complete"
+    },
+    {
+      "station_id": "WKXA1",
+      "url": "https://www.ndbc.noaa.gov/data/realtime2/WKXA1.txt",
+      "raw_sha256": "5eae6ba8d330fd0f8a618eae90ec1d95044c9da2469d57495c8eefe9ca9bcd02",
+      "raw_path": "public_archive/ndbc/WKXA1-5eae6ba8d330fd0f8a618eae90ec1d95044c9da2469d57495c8eefe9ca9bcd02.txt.gz",
+      "normalized_rows": 19317,
+      "latest_observed_at": "2026-10-03T08:00:00+00:00",
+      "status": "complete"
+    }
+  ],
+  "status": "complete",
+  "production_action": "NO_CHANGE",
+  "normalized_rows": 36421,
+  "guardrails": [
+    "WKQA1 is direct only at Fish River/Weeks Bay and remains a regional proxy for Eastern Shore open-bay bottom state.",
+    "NDBC realtime data have automated realtime QC; final archival NERRS/CDMO QA/QC may later revise values.",
+    "available_at is conservatively set to retrieval time, not observation time.",
+    "No source value changes Jubilee production weights without held-out validation."
+  ]
+}
