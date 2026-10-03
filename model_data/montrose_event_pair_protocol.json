@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0",
+  "protocol_id": "437-montrose-sampled-contact-v1",
+  "frozen_date_ct": "2026-10-03",
+  "status": "PRESPECIFIED_RESEARCH_DESIGN_NOT_VALIDATED",
+  "scope": "Sampled, usable-light shoreline-contact pixels only; no whole-morning or whole-Montrose inference",
+  "camera_id": "montrose_shoreline",
+  "anchor_receipt_sha256": "e634fdfd50a75dd358fc86e745a57fe18e856e9b749959bfd809b0b067fb697d",
+  "anchor_frame_sha256": "4f64061d89bd6ae8c80c30b161d7b392e048f09f922ec7cbec86dd218f8d9187",
+  "anchor_image_size": [1280, 720],
+  "roi": {
+    "id": "437-contact-strip-proposal-v1",
+    "coordinate_system": "anchor image pixels, origin top-left",
+    "proposed_rectangles_xyxy": [[0, 320, 420, 370], [700, 330, 1100, 400]],
+    "geometry_status": "REQUIRES_INDEPENDENT_PIXEL_AND_PHYSICAL_SITE_REVIEW",
+    "rule": "Only demonstrably resolved waterline/contact pixels inside these rectangles may be annotated. Exclude pier deck, bulkhead, lawns, open water and obstructed/unresolved pixels. The rectangles are review bounds, not a validated continuous beach footprint. Same exact annotated subsegment mask and physical landmarks required on both sides.",
+    "maximum_landmark_registration_error_px": 5,
+    "changed_pose_or_unverified_physical_site": "UNKNOWN"
+  },
+  "matching_tolerances": {
+    "shoreline_cell_or_visible_scope": "Identical validated physical subsegment and mask; zero corridor-label substitution",
+    "season_or_day_of_year_band": {"maximum_circular_day_of_year_difference": 30},
+    "predawn_clock_window": {
+      "maximum_paired_actual_frame_clock_difference_seconds": 1200,
+      "maximum_timestamp_uncertainty_seconds": 60,
+      "frame_count": 3,
+      "shot_interval_seconds": 10,
+      "shot_interval_tolerance_seconds": 2,
+      "allowed_timing": ["actual_screenshot_time"],
+      "nominal_or_unknown_timing": "UNKNOWN until actual frame clock bounds independently reconstructed",
+      "event_occurrence": "Direct Jubilee biology must be documented in the exact ROI at the event-side sampled frame times. Onset, ending and inter-burst duration stay UNKNOWN unless observed."
+    },
+    "tide_phase": {
+      "required": true,
+      "allowed_classes": ["rising", "falling", "high_slack", "low_slack"],
+      "maximum_phase_time_difference_minutes": 30,
+      "rule": "Same source, station, method, datum, QC and phase class. Use source-derived time relative to the same type of turning point. Prediction can match prediction but never observed water level. Missing either side blocks pairing."
+    },
+    "current_or_transport_phase_when_available": {
+      "both_unavailable": "MATCHED_UNAVAILABLE_WITH_EXPLICIT_LIMITATION",
+      "one_unavailable": "UNRESOLVED",
+      "both_available": "Same source/site, Earth-frame reference, depth, method and accepted QC",
+      "maximum_direction_difference_degrees": 30,
+      "maximum_speed_difference_m_per_s": 0.1
+    },
+    "private_camera_availability": "Same expected/fresh camera IDs, site groups, illumination category, moderate-or-high biological detectability, obstruction state and scheduled three-shot sampling. Extra event-driven media may confirm occurrence but cannot substitute for comparator sampling.",
+    "public_camera_availability": "Same availability and geometric scope signature; both unavailable permitted when explicitly documented",
+    "social_or_human_observation_availability": "Same search/check effort and availability signature; both unavailable permitted. Social silence, absent people/lights and failed searches never imply biological absence."
+  },
+  "review_requirements": [
+    "Reopen all retained hashes and independently review pixels on both sides",
+    "Document reviewers, reviewed_at, available_at, exact masks/landmarks and evidence references",
+    "Positive: directly observed Jubilee-class shoreline crowding/emergence, not ordinary fish, catches from elsewhere, people or lights alone",
+    "Negative: adequate same-class detectability and no event evidence in exactly the sampled ROI; darkness and gaps remain UNKNOWN",
+    "Episode/date block samples; repeated bursts are correlated, not independent controls",
+    "An initial qualifying pair is exploratory; no sensitivity, specificity or calibration claim follows from one pair"
+  ],
+  "tolerance_rationale": "Conservative exploratory limits fixed before pair scoring: 30 days constrains season, one existing dawn cadence constrains clock, actual three-shot sampling constrains observation effort, and same tide phase within 30 minutes constrains transport context. Direction/speed and 5-pixel registration limits are prespecified engineering screens, not empirically validated ecological equivalence. Do not relax them after seeing results; a new design needs a new version and separate evaluation.",
+  "tier_a_verified": false,
+  "whole_morning_outcome": "UNKNOWN",
+  "production_action": "NO_CHANGE"
+}

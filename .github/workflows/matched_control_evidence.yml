@@ -7,6 +7,8 @@ on:
       - 'burst_status.json'
       - 'vision.json'
       - 'model_data/collect_matched_control_packet.py'
+      - 'model_data/collect_event_comparator.py'
+      - 'model_data/montrose_event_pair_protocol.json'
       - '.github/workflows/matched_control_evidence.yml'
   workflow_dispatch:
 permissions:
@@ -24,7 +26,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Collect research packet from the exact triggering commit
-        run: python model_data/collect_matched_control_packet.py --out "$RUNNER_TEMP/matched-control"
+        run: python model_data/collect_event_comparator.py --out "$RUNNER_TEMP/matched-control"
       - name: Retain reviewable evidence without writing to main
         uses: actions/upload-artifact@v4
         with:
