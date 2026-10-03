@@ -6,10 +6,11 @@ from pathlib import Path
 import sys
 import tempfile
 import unittest
+from urllib.error import HTTPError
 import zipfile
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'model_data'))
-from seal_matched_control_packet import digest, encoded, fetch_artifact, readback, seal, verify_packet
+from seal_matched_control_packet import artifact_get, digest, encoded, fetch_artifact, readback, seal, verify_packet
 
 
 class SealTests(unittest.TestCase):
@@ -166,6 +167,20 @@ class SealTests(unittest.TestCase):
             raw = self.zip(changed)
             with self.assertRaises(ValueError):
                 verify_packet(raw, {**self.origin, 'digest': 'sha256:' + digest(raw)})
+
+    def test_public_artifact_recovery_revalidates_bytes_and_bounds_http_errors(self):
+        calls = []
+        def get(url, token):
+            calls.append(token)
+            if token:
+                raise HTTPError(url, 403, 'denied', {}, None)
+            return b'public bytes'
+        self.assertEqual(artifact_get('https://api.github.com/test', 'credential', get), b'public bytes')
+        self.assertEqual(calls, ['credential', None])
+        def missing(url, token):
+            raise HTTPError(url, 404, 'missing', {}, None)
+        with self.assertRaisesRegex(ValueError, '^ARTIFACT_HTTP_404$'):
+            artifact_get('https://api.github.com/test', 'credential', missing)
 
 
 if __name__ == '__main__':

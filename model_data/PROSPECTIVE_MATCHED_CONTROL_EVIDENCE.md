@@ -138,3 +138,17 @@ are preserved. Tests cover missing/expired artifacts, failed GETs, corrupt or
 missing frames, identity/timing/hash mismatches, manifest instability and failed
 durable readback. Production probabilities, weights, thresholds, alerts,
 forecasts, event labels and schedules are unchanged.
+
+Verified integration: artifact `11273358871` ZIP SHA-256
+`345ea4f64966c5d2c7381ebfec926dd0cf06ce01ef5f3e06b4024f90c6b3a80a`
+was recovered and all retained bytes verified. R2 capture ID
+`20261003T072614360169-2a6c43079065` matched the 07:26:14 CDT source packet;
+three shoreline frame hashes and capture/shot metadata passed. Sealing run
+`37131230734` committed the complete evidence and reopened the remote Git
+bytes successfully. Packet SHA-256 is
+`402794882f85e2bcb48b1f5c8cf20d8f3c55c4351087478deb9748cc207bca4d`;
+receipt SHA-256 is
+`e634fdfd50a75dd358fc86e745a57fe18e856e9b749959bfd809b0b067fb697d`.
+The earlier failed authenticated artifact GET remains as its immutable source-gap
+receipt; the independent public GET recovery resolved that retrieval without
+weakening hash validation. Neither archive receipt assigns a biological label.
