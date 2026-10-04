@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "retrieved_at": "2026-10-03T19:52:39.405484+00:00",
+  "retrieved_at": "2026-10-04T00:04:39.104980+00:00",
   "status": "complete",
   "source_class": "MODEL",
   "production_action": "NO_CHANGE",
@@ -14,7 +14,13 @@
       "cast": "nowcast",
       "model_initialized_at": "2026-10-03T15:00:00+00:00",
       "reference_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/03/ngofs2.t15z.20261003.regulargrid.n003.nc",
-      "failed_newer_cycle_attempts": [],
+      "failed_newer_cycle_attempts": [
+        {
+          "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/03/ngofs2.t21z.20261003.regulargrid.n003.nc",
+          "error_type": "OSError",
+          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/03/ngofs2.t21z.20261003.regulargrid.n003.nc'"
+        }
+      ],
       "selected_nodes": [
         {
           "cell": "Daphne/May Day",
@@ -516,7 +522,13 @@
       "cast": "forecast",
       "model_initialized_at": "2026-10-03T15:00:00+00:00",
       "reference_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/03/ngofs2.t15z.20261003.regulargrid.f000.nc",
-      "failed_newer_cycle_attempts": [],
+      "failed_newer_cycle_attempts": [
+        {
+          "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/03/ngofs2.t21z.20261003.regulargrid.f000.nc",
+          "error_type": "OSError",
+          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/03/ngofs2.t21z.20261003.regulargrid.f000.nc'"
+        }
+      ],
       "selected_nodes": [
         {
           "cell": "Daphne/May Day",
@@ -1032,8 +1044,8 @@
   ],
   "normalized_rows": 1848,
   "derived_feature_rows": 696,
-  "raw_subset_sha256": "75595acc7b32c8856355385a5cb594a482d83b042a57b61b089a569af5e88bbe",
-  "raw_subset_archive": "public_archive/ngofs2_shoreline_grid_subset/75595acc7b32c8856355385a5cb594a482d83b042a57b61b089a569af5e88bbe.json.gz",
+  "raw_subset_sha256": "baef9bd22f227a8fbe0a0697882d99e6d1c07b8c9442cfafb9eed10e2bb85ec7",
+  "raw_subset_archive": "public_archive/ngofs2_shoreline_grid_subset/baef9bd22f227a8fbe0a0697882d99e6d1c07b8c9442cfafb9eed10e2bb85ec7.json.gz",
   "normalized_data": "ngofs2_shoreline_grid_normalized.csv",
   "derived_features": "ngofs2_shoreline_grid_features.csv",
   "guardrails": [
