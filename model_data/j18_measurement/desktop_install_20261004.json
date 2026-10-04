@@ -1,0 +1,66 @@
+{
+  "status": "NOT_VERIFIED",
+  "scope": "PR54 telemetry installation; live acceptance pending",
+  "reviewed_main": "39ea088d1eaa6f5be240cd87f812ab6384bf6164",
+  "installed_at_local": "2026-10-04T02:54:58-05:00",
+  "desktop": "PointClearPC",
+  "installed": true,
+  "files": {
+    "analyze_frames.py": "df1539538ae2ad2ceb5a473872bc08b50b4dff0093ffefc0feb9f4b9104909ff",
+    "attempt_telemetry.py": "00796cffd897b8a6d4fcf0736b74588c9de74ab05b5223d693cb51fb6d29e550"
+  },
+  "source_hash_match": true,
+  "local_divergence": "None: deployed analyzer matched PR54 parent modulo checkout line endings",
+  "backup": "analyze_frames.py.backup_atomic_20261004T025458",
+  "tests": {
+    "passed": 9,
+    "failed": 0
+  },
+  "coordinator": {
+    "task": "Jubilee Live Cameras",
+    "state": "Running",
+    "capture_owner_count": 1,
+    "other_capture_tasks": "Disabled",
+    "heartbeat": "2026-10-04T02:55:19.942497-05:00",
+    "restarted": false
+  },
+  "capture_service": {
+    "modified": false,
+    "exact_source_hash_match": false,
+    "reason": "Only checkout line endings differ; git content diff empty"
+  },
+  "pre_install_acceptance": {
+    "checked_at_utc": "2026-10-04T07:54:02.811123+00:00",
+    "capture_time_utc": "2026-10-04T07:06:04.584496+00:00",
+    "six_camera_capture_and_vision": "PASS",
+    "local_archive": "PASS:27 objects",
+    "r2": "PASS:30 objects,18 immutable burst frames",
+    "snapshot_stability": "PASS",
+    "git_ancestry": "Published 1a8c118d23a09a16c71ded3266e5be0afd0a6fc4 is ancestor of reviewed main; merge-base exit 0",
+    "verifier_git_check": "NOT_VERIFIED: review fetch replaced FETCH_HEAD; no publication changes"
+  },
+  "live_telemetry": {
+    "status": "NOT_VERIFIED",
+    "reason": "No normal canonical cycle with new runtime yet",
+    "raw_log_readback": "PENDING",
+    "canonical_snapshot_binding": "PENDING",
+    "transport_attempts": "UNKNOWN",
+    "account_billing": "UNKNOWN"
+  },
+  "acceptance_entrypoint": "PowerShell script blocked by Windows execution policy. Direct reviewed Python verifier ran read-only without task inventory. Tasks independently read via Get-ScheduledTask. Policy unchanged.",
+  "production_changes": {
+    "cadence": false,
+    "tasks": false,
+    "manual_capture": false,
+    "credentials": false,
+    "model_probabilities": false,
+    "thresholds": false,
+    "forecasts": false,
+    "alerts": false,
+    "nine_pm_gate": false
+  },
+  "limitations": [
+    "No live telemetry acceptance or cost-saving claim",
+    "Raw logs and request-level fingerprints stay local"
+  ]
+}
