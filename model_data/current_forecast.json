@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-04T02:11:55.181129-05:00",
+  "issue_time": "2026-10-04T16:37:19.229571-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "a47a11609c92fabb2ec6fbe8b7bedfa0702c70de8a0798eec1a3631cd3c5bd58",
-  "input_commit_sha": "a487b83a4a6c2be0b162a7044776e53d8135068e",
+  "input_snapshot_hash": "bd9310730a3a2280c05d88c1f85ae74a2f5c0d9b6ba0c89b7d86b181ccba3639",
+  "input_commit_sha": "2c34f039a5f14836bd62fec04b554865c1d7336f",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
@@ -16,12 +16,12 @@
     "private_cameras_expected": 6,
     "ngofs2_products": {
       "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
-      "ngofs2_point_clear_forecast": "UNKNOWN_UNAVAILABLE",
-      "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
+      "ngofs2_point_clear_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
+      "ngofs2_mobile_bay_named_stations_nowcast": "UNKNOWN_UNAVAILABLE",
       "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
-      "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
+      "ngofs2_shoreline_grid": "UNKNOWN_NO_CURRENT_GUIDANCE"
     },
-    "fresh_river_series": 20,
+    "fresh_river_series": 0,
     "asos_stations": "KBFM partial; KMOB UNKNOWN"
   },
   "missing_inputs": [
@@ -30,14 +30,14 @@
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
     "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
-    "ngofs2_point_clear_forecast: SOURCE_UNAVAILABLE/UNKNOWN",
+    "ngofs2_mobile_bay_named_stations_nowcast: SOURCE_UNAVAILABLE/UNKNOWN",
     "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
   "outlooks": [
     {
       "cell": "Point Clear/Grand Hotel",
       "forecast_window": {
-        "date_ct": "2026-10-01",
+        "date_ct": "2026-10-04",
         "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
       },
       "range_percent": "2-5",
@@ -47,7 +47,7 @@
     {
       "cell": "Daphne/May Day",
       "forecast_window": {
-        "date_ct": "2026-10-01",
+        "date_ct": "2026-10-04",
         "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
       },
       "range_percent": "1-4",
@@ -57,7 +57,7 @@
     {
       "cell": "Point Clear/Grand Hotel",
       "forecast_window": {
-        "date_ct": "2026-10-02",
+        "date_ct": "2026-10-05",
         "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
       },
       "range_percent": "2-5",
@@ -67,7 +67,7 @@
     {
       "cell": "Daphne/May Day",
       "forecast_window": {
-        "date_ct": "2026-10-02",
+        "date_ct": "2026-10-05",
         "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
       },
       "range_percent": "1-4",
@@ -77,7 +77,7 @@
     {
       "cell": "Point Clear/Grand Hotel",
       "forecast_window": {
-        "date_ct": "2026-10-03",
+        "date_ct": "2026-10-06",
         "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
       },
       "range_percent": "2-5",
@@ -87,7 +87,7 @@
     {
       "cell": "Daphne/May Day",
       "forecast_window": {
-        "date_ct": "2026-10-03",
+        "date_ct": "2026-10-06",
         "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
       },
       "range_percent": "1-4",
