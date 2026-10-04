@@ -1,8 +1,9 @@
 {
-  "status": "NOT_VERIFIED",
-  "scope": "PR54 telemetry installation; live acceptance pending",
+  "status": "ACCEPTED_RESEARCH_TELEMETRY_WITH_EXPLICIT_UNKNOWNS",
+  "scope": "PR54 installation and one completed normal six-camera live telemetry cycle; research acceptance only",
   "reviewed_main": "39ea088d1eaa6f5be240cd87f812ab6384bf6164",
   "installed_at_local": "2026-10-04T02:54:58-05:00",
+  "accepted_at_utc": "2026-10-04T14:55:56.209710+00:00",
   "desktop": "PointClearPC",
   "installed": true,
   "files": {
@@ -10,44 +11,87 @@
     "attempt_telemetry.py": "00796cffd897b8a6d4fcf0736b74588c9de74ab05b5223d693cb51fb6d29e550"
   },
   "source_hash_match": true,
-  "local_divergence": "None: deployed analyzer matched PR54 parent modulo checkout line endings",
+  "local_divergence": "None in the deployed telemetry files: hashes rechecked after the live cycle",
   "backup": "analyze_frames.py.backup_atomic_20261004T025458",
   "tests": {
     "passed": 9,
-    "failed": 0
+    "failed": 0,
+    "rerun_after_live_cycle": true
   },
   "coordinator": {
     "task": "Jubilee Live Cameras",
     "state": "Running",
     "capture_owner_count": 1,
     "other_capture_tasks": "Disabled",
-    "heartbeat": "2026-10-04T02:55:19.942497-05:00",
+    "inventory_method": "Independent read-only schtasks query",
     "restarted": false
   },
-  "capture_service": {
-    "modified": false,
-    "exact_source_hash_match": false,
-    "reason": "Only checkout line endings differ; git content diff empty"
+  "published_ancestry": {
+    "observed_main_head": "2651c53a08486c610a8651a01de778aa9ca4e312",
+    "actual_parent": "d88538c3e24553c2d0feb5abc15a27e023b8c02d",
+    "reviewed_main_is_ancestor": true,
+    "ahead_by_commits": 48,
+    "fetch_head_used_for_acceptance": false
   },
   "pre_install_acceptance": {
     "checked_at_utc": "2026-10-04T07:54:02.811123+00:00",
-    "capture_time_utc": "2026-10-04T07:06:04.584496+00:00",
     "six_camera_capture_and_vision": "PASS",
     "local_archive": "PASS:27 objects",
     "r2": "PASS:30 objects,18 immutable burst frames",
-    "snapshot_stability": "PASS",
-    "git_ancestry": "Published 1a8c118d23a09a16c71ded3266e5be0afd0a6fc4 is ancestor of reviewed main; merge-base exit 0",
-    "verifier_git_check": "NOT_VERIFIED: review fetch replaced FETCH_HEAD; no publication changes"
+    "snapshot_stability": "PASS"
   },
   "live_telemetry": {
-    "status": "NOT_VERIFIED",
-    "reason": "No normal canonical cycle with new runtime yet",
-    "raw_log_readback": "PENDING",
-    "canonical_snapshot_binding": "PENDING",
-    "transport_attempts": "UNKNOWN",
-    "account_billing": "UNKNOWN"
+    "status": "PASS_RESEARCH_TELEMETRY",
+    "capture_time_ct": "2026-10-04T09:06:05.445211-05:00",
+    "runtime_version": "2026-10-03-prospective-telemetry-v1",
+    "normal_completed_cycle": true,
+    "six_camera_three_frame_coverage": "PASS",
+    "stages": {
+      "camera": 6,
+      "cross_camera": 1
+    },
+    "completed_attempts": 7,
+    "failed_attempts": 0,
+    "exact_capture_readback": {
+      "raw_records_scanned": 4939,
+      "matched_attempts": 7,
+      "unmatched_for_capture": 0,
+      "camera_integrity_true": 7,
+      "status_sha256": "68e51ed9e81bf924aa8f2f3f71d04e5b51a2231566b0373b2ea5793893510026",
+      "burst_status_sha256": "851f068d454d7007c2444f0ff4d2e5d4fa5bb4b5358cced97277d6e78d46ba74",
+      "vision_sha256": "2d63989d51876fb99c2a59e6466334761f1b36f48f876a9e22c2a8a1e480bf88"
+    },
+    "telemetry_completeness": {
+      "prompt_prefix_hash_known": 7,
+      "cache_options_mode_ttl_known": 7,
+      "image_hashes": "Three input-image hashes for each of six camera stages; none expected for cross-camera synthesis",
+      "returned_service_tier": {
+        "default": 7
+      },
+      "requested_service_tier": {
+        "unknown": 7
+      },
+      "billed_service_tier": {
+        "unknown": 7
+      },
+      "billing_context": {
+        "unknown": 7
+      },
+      "cache_write_tokens_known": 7
+    },
+    "aggregate_usage": {
+      "input_tokens": 46730,
+      "output_tokens": 5505,
+      "cached_input_tokens_subset_of_input": 11830,
+      "cache_write_tokens_subset_of_input": 2366
+    },
+    "transport_attempts": "UNKNOWN_NO_INDEPENDENT_EVIDENCE",
+    "account_billing": "UNKNOWN_NO_INDEPENDENT_EVIDENCE",
+    "local_evidence_retained": true,
+    "raw_logs_published": false,
+    "request_level_fingerprints_published": false
   },
-  "acceptance_entrypoint": "PowerShell script blocked by Windows execution policy. Direct reviewed Python verifier ran read-only without task inventory. Tasks independently read via Get-ScheduledTask. Policy unchanged.",
+  "acceptance_entrypoint": "Windows execution policy blocked the PowerShell wrapper. Policy was not changed or bypassed. Reviewed Python components ran read-only; task inventory was inspected independently.",
   "production_changes": {
     "cadence": false,
     "tasks": false,
@@ -59,8 +103,16 @@
     "alerts": false,
     "nine_pm_gate": false
   },
+  "model_learning_effect": {
+    "production_weight_change": false,
+    "jubilee_event_or_control_label": false,
+    "note": "The accepted cycle occurred after the target dawn window and is telemetry evidence only."
+  },
   "limitations": [
-    "No live telemetry acceptance or cost-saving claim",
-    "Raw logs and request-level fingerprints stay local"
-  ]
+    "No cost-saving or effectiveness-equivalence claim follows from one cycle",
+    "Transport attempt count and account billing remain UNKNOWN",
+    "Requested service tier was not explicitly reported; returned tier was default",
+    "Raw logs, prompts, media, credentials and request-level fingerprints remain local"
+  ],
+  "durable_disposition": "One-time live telemetry installation acceptance is complete; do not repeat unless the installed hashes, runtime contract, or evidence integrity changes."
 }
