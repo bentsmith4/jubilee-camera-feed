@@ -1,14 +1,68 @@
 {
-  "status": "unavailable",
-  "retrieved_at": "2026-10-04T12:59:03.913906+00:00",
+  "schema_version": "1.2",
+  "retrieved_at": "2026-10-04T18:48:01.448014+00:00",
+  "cast": "forecast",
+  "status": "complete",
   "evidence_class": "MODEL",
-  "production_action": "NO_CURRENT_GUIDANCE",
-  "error_type": "RetrievalTimeout",
-  "error": "NGOFS2 retrieval exceeded 480 seconds",
-  "product": "point_clear_forecast",
-  "started_at": "2026-10-04T12:51:03.906864+00:00",
-  "timeout_seconds": 480,
-  "failure_attribution": "UNRESOLVED_PROVIDER_OR_CLIENT",
-  "diagnostic_note": "The whole-process budget expired; provider outage, remote-read latency and local extraction cost are not distinguished.",
-  "availability_reason": "retrieval_timeout_cause_unresolved"
+  "production_action": "NO_CHANGE",
+  "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/04/ngofs2.t15z.20261004.stations.forecast.nc",
+  "model_initialized_at": "2026-10-04T15:00:00+00:00",
+  "failed_newer_attempts": [],
+  "normalized_rows": 5291,
+  "subset_sha256": "6d04e1f70ffd130a456417c172e03b537f557debf3f0a90b0ec556348154c5ff",
+  "subset_archive": "public_archive/ngofs2_subset/6d04e1f70ffd130a456417c172e03b537f557debf3f0a90b0ec556348154c5ff.json.gz",
+  "normalized_csv": "ngofs2_point_clear_forecast_normalized.csv",
+  "station": {
+    "station_name": "8733821 Pt Clear, MB",
+    "station_index": 93,
+    "resolution_basis": "nearest_verified_coordinate",
+    "distance_to_point_clear_km": 0.3114,
+    "lat": 30.489032745361328,
+    "lon": -87.93621826171875,
+    "source_lon": 272.06378173828125,
+    "source_lon_convention": "NOAA_dataset_native",
+    "normalized_lon_convention": "-180_to_180",
+    "target_lat": 30.48664,
+    "target_lon": -87.93453,
+    "bathymetry_m": 1.8300000429153442,
+    "surface_sigma_index": 0,
+    "bottom_sigma_index": 39,
+    "surface_sigma": -0.012500000186264515,
+    "bottom_sigma": -0.987500011920929
+  },
+  "reference_valid_at": "2026-10-04T18:54:00+00:00",
+  "transport_window_type": "forward",
+  "transport_windows": {
+    "1": {
+      "count": 11,
+      "mean_m_s": -0.015096751549704511,
+      "signed_transport_m": -54.303860049694784,
+      "coverage_fraction": 1.0
+    },
+    "3": {
+      "count": 31,
+      "mean_m_s": -0.011136578020429421,
+      "signed_transport_m": -120.36255835555495,
+      "coverage_fraction": 1.0
+    },
+    "6": {
+      "count": 61,
+      "mean_m_s": -0.003283909490507585,
+      "signed_transport_m": -72.17512583127248,
+      "coverage_fraction": 1.0
+    },
+    "12": {
+      "count": 121,
+      "mean_m_s": 0.0028427871610884644,
+      "signed_transport_m": 125.60284628765656,
+      "coverage_fraction": 1.0
+    }
+  },
+  "guardrails": [
+    "NGOFS2 is MODEL guidance and is not a direct current, salinity, temperature, water-level or oxygen observation.",
+    "Point Clear station mapping prefers name but may use the official Point Clear coordinate as an auditable fallback; a >10 km nearest station is refused.",
+    "Point Clear shoreward projection uses a provisional west-facing shoreline geometry: true bearing 090 degrees is shoreward (+east).",
+    "Nowcast and forecast outputs are separate; forecast values cannot overwrite antecedent nowcast history.",
+    "No production weight changes until event/control held-out incremental value is demonstrated."
+  ]
 }
