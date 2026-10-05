@@ -4,17 +4,21 @@ on:
   push:
     branches: [main]
     paths:
+      # Camera publications provide a working event trigger when cron is delayed/dropped.
+      - status.json
       - model_data/ingest_asos_weather.py
+      - model_data/ingest_river_forcing.py
       - model_data/stage_sensing_outputs.py
       - model_data/sensor_contract.json
       - tests/test_asos_weather.py
+      - tests/test_usgs_methods.py
       - tests/test_sensing_publication.py
       - .github/workflows/asos_weather.yml
   schedule:
     - cron: '7 * * * *'
 permissions:
   contents: write
-# Serialize with sensing_quality, which also writes these three public files.
+# Serialize with sensing_quality, which writes the same ASOS and river products.
 concurrency:
   group: jubilee-sensing-quality-${{ github.ref_name }}
   cancel-in-progress: false
@@ -30,16 +34,21 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Verify weather QC and publication offline
+      - name: Verify weather, river QC and publication offline
         id: regression
         run: |
           python -m unittest discover -s tests -p 'test_asos_weather.py' -v
+          python -m unittest discover -s tests -p 'test_usgs_methods.py' -v
           python -m unittest discover -s tests -p 'test_sensing_publication.py' -v
       - name: Retrieve official airport observations
         id: asos
         continue-on-error: true
         run: python model_data/ingest_asos_weather.py
-      - name: Preserve public weather evidence
+      - name: Retrieve qualified public lower-river forcing
+        id: river
+        continue-on-error: true
+        run: python model_data/ingest_river_forcing.py --days 16
+      - name: Preserve public weather and river evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -49,8 +58,11 @@ jobs:
             model_data/asos_weather_normalized.json
             model_data/current_asos_weather.json
             model_data/public_archive/asos/
+            model_data/river_forcing_manifest.json
+            model_data/river_forcing_normalized.csv
+            model_data/public_archive/usgs/
           retention-days: 90
-      - name: Publish weather snapshot, including UNKNOWN on source outage
+      - name: Publish independent weather and river evidence, including UNKNOWN on source outage
         if: ${{ !cancelled() && steps.regression.outcome == 'success' }}
         env:
           REF_NAME: ${{ github.ref_name }}
@@ -61,7 +73,7 @@ jobs:
           git config user.name 'jubilee-model-bot'
           git config user.email 'actions@users.noreply.github.com'
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'Record official ASOS weather and freshness status'
+          git commit -m 'Record official ASOS weather and lower-river freshness status'
           publish_dir="$(mktemp -d "$RUNNER_TEMP/asos-publication.XXXXXX")"
           git worktree add --detach "$publish_dir" HEAD
           cd "$publish_dir"
@@ -78,3 +90,22 @@ jobs:
       - name: Escalate parser defects after preserving diagnostic artifacts
         if: always() && steps.asos.outcome == 'failure'
         run: exit 1
+      - name: Escalate persistent river outages and unexpected ingestion defects
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+          p = Path('model_data/river_forcing_manifest.json')
+          if not p.exists():
+              raise SystemExit('River manifest missing; ingestion did not complete')
+          m = json.loads(p.read_text())
+          age = (datetime.now(timezone.utc) - datetime.fromisoformat(m['started_at_utc'])).total_seconds()
+          if not 0 <= age <= 3600:
+              raise SystemExit('River manifest is stale; current ingestion did not complete')
+          if m.get('status') == 'failed' or m.get('action_required'):
+              raise SystemExit('River source needs attention; see river_forcing_manifest.json')
+          if m.get('status') == 'unavailable':
+              print('Temporary river outage recorded as UNKNOWN; next refresh retries.')
+          PY
