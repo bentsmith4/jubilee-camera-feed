@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
-  "review_date": "2026-10-03",
+  "review_date": "2026-10-05",
   "timezone": "America/Chicago",
   "base_main_commit": "02d16b7d54d7eee04dcb0a77a449e327ba98edca",
-  "status": "ARCHIVAL_LOCATORS_IMPROVED_EXACT_EVENT_RECORDS_NOT_RECOVERED",
+  "status": "ARCHIVAL_PROVENANCE_UPDATED_RESEARCH_ONLY_DATE_SEMANTICS_UNRESOLVED",
   "parent_audit": "model_data/loesch_1960_primary_recovery_20261002.json",
   "sources": [
     {
@@ -165,6 +165,42 @@
       "evidence_class": "catalog_or_access_route",
       "exact_source_bytes_recovered": false,
       "source_sha256": null
+    },
+    {
+      "id": "mccall-thigpen-S-249-16-20261005",
+      "evidence_class": "custodian_correspondence_photograph_metadata",
+      "from": "mccalllib@southalabama.edu",
+      "respondent": "Daniel",
+      "gmail_message_id": "1a10cab09377ace5",
+      "gmail_thread_id": "1a1025c41d6388cd",
+      "reply_at_local": "2026-10-05T10:24:39-05:00",
+      "reply_at_utc": "2026-10-05T15:24:39Z",
+      "subject": "Re: Thigpen 1950 Jubilee: negative, binder entry and collection cross-reference",
+      "verification": "Reply body read directly via Gmail; no original photograph or binder bytes retrieved.",
+      "collection": "Thigpen 747 Collection",
+      "original_identifier": "S-249-16",
+      "original_identifier_medium": "UNKNOWN_NEGATIVE_OR_PRINT",
+      "reading_room_label": "35H-B3-12-3",
+      "date_wording": "9-17-1950",
+      "metadata_date": "1950-09-17",
+      "date_semantics": "UNRESOLVED_EXPOSURE_EVENT_PUBLICATION_OR_CATALOG_ATTRIBUTION",
+      "exposure_date": null,
+      "event_date": null,
+      "location_metadata": "Daphne, AL along the Eastern Shore",
+      "location_basis": "custodian reports metadata written about the photograph; original documentation not independently inspected",
+      "related_identifier_group": "S-249",
+      "additional_item_roster_recovered": false,
+      "original_negative_or_print_bytes_recovered": false,
+      "binder_entry_recovered": false,
+      "source_sha256": null,
+      "accession_cross_reference_status": "UNVERIFIED",
+      "daphne_museum_same_image_or_event_status": "UNVERIFIED",
+      "policy_urls": [
+        "https://www.southalabama.edu/libraries/mccallarchives/repro_policy.html",
+        "https://www.southalabama.edu/libraries/mccallarchives/photo_prices.html"
+      ],
+      "research_only": true,
+      "production_weight": 0
     }
   ],
   "search_scope": {
@@ -207,7 +243,7 @@
     "new_original_negative_or_binder_records": 0,
     "exact_source_records_sha256": [],
     "hash_policy": "Only hash bytes actually recovered; null is not an assertion that no source exists. Catalog locator metadata is not an original source record.",
-    "scope_note": "Original recovery counts describe the pre-dispatch archival search. Three email attachments are now received but their bytes have not been retrieved, hashed, inspected or admitted by this update."
+    "scope_note": "Original recovery counts describe the pre-dispatch archival search, not subsequent evidence admission. The three newspaper PDFs were subsequently recovered, hashed and visually inspected in the separate newspaper scan evidence record. The 5 October McCall reply supplies item identifiers and photograph metadata only; no original negative/print or binder bytes recovered."
   },
   "canonical_review": {
     "path": "model_data/event_history.json",
@@ -227,7 +263,7 @@
     "status": "UNRESOLVED_INTERNAL_PRIMARY_DISCREPANCY"
   },
   "requests": {
-    "status": "FIVE_INITIAL_REQUESTS_SENT_VERIFIED_ONE_REPLY_RECEIVED",
+    "status": "FIVE_INITIAL_REQUESTS_SENT_VERIFIED_TWO_REPLIES_RECORDED",
     "templates": "model_data/LOESCH_1960_ARCHIVAL_FOLLOWUP_20261003.md",
     "four_leads": [
       "Mobile Municipal Archives",
@@ -305,7 +341,8 @@
       "query": "after:2026/10/03 {from:archives@cityofmobile.gov from:mainlhg@mplonline.org from:mccalllib@southalabama.edu from:universityarchivist@library.tamu.edu from:cushingreference@library.tamu.edu from:sclib@uga.edu}",
       "reply_count": 1,
       "earlier_no_reply_check_superseded": true,
-      "no_other_recipient_reply_found": true
+      "no_other_recipient_reply_found": true,
+      "scope_note": "Historical 3 October bounded search only; subsequent McCall reply recorded separately without claiming a fresh all-recipient search."
     },
     "responses": [
       {
@@ -339,6 +376,17 @@
             "independently_verified": false
           }
         ]
+      },
+      {
+        "from": "mccalllib@southalabama.edu",
+        "gmail_message_id": "1a10cab09377ace5",
+        "received_at_utc": "2026-10-05T15:24:39Z",
+        "subject": "Re: Thigpen 1950 Jubilee: negative, binder entry and collection cross-reference",
+        "librarian": "Daniel",
+        "status": "ITEM_PROVENANCE_METADATA_VERIFIED_ORIGINAL_BYTES_AND_DATE_SEMANTICS_UNRESOLVED",
+        "source_id": "mccall-thigpen-S-249-16-20261005",
+        "attachments": [],
+        "fee_commitment": false
       }
     ],
     "fee_commitment": false,
@@ -348,5 +396,29 @@
       "locator": "Accession 07-134, Box 3 of 4, Loesch, Harold"
     }
   },
-  "production_action": "NO_CHANGE"
+  "production_action": "NO_CHANGE",
+  "newspaper_scan_recovery": {
+    "path": "model_data/loesch_newspaper_scan_evidence_20261003.json",
+    "status": "PRIMARY_NEWSPAPER_SCANS_RECOVERED_RESEARCH_ONLY",
+    "supersedes_initial_attachment_uninspected_status": true,
+    "canonical_events_added": 0
+  },
+  "photograph_newspaper_cross_check": {
+    "photograph_source_id": "mccall-thigpen-S-249-16-20261005",
+    "newspaper_evidence_path": "model_data/loesch_newspaper_scan_evidence_20261003.json",
+    "newspaper_publication_date": "1950-09-18",
+    "newspaper_page": "6-B",
+    "daphne_observation_id": "1950-09-17-daphne-report",
+    "newspaper_event_date": "1950-09-17",
+    "daphne_time_wording": "about 5:30 p.m. Sunday until around midnight; called seven-hour",
+    "distinct_same_night_observation_id": "1950-09-17-battles-wharf-report",
+    "result": "METADATA_DATE_AND_DAPHNE_LOCALITY_ALIGN_POTENTIAL_CORROBORATION_ONLY",
+    "same_event_identity": "UNESTABLISHED",
+    "records_merged": false,
+    "duplicate_group_assigned": false,
+    "photograph_location_extended_to_battles_wharf_or_point_clear": false,
+    "limitation": "Photograph metadata date is not established as exposure/event date; alignment does not prove that the photograph depicts the newspaper-reported event.",
+    "canonical_event_decisions_changed": false,
+    "count_reconciliation_changed": false
+  }
 }
