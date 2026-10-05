@@ -1,11 +1,14 @@
 {
-  "schema_version": "1.1",
-  "cast": "forecast",
-  "retrieved_at": "2026-10-04T18:56:56.992320+00:00",
   "status": "unavailable",
+  "retrieved_at": "2026-10-05T00:26:37.758670+00:00",
   "evidence_class": "MODEL",
   "production_action": "NO_CURRENT_GUIDANCE",
-  "error_type": "RuntimeError",
-  "error": "NetCDF: DAP server error",
-  "availability_reason": "upstream_retrieval_failure"
+  "error_type": "RetrievalTimeout",
+  "error": "NGOFS2 retrieval exceeded 480 seconds",
+  "product": "named_stations_forecast",
+  "started_at": "2026-10-05T00:18:37.753296+00:00",
+  "timeout_seconds": 480,
+  "failure_attribution": "UNRESOLVED_PROVIDER_OR_CLIENT",
+  "diagnostic_note": "The whole-process budget expired; provider outage, remote-read latency and local extraction cost are not distinguished.",
+  "availability_reason": "retrieval_timeout_cause_unresolved"
 }
