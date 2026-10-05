@@ -160,6 +160,34 @@ class ReconciliationTests(unittest.TestCase):
         self.assertTrue(any(x["value_status"] == "KNOWN_UPSTREAM_PROXY" for x in rows[builder.RIVER]["series"]))
         binding.check(result[0], forecast)
 
+    def test_active_material_fault_allows_simultaneous_weather_river_loss(self):
+        state = copy.deepcopy(self.state)
+        state["alert_gates"]["material_critical_input_fault"] = True
+        state["alert_gates"]["notification_suppressed"] = False
+        state["notification_condition_met"] = True
+        state.setdefault("operational_fault_assessment", {})
+        state["operational_fault_assessment"].update(active_fault_present=True, failed_camera_ids=[])
+        self.f.write(binding.SNAPSHOT, state)
+        self.f.write(binding.FORECAST, binding.project(builder.encode(state)))
+        self.commit("assessed material input-quality fault")
+
+        later = T0 + timedelta(minutes=10)
+        self.cameras(later)
+        for name in ("asos_weather", "river_forcing"):
+            self.f.write("model_data/" + name + "_manifest.json",
+                         {"status": "unavailable", "retrieved_at_utc": later.isoformat()})
+        self.commit("weather and river unavailable while assessed fault remains active")
+
+        result = builder.build(self.root, later + timedelta(minutes=1))
+        self.assertIsNotNone(result)
+        snapshot, forecast = map(json.loads, result)
+        self.assertTrue(snapshot["alert_gates"]["material_critical_input_fault"])
+        self.assertTrue(snapshot["notification_condition_met"])
+        self.assertTrue(snapshot["operational_fault_assessment"]["assessed_material_critical_input_fault_preserved"])
+        self.assertIn("asos_weather: SOURCE_UNAVAILABLE/UNKNOWN", snapshot["known_unknowns"])
+        self.assertIn("river_forcing: SOURCE_UNAVAILABLE/UNKNOWN", snapshot["known_unknowns"])
+        binding.check(result[0], forecast)
+
     def test_issue_time_expiry_is_unknown_and_manual_context_not_refreshed(self):
         self.reconcile(T0)
         s, _ = self.reconcile(T0 + timedelta(minutes=95))
