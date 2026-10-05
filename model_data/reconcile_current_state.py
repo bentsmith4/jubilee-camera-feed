@@ -236,7 +236,10 @@ def build(root, now):
     old_weather_known = any(x['value_status'] in ('KNOWN', 'TRACE') for station, v in prior_weather.items()
                             for x in binding.asos_parameters(station, v).values())
     old_river_known = any(x['fresh'] and x['value_status'].startswith('KNOWN') for x in by_source[RIVER]['series'])
-    guard.require(not (old_weather_known or old_river_known) or weather_known or river_known,
+    # If a material input-quality fault is already explicitly assessed and active,
+    # continue reconciling newer UNKNOWN source state instead of freezing the
+    # canonical pair. This preserves the alert gate and does not infer recovery.
+    guard.require(not (old_weather_known or old_river_known) or weather_known or river_known or preserved_material_fault,
                   'REVIEW_REQUIRED: simultaneous weather/river loss needs material-fault assessment')
     guard.require(not prior['alert_gates']['direct_event_evidence_present'],
                   'REVIEW_REQUIRED: retain active assessed event until explicit review')
