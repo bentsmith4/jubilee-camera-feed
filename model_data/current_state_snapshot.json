@@ -13,8 +13,8 @@
   "deep_research_or_recalibration_performed": false,
   "forecast_opportunity_status": "Existing dated heuristic outlooks retained without numerical or horizon change; not a new calibrated forecast.",
   "material_change_since_prior_snapshot": true,
-  "notification_condition_met": true,
-  "notification_reason": "Existing four-trigger alert contract retained; no new event or critical-fault inference.",
+  "notification_condition_met": false,
+  "notification_reason": "Explicit recovery review clears the original camera/ASOS/river freshness fault. All four forecast triggers are false; recovery is operational context, not a fifth trigger. Remaining model outages and scientific gaps stay UNKNOWN.",
   "principal_dawn_visual_assessment_status": "NOT_PERFORMED_BY_POST_PUBLICATION_RECONCILIATION",
   "active_faults": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
@@ -36,13 +36,13 @@
     "ngofs2_mobile_bay_named_stations_nowcast: SOURCE_UNAVAILABLE/UNKNOWN",
     "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
-  "change_summary": "Rebuilt issue-time context from one committed evidence generation; retained assessed dated outlooks and alert gates.",
+  "change_summary": "Explicitly cleared the original operational freshness fault after current committed-evidence validation and repeated main refreshes; retained dated heuristic outlooks, all residual UNKNOWNs and zero production weights.",
   "alert_gates": {
     "point_clear_over_20_percent": false,
     "daphne_may_day_over_20_percent": false,
     "direct_event_evidence_present": false,
-    "material_critical_input_fault": true,
-    "notification_suppressed": false
+    "material_critical_input_fault": false,
+    "notification_suppressed": true
   },
   "input_rows": [
     {
@@ -1763,16 +1763,16 @@
   "probability_basis": {
     "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
     "numeric_change_from_prior_snapshot": 0,
-    "reassessment_method": "Committed-evidence issue-time admission; frozen dated heuristic outlooks and zero production weights retained. No automatic event/fault policy inference."
+    "reassessment_method": "Committed-evidence issue-time admission plus explicit operational fault recovery assessment; frozen dated heuristic outlooks and zero production weights retained. No probability recalibration."
   },
   "sanity_check": "Existing dated outlooks and confidence are unchanged. Point Clear 2-5% (central 3%) and Daphne/May Day 1-4% (central 2%) remain below strict >20%; missing evidence is not a negative.",
   "operational_fault_assessment": {
-    "active_fault_present": true,
+    "active_fault_present": false,
     "failed_camera_ids": [],
-    "assessed_material_critical_input_fault_preserved": true,
+    "assessed_material_critical_input_fault_preserved": false,
     "camera_failure_set_changed_under_preserved_material_fault": false,
     "new_fault_notification_required": false,
-    "recovery_notification_required": false,
+    "recovery_notification_required": true,
     "prior_recovery_context": {
       "snapshot_time_ct": "2026-10-02T02:44:59.267843-05:00",
       "state": "all six owner-camera views current; lower-river proxies admitted; regional ASOS already UNKNOWN"
@@ -1840,7 +1840,7 @@
       "valid_until_utc": "2026-09-28T16:06:34.804851+00:00"
     },
     "existing_material_input_quality_alert_policy_changed": false,
-    "basis": "No new assessed critical fault or recovery notification is inferred by this builder. Any previously assessed material input-quality fault is preserved unchanged while current source rows continue to reconcile."
+    "basis": "Explicit recovery assessment: all six healthy matching camera views, both ASOS regional wind contexts and all 20 qualified lower-river series are current at this issue time, following repeated successful camera-triggered refreshes. The original operational freshness loss is resolved. Remaining zero-weight NGOFS2 outages, scientific UNKNOWNs and unverified archive acceptance do not independently sustain that acute material fault; no predictive improvement or biological absence is inferred."
   },
   "reconciliation": {
     "as_of_utc": "2026-10-05T19:17:45.649782+00:00",
@@ -2091,5 +2091,33 @@
     "alert_threshold_percent": 20,
     "alert_comparator": ">",
     "scope": "date horizon only; no sensing, calibration, event inference or alert clearing"
+  },
+  "material_fault_recovery_review": {
+    "schema_version": "1.0",
+    "assessed_at_utc": "2026-10-05T19:19:07.471282+00:00",
+    "decision": "RECOVERED_ORIGINAL_OPERATIONAL_FRESHNESS_FAULT",
+    "scope": "Explicit one-time assessment of the original camera/ASOS/river freshness fault; not automatic future clearance or predictive validation.",
+    "reviewed_main_commit_sha": "e1cc8200a0afd03d69b7de8f085daf08fd294875",
+    "input_commit_sha": "3faef9d15bb9cbeaaf90869e855aa49184d47180",
+    "prior_snapshot_sha256": "9b0c91e4aca772ab78229508822ec5628d1b369c4539c8552e38cbdfca493a07",
+    "original_fault_commit": "1d1f4c7f4472a8da81b22580f2faa889eed7ab83",
+    "repeated_fault_commit": "c1e54bd941a10ac3d43e02eb5b45a6a3016d36ae",
+    "preceding_recovery_commit": "dce0a6bf20989555c72fa09cc62df732486c5a84",
+    "assessment_document": "model_data/MATERIAL_FAULT_RECOVERY_20261005.md",
+    "criteria": {
+      "six_current_healthy_camera_views": true,
+      "both_asos_stations_current_wind_context": true,
+      "all_20_qualified_river_series_current": true,
+      "repeated_camera_triggered_refreshes_verified": true
+    },
+    "repeated_camera_triggered_refresh_run_ids": [
+      37346512231,
+      37353984227
+    ],
+    "evidence_still_preventing_recovery": [],
+    "remaining_ngofs2_outages": "Real acquisition failures retained as SOURCE_UNAVAILABLE/UNKNOWN; zero-weight modeled context. They do not independently sustain the original freshness latch in this frozen heuristic assessment.",
+    "direct_local_scientific_gaps": "Expected measurement/calibration limitations remain UNKNOWN; no improved predictive skill or observed-current inference.",
+    "desktop_archive_acceptance": "NOT_VERIFIED; separate from current camera metadata health.",
+    "future_scope": "This is a dated assessment, not a standing clearance. Any later material degradation requires explicit review under unchanged guards."
   }
 }
