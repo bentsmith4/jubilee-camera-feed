@@ -1,16 +1,16 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-05T14:12:30.201755-05:00",
+  "issue_time": "2026-10-05T14:13:24.168609-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "31da079e36870c1e5683d392e1f28d86680018a92efafade7fd5e96acb4c7a3e",
-  "input_commit_sha": "3b12410895786d1b3ea9eeb5077c3339ec9b6df7",
+  "input_snapshot_hash": "d83a2f5e6a564fd682487aede584770cbc8b7bcce90d2156f9393246ffe2ead9",
+  "input_commit_sha": "782bbd3702f39c4380f0a590c81b449b352b66fb",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
   "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
-  "method": "Committed-evidence issue-time admission; frozen dated heuristic outlooks and zero production weights retained. No automatic event/fault policy inference.",
+  "method": "Committed-evidence issue-time admission plus explicit operational fault recovery assessment; frozen dated heuristic outlooks and zero production weights retained. No probability recalibration.",
   "data_coverage": {
     "private_camera_metadata_pass": 6,
     "private_cameras_expected": 6,
@@ -100,9 +100,9 @@
     "point_clear_over_20_percent": false,
     "daphne_may_day_over_20_percent": false,
     "direct_event_evidence_present": false,
-    "material_critical_input_fault": true,
-    "notification_suppressed": false
+    "material_critical_input_fault": false,
+    "notification_suppressed": true
   },
-  "notification_condition_met": true,
+  "notification_condition_met": false,
   "later_verification": "PENDING; no future outcome or next-dawn acceptance claimed"
 }
