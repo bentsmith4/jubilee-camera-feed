@@ -98,10 +98,10 @@
     }
   ],
   "subordinate_jobs": {
-    "github_sensing_quality": "Regression tests, metadata integrity and public river forcing every three hours. Not a fifth independent forecast model.",
+    "github_sensing_quality": "Regression tests, metadata integrity and full environmental forcing every three hours. River also refreshes in the lightweight ASOS job; not a fifth independent forecast model.",
     "github_water_quality": "Existing weekly historical ingest and diagnostics; zero production weight. No duplicate full historical download on every sensing cycle.",
     "windows_capture": "One device-acquisition service with separately versioned live and canonical-burst products; integration pending local tests.",
-    "github_asos_weather": "Hourly official AWC KBFM/KMOB METAR refresh at minute 07 UTC, plus sensing-quality ingestion. Public weather only; no model/weight/alert or dawn-schedule changes."
+    "github_asos_weather": "Official AWC KBFM/KMOB METAR and qualified USGS lower-river refresh at minute 07 UTC and on main status.json camera publications, plus sensing-quality ingestion. Camera push is a fallback for delayed/dropped cron, not a new camera schedule. Public context only; shared sensing concurrency and producer-outcome publication guards retained. No model/weight/alert, freshness-limit or dawn-schedule changes."
   },
   "migration_acceptance": [
     "Inspect existing task IDs and schedules; change the existing tasks rather than create duplicates.",
