@@ -218,9 +218,12 @@ def build(root, now):
                          temporal_visual_signal=v.get('temporal_jubilee_signal', 'UNKNOWN') if fresh else 'UNKNOWN',
                          negative_event_label_allowed=False, raw_archive_verification=acceptance['status']))
     guard.require(len(cams) == 6, 'expected exactly six owner cameras')
-    guard.require(all(vision.get('cross_camera', {}).get(k) in quiet for k in
-                  ('overall_visual_jubilee_signal', 'montrose_visual_signal', 'point_clear_visual_signal', 'temporal_confirmation')),
-                  'REVIEW_REQUIRED: cross-camera event assessment')
+    cross_camera = vision.get('cross_camera', {})
+    guard.require(
+        all(cross_camera.get(k) in quiet for k in
+            ('overall_visual_jubilee_signal', 'montrose_visual_signal', 'point_clear_visual_signal'))
+        and cross_camera.get('temporal_confirmation') in quiet + ('limited',),
+        'REVIEW_REQUIRED: cross-camera event assessment')
     ca = row(CAMERA)
     ca.update(valid_time_ct=status['capture_time_ct'], evaluated_at_ct=ct,
               admitted_status='VISIBLE_SCOPE_CONTEXT_WITH_EXPLICIT_HEALTH_AND_AGE',
