@@ -1,0 +1,81 @@
+{
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-10-06T14:31:00Z",
+  "run_date_ct": "2026-10-06",
+  "seasonal_policy": "IN_SEASON_MAY18_NOV14",
+  "scope": "JUBILEE_MODEL_RESEARCH_AND_CALIBRATION",
+  "input_register": {
+    "path": "model_data/MODEL_WORK_REGISTER.md",
+    "blob_sha": "cdd365648fe8977b95a8323a5242096ae558ecc4"
+  },
+  "reviewed_pull_requests": [
+    48,
+    59,
+    63,
+    64,
+    65,
+    66,
+    67,
+    69
+  ],
+  "outputs": [
+    {
+      "path": "model_data/j10_matched_control_sensitivity_20261006.json",
+      "blob_sha": "ea888e2529da97aa851f50223b8b51e2c6fd4b64",
+      "commit_sha": "d233bdd83fe6a5feef77bbe8afe0a8968493d3f7",
+      "status": "COMMITTED_MAIN"
+    },
+    {
+      "path": "model_data/j18_efficiency_postdeployment_20261006.json",
+      "blob_sha": "5da56dd3a883ad0ce8fdefed2305530bc3d67e16",
+      "commit_sha": "250519f92349750aaa730008194d3e93bade81aa",
+      "status": "COMMITTED_MAIN"
+    },
+    {
+      "path": "model_data/research_coverage_gap_update_20261006.json",
+      "blob_sha": "d806c2eb0f93836fb6dde8ffaf194f61bfed81d4",
+      "commit_sha": "643dce231b1960779456113fbf6291b30d0d4622",
+      "status": "COMMITTED_MAIN"
+    }
+  ],
+  "findings": {
+    "predictive_gain": "NOT_MEASURABLE",
+    "matched_controls": {
+      "tier_a": 0,
+      "tier_b_montrose_scoped_mornings": 7,
+      "october_6_records_reviewed": 12,
+      "october_6_candidate_visible_scope_records": 5,
+      "october_6_unknown_records": 7,
+      "whole_morning_outcome": "UNKNOWN"
+    },
+    "current_validation": "NO_SCIENTIFIC_GATE_CLEARED; Y1.x122.038:0002 remains provider-SHIP research evidence with zero accepted Earth-frame rows and zero production weight.",
+    "held_out_event_model": "BLOCKED_BY_ZERO_TIER_A_CONTROLS",
+    "moon_phase": "VERIFIED_CURRENT; event_history blob 43205ae6ebc962f331ab2e096ee33a1068d52854 still equals lunar-audit source blob; BLOCKED_BY_DATA at zero weight.",
+    "historical_recovery": "PR64 and PR65 merged research-only custodian provenance and retrieval leads; no canonical event rows were added and the Loesch 35/37 discrepancy remains unresolved.",
+    "efficiency": "Through 2026-10-05, request-normalized tokens remain 7.7576% below baseline; 3,451 completed and 0 failed selected requests. No new promotion or effectiveness-equivalence claim.",
+    "telemetry": "PR59 is now merged; its one-cycle aggregate acceptance remains measurement evidence only and is not repeated.",
+    "operational_separation": "Recent acquisition/current-state/horizon changes were reviewed but not converted into research labels or model weights."
+  },
+  "layer_changes": {
+    "raw_physical_data": false,
+    "normalized_physical_data": false,
+    "event_history": false,
+    "training_labels": false,
+    "derived_predictors": false,
+    "model_artifacts": false,
+    "production_weights": false,
+    "thresholds": false,
+    "alerts": false,
+    "cameras": false,
+    "schedules": false,
+    "seasonal_policy": false
+  },
+  "production_action": "NO_CHANGE",
+  "next_priorities": [
+    "Recover deployment/playback/heading/magnetic-variation/draft/transducer/clock evidence for Y1.x122.038:0002 or another closer observed-current source.",
+    "Convert Tier-B camera mornings to defensible Tier-A controls only with independent whole-scope observation effort; never use no-report silence.",
+    "Delay loading-only/transport-only/combined Jubilee-event scoring until label support exists.",
+    "Use the October 5 archival locators for bounded retrieval of underlying records; do not promote metadata-only alignments.",
+    "Accumulate comparable prospective telemetry and reconcile billed tier/account billing independently."
+  ]
+}
