@@ -230,7 +230,7 @@ class ReconciliationTests(unittest.TestCase):
             'overall_visual_jubilee_signal': 'unclear',
             'montrose_visual_signal': 'none',
             'point_clear_visual_signal': 'unclear',
-            'temporal_confirmation': 'none',
+            'temporal_confirmation': 'limited',
             'important_confounders': [
                 'Poor Point Clear visibility',
                 'Strong artificial-light reflections',
