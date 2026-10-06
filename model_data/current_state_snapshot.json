@@ -1,6 +1,6 @@
 {
   "schema_version": "1.4",
-  "snapshot_time_ct": "2026-10-05T22:06:23.125537-05:00",
+  "snapshot_time_ct": "2026-10-05T22:25:58-05:00",
   "layer": "full_current_state",
   "scope": [
     "Point Clear/Grand Hotel/Zundel's",
@@ -13,17 +13,18 @@
   "deep_research_or_recalibration_performed": false,
   "forecast_opportunity_status": "Existing dated heuristic outlooks retained without numerical or horizon change; not a new calibrated forecast.",
   "material_change_since_prior_snapshot": true,
-  "notification_condition_met": false,
-  "notification_reason": "Existing four-trigger alert contract retained; no new event or critical-fault inference.",
+  "notification_condition_met": true,
+  "notification_reason": "Significant sensing/input-quality fault: pcl_e2_back_deck and pcl_e3_bay_mouth failed the current canonical three-frame burst/vision cycle, reducing Point Clear owner-camera coverage to 1 of 3. Failed views remain UNKNOWN; no biological negative is inferred.",
   "principal_dawn_visual_assessment_status": "NOT_PERFORMED_BY_POST_PUBLICATION_RECONCILIATION",
   "active_faults": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
-    "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
-    "River-to-Bay travel time remains uncalibrated.",
-    "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
     "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
-    "ngofs2_point_clear_forecast: SOURCE_UNAVAILABLE/UNKNOWN",
-    "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
+    "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
+    "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
+    "Point Clear owner-camera coverage degraded to 1/3: pcl_e2_back_deck and pcl_e3_bay_mouth are UNKNOWN after failed canonical burst/vision checks at 2026-10-05T22:07:22.164525-05:00.",
+    "River-to-Bay travel time remains uncalibrated.",
+    "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN",
+    "ngofs2_point_clear_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
   "known_unknowns": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
@@ -34,13 +35,13 @@
     "ngofs2_point_clear_forecast: SOURCE_UNAVAILABLE/UNKNOWN",
     "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
-  "change_summary": "Rebuilt issue-time context from one committed evidence generation; retained assessed dated outlooks and alert gates.",
+  "change_summary": "Explicitly assessed current Point Clear owner-camera degradation: two of three cameras failed the matching canonical burst/vision contract; surviving evidence remains low-detectability context and probabilities are unchanged.",
   "alert_gates": {
     "point_clear_over_20_percent": false,
     "daphne_may_day_over_20_percent": false,
     "direct_event_evidence_present": false,
-    "material_critical_input_fault": false,
-    "notification_suppressed": true
+    "material_critical_input_fault": true,
+    "notification_suppressed": false
   },
   "input_rows": [
     {
@@ -1424,10 +1425,10 @@
       }
     },
     {
-      "source": "Hazcams permitted public live players \u2014 September 30 dawn check",
+      "source": "Hazcams permitted public live players — September 30 dawn check",
       "admitted_status": "UNKNOWN_NOT_REASSESSED",
       "historical_context": {
-        "source": "Hazcams permitted public live players \u2014 September 30 dawn check",
+        "source": "Hazcams permitted public live players — September 30 dawn check",
         "station_location": "Grand Hotel Point Clear and Fairhope municipal pier",
         "parameter": "direct live-player visual evidence",
         "observed_vs_predicted_model": "PUBLIC_VIDEO_OBSERVATION",
@@ -1762,11 +1763,14 @@
   },
   "sanity_check": "Existing dated outlooks and confidence are unchanged. Point Clear 2-5% (central 3%) and Daphne/May Day 1-4% (central 2%) remain below strict >20%; missing evidence is not a negative.",
   "operational_fault_assessment": {
-    "active_fault_present": false,
-    "failed_camera_ids": [],
+    "active_fault_present": true,
+    "failed_camera_ids": [
+      "pcl_e2_back_deck",
+      "pcl_e3_bay_mouth"
+    ],
     "assessed_material_critical_input_fault_preserved": false,
     "camera_failure_set_changed_under_preserved_material_fault": false,
-    "new_fault_notification_required": false,
+    "new_fault_notification_required": true,
     "recovery_notification_required": false,
     "prior_recovery_context": {
       "snapshot_time_ct": "2026-10-05T14:17:45.649782-05:00",
@@ -1835,10 +1839,10 @@
       "valid_until_utc": "2026-09-28T16:06:34.804851+00:00"
     },
     "existing_material_input_quality_alert_policy_changed": false,
-    "basis": "No new assessed critical fault or recovery notification is inferred by this builder. Any previously assessed material input-quality fault is preserved unchanged while current source rows continue to reconcile."
+    "basis": "Explicit Sensing review: two of three Point Clear owner cameras failed matching canonical burst/vision integrity in the current cycle, leaving only one poor/low-detectability Point Clear view. This is a significant coverage fault under the existing alert policy; failed and low-detectability biology remain UNKNOWN."
   },
   "reconciliation": {
-    "as_of_utc": "2026-10-06T03:06:23.125537+00:00",
+    "as_of_utc": "2026-10-06T03:25:58+00:00",
     "input_commit_sha": "1046a79b6b659f5e56b4d824d1061a942654bfb4",
     "prior_snapshot_time_ct": "2026-10-05T21:50:53.670658-05:00",
     "prior_snapshot_blob": "b3614ff186ea57b2cb637d4874e4df8653d52ad0",
