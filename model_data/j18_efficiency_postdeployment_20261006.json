@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-10-06T14:10:34.854860+00:00",
+  "source": {
+    "path": "api_usage_summary.json",
+    "blob_sha": "8141fbbb8ffc327dc4fdd1fec076a340fcdc565c",
+    "status": "available",
+    "invalid_records": 0,
+    "selected_group_missing_records": 0,
+    "window_start": "2026-09-06",
+    "window_end": "2026-10-06"
+  },
+  "comparison": {
+    "baseline_complete_days": [
+      "2026-09-09",
+      "2026-09-10",
+      "2026-09-11",
+      "2026-09-12",
+      "2026-09-13"
+    ],
+    "postdeployment_complete_days_start": "2026-09-19",
+    "postdeployment_complete_days_end": "2026-10-05",
+    "postdeployment_complete_day_count": 17,
+    "excluded_partial_day": "2026-10-06"
+  },
+  "metrics": {
+    "request_normalized_total_tokens": {
+      "baseline": 55872.60398458074,
+      "postdeployment": 51538.210597925965,
+      "percent_change": -7.757636260967793
+    },
+    "six_camera_tokens_per_reference_request": {
+      "baseline": 50520.01252116611,
+      "postdeployment": 48942.8423736269,
+      "percent_change": -3.1218720440309156
+    },
+    "cross_camera_tokens_per_model_call": {
+      "baseline": 5320.151515151515,
+      "postdeployment": 3732.5860215053763,
+      "percent_change": -29.840606778300106
+    },
+    "cross_camera_model_calls_per_reference_request": {
+      "baseline": 1.0060975609756098,
+      "postdeployment": 0.6953271028037383,
+      "percent_change": -30.888700084961762
+    },
+    "cached_input_share_postdeployment": 0.2831422834131344,
+    "postdeployment_completed_requests": 3451,
+    "postdeployment_failed_requests": 0,
+    "postdeployment_reference_requests": 535,
+    "postdeployment_cross_camera_model_calls": 372
+  },
+  "comparison_to_prior_audit": {
+    "prior_path": "model_data/j18_efficiency_postdeployment_20261004.json",
+    "prior_request_normalized_percent_change": -7.819629195832278,
+    "current_request_normalized_percent_change": -7.757636260967793,
+    "change_percentage_points": 0.06199293486448543
+  },
+  "interpretation": "The compact/cache runtime retains a reproducible token reduction, but the estimate remains stable and weakened versus the October 4 audit. Camera-level work still dominates. This is not dollar-priced and does not establish equal Jubilee-event detection effectiveness.",
+  "guardrails": [
+    "Missing days are unknown, not zero.",
+    "Cached input is a subset of input and is not added twice.",
+    "Reasoning tokens are a subset of output and are not added twice.",
+    "No failed or missed-coverage requests are counted as savings.",
+    "No production model, threshold, schedule, camera, or coverage change is authorized by this audit."
+  ],
+  "decision": "MEASURED_EFFICIENCY_GAIN_RETAINED_NO_NEW_PROMOTION",
+  "production_action": "NO_CHANGE"
+}
