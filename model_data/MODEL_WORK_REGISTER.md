@@ -1,3 +1,8 @@
+## OWNER OUTREACH RULE — October 7, 2026
+Ben requires explicit permission before any repeat Jubilee email to the same library or research group. This applies across all Jubilee chats, automations, archival research, sensor partnerships and other outreach, including follow-ups, replies and contacting another person/address in the same group. Before proposing or sending outreach, check the shared outreach record and authorized Sent mail/thread history for prior contact at the institution/group level. If prior contact exists, do not send again without Ben's explicit permission for that repeat message. If history or permission is uncertain, hold the send and ask Ben. General instructions to continue research or improve the model are not permission for repeat emails. Record any specific approval and resulting send so other efforts cannot duplicate it. Continue research and review incoming replies without sending automatically. This restriction supersedes earlier general outreach/follow-up instructions; it does not authorize first-contact emails.
+
+---
+
 ## Purpose and evidence limits
 Deliver useful, location-specific early warning and confirmation for the Eastern Shore, with separate Point Clear and Daphne/May Day outlooks and intermediate Montrose, Fairhope/Fly Creek, Battles and Mullet Point cells. Improve accuracy with measured evidence, not data-volume or test-count claims.
 This register reconciles accessible prior conversation evidence, owner instructions, saved main files, PR #4 and current scheduled-task configuration. The entire old conversation was NOT recovered verbatim. Therefore historical transcript completeness is UNVERIFIED. Preserve an explicit recovery gap; never claim every unsaved action was recovered.
