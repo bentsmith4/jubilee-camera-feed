@@ -11,7 +11,7 @@
   ],
   "forecast_weights_changed": false,
   "deep_research_or_recalibration_performed": false,
-  "forecast_opportunity_status": "Existing dated heuristic outlooks retained without numerical or horizon change; not a new calibrated forecast.",
+  "forecast_opportunity_status": "Reviewed post-dawn three-day horizon roll-forward only; heuristic ranges, central estimates, confidence, zero production weights and strict alert gates are unchanged.",
   "material_change_since_prior_snapshot": true,
   "notification_condition_met": true,
   "notification_reason": "Existing four-trigger alert contract retained; no new event or critical-fault inference.",
@@ -1761,14 +1761,6 @@
   ],
   "outlook": [
     {
-      "date_ct": "2026-10-06",
-      "point_clear_range_percent": "2-5",
-      "point_clear_central_percent": 3,
-      "daphne_may_day_range_percent": "1-4",
-      "daphne_may_day_central_percent": 2,
-      "confidence": "low"
-    },
-    {
       "date_ct": "2026-10-07",
       "point_clear_range_percent": "2-5",
       "point_clear_central_percent": 3,
@@ -1783,12 +1775,20 @@
       "daphne_may_day_range_percent": "1-4",
       "daphne_may_day_central_percent": 2,
       "confidence": "low"
+    },
+    {
+      "date_ct": "2026-10-09",
+      "point_clear_range_percent": "2-5",
+      "point_clear_central_percent": 3,
+      "daphne_may_day_range_percent": "1-4",
+      "daphne_may_day_central_percent": 2,
+      "confidence": "low"
     }
   ],
   "probability_basis": {
     "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
     "numeric_change_from_prior_snapshot": 0,
-    "reassessment_method": "Committed-evidence issue-time admission; frozen dated heuristic outlooks and zero production weights retained. No automatic event/fault policy inference."
+    "reassessment_method": "Post-dawn horizon-only review: moved an identical existing three-day frozen heuristic profile onto the current America/Chicago issue-date through issue-date+2 horizon. No numerical probability, confidence, production weight, UNKNOWN input or alert threshold changed."
   },
   "sanity_check": "Existing dated outlooks and confidence are unchanged. Point Clear 2-5% (central 3%) and Daphne/May Day 1-4% (central 2%) remain below strict >20%; missing evidence is not a negative.",
   "operational_fault_assessment": {
@@ -2118,14 +2118,14 @@
   "dawn_horizon_reassessment": {
     "status": "REVIEWED_ZERO_NUMERICAL_CHANGE",
     "source_dates": [
-      "2026-10-05",
-      "2026-10-06",
-      "2026-10-07"
-    ],
-    "target_dates": [
       "2026-10-06",
       "2026-10-07",
       "2026-10-08"
+    ],
+    "target_dates": [
+      "2026-10-07",
+      "2026-10-08",
+      "2026-10-09"
     ],
     "numeric_change_from_prior_snapshot": 0,
     "forecast_weights_changed": false,
