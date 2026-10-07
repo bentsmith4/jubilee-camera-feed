@@ -1,7 +1,7 @@
 {
   "schema_version": "2.0",
-  "chatgpt_scheduler_migration_status": "NOT_APPLIED_TO_ACTUAL_TASKS",
-  "windows_scheduler_migration_status": "NOT_APPLIED_TO_ACTUAL_TASKS",
+  "chatgpt_scheduler_migration_status": "APPLIED_NOT_TESTED",
+  "windows_scheduler_migration_status": "APPLIED_AND_TESTED",
   "repository_contract_is_not_scheduler_execution": true,
   "canonical_runtime": "C:\\JubileeCams",
   "layers": [
@@ -24,7 +24,7 @@
       "one_capture_owner_per_device": true
     },
     {
-      "name": "Jubilee Dawn Forecast",
+      "name": "Jubilee Dawn Brief",
       "owns": [
         "consume_fresh_shared_state",
         "selective_refresh_of_stale_critical_inputs",
@@ -100,7 +100,7 @@
   "subordinate_jobs": {
     "github_sensing_quality": "Regression tests, metadata integrity and full environmental forcing every three hours. River also refreshes in the lightweight ASOS job; not a fifth independent forecast model.",
     "github_water_quality": "Existing weekly historical ingest and diagnostics; zero production weight. No duplicate full historical download on every sensing cycle.",
-    "windows_capture": "One device-acquisition service with separately versioned live and canonical-burst products; integration pending local tests.",
+    "windows_capture": "One device-acquisition service with separately versioned live and canonical-burst products. September 8 installed-file hash/backup readback and first matching all-six live cycle validated the rollout; October 4 schtasks inventory recorded Jubilee Live Cameras running and the other two Jubilee capture tasks disabled. These dated receipts do not establish present task state or actual off-season shutdown/restart.",
     "github_asos_weather": "Official AWC KBFM/KMOB METAR and qualified USGS lower-river refresh at minute 07 UTC and on main status.json camera publications, plus sensing-quality ingestion. Camera push is a fallback for delayed/dropped cron, not a new camera schedule. Public context only; shared sensing concurrency and producer-outcome publication guards retained. No model/weight/alert, freshness-limit or dawn-schedule changes."
   },
   "migration_acceptance": [
@@ -124,5 +124,22 @@
       "skill_vs_simple_baselines",
       "rollback_version"
     ]
+  },
+  "scheduler_migration_evidence": {
+    "evidence_basis": "Dated repository receipts in model_data/MODEL_WORK_REGISTER.md; this reconciliation does not inspect or change actual tasks.",
+    "chatgpt": {
+      "configuration_status": "VERIFIED_CONFIGURED_AND_ENABLED_READBACK",
+      "configuration_scope": "J17 records all four existing permanent recurrences updated/read back; J11 records enabled Dawn Brief and Dawn Timing readbacks. Disabled predecessors remained untouched.",
+      "run_output_validation": "PARTIAL",
+      "demonstrated": "J11 September 8 first actual dawn+25-minute execution and post-dawn/dawn+20 output acceptance are VERIFIED_COMPLETE.",
+      "remaining": "Complete migration acceptance for all four permanent roles and actual off-season scheduled behavior are not demonstrated by these receipts; APPLIED_NOT_TESTED is the aggregate acceptance status, not a denial of the validated Dawn Brief run."
+    },
+    "windows": {
+      "configuration_status": "VERIFIED_DATED_TASK_INVENTORY",
+      "configuration_evidence": "October 4 inventory: Jubilee Live Cameras running; other two Jubilee capture tasks disabled.",
+      "run_output_validation": "VERIFIED_IN_SEASON_CAPTURE_ROLLOUT",
+      "run_output_evidence": "Desktop rollout acceptance September 8: five installed files matched reviewed SHA256 values, originals backed up, existing task restarted, publication dfc11384b574e334585bf1c84f83daf1c191f134 matched status/burst/vision at 2026-09-08T10:06:00.661302-05:00 with runtime_version 2026-09-08-season-efficiency-timing-v1 and all six successful three-frame cameras. October 4 normal-cycle telemetry acceptance separately records all-six completion; PR59 receipt later merged at ba708230af3c09e2e878a01a58912c57060725f6.",
+      "remaining": "Seasonal boundaries tested offline; actual November shutdown and subsequent seasonal restart remain unobserved. APPLIED_AND_TESTED covers the demonstrated in-season capture rollout only."
+    }
   }
 }
