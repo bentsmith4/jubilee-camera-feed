@@ -65,16 +65,16 @@ jobs:
     # workflow_run can represent a partially failed producer. Read latest main
     # only; never download its artifacts or execute its head/PR code.
     if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 15
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: main
           fetch-depth: 0
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - name: Install existing model-data dependencies
@@ -86,10 +86,10 @@ jobs:
           python -B model_data/publish_current_state.py
 
   regression:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - name: Run offline freshness regressions
@@ -103,15 +103,15 @@ jobs:
     # prerequisite for any producer. Never run PR code with workflow_run trust.
     needs: reconcile
     if: always() && github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: main
           fetch-depth: 0
           persist-credentials: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - name: Compare current snapshot to published admissible products
@@ -137,7 +137,7 @@ jobs:
               if 'reason' in report:
                   out.write('\n' + report['reason'] + '\n')
           PY
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         if: always()
         with:
           name: current-state-freshness-${{ github.run_id }}
