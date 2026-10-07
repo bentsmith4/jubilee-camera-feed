@@ -188,6 +188,52 @@ class ReconciliationTests(unittest.TestCase):
         self.assertIn("river_forcing: SOURCE_UNAVAILABLE/UNKNOWN", snapshot["known_unknowns"])
         binding.check(result[0], forecast)
 
+    def test_partial_and_total_camera_loss_require_review_without_overwriting_pair(self):
+        before = [(self.root / p).read_bytes() for p in publisher.OUTPUTS]
+        for failures in (('camera_0', 'camera_1', 'camera_2'),
+                         tuple('camera_' + str(i) for i in range(6))):
+            with self.subTest(failures=failures):
+                self.cameras(T0, failures)
+                self.commit('new partial or complete camera outage')
+                with self.assertRaisesRegex(ValueError, 'REVIEW_REQUIRED: changed camera failures'):
+                    builder.build(self.root, T0)
+                self.assertEqual([(self.root / p).read_bytes() for p in publisher.OUTPUTS], before)
+
+    def test_assessed_partial_and_total_camera_outages_keep_unknown_and_frozen_forecast(self):
+        state = copy.deepcopy(self.state)
+        state['alert_gates']['material_critical_input_fault'] = True
+        state['alert_gates']['notification_suppressed'] = False
+        state['notification_condition_met'] = True
+        state.setdefault('operational_fault_assessment', {}).update(
+            active_fault_present=True, failed_camera_ids=[])
+        self.f.write(binding.SNAPSHOT, state)
+        self.f.write(binding.FORECAST, binding.project(builder.encode(state)))
+        self.commit('existing assessed material fault for outage fixture')
+        for failures in (('camera_0', 'camera_1', 'camera_2'),
+                         tuple('camera_' + str(i) for i in range(6))):
+            with self.subTest(failures=failures):
+                self.cameras(T0, failures)
+                # Old JPEGs deliberately remain in the repository fixture.
+                self.commit('assessed outage with retained old images')
+                result = builder.build(self.root, T0)
+                snapshot, forecast = map(json.loads, result)
+                binding.check(result[0], forecast)
+                binding.validate_weights(snapshot)
+                self.assertEqual(snapshot['alert_gates'], state['alert_gates'])
+                self.assertEqual(snapshot['outlook'], state['outlook'])
+                self.assertEqual(forecast['outlooks'], binding.project(builder.encode(state))['outlooks'])
+                health = next(r for r in snapshot['input_rows'] if r['source'] == builder.CAMERA)['camera_health']
+                self.assertEqual(health['private_metadata_pass'], 6-len(failures))
+                self.assertEqual(sorted(health['unknown_upstream_camera_ids']), sorted(failures))
+                for row in health['private_cameras']:
+                    self.assertFalse(row['negative_event_label_allowed'])
+                    if row['camera_id'] in failures:
+                        self.assertEqual(row['admitted_status'], 'UNKNOWN_STALE_OR_FAILED')
+                        for field in ('visibility', 'biological_detectability', 'overall_visual_signal', 'temporal_visual_signal'):
+                            self.assertEqual(row[field], 'UNKNOWN')
+                    else:
+                        self.assertEqual(row['admitted_status'], 'ADMITTED_VISIBLE_SCOPE_CONTEXT')
+
     def test_issue_time_expiry_is_unknown_and_manual_context_not_refreshed(self):
         self.reconcile(T0)
         s, _ = self.reconcile(T0 + timedelta(minutes=95))
