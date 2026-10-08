@@ -103,7 +103,8 @@ def main():
     arcos = load('arcos_realtime_manifest.json')
     if arcos and arcos.get('status') in ('complete', 'partial') and arcos.get('normalized_rows', 0):
         live = {x.get('station_id'): x for x in arcos.get('stations', []) if x.get('status') == 'complete'}
-        hashes = {sid: x.get('raw_sha256') for sid, x in live.items()}
+        hashes = {sid: {s.get('stream'): s.get('raw_sha256') for s in x.get('streams', []) if s.get('raw_sha256')}
+                  for sid, x in live.items()}
         latest = {sid: x.get('latest_observed_at') for sid, x in live.items()}
         mark(
             'disl_arcos_network',
@@ -124,7 +125,7 @@ def main():
                 status='INGESTED_REALTIME_RESEARCH_ONLY',
                 last_verified_at=manifest_time(arcos),
                 realtime_latest_observed_at=mp.get('latest_observed_at'),
-                realtime_raw_sha256=mp.get('raw_sha256'),
+                realtime_raw_sha256=hashes.get('DISL_ARCOS_MP'),
                 realtime_normalized_rows=mp.get('normalized_rows'),
                 current_depth_geometry='UNKNOWN_GEOMETRY_DO_NOT_USE_FOR_BOTTOM_CLASSIFICATION',
                 current_source_qc='PUBLIC_GRAFANA_SOURCE_QC_NOT_EXPOSED_RANGE_SCREEN_ONLY',
