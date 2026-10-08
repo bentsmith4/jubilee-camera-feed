@@ -1,0 +1,38 @@
+{
+  "scope": "LOSSLESS_PROMPT_AND_RESPONSE_FORMATTING",
+  "owner_authorized": "2026-10-08",
+  "production_status": "NOT_DEPLOYED_POINTCLEARPC_OFFLINE",
+  "runtime_file": "C:\\JubileeCams\\analyze_frames.py",
+  "changes": [
+    "Compact input schema examples without changing parsed schemas",
+    "Request compact output JSON while retaining every field/value"
+  ],
+  "preserved": [
+    "six cameras",
+    "all three frames per camera",
+    "image bytes and detail",
+    "models",
+    "request limits",
+    "cache settings",
+    "capture and analysis cadence",
+    "UNKNOWN handling",
+    "probabilities weights thresholds and alerts"
+  ],
+  "validation": {
+    "offline_tests_passed": 18,
+    "schema_identity": "Canonical JSON SHA256 equality verified against original camera and synthesis templates",
+    "paid_calls": 0,
+    "savings": "NOT_MEASURED; output formatting savings depend on compliance and billing; no 14.6% image-savings claim"
+  },
+  "deployment": {
+    "blocker": "PointClearPC offline in device listing; direct process retry also rejected as no online device",
+    "steps": [
+      "Read and back up actual runtime script and compare against source; reconcile newer local changes before editing",
+      "Apply only schema-formatting and compact-output prompt changes at a natural pipeline boundary; do not start duplicate captures",
+      "Read back changed file/hash and validate syntax",
+      "Observe normal existing cycle: six successful three-frame results, matching capture identity, UNKNOWN and safety behavior preserved, usage telemetry retained"
+    ],
+    "rollback": "Restore backed-up analyze_frames.py if normal-cycle output validation fails"
+  },
+  "crop_experiments": "Independent and unchanged. ROI/downscale effectiveness not yet validated; do not deploy them or suppress camera calls."
+}
