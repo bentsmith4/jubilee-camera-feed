@@ -9,6 +9,12 @@ on:
       - 'model_data/arcos_realtime_sources.json'
       - 'tests/test_arcos_realtime_ingest.py'
       - '.github/workflows/arcos_realtime.yml'
+  pull_request:
+    paths:
+      - 'model_data/ingest_arcos_realtime.py'
+      - 'model_data/arcos_realtime_sources.json'
+      - 'tests/test_arcos_realtime_ingest.py'
+      - '.github/workflows/arcos_realtime.yml'
   schedule:
     - cron: '5,35 * * * *'
 
@@ -61,7 +67,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 30
       - name: Persist current public observations
-        if: steps.season.outputs.active == 'true'
+        if: steps.season.outputs.active == 'true' && github.event_name != 'pull_request'
         run: |
           set -euo pipefail
           git config user.name 'jubilee-model-bot'
