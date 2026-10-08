@@ -1,0 +1,77 @@
+name: Jubilee ARCOS realtime oxygen
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'model_data/ingest_arcos_realtime.py'
+      - 'model_data/arcos_realtime_sources.json'
+      - 'tests/test_arcos_realtime_ingest.py'
+      - '.github/workflows/arcos_realtime.yml'
+  schedule:
+    - cron: '5,35 * * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: jubilee-arcos-realtime-main
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Enforce canonical operating season
+        id: season
+        shell: bash
+        run: |
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          from datetime import datetime
+          from zoneinfo import ZoneInfo
+          now = datetime.now(ZoneInfo("America/Chicago"))
+          md = (now.month, now.day)
+          active = (md >= (5, 18) and md <= (11, 14))
+          print("active=" + ("true" if active else "false"))
+          PY
+      - name: Run focused offline ingestion tests
+        if: steps.season.outputs.active == 'true'
+        run: python -B -m unittest tests.test_arcos_realtime_ingest -v
+      - name: Retrieve public ARCOS near-real-time hydrography
+        if: steps.season.outputs.active == 'true'
+        run: python -B model_data/ingest_arcos_realtime.py
+      - name: Upload bounded public evidence
+        if: always() && steps.season.outputs.active == 'true'
+        uses: actions/upload-artifact@v6
+        with:
+          name: arcos-realtime-${{ github.run_id }}
+          path: |
+            model_data/arcos_realtime_manifest.json
+            model_data/arcos_realtime_normalized.csv
+            model_data/raw_arcos_realtime/
+          if-no-files-found: warn
+          retention-days: 30
+      - name: Persist current public observations
+        if: steps.season.outputs.active == 'true'
+        run: |
+          set -euo pipefail
+          git config user.name 'jubilee-model-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add model_data/arcos_realtime_manifest.json model_data/arcos_realtime_normalized.csv model_data/raw_arcos_realtime/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Refresh DISL ARCOS realtime oxygen observations'
+          for attempt in 1 2 3; do
+            git pull --rebase origin main
+            if git push origin HEAD:main; then exit 0; fi
+            sleep 3
+          done
+          exit 1
