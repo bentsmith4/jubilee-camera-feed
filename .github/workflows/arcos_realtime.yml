@@ -22,7 +22,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: jubilee-arcos-realtime-main
+  group: jubilee-arcos-realtime-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
   cancel-in-progress: false
 
 jobs:
@@ -50,7 +50,6 @@ jobs:
           print("active=" + ("true" if active else "false"))
           PY
       - name: Run focused offline ingestion tests
-        if: steps.season.outputs.active == 'true'
         run: python -B -m unittest discover -s tests -p 'test_arcos_realtime_ingest.py' -v
       - name: Retrieve public ARCOS near-real-time hydrography
         if: steps.season.outputs.active == 'true'

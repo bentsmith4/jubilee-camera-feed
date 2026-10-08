@@ -1,5 +1,9 @@
 import json
 import unittest
+import tempfile
+from pathlib import Path
+from unittest.mock import patch
+import model_data.ingest_arcos_realtime as collector
 from datetime import datetime, timezone
 from model_data.ingest_arcos_realtime import build_query, parse_response
 
@@ -19,6 +23,30 @@ def payload(do_pct=3.1,do_mg=0.23,depth=0.0):
       "data":{"values":[[1791450000000],[27.0],[11.4],[do_pct],[do_mg],[4.2],[depth]]}}]}}}).encode()
 
 class ArcosRealtimeTests(unittest.TestCase):
+    def test_empty_station_is_not_zero_measurement(self):
+        self.assertEqual(parse_response(b'{"results":{"A":{"status":200,"frames":[]}}}',STATION,datetime.now(timezone.utc),CONFIG),[])
+
+    def test_datasource_error_is_rejected(self):
+        with self.assertRaises(ValueError):
+            parse_response(b'{"results":{"A":{"status":500,"error":"unavailable"}}}',STATION,datetime.now(timezone.utc),CONFIG)
+
+    def test_nonfinite_measurement_is_not_admitted(self):
+        rows=parse_response(payload(do_mg=float('nan')),STATION,datetime.now(timezone.utc),CONFIG)
+        self.assertFalse(any(r['parameter']=='dissolved_oxygen_mg_l' for r in rows))
+
+    def test_total_outage_clears_old_rows_and_declares_unknown(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root=Path(directory)
+            config=dict(CONFIG,poll_window_hours=6,freshness_minutes=60)
+            (root/'sources.json').write_text(json.dumps(config))
+            (root/'arcos_realtime_normalized.csv').write_text('old observations')
+            with patch.object(collector,'HERE',root), patch.object(collector,'CONFIG',root/'sources.json'), patch.object(collector,'fetch',side_effect=OSError('offline')), patch('sys.argv',['collector']), patch('builtins.print'):
+                collector.main()
+            manifest=json.loads((root/'arcos_realtime_manifest.json').read_text())
+            self.assertEqual(manifest['status'],'unavailable')
+            self.assertEqual(manifest['normalized_rows'],0)
+            self.assertEqual((root/'arcos_realtime_normalized.csv').read_text(),'')
+
     def test_allowlist_blocks_table_injection(self):
         with self.assertRaises(ValueError):
             build_query("mp;drop table x",datetime.now(timezone.utc),datetime.now(timezone.utc),CONFIG)
