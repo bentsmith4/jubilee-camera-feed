@@ -1,0 +1,116 @@
+{
+  "schema_version": "1.0",
+  "purpose": "Public DISL ARCOS near-real-time hydrographic observations for Jubilee research/current-state context. All stations remain zero production weight until separate promotion.",
+  "provider": "Dauphin Island Sea Lab ARCOS",
+  "provider_home": "https://www.disl.edu/arcos/",
+  "dashboard_api": "https://g.disl.edu/api/ds/query",
+  "grafana_dashboard_uid": "edrkhwc314xkwa",
+  "datasource_uid": "6Hvm4igSk",
+  "datasource_id": 12,
+  "poll_window_hours": 6,
+  "aggregation_minutes": 30,
+  "freshness_minutes": 60,
+  "source_ranges": {
+    "water_temperature_c": [
+      -5,
+      45
+    ],
+    "salinity_psu": [
+      0,
+      40
+    ],
+    "dissolved_oxygen_percent": [
+      0,
+      200
+    ],
+    "dissolved_oxygen_mg_l": [
+      0,
+      20
+    ],
+    "turbidity_fnu": [
+      -3,
+      1000
+    ]
+  },
+  "guardrails": [
+    "Public Grafana values are direct observations at the named ARCOS station, but are not automatically Eastern Shore shoreline/contact-strip or bottom measurements.",
+    "The dashboard depth field is water-level/depth context; it is not accepted as sonde height above bed or proof of bottom placement.",
+    "A zero or missing depth value must remain UNKNOWN_GEOMETRY, never be converted into bottom-DO identity.",
+    "Current Grafana frames do not expose the historical aggregate QC flag per row; apply DISL published physical range screens and freshness, preserve SOURCE_QC_NOT_EXPOSED, and keep production weight zero.",
+    "Missing or stale station data are UNKNOWN, not zero and not negative Jubilee evidence."
+  ],
+  "stations": [
+    {
+      "station_key": "mp",
+      "station_id": "DISL_ARCOS_MP",
+      "name": "Meaher Park",
+      "latitude": 30.667152,
+      "longitude": -87.936459,
+      "role": "upper_bay_oxygen_loading_proxy",
+      "priority": 1
+    },
+    {
+      "station_key": "cp",
+      "station_id": "DISL_ARCOS_CP",
+      "name": "Cedar Point",
+      "latitude": 30.30845,
+      "longitude": -88.139533,
+      "role": "lower_bay_west_boundary_oxygen_context",
+      "priority": 2
+    },
+    {
+      "station_key": "di",
+      "station_id": "DISL_ARCOS_DI",
+      "name": "Dauphin Island",
+      "latitude": 30.2513,
+      "longitude": -88.0778,
+      "role": "bay_mouth_oxygen_context",
+      "priority": 2
+    },
+    {
+      "station_key": "kc",
+      "station_id": "DISL_ARCOS_KC",
+      "name": "Katrina Cut",
+      "latitude": 30.2583,
+      "longitude": -88.2131,
+      "role": "western_bay_mouth_oxygen_context",
+      "priority": 3
+    },
+    {
+      "station_key": "pp",
+      "station_id": "DISL_ARCOS_PP",
+      "name": "Perdido Pass",
+      "latitude": 30.2791,
+      "longitude": -87.5561,
+      "role": "eastern_coastal_boundary_oxygen_context",
+      "priority": 3
+    },
+    {
+      "station_key": "bs",
+      "station_id": "DISL_ARCOS_BS",
+      "name": "Bon Secour",
+      "latitude": 30.328767,
+      "longitude": -87.829267,
+      "role": "southeast_bay_oxygen_loading_context",
+      "priority": 1
+    },
+    {
+      "station_key": "bsp",
+      "station_id": "DISL_ARCOS_BSP",
+      "name": "Battleship Park",
+      "latitude": 30.682697,
+      "longitude": -88.012211,
+      "role": "upper_bay_oxygen_loading_context",
+      "priority": 2
+    },
+    {
+      "station_key": "gsp",
+      "station_id": "DISL_ARCOS_GSP",
+      "name": "Gulf State Park Pier",
+      "latitude": null,
+      "longitude": null,
+      "role": "coastal_context_if_hydro_available",
+      "priority": 4
+    }
+  ]
+}
