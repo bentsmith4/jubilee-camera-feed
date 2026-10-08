@@ -48,7 +48,7 @@
     }
   },
   "key_cost_findings": [
-    "pcl_e2_back_deck plus pcl_e3_bay_mouth account for 39.32% of logged token volume in the selected window.",
+    "pcl_e2_back_deck plus pcl_e3_bay_mouth account for 39.314952% (39.31% rounded from raw totals) of logged token volume in the selected window. The earlier 39.32% summed rounded per-camera percentages.",
     "Those two cameras average about 10.8k tokens/request versus about 6.8k for the other four cameras.",
     "Camera-level vision dominates cost; cross-camera synthesis is not the primary remaining lever."
   ],
@@ -61,9 +61,672 @@
     ],
     "snapshots_reviewed": 32,
     "method": "Replayed canonical vision.json states from Git commit history; no new image-model/API calls.",
-    "result": "Across 32 sampled canonical quiet-period vision states, no camera produced a unique positive Jubilee/biological/human signal relative to its same-site peers.",
     "limitation": "Quiet-snapshot agreement is not proof a camera is dispensable. Positive-event and precursor periods must be replayed before any suppression/deployment.",
-    "positive_event_challenge": "Canonical vision.json commit queries returned zero snapshots for 2026-08-29 and 2026-08-30, so the known positive-event period cannot be used as a retrospective camera-suppression challenge from repository history."
+    "positive_event_challenge": "Canonical vision.json commit queries returned zero snapshots for 2026-08-29 and 2026-08-30, so the known positive-event period cannot be used as a retrospective camera-suppression challenge from repository history.",
+    "original_32_snapshot_result": "Across 32 sampled canonical quiet-period vision states, no camera produced a unique positive Jubilee/biological/human signal relative to its same-site peers.",
+    "original_32_snapshot_reproducibility": "UNVERIFIED: the original audit retains no exact commit/blob manifest or selection rule; the expanded replay cannot establish a delta for that exact sample.",
+    "result": "Corrected expanded replay of all 105 committed vision states on the four named pilot days found zero explicit usable positives and zero unique signals; 297 of 630 camera observations remain UNKNOWN. This is scoped quiet-period evidence, not camera dispensability or a clean training negative.",
+    "scoring_policy": "Explicit per-field rubric allowlists; possible/weak labels and unexpected values remain UNKNOWN. Require ok status, fair/good visibility and moderate/high detectability. A scoped negative requires every audited field to be explicitly negative. Unique signals require both same-site peers to be assessed negative; UNKNOWN peers block uniqueness. Disagreement uses only assessed same-site peers.",
+    "expanded_replay": {
+      "snapshot_count": 105,
+      "source_head_sha": "519d5bfdc5abe64fb5eb1fa7da009531c9467e64",
+      "retrieval": "GitHub commits API, path=vision.json, anchored to source_head_sha, pages 1 and 2; selected capture dates 2026-10-04,06,07,08. No raw imagery retrieved.",
+      "capture_date_counts": {
+        "2026-10-08": 18,
+        "2026-10-07": 29,
+        "2026-10-06": 29,
+        "2026-10-04": 29
+      },
+      "old_scoring_metrics": {
+        "montrose_pier_bird": {
+          "observations": 105,
+          "usable": 62,
+          "signal": 10,
+          "unique_signal": 6,
+          "site_disagreement": 23
+        },
+        "montrose_pier_boat": {
+          "observations": 105,
+          "usable": 59,
+          "site_disagreement": 23,
+          "signal": 11,
+          "unique_signal": 6
+        },
+        "montrose_shoreline": {
+          "observations": 105,
+          "usable": 58,
+          "site_disagreement": 23,
+          "signal": 11,
+          "unique_signal": 5
+        },
+        "pcl_e2_back_deck": {
+          "observations": 105,
+          "usable": 44,
+          "signal": 27,
+          "unique_signal": 5,
+          "site_disagreement": 38
+        },
+        "pcl_e2_bay_mouth": {
+          "observations": 105,
+          "usable": 56,
+          "site_disagreement": 38,
+          "signal": 35,
+          "unique_signal": 12
+        },
+        "pcl_e3_bay_mouth": {
+          "observations": 105,
+          "usable": 54,
+          "site_disagreement": 38,
+          "signal": 8,
+          "unique_signal": 1
+        }
+      },
+      "corrected_scoring_metrics": {
+        "montrose_pier_bird": {
+          "observations": 105,
+          "missing": 0,
+          "usable": 62,
+          "unknown": 43,
+          "negative": 62,
+          "signal": 0,
+          "comparable": 59,
+          "unique_signal": 0,
+          "unique_signal_unassessable": 0,
+          "site_disagreement": 0
+        },
+        "montrose_pier_boat": {
+          "observations": 105,
+          "missing": 0,
+          "usable": 59,
+          "unknown": 46,
+          "negative": 59,
+          "signal": 0,
+          "comparable": 59,
+          "unique_signal": 0,
+          "unique_signal_unassessable": 0,
+          "site_disagreement": 0
+        },
+        "montrose_shoreline": {
+          "observations": 105,
+          "missing": 0,
+          "usable": 58,
+          "unknown": 47,
+          "negative": 58,
+          "signal": 0,
+          "comparable": 58,
+          "unique_signal": 0,
+          "unique_signal_unassessable": 0,
+          "site_disagreement": 0
+        },
+        "pcl_e2_back_deck": {
+          "observations": 105,
+          "missing": 0,
+          "usable": 44,
+          "unknown": 61,
+          "negative": 44,
+          "signal": 0,
+          "comparable": 44,
+          "unique_signal": 0,
+          "unique_signal_unassessable": 0,
+          "site_disagreement": 0
+        },
+        "pcl_e2_bay_mouth": {
+          "observations": 105,
+          "missing": 0,
+          "usable": 56,
+          "unknown": 49,
+          "negative": 56,
+          "signal": 0,
+          "comparable": 52,
+          "unique_signal": 0,
+          "unique_signal_unassessable": 0,
+          "site_disagreement": 0
+        },
+        "pcl_e3_bay_mouth": {
+          "observations": 105,
+          "missing": 0,
+          "usable": 54,
+          "unknown": 51,
+          "negative": 54,
+          "signal": 0,
+          "comparable": 52,
+          "unique_signal": 0,
+          "unique_signal_unassessable": 0,
+          "site_disagreement": 0
+        }
+      },
+      "old_signal_count": 102,
+      "old_unique_signal_count": 35,
+      "unknown_camera_observation_count": 297,
+      "source_manifest": [
+        {
+          "commit_sha": "0311b07e38f0eba124a9733a7337546f42027509",
+          "vision_blob_sha": "5b118e30ac71af28a49c02a350ce467f1608b9e2",
+          "capture_time_ct": "2026-10-08T10:06:05.075912-05:00"
+        },
+        {
+          "commit_sha": "ff163e88b659a844a18ec0cee923e4b58abba971",
+          "vision_blob_sha": "fb922ff36556b9415470fff452ca151edb310f27",
+          "capture_time_ct": "2026-10-08T09:06:31.449169-05:00"
+        },
+        {
+          "commit_sha": "2a173d2b440f0464684081199849257d6b24335c",
+          "vision_blob_sha": "525caf01f26fb896aa3da2d77d7674d43019e1e1",
+          "capture_time_ct": "2026-10-08T08:31:35.995797-05:00"
+        },
+        {
+          "commit_sha": "1ef6c7ff5934dd300b2c61d78e530d9c162d1a5e",
+          "vision_blob_sha": "1f1a24451d6d7803187402997a6671023caeb2df",
+          "capture_time_ct": "2026-10-08T08:11:26.983717-05:00"
+        },
+        {
+          "commit_sha": "74fa14433e66600c661336373130731ada3c6112",
+          "vision_blob_sha": "37de3e72e3639783b8f57598177a253d15bfaf75",
+          "capture_time_ct": "2026-10-08T07:51:36.340317-05:00"
+        },
+        {
+          "commit_sha": "9c24937d88b38f840f22b368499f001ad5cc4a6b",
+          "vision_blob_sha": "838aa19f3af028b29b8a7bfdfe48261db3d69e8d",
+          "capture_time_ct": "2026-10-08T07:32:10.856240-05:00"
+        },
+        {
+          "commit_sha": "ab34f1ea4ace65801276b70494e04111af71ff46",
+          "vision_blob_sha": "1212ea55f37fffd604b5ee0a96e3818274ddcce6",
+          "capture_time_ct": "2026-10-08T07:12:24.924135-05:00"
+        },
+        {
+          "commit_sha": "1f0247ae5a08c621badacc5405efa51b31d16045",
+          "vision_blob_sha": "5caa1b44dda6023d19c33b350d862ce9d45fcb8c",
+          "capture_time_ct": "2026-10-08T06:52:40.505179-05:00"
+        },
+        {
+          "commit_sha": "cdc8ea1dd57ffa7b63a874a4c4edfbd9981801d1",
+          "vision_blob_sha": "c089244c42ccb91afa927b5889c463d4f249639d",
+          "capture_time_ct": "2026-10-08T06:32:54.023897-05:00"
+        },
+        {
+          "commit_sha": "cf3c7b8d0605149ff4a74740d8b4696d034d8280",
+          "vision_blob_sha": "46fbfaee9e52ee273bbcab3a27acbbc8bcb4e31c",
+          "capture_time_ct": "2026-10-08T06:13:09.832991-05:00"
+        },
+        {
+          "commit_sha": "940c59f262c5db15184880749998c853b309965d",
+          "vision_blob_sha": "873cc47b8e529ad040cbe5917076752b47a5d0f6",
+          "capture_time_ct": "2026-10-08T05:46:36.193818-05:00"
+        },
+        {
+          "commit_sha": "ccbcfabd4a66f67cf23f823e2b68029c0281eb24",
+          "vision_blob_sha": "207ad1d1ee868ef3d365bd47049ecd95c038a91c",
+          "capture_time_ct": "2026-10-08T05:25:59.880978-05:00"
+        },
+        {
+          "commit_sha": "6418e526ed122ee395212a9116a5d3426b203a49",
+          "vision_blob_sha": "237f46488699eec31b7aef626feca4ef1ac261c4",
+          "capture_time_ct": "2026-10-08T05:06:06.260528-05:00"
+        },
+        {
+          "commit_sha": "25d05d4f223b704147787ad0824316349b499974",
+          "vision_blob_sha": "5874d2405e14ee7811188c8d19a4facaa557c892",
+          "capture_time_ct": "2026-10-08T04:46:20.965278-05:00"
+        },
+        {
+          "commit_sha": "08b24c27508f0d5db0ad073945b8706a26ae2f3a",
+          "vision_blob_sha": "313f5a260ac6adee62422282c299c217c9409a3e",
+          "capture_time_ct": "2026-10-08T04:26:04.424056-05:00"
+        },
+        {
+          "commit_sha": "51f09c77a2c16167bcf3270736e79acef3eed4aa",
+          "vision_blob_sha": "ad23fec66228fe9ee3aa185310aa3a927bfae9dc",
+          "capture_time_ct": "2026-10-08T04:06:03.339093-05:00"
+        },
+        {
+          "commit_sha": "a3b78916e34a4b8b0895e7b678dca510b6472f2d",
+          "vision_blob_sha": "5818e7f025bb4015a68fe5377134c0bef2390ea1",
+          "capture_time_ct": "2026-10-08T02:06:02.759801-05:00"
+        },
+        {
+          "commit_sha": "167757dd1c74e533116bdb2a8124f76fbe2e508a",
+          "vision_blob_sha": "dd5203af45f4e7f2dbd06b165d0b2b71597e5b2e",
+          "capture_time_ct": "2026-10-08T00:06:02.010155-05:00"
+        },
+        {
+          "commit_sha": "526ac3128ccb17e97a1e0c2014852894743531c2",
+          "vision_blob_sha": "a03edf7a418cd44d9b1103b98091c00743e855e4",
+          "capture_time_ct": "2026-10-07T22:06:01.143759-05:00"
+        },
+        {
+          "commit_sha": "ccf84ae8f2773b7dbadd03586e24001d4dc0ba60",
+          "vision_blob_sha": "581b7713183bc6edc024ef4bc91ddb5d3e08c6d0",
+          "capture_time_ct": "2026-10-07T20:06:41.780039-05:00"
+        },
+        {
+          "commit_sha": "ffe64657c1aa754598b176c7e7705de5f162aa6c",
+          "vision_blob_sha": "9b26b7eef3300c75ff981514ff623afeaff50d12",
+          "capture_time_ct": "2026-10-07T19:06:05.274507-05:00"
+        },
+        {
+          "commit_sha": "16e8c131deebc460cd887ee5679e09a8dac2985d",
+          "vision_blob_sha": "5b89125fdc94c3d8c3417a850ca2ad2909893f2b",
+          "capture_time_ct": "2026-10-07T18:06:00.486311-05:00"
+        },
+        {
+          "commit_sha": "ed58505c6589b484e6f9cc7b60a22fdc683b12df",
+          "vision_blob_sha": "428279e65975a23253242562bb22fa0c9fb6c805",
+          "capture_time_ct": "2026-10-07T17:06:04.026309-05:00"
+        },
+        {
+          "commit_sha": "6e12d42acf6fff6f92b24e5d5ff87cca6b29bf35",
+          "vision_blob_sha": "ab1a4eb49517d9cd426ef7823ba387456fa68167",
+          "capture_time_ct": "2026-10-07T16:06:03.739810-05:00"
+        },
+        {
+          "commit_sha": "f492e81291fbed0e7c86d15ca1b74ce177e2932a",
+          "vision_blob_sha": "29b1537ebf417cab547f19c73411c0870c457615",
+          "capture_time_ct": "2026-10-07T15:06:32.525359-05:00"
+        },
+        {
+          "commit_sha": "458365785aaa162169e9b42f1b48ad06fd022052",
+          "vision_blob_sha": "14ed9bc71c2687a8289bed315bf3f006766716d2",
+          "capture_time_ct": "2026-10-07T14:06:04.672413-05:00"
+        },
+        {
+          "commit_sha": "18a620c18eb89c2b1a30cbfe1c2f6bc6ac9aa284",
+          "vision_blob_sha": "1b1aad828de21cb85a3af96e3850ebd797d95ab3",
+          "capture_time_ct": "2026-10-07T13:06:03.507482-05:00"
+        },
+        {
+          "commit_sha": "c43b1eaba1869c6e44b66c7d00fc9140e4d12fc2",
+          "vision_blob_sha": "37ac099347661717d40c9bb627e1fe8c5dd17660",
+          "capture_time_ct": "2026-10-07T12:06:05.076966-05:00"
+        },
+        {
+          "commit_sha": "2ffabe4cff432c5758638a8e56483d942e3b41db",
+          "vision_blob_sha": "2d2af3be4366b37f9258b3fa6c82ad4463231388",
+          "capture_time_ct": "2026-10-07T11:06:20.139527-05:00"
+        },
+        {
+          "commit_sha": "54fcfac393aa7654c1c7513d02ee121c44018d9c",
+          "vision_blob_sha": "51ec56347899fb6263f3e8bac4d8a56f8ea6f919",
+          "capture_time_ct": "2026-10-07T10:12:54.413398-05:00"
+        },
+        {
+          "commit_sha": "42e8015356395717227a714eb01b34dc01e5d8b6",
+          "vision_blob_sha": "e3f0b36df5c6256ef778f820eacb78867a6eed0e",
+          "capture_time_ct": "2026-10-07T09:06:02.056319-05:00"
+        },
+        {
+          "commit_sha": "9bbd09292642eb6cd2fb1b3ee75a387b4a52986e",
+          "vision_blob_sha": "b0f8b75f023944f7024adee339fa1f9c960730cd",
+          "capture_time_ct": "2026-10-07T08:31:43.076250-05:00"
+        },
+        {
+          "commit_sha": "2cffe6da65e447d2952e1ea5324cc979cc6cb52a",
+          "vision_blob_sha": "6f145c638fba2baed3bd853002573a40eb52ac0c",
+          "capture_time_ct": "2026-10-07T08:11:35.329245-05:00"
+        },
+        {
+          "commit_sha": "70c794ffcd242b87d3e463737b64293c20ef48a3",
+          "vision_blob_sha": "f7b2ddb469ddd0b8e62985a71f5ff2cd3b28aaad",
+          "capture_time_ct": "2026-10-07T07:51:40.439518-05:00"
+        },
+        {
+          "commit_sha": "1f0812d334db24f14fc4203ef589ee897b30a244",
+          "vision_blob_sha": "c23ce24645957a57ffb9419563c44e85a9b7c87c",
+          "capture_time_ct": "2026-10-07T07:32:02.148379-05:00"
+        },
+        {
+          "commit_sha": "b004c1fb50bbc7bea4a38b73f06d3957cd7cf316",
+          "vision_blob_sha": "11ac5764847e61e315f026277c52c60bc5a1442f",
+          "capture_time_ct": "2026-10-07T07:12:19.748891-05:00"
+        },
+        {
+          "commit_sha": "5c4134167f44ebb644f2b1440f8ba5ddd3bc8dc1",
+          "vision_blob_sha": "50fa418bbe69a1c8279c5f323a5ec9b1f6adefc5",
+          "capture_time_ct": "2026-10-07T06:52:49.706547-05:00"
+        },
+        {
+          "commit_sha": "aed347a25b463bb8f8c6f999a8392e4719921eee",
+          "vision_blob_sha": "dc939ed6c2b069039866c5c73d8346899aad8c27",
+          "capture_time_ct": "2026-10-07T06:32:24.682884-05:00"
+        },
+        {
+          "commit_sha": "ce7826227a01d5f495c096b4ad87984d0428e121",
+          "vision_blob_sha": "c309f59a0053f1779fd52584b778f58d5163d1bd",
+          "capture_time_ct": "2026-10-07T06:05:23.335191-05:00"
+        },
+        {
+          "commit_sha": "33b8ff74f7ed318fbd75a3308ccf6ea5b8f94576",
+          "vision_blob_sha": "1eaed2adae94242b02dccc26fa201a45e8da499b",
+          "capture_time_ct": "2026-10-07T05:45:25.422850-05:00"
+        },
+        {
+          "commit_sha": "367806ebb894ced76449049d728c2abb689a332b",
+          "vision_blob_sha": "2e6b1b74409da64182e6e9a387ebe839f4e6ada5",
+          "capture_time_ct": "2026-10-07T05:25:06.507588-05:00"
+        },
+        {
+          "commit_sha": "4aff58bc7b2d9637a5211db43a98057799ea645a",
+          "vision_blob_sha": "aa20f3e077394599e3f1753468466a7e68e8df48",
+          "capture_time_ct": "2026-10-07T05:05:35.059993-05:00"
+        },
+        {
+          "commit_sha": "e770a4a48325ff58e348a3e9f51bd62571ad0b8d",
+          "vision_blob_sha": "8c72407f52e0610b5ce571b9327929a3c75e1c9f",
+          "capture_time_ct": "2026-10-07T04:45:32.661633-05:00"
+        },
+        {
+          "commit_sha": "401b4a9df88e6245dce18d439ed3ff48acae1688",
+          "vision_blob_sha": "0d93d98af58f01f2e73df30ac70c4e50778b7ef9",
+          "capture_time_ct": "2026-10-07T04:25:44.814180-05:00"
+        },
+        {
+          "commit_sha": "a4bfb27c8cd5c35bc5f69d49246e8e4f5e0935d7",
+          "vision_blob_sha": "241e993f6b2802fb5d4aa85584073f3bf74f68e7",
+          "capture_time_ct": "2026-10-07T04:06:01.553634-05:00"
+        },
+        {
+          "commit_sha": "6cd65ddda8d4a96396c1885d766a5d07bcf93201",
+          "vision_blob_sha": "1a9381f64ae33e3f50d5603b12cd345dc30eefd4",
+          "capture_time_ct": "2026-10-07T02:06:04.384828-05:00"
+        },
+        {
+          "commit_sha": "b640384dc601b373b0d8f4e4dea0fab6e57e07cb",
+          "vision_blob_sha": "4ea5e4948c5bfb535de80835477c83c0446b4ef5",
+          "capture_time_ct": "2026-10-07T00:06:04.119498-05:00"
+        },
+        {
+          "commit_sha": "36025051d599fed28796785b6e01d01499e8ac04",
+          "vision_blob_sha": "e8a264b185fa09500a7f206a3758e19a9439bcb4",
+          "capture_time_ct": "2026-10-06T22:06:05.191789-05:00"
+        },
+        {
+          "commit_sha": "3b5aec0d0e57811f1d9e1315e67ef0f5a4609aea",
+          "vision_blob_sha": "58ed73d5b81b29937721a06cc6d8c059fed01468",
+          "capture_time_ct": "2026-10-06T20:06:28.842415-05:00"
+        },
+        {
+          "commit_sha": "d6c178f769eff66eefeff8c6a57c76f242f2b4df",
+          "vision_blob_sha": "033ef4eaaa16947e13a16d1e3dcbae32a1774682",
+          "capture_time_ct": "2026-10-06T19:06:12.022640-05:00"
+        },
+        {
+          "commit_sha": "c67ecd5588706cc81f3c271d8016584e046f1ce2",
+          "vision_blob_sha": "87446f86cc33f627d23f6a46c5bf1fab51a89077",
+          "capture_time_ct": "2026-10-06T18:06:01.097108-05:00"
+        },
+        {
+          "commit_sha": "61abf6057054cd0666c28644d4380d84caa1cd74",
+          "vision_blob_sha": "8ddb567c74b252e9b9d838a8b20eead218ea286d",
+          "capture_time_ct": "2026-10-06T17:06:04.300442-05:00"
+        },
+        {
+          "commit_sha": "834d177296bacf4651aba62158812d9067154d11",
+          "vision_blob_sha": "92ee21957f5d4dfd54d289cd13b0a6f83c8c75c8",
+          "capture_time_ct": "2026-10-06T16:06:05.467294-05:00"
+        },
+        {
+          "commit_sha": "89b9b94da3a06c982f17702c11c2115153f95850",
+          "vision_blob_sha": "2ceb282910810e365da707a453c28d458988dfac",
+          "capture_time_ct": "2026-10-06T15:06:24.828146-05:00"
+        },
+        {
+          "commit_sha": "13b3d329d70ad711bccc50e7350f2133145cd0d9",
+          "vision_blob_sha": "04b455a5d38c45007e751e67ede547d85f638937",
+          "capture_time_ct": "2026-10-06T14:06:02.855806-05:00"
+        },
+        {
+          "commit_sha": "2e211c6b84fe6f1cf32b2e5de6d79989320cc1ea",
+          "vision_blob_sha": "1adf6f7d664b5fecb74aae830a0b8058d60b6da3",
+          "capture_time_ct": "2026-10-06T13:06:37.584705-05:00"
+        },
+        {
+          "commit_sha": "1802c6aeeda74a4b3ae5254605c1f8b1dae67f11",
+          "vision_blob_sha": "0d895dd734c7eae26471a3de3900be63b509a404",
+          "capture_time_ct": "2026-10-06T12:06:51.354575-05:00"
+        },
+        {
+          "commit_sha": "3645baff2acbbdb8766bbe7ca8c28e7709c56930",
+          "vision_blob_sha": "7abd6a87b92483cf7e8926ef3cc7c100dc8cd0d0",
+          "capture_time_ct": "2026-10-06T11:06:02.042333-05:00"
+        },
+        {
+          "commit_sha": "9586a78889628c0514c49cb6fd28a921b90fba82",
+          "vision_blob_sha": "c844520653a3ea59c5989461aac3c21be196328a",
+          "capture_time_ct": "2026-10-06T10:06:03.674601-05:00"
+        },
+        {
+          "commit_sha": "3e30652c04750a492be6165fd1c42c3c49340e54",
+          "vision_blob_sha": "9e58e80c7b5ac3893673a2b9ca3b28d52d30d9ec",
+          "capture_time_ct": "2026-10-06T09:06:01.721617-05:00"
+        },
+        {
+          "commit_sha": "456799b69d51322d03ac1f40ef750e111b0a0871",
+          "vision_blob_sha": "e532d9ac0b631ca0e3ded3d3ff8058d87b329fe6",
+          "capture_time_ct": "2026-10-06T08:26:07.969950-05:00"
+        },
+        {
+          "commit_sha": "03210263bf946deae7bcaef02acb60edbd99e01e",
+          "vision_blob_sha": "c29744cde2b2bb61264243cb17d7341eacac265a",
+          "capture_time_ct": "2026-10-06T08:05:59.109222-05:00"
+        },
+        {
+          "commit_sha": "e627d67d0844e544066bea2935298fb7b0548e9f",
+          "vision_blob_sha": "0008fce8aad8d3432f54a42f6c9c62c31e618d9a",
+          "capture_time_ct": "2026-10-06T07:46:02.172525-05:00"
+        },
+        {
+          "commit_sha": "3c76e1b3bafc2a887f9602cfa36b65d119a2284c",
+          "vision_blob_sha": "0f40eb083bcceac7c341610c9043bafb99e52d61",
+          "capture_time_ct": "2026-10-06T07:26:06.288404-05:00"
+        },
+        {
+          "commit_sha": "7efa6dbb7daecb6b8787d6b8b75573a49faf0e54",
+          "vision_blob_sha": "1b4cc791648a843f6a798606f5df1fbf44c4bfd9",
+          "capture_time_ct": "2026-10-06T07:05:59.892905-05:00"
+        },
+        {
+          "commit_sha": "01cfd518e84fd0e2bc15aabd5bc5f8485c02a6c3",
+          "vision_blob_sha": "4b55ca3a4950161c1519c18423ddaaeb869d45d8",
+          "capture_time_ct": "2026-10-06T06:46:05.907129-05:00"
+        },
+        {
+          "commit_sha": "5d5b4a7483ca943586fe7390cd68e43f8a14e6eb",
+          "vision_blob_sha": "f32ba05272d56ece9c6d9204bc121a7f8fbbf6d9",
+          "capture_time_ct": "2026-10-06T06:25:58.847270-05:00"
+        },
+        {
+          "commit_sha": "3feb7fa8512e319fbe98e3c705236bdec323439c",
+          "vision_blob_sha": "0c6d3c82f9594358c3057eb91b9854ab6c8af364",
+          "capture_time_ct": "2026-10-06T06:05:48.667207-05:00"
+        },
+        {
+          "commit_sha": "67167f8a4613994d3edef97922f4908509d72241",
+          "vision_blob_sha": "420ff745f49811bd2ec36ba040477585a61c835f",
+          "capture_time_ct": "2026-10-06T05:45:29.983698-05:00"
+        },
+        {
+          "commit_sha": "76d65a1dda8f78c27f8a84bbbed94aee5804397c",
+          "vision_blob_sha": "210e90ec2634fabeabb4ff65198fb2dffd6cab43",
+          "capture_time_ct": "2026-10-06T05:25:46.653841-05:00"
+        },
+        {
+          "commit_sha": "8a5d1e93c47cfc0c7f128a7ed7c9c784d0e4dad7",
+          "vision_blob_sha": "3219bd84b44b24f059c1ade1bb9c31eea4eae724",
+          "capture_time_ct": "2026-10-06T05:06:00.092221-05:00"
+        },
+        {
+          "commit_sha": "ae5a3a04c0d04ef774471abec205e659459b2198",
+          "vision_blob_sha": "6839061ca877f4c4a02ff77a63b590ec54d01348",
+          "capture_time_ct": "2026-10-06T04:45:34.469867-05:00"
+        },
+        {
+          "commit_sha": "557af580d0c8d097566e8fd51dd44d293b88c38d",
+          "vision_blob_sha": "285e5352acdf4e6863094a284fbe8819b681a697",
+          "capture_time_ct": "2026-10-06T04:25:50.220986-05:00"
+        },
+        {
+          "commit_sha": "6eb6e7406b2a3a55fc0aa755236991bcd170fed8",
+          "vision_blob_sha": "336015982eea609590df278cf58f586ee4ef79d8",
+          "capture_time_ct": "2026-10-06T04:06:04.379597-05:00"
+        },
+        {
+          "commit_sha": "47dfacdecb92b9b2ff53528cefd4622efabe4507",
+          "vision_blob_sha": "d1f35b83a3e8673c4cb64ed0223775eff737dbe2",
+          "capture_time_ct": "2026-10-06T02:06:00.752287-05:00"
+        },
+        {
+          "commit_sha": "baf3aee18f945623dd90bb00fddb821194364223",
+          "vision_blob_sha": "99c8d306da7463df1334e452c4e9ac867582876a",
+          "capture_time_ct": "2026-10-06T00:06:04.432169-05:00"
+        },
+        {
+          "commit_sha": "06cd074be9e3be0ecab5cc6dd49c0f37e7dc280c",
+          "vision_blob_sha": "6c2794dc8c1f35cfcc98bca0d5d5f29f0065d67c",
+          "capture_time_ct": "2026-10-04T22:06:01.339845-05:00"
+        },
+        {
+          "commit_sha": "d74b8017357b36df0e64f53eb659fc7986797aa9",
+          "vision_blob_sha": "151d1ca8824a053e1136de7fe2eccc20b8bffa53",
+          "capture_time_ct": "2026-10-04T20:07:59.047911-05:00"
+        },
+        {
+          "commit_sha": "2833cba2f59c5ae2b20354586e5c69dba741ca77",
+          "vision_blob_sha": "e81daacf300920c3f11717302495246b0c3172aa",
+          "capture_time_ct": "2026-10-04T19:06:01.084345-05:00"
+        },
+        {
+          "commit_sha": "367c07920f47c6e82853231113c230be88072cd2",
+          "vision_blob_sha": "b55b9ce1b11ac60989d3c90add6831daaa5965f6",
+          "capture_time_ct": "2026-10-04T18:06:00.992886-05:00"
+        },
+        {
+          "commit_sha": "a48b6dffd65fe9962d752d57f9bfe42ad7428729",
+          "vision_blob_sha": "4fcecd1ec5f3a2bcff0182806d572d54f44949c5",
+          "capture_time_ct": "2026-10-04T17:06:05.349346-05:00"
+        },
+        {
+          "commit_sha": "a50214054e34a8b894cf10f211d2022a4bf797c1",
+          "vision_blob_sha": "e39e3b425ebb413bf6313563631d56d28056b0b0",
+          "capture_time_ct": "2026-10-04T16:06:03.861631-05:00"
+        },
+        {
+          "commit_sha": "55502fa0f47926fc0d487e2ac35bb9c109537880",
+          "vision_blob_sha": "04f1cdb96a73f967a222cb5840cbcb415600ef7b",
+          "capture_time_ct": "2026-10-04T15:06:11.123511-05:00"
+        },
+        {
+          "commit_sha": "53f2f5823745cda651639cdef4b927ee286e0c66",
+          "vision_blob_sha": "d840047c62efef4c82524a14eb7016cc05060627",
+          "capture_time_ct": "2026-10-04T14:08:04.386167-05:00"
+        },
+        {
+          "commit_sha": "0ee52a54e48c0d4de573b12da7b4f74d838a267c",
+          "vision_blob_sha": "e72c06641dfd3ac82de6bc1cc66e1120cf529e62",
+          "capture_time_ct": "2026-10-04T13:06:03.200112-05:00"
+        },
+        {
+          "commit_sha": "d4bc2edd9800330619f8f7056318d6f2ef2bcfd9",
+          "vision_blob_sha": "db47435f4056dc24acc08686310c0162899ea744",
+          "capture_time_ct": "2026-10-04T12:06:03.715590-05:00"
+        },
+        {
+          "commit_sha": "3e5eeb9304395400214d964d4c60c727111156b7",
+          "vision_blob_sha": "3541151e92116c2f8836f8c91e5d315c903b4320",
+          "capture_time_ct": "2026-10-04T11:06:04.346450-05:00"
+        },
+        {
+          "commit_sha": "0e2a8feff7c67de3d3aaf3d3b00e58c431ca2134",
+          "vision_blob_sha": "ae5fa9403acdceda56bb43b2c72827a7a7743604",
+          "capture_time_ct": "2026-10-04T10:06:03.399867-05:00"
+        },
+        {
+          "commit_sha": "ebe4a0c238c1ce27e7e846c244573f2afc376a07",
+          "vision_blob_sha": "64c6f82ff89b5fb2fbaa3a8b2e78f36b3d087638",
+          "capture_time_ct": "2026-10-04T09:06:05.445211-05:00"
+        },
+        {
+          "commit_sha": "5081401a08f980a078bb83498b970d25a7d52560",
+          "vision_blob_sha": "ed5c5a61571b58105edf0ba932d6b5d3bef7716d",
+          "capture_time_ct": "2026-10-04T08:26:07.877214-05:00"
+        },
+        {
+          "commit_sha": "4b88201a68e80864ef99f1d607a335014f7cdc36",
+          "vision_blob_sha": "88425713817db60a7f2bf49a83d001db29d15d9f",
+          "capture_time_ct": "2026-10-04T08:05:57.265284-05:00"
+        },
+        {
+          "commit_sha": "617b84e12b75eb7e01980ae1567b22c43dca9726",
+          "vision_blob_sha": "afb992bd1a37f87946dea3cd07ff9b1bd1c0d802",
+          "capture_time_ct": "2026-10-04T07:45:00.120715-05:00"
+        },
+        {
+          "commit_sha": "63520e8c560cd1764dd3d4048cb3c0e2485758cf",
+          "vision_blob_sha": "9bb98e1e055c7e500b8ae9eacbbb58cca990e19c",
+          "capture_time_ct": "2026-10-04T07:24:49.341767-05:00"
+        },
+        {
+          "commit_sha": "d45d53e3354017eeba5433275dfe84310a46b139",
+          "vision_blob_sha": "e1012d765c889aae1f983e6e822fcde2db912ca2",
+          "capture_time_ct": "2026-10-04T07:05:17.557478-05:00"
+        },
+        {
+          "commit_sha": "c5aae0b39d43c741c5d3810cfe09e8a8c42345fc",
+          "vision_blob_sha": "b2bc3cf0f7201e471ffad5d3948bfb6898e38003",
+          "capture_time_ct": "2026-10-04T06:45:44.151474-05:00"
+        },
+        {
+          "commit_sha": "4a0705ed48e40cd4a442cbcee03347fbb34e3f2d",
+          "vision_blob_sha": "c81898e170dd06eeaa7268a734e777161990e75d",
+          "capture_time_ct": "2026-10-04T06:25:23.750176-05:00"
+        },
+        {
+          "commit_sha": "588f9419932a1d6de949d582482a4085dd184b03",
+          "vision_blob_sha": "9cff42a4e3f23db416bdcdad1e2f3d2b3c69cf59",
+          "capture_time_ct": "2026-10-04T06:05:42.884724-05:00"
+        },
+        {
+          "commit_sha": "4d2977ef3987de71307119caa8441fbcdc4fd5e9",
+          "vision_blob_sha": "e3cd615f9a940bcee4c07b1329fe1964ea516ad1",
+          "capture_time_ct": "2026-10-04T05:46:04.369083-05:00"
+        },
+        {
+          "commit_sha": "4bdbe98f6a7a426ad8c7ce803971b7522ac5262d",
+          "vision_blob_sha": "d8cfa3fc53aa38be6459c494634653d9c693ba19",
+          "capture_time_ct": "2026-10-04T05:26:28.759918-05:00"
+        },
+        {
+          "commit_sha": "b8bc6d4c460e6ef06b17d3229ee7a85dc0f88a30",
+          "vision_blob_sha": "2006036627917d644569a0ad27ad257ccaa093d6",
+          "capture_time_ct": "2026-10-04T05:05:16.099152-05:00"
+        },
+        {
+          "commit_sha": "1567c4f3327b9eabedff337c0183d03fdbc264a4",
+          "vision_blob_sha": "1723cdc62e8b4bb17b3018c0beaaa2e16fb82c6d",
+          "capture_time_ct": "2026-10-04T04:45:32.437350-05:00"
+        },
+        {
+          "commit_sha": "1056e78a4fd9653e05c71c8b950d155237eb4fad",
+          "vision_blob_sha": "9dc1f0c0c5b3e9a1481b98a5afcd1a495740e810",
+          "capture_time_ct": "2026-10-04T04:25:52.378377-05:00"
+        },
+        {
+          "commit_sha": "ccd5bb2572a7f3f51c4c2dab68f2a1d56fc755db",
+          "vision_blob_sha": "da9134f4eb6b416714e3f8bac6543e9be5f34580",
+          "capture_time_ct": "2026-10-04T04:06:03.308099-05:00"
+        },
+        {
+          "commit_sha": "418666306bb3a31963c1edb28418f6e16ef42f00",
+          "vision_blob_sha": "ff571cbc7a73fea7e5e7281e8352f63dc7a7d025",
+          "capture_time_ct": "2026-10-04T02:06:04.584496-05:00"
+        },
+        {
+          "commit_sha": "fc6484c944e49fc70d86d2d1a332d67a41753b0b",
+          "vision_blob_sha": "18bffd59435d62ebb824eb924f832f36ac8b3ed1",
+          "capture_time_ct": "2026-10-04T00:06:03.860119-05:00"
+        }
+      ]
+    },
+    "comparison": "On the identical expanded 105-snapshot set, old scoring counted 102 positive camera observations and 35 unique signals; corrected scoring counts zero of each. All replayed signal fields contain only none/none_visible/unclear/unknown/missing; old positives were unavailable evidence, not biological/human detections. The originally reported zero-unique conclusion remains consistent with corrected expanded evidence but its exact 32-snapshot sample is not reproducible."
   },
   "modeled_savings_not_deployed": {
     "normalize_e2_back_deck_and_e3_to_6818_tokens_per_request": {
@@ -99,8 +762,9 @@
     "Use event/precursor days as mandatory false-negative challenge set before any production gating proposal."
   ],
   "validation": {
-    "focused_unit_tests_passed": 4,
-    "test_scope": "signal classification, same-site unique signal, usage join",
-    "execution": "offline/no paid model calls"
+    "focused_unit_tests_passed": 15,
+    "test_scope": "explicit positive vocabulary, unknown/unexpected/null/boolean/missing values, ambiguous possible labels, status/visibility/detectability gates, same-site uniqueness and UNKNOWN peers, shared positives, scoped negatives, usage join",
+    "execution": "offline/no paid model calls",
+    "replay_checks": "105 historical source snapshots, 630 camera observations; before/after evaluated on identical inputs; selected usage total unchanged at 28468955 tokens."
   }
 }
