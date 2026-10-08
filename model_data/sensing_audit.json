@@ -1,10 +1,10 @@
 {
   "schema_version": "2.0",
-  "generated_at_utc": "2026-10-08T19:00:52.411828+00:00",
+  "generated_at_utc": "2026-10-08T22:28:39.753816+00:00",
   "audit_type": "metadata_and_latest_file_integrity_not_independent_vision",
-  "status": "pass",
+  "status": "degraded",
   "expected_private_cameras": 6,
-  "private_metadata_pass": 6,
+  "private_metadata_pass": 4,
   "passing_site_groups": [
     "montrose_owner_cluster",
     "point_clear_landing_owner_cluster"
@@ -15,14 +15,14 @@
       "site_group": "montrose_owner_cluster",
       "shoreline_cell": "Montrose",
       "configuration_state": "desktop_fresh_capture_and_archive_verified_20260906",
-      "captured_at_utc": "2026-10-08T18:06:30.171335+00:00",
-      "age_minutes": 54.37,
+      "captured_at_utc": "2026-10-08T22:07:57.901417+00:00",
+      "age_minutes": 20.7,
       "upstream_metadata_pass": true,
       "issues": [],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED",
       "missing_human_sensor_fields": [],
-      "latest_image_sha256": "38b6d2758465a84fcdf8383923476fbf75194aad80f2507f746a3cc330fd1200",
+      "latest_image_sha256": "0c54bf7cb3ea0aecd92a4e8b145b2b6fd88828aae822bba8416d2302a6f3ab29",
       "negative_event_label_allowed": false
     },
     {
@@ -30,14 +30,14 @@
       "site_group": "montrose_owner_cluster",
       "shoreline_cell": "Montrose",
       "configuration_state": "desktop_fresh_capture_and_archive_verified_20260906",
-      "captured_at_utc": "2026-10-08T18:09:10.791243+00:00",
-      "age_minutes": 51.69,
+      "captured_at_utc": "2026-10-08T22:11:36.760616+00:00",
+      "age_minutes": 17.05,
       "upstream_metadata_pass": true,
       "issues": [],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED",
       "missing_human_sensor_fields": [],
-      "latest_image_sha256": "a65a92415a0f0d73b27583ea2d99b4ac122aeeb7dd0e70c72a76a1a69538a2dc",
+      "latest_image_sha256": "d5cf6c59a601c7b557b96efcc7ab88fc2311c11c28db1132626b133a6088fc25",
       "negative_event_label_allowed": false
     },
     {
@@ -45,14 +45,14 @@
       "site_group": "montrose_owner_cluster",
       "shoreline_cell": "Montrose",
       "configuration_state": "desktop_fresh_capture_publication_and_archive_verified_20260906",
-      "captured_at_utc": "2026-10-08T18:08:05.729404+00:00",
-      "age_minutes": 52.78,
+      "captured_at_utc": "2026-10-08T22:09:37.581657+00:00",
+      "age_minutes": 19.04,
       "upstream_metadata_pass": true,
       "issues": [],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED",
       "missing_human_sensor_fields": [],
-      "latest_image_sha256": "ebe144ded516b8181f71af4025c8c066ecd329c272747a383e26e4ae16418150",
+      "latest_image_sha256": "8a8a2b84bddd99f56e1dd257cf49ec5e9a8841ef5870540c28354444ff233a97",
       "negative_event_label_allowed": false
     },
     {
@@ -60,14 +60,26 @@
       "site_group": "point_clear_landing_owner_cluster",
       "shoreline_cell": "Point Clear",
       "configuration_state": "desktop_fresh_capture_and_archive_verified_20260906",
-      "captured_at_utc": "2026-10-08T18:07:09.284427+00:00",
-      "age_minutes": 53.72,
-      "upstream_metadata_pass": true,
-      "issues": [],
+      "captured_at_utc": "2026-10-08T22:08:40.530012+00:00",
+      "age_minutes": 19.99,
+      "upstream_metadata_pass": false,
+      "issues": [
+        "CAPTURE_FAILED",
+        "INVALID_OR_MISSING_TEMPORAL_BURST",
+        "VISION_UNAVAILABLE",
+        "LATEST_IMAGE_MISSING_OR_SIZE_MISMATCH"
+      ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED",
-      "missing_human_sensor_fields": [],
-      "latest_image_sha256": "cc28d0fa45fb8b297b796dd44975a9ed4bfc7f418372043579535b61b0319e24",
+      "missing_human_sensor_fields": [
+        "people_present",
+        "flashlight_activity",
+        "motion_pattern",
+        "clustered_search_behavior",
+        "temporal_persistence",
+        "human_sensor_score"
+      ],
+      "latest_image_sha256": null,
       "negative_event_label_allowed": false
     },
     {
@@ -75,14 +87,14 @@
       "site_group": "point_clear_landing_owner_cluster",
       "shoreline_cell": "Point Clear",
       "configuration_state": "desktop_fresh_capture_and_archive_verified_20260906",
-      "captured_at_utc": "2026-10-08T18:07:36.682365+00:00",
-      "age_minutes": 53.26,
+      "captured_at_utc": "2026-10-08T22:09:08.534136+00:00",
+      "age_minutes": 19.52,
       "upstream_metadata_pass": true,
       "issues": [],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED",
       "missing_human_sensor_fields": [],
-      "latest_image_sha256": "6fd8444317741366ce5c64890a7dcda6973e3607c68a88f532ed19a0166436cb",
+      "latest_image_sha256": "3ac74ae59b8d16d71f4235e26e9d75dd17cb4965a74a0f6f95da37a90eac57ea",
       "negative_event_label_allowed": false
     },
     {
@@ -90,14 +102,26 @@
       "site_group": "point_clear_landing_owner_cluster",
       "shoreline_cell": "Point Clear",
       "configuration_state": "desktop_fresh_capture_and_archive_verified_20260906",
-      "captured_at_utc": "2026-10-08T18:08:43.647548+00:00",
-      "age_minutes": 52.15,
-      "upstream_metadata_pass": true,
-      "issues": [],
+      "captured_at_utc": "2026-10-08T22:11:09.678231+00:00",
+      "age_minutes": 17.5,
+      "upstream_metadata_pass": false,
+      "issues": [
+        "CAPTURE_FAILED",
+        "INVALID_OR_MISSING_TEMPORAL_BURST",
+        "VISION_UNAVAILABLE",
+        "LATEST_IMAGE_MISSING_OR_SIZE_MISMATCH"
+      ],
       "raw_three_frame_pixels_in_mirror": false,
       "raw_archive_verification": "NOT_VERIFIED",
-      "missing_human_sensor_fields": [],
-      "latest_image_sha256": "74e075990c782d0ca85219eeca8cd4b85895a71459314db6f67e6659eb929689",
+      "missing_human_sensor_fields": [
+        "people_present",
+        "flashlight_activity",
+        "motion_pattern",
+        "clustered_search_behavior",
+        "temporal_persistence",
+        "human_sensor_score"
+      ],
+      "latest_image_sha256": null,
       "negative_event_label_allowed": false
     }
   ],
