@@ -7,7 +7,7 @@ on:
   # GITHUB_TOKEN producer pushes do not trigger other push workflows. Observe
   # completion, including partial-success runs, then reconcile latest main.
   workflow_run:
-    workflows: [Jubilee sensing quality and environmental forcing, Jubilee official ASOS observed weather, Jubilee unattended observation logging]
+    workflows: [Jubilee sensing quality and environmental forcing, Jubilee official ASOS observed weather, Jubilee unattended observation logging, Jubilee ARCOS realtime oxygen]
     types: [completed]
     branches: [main]
   push:
