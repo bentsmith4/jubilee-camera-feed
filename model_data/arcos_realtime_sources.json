@@ -39,10 +39,6 @@
       0,
       100
     ],
-    "barometric_pressure_mbar": [
-      900,
-      1060
-    ],
     "wind_direction_deg": [
       0,
       360
@@ -54,6 +50,10 @@
     "solar_radiation_kw_m2": [
       0,
       1.5
+    ],
+    "barometric_pressure_inhg": [
+      26.5,
+      31.5
     ]
   },
   "guardrails": [
@@ -63,7 +63,9 @@
     "Current Grafana frames do not expose the historical aggregate QC flag per row; apply DISL published physical range screens and freshness, preserve SOURCE_QC_NOT_EXPOSED, and keep production weight zero.",
     "Missing or stale station data are UNKNOWN, not zero and not negative Jubilee evidence.",
     "Historical literature can establish past sensor geometry (including ~0.5 m above bottom at MP/BS/DI and Katrina Cut), but production/current-state bottom identity requires current deployment continuity or current metadata.",
-    "Meteorological variables are ingested from the same ARCOS station network as contextual forcing; they are not independent of other weather stations merely because the parameter is duplicated."
+    "Meteorological variables are ingested from the same ARCOS station network as contextual forcing; they are not independent of other weather stations merely because the parameter is duplicated.",
+    "ARCOS bar_pressure1 is treated as inches of mercury in the US dashboard/source parameter documentation; do not relabel raw values as mbar without conversion.",
+    "Hydrographic pressure is ingested in PSI because it is an official ARCOS parameter even though the public station dashboard does not graph it."
   ],
   "stations": [
     {
@@ -200,12 +202,13 @@
       "dissolved_oxygen_percent",
       "dissolved_oxygen_mg_l",
       "turbidity_fnu",
+      "pressure_psi",
       "depth_field_m"
     ],
     "meteorological": [
       "air_temperature_c",
       "relative_humidity_percent",
-      "barometric_pressure_mbar",
+      "barometric_pressure_inhg",
       "precipitation",
       "wind_speed",
       "wind_direction_deg",
