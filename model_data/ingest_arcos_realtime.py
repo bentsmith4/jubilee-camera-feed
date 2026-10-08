@@ -123,22 +123,25 @@ def fetch(payload):
           "Referer":"https://g.disl.edu/"
         })
     last=None
-    for attempt in range(3):
+    for attempt in range(2):
         try:
-            with urllib.request.urlopen(req,timeout=45) as response:
+            with urllib.request.urlopen(req,timeout=15) as response:
                 raw=response.read(5_000_001)
             if len(raw)>5_000_000:
                 raise ValueError("ARCOS response exceeds bounded fetch limit")
             return raw
         except (OSError,TimeoutError) as exc:
             last=exc
-            if attempt==2: raise
+            if attempt==1: raise
             time.sleep(2**attempt)
     raise last
 
 def parse_response(raw, station, retrieved_at, config, stream=None):
     doc=json.loads(raw)
-    frames=doc.get("results",{}).get("A",{}).get("frames",[])
+    result=doc.get("results",{}).get("A",{})
+    if result.get("error") or result.get("status", 200) != 200:
+        raise ValueError("ARCOS datasource query failed")
+    frames=result.get("frames",[])
     if not frames:
         return []
     rows=[]
@@ -174,7 +177,7 @@ def parse_response(raw, station, retrieved_at, config, stream=None):
                 elif parameter=="depth_field_m":
                     range_status="SOURCE_QC_NOT_EXPOSED"
                 geometry=("UNKNOWN_GEOMETRY_DO_NOT_USE_FOR_BOTTOM_CLASSIFICATION"
-                          if detected=="hydro" and not station.get("current_sensor_height_above_bed_verified")
+                          if detected=="hydro" and (parameter=="depth_field_m" or not station.get("current_sensor_height_above_bed_verified"))
                           else "NOT_APPLICABLE" if detected=="met" else "VERIFIED_GEOMETRY")
                 rows.append({
                   "source_id":"disl_arcos_realtime_public_grafana",
@@ -209,7 +212,7 @@ def write_csv(rows,path):
     tmp=path.with_suffix(".tmp")
     fields=list(rows[0])
     with tmp.open("w",encoding="utf-8",newline="") as f:
-        w=csv.DictWriter(f,fieldnames=fields); w.writeheader(); w.writerows(rows)
+        w=csv.DictWriter(f,fieldnames=fields,lineterminator="\n"); w.writeheader(); w.writerows(rows)
     tmp.replace(path)
 
 def main():
@@ -243,10 +246,11 @@ def main():
             try:
                 raw=fetch(payload)
                 raw_path,digest,size=archive_raw(raw,station["station_key"],stream)
-                rows=parse_response(raw,station,now,config,stream)
+                retrieved=datetime.now(timezone.utc)
+                rows=parse_response(raw,station,retrieved,config,stream)
                 all_rows.extend(rows)
                 times=sorted({r["observed_at"] for r in rows})
-                part.update({"status":"complete" if rows else "empty","raw_path":raw_path,
+                part.update({"status":"complete" if rows else "empty","retrieved_at_utc":retrieved.isoformat(),"raw_path":raw_path,
                              "raw_sha256":digest,"raw_bytes":size,"normalized_rows":len(rows),
                              "latest_observed_at":max(times) if times else None})
             except Exception as exc:
@@ -261,11 +265,14 @@ def main():
     all_rows.sort(key=lambda r:(r["observed_at"],r["station_id"],r["source_stream"],r["parameter"]))
     if all_rows:
         write_csv(all_rows,HERE/"arcos_realtime_normalized.csv")
+    else:
+        (HERE/"arcos_realtime_normalized.csv").write_text("", encoding="utf-8")
     good=[s for s in manifest["stations"] if s["status"]=="complete"]
+    manifest["retrieved_at_utc"]=datetime.now(timezone.utc).isoformat()
     manifest["normalized_rows"]=len(all_rows)
     manifest["stations_with_current_data"]=[s["station_id"] for s in good]
     manifest["parameters_seen"]=sorted({r["parameter"] for r in all_rows})
-    manifest["status"]="complete" if len(good)==len(manifest["stations"]) else ("partial" if good else "failed")
+    manifest["status"]="complete" if len(good)==len(manifest["stations"]) else ("partial" if good else "unavailable")
     manifest["guardrails"]=[
       "Direct at named ARCOS stations; regional/oxygen-loading/weather context for Jubilee unless station geometry proves otherwise.",
       "Public Grafana frame does not expose source aggregate QC per observation; DISL physical range checks are applied locally.",

@@ -8,12 +8,14 @@ on:
       - 'model_data/ingest_arcos_realtime.py'
       - 'model_data/arcos_realtime_sources.json'
       - 'tests/test_arcos_realtime_ingest.py'
+      - 'tests/test_arcos_current_state.py'
       - '.github/workflows/arcos_realtime.yml'
   pull_request:
     paths:
       - 'model_data/ingest_arcos_realtime.py'
       - 'model_data/arcos_realtime_sources.json'
       - 'tests/test_arcos_realtime_ingest.py'
+      - 'tests/test_arcos_current_state.py'
       - '.github/workflows/arcos_realtime.yml'
   schedule:
     - cron: '5,35 * * * *'
@@ -22,7 +24,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: jubilee-arcos-realtime-main
+  group: jubilee-arcos-realtime-${{ github.event_name == 'pull_request' && github.ref || 'main' }}
   cancel-in-progress: false
 
 jobs:
@@ -50,8 +52,7 @@ jobs:
           print("active=" + ("true" if active else "false"))
           PY
       - name: Run focused offline ingestion tests
-        if: steps.season.outputs.active == 'true'
-        run: python -B -m unittest discover -s tests -p 'test_arcos_realtime_ingest.py' -v
+        run: python -B -m unittest discover -s tests -p 'test_arcos*.py' -v
       - name: Retrieve public ARCOS near-real-time hydrography
         if: steps.season.outputs.active == 'true'
         run: python -B model_data/ingest_arcos_realtime.py

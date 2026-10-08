@@ -204,14 +204,14 @@ def environmental_product(name, reader, now):
         stations = {s["station_id"]: s for s in config["stations"]}
         parsed = []
         for source in m["stations"]:
-            if source["status"] != "complete":
+            if source["status"] not in ("complete", "empty"):
                 continue
             station = stations[source["station_id"]]
-            for stream in source.get("streams", []):
-                if stream.get("status") != "complete":
+            for part in source.get("streams", [source]):
+                if part["status"] not in ("complete", "empty"):
                     continue
-                raw = reader.archive(stream["raw_path"], stream["raw_sha256"])
-                parsed.extend(parse_response(raw, station, available, config, stream.get("stream")))
+                raw = reader.archive(part["raw_path"], part["raw_sha256"])
+                parsed.extend(parse_response(raw, station, stamp(part.get("retrieved_at_utc", available.isoformat())), config, part.get("stream")))
         rows = reader.csv("model_data/arcos_realtime_normalized.csv")
         require(len(rows) == m["normalized_rows"] == len(parsed), "ARCOS row count mismatch")
         rendered = [{k: "" if v is None else str(v) for k, v in r.items()} for r in parsed]

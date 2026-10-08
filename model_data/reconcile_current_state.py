@@ -173,6 +173,8 @@ def build(root, now):
         xr = r.csv('model_data/arcos_realtime_normalized.csv') if xm['status'] in ('complete', 'partial') else []
         xa = []
         configured = r.json('model_data/arcos_realtime_sources.json')['stations']
+        from ingest_arcos_realtime import HYDRO_PARAMETERS, MET_PARAMETERS
+        expected_parameters = {p[0] for p in HYDRO_PARAMETERS + MET_PARAMETERS}
         for station in configured:
             sr = [x for x in xr if x['station_id'] == station['station_id']]
             if not sr:
@@ -180,8 +182,9 @@ def build(root, now):
                                station_role=station['role'], value=None,
                                value_status='SOURCE_UNAVAILABLE_OR_NO_HYDRO', production_weight=0))
                 continue
-            tm = max(guard.stamp(x['observed_at']) for x in sr)
-            for parameter in sorted({x['parameter'] for x in sr}):
+            for parameter in sorted(expected_parameters):
+                pr = [x for x in sr if x['parameter'] == parameter]
+                tm = max(guard.stamp(x['observed_at']) for x in (pr or sr))
                 choices = [x for x in sr if guard.stamp(x['observed_at']) == tm and x['parameter'] == parameter]
                 fresh = 0 <= age(tm.isoformat()) <= limits['arcos_realtime']
                 qc = len(choices) == 1 and choices[0]['qc_status'] in ('ARCOS_RANGE_CHECK_PASS', 'SOURCE_QC_NOT_EXPOSED')
@@ -352,6 +355,8 @@ def build(root, now):
     admission = [weather['stations'][st]['status'] for st in sorted(weather['stations'])]
     admission += [x['value_status'] for st in weather['stations'].values() for x in st['parameters'].values()]
     admission += [x['value_status'] for x in series + wa] + [x['admitted_status'] for x in cams] + [p['admitted_status'] for p in mp.values()]
+    if xb is not None:
+        admission += [x['value_status'] for x in xa]
     admission += [acceptance['status'], acceptance['reason_codes']]
     identity = guard.digest(guard.canonical([hashes, admission]).encode())
     if prior['reconciliation'].get('consumption_identity') == identity:
