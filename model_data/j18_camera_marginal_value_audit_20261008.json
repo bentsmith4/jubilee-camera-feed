@@ -726,7 +726,140 @@
         }
       ]
     },
-    "comparison": "On the identical expanded 105-snapshot set, old scoring counted 102 positive camera observations and 35 unique signals; corrected scoring counts zero of each. All replayed signal fields contain only none/none_visible/unclear/unknown/missing; old positives were unavailable evidence, not biological/human detections. The originally reported zero-unique conclusion remains consistent with corrected expanded evidence but its exact 32-snapshot sample is not reproducible."
+    "comparison": "On the identical expanded 105-snapshot set, old scoring counted 102 positive camera observations and 35 unique signals; corrected scoring counts zero of each. All replayed signal fields contain only none/none_visible/unclear/unknown/missing; old positives were unavailable evidence, not biological/human detections. The originally reported zero-unique conclusion remains consistent with corrected expanded evidence but its exact 32-snapshot sample is not reproducible.",
+    "full_available_history_replay": {
+      "source_head_sha": "519d5bfdc5abe64fb5eb1fa7da009531c9467e64",
+      "snapshot_count": 931,
+      "failed_reads": [],
+      "capture_range": [
+        "2026-09-04T11:06:02.312057-05:00",
+        "2026-10-08T10:06:05.075912-05:00"
+      ],
+      "method": "git log source_head_sha --format=%H -- vision.json; git show each_commit:vision.json; same scorer, no date filter",
+      "old_scoring_metrics": {
+        "montrose_pier_bird": {
+          "observations": 931,
+          "usable": 645,
+          "signal": 49,
+          "unique_signal": 28,
+          "site_disagreement": 169
+        },
+        "montrose_pier_boat": {
+          "observations": 931,
+          "usable": 553,
+          "site_disagreement": 169,
+          "signal": 116,
+          "unique_signal": 83
+        },
+        "montrose_shoreline": {
+          "observations": 925,
+          "usable": 535,
+          "site_disagreement": 169,
+          "signal": 45,
+          "unique_signal": 23
+        },
+        "pcl_e2_back_deck": {
+          "observations": 931,
+          "usable": 383,
+          "signal": 204,
+          "unique_signal": 94,
+          "site_disagreement": 349
+        },
+        "pcl_e2_bay_mouth": {
+          "observations": 931,
+          "usable": 489,
+          "site_disagreement": 349,
+          "signal": 217,
+          "unique_signal": 99
+        },
+        "pcl_e3_bay_mouth": {
+          "observations": 931,
+          "usable": 439,
+          "site_disagreement": 349,
+          "signal": 85,
+          "unique_signal": 32
+        }
+      },
+      "corrected_scoring_metrics": {
+        "montrose_pier_bird": {
+          "observations": 931,
+          "missing": 0,
+          "usable": 645,
+          "unknown": 292,
+          "negative": 636,
+          "signal": 3,
+          "comparable": 551,
+          "unique_signal": 2,
+          "unique_signal_unassessable": 1,
+          "site_disagreement": 13
+        },
+        "montrose_pier_boat": {
+          "observations": 931,
+          "missing": 0,
+          "usable": 553,
+          "unknown": 384,
+          "negative": 536,
+          "signal": 11,
+          "comparable": 537,
+          "unique_signal": 10,
+          "unique_signal_unassessable": 0,
+          "site_disagreement": 13
+        },
+        "montrose_shoreline": {
+          "observations": 925,
+          "missing": 6,
+          "usable": 535,
+          "unknown": 401,
+          "negative": 529,
+          "signal": 1,
+          "comparable": 519,
+          "unique_signal": 0,
+          "unique_signal_unassessable": 0,
+          "site_disagreement": 13
+        },
+        "pcl_e2_back_deck": {
+          "observations": 931,
+          "missing": 0,
+          "usable": 383,
+          "unknown": 555,
+          "negative": 374,
+          "signal": 2,
+          "comparable": 375,
+          "unique_signal": 1,
+          "unique_signal_unassessable": 1,
+          "site_disagreement": 6
+        },
+        "pcl_e2_bay_mouth": {
+          "observations": 931,
+          "missing": 0,
+          "usable": 489,
+          "unknown": 446,
+          "negative": 484,
+          "signal": 1,
+          "comparable": 429,
+          "unique_signal": 1,
+          "unique_signal_unassessable": 0,
+          "site_disagreement": 6
+        },
+        "pcl_e3_bay_mouth": {
+          "observations": 931,
+          "missing": 0,
+          "usable": 439,
+          "unknown": 505,
+          "negative": 423,
+          "signal": 3,
+          "comparable": 407,
+          "unique_signal": 3,
+          "unique_signal_unassessable": 0,
+          "site_disagreement": 5
+        }
+      },
+      "interpretation": "Across all available history, corrected scoring retains 21 positive camera observations and 17 unique same-site observations (not independent events or confirmed Jubilees). Old scoring counted 716 positives and 359 unique observations. The four-day pilot remains zero-positive; that does not generalize to all history or prove redundancy. All six cameras remain retained.",
+      "old_positive_count": 716,
+      "old_unique_count": 359,
+      "corrected_positive_count": 21,
+      "corrected_unique_count": 17
+    }
   },
   "modeled_savings_not_deployed": {
     "normalize_e2_back_deck_and_e3_to_6818_tokens_per_request": {
@@ -765,6 +898,7 @@
     "focused_unit_tests_passed": 15,
     "test_scope": "explicit positive vocabulary, unknown/unexpected/null/boolean/missing values, ambiguous possible labels, status/visibility/detectability gates, same-site uniqueness and UNKNOWN peers, shared positives, scoped negatives, usage join",
     "execution": "offline/no paid model calls",
-    "replay_checks": "105 historical source snapshots, 630 camera observations; before/after evaluated on identical inputs; selected usage total unchanged at 28468955 tokens."
+    "replay_checks": "105 historical source snapshots, 630 camera observations; before/after evaluated on identical inputs; selected usage total unchanged at 28468955 tokens.",
+    "full_history_replay": "931 snapshots anchored to the original PR head; zero failed reads; complete camera-state partition checked. Corrected 21 positive/17 unique observations, not event counts."
   }
 }
