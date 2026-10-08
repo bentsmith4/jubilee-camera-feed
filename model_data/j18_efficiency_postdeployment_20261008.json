@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.1",
+  "generated_at_utc": "2026-10-08T14:25:29+00:00",
+  "purpose": "Sanitized postdeployment operating-season efficiency comparison; no request-level identifiers, prompts, keys or media.",
+  "source_main_commit_before_artifact": "0f6bc2fb913879207f95f632891a6787645513c6",
+  "usage_summary": {
+    "path": "api_usage_summary.json",
+    "blob_sha": "679a60f9b960281f77e9a489e5d089c55ec010b3",
+    "generated_at_utc": "2026-10-08T14:11:11.578578+00:00",
+    "status": "available",
+    "invalid_records": 0,
+    "window_local_date_start": "2026-09-08",
+    "window_local_date_end": "2026-10-08"
+  },
+  "comparison": {
+    "baseline_complete_days": [
+      "2026-09-09",
+      "2026-09-10",
+      "2026-09-11",
+      "2026-09-12",
+      "2026-09-13"
+    ],
+    "postdeployment_complete_days": {
+      "start": "2026-09-19",
+      "end": "2026-10-07",
+      "count": 19
+    },
+    "excluded_partial_day": "2026-10-08",
+    "selected_group_missing_records": 0,
+    "baseline": {
+      "request_normalized_tokens": 55872.60398458074,
+      "six_camera_tokens_per_reference_request": 50520.01252116611,
+      "cross_camera_tokens_per_model_call": 5320.151515151515,
+      "cross_camera_model_call_rate": 1.0060975609756098
+    },
+    "postdeployment": {
+      "request_normalized_tokens": 51463.389315917826,
+      "six_camera_tokens_per_reference_request": 48936.47334953127,
+      "cross_camera_tokens_per_model_call": 3749.4139650872817,
+      "cross_camera_model_call_rate": 0.6739495798319328,
+      "cached_input_share": 0.2836715228533887,
+      "completed_requests": 3835,
+      "failed_requests": 0,
+      "reference_requests": 595,
+      "cross_camera_model_calls": 401
+    },
+    "percent_change": {
+      "request_normalized_tokens": -7.8915503381223,
+      "six_camera_tokens_per_reference_request": -3.134478976962629,
+      "cross_camera_tokens_per_model_call": -29.524301057796087,
+      "cross_camera_model_call_rate": -33.013496307613956
+    },
+    "prior_audit": {
+      "path": "model_data/j18_efficiency_postdeployment_20261006.json",
+      "request_normalized_percent_change": -7.757636260967793,
+      "change_vs_prior_percentage_points": -0.133914077154507
+    }
+  },
+  "interpretation": {
+    "result": "STABLE_MODEST_SAVINGS_NOT_PROMOTION_READY",
+    "coverage_statement": "The selected post window contains completed requests and zero recorded failures, but aggregate request counts do not independently prove six-camera event-detection equivalence.",
+    "cost_statement": "Dollar cost and provider billing remain unverified.",
+    "effectiveness_statement": "No event-detection gain or equivalence is demonstrated because verified Jubilee controls remain absent.",
+    "action": "No runtime, model, threshold, camera, cadence or alert change."
+  }
+}
