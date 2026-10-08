@@ -1,0 +1,257 @@
+{
+  "schema_version": "1.1",
+  "researched_at_utc": "2026-10-08T21:30:00+00:00",
+  "scope": "Public real-time or near-real-time Mobile Bay environmental observations, with emphasis on dissolved oxygen and deployment geometry relevant to Jubilee research.",
+  "conclusion": "ARCOS is the primary public continuous Mobile Bay hydrographic/meteorological network; Weeks Bay NERRS remains a separate regional water-quality source. The ongoing collector now ingests every hydrographic and meteorological measure exposed by the public ARCOS station dashboard, not just DO.",
+  "primary_sources": [
+    {
+      "source_id": "disl_arcos_public_grafana",
+      "provider": "Dauphin Island Sea Lab",
+      "access": "Public Grafana PostgreSQL datasource via g.disl.edu; no credentials required",
+      "cadence": "Dashboard aggregates/display uses 30-minute intervals; ARCOS map suppresses stations older than 30 minutes",
+      "parameters": [
+        "water_temperature_c",
+        "salinity_psu",
+        "dissolved_oxygen_percent",
+        "dissolved_oxygen_mg_l",
+        "turbidity_fnu",
+        "depth_field_m",
+        "air_temperature_c",
+        "relative_humidity_percent",
+        "barometric_pressure_mbar",
+        "precipitation",
+        "wind_speed",
+        "wind_direction_deg",
+        "quantum_radiation_umol_m2_s",
+        "solar_radiation_kw_m2"
+      ],
+      "qc": "DISL publishes physical range criteria and aggregate flag definitions; current public Grafana frames do not expose aggregate QC flag per returned row, so collector applies range/freshness screens and retains SOURCE_QC_NOT_EXPOSED",
+      "current_depth_geometry": "UNRESOLVED_CURRENT_SENSOR_HEIGHT_ABOVE_BED",
+      "stations": [
+        {
+          "station_key": "mp",
+          "name": "Meaher Park",
+          "current_hydro": "yes",
+          "latest_seen": {
+            "do_mg_l": 1.22,
+            "do_percent": 16.3,
+            "salinity_psu": 10.9,
+            "water_temp_f": 81.2,
+            "depth_display_ft": 0
+          },
+          "freshness_seen": "~21 minutes",
+          "model_role": "P1 upper-bay oxygen-loading proxy"
+        },
+        {
+          "station_key": "cp",
+          "name": "Cedar Point",
+          "current_hydro": "yes",
+          "latest_seen": {
+            "do_mg_l": 7.3,
+            "do_percent": 99.7,
+            "salinity_psu": 18.7,
+            "water_temp_f": 78.5,
+            "depth_display_ft": 6.2
+          },
+          "freshness_seen": "~27 minutes",
+          "model_role": "lower-bay boundary context"
+        },
+        {
+          "station_key": "di",
+          "name": "Dauphin Island",
+          "current_hydro": "yes_but_stale_at_check",
+          "latest_seen": {
+            "do_mg_l": 7.07,
+            "do_percent": 104,
+            "salinity_psu": 28.5,
+            "water_temp_f": 80.2,
+            "depth_display_ft": 6.8
+          },
+          "freshness_seen": "~2 hours",
+          "model_role": "bay-mouth context; stale values must be UNKNOWN current"
+        },
+        {
+          "station_key": "kc",
+          "name": "Katrina Cut",
+          "current_hydro": "yes",
+          "latest_seen": {
+            "do_mg_l": 7.03,
+            "do_percent": 100,
+            "salinity_psu": 25.3,
+            "water_temp_f": 78.8,
+            "depth_display_ft": 13.3
+          },
+          "freshness_seen": "~1 minute",
+          "model_role": "western bay-mouth/coastal boundary context"
+        },
+        {
+          "station_key": "pp",
+          "name": "Perdido Pass",
+          "current_hydro": "yes",
+          "latest_seen": {
+            "do_mg_l": 6.06,
+            "do_percent": 106,
+            "salinity_psu": 25.2,
+            "water_temp_f": 80.6,
+            "depth_display_ft": 4.41
+          },
+          "freshness_seen": "~31 minutes",
+          "model_role": "eastern coastal boundary context"
+        },
+        {
+          "station_key": "bs",
+          "name": "Bon Secour",
+          "current_hydro": "no_data_at_check",
+          "freshness_seen": "meteorology ~39 minutes",
+          "model_role": "P1 southeast-bay oxygen-loading context when hydro resumes"
+        },
+        {
+          "station_key": "bsp",
+          "name": "Battleship Park",
+          "current_hydro": "no_data_at_check",
+          "freshness_seen": "meteorology ~17 minutes",
+          "model_role": "upper-bay context when hydro available"
+        },
+        {
+          "station_key": "gsp",
+          "name": "Gulf State Park Pier",
+          "current_hydro": "no_data_at_check",
+          "freshness_seen": "meteorology ~35 minutes",
+          "model_role": "coastal context if hydro becomes available"
+        },
+        {
+          "station_key": "mb",
+          "name": "Middle Bay Lighthouse",
+          "current_hydro": "offline_restoration",
+          "model_role": "central-bay high-value DO when restored"
+        }
+      ],
+      "geometry_research": {
+        "governing_rule": "Historical geometry is useful research evidence but does not prove 2026 deployment continuity. Current bottom/contact-strip identity remains unverified unless current station metadata confirms it.",
+        "evidence": [
+          {
+            "stations": [
+              "Meaher Park",
+              "Bon Secour",
+              "Dauphin Island"
+            ],
+            "historical_height_above_bottom_m": 0.5,
+            "period": "2019",
+            "source": "Liu et al. 2022, Frontiers in Marine Science, DOI 10.3389/fmars.2022.989017",
+            "evidence": "The paper compares ARCOS DO observations at MP, BS and DI at 0.5 m above bottom and describes model validation at that elevation.",
+            "current_2026_continuity": "NOT_VERIFIED"
+          },
+          {
+            "stations": [
+              "Dauphin Island"
+            ],
+            "historical_height_above_bottom_m": 0.5,
+            "period": "earlier permanent-monitoring deployment",
+            "source": "La Peyre et al. oyster hypoxia study (public copy surfaced via ResearchGate)",
+            "evidence": "Methods describe the permanent DISL monitoring sonde as approximately 0.5 m above bottom and collecting at 30-minute intervals.",
+            "current_2026_continuity": "NOT_VERIFIED"
+          },
+          {
+            "stations": [
+              "Katrina Cut"
+            ],
+            "historical_height_above_bottom_m": 0.5,
+            "period": "2020",
+            "source": "Gadeken & Dorgan, Sediment macrofaunal response to the diel oxygen cycle",
+            "evidence": "Paper states Katrina Cut ARCOS dissolved-oxygen measurements were taken approximately 0.5 m off bottom.",
+            "current_2026_continuity": "NOT_VERIFIED"
+          },
+          {
+            "stations": [
+              "Middle Bay Lighthouse"
+            ],
+            "historical_height_above_bottom_m": null,
+            "period": "historical",
+            "source": "EPA coastal acidification monitoring documentation",
+            "evidence": "Middle Bay site documented at approximately 4 m total depth with bottom-adjacent monitoring context; current ARCOS instrumentation has been removed during lighthouse restoration.",
+            "current_2026_continuity": "OFFLINE_INSTRUMENTS_REMOVED"
+          },
+          {
+            "stations": [
+              "West End CP"
+            ],
+            "historical_height_above_bottom_m": null,
+            "period": "2020 configuration",
+            "source": "DISL news release",
+            "evidence": "West End buoy had one CTD about two feet below the surface and another on the seafloor/bottom below the buoy. It is currently down for annual maintenance, so it is not admitted as current.",
+            "current_2026_continuity": "OFFLINE_ANNUAL_MAINTENANCE"
+          },
+          {
+            "stations": [
+              "Cedar Point",
+              "Perdido Pass",
+              "Battleship Park",
+              "Gulf State Park Pier"
+            ],
+            "historical_height_above_bottom_m": null,
+            "period": "research through 2026-10-08",
+            "source": "ARCOS/NCEI/GCOOS/public literature search",
+            "evidence": "No defensible station-specific height-above-bottom statement was found in the reviewed online sources.",
+            "current_2026_continuity": "UNKNOWN"
+          }
+        ]
+      }
+    },
+    {
+      "source_id": "nerrs_weeks_bay_wkqa1",
+      "provider": "NOAA NERRS / NDBC",
+      "station": "WKQA1 Fish River, Weeks Bay Reserve",
+      "access": "NDBC realtime2 ocean feed; existing canonical collector",
+      "cadence": "NERRS monitoring data nominally updated every 10 minutes",
+      "parameters": [
+        "dissolved_oxygen_mg_l",
+        "dissolved_oxygen_percent",
+        "salinity",
+        "water_temperature",
+        "depth",
+        "turbidity",
+        "pH",
+        "redox"
+      ],
+      "model_role": "regional Weeks Bay/Fish River proxy, not Point Clear/Montrose bottom water",
+      "ingest_status": "ALREADY_INGESTED_ZERO_WEIGHT"
+    }
+  ],
+  "secondary_or_rejected": [
+    {
+      "source": "IOOS/GCOOS ERDDAP mirror of DISL stations",
+      "status": "SECONDARY_MIRROR_ONLY",
+      "reason": "Useful for metadata/QARTOD cross-checks but Meaher mirror was stale relative to live ARCOS during this audit; do not make it the primary freshness source."
+    },
+    {
+      "source": "NOAA NGOFS2",
+      "status": "MODEL_NOT_OBSERVATION",
+      "reason": "Useful transport/model context, not a DO sensor observation."
+    },
+    {
+      "source": "historical WQP/AWW/USGS/GRIIDC",
+      "status": "HISTORICAL_OR_DISCRETE",
+      "reason": "Useful calibration/antecedent evidence but not regular real-time Mobile Bay DO for this ingest layer."
+    },
+    {
+      "source": "West End CP / NDBC 42031",
+      "status": "CURRENTLY_OFFLINE_ANNUAL_MAINTENANCE",
+      "reason": "High-value dual-depth hydrographic station when operational; DISL says annual maintenance is underway and NDBC reports no recent data. Retain as monitored future source, not current evidence."
+    }
+  ],
+  "meaher_dawn_corroboration": {
+    "user_reported": "0.23 mg/L and 3.10% around daylight",
+    "independent_live_series_check": "The public ARCOS two-day series returned matching 0.23 mg/L and 3.10% values in the recent sequence, corroborating the report as source data rather than a social-only observation.",
+    "production_interpretation": "Strong upper-bay oxygen-loading observation; not direct Point Clear shoreline bottom DO and not automatically a Jubilee label."
+  },
+  "implementation": {
+    "collector": "model_data/ingest_arcos_realtime.py",
+    "source_registry": "model_data/arcos_realtime_sources.json",
+    "normalized_output": "model_data/arcos_realtime_normalized.csv",
+    "manifest": "model_data/arcos_realtime_manifest.json",
+    "polling": "twice hourly at minute 05 and 35 during canonical May 18-November 14 season",
+    "current_state": "Fresh range-screened hydrographic and meteorological ARCOS station observations are admitted as zero-weight context; stale values become UNKNOWN_STALE. Historical sensor-height metadata are carried as provenance only and do not create current bottom identity.",
+    "production_weight": 0,
+    "all_measures": true
+  }
+}

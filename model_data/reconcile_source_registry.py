@@ -97,6 +97,43 @@ def main():
             production_weight=0.0,
         )
 
+    # Public DISL ARCOS near-real-time hydrography. A partial status is normal
+    # when some configured stations have no current hydro feed; never promote
+    # missing stations or unresolved depth geometry.
+    arcos = load('arcos_realtime_manifest.json')
+    if arcos and arcos.get('status') in ('complete', 'partial') and arcos.get('normalized_rows', 0):
+        live = {x.get('station_id'): x for x in arcos.get('stations', []) if x.get('status') == 'complete'}
+        hashes = {sid: {s.get('stream'): s.get('raw_sha256') for s in x.get('streams', []) if s.get('raw_sha256')}
+                  for sid, x in live.items()}
+        latest = {sid: x.get('latest_observed_at') for sid, x in live.items()}
+        mark(
+            'disl_arcos_network',
+            status='PARTIALLY_INGESTED_REALTIME_PUBLIC_GRAFANA',
+            ingestion_status='PUBLIC_GRAFANA_REALTIME_PARSER_COMPLETE_ZERO_WEIGHT',
+            last_verified_at=manifest_time(arcos),
+            realtime_normalized_rows=arcos.get('normalized_rows'),
+            realtime_station_ids=sorted(live),
+            realtime_raw_sha256=hashes,
+            realtime_latest_observed_at=latest,
+            ingestion_manifest='model_data/arcos_realtime_manifest.json',
+            production_weight=0.0,
+        )
+        mp = live.get('DISL_ARCOS_MP')
+        if mp:
+            mark(
+                'disl_arcos_meaher_park',
+                status='INGESTED_REALTIME_RESEARCH_ONLY',
+                last_verified_at=manifest_time(arcos),
+                realtime_latest_observed_at=mp.get('latest_observed_at'),
+                realtime_raw_sha256=hashes.get('DISL_ARCOS_MP'),
+                realtime_normalized_rows=mp.get('normalized_rows'),
+                current_depth_geometry='UNKNOWN_GEOMETRY_DO_NOT_USE_FOR_BOTTOM_CLASSIFICATION',
+                current_source_qc='PUBLIC_GRAFANA_SOURCE_QC_NOT_EXPOSED_RANGE_SCREEN_ONLY',
+                production_eligibility='ZERO_WEIGHT_RESEARCH_ONLY; direct named-station oxygen/loading context, not Point Clear/Daphne shoreline bottom DO; current sonde height above bed unresolved',
+                ingestion_manifest='model_data/arcos_realtime_manifest.json',
+                production_weight=0.0,
+            )
+
     # River forcing is one physical forcing system with multiple series; update
     # both registry entries without double-counting it as independent evidence.
     river = load('river_forcing_manifest.json')
