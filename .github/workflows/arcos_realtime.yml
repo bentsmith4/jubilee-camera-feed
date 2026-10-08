@@ -51,7 +51,7 @@ jobs:
           PY
       - name: Run focused offline ingestion tests
         if: steps.season.outputs.active == 'true'
-        run: python -B -m unittest tests.test_arcos_realtime_ingest -v
+        run: python -B -m unittest discover -s tests -p 'test_arcos_realtime_ingest.py' -v
       - name: Retrieve public ARCOS near-real-time hydrography
         if: steps.season.outputs.active == 'true'
         run: python -B model_data/ingest_arcos_realtime.py
