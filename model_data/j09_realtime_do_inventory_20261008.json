@@ -16,9 +16,10 @@
         "dissolved_oxygen_mg_l",
         "turbidity_fnu",
         "depth_field_m",
+        "pressure_psi",
         "air_temperature_c",
         "relative_humidity_percent",
-        "barometric_pressure_mbar",
+        "barometric_pressure_inhg",
         "precipitation",
         "wind_speed",
         "wind_direction_deg",
@@ -195,6 +196,10 @@
             "current_2026_continuity": "UNKNOWN"
           }
         ]
+      },
+      "units_correction": {
+        "barometric_pressure": "ARCOS US dashboard/source field is inches Hg; earlier temporary branch labeling as mbar was corrected before production use.",
+        "hydrographic_pressure": "ARCOS official parameter list exposes pressure in PSI; now included even though it is not graphed in the public station dashboard."
       }
     },
     {
