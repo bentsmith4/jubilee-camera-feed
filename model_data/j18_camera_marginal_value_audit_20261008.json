@@ -1,0 +1,99 @@
+{
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-10-08T15:30:00Z",
+  "scope": "RESEARCH_ONLY_CAMERA_MARGINAL_VALUE_PILOT",
+  "production_action": "NO_CHANGE",
+  "base_main_sha": "f1781cd0d3dd6ba2d715ca336e802628dec5ab19",
+  "usage_window_ct": [
+    "2026-09-20",
+    "2026-10-08"
+  ],
+  "usage_total_tokens": 28468955,
+  "camera_costs": {
+    "montrose_pier_bird": {
+      "requests": 581,
+      "total_tokens": 3968946,
+      "tokens_per_request": 6831,
+      "share_pct": 13.94
+    },
+    "montrose_pier_boat": {
+      "requests": 580,
+      "total_tokens": 3962879,
+      "tokens_per_request": 6833,
+      "share_pct": 13.92
+    },
+    "montrose_shoreline": {
+      "requests": 581,
+      "total_tokens": 3930099,
+      "tokens_per_request": 6764,
+      "share_pct": 13.8
+    },
+    "pcl_e2_back_deck": {
+      "requests": 522,
+      "total_tokens": 5668140,
+      "tokens_per_request": 10859,
+      "share_pct": 19.91
+    },
+    "pcl_e2_bay_mouth": {
+      "requests": 580,
+      "total_tokens": 3954564,
+      "tokens_per_request": 6818,
+      "share_pct": 13.89
+    },
+    "pcl_e3_bay_mouth": {
+      "requests": 510,
+      "total_tokens": 5524416,
+      "tokens_per_request": 10832,
+      "share_pct": 19.41
+    }
+  },
+  "key_cost_findings": [
+    "pcl_e2_back_deck plus pcl_e3_bay_mouth account for 39.32% of logged token volume in the selected window.",
+    "Those two cameras average about 10.8k tokens/request versus about 6.8k for the other four cameras.",
+    "Camera-level vision dominates cost; cross-camera synthesis is not the primary remaining lever."
+  ],
+  "signal_replay_pilot": {
+    "sampled_days_ct": [
+      "2026-10-04",
+      "2026-10-06",
+      "2026-10-07",
+      "2026-10-08"
+    ],
+    "snapshots_reviewed": 32,
+    "method": "Replayed canonical vision.json states from Git commit history; no new image-model/API calls.",
+    "result": "No camera produced a unique positive Jubilee/biological/human signal in the 32 sampled quiet snapshots; same-site cameras agreed on absence of signal in this sample.",
+    "limitation": "Quiet-snapshot agreement is not proof a camera is dispensable. Positive-event and precursor periods must be replayed before any suppression/deployment."
+  },
+  "modeled_savings_not_deployed": {
+    "normalize_e2_back_deck_and_e3_to_6818_tokens_per_request": {
+      "estimated_token_reduction": 4156380,
+      "estimated_total_pct": 14.6,
+      "assumption": "Same request counts; only per-call token footprint falls to current E2 bay-mouth level."
+    },
+    "half_frequency_e2_back_deck_and_e3": {
+      "estimated_total_pct": 19.66,
+      "assumption": "Outside critical windows only; not authorized for deployment and effectiveness not validated."
+    },
+    "half_frequency_two_secondary_montrose_views": {
+      "estimated_total_pct": 13.93,
+      "assumption": "Keep shoreline view full cadence; not authorized for deployment and positive-event sensitivity unvalidated."
+    },
+    "normalize_expensive_point_clear_plus_half_secondary_montrose": {
+      "estimated_total_pct": 28.53,
+      "assumption": "Illustrative combined upper bound before interaction effects; not a forecast of realized savings."
+    }
+  },
+  "decisions": [
+    "Do not turn off or reduce capture cadence for any of six cameras.",
+    "Do not change GPT vision cadence yet.",
+    "Prioritize offline historical marginal-value replay over known Jubilee/precursor periods.",
+    "Prioritize ROI/crop/resize testing for pcl_e2_back_deck and pcl_e3_bay_mouth because they are the highest token-cost views.",
+    "Any gating must preserve full dawn/critical-window analysis until retrospective sensitivity is demonstrated."
+  ],
+  "next_zero_cost_tests": [
+    "Replay all available historical vision.json commits and score unique-signal/disagreement rates per camera.",
+    "When PointClearPC returns online, compute deterministic duplicate/brightness/motion/ROI-change features from already captured frames and test against existing GPT labels.",
+    "Prepare ROI-only candidate images for E2 back deck and E3 bay mouth and estimate pixel/token reduction offline; no paid comparison calls without explicit approval.",
+    "Use event/precursor days as mandatory false-negative challenge set before any production gating proposal."
+  ]
+}
