@@ -145,7 +145,12 @@ def camera_product(reader, now):
 
 
 def environmental_product(name, reader, now):
-    m = reader.json("model_data/" + name + "_manifest.json")
+    try:
+        m = reader.json("model_data/" + name + "_manifest.json")
+    except (OSError, ValueError):
+        if name == "arcos_realtime":
+            return candidate([], now, detail="ARCOS realtime product not present in this historical evidence generation")
+        raise
     available = stamp(m.get("retrieved_at_utc", m.get("retrieved_at", m.get("started_at_utc"))))
     require(available <= now, "future source retrieval")
     if m["status"] == "unavailable":
