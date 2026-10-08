@@ -61,8 +61,9 @@
     ],
     "snapshots_reviewed": 32,
     "method": "Replayed canonical vision.json states from Git commit history; no new image-model/API calls.",
-    "result": "No camera produced a unique positive Jubilee/biological/human signal in the 32 sampled quiet snapshots; same-site cameras agreed on absence of signal in this sample.",
-    "limitation": "Quiet-snapshot agreement is not proof a camera is dispensable. Positive-event and precursor periods must be replayed before any suppression/deployment."
+    "result": "Across 32 sampled canonical quiet-period vision states, no camera produced a unique positive Jubilee/biological/human signal relative to its same-site peers.",
+    "limitation": "Quiet-snapshot agreement is not proof a camera is dispensable. Positive-event and precursor periods must be replayed before any suppression/deployment.",
+    "positive_event_challenge": "Canonical vision.json commit queries returned zero snapshots for 2026-08-29 and 2026-08-30, so the known positive-event period cannot be used as a retrospective camera-suppression challenge from repository history."
   },
   "modeled_savings_not_deployed": {
     "normalize_e2_back_deck_and_e3_to_6818_tokens_per_request": {
@@ -88,12 +89,18 @@
     "Do not change GPT vision cadence yet.",
     "Prioritize offline historical marginal-value replay over known Jubilee/precursor periods.",
     "Prioritize ROI/crop/resize testing for pcl_e2_back_deck and pcl_e3_bay_mouth because they are the highest token-cost views.",
-    "Any gating must preserve full dawn/critical-window analysis until retrospective sensitivity is demonstrated."
+    "Any gating must preserve full dawn/critical-window analysis until retrospective sensitivity is demonstrated.",
+    "Do not deploy camera-frequency suppression until a positive/precursor challenge set exists; focus first on reducing per-call token footprint for expensive Point Clear views."
   ],
   "next_zero_cost_tests": [
     "Replay all available historical vision.json commits and score unique-signal/disagreement rates per camera.",
     "When PointClearPC returns online, compute deterministic duplicate/brightness/motion/ROI-change features from already captured frames and test against existing GPT labels.",
     "Prepare ROI-only candidate images for E2 back deck and E3 bay mouth and estimate pixel/token reduction offline; no paid comparison calls without explicit approval.",
     "Use event/precursor days as mandatory false-negative challenge set before any production gating proposal."
-  ]
+  ],
+  "validation": {
+    "focused_unit_tests_passed": 4,
+    "test_scope": "signal classification, same-site unique signal, usage join",
+    "execution": "offline/no paid model calls"
+  }
 }
