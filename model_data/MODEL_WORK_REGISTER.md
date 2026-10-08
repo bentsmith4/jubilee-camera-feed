@@ -1965,3 +1965,26 @@ Read-back verified the brief remains enabled, its prompt is preserved unchanged 
 - Windows migration is `APPLIED_AND_TESTED` for the demonstrated in-season capture rollout: September 8 installed hashes/backup and matching all-six live output, plus the October 4 dated task inventory and normal-cycle receipt (PR #59 subsequently merged). Actual off-season shutdown/restart remains unobserved; dated inventory is not a fresh task readback.
 - Corrected the permanent role name to `Jubilee Dawn Brief`. README's three-view Montrose statement is already complete. Earlier READY_TO_EXECUTE/two-view claims above are superseded by this reconciliation; historical receipts remain intact.
 - Validation: JSON round-trip; exact allowed-path diff limited to these two files; all original contract fields outside migration statuses, role name and Windows status text preserved; no schedule, timing, threshold, model logic, UNKNOWN semantics or runtime file changed. J12 closes the documentation deliverable only.
+
+
+## Research & calibration continuation — 2026-10-08 09:25 CDT
+
+### J10 prospective controls and held-out comparison gate
+- Audited all 12 canonical observation records inside the October 8 target window `04:25:07–08:25:07 CDT`, preserving `observed_at`, `available_at`, file blob and commit provenance. Six low-light primary-contact views remain `UNKNOWN_PRIMARY_CONTACT_VIEW_INADEQUATE`; six usable-light records are narrow `CANDIDATE_VISIBLE_SCOPE_CONTROL` samples.
+- Repeated records collapse to one date and one Montrose private-site independence group. This adds exactly one research-only Tier-B candidate morning, bringing the cumulative register to **9 Tier-B Montrose visible-scope mornings, 0 Tier-A controls and 0 clean training negatives**. Whole-morning outcome remains `UNKNOWN`; Point Clear remains partial-observability-only because no owner view resolves the beach/contact strip. No-report silence and September 9 remain `UNKNOWN`.
+- Loading-only, transport-only and combined Jubilee-event discrimination, calibration, missed-event, false-alert and lead-time metrics remain not estimable. Artifact blob `bb275ef0328a514b3c2521ecf73bf337551c840b`, commit `0f6bc2fb913879207f95f632891a6787645513c6`.
+
+### J09 currents, feature governance and outreach
+- No ADCP scientific gate cleared. `Y1.x122.038:0002` remains reproducible provider-SHIP/offline-decode research evidence with **0 accepted Earth-frame rows** and zero production weight. Compatible playback/deployment, heading and magnetic variation, draft/transducer, clock/timezone, motion-reference and depth-QC evidence remain blockers.
+- Moon-phase completion was rechecked against unchanged canonical evidence. `standalone_lunar_phase` remains `BLOCKED_BY_DATA` and zero-weight; no new event or Tier-A control supports retesting.
+- No library, research-group or other outreach was sent or proposed. Repeat contact at the institution/group level remains held pending explicit owner permission. Incoming material may still be reviewed read-only.
+
+### J18 operating-season API efficiency
+- Extended the sanitized comparison through 19 complete postdeployment days (September 19–October 7) using `api_usage_summary.json` blob `679a60f9b960281f77e9a489e5d089c55ec010b3`, generated 2026-10-08 14:11:11 UTC with status available, zero invalid records and zero selected-group missing records. October 8 is partial and excluded.
+- Versus September 9–13, request-normalized tokens are down **7.8916%**; six-camera tokens/reference request down **3.1345%**; cross-camera tokens/model call down **29.5243%**; cross-camera call rate down **33.0135%**; cached input is **28.3672%** of post-window input. The selected post window contains 3,835 completed and zero failed requests.
+- The request-normalized estimate improved by only **0.1339 percentage point** versus the October 6 audit. This is stable modest efficiency, not a new material gain; it is not dollar-priced and does not prove equivalent event-detection effectiveness. Artifact blob `963f009df9104e707f29e00638aa72c23d630eaa`, commit `79bd12fa8c30e97058debc1a28e59a4ab31314af`.
+
+### Operational separation, promotion decision and next priorities
+- PR #74 remains open operational outage-validation work and was not changed by this research run. PR #75's merged dawn evidence was reviewed as operational context only and was not converted into a training label. The completed one-time telemetry acceptance was not repeated.
+- **No Jubilee-event predictive gain or regression is measurable.** No raw/normalized physical data, canonical event label, predictor or model artifact changed. No probability, production weight, threshold, alert rule, camera, sensing/dawn schedule, runtime cadence, nine-PM gate or seasonal policy changed.
+- Ranked gaps remain Tier-A independently verified controls; accepted nearshore Earth-frame current; held-out loading/transport/combined event comparison; direct local bottom/contact-strip hydrography; and coverage-normalized dollar efficiency with verified effectiveness. Coverage-gap blob `7a6dfa4c864df4514bb50a7de1343f2766be83c8`, commit `e6e3c5545b403a1ff4e741ee10e23dacb01205a6`. Run-manifest blob `f7963b70cc12c6d0063c6cdb54655b70d2c50db2`, commit `cf79c5200027d2bc0b17d31f9101d628f19f5a77`.
