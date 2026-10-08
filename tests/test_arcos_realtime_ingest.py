@@ -42,5 +42,21 @@ class ArcosRealtimeTests(unittest.TestCase):
         do=next(r for r in rows if r["parameter"]=="dissolved_oxygen_mg_l")
         self.assertEqual(do["qc_status"],"ARCOS_RANGE_CHECK_FAIL")
 
+    def test_build_met_query_uses_allowlisted_station_table(self):
+        q=build_query("mp",datetime(2026,10,8,11,tzinfo=timezone.utc),datetime(2026,10,8,12,tzinfo=timezone.utc),CONFIG,"met")
+        sql=q["queries"][0]["rawSql"]
+        self.assertIn("mp_met_min",sql)
+        self.assertIn("Wind Direction",sql)
+
+    def test_historical_geometry_does_not_create_current_bottom_identity(self):
+        station=dict(STATION,historical_sensor_height_above_bottom_m=0.5,
+                     historical_geometry_evidence_status="HISTORICAL_2019_ARCOS_OBSERVATION_GEOMETRY",
+                     current_sensor_height_above_bed_verified=False)
+        rows=parse_response(payload(),station,datetime(2026,10,8,12,tzinfo=timezone.utc),CONFIG)
+        do=next(r for r in rows if r["parameter"]=="dissolved_oxygen_mg_l")
+        self.assertEqual(do["historical_sensor_height_above_bottom_m"],0.5)
+        self.assertFalse(do["is_direct_local_bottom_measurement"])
+        self.assertEqual(do["depth_geometry_status"],"UNKNOWN_GEOMETRY_DO_NOT_USE_FOR_BOTTOM_CLASSIFICATION")
+
 if __name__=="__main__":
     unittest.main()
