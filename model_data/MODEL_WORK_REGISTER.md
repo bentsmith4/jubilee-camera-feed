@@ -1988,3 +1988,16 @@ Read-back verified the brief remains enabled, its prompt is preserved unchanged 
 - PR #74 remains open operational outage-validation work and was not changed by this research run. PR #75's merged dawn evidence was reviewed as operational context only and was not converted into a training label. The completed one-time telemetry acceptance was not repeated.
 - **No Jubilee-event predictive gain or regression is measurable.** No raw/normalized physical data, canonical event label, predictor or model artifact changed. No probability, production weight, threshold, alert rule, camera, sensing/dawn schedule, runtime cadence, nine-PM gate or seasonal policy changed.
 - Ranked gaps remain Tier-A independently verified controls; accepted nearshore Earth-frame current; held-out loading/transport/combined event comparison; direct local bottom/contact-strip hydrography; and coverage-normalized dollar efficiency with verified effectiveness. Coverage-gap blob `7a6dfa4c864df4514bb50a7de1343f2766be83c8`, commit `e6e3c5545b403a1ff4e741ee10e23dacb01205a6`. Run-manifest blob `f7963b70cc12c6d0063c6cdb54655b70d2c50db2`, commit `cf79c5200027d2bc0b17d31f9101d628f19f5a77`.
+
+
+## Meaher loading / transport feature layer — 2026-10-08
+Owner authorized execution after ARCOS realtime integration. PR #82 merged as `3e599262aeb0877b02d9673c3acd036433ecfff8`; first main ARCOS run `37856287357` succeeded and persisted `model_data/meaher_loading_transport_features.json` on main.
+
+Current zero-weight research feature set:
+- Meaher Park latest DO mg/L and % saturation; 1h/3h/6h min/max/mean/delta/slope; descriptive minutes below 2.0/1.0/0.5 mg/L; salinity and water-temperature trajectories.
+- Point Clear NGOFS2 bottom shoreward-current context is joined only when its valid time and availability precede the issue time and it is <=180 minutes old. Stale/unavailable transport remains UNKNOWN.
+- A low-DO x shoreward-current interaction is diagnostic only. Predictive validity is NOT_ESTABLISHED and production weight remains 0.
+
+First persisted feature snapshot at issue time 2026-10-08T22:00:00Z: Meaher DO 0.60 mg/L, 8.12% saturation, salinity 11.14 PSU, water temperature 27.39 C. The 1-hour DO slope was -0.32 mg/L/hour; within the sampled 6-hour window, discrete interval accounting recorded 300 minutes below 2.0 mg/L, 210 below 1.0 mg/L, and 90 below 0.5 mg/L. Point Clear transport was UNKNOWN_NO_AVAILABLE_MODEL_TRANSPORT, so no combined transport interaction was computed.
+
+This is an ongoing model-context layer, not a probability/alert change. Historical 0.5 m-above-bottom provenance is retained, while current 2026 geometry remains explicitly unverified. Next validation gate is event/control scoring once sufficient matched controls and contemporaneous transport are available.
