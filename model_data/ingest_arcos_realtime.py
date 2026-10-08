@@ -27,12 +27,13 @@ HYDRO_PARAMETERS = (
     ("dissolved_oxygen_percent", "Dissolved Oxygen %", "%"),
     ("dissolved_oxygen_mg_l", "Dissolved Oxygen", "mg/L"),
     ("turbidity_fnu", "Turbidity", "FNU"),
+    ("pressure_psi", "Pressure", "psi"),
     ("depth_field_m", "Depth", "m"),
 )
 MET_PARAMETERS = (
     ("air_temperature_c", "Air Temperature", "degC"),
     ("relative_humidity_percent", "Relative Humidity", "%"),
-    ("barometric_pressure_mbar", "Barometric Pressure", "mbar"),
+    ("barometric_pressure_inhg", "Barometric Pressure", "inHg"),
     ("precipitation", "Precipitation", "source_native"),
     ("wind_speed", "Wind Speed", "source_native"),
     ("wind_direction_deg", "Wind Direction", "degree"),
@@ -60,6 +61,7 @@ def build_query(station_key, start, end, config, stream="hydro"):
   , avg(dis_oxy1_avg) AS "Dissolved Oxygen %"
   , avg(dis_oxy2_avg) AS "Dissolved Oxygen"
   , avg(turbidity1_avg) AS "Turbidity"
+  , avg(pressure) AS "Pressure"
   , avg(depth1_avg) AS "Depth"
 FROM
   {table}

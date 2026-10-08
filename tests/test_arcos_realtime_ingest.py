@@ -48,6 +48,10 @@ class ArcosRealtimeTests(unittest.TestCase):
         self.assertIn("mp_met_min",sql)
         self.assertIn("Wind Direction",sql)
 
+    def test_hydro_query_includes_pressure(self):
+        q=build_query("mp",datetime(2026,10,8,11,tzinfo=timezone.utc),datetime(2026,10,8,12,tzinfo=timezone.utc),CONFIG,"hydro")
+        self.assertIn('avg(pressure) AS "Pressure"',q["queries"][0]["rawSql"])
+
     def test_historical_geometry_does_not_create_current_bottom_identity(self):
         station=dict(STATION,historical_sensor_height_above_bottom_m=0.5,
                      historical_geometry_evidence_status="HISTORICAL_2019_ARCOS_OBSERVATION_GEOMETRY",

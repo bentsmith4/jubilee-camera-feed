@@ -16,9 +16,10 @@
         "dissolved_oxygen_mg_l",
         "turbidity_fnu",
         "depth_field_m",
+        "pressure_psi",
         "air_temperature_c",
         "relative_humidity_percent",
-        "barometric_pressure_mbar",
+        "barometric_pressure_inhg",
         "precipitation",
         "wind_speed",
         "wind_direction_deg",
@@ -193,8 +194,33 @@
             "source": "ARCOS/NCEI/GCOOS/public literature search",
             "evidence": "No defensible station-specific height-above-bottom statement was found in the reviewed online sources.",
             "current_2026_continuity": "UNKNOWN"
+          },
+          {
+            "stations": [
+              "Battleship Park",
+              "Meaher Park"
+            ],
+            "historical_height_above_bottom_m": 0.5,
+            "period": "2023-2025",
+            "source": "Oxford 2026 thesis / companion Gulf and Caribbean Research article",
+            "evidence": "YSI/Xylem EXO2 sondes at both ARCOS sites were 0.5 m above bottom; total water depths approximately 4.0 m at Battleship Park and 3.8 m at Meaher Park.",
+            "current_2026_continuity": "NOT_VERIFIED_BUT_RECENT_THROUGH_2025"
+          },
+          {
+            "stations": [
+              "Perdido Pass"
+            ],
+            "historical_height_above_bottom_m": 0.5,
+            "period": "Hurricane Sally 2020 study",
+            "source": "Journal of Physical Oceanography, DOI 10.1175/JPO-D-22-0025.1",
+            "evidence": "Perdido Pass hydrographic observations described as near-bottom at approximately 0.5 m above bottom in approximately 3 m water.",
+            "current_2026_continuity": "NOT_VERIFIED"
           }
         ]
+      },
+      "units_correction": {
+        "barometric_pressure": "ARCOS US dashboard/source field is inches Hg; earlier temporary branch labeling as mbar was corrected before production use.",
+        "hydrographic_pressure": "ARCOS official parameter list exposes pressure in PSI; now included even though it is not graphed in the public station dashboard."
       }
     },
     {

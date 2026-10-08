@@ -39,10 +39,6 @@
       0,
       100
     ],
-    "barometric_pressure_mbar": [
-      900,
-      1060
-    ],
     "wind_direction_deg": [
       0,
       360
@@ -54,6 +50,10 @@
     "solar_radiation_kw_m2": [
       0,
       1.5
+    ],
+    "barometric_pressure_inhg": [
+      26.5,
+      31.5
     ]
   },
   "guardrails": [
@@ -63,7 +63,9 @@
     "Current Grafana frames do not expose the historical aggregate QC flag per row; apply DISL published physical range screens and freshness, preserve SOURCE_QC_NOT_EXPOSED, and keep production weight zero.",
     "Missing or stale station data are UNKNOWN, not zero and not negative Jubilee evidence.",
     "Historical literature can establish past sensor geometry (including ~0.5 m above bottom at MP/BS/DI and Katrina Cut), but production/current-state bottom identity requires current deployment continuity or current metadata.",
-    "Meteorological variables are ingested from the same ARCOS station network as contextual forcing; they are not independent of other weather stations merely because the parameter is duplicated."
+    "Meteorological variables are ingested from the same ARCOS station network as contextual forcing; they are not independent of other weather stations merely because the parameter is duplicated.",
+    "ARCOS bar_pressure1 is treated as inches of mercury in the US dashboard/source parameter documentation; do not relabel raw values as mbar without conversion.",
+    "Hydrographic pressure is ingested in PSI because it is an official ARCOS parameter even though the public station dashboard does not graph it."
   ],
   "stations": [
     {
@@ -75,10 +77,14 @@
       "role": "upper_bay_oxygen_loading_proxy",
       "priority": 1,
       "historical_sensor_height_above_bottom_m": 0.5,
-      "historical_geometry_evidence_status": "HISTORICAL_2019_ARCOS_OBSERVATION_GEOMETRY",
-      "historical_geometry_evidence": "Liu et al. 2022 Frontiers Figure 3/Methods used Meaher Park ARCOS DO at 0.5 m above bottom in 2019; current 2026 deployment continuity not yet proven.",
+      "historical_geometry_evidence_status": "RECENT_2023_2025_EXO2_GEOMETRY",
+      "historical_geometry_evidence": "Oxford 2026 / companion 2025 Gulf and Caribbean Research study: ARCOS EXO2 sondes at Meaher Park and Battleship Park were 0.5 m above bottom from Feb 2023 through Dec 2025; Meaher total water depth approximately 3.8 m. This substantially strengthens geometry provenance but does not prove the mount was unchanged in 2026.",
       "current_sensor_height_above_bed_verified": false,
-      "source_url": "https://www.disl.edu/arcos/"
+      "source_url": "https://www.disl.edu/arcos/",
+      "historical_geometry_source_urls": [
+        "https://repository.library.noaa.gov/view/noaa/71318/noaa_71318_DS1.pdf"
+      ],
+      "recent_geometry_evidence_through": "2025-12"
     },
     {
       "station_key": "cp",
@@ -106,7 +112,10 @@
       "historical_geometry_evidence_status": "HISTORICAL_2019_ARCOS_OBSERVATION_GEOMETRY",
       "historical_geometry_evidence": "Liu et al. 2022 Frontiers Figure 3/Methods used Dauphin Island ARCOS DO at 0.5 m above bottom in 2019; older oyster work also describes the permanent station near 0.5 m above bottom. Current 2026 geometry remains unverified.",
       "current_sensor_height_above_bed_verified": false,
-      "source_url": "https://www.disl.edu/arcos/"
+      "source_url": "https://www.disl.edu/arcos/",
+      "historical_geometry_source_urls": [
+        "https://www.frontiersin.org/journals/marine-science/articles/10.3389/fmars.2022.989017/full"
+      ]
     },
     {
       "station_key": "kc",
@@ -120,7 +129,10 @@
       "historical_geometry_evidence_status": "HISTORICAL_ARCOS_OBSERVATION_GEOMETRY",
       "historical_geometry_evidence": "Gadeken & Dorgan 2022 report Katrina Cut ARCOS DO measurements approximately 0.5 m off bottom around April 2020; current deployment continuity remains unverified.",
       "current_sensor_height_above_bed_verified": false,
-      "source_url": "https://www.disl.edu/arcos/"
+      "source_url": "https://www.disl.edu/arcos/",
+      "historical_geometry_source_urls": [
+        "https://doi.org/10.3354/meps14217"
+      ]
     },
     {
       "station_key": "pp",
@@ -130,11 +142,14 @@
       "longitude": -87.5561,
       "role": "eastern_coastal_boundary_oxygen_context",
       "priority": 3,
-      "historical_sensor_height_above_bottom_m": null,
-      "historical_geometry_evidence_status": "NOT_FOUND_IN_CURRENT_RESEARCH_PASS",
-      "historical_geometry_evidence": "No defensible station-specific height-above-bottom statement located in the authoritative/public literature reviewed in this pass.",
+      "historical_sensor_height_above_bottom_m": 0.5,
+      "historical_geometry_evidence_status": "HISTORICAL_NEAR_BOTTOM_GEOMETRY",
+      "historical_geometry_evidence": "Peer-reviewed Hurricane Sally study reports Perdido Pass near-bottom hydrographic data at approximately 0.5 m above bottom in approximately 3 m water.",
       "current_sensor_height_above_bed_verified": false,
-      "source_url": "https://www.disl.edu/arcos/"
+      "source_url": "https://www.disl.edu/arcos/",
+      "historical_geometry_source_urls": [
+        "https://doi.org/10.1175/JPO-D-22-0025.1"
+      ]
     },
     {
       "station_key": "bs",
@@ -148,7 +163,10 @@
       "historical_geometry_evidence_status": "HISTORICAL_2019_ARCOS_OBSERVATION_GEOMETRY",
       "historical_geometry_evidence": "Liu et al. 2022 Frontiers Figure 3/Methods used Bon Secour ARCOS DO at 0.5 m above bottom in 2019; current hydro was unavailable at audit and current deployment continuity is unverified.",
       "current_sensor_height_above_bed_verified": false,
-      "source_url": "https://www.disl.edu/arcos/"
+      "source_url": "https://www.disl.edu/arcos/",
+      "historical_geometry_source_urls": [
+        "https://www.frontiersin.org/journals/marine-science/articles/10.3389/fmars.2022.989017/full"
+      ]
     },
     {
       "station_key": "bsp",
@@ -158,11 +176,15 @@
       "longitude": -88.012211,
       "role": "upper_bay_oxygen_loading_context",
       "priority": 2,
-      "historical_sensor_height_above_bottom_m": null,
-      "historical_geometry_evidence_status": "NOT_FOUND_IN_CURRENT_RESEARCH_PASS",
-      "historical_geometry_evidence": "No defensible station-specific height-above-bottom statement located in the authoritative/public literature reviewed in this pass.",
+      "historical_sensor_height_above_bottom_m": 0.5,
+      "historical_geometry_evidence_status": "RECENT_2023_2025_EXO2_GEOMETRY",
+      "historical_geometry_evidence": "Oxford 2026 / companion Gulf and Caribbean Research study: ARCOS EXO2 sondes at Battleship Park and Meaher Park were 0.5 m above bottom during the 2023-2025 study; Battleship Park water depth approximately 4.0 m.",
       "current_sensor_height_above_bed_verified": false,
-      "source_url": "https://www.disl.edu/arcos/"
+      "source_url": "https://www.disl.edu/arcos/",
+      "historical_geometry_source_urls": [
+        "https://repository.library.noaa.gov/view/noaa/71318/noaa_71318_DS1.pdf"
+      ],
+      "recent_geometry_evidence_through": "2025-12"
     },
     {
       "station_key": "gsp",
@@ -190,7 +212,11 @@
       "historical_sensor_height_above_bottom_m": null,
       "historical_geometry_evidence_status": "HISTORICAL_BOTTOM_NEARBY_SITE_EVIDENCE_BUT_INSTRUMENT_REMOVED",
       "historical_geometry_evidence": "EPA coastal-acidification project documentation says the Middle Bay site is ~4 m deep and describes bottom-adjacent monitoring; the ARCOS instruments are currently removed for lighthouse restoration, so no current geometry is accepted.",
-      "current_sensor_height_above_bed_verified": false
+      "current_sensor_height_above_bed_verified": false,
+      "historical_geometry_source_urls": [
+        "https://nepis.epa.gov/Exe/ZyPURL.cgi?Dockey=P10123NG.TXT",
+        "https://www.disl.edu/arcos/middle-bay/"
+      ]
     }
   ],
   "parameter_scope": {
@@ -200,12 +226,13 @@
       "dissolved_oxygen_percent",
       "dissolved_oxygen_mg_l",
       "turbidity_fnu",
+      "pressure_psi",
       "depth_field_m"
     ],
     "meteorological": [
       "air_temperature_c",
       "relative_humidity_percent",
-      "barometric_pressure_mbar",
+      "barometric_pressure_inhg",
       "precipitation",
       "wind_speed",
       "wind_direction_deg",
