@@ -9,6 +9,8 @@ on:
       - 'model_data/arcos_realtime_sources.json'
       - 'tests/test_arcos_realtime_ingest.py'
       - 'tests/test_arcos_current_state.py'
+      - 'model_data/build_meaher_loading_transport_features.py'
+      - 'tests/test_meaher_loading_transport_features.py'
       - '.github/workflows/arcos_realtime.yml'
   pull_request:
     paths:
@@ -16,6 +18,8 @@ on:
       - 'model_data/arcos_realtime_sources.json'
       - 'tests/test_arcos_realtime_ingest.py'
       - 'tests/test_arcos_current_state.py'
+      - 'model_data/build_meaher_loading_transport_features.py'
+      - 'tests/test_meaher_loading_transport_features.py'
       - '.github/workflows/arcos_realtime.yml'
   schedule:
     - cron: '5,35 * * * *'
@@ -56,6 +60,11 @@ jobs:
       - name: Retrieve public ARCOS near-real-time hydrography
         if: steps.season.outputs.active == 'true'
         run: python -B model_data/ingest_arcos_realtime.py
+      - name: Build Meaher loading and transport research features
+        if: steps.season.outputs.active == 'true'
+        run: |
+          python -B -m unittest discover -s tests -p 'test_meaher_loading_transport_features.py' -v
+          python -B model_data/build_meaher_loading_transport_features.py
       - name: Upload bounded public evidence
         if: always() && steps.season.outputs.active == 'true'
         uses: actions/upload-artifact@v6
@@ -64,6 +73,7 @@ jobs:
           path: |
             model_data/arcos_realtime_manifest.json
             model_data/arcos_realtime_normalized.csv
+            model_data/meaher_loading_transport_features.json
             model_data/raw_arcos_realtime/
           if-no-files-found: warn
           retention-days: 30
@@ -73,7 +83,7 @@ jobs:
           set -euo pipefail
           git config user.name 'jubilee-model-bot'
           git config user.email 'actions@users.noreply.github.com'
-          git add model_data/arcos_realtime_manifest.json model_data/arcos_realtime_normalized.csv model_data/raw_arcos_realtime/
+          git add model_data/arcos_realtime_manifest.json model_data/arcos_realtime_normalized.csv model_data/meaher_loading_transport_features.json model_data/raw_arcos_realtime/
           if git diff --cached --quiet; then exit 0; fi
           git commit -m 'Refresh DISL ARCOS realtime oxygen observations'
           for attempt in 1 2 3; do

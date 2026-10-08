@@ -201,10 +201,19 @@ def build(root, now):
                     depth_geometry_status=(choices[0].get('depth_geometry_status') if choices else None),
                     is_direct_local_bottom_measurement=False, production_weight=0))
         xb = context(ARCOS, xm)
+        feature_summary = None
+        if r.exists('model_data/meaher_loading_transport_features.json'):
+            feature_summary = r.json('model_data/meaher_loading_transport_features.json')
+            guard.require(feature_summary.get('production_weight') == 0.0, 'Meaher research feature has nonzero production weight')
+            guard.require(feature_summary.get('production_action') == 'NO_CHANGE', 'Meaher research feature changed production action')
+            issue_time = feature_summary.get('issue_time_utc')
+            if issue_time:
+                guard.require(guard.stamp(issue_time) <= now, 'future Meaher feature issue time')
         xb.update(parameter_admission=xa,
+                  derived_loading_transport_features=feature_summary,
                   admitted_status=('ADMITTED_PARTIAL_BAY_OXYGEN_CONTEXT'
                                    if any(x.get('value') is not None for x in xa) else 'UNKNOWN'),
-                  observation='Direct observations at named ARCOS stations. They are zero-weight oxygen-loading/boundary context; public depth does not establish sonde height above bed or Point Clear/Montrose contact-strip bottom state.')
+                  observation='Direct observations at named ARCOS stations plus zero-weight Meaher loading/transport diagnostics when present. Public depth does not establish sonde height above bed or Point Clear/Montrose contact-strip bottom state; derived diagnostics do not change probabilities or alert gates.')
     
 
     mp = {}
@@ -348,7 +357,9 @@ def build(root, now):
                  'model_data/ingest_river_forcing.py', 'model_data/ingest_weeks_bay_realtime.py',
                  'model_data/ingest_ngofs2_point_clear.py'):
         r.read(path)
-    for path in ('model_data/ingest_arcos_realtime.py', 'model_data/arcos_realtime_sources.json'):
+    for path in ('model_data/ingest_arcos_realtime.py', 'model_data/arcos_realtime_sources.json',
+                 'model_data/build_meaher_loading_transport_features.py',
+                 'model_data/meaher_loading_transport_features.json'):
         if r.exists(path):
             r.read(path)
     hashes = {p: h for p, h in r.hashes.items() if p not in (binding.SNAPSHOT, binding.FORECAST)}
