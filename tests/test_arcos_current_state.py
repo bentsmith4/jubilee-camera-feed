@@ -64,6 +64,21 @@ class ArcosIntegrationTests(base.ReconciliationTests):
         with self.assertRaises((ValueError,OSError,EOFError)):
             builder.build(self.root,T0)
 
+    def test_arcos_empty_station_archive_is_verified(self):
+        self.arcos()
+        path='raw_arcos_realtime/empty_hydro.json.gz'
+        raw={'results':{'A':{'status':200,'frames':[]}}}
+        sha=self.f.archive(path,raw)
+        m=self.f.read('model_data/arcos_realtime_manifest.json')
+        m['stations'][1]['streams']=[dict(stream='hydro',status='empty',raw_path=path,raw_sha256=sha)]
+        self.f.write('model_data/arcos_realtime_manifest.json',m)
+        self.commit('empty archive evidence')
+        self.reconcile(T0)
+        self.f.write('model_data/'+path,b'corrupt')
+        self.commit('corrupt empty archive')
+        with self.assertRaises((ValueError,OSError,EOFError)):
+            builder.build(self.root,T0)
+
     def test_arcos_unavailable_manifest_keeps_unknown(self):
         self.arcos()
         self.f.write('model_data/arcos_realtime_manifest.json',dict(status='unavailable',retrieved_at_utc=(T0-timedelta(minutes=1)).isoformat(),stations=[],normalized_rows=0))

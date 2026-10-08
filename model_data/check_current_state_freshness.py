@@ -204,7 +204,7 @@ def environmental_product(name, reader, now):
         stations = {s["station_id"]: s for s in config["stations"]}
         parsed = []
         for source in m["stations"]:
-            if source["status"] != "complete":
+            if source["status"] not in ("complete", "empty"):
                 continue
             station = stations[source["station_id"]]
             for part in source.get("streams", [source]):
