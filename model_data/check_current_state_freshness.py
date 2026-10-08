@@ -207,8 +207,11 @@ def environmental_product(name, reader, now):
             if source["status"] != "complete":
                 continue
             station = stations[source["station_id"]]
-            raw = reader.archive(source["raw_path"], source["raw_sha256"])
-            parsed.extend(parse_response(raw, station, available, config))
+            for stream in source.get("streams", []):
+                if stream.get("status") != "complete":
+                    continue
+                raw = reader.archive(stream["raw_path"], stream["raw_sha256"])
+                parsed.extend(parse_response(raw, station, available, config, stream.get("stream")))
         rows = reader.csv("model_data/arcos_realtime_normalized.csv")
         require(len(rows) == m["normalized_rows"] == len(parsed), "ARCOS row count mismatch")
         rendered = [{k: "" if v is None else str(v) for k, v in r.items()} for r in parsed]
