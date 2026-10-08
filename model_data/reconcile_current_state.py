@@ -57,6 +57,9 @@ class CommittedReader(guard.Reader):
     def blob(self, path):
         return self.git("rev-parse", self.commit + ":" + path).decode().strip()
 
+    def exists(self, path):
+        return bool(self.git("ls-tree", self.commit, "--", path).strip())
+
 
 def build(root, now):
     guard.require(now.utcoffset() is not None, "issue time needs UTC offset")
@@ -164,39 +167,42 @@ def build(root, now):
               'ADMITTED_PARTIAL_REGIONAL_CONTEXT' if any(x['value'] is not None for x in wa) else 'UNKNOWN'),
               observation='Latest station observations only; no missing-parameter backfill. Neither station measures Eastern Shore bottom oxygen.')
 
-    xm = manifest('arcos_realtime')
-    xr = r.csv('model_data/arcos_realtime_normalized.csv') if xm['status'] in ('complete', 'partial') else []
-    xa = []
-    configured = r.json('model_data/arcos_realtime_sources.json')['stations']
-    for station in configured:
-        sr = [x for x in xr if x['station_id'] == station['station_id']]
-        if not sr:
-            xa.append(dict(station_id=station['station_id'], station_name=station['name'],
-                           station_role=station['role'], value=None,
-                           value_status='SOURCE_UNAVAILABLE_OR_NO_HYDRO', production_weight=0))
-            continue
-        tm = max(guard.stamp(x['observed_at']) for x in sr)
-        for parameter in sorted({x['parameter'] for x in sr}):
-            choices = [x for x in sr if guard.stamp(x['observed_at']) == tm and x['parameter'] == parameter]
-            fresh = 0 <= age(tm.isoformat()) <= limits['arcos_realtime']
-            qc = len(choices) == 1 and choices[0]['qc_status'] in ('ARCOS_RANGE_CHECK_PASS', 'SOURCE_QC_NOT_EXPOSED')
-            known = fresh and qc and choices[0]['value'] != '' and guard.stamp(choices[0]['available_at']) <= now
-            value = float(choices[0]['value']) if known else None
-            guard.require(value is None or math.isfinite(value), 'invalid ARCOS value')
-            xa.append(dict(
-                station_id=station['station_id'], station_name=station['name'],
-                station_role=station['role'], parameter=parameter, value=value,
-                unit=choices[0]['unit'] if choices else None, observed_at=tm.isoformat(),
-                value_status=('KNOWN_STATION_OBSERVATION_PROXY' if known else
-                              'UNKNOWN_STALE' if not fresh else 'UNKNOWN_MISSING_OR_QC_REJECTED'),
-                age_minutes=age(tm.isoformat()), freshness_minutes=limits['arcos_realtime'],
-                depth_geometry_status=(choices[0].get('depth_geometry_status') if choices else None),
-                is_direct_local_bottom_measurement=False, production_weight=0))
-    xb = context(ARCOS, xm)
-    xb.update(parameter_admission=xa,
-              admitted_status=('ADMITTED_PARTIAL_BAY_OXYGEN_CONTEXT'
-                               if any(x.get('value') is not None for x in xa) else 'UNKNOWN'),
-              observation='Direct observations at named ARCOS stations. They are zero-weight oxygen-loading/boundary context; public depth does not establish sonde height above bed or Point Clear/Montrose contact-strip bottom state.')
+    xb = None
+    if r.exists('model_data/arcos_realtime_manifest.json') and r.exists('model_data/arcos_realtime_sources.json'):
+        xm = manifest('arcos_realtime')
+        xr = r.csv('model_data/arcos_realtime_normalized.csv') if xm['status'] in ('complete', 'partial') else []
+        xa = []
+        configured = r.json('model_data/arcos_realtime_sources.json')['stations']
+        for station in configured:
+            sr = [x for x in xr if x['station_id'] == station['station_id']]
+            if not sr:
+                xa.append(dict(station_id=station['station_id'], station_name=station['name'],
+                               station_role=station['role'], value=None,
+                               value_status='SOURCE_UNAVAILABLE_OR_NO_HYDRO', production_weight=0))
+                continue
+            tm = max(guard.stamp(x['observed_at']) for x in sr)
+            for parameter in sorted({x['parameter'] for x in sr}):
+                choices = [x for x in sr if guard.stamp(x['observed_at']) == tm and x['parameter'] == parameter]
+                fresh = 0 <= age(tm.isoformat()) <= limits['arcos_realtime']
+                qc = len(choices) == 1 and choices[0]['qc_status'] in ('ARCOS_RANGE_CHECK_PASS', 'SOURCE_QC_NOT_EXPOSED')
+                known = fresh and qc and choices[0]['value'] != '' and guard.stamp(choices[0]['available_at']) <= now
+                value = float(choices[0]['value']) if known else None
+                guard.require(value is None or math.isfinite(value), 'invalid ARCOS value')
+                xa.append(dict(
+                    station_id=station['station_id'], station_name=station['name'],
+                    station_role=station['role'], parameter=parameter, value=value,
+                    unit=choices[0]['unit'] if choices else None, observed_at=tm.isoformat(),
+                    value_status=('KNOWN_STATION_OBSERVATION_PROXY' if known else
+                                  'UNKNOWN_STALE' if not fresh else 'UNKNOWN_MISSING_OR_QC_REJECTED'),
+                    age_minutes=age(tm.isoformat()), freshness_minutes=limits['arcos_realtime'],
+                    depth_geometry_status=(choices[0].get('depth_geometry_status') if choices else None),
+                    is_direct_local_bottom_measurement=False, production_weight=0))
+        xb = context(ARCOS, xm)
+        xb.update(parameter_admission=xa,
+                  admitted_status=('ADMITTED_PARTIAL_BAY_OXYGEN_CONTEXT'
+                                   if any(x.get('value') is not None for x in xa) else 'UNKNOWN'),
+                  observation='Direct observations at named ARCOS stations. They are zero-weight oxygen-loading/boundary context; public depth does not establish sonde height above bed or Point Clear/Montrose contact-strip bottom state.')
+    
 
     mp = {}
     for name in guard.MODEL_PRODUCTS:
@@ -294,12 +300,14 @@ def build(root, now):
     guard.require(not prior['alert_gates']['direct_event_evidence_present'],
                   'REVIEW_REQUIRED: retain active assessed event until explicit review')
     # Unsupported manual inputs are preserved as dated evidence, never relabeled current.
-    replacements = {CAMERA: ca, MODEL: mr, ASOS: a, RIVER: rv, WEEKS: wb, ARCOS: xb}
+    replacements = {CAMERA: ca, MODEL: mr, ASOS: a, RIVER: rv, WEEKS: wb}
+    if xb is not None:
+        replacements[ARCOS] = xb
     s['input_rows'] = [replacements.get(x['source'], dict(source=x['source'], admitted_status='UNKNOWN_NOT_REASSESSED',
                         historical_context=copy.deepcopy(x.get('historical_context', x)),
                         historical_snapshot_time_ct=x.get('historical_snapshot_time_ct', prior['snapshot_time_ct'])))
                        for x in prior['input_rows']]
-    if ARCOS not in by_source:
+    if xb is not None and ARCOS not in by_source:
         s['input_rows'].append(xb)
     static_unknowns = [
         'Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.',
@@ -335,9 +343,11 @@ def build(root, now):
                  'model_data/reconcile_current_state.py', 'model_data/desktop_acceptance.py', 'model_data/bind_current_forecast.py',
                  'model_data/check_current_state_freshness.py', 'model_data/ingest_asos_weather.py',
                  'model_data/ingest_river_forcing.py', 'model_data/ingest_weeks_bay_realtime.py',
-                 'model_data/ingest_arcos_realtime.py', 'model_data/arcos_realtime_sources.json',
                  'model_data/ingest_ngofs2_point_clear.py'):
         r.read(path)
+    for path in ('model_data/ingest_arcos_realtime.py', 'model_data/arcos_realtime_sources.json'):
+        if r.exists(path):
+            r.read(path)
     hashes = {p: h for p, h in r.hashes.items() if p not in (binding.SNAPSHOT, binding.FORECAST)}
     admission = [weather['stations'][st]['status'] for st in sorted(weather['stations'])]
     admission += [x['value_status'] for st in weather['stations'].values() for x in st['parameters'].values()]
