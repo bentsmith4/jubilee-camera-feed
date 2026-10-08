@@ -1,17 +1,299 @@
 {
-  "schema_version": "1.0",
-  "retrieved_at_utc": "2026-10-08T21:20:00+00:00",
+  "schema_version": "1.1",
+  "retrieved_at_utc": "2026-10-08T22:26:46.636529+00:00",
   "source": "DISL ARCOS public Grafana",
   "endpoint": "https://g.disl.edu/api/ds/query",
   "aggregation_minutes": 30,
   "freshness_minutes": 60,
-  "status": "unavailable",
-  "availability_status": "COLLECTOR_NOT_YET_RUN_ON_THIS_BRANCH",
+  "status": "partial",
   "production_action": "NO_CHANGE",
-  "stations": [],
-  "normalized_rows": 0,
-  "stations_with_current_hydro": [],
+  "stations": [
+    {
+      "station_id": "DISL_ARCOS_MP",
+      "station_key": "mp",
+      "station_name": "Meaher Park",
+      "streams": [
+        {
+          "stream": "hydro",
+          "status": "complete",
+          "raw_path": "raw_arcos_realtime/mp_hydro.json.gz",
+          "raw_sha256": "9d5aae7381c56a03207147396f4558d31967903528ab76ce8a5d42d8c8b39a36",
+          "raw_bytes": 2463,
+          "normalized_rows": 66,
+          "latest_observed_at": "2026-10-08T21:30:00+00:00"
+        },
+        {
+          "stream": "met",
+          "status": "complete",
+          "raw_path": "raw_arcos_realtime/mp_met.json.gz",
+          "raw_sha256": "9f0bd3c63de89fbf69c51357ab788d93b3163237424f6f77892309ac22d20ee3",
+          "raw_bytes": 3523,
+          "normalized_rows": 96,
+          "latest_observed_at": "2026-10-08T21:30:00+00:00"
+        }
+      ],
+      "status": "complete",
+      "normalized_rows": 162,
+      "latest_observed_at": "2026-10-08T21:30:00+00:00"
+    },
+    {
+      "station_id": "DISL_ARCOS_CP",
+      "station_key": "cp",
+      "station_name": "Cedar Point",
+      "streams": [
+        {
+          "stream": "hydro",
+          "status": "complete",
+          "raw_path": "raw_arcos_realtime/cp_hydro.json.gz",
+          "raw_sha256": "749f508ee768ed9edda46da53c70652e95a1b571076748cf09a42f3059f210df",
+          "raw_bytes": 2547,
+          "normalized_rows": 66,
+          "latest_observed_at": "2026-10-08T21:30:00+00:00"
+        },
+        {
+          "stream": "met",
+          "status": "complete",
+          "raw_path": "raw_arcos_realtime/cp_met.json.gz",
+          "raw_sha256": "3c9f1ce4e83be4284af92d2384ec8700c3849e4176efdfba90b0514fd4ec5670",
+          "raw_bytes": 3502,
+          "normalized_rows": 96,
+          "latest_observed_at": "2026-10-08T21:30:00+00:00"
+        }
+      ],
+      "status": "complete",
+      "normalized_rows": 162,
+      "latest_observed_at": "2026-10-08T21:30:00+00:00"
+    },
+    {
+      "station_id": "DISL_ARCOS_DI",
+      "station_key": "di",
+      "station_name": "Dauphin Island",
+      "streams": [
+        {
+          "stream": "hydro",
+          "status": "complete",
+          "raw_path": "raw_arcos_realtime/di_hydro.json.gz",
+          "raw_sha256": "52591730ea93a2b2a04faeb9bf7e69f2d7ea96a42288e2f5602ff5090253d398",
+          "raw_bytes": 1860,
+          "normalized_rows": 30,
+          "latest_observed_at": "2026-10-08T18:30:00+00:00"
+        },
+        {
+          "stream": "met",
+          "status": "complete",
+          "raw_path": "raw_arcos_realtime/di_met.json.gz",
+          "raw_sha256": "ad4a11106c0ffeaa9ddd46b9c3eea65f527a67d03bf75f0c998ea8b903abb21b",
+          "raw_bytes": 2636,
+          "normalized_rows": 48,
+          "latest_observed_at": "2026-10-08T18:30:00+00:00"
+        }
+      ],
+      "status": "complete",
+      "normalized_rows": 78,
+      "latest_observed_at": "2026-10-08T18:30:00+00:00"
+    },
+    {
+      "station_id": "DISL_ARCOS_KC",
+      "station_key": "kc",
+      "station_name": "Katrina Cut",
+      "streams": [
+        {
+          "stream": "hydro",
+          "status": "complete",
+          "raw_path": "raw_arcos_realtime/kc_hydro.json.gz",
+          "raw_sha256": "0096b09ca87c0125e976b08d312007482544790380c5e4e4df7bbbe2d26fbbc4",
+          "raw_bytes": 2686,
+          "normalized_rows": 72,
+          "latest_observed_at": "2026-10-08T22:00:00+00:00"
+        },
+        {
+          "stream": "met",
+          "status": "complete",
+          "raw_path": "raw_arcos_realtime/kc_met.json.gz",
+          "raw_sha256": "38f1d2f32428bca229af6a7b39d70112c182b9e77b3673f76e58f5e0f664b3b1",
+          "raw_bytes": 3653,
+          "normalized_rows": 104,
+          "latest_observed_at": "2026-10-08T22:00:00+00:00"
+        }
+      ],
+      "status": "complete",
+      "normalized_rows": 176,
+      "latest_observed_at": "2026-10-08T22:00:00+00:00"
+    },
+    {
+      "station_id": "DISL_ARCOS_PP",
+      "station_key": "pp",
+      "station_name": "Perdido Pass",
+      "streams": [
+        {
+          "stream": "hydro",
+          "status": "complete",
+          "raw_path": "raw_arcos_realtime/pp_hydro.json.gz",
+          "raw_sha256": "74c6ccd425dc7ca41849d48c7b8c86d3ba5fd7656e0bea32d3082b1aacd71ae2",
+          "raw_bytes": 2618,
+          "normalized_rows": 72,
+          "latest_observed_at": "2026-10-08T22:00:00+00:00"
+        },
+        {
+          "stream": "met",
+          "status": "complete",
+          "raw_path": "raw_arcos_realtime/pp_met.json.gz",
+          "raw_sha256": "30969864cc35280d1c830aa6cb849ab50d7a0d76e404e1b6d20c6ef1d147e49f",
+          "raw_bytes": 3675,
+          "normalized_rows": 104,
+          "latest_observed_at": "2026-10-08T22:00:00+00:00"
+        }
+      ],
+      "status": "complete",
+      "normalized_rows": 176,
+      "latest_observed_at": "2026-10-08T22:00:00+00:00"
+    },
+    {
+      "station_id": "DISL_ARCOS_BS",
+      "station_key": "bs",
+      "station_name": "Bon Secour",
+      "streams": [
+        {
+          "stream": "hydro",
+          "status": "empty",
+          "raw_path": "raw_arcos_realtime/bs_hydro.json.gz",
+          "raw_sha256": "54584ab35931d85b6fb51c7b5cc4ff387bac3c0e8b58a332095e8e3ca996d4a2",
+          "raw_bytes": 652,
+          "normalized_rows": 0,
+          "latest_observed_at": null
+        },
+        {
+          "stream": "met",
+          "status": "complete",
+          "raw_path": "raw_arcos_realtime/bs_met.json.gz",
+          "raw_sha256": "92c363711be41aa1562030fa5a3feb5bb46dcb3b003835a81db73bc78a8f068a",
+          "raw_bytes": 3653,
+          "normalized_rows": 104,
+          "latest_observed_at": "2026-10-08T22:00:00+00:00"
+        }
+      ],
+      "status": "complete",
+      "normalized_rows": 104,
+      "latest_observed_at": "2026-10-08T22:00:00+00:00"
+    },
+    {
+      "station_id": "DISL_ARCOS_BSP",
+      "station_key": "bsp",
+      "station_name": "Battleship Park",
+      "streams": [
+        {
+          "stream": "hydro",
+          "status": "empty",
+          "raw_path": "raw_arcos_realtime/bsp_hydro.json.gz",
+          "raw_sha256": "7e5317d15bf0fef2286078e9f576466965594161544bfa0fdd9f453f77e531ec",
+          "raw_bytes": 653,
+          "normalized_rows": 0,
+          "latest_observed_at": null
+        },
+        {
+          "stream": "met",
+          "status": "complete",
+          "raw_path": "raw_arcos_realtime/bsp_met.json.gz",
+          "raw_sha256": "d1652cc0df6c56f287c89240c274e4a3c65a1075dfc8ab4271b561596ec92850",
+          "raw_bytes": 3664,
+          "normalized_rows": 104,
+          "latest_observed_at": "2026-10-08T22:00:00+00:00"
+        }
+      ],
+      "status": "complete",
+      "normalized_rows": 104,
+      "latest_observed_at": "2026-10-08T22:00:00+00:00"
+    },
+    {
+      "station_id": "DISL_ARCOS_GSP",
+      "station_key": "gsp",
+      "station_name": "Gulf State Park Pier",
+      "streams": [
+        {
+          "stream": "hydro",
+          "status": "empty",
+          "raw_path": "raw_arcos_realtime/gsp_hydro.json.gz",
+          "raw_sha256": "074a0971b1f0cba66408022b7e64fb35650206e033503296bc3e8110ccfdcb9a",
+          "raw_bytes": 653,
+          "normalized_rows": 0,
+          "latest_observed_at": null
+        },
+        {
+          "stream": "met",
+          "status": "complete",
+          "raw_path": "raw_arcos_realtime/gsp_met.json.gz",
+          "raw_sha256": "a0a83c023cd5896c181ce9262d322ebba115785c5559d071680cd0d11a1c8a82",
+          "raw_bytes": 3643,
+          "normalized_rows": 104,
+          "latest_observed_at": "2026-10-08T22:00:00+00:00"
+        }
+      ],
+      "status": "complete",
+      "normalized_rows": 104,
+      "latest_observed_at": "2026-10-08T22:00:00+00:00"
+    },
+    {
+      "station_id": "DISL_ARCOS_MB",
+      "station_key": "mb",
+      "station_name": "Middle Bay Lighthouse",
+      "streams": [
+        {
+          "stream": "hydro",
+          "status": "empty",
+          "raw_path": "raw_arcos_realtime/mb_hydro.json.gz",
+          "raw_sha256": "bf3fa2ee6e874dd0d4785a0246ceb7d824236518069a7fadc670131d67ffc216",
+          "raw_bytes": 652,
+          "normalized_rows": 0,
+          "latest_observed_at": null
+        },
+        {
+          "stream": "met",
+          "status": "empty",
+          "raw_path": "raw_arcos_realtime/mb_met.json.gz",
+          "raw_sha256": "31dcadae821e73ad9292077bca43d67ef2692b384f8faafda9747c466c5fe6dd",
+          "raw_bytes": 968,
+          "normalized_rows": 0,
+          "latest_observed_at": null
+        }
+      ],
+      "status": "empty",
+      "normalized_rows": 0,
+      "latest_observed_at": null
+    }
+  ],
+  "normalized_rows": 1066,
+  "stations_with_current_data": [
+    "DISL_ARCOS_MP",
+    "DISL_ARCOS_CP",
+    "DISL_ARCOS_DI",
+    "DISL_ARCOS_KC",
+    "DISL_ARCOS_PP",
+    "DISL_ARCOS_BS",
+    "DISL_ARCOS_BSP",
+    "DISL_ARCOS_GSP"
+  ],
+  "parameters_seen": [
+    "air_temperature_c",
+    "barometric_pressure_mbar",
+    "depth_field_m",
+    "dissolved_oxygen_mg_l",
+    "dissolved_oxygen_percent",
+    "precipitation",
+    "quantum_radiation_umol_m2_s",
+    "relative_humidity_percent",
+    "salinity_psu",
+    "solar_radiation_kw_m2",
+    "turbidity_fnu",
+    "water_temperature_c",
+    "wind_direction_deg",
+    "wind_speed"
+  ],
   "guardrails": [
-    "Transition manifest only; no observation is claimed until the collector successfully fetches, hashes, normalizes and persists source evidence."
+    "Direct at named ARCOS stations; regional/oxygen-loading/weather context for Jubilee unless station geometry proves otherwise.",
+    "Public Grafana frame does not expose source aggregate QC per observation; DISL physical range checks are applied locally.",
+    "Historical 0.5 m-above-bottom evidence is retained separately and is not automatically treated as current deployment geometry.",
+    "Depth field is not accepted as sensor height above bed; current bottom identity remains unverified unless station-specific current metadata proves it.",
+    "Missing, empty, stale, or range-rejected values remain UNKNOWN.",
+    "All rows retain production_weight=0.0 pending held-out promotion."
   ]
 }
