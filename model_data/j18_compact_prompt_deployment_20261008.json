@@ -1,7 +1,7 @@
 {
   "scope": "LOSSLESS_PROMPT_AND_RESPONSE_FORMATTING",
   "owner_authorized": "2026-10-08",
-  "production_status": "NOT_DEPLOYED_POINTCLEARPC_OFFLINE",
+  "production_status": "INSTALLED_STATIC_VALIDATED_NORMAL_CYCLE_ACCEPTANCE_PENDING",
   "runtime_file": "C:\\JubileeCams\\analyze_frames.py",
   "changes": [
     "Compact input schema examples without changing parsed schemas",
@@ -22,17 +22,29 @@
     "offline_tests_passed": 18,
     "schema_identity": "Canonical JSON SHA256 equality verified against original camera and synthesis templates",
     "paid_calls": 0,
-    "savings": "NOT_MEASURED; output formatting savings depend on compliance and billing; no 14.6% image-savings claim"
+    "savings": "NOT_MEASURED; output formatting savings depend on compliance and billing; no 14.6% image-savings claim",
+    "installed_runtime_offline_tests": {
+      "passed": 15,
+      "failures": 0,
+      "errors": 0,
+      "method": "Existing vision-efficiency tests imported with live runtime and mocked OpenAI requests."
+    },
+    "non_prompt_ast": "IDENTICAL",
+    "syntax": "PASS",
+    "readback_sha256": "b1e90549dd0151ccc61e3b970cd128dacb0b4583f5170ff94f910e2cd0389e05",
+    "normal_cycle": "PENDING; observe ordinary post-deployment cycle, do not force calls"
   },
   "deployment": {
-    "blocker": "PointClearPC offline in device listing; direct process retry also rejected as no online device",
-    "steps": [
-      "Read and back up actual runtime script and compare against source; reconcile newer local changes before editing",
-      "Apply only schema-formatting and compact-output prompt changes at a natural pipeline boundary; do not start duplicate captures",
-      "Read back changed file/hash and validate syntax",
-      "Observe normal existing cycle: six successful three-frame results, matching capture identity, UNKNOWN and safety behavior preserved, usage telemetry retained"
-    ],
-    "rollback": "Restore backed-up analyze_frames.py if normal-cycle output validation fails"
+    "deployed_at_utc": "2026-10-09T07:17:35.026865+00:00",
+    "device": "PointClearPC",
+    "source_commit": "8a84f8cd96fa5fec426fa8c6723d881fcf332f3e",
+    "backup": "C:\\JubileeCams\\analyze_frames.py.backup_compact_20261009T071735Z",
+    "before_sha256": "df1539538ae2ad2ceb5a473872bc08b50b4dff0093ffefc0feb9f4b9104909ff",
+    "after_sha256": "b1e90549dd0151ccc61e3b970cd128dacb0b4583f5170ff94f910e2cd0389e05",
+    "method": "Two prompt function replacements only; schema equality and identical non-prompt AST verified; file replaced atomically at an idle analysis boundary.",
+    "local_receipt": "C:\\JubileeCams\\model_data\\j18_compact_prompt_deployment_20261009.json",
+    "remaining": "Observe normal existing cycle: six successful three-frame results, matching capture identity, UNKNOWN and safety behavior preserved, usage telemetry retained.",
+    "rollback": "Restore backed-up analyze_frames.py after reviewing current file if normal-cycle validation fails. Do not overwrite unrelated newer changes."
   },
   "crop_experiments": "Independent and unchanged. ROI/downscale effectiveness not yet validated; do not deploy them or suppress camera calls."
 }
