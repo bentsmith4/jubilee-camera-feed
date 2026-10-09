@@ -1,12 +1,54 @@
 {
   "schema_version": "1.2",
-  "retrieved_at": "2026-10-07T13:53:03.101682+00:00",
+  "retrieved_at": "2026-10-09T15:22:33.351449+00:00",
   "cast": "forecast",
   "status": "unavailable",
   "evidence_class": "MODEL",
   "production_action": "NO_CURRENT_GUIDANCE",
-  "error_type": "RuntimeError",
-  "error": "NetCDF: DAP server error",
+  "error_type": "RetrievalOpenError",
+  "error": "Unable to open any recent NGOFS2 station dataset: [{'url': 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/09/ngofs2.t09z.20261009.stations.forecast.nc', 'error_type': 'OSError', 'error': \"[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/09/ngofs2.t09z.20261009.stations.forecast.nc'\"}, {'url': 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/09/ngofs2.t03z.20261009.statio",
+  "retrieval_attempts": [
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/09/ngofs2.t09z.20261009.stations.forecast.nc",
+      "error_type": "OSError",
+      "error": "[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/09/ngofs2.t09z.20261009.stations.forecast.nc'"
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/09/ngofs2.t03z.20261009.stations.forecast.nc",
+      "error_type": "OSError",
+      "error": "[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/09/ngofs2.t03z.20261009.stations.forecast.nc'"
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/08/ngofs2.t21z.20261008.stations.forecast.nc",
+      "error_type": "OSError",
+      "error": "[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/08/ngofs2.t21z.20261008.stations.forecast.nc'"
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/08/ngofs2.t15z.20261008.stations.forecast.nc",
+      "error_type": "OSError",
+      "error": "[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/08/ngofs2.t15z.20261008.stations.forecast.nc'"
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/08/ngofs2.t09z.20261008.stations.forecast.nc",
+      "error_type": "OSError",
+      "error": "[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/08/ngofs2.t09z.20261008.stations.forecast.nc'"
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/08/ngofs2.t03z.20261008.stations.forecast.nc",
+      "error_type": "OSError",
+      "error": "[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/08/ngofs2.t03z.20261008.stations.forecast.nc'"
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/07/ngofs2.t21z.20261007.stations.forecast.nc",
+      "error_type": "OSError",
+      "error": "[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/07/ngofs2.t21z.20261007.stations.forecast.nc'"
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/07/ngofs2.t15z.20261007.stations.forecast.nc",
+      "error_type": "OSError",
+      "error": "[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/07/ngofs2.t15z.20261007.stations.forecast.nc'"
+    }
+  ],
   "guardrails": [
     "NGOFS2 is MODEL guidance and is not a direct current, salinity, temperature, water-level or oxygen observation.",
     "Point Clear station mapping prefers name but may use the official Point Clear coordinate as an auditable fallback; a >10 km nearest station is refused.",
