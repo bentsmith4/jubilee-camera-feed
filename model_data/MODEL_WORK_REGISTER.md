@@ -2001,3 +2001,32 @@ Current zero-weight research feature set:
 First persisted feature snapshot at issue time 2026-10-08T22:00:00Z: Meaher DO 0.60 mg/L, 8.12% saturation, salinity 11.14 PSU, water temperature 27.39 C. The 1-hour DO slope was -0.32 mg/L/hour; within the sampled 6-hour window, discrete interval accounting recorded 300 minutes below 2.0 mg/L, 210 below 1.0 mg/L, and 90 below 0.5 mg/L. Point Clear transport was UNKNOWN_NO_AVAILABLE_MODEL_TRANSPORT, so no combined transport interaction was computed.
 
 This is an ongoing model-context layer, not a probability/alert change. Historical 0.5 m-above-bottom provenance is retained, while current 2026 geometry remains explicitly unverified. Next validation gate is event/control scoring once sufficient matched controls and contemporaneous transport are available.
+
+
+## Cross-chat consolidation and Dot pilot — owner authorized October 9, 2026
+
+Ben directed execution of the effectiveness recommendations and prevention of repeated follow-up across chats. This is the shared project index; keep the four production roles separate and reuse current evidence, work IDs, issues, PRs and receipts. A repeated inquiry in another chat does not create a second job. Reconcile latest persisted completion before repeating an action and report the existing owner and genuinely unfinished step. Suppress unchanged operational reminders; retain material changes, failures, deadlines, requested status and owner decisions.
+
+### Applied configuration and documentation
+
+- All 17 enabled portfolio automation prompts now require the same stable action identity, latest specialist evidence and the portfolio action ledger before repeating an obligation. Exact prompt readback passed; all schedules and enabled states, including the eight disabled tasks, remained unchanged. This establishes configuration, not run acceptance or measured efficiency.
+- Sensing, Dawn Brief and Research use this one register and current canonical observations. No additional acquisition, paid analysis, research database, scheduled coordinator or routine digest was added.
+- Repository AGENTS.md now carries the same owner-authorized cross-chat execution rule for future project work.
+- UGA UA97-061 Series 10, David E. Davis, Box 53 Folder 3, Log books 1957–1960 is retired after Ben inspected its deer-sighting content and authorized stopping the lead. The archival follow-up document records the supersession; preserve prior correspondence as history. This does not rule out other UGA holdings or resolve the 35/37 count discrepancy.
+- Jubilee Dot pilot charter is saved at `model_data/DOT_PILOT_CHARTER.md`, developing the October 3 plan. GitHub read access was validated. Dot activation remains blocked by denied ChatGPT browser permission; no Dot was created or activated and the thirty-day test has not begun.
+
+### Existing work to resume
+
+| Existing identity | Precise next action | Completion evidence required |
+|---|---|---|
+| J18 / compact-prompt deployment | Reconcile the latest normal six-camera analysis receipt and measured input/output usage; price actual savings only with model rates and billing reconciliation | Matching capture/analysis hashes, preserved schema/UNKNOWN behavior, comparable usage and reconciled dollar cost; do not repeat paid calls for validation |
+| Meaher loading / transport layer, PR #82 | Reconcile the reported actual-CSV column mismatch and current fix status before creating another branch or PR; preserve stale-model rejection | Tests against the actual normalized columns and contemporaneous valid-time/availability guards; stale guidance remains UNKNOWN |
+| J02 / public-camera expansion | Use existing main candidate contracts and validated sensing output; resolve advancing playback, geometry, permitted use and visibility per candidate | Structured source/time/scope evidence; unavailable viewers remain UNKNOWN; no retained third-party media |
+| J08 / archival research | Stop this specific UGA folder lead; reuse current Mobile Archives request/response history | Preserve separate publication/event dates, exact locators and repeat-outreach authorization |
+| J10 / held-out event comparison | Prioritize matched event/control evidence and explicit gaps over additional feature proliferation | Existing independent-control and leakage gates; no claim of predictive gain from operations or test count |
+
+### Open execution limits
+
+Direct local shell/file writes failed in the active Work session, and alternate native-runtime/remote-file-writing actions were rejected because tool approval is required but the current approval policy is never. The two portfolio Markdown files were not rewritten here. Existing recurring prompts contain the complete follow-up rule and retain their established authorized writeback responsibility. Do not misrepresent that prompt change as a successful portfolio-file write. Browser security policy independently denied access to chatgpt.com; do not bypass it through another browser or indirect execution. Resume only through supported access after that permission is restored.
+
+No production camera/runtime files, numerical weights, probabilities, thresholds, cadence, forecast binding, UNKNOWN semantics or outreach permissions changed in this consolidation. No emails, payments, transfers, new To Do tasks, graph submissions or repeated paid model calls were made.
