@@ -196,3 +196,61 @@ class AvailabilityTests(unittest.TestCase):
                 self.assertEqual(manifest["availability_reason"], "retrieval_timeout_cause_unresolved")
                 self.assertEqual(manifest["production_action"], "NO_CURRENT_GUIDANCE")
                 self.assertEqual(archive.read_bytes(), b"immutable research evidence")
+
+class StructuredAttemptTests(unittest.TestCase):
+    def test_confirmed_attempts_are_unavailable(self):
+        attempts=[{'url':DAP_URL,'error_type':'OSError',
+                   'error':str(OSError(-70,'NetCDF: DAP server error',DAP_URL))}]*8
+        manifest={'status':'failed','error_type':'RetrievalOpenError',
+                  'error':'truncated diagnostic text','retrieval_attempts':attempts}
+        self.assertTrue(module.retrieval_outage(manifest))
+        with tempfile.TemporaryDirectory() as temp:
+            root=Path(temp)
+            AvailabilityTests().make_root(root)
+            (root/'ngofs2_point_clear_nowcast_manifest.json').write_text(json.dumps(manifest))
+            out=module.validate(root)
+            self.assertEqual(out['ngofs2_point_clear_nowcast'],'unavailable')
+            self.assertFalse((root/'ngofs2_point_clear_nowcast_normalized.csv').exists())
+            self.assertEqual(json.loads((root/'ngofs2_point_clear_nowcast_manifest.json').read_text())['retrieval_attempts'],attempts)
+    def test_empty_mixed_and_malformed_attempts_stay_fatal(self):
+        good={'error_type':'OSError','error':'[Errno -70] NetCDF: DAP server error'}
+        for attempts in ([],None,[good,{'error_type':'ValueError','error':'invalid schema'}],
+                         [good,{'error_type':'OSError','error':'NetCDF: I/O failure'}],['bad']):
+            self.assertFalse(module.retrieval_outage({'error_type':'RetrievalOpenError',
+                                                    'retrieval_attempts':attempts}))
+
+class CollectorFailureTests(unittest.TestCase):
+    def collector(self):
+        import sys, types
+        from unittest.mock import patch
+        stub=types.ModuleType('netCDF4')
+        stub.Dataset=stub.chartostring=stub.num2date=lambda *a,**k: None
+        spec=importlib.util.spec_from_file_location('ngofs2_collector',
+            Path(__file__).resolve().parents[1]/'model_data/ingest_ngofs2_point_clear.py')
+        collector=importlib.util.module_from_spec(spec)
+        with patch.dict(sys.modules,{'netCDF4':stub}):
+            spec.loader.exec_module(collector)
+        return collector
+    def test_full_attempts_survive_manifest_serialization(self):
+        from unittest.mock import patch
+        c=self.collector()
+        def unavailable(url, **kwargs):
+            raise OSError(-70,'NetCDF: DAP server error',url)
+        with tempfile.TemporaryDirectory() as temp:
+            with patch.object(c,'HERE',Path(temp)), patch.object(c,'Dataset',side_effect=unavailable), patch('sys.argv',['collector','--cast','nowcast']):
+                with self.assertRaises(SystemExit): c.main()
+            m=json.loads((Path(temp)/'ngofs2_point_clear_nowcast_manifest.json').read_text())
+            self.assertEqual(m['error_type'],'RetrievalOpenError')
+            self.assertEqual(len(m['retrieval_attempts']),8)
+            self.assertTrue(all(a['error']==str(OSError(-70,'NetCDF: DAP server error',a['url']))
+                                for a in m['retrieval_attempts']))
+            self.assertTrue(module.retrieval_outage(m))
+    def test_collector_mixed_failures_are_not_outages(self):
+        from datetime import datetime,timezone
+        from unittest.mock import patch
+        c=self.collector()
+        with patch.object(c,'Dataset',side_effect=ValueError('invalid schema')):
+            with self.assertRaises(c.RetrievalOpenError) as caught:
+                c.open_latest('nowcast',datetime(2026,10,9,12,tzinfo=timezone.utc))
+        self.assertFalse(module.retrieval_outage({'error_type':'RetrievalOpenError',
+                                                 'retrieval_attempts':caught.exception.attempts}))

@@ -259,6 +259,12 @@ def extract_from_dataset(ds, source_url, retrieved_at, cycle):
     return rows, metadata
 
 
+class RetrievalOpenError(RuntimeError):
+    def __init__(self, attempts):
+        self.attempts = attempts
+        super().__init__(f"Unable to open any recent NGOFS2 station dataset: {attempts}")
+
+
 def open_latest(cast, now):
     errors = []
     for cycle in cycle_candidates(now):
@@ -266,8 +272,8 @@ def open_latest(cast, now):
         try:
             return Dataset(url, mode="r"), url, cycle, errors
         except Exception as exc:
-            errors.append({"url": url, "error_type": type(exc).__name__, "error": str(exc)[:160]})
-    raise RuntimeError(f"Unable to open any recent NGOFS2 station dataset: {errors}")
+            errors.append({"url": url, "error_type": type(exc).__name__, "error": str(exc)})
+    raise RetrievalOpenError(errors)
 
 
 def main():
@@ -314,6 +320,8 @@ def main():
                          "transport_windows": windows})
     except Exception as exc:
         manifest.update({"status": "failed", "error_type": type(exc).__name__, "error": str(exc)[:500]})
+        if isinstance(exc, RetrievalOpenError):
+            manifest["retrieval_attempts"] = exc.attempts
     manifest["guardrails"] = [
         "NGOFS2 is MODEL guidance and is not a direct current, salinity, temperature, water-level or oxygen observation.",
         "Point Clear station mapping prefers name but may use the official Point Clear coordinate as an auditable fallback; a >10 km nearest station is refused.",

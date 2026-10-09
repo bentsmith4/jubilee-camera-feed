@@ -34,8 +34,14 @@ def read_csv(path):
     with path.open(encoding="utf-8",newline="") as f:
         return list(csv.DictReader(f))
 
+def available_at_issue(row, at):
+    try:
+        return stamp(row["available_at"]) <= at
+    except (KeyError, TypeError, ValueError):
+        return False
+
 def latest_value(rows,param,at):
-    xs=[r for r in rows if r.get("parameter")==param and stamp(r["observed_at"])<=at
+    xs=[r for r in rows if r.get("parameter")==param and stamp(r["observed_at"])<=at and available_at_issue(r,at)
         and r.get("qc_status") in ("ARCOS_RANGE_CHECK_PASS","SOURCE_QC_NOT_EXPOSED")]
     if not xs: return None
     return max(xs,key=lambda r:stamp(r["observed_at"]))
@@ -44,7 +50,7 @@ def series(rows,param,at,hours):
     lo=at.timestamp()-hours*3600
     out=[]
     for r in rows:
-        if r.get("parameter")!=param: continue
+        if r.get("parameter")!=param or not available_at_issue(r,at): continue
         if r.get("qc_status") not in ("ARCOS_RANGE_CHECK_PASS","SOURCE_QC_NOT_EXPOSED"): continue
         t=stamp(r["observed_at"])
         v=finite(r.get("value"))
@@ -76,12 +82,15 @@ def below_duration(points,threshold):
 def transport_context(rows,issue):
     candidates=[]
     for r in rows:
-        if r.get("source_class")!="MODEL": continue
-        if r.get("parameter")!="shoreward_current" or r.get("vertical_position")!="bottom": continue
-        valid=stamp(r["valid_at"])
-        available=stamp(r["available_at"])
+        if r.get("evidence_class")!="MODEL": continue
+        if r.get("parameter")!="shoreward_current" or r.get("vertical_role")!="bottom": continue
+        try:
+            valid=stamp(r["valid_at"])
+            available=stamp(r["available_at"])
+        except (KeyError, TypeError, ValueError):
+            continue
         if valid<=issue and available<=issue:
-            v=finite(r.get("value_or_status"))
+            v=finite(r.get("value"))
             if v is not None:
                 candidates.append((valid,available,v,r))
     if not candidates:
@@ -105,13 +114,10 @@ def build(root=ROOT,as_of=None):
         and r.get("qc_status")=="ARCOS_RANGE_CHECK_PASS"]
     if not do:
         return {"schema_version":"1.0","status":"UNKNOWN_NO_MEAHER_DO","production_action":"NO_CHANGE","production_weight":0.0}
-    issue=stamp(as_of) if as_of else max(stamp(r["observed_at"]) for r in do)
-    if as_of:
-        do=[r for r in do if stamp(r["observed_at"])<=issue]
-        if not do:
-            return {"schema_version":"1.0","status":"UNKNOWN_NO_MEAHER_DO_AT_ISSUE_TIME","production_action":"NO_CHANGE","production_weight":0.0}
-    latest=max(do,key=lambda r:stamp(r["observed_at"]))
-    issue=min(issue,stamp(latest["observed_at"])) if not as_of else issue
+    issue=stamp(as_of) if as_of else datetime.now(timezone.utc)
+    do=[r for r in do if stamp(r["observed_at"])<=issue and available_at_issue(r,issue)]
+    if not do:
+        return {"schema_version":"1.0","status":"UNKNOWN_NO_MEAHER_DO_AT_ISSUE_TIME","production_action":"NO_CHANGE","production_weight":0.0}
     latest_do=latest_value(mp,"dissolved_oxygen_mg_l",issue)
     latest_pct=latest_value(mp,"dissolved_oxygen_percent",issue)
     latest_sal=latest_value(mp,"salinity_psu",issue)
