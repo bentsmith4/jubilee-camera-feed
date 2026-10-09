@@ -1,7 +1,7 @@
 {
   "scope": "LOSSLESS_PROMPT_AND_RESPONSE_FORMATTING",
   "owner_authorized": "2026-10-08",
-  "production_status": "INSTALLED_STATIC_VALIDATED_NORMAL_CYCLE_ACCEPTANCE_PENDING",
+  "production_status": "INSTALLED_NORMAL_CYCLE_INTEGRITY_VALIDATED_BILLING_ACCEPTANCE_PENDING",
   "runtime_file": "C:\\JubileeCams\\analyze_frames.py",
   "changes": [
     "Compact input schema examples without changing parsed schemas",
@@ -22,7 +22,7 @@
     "offline_tests_passed": 18,
     "schema_identity": "Canonical JSON SHA256 equality verified against original camera and synthesis templates",
     "paid_calls": 0,
-    "savings": "NOT_MEASURED; output formatting savings depend on compliance and billing; no 14.6% image-savings claim",
+    "savings": "OBSERVED_TOKEN_REDUCTION; ACTUAL_DOLLAR_SAVINGS_NOT_VERIFIED",
     "installed_runtime_offline_tests": {
       "passed": 15,
       "failures": 0,
@@ -32,7 +32,7 @@
     "non_prompt_ast": "IDENTICAL",
     "syntax": "PASS",
     "readback_sha256": "b1e90549dd0151ccc61e3b970cd128dacb0b4583f5170ff94f910e2cd0389e05",
-    "normal_cycle": "PENDING; observe ordinary post-deployment cycle, do not force calls"
+    "normal_cycle": "PASS for 2026-10-09T05:45:49.389717-05:00: six completed camera responses plus completed synthesis; see post_installation_validation"
   },
   "deployment": {
     "deployed_at_utc": "2026-10-09T07:17:35.026865+00:00",
@@ -43,8 +43,214 @@
     "after_sha256": "b1e90549dd0151ccc61e3b970cd128dacb0b4583f5170ff94f910e2cd0389e05",
     "method": "Two prompt function replacements only; schema equality and identical non-prompt AST verified; file replaced atomically at an idle analysis boundary.",
     "local_receipt": "C:\\JubileeCams\\model_data\\j18_compact_prompt_deployment_20261009.json",
-    "remaining": "Observe normal existing cycle: six successful three-frame results, matching capture identity, UNKNOWN and safety behavior preserved, usage telemetry retained.",
+    "remaining": "Normal-cycle integrity passed. Dollar acceptance awaits reconciled provider billing evidence; missing-camera and positive-alligator live scenarios were not encountered and remain covered by prior offline/static checks.",
     "rollback": "Restore backed-up analyze_frames.py after reviewing current file if normal-cycle validation fails. Do not overwrite unrelated newer changes."
   },
-  "crop_experiments": "Independent and unchanged. ROI/downscale effectiveness not yet validated; do not deploy them or suppress camera calls."
+  "crop_experiments": "Independent and unchanged. ROI/downscale effectiveness not yet validated; do not deploy them or suppress camera calls.",
+  "post_installation_validation": {
+    "device": "PointClearPC",
+    "validated_at_ct": "2026-10-09 morning",
+    "paid_calls_triggered": 0,
+    "runtime_sha256": "b1e90549dd0151ccc61e3b970cd128dacb0b4583f5170ff94f910e2cd0389e05",
+    "capture_id": "2026-10-09T05:45:49.389717-05:00",
+    "archive": "C:\\JubileeCams\\captures\\20261009T054549389717-255a0a95523b",
+    "evidence": [
+      "vision.json",
+      "status.json",
+      "burst_status.json",
+      "burst_latest/*.jpg",
+      "C:\\JubileeCams\\frames\\api_usage.jsonl"
+    ],
+    "integrity": {
+      "completed_camera_responses": 6,
+      "completed_synthesis_responses": 1,
+      "all_camera_status_ok": true,
+      "frames_per_camera": 3,
+      "image_sha256_matches": 18,
+      "capture_input_hash_matches": true,
+      "burst_shots_match": true,
+      "observation_fields_per_camera": 52,
+      "missing_fields_vs_oct8_0546": [],
+      "added_fields_vs_oct8_0546": [],
+      "alligator_frame_detections_per_camera": [
+        1,
+        2,
+        3
+      ],
+      "aggregate_alligator_fields_and_alert_and_recent_history": "PRESENT"
+    },
+    "unknown": {
+      "live_overall": "unclear",
+      "live_montrose": "unclear",
+      "live_point_clear": "unclear",
+      "synthesis_mode": "model",
+      "offline_guards": {
+        "synthesis": {
+          "overall_visual_jubilee_signal": "unclear",
+          "montrose_visual_signal": "unclear",
+          "point_clear_visual_signal": "unclear"
+        },
+        "requires_model": true,
+        "live_requires_model": true
+      },
+      "qualification": "All six views had low biological detectability. Raw none/none_visible labels are scoped visible observations, not verified absence. Poor-view human_sensor_score=0 at E3 remains a raw descriptive value, not a clean negative. No missing-camera incident or positive alligator occurred in this cycle; those paths have offline/static evidence only."
+    },
+    "token_comparison": {
+      "method": "Complete six-camera cycles, same model gpt-5.6-luna and three-image telemetry, October 8 vs October 9, 05:00 inclusive to 07:00 exclusive CT. Camera stages only; seven pre vs six post cycles. Observational comparison, different scenes and reasoning; not a randomized causal estimate.",
+      "data": {
+        "2026-10-08": {
+          "cycles": [
+            {
+              "capture": "2026-10-08T05:06:06.260528-05:00",
+              "input_tokens": 43377,
+              "output_tokens": 6058,
+              "cached_input_tokens": 14196,
+              "reasoning_output_tokens": 1885
+            },
+            {
+              "capture": "2026-10-08T05:25:59.880978-05:00",
+              "input_tokens": 43377,
+              "output_tokens": 6597,
+              "cached_input_tokens": 14196,
+              "reasoning_output_tokens": 2523
+            },
+            {
+              "capture": "2026-10-08T05:46:36.193818-05:00",
+              "input_tokens": 43377,
+              "output_tokens": 5741,
+              "cached_input_tokens": 14196,
+              "reasoning_output_tokens": 1768
+            },
+            {
+              "capture": "2026-10-08T06:06:36.199855-05:00",
+              "input_tokens": 43377,
+              "output_tokens": 6115,
+              "cached_input_tokens": 14196,
+              "reasoning_output_tokens": 1955
+            },
+            {
+              "capture": "2026-10-08T06:13:09.832991-05:00",
+              "input_tokens": 43377,
+              "output_tokens": 5892,
+              "cached_input_tokens": 14196,
+              "reasoning_output_tokens": 1922
+            },
+            {
+              "capture": "2026-10-08T06:32:54.023897-05:00",
+              "input_tokens": 43377,
+              "output_tokens": 5744,
+              "cached_input_tokens": 14196,
+              "reasoning_output_tokens": 1618
+            },
+            {
+              "capture": "2026-10-08T06:52:40.505179-05:00",
+              "input_tokens": 43377,
+              "output_tokens": 5225,
+              "cached_input_tokens": 14196,
+              "reasoning_output_tokens": 1038
+            }
+          ],
+          "mean": {
+            "input_tokens": 43377,
+            "output_tokens": 5910.285714285715,
+            "cached_input_tokens": 14196,
+            "reasoning_output_tokens": 1815.5714285714287
+          }
+        },
+        "2026-10-09": {
+          "cycles": [
+            {
+              "capture": "2026-10-09T05:05:53.400914-05:00",
+              "input_tokens": 42813,
+              "output_tokens": 4796,
+              "cached_input_tokens": 13632,
+              "reasoning_output_tokens": 1834
+            },
+            {
+              "capture": "2026-10-09T05:25:48.871585-05:00",
+              "input_tokens": 42813,
+              "output_tokens": 4929,
+              "cached_input_tokens": 13632,
+              "reasoning_output_tokens": 1969
+            },
+            {
+              "capture": "2026-10-09T05:45:49.389717-05:00",
+              "input_tokens": 42813,
+              "output_tokens": 4961,
+              "cached_input_tokens": 13632,
+              "reasoning_output_tokens": 2019
+            },
+            {
+              "capture": "2026-10-09T06:06:18.151450-05:00",
+              "input_tokens": 42813,
+              "output_tokens": 4690,
+              "cached_input_tokens": 13632,
+              "reasoning_output_tokens": 1724
+            },
+            {
+              "capture": "2026-10-09T06:26:19.824169-05:00",
+              "input_tokens": 42813,
+              "output_tokens": 4707,
+              "cached_input_tokens": 13632,
+              "reasoning_output_tokens": 1762
+            },
+            {
+              "capture": "2026-10-09T06:46:06.431564-05:00",
+              "input_tokens": 42813,
+              "output_tokens": 4393,
+              "cached_input_tokens": 13632,
+              "reasoning_output_tokens": 1434
+            }
+          ],
+          "mean": {
+            "input_tokens": 42813,
+            "output_tokens": 4746,
+            "cached_input_tokens": 13632,
+            "reasoning_output_tokens": 1790.3333333333333
+          }
+        },
+        "offline_unknown": {
+          "synthesis": {
+            "overall_visual_jubilee_signal": "unclear",
+            "montrose_visual_signal": "unclear",
+            "point_clear_visual_signal": "unclear"
+          },
+          "requires_model": true,
+          "live_requires_model": true
+        }
+      },
+      "input_reduction_pct": 1.300228231551283,
+      "output_reduction_pct": 19.699313545393025,
+      "uncached_input_per_cycle_pre": 29181,
+      "uncached_input_per_cycle_post": 29181,
+      "visible_output_excluding_reasoning_mean_pre": 4094.714285714286,
+      "visible_output_excluding_reasoning_mean_post": 2955.666666666667
+    },
+    "nearest_cycle_including_synthesis": {
+      "pre_capture": "2026-10-08T05:46:36.193818-05:00",
+      "post_capture": "2026-10-09T05:45:49.389717-05:00",
+      "pre": {
+        "input_tokens": 46726,
+        "output_tokens": 6258,
+        "cached_input_tokens": 14196
+      },
+      "post": {
+        "input_tokens": 46141,
+        "output_tokens": 5550,
+        "cached_input_tokens": 13632
+      },
+      "qualification": "Output down 708 tokens including reasoning; uncached input down 21; cached input down 564. Camera-only output down 780, synthesis output increased 72. Not proof of billed dollars."
+    },
+    "billing": {
+      "status": "BLOCKED_BILLING_EVIDENCE",
+      "actual_cost_pre_usd": null,
+      "actual_cost_post_usd": null,
+      "actual_savings_usd": null,
+      "actual_savings_pct": null,
+      "blocker": "Telemetry billed_service_tier, billing_context_class and billing_rules_provenance are UNKNOWN; published usage summary explicitly unpriced_token_usage_not_actual_spend. No reconciled provider charge/rate evidence inspected.",
+      "conditional_nearest_cycle_formula": "If identical applicable per-million uncached/cached/output rates and no other charges: savings = (21*uncached_rate + 564*cached_rate + 708*output_rate)/1000000. This is a formula, not measured spend.",
+      "remaining": "Reconcile actual provider billing/rates, service tier, cache-write charging and response/capture IDs for these pre/post normal cycles. Then calculate dollar savings and percentage. Retain tokens as measured, no assumed modeled reduction."
+    },
+    "preserved": "No runtime, image, model, schedule, camera, probability, threshold, alert or cache setting changes during validation."
+  }
 }
