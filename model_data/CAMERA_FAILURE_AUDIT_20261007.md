@@ -212,3 +212,102 @@ Production runtime files, tasks/triggers, camera coverage, probabilities,
 weights, thresholds, alerts, nine-PM policy and forecast binding were preserved.
 No deliberate production outage, extra camera acquisition, paid AI request,
 new scheduler/coordinator or scientific promotion occurred.
+
+## Owner-authorized PowerShell enablement and attempt telemetry — October 10, 2026, 16:29–16:32 CDT
+
+Ben explicitly authorized enabling the five PowerShell checks and missing
+installed attempt telemetry. This closes those two earlier blockers within
+existing J01/J06/J13 Sensing ownership; it does not claim complete power-loss,
+notification-delivery or arbitrary remote-fault acceptance.
+
+### PowerShell checks enabled and passed
+
+Installed a portable copy of official Microsoft PowerShell 7.6.6 under the
+existing host staging directory, without replacing Windows PowerShell, changing
+system/account PATH or adding a task/service. Release ZIP SHA256:
+`02fe458be20493fbdf43f61ea20610b811ee6c738ab1676c61b9cfcd1a33c860`.
+The extracted pwsh.exe Authenticode status was Valid, signer Microsoft Corporation.
+Source: https://github.com/PowerShell/PowerShell/releases/tag/v7.6.6 .
+
+Reusable host runner:
+`C:\Users\ben_t\Documents\Codex\jubilee_pr74_acceptance_20261010\run_powershell_acceptance.cmd`.
+It uses setlocal, a process-scoped RemoteSigned execution policy and a local PATH
+containing the portable interpreter. MachinePolicy, UserPolicy, CurrentUser and
+LocalMachine execution-policy settings remain Undefined, as before. The policy
+and PATH allowance end with that runner; this is not global unrestricted execution.
+
+The five existing test_desktop_preflight.py cases ran unmodified with actual pwsh
+and all passed in 8.656 seconds, zero failures/errors/skips:
+equivalent-directory normalization, missing-Python sanitization, task-API-failure
+sanitization, sanitized wrapper/no file writes, and wrong-directory rejection.
+This supersedes the earlier five blocked Windows PowerShell 5.1 attempts.
+
+### Attempt telemetry installed and verified
+
+Installed the existing repository implementations, not newly developed capture
+logic:
+- desktop_runtime/burst_capture.py, source blob `5c56b793b22ac0cd2bbff2b012ee2b7820944d6a`
+- desktop_runtime/capture_diagnostics.py, source blob `a5b4af76e0201fdbe88901c9241d178562f9addd`
+
+The diagnostic helper was also outdated and needed capture_failure_summary.
+Both candidate files compiled and passed all seven existing capture-attempt tests.
+At 16:30:49.818933 CDT, checked installed hashes against the earlier receipt,
+backed up both exact originals, and atomically replaced helper then capture
+during idle time while briefly holding the existing canonical pipeline lock.
+The coordinator was neither stopped nor restarted. No new lock/owner was created.
+
+Backup:
+`C:\JubileeCams\rollback_attempt_telemetry_20261010T163049`.
+
+| Installed file | Before SHA256 | After SHA256 |
+|---|---|---|
+| burst_capture.py | 8d70515bdf266d8342c42ab13e782331c1fbe566cbd6d60ec1b021c8a4be4ce3 | 519bca8eeee2a0b16934df1e5dce9ffdfed15e8c8e74a6402d14de8dd24efc1c |
+| capture_diagnostics.py | b68ab2e612cdec9850839718136a6955bed48aa55878803b0c2205f9e20e7709 | 4ae0a72b88be276d2a3772b9133ecdd45de4b0c47a35b4726a7586e756bdd062 |
+
+Readback matched candidate bytes. All seven tests then passed again against the
+actual installed burst_capture.py and diagnostic helper, with no telemetry
+assertions omitted: bounded retry and partial-frame discard, exhaustion,
+RTSP stream cleanup, single-feed/site-wide/all-feed failure publication, and
+sanitized failure categories. Zero failures/errors/skips; installed test duration
+0.137 seconds. API/camera acquisition was mocked and output paths were isolated.
+
+Status: INSTALLED_OFFLINE_VALIDATED_NORMAL_CYCLE_TELEMETRY_PENDING.
+Attempt rows are now enabled in installed code; their first actual production
+status/burst emission remains to be verified on the next existing scheduled
+capture. No capture/model call was forced to obtain a receipt.
+Host evidence: attempt_deployment_receipt.json, attempt_tests_candidate.log,
+attempt_tests_installed.log, validate_attempt_telemetry.py and
+deploy_attempt_telemetry.py in the existing staging directory.
+If a postdeployment import/schema failure occurs, first verify that no newer
+runtime changes supersede these hashes, then restore the matching backup;
+do not overwrite unrelated later work.
+
+### Existing canonical recovery and cloud publication now demonstrated
+
+The newly enabled real PowerShell preflight ran read-only against production
+at 16:31:24.672781 CDT without Offline and returned overall PASS:
+- Existing coordinator/task/heartbeat, six-camera capture/vision, near-live and
+  snapshot stability all PASS.
+- Natural capture `2026-10-10T16:06:04.607271-05:00`, archive ID
+  `20261010T160604607271-70613e3d99ec`: all six cameras had three verified
+  frames and matching vision; 27 local archive objects verified.
+- GitHub append-only publication PASS: published
+  `0f80d0f6bbc9c9743599917b7d43291dd175d0e2`, predecessor
+  `bfe8685ac25784ef280456a3e2e027eda13cecb4`, readback main
+  `d4a642ec853f8a8714e5e19ca43e9f3dafc042a2`, ancestry via github_compare.
+- R2 GET/restore PASS: 30 objects verified, including 18 immutable burst frames;
+  restore destination memory only, no uploads or publication writes.
+
+This naturally occurring 16:06 cycle establishes canonical all-six recovery and
+successful normal cloud publication after the earlier 13:06 partial outage.
+It predates the 16:30 telemetry deployment and MUST NOT be counted as acceptance
+of new production attempt rows. It also does not establish induced complete-
+outage cloud recovery, actual power-loss restart, delivered notifications, or
+genuine remote credential/API/network/crashed-browser recovery; those narrower
+remaining gates retain their earlier status.
+
+Existing task actions/states and restart count were reopened and unchanged:
+Live Cameras Running, Dawn Cameras Disabled, Unattended Test Disabled.
+Probabilities, thresholds, weights, camera coverage, capture/analysis cadence,
+alerts, UNKNOWN/no-clean-negative semantics, forecast binding and nine-PM policy
+were preserved. No extra acquisition, paid AI call or recurring workflow was added.
