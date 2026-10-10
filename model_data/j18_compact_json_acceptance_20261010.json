@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-10-10T14:54:20+00:00",
+  "work_id": "J18_COMPACT_JSON_DEPLOYMENT_ACCEPTANCE",
+  "disposition": "INSTALLED_NORMAL_CYCLE_INTEGRITY_ACCEPTED_BILLING_NOT_VERIFIED",
+  "production_installation": {
+    "installed_at_ct": "2026-10-09T02:17:35-05:00",
+    "device": "PointClearPC",
+    "source_commit": "8a84f8cd96fa5fec426fa8c6723d881fcf332f3e",
+    "installed_runtime_sha256": "b1e90549dd0151ccc61e3b970cd128dacb0b4583f5170ff94f910e2cd0389e05",
+    "backup": "C:\\JubileeCams\\analyze_frames.py.backup_compact_20261009T071735Z",
+    "backup_sha256": "df1539538ae2ad2ceb5a473872bc08b50b4dff0093ffefc0feb9f4b9104909ff"
+  },
+  "durable_branch_receipt": {
+    "pull_request": 78,
+    "commit_sha": "4eaab0f6fe7cbaa3cc21b0abcd421d5e43877637",
+    "path": "model_data/j18_compact_prompt_deployment_20261008.json",
+    "blob_sha": "5adcacd9fc81e8c6caca2ba51b36a0a85d00d51b"
+  },
+  "ordinary_cycle_acceptance": {
+    "capture_id": "2026-10-09T05:45:49.389717-05:00",
+    "completed_camera_responses": 6,
+    "completed_synthesis_responses": 1,
+    "frames_per_camera": 3,
+    "all_camera_status_ok": true,
+    "matched_image_hashes": 18,
+    "capture_input_hash_matches": true,
+    "burst_shots_match": true,
+    "observation_fields_per_camera": 52,
+    "missing_fields_vs_predeployment": [],
+    "added_fields_vs_predeployment": [],
+    "unknown_semantics": "PASS: low-detectability live overall/Montrose/Point Clear remained unclear and scoped none labels were not promoted to clean negatives.",
+    "alligator_contract": "PASS: three per-frame detection entries per camera plus aggregate alligator fields, alert and recent history were retained. No live positive-alligator incident occurred; positive path remains offline/static-tested.",
+    "forced_calls_or_captures": 0
+  },
+  "measured_tokens": {
+    "comparison": "Complete same-model six-camera three-image cycles from 05:00-07:00 CDT, October 8 predeployment versus October 9 postdeployment; observational, not randomized.",
+    "pre_cycles": 7,
+    "post_cycles": 6,
+    "camera_input_reduction_percent": 1.300228231551283,
+    "camera_output_reduction_percent": 19.699313545393025,
+    "uncached_input_per_cycle_pre": 29181,
+    "uncached_input_per_cycle_post": 29181,
+    "nearest_complete_cycle_including_synthesis": {
+      "pre_capture": "2026-10-08T05:46:36.193818-05:00",
+      "post_capture": "2026-10-09T05:45:49.389717-05:00",
+      "pre_input_tokens": 46726,
+      "post_input_tokens": 46141,
+      "pre_output_tokens": 6258,
+      "post_output_tokens": 5550,
+      "pre_cached_input_tokens": 14196,
+      "post_cached_input_tokens": 13632
+    },
+    "qualification": "Different scenes and reasoning; establishes observed token reduction, not causal effectiveness equivalence or dollar savings."
+  },
+  "current_published_aggregate": {
+    "path": "api_usage_summary.json",
+    "blob_sha": "6cf2e28a58a277ceb6906039ccb495ccbed8035d",
+    "generated_at_utc": "2026-10-10T14:10:30.992589+00:00",
+    "status": "available",
+    "invalid_records": 0,
+    "coverage": "logged requests only; October 10 partial; missing records/days are not zero"
+  },
+  "billing": {
+    "status": "NOT_VERIFIED",
+    "reason": "Billed service tier, billing context/rules, provider charges and applicable rates were not independently reconciled."
+  },
+  "rollback": {
+    "trigger": "Restore only after checking the current runtime for unrelated newer edits if schema/UNKNOWN/alligator fields regress, normal six-camera analysis fails, or the compact prompts are shown to degrade effectiveness.",
+    "action": "Restore the reviewed backup or selectively revert the two prompt-function changes; do not overwrite unrelated newer changes."
+  },
+  "stop_condition": "Ordinary-cycle integrity acceptance is durable and must not be repeated unless installed hashes, runtime contract or evidence integrity changes.",
+  "production_action": "NO_ADDITIONAL_CHANGE"
+}
