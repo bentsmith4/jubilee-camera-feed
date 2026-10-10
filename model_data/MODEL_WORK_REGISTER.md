@@ -2101,3 +2101,34 @@ process attribution and delivered fault/freshness notification receipts.
 Fixtures/configuration are not delivery or deployed end-to-end acceptance.
 Production files/tasks/cameras/cadence/probabilities/weights/thresholds/alerts,
 nine-PM policy and forecast binding were preserved; no extra paid AI calls.
+
+## J01/J06/J13 authorized enablement completed — 2026-10-10 16:32 CDT
+
+Ben authorized enabling the five PowerShell checks and missing installed attempt
+telemetry. Evidence: [existing camera audit](CAMERA_FAILURE_AUDIT_20261007.md),
+commit `572ae914cf634934f674a09b5f0b0301ce632588`; existing Sensing ownership.
+
+- The five unmodified PowerShell entry-point tests now pass with checksum/signature-
+  verified portable Microsoft PowerShell 7.6.6. A reusable host acceptance .cmd
+  scopes RemoteSigned and PATH to its own process tree; machine/account-wide
+  policy remains unchanged. Earlier five blocked attempts are superseded.
+- Existing repository burst_capture.py plus required capture_diagnostics.py helper
+  installed at 16:30:49 CDT, with hash guards, exact backups, atomic replacement
+  and no coordinator restart. Seven capture-attempt tests passed before deployment
+  and all seven passed against installed files afterward, without omitted telemetry
+  assertions. Installed hashes and rollback details are in the audit.
+- Read-only real Windows preflight at 16:31:24 CDT returned overall PASS for the
+  natural 16:06:04 CDT cycle: six cameras/three frames, coherent vision, 27 local
+  archive objects, append-only GitHub publication and 30 R2 restore objects
+  including 18 immutable burst frames. Canonical six-camera recovery and normal
+  cloud publication after 13:06 partial loss are now verified.
+- The 16:06 cycle predates telemetry installation. New production attempt-row
+  output remains pending the next existing scheduled capture; do not force a
+  capture/paid call or repeat completed fixture tests to close that receipt.
+- Genuine remote credential/API/network/browser-crash recovery, induced complete-
+  outage cloud recovery, power-loss restart, exhaustive process attribution and
+  actual notification delivery remain unverified. No scientific acceptance claim.
+
+No task/action/schedule, coverage/cadence, probability/weight/threshold, alert,
+UNKNOWN/no-clean-negative rule, nine-PM policy or forecast binding changed.
+No new coordinator/automation, extra acquisition or paid AI call.
