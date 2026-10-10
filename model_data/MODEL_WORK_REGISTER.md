@@ -2067,3 +2067,37 @@ J01/J06/J13 offline coverage completed at base `c834346319766292fceaf3d77a2fe43d
 ## J01/J06/J13 existing PR #74 integration verification — 2026-10-10
 
 Reconciled `test/severe-weather-camera-failures-20261007` against main `be30042235298261fe2b8e49b35426a870db162d`, preserving all newer main register entries and the already merged PR #78 runtime. The net PR remains limited to three test files, `CAMERA_FAILURE_AUDIT_20261007.md` and this existing register. Full offline regression: 510 tests, zero failures/errors, five PowerShell skips; 32 focused outage/capture/state tests, 13 preserved J09 tests, compilation, PR-delta whitespace and committed desktop-receipt audit passed. Independent read-only review found no blocking defect. Exact-head remote checks and final merge disposition remain authoritative at https://github.com/bentsmith4/jubilee-camera-feed/pull/74 . This is repository-only integration under existing Sensing ownership, not Windows deployment or acceptance. J13 actual installed-version/process/task readback and controlled end-to-end failure/recovery acceptance remain open; UNKNOWN, no-clean-negative semantics and all scientific-validation gates are unchanged. No runtime/model/camera/schedule logic or current products changed, and no paid call, live acquisition or failure injection was performed.
+
+## J01/J06/J13 PointClearPC bounded acceptance — 2026-10-10 13:35–13:41 CDT
+
+Existing Sensing ownership and merged PR #74; no duplicate investigation or coordinator.
+Status: PARTIAL_WINDOWS_ACCEPTANCE, end-to-end gates remain open. Canonical evidence:
+[updated camera-failure audit](CAMERA_FAILURE_AUDIT_20261007.md), commit
+`de4e375e9c44289fd425ee2f06b6642de45fb814`.
+
+Verified on PointClearPC: existing coordinator task/boot-trigger/restart configuration,
+disabled dawn/test predecessors, coordinator PID 19016 socket ownership and advancing
+heartbeat; 67 passing selected Windows-host fixture cases; four additional installed
+capture failure/recovery cases; real disposable-process taskkill /T /F and subsequent
+execution; synthetic-device socket release; local network/HTTP rejection and recovery;
+two disposable local Chrome sessions; 19/19 retained partial-cycle archive hashes.
+PowerShell 7 is absent; five wrapper cases attempted with Windows PowerShell 5.1
+yielded one failure/four errors under blocked .ps1 execution. Do not count these as
+passed or change host policy without a separate authorized decision. Direct Python
+read-only verifier remains usable.
+
+Latest reviewed canonical capture 13:06:00.741818 CDT has four healthy cameras and
+failed E2 back-deck/E3, with matching status/burst/vision and burst_not_ok/no signal
+for failed rows. Successful append-only publication at 13:10:17 CDT is verified.
+Near-live logs returned to 6/6 by 13:21, but next canonical recovery remains pending
+normal scheduled evidence; do not force acquisition/model calls to close this gate.
+Installed burst_capture.py lacks the repository's newer attempt telemetry; other
+six inspected sources match after newline/BOM normalization. No deployment occurred.
+
+Outstanding within the same owner: permitted PowerShell wrapper acceptance;
+normal-cycle canonical recovery and R2/Git end-to-end restore; genuine remote
+credential/API/network/crashed-browser recovery; power-loss restart, exhaustive
+process attribution and delivered fault/freshness notification receipts.
+Fixtures/configuration are not delivery or deployed end-to-end acceptance.
+Production files/tasks/cameras/cadence/probabilities/weights/thresholds/alerts,
+nine-PM policy and forecast binding were preserved; no extra paid AI calls.
