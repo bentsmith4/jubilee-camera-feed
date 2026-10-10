@@ -113,6 +113,15 @@ class CaptureAttempts(unittest.TestCase):
         self.assertTrue(all(c.kwargs["json"]["command"].endswith("StopRtspStream") for c in stop.call_args_list))
 
     def test_failed_e3_remains_failed_and_other_five_publish_normally(self):
+        self.check_failed_feeds({'pcl_e3_bay_mouth'})
+
+    def test_entire_montrose_site_failure_preserves_point_clear_capture(self):
+        self.check_failed_feeds({c for c in CAMERA_IDS if c.startswith('montrose_')})
+
+    def test_complete_camera_outage_publishes_failure_metadata_and_no_images(self):
+        self.check_failed_feeds(set(CAMERA_IDS))
+
+    def check_failed_feeds(self, failures):
         now = datetime.now(ra.TZ)
         browser = Mock()
         playwright = Mock()
@@ -120,7 +129,7 @@ class CaptureAttempts(unittest.TestCase):
         playwright.__exit__ = Mock(return_value=False)
         playwright.chromium.launch.return_value = browser
         def capture(browser, token, device, slug, proto):
-            if slug == "pcl_e3_bay_mouth":
+            if slug in failures:
                 raise self.error()
             shots = []
             for n in (1, 2, 3):
@@ -139,23 +148,29 @@ class CaptureAttempts(unittest.TestCase):
             bc.main()
         status = json.loads(bc.STATUS_PATH.read_text())
         burst = json.loads(bc.BURST_STATUS_PATH.read_text())
-        self.assertEqual(call.call_count, 7)
+        self.assertEqual(call.call_count, 6 + len(failures))
         self.assertEqual(set(status["cameras"]), set(CAMERA_IDS))
         for camera in CAMERA_IDS:
             row = status["cameras"][camera]
             self.assertEqual(row["capture_attempts"], burst["cameras"][camera]["capture_attempts"])
-            self.assertEqual(row["ok"], camera != "pcl_e3_bay_mouth")
-            self.assertEqual(len(row["capture_attempts"]), 2 if camera == "pcl_e3_bay_mouth" else 1)
-        failed = burst["cameras"]["pcl_e3_bay_mouth"]
-        self.assertNotIn("shots", failed)
-        self.assertIn("private diagnostics suppressed", failed["error"])
+            self.assertEqual(row["ok"], camera not in failures)
+            self.assertEqual(len(row["capture_attempts"]), 2 if camera in failures else 1)
+        for camera in failures:
+            failed = burst["cameras"][camera]
+            self.assertNotIn("shots", failed)
+            self.assertIn("private diagnostics suppressed", failed["error"])
         (self.frames / "vision.json").write_text(json.dumps({"capture_time_ct": now.isoformat(), "cameras": {}}))
         payload, _ = publish_github.payload(self.base)
-        self.assertIsNone(payload["pcl_e3_bay_mouth.jpg"])
+        for camera in CAMERA_IDS:
+            if camera in failures:
+                self.assertIsNone(payload[camera + '.jpg'])
+                self.assertNotIn('shots', burst['cameras'][camera])
+            else:
+                self.assertTrue(payload[camera + '.jpg'].startswith(b'\xff\xd8'))
         self.assertEqual(json.loads(payload["burst_status.json"]), burst)
         self.assert_private_absent(bc.STATUS_PATH.read_text() + bc.BURST_STATUS_PATH.read_text() + self.out.getvalue())
         self.assertEqual(self.sleep.call_args_list.count(unittest.mock.call(5)), 6)
-        self.assertEqual(self.sleep.call_args_list.count(unittest.mock.call(8)), 1)
+        self.assertEqual(self.sleep.call_args_list.count(unittest.mock.call(8)), len(failures))
 
     def test_summaries_keep_timeouts_http_and_unknown_distinct(self):
         http = RuntimeError(SECRET)
