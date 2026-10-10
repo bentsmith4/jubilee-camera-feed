@@ -5,7 +5,8 @@
     "weather": 90,
     "water_level": 60,
     "direct_bottom_water_quality": 90,
-    "regional_proxy": 180
+    "regional_proxy": 180,
+    "arcos_realtime": 60
   },
   "required_fields": [
     "sensor_id",
@@ -32,7 +33,8 @@
     "noaa_predicted_tide",
     "modeled_current",
     "nws_forecast",
-    "asos_observation"
+    "asos_observation",
+    "disl_arcos_station_observation_proxy"
   ],
   "minimum_direct_sensor_package": {
     "parameters": [
@@ -60,6 +62,8 @@
     "NOAA CO-OPS 8735180 observed Dauphin Island water level and NGOFS2 MODEL guidance are separate sources at their actual locations; neither inherits Point Clear identity.",
     "GCOOS DISL_BSPA and DISL_MHPA dissolved oxygen remain DEPTH_UNKNOWN_OBSERVATION_PROXY: their depth coordinate is constant 0.0 m and their ug/L metadata conflicts with native DISL mg/L definitions; do not auto-convert or use for BOTTOM_DO, vertical gradients, or stratification until reconciled.",
     "Predicted tide, observed water level, water-level tendency, and modeled current direction are separate fields.",
-    "Missing or stale inputs widen uncertainty and are never carried forward as current observations."
+    "Missing or stale inputs widen uncertainty and are never carried forward as current observations.",
+    "DISL ARCOS realtime station observations are direct at the named station but remain zero-weight regional/oxygen-loading proxies for Jubilee unless current deployment geometry establishes local bottom/contact-strip identity.",
+    "ARCOS public Grafana depth is not sensor height above bed; 0/missing depth remains UNKNOWN_GEOMETRY and cannot establish bottom DO."
   ]
 }

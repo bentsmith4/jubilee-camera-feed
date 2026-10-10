@@ -25,7 +25,7 @@ MODEL_PRODUCTS = (
     "ngofs2_mobile_bay_named_stations_nowcast",
     "ngofs2_mobile_bay_named_stations_forecast", "ngofs2_shoreline_grid",
 )
-PRODUCTS = ("cameras", "asos_weather", "river_forcing", "weeks_bay_realtime") + MODEL_PRODUCTS
+PRODUCTS = ("cameras", "asos_weather", "river_forcing", "weeks_bay_realtime", "arcos_realtime") + MODEL_PRODUCTS
 # Refresh bookkeeping is not new evidence. All remaining row fields (including
 # QC, units, location, method and vertical identity) are part of the fingerprint.
 BOOKKEEPING = {"available_at", "ingested_at", "retrieved_at_utc", "source_hash"}
@@ -145,12 +145,17 @@ def camera_product(reader, now):
 
 
 def environmental_product(name, reader, now):
-    m = reader.json("model_data/" + name + "_manifest.json")
+    try:
+        m = reader.json("model_data/" + name + "_manifest.json")
+    except (OSError, ValueError):
+        if name == "arcos_realtime":
+            return candidate([], now, detail="ARCOS realtime product not present in this historical evidence generation")
+        raise
     available = stamp(m.get("retrieved_at_utc", m.get("retrieved_at", m.get("started_at_utc"))))
     require(available <= now, "future source retrieval")
     if m["status"] == "unavailable":
         return candidate([], available, detail="declared unavailable; retain UNKNOWN")
-    require(m["status"] == "complete" or (name == "weeks_bay_realtime" and m["status"] == "partial"),
+    require(m["status"] == "complete" or (name in ("weeks_bay_realtime", "arcos_realtime") and m["status"] == "partial"),
             "producer failed or unrecognized status: " + str(m["status"]))
     limits = reader.json("model_data/sensor_contract.json")["freshness_minutes"]
     if name == "asos_weather":
@@ -192,6 +197,28 @@ def environmental_product(name, reader, now):
         rows = latest(rows, ("station_id", "parameter"), "observed_at")
         rows = [r for r in rows if r["qc_status"] == "NDBC_REALTIME_AUTOMATED_QC"
                 and 0 <= (available - stamp(r["observed_at"])).total_seconds()/60 <= limits["regional_proxy"]]
+        time_key = "observed_at"
+    elif name == "arcos_realtime":
+        from ingest_arcos_realtime import parse_response
+        config = reader.json("model_data/arcos_realtime_sources.json")
+        stations = {s["station_id"]: s for s in config["stations"]}
+        parsed = []
+        for source in m["stations"]:
+            if source["status"] not in ("complete", "empty"):
+                continue
+            station = stations[source["station_id"]]
+            for part in source.get("streams", [source]):
+                if part["status"] not in ("complete", "empty"):
+                    continue
+                raw = reader.archive(part["raw_path"], part["raw_sha256"])
+                parsed.extend(parse_response(raw, station, stamp(part.get("retrieved_at_utc", available.isoformat())), config, part.get("stream")))
+        rows = reader.csv("model_data/arcos_realtime_normalized.csv")
+        require(len(rows) == m["normalized_rows"] == len(parsed), "ARCOS row count mismatch")
+        rendered = [{k: "" if v is None else str(v) for k, v in r.items()} for r in parsed]
+        require(semantic_rows(rows) == semantic_rows(rendered), "ARCOS archive/data mismatch")
+        rows = latest(rows, ("station_id", "parameter"), "observed_at")
+        rows = [r for r in rows if r["qc_status"] in ("ARCOS_RANGE_CHECK_PASS", "SOURCE_QC_NOT_EXPOSED")
+                and 0 <= (available - stamp(r["observed_at"])).total_seconds()/60 <= limits["arcos_realtime"]]
         time_key = "observed_at"
     else:
         path = m.get("normalized_csv", m.get("normalized_data"))

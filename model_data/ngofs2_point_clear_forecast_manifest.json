@@ -1,18 +1,14 @@
 {
-  "schema_version": "1.2",
-  "retrieved_at": "2026-10-07T13:53:03.101682+00:00",
-  "cast": "forecast",
   "status": "unavailable",
+  "retrieved_at": "2026-10-10T15:10:49.328255+00:00",
   "evidence_class": "MODEL",
   "production_action": "NO_CURRENT_GUIDANCE",
-  "error_type": "RuntimeError",
-  "error": "NetCDF: DAP server error",
-  "guardrails": [
-    "NGOFS2 is MODEL guidance and is not a direct current, salinity, temperature, water-level or oxygen observation.",
-    "Point Clear station mapping prefers name but may use the official Point Clear coordinate as an auditable fallback; a >10 km nearest station is refused.",
-    "Point Clear shoreward projection uses a provisional west-facing shoreline geometry: true bearing 090 degrees is shoreward (+east).",
-    "Nowcast and forecast outputs are separate; forecast values cannot overwrite antecedent nowcast history.",
-    "No production weight changes until event/control held-out incremental value is demonstrated."
-  ],
-  "availability_reason": "upstream_retrieval_failure"
+  "error_type": "RetrievalTimeout",
+  "error": "NGOFS2 retrieval exceeded 480 seconds",
+  "product": "point_clear_forecast",
+  "started_at": "2026-10-10T15:02:49.321866+00:00",
+  "timeout_seconds": 480,
+  "failure_attribution": "UNRESOLVED_PROVIDER_OR_CLIENT",
+  "diagnostic_note": "The whole-process budget expired; provider outage, remote-read latency and local extraction cost are not distinguished.",
+  "availability_reason": "retrieval_timeout_cause_unresolved"
 }

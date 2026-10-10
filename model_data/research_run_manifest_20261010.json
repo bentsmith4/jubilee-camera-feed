@@ -1,0 +1,128 @@
+{
+  "schema_version": "1.1",
+  "run_local_datetime": "2026-10-10T09:54:20-05:00",
+  "timezone": "America/Chicago",
+  "role": "Jubilee Model Research & Calibration",
+  "canonical_repository": "bentsmith4/jubilee-camera-feed",
+  "season_check": {
+    "canonical_window": "May 18-November 14 inclusive",
+    "in_season": true
+  },
+  "source_state": {
+    "main_head_before_manifest": "6777146d0805977633fef2842b2e2d7a1879b6f3",
+    "work_register": {
+      "path": "model_data/MODEL_WORK_REGISTER.md",
+      "blob_sha_read": "4e54aad62272d75fe8e44f1ae15abc1dba3338c9"
+    },
+    "event_history_blob_sha": "43205ae6ebc962f331ab2e096ee33a1068d52854",
+    "feature_catalog_blob_sha": "58c79a9d44876b09200983dee091337e060845ce",
+    "source_registry_blob_sha": "7f258461b511b98875b5f4000b469776cbcb5157",
+    "meaher_feature": {
+      "path": "model_data/meaher_loading_transport_features.json",
+      "blob_sha": "f1c58fa20f8fd69cb95192dbaee41217ae8135d0",
+      "generated_at_utc": "2026-10-10T14:24:59.296122+00:00"
+    },
+    "ngofs2_point_clear": {
+      "path": "model_data/ngofs2_point_clear_nowcast_normalized.csv",
+      "blob_sha": "1d70964077cd1fa248c59c57dc7d3b07f4c61079",
+      "rows": 671
+    },
+    "usage_summary": {
+      "path": "api_usage_summary.json",
+      "blob_sha": "6cf2e28a58a277ceb6906039ccb495ccbed8035d",
+      "generated_at_utc": "2026-10-10T14:10:30.992589+00:00",
+      "status": "available",
+      "invalid_records": 0
+    }
+  },
+  "committed_artifacts": [
+    {
+      "path": "model_data/public_camera_signal_contracts.json",
+      "blob_sha": "dff544dd11e84a4cc6d3892a5e113a845c7d19f8",
+      "commit_sha": "d863c56004b156778d049fa9688568c61502b207"
+    },
+    {
+      "path": "model_data/j10_matched_control_sensitivity_20261010.json",
+      "blob_sha": "88375879af20ecdaa670a11a1d84b8e2356eb2fb",
+      "commit_sha": "e5bb3163352d019cf738030305bee7110c3090db"
+    },
+    {
+      "path": "model_data/j02_public_camera_candidate_validation_20261010.json",
+      "blob_sha": "32b1a04427059874be7565e8c9368ec2c75e1aec",
+      "commit_sha": "5488cf1646e29beb2d46a22816bd8eee13fcb33d"
+    },
+    {
+      "path": "model_data/j18_compact_json_acceptance_20261010.json",
+      "blob_sha": "e936f1784a112b054e6740395d861763f1f45a73",
+      "commit_sha": "33f55ec54f4aa0e1eed533c3f2590d4227784218"
+    },
+    {
+      "path": "model_data/research_coverage_gap_update_20261010.json",
+      "blob_sha": "5195a8b5188559a62d83e81782d86ceb2bc9731d",
+      "commit_sha": "6777146d0805977633fef2842b2e2d7a1879b6f3"
+    }
+  ],
+  "results": {
+    "jubilee_predictive_gain": "NOT_MEASURABLE",
+    "controls": {
+      "records_reviewed": 22,
+      "tier_b_mornings_added": 2,
+      "tier_b_mornings_cumulative": 11,
+      "tier_a_controls": 0,
+      "clean_training_negatives": 0
+    },
+    "currents": {
+      "observed_nearshore_earth_frame_rows": 0,
+      "ngofs2_evidence_class": "MODEL",
+      "latest_point_clear_bottom_shoreward_current_m_s": -0.01469691377133131,
+      "latest_valid_at": "2026-10-10T09:00:00+00:00",
+      "feature_issue_age_minutes": 324.988,
+      "feature_status": "UNKNOWN_STALE_MODEL_TRANSPORT"
+    },
+    "loading": {
+      "meaher_do_mg_l": 6.960000038146973,
+      "do_percent": 82.19999694824219,
+      "salinity_psu": 8.779999732971191,
+      "temperature_c": 21.010000228881836,
+      "latest_observed_at": "2026-10-10T13:30:00+00:00",
+      "six_hour_do_delta_mg_l": 1.2100000381469727,
+      "geometry": "UNKNOWN_GEOMETRY_DO_NOT_USE_FOR_BOTTOM_CLASSIFICATION",
+      "production_weight": 0
+    },
+    "held_out_loading_transport_combined": "BLOCKED_EVIDENCE",
+    "moon_phase": {
+      "status": "BLOCKED_BY_DATA",
+      "production_weight": 0
+    },
+    "compact_json": {
+      "installed": true,
+      "merged": false,
+      "ordinary_cycle_integrity": "ACCEPTED",
+      "camera_input_reduction_percent": 1.300228231551283,
+      "camera_output_reduction_percent": 19.699313545393025,
+      "billing": "NOT_VERIFIED",
+      "effectiveness_equivalence": "NOT_VERIFIED"
+    },
+    "public_camera_candidates": {
+      "metadata_checked": 5,
+      "new_usable_observations": 0,
+      "live_visual_acceptance": "NOT_VERIFIED"
+    }
+  },
+  "operational_context": {
+    "pr_78": "OPEN_UNMERGED_BUT_INSTALLED; acceptance comment 6098830557",
+    "pr_83": "MERGED_SCHEMA_CORRECTION",
+    "telemetry_pr54_acceptance": "SEPARATE_DURABLE_COMPLETED_NOT_REPEATED"
+  },
+  "outreach": {
+    "messages_sent": 0,
+    "messages_proposed": 0,
+    "repeat_contact_requires_owner_permission": true
+  },
+  "validation": [
+    "All created JSON artifacts serialized and read back successfully.",
+    "Current NGOFS2 normalized header uses evidence_class, vertical_role and value; 180-minute stale rejection remains effective.",
+    "No canonical event label, probability, production weight, alert threshold, camera, sensing/dawn schedule, runtime cadence, nine-PM gate or seasonal policy changed by this research run."
+  ],
+  "promotion_decision": "NO_CHANGE"
+}

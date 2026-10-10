@@ -1,0 +1,94 @@
+{
+  "schema_version": "1.1",
+  "run_local_datetime": "2026-10-08T09:25:29-05:00",
+  "timezone": "America/Chicago",
+  "role": "Jubilee Model Research & Calibration",
+  "canonical_repository": "bentsmith4/jubilee-camera-feed",
+  "season_check": {
+    "canonical_window": "May 18-November 14 inclusive",
+    "in_season": true
+  },
+  "source_state": {
+    "main_head_before_run": "5db87badedbcd67ac53f1c536ecaa2dc489edf9e",
+    "work_register": {
+      "path": "model_data/MODEL_WORK_REGISTER.md",
+      "blob_sha_read": "b9eb634a05fb98803567bba59cfa46a25a6ba20d"
+    },
+    "matched_control_contract": {
+      "path": "model_data/matched_control_contract.json",
+      "blob_sha": "091f586f36902be96e9d1bd07ebfbfc19444303c"
+    },
+    "event_history_blob_sha": "43205ae6ebc962f331ab2e096ee33a1068d52854",
+    "feature_catalog_blob_sha": "58c79a9d44876b09200983dee091337e060845ce",
+    "usage_summary": {
+      "path": "api_usage_summary.json",
+      "blob_sha": "679a60f9b960281f77e9a489e5d089c55ec010b3",
+      "generated_at_utc": "2026-10-08T14:11:11.578578+00:00",
+      "status": "available",
+      "invalid_records": 0
+    }
+  },
+  "committed_artifacts": [
+    {
+      "path": "model_data/j10_matched_control_sensitivity_20261008.json",
+      "blob_sha": "bb275ef0328a514b3c2521ecf73bf337551c840b",
+      "commit_sha": "0f6bc2fb913879207f95f632891a6787645513c6"
+    },
+    {
+      "path": "model_data/j18_efficiency_postdeployment_20261008.json",
+      "blob_sha": "963f009df9104e707f29e00638aa72c23d630eaa",
+      "commit_sha": "79bd12fa8c30e97058debc1a28e59a4ab31314af"
+    },
+    {
+      "path": "model_data/research_coverage_gap_update_20261008.json",
+      "blob_sha": "7a6dfa4c864df4514bb50a7de1343f2766be83c8",
+      "commit_sha": "e6e3c5545b403a1ff4e741ee10e23dacb01205a6"
+    }
+  ],
+  "results": {
+    "jubilee_predictive_gain": "NOT_MEASURABLE",
+    "matched_controls": {
+      "records_reviewed": 12,
+      "tier_b_mornings_added": 1,
+      "tier_b_mornings_cumulative": 9,
+      "tier_a_controls": 0,
+      "clean_training_negatives": 0
+    },
+    "adcp": {
+      "dataset": "Y1.x122.038:0002",
+      "accepted_earth_frame_rows": 0,
+      "production_weight": 0,
+      "status": "BLOCKED_CALIBRATION"
+    },
+    "held_out_loading_transport_combined": "BLOCKED_EVIDENCE",
+    "moon_phase": {
+      "status": "BLOCKED_BY_DATA",
+      "production_weight": 0
+    },
+    "efficiency": {
+      "request_normalized_tokens_percent_change": -7.8915503381223,
+      "cross_camera_tokens_per_model_call_percent_change": -29.524301057796087,
+      "cross_camera_model_call_rate_percent_change": -33.013496307613956,
+      "post_complete_days": 19,
+      "completed_requests": 3835,
+      "failed_requests": 0,
+      "dollar_cost": "UNKNOWN",
+      "equivalent_detection_effectiveness": "NOT_VERIFIED"
+    }
+  },
+  "operational_context": {
+    "pull_request_74": "OPEN_OPERATIONAL_VALIDATION_NOT_CHANGED",
+    "pull_request_75": "MERGED_DAWN_EVIDENCE_NOT_USED_AS_TRAINING_LABEL",
+    "telemetry_acceptance": "DURABLE_COMPLETED_PREVIOUSLY_NOT_REPEATED"
+  },
+  "outreach": {
+    "messages_sent": 0,
+    "messages_proposed": 0,
+    "repeat_contact_requires_owner_permission": true
+  },
+  "validation": [
+    "JSON artifacts serialized and read back successfully.",
+    "No canonical event label, feature weight, threshold, alert, camera, sensing/dawn schedule, runtime cadence, nine-PM gate or seasonal policy changed."
+  ],
+  "promotion_decision": "NO_CHANGE"
+}

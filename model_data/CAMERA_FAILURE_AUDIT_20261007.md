@@ -87,3 +87,27 @@ including 64 outage combinations. Desktop/test compilation and `git diff
 
 Actual Windows acceptance was not performed. No local runtime deployment or
 storm-readiness guarantee is claimed.
+
+## Repository integration verification — October 10, 2026
+
+Reconciled this existing PR against main
+`be30042235298261fe2b8e49b35426a870db162d`, including the already merged
+compact-JSON analyzer. The register conflict was resolved by retaining every
+byte of the current main register and appending this audit's historical entry
+and the integration receipt. Relative to that main, only this audit, the
+existing register and the three outage-test files change; runtime, workflows
+and current camera/state products are unchanged.
+
+The full offline suite ran 510 tests with zero failures/errors and five
+PowerShell skips on the cloud Linux host. The 32 focused outage/capture/state
+tests and 13 preserved J09 portable tests passed. Desktop/test compilation,
+PR-delta whitespace validation and the committed desktop-receipt provenance
+audit passed. An initial run lacked astral/netCDF4; the reported full pass is
+the rerun after installing the repository's pinned test dependencies.
+Independent read-only review found no blocking repository-integration defect.
+Exact-head remote CI and merge status are tracked by existing PR #74.
+
+This is repository-only verification within J01/J06/J13 under the existing
+Sensing ownership. It does not validate the actual Windows installation or
+end-to-end failure/recovery acceptance listed above. No live failure injection,
+new acquisition, paid model call, deployment or scientific promotion occurred.

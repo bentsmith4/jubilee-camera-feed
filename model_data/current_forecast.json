@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-07T15:12:13.899646-05:00",
+  "issue_time": "2026-10-10T10:20:37.700745-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "1a0f10a1a826028885c31658b3b1f5e4c87925aac1b991750ac0fe3e08502693",
-  "input_commit_sha": "8c9a55ef90fa942f98ca69904a33caaf9a55fbfd",
+  "input_snapshot_hash": "3d66388f60086f341a9a44c88ca3958fca347c6f3fc5e05ca916d527f4b94a5d",
+  "input_commit_sha": "c22415d5d55247a237a8123a5c3e4b2708050ae6",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
@@ -17,11 +17,11 @@
     "ngofs2_products": {
       "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
       "ngofs2_point_clear_forecast": "UNKNOWN_UNAVAILABLE",
-      "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
+      "ngofs2_mobile_bay_named_stations_nowcast": "UNKNOWN_UNAVAILABLE",
       "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
       "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
-    "fresh_river_series": 20,
+    "fresh_river_series": 19,
     "asos_stations": "KBFM/KMOB partial"
   },
   "missing_inputs": [
@@ -31,32 +31,13 @@
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
     "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
     "ngofs2_point_clear_forecast: SOURCE_UNAVAILABLE/UNKNOWN",
+    "ngofs2_mobile_bay_named_stations_nowcast: SOURCE_UNAVAILABLE/UNKNOWN",
     "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
   "outlooks": [
     {
       "cell": "Point Clear/Grand Hotel",
       "forecast_window": {
-        "date_ct": "2026-10-07",
-        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
-      },
-      "range_percent": "2-5",
-      "central_percent": 3,
-      "confidence": "low"
-    },
-    {
-      "cell": "Daphne/May Day",
-      "forecast_window": {
-        "date_ct": "2026-10-07",
-        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
-      },
-      "range_percent": "1-4",
-      "central_percent": 2,
-      "confidence": "low"
-    },
-    {
-      "cell": "Point Clear/Grand Hotel",
-      "forecast_window": {
         "date_ct": "2026-10-08",
         "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
       },
@@ -88,6 +69,26 @@
       "cell": "Daphne/May Day",
       "forecast_window": {
         "date_ct": "2026-10-09",
+        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
+      },
+      "range_percent": "1-4",
+      "central_percent": 2,
+      "confidence": "low"
+    },
+    {
+      "cell": "Point Clear/Grand Hotel",
+      "forecast_window": {
+        "date_ct": "2026-10-10",
+        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
+      },
+      "range_percent": "2-5",
+      "central_percent": 3,
+      "confidence": "low"
+    },
+    {
+      "cell": "Daphne/May Day",
+      "forecast_window": {
+        "date_ct": "2026-10-10",
         "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
       },
       "range_percent": "1-4",

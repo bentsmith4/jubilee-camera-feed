@@ -138,3 +138,10 @@ The collection-scoped finding-aid index returned [two box results for “Alabama
 Cushing describes a CORS/Aeon request route at [aeon.library.tamu.edu](https://aeon.library.tamu.edu), with one request per box/volume and case-by-case duplication. No retrieval/duplication request, further reply, paid reproduction or fee commitment was made in this update. No underlying report, thesis, dissertation, manuscript or worksheet bytes were recovered; no original-source hash is claimed.
 
 This update admits **research-only correspondence and catalog metadata**. The October 3 bounded response check and earlier recovery counts remain historical. Loesch's annual/shore total of **35** versus monthly sum of **37** remains **UNRESOLVED**, with no preferred count, zero canonical events promoted and no production-model changes.
+
+
+## UGA folder retirement — owner instruction October 9, 2026
+
+**Status: RETIRED_OWNER_REVIEW.** Ben inspected the downloaded UA97-061, Series 10, David E. Davis, Box 53 Folder 3, *Log books, 1957–1960*, and reported that it concerns deer sightings and does not appear relevant to Jubilee research. He subsequently authorized stopping this lead as part of the effectiveness cleanup. This supersedes the earlier catalog-only/uninspected relevance status for this specific folder.
+
+Do not request further scans, incur fees, send follow-ups or spend further research effort on this folder without a new material relevance lead and owner direction. Preserve previous correspondence and catalog references as history. This owner inspection is not an independent full-document content audit, does not exclude other UGA holdings, and does not resolve Loesch's 35/37 discrepancy. Mobile Municipal Archives and other distinct source leads retain their existing status and institution-level repeat-outreach restrictions.

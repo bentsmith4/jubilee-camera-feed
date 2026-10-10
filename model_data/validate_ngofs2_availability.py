@@ -24,6 +24,13 @@ NETCDF_DAP_SERVER_ERROR = re.compile(
 
 
 def retrieval_outage(manifest):
+    attempts = manifest.get("retrieval_attempts")
+    if manifest.get("error_type") == "RetrievalOpenError":
+        return (isinstance(attempts, list) and bool(attempts)
+                and all(isinstance(a, dict)
+                        and a.get("error_type") in {"RuntimeError", "OSError"}
+                        and NETCDF_DAP_SERVER_ERROR.fullmatch(str(a.get("error", ""))) is not None
+                        for a in attempts))
     error = str(manifest.get("error", ""))
     return (manifest.get("error_type") == "RetrievalTimeout"
             or (manifest.get("error_type") in {"RuntimeError", "OSError"}
