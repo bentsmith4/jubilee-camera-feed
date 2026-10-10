@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.1",
+  "generated_at_utc": "2026-10-10T14:54:20+00:00",
+  "purpose": "Rank unresolved model-quality gaps after the October 9-10 control, transport, public-camera and compact-runtime acceptance audits.",
+  "gaps": [
+    {
+      "rank": 1,
+      "gap": "Tier-A independently verified matched Jubilee controls",
+      "status": "MISSING",
+      "evidence": "11 Tier-B Montrose visible-scope candidate mornings; 0 Tier-A controls; 0 clean training negatives.",
+      "impact": "Blocks honest Jubilee-event discrimination, calibration, missed-event, false-alert and lead-time comparisons.",
+      "next_action": "Continue existing unattended evidence capture and validate event-side ROI/geometry and complete matched dimensions before any label promotion."
+    },
+    {
+      "rank": 2,
+      "gap": "Nearshore Eastern Shore observed Earth-frame current",
+      "status": "MISSING",
+      "evidence": "Y1.x122.038:0002 remains 0 accepted Earth-frame rows. Current Point Clear row is NGOFS2 MODEL guidance, not an observation; the latest bottom shoreward row was stale at feature issue time.",
+      "impact": "Transport direction, phase and magnitude near Point Clear remain unvalidated by observations.",
+      "next_action": "Clear ADCP playback/deployment/heading-magnetic-variation/draft-transducer/clock-timezone/motion/depth gates; retain model guidance as zero-weight context."
+    },
+    {
+      "rank": 3,
+      "gap": "Held-out loading-only vs transport-only vs combined Jubilee comparison",
+      "status": "BLOCKED_EVIDENCE",
+      "evidence": "No Tier-A controls; Meaher loading and NGOFS2 transport remain zero-weight, and stale transport produces a null interaction.",
+      "impact": "No event-level incremental performance, calibration or decision utility can be estimated.",
+      "next_action": "Score only after a sufficient independently verified event/control set with contemporaneous transport exists."
+    },
+    {
+      "rank": 4,
+      "gap": "Direct local bottom/contact-strip hydrography",
+      "status": "MISSING",
+      "evidence": "Meaher latest DO recovered to 6.96 mg/L at 13:30 UTC on October 10, but Meaher is upper-bay context and 2026 sensor geometry remains UNKNOWN.",
+      "impact": "Point Clear/Eastern Shore hypoxic-water availability at the contact strip is not directly observed.",
+      "next_action": "Continue authoritative-source discovery under the existing no-new-sensor constraint; do not relabel regional/depth-unknown values."
+    },
+    {
+      "rank": 5,
+      "gap": "Usable additional public-camera geometry/freshness",
+      "status": "MISSING",
+      "evidence": "Daphne, FAA Dauphin Island and FOX10 candidates are metadata-confirmed listings only. No zero-retention live-player/scene-progression acceptance was completed.",
+      "impact": "No new structured observation or negative scope is available from the added candidates.",
+      "next_action": "Sensing may recheck within existing bounded runs when a permitted zero-retention method is available; otherwise retain UNKNOWN."
+    },
+    {
+      "rank": 6,
+      "gap": "Coverage-normalized dollar efficiency and event-effectiveness equivalence",
+      "status": "PARTIAL",
+      "evidence": "Compact JSON ordinary-cycle integrity accepted; observational camera input/output reductions 1.3002%/19.6993%. Billing, causal attribution and event-effectiveness equivalence are NOT_VERIFIED.",
+      "impact": "Cannot claim actual dollar savings or safe forecast-effectiveness equivalence.",
+      "next_action": "Do not repeat runtime acceptance. Reconcile billing/rates when independently available and accumulate labeled positive/negative effectiveness evidence."
+    }
+  ],
+  "resolved_or_closed": [
+    {
+      "work_id": "J18_COMPACT_JSON_DEPLOYMENT_ACCEPTANCE",
+      "status": "CLOSED_RUNTIME_INTEGRITY_BILLING_OPEN",
+      "evidence": "model_data/j18_compact_json_acceptance_20261010.json"
+    },
+    {
+      "work_id": "MEAHER_NGOFS2_SCHEMA_MAPPING",
+      "status": "MERGED_CORRECTED",
+      "evidence": "PR #83; actual evidence_class/vertical_role/value schema accepted, with 180-minute stale rejection preserved."
+    },
+    {
+      "work_id": "UGA_UA97_061_SERIES10_BOX53_FOLDER3",
+      "status": "RETIRED_UNRELATED",
+      "reason": "Owner inspected the deer-sighting logbook and found it unrelated to Jubilee research; no further scans or outreach."
+    }
+  ],
+  "governance": {
+    "moon_phase": "Canonical event blob unchanged; standalone_lunar_phase remains BLOCKED_BY_DATA and zero-weight.",
+    "outreach": "No email or other outreach sent or proposed. Institution-level repeat contact requires explicit owner permission.",
+    "production_action": "NO_CHANGE"
+  }
+}
