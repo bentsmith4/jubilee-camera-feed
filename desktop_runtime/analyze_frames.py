@@ -169,61 +169,10 @@ RULES:
   search, 1=clear persistent clustered search; otherwise null.
 - Keep all free-text strings extremely short: frame summaries <=8 words,
   location descriptions <=8 words, temporal_summary <=18 words.
-- Return ONLY valid JSON and no markdown.
+- Return compact JSON, no formatting whitespace or markdown; retain all fields.
 
 Use exactly these fields and enum vocabularies:
-{{
-  "visibility":"poor|fair|good",
-  "detectability":"low|moderate|high",
-  "water_surface":"flat|slight_ripple|moderate_chop|choppy|unclear",
-  "rain_surface_interference":"none|possible|strong|unclear",
-  "wake_interference":"none|possible|strong|unclear",
-  "fish_surface_activity":"none_visible|isolated|possible_abnormal|clear_abnormal|dense|unclear",
-  "fish_jump_activity":"none_visible|isolated|multiple|dense|unclear",
-  "fish_gulping_or_smoking":"none_visible|possible|clear|widespread|unclear",
-  "shrimp_surface_popping":"none_visible|possible|multiple|dense|unclear",
-  "shrimp_surface_concentration":"none_visible|possible|clear|dense|unclear",
-  "crab_surface_swimming":"none_visible|possible|clear|multiple|unclear",
-  "crab_climbing_structure":"none_visible|possible|clear|multiple|unclear",
-  "flounder_or_flatfish_shallow":"none_visible|possible|clear|multiple|unclear",
-  "eel_displacement":"none_visible|possible|clear|multiple|unclear",
-  "stingray_or_other_bottom_fauna_displacement":"none_visible|possible|clear|multiple|unclear",
-  "shoreline_or_structure_accumulation":"none_visible|possible|clear|dense|unclear",
-  "offshore_bottom_fauna_surface_aggregation":"none_visible|possible|clear|dense|unclear",
-  "bird_feeding_activity":"none_visible|possible|active|dense_active|unclear",
-  "people_present":"none_visible|possible|clear|unknown",
-  "flashlight_activity":"none_visible|possible|clear|unknown",
-  "motion_pattern":"none_visible|stationary|walking|searching|unknown",
-  "clustered_search_behavior":"none_visible|possible|clear|unknown",
-  "temporal_persistence":"none_visible|one_frame|multiple_frames|unknown",
-  "human_sensor_score":null,
-  "human_sensor_confidence":0.0,
-  "human_sensor_detectability":"good|limited|poor|unknown",
-  "people_collecting_seafood":"none_visible|possible|clear|unclear",
-  "animal_lethargy_or_abnormal_motion":"none_visible|possible|clear|widespread|unclear",
-  "alligator_frame_detections":[
-    {{"frame":1,"visible":"none|possible|clear|unclear","count_estimate":0,"behavior":"none|swimming|stationary|feeding_or_striking|near_people|other|unclear","location_in_frame":"short description or none","confidence":0.0}},
-    {{"frame":2,"visible":"none|possible|clear|unclear","count_estimate":0,"behavior":"none|swimming|stationary|feeding_or_striking|near_people|other|unclear","location_in_frame":"short description or none","confidence":0.0}},
-    {{"frame":3,"visible":"none|possible|clear|unclear","count_estimate":0,"behavior":"none|swimming|stationary|feeding_or_striking|near_people|other|unclear","location_in_frame":"short description or none","confidence":0.0}}
-  ],
-  "alligator_visible":"none|possible|clear|unclear",
-  "alligator_count_estimate":0,
-  "alligator_behavior":"none|swimming|stationary|feeding_or_striking|near_people|other|unclear",
-  "alligator_location_in_frame":"short description or none",
-  "alligator_temporal_change":"none|stationary|moving|appeared|disappeared|behavior_changed|unclear",
-  "alligator_confidence":0.0,
-  "artificial_light_confounding":"none|possible|strong|unclear",
-  "repeated_surface_activity":"none_visible|possible|clear|unclear",
-  "activity_changed_across_frames":"no|possible|yes|unclear",
-  "likely_temporal_artifact":"none|rain|wake|reflection|camera|other|unclear",
-  "temporal_jubilee_signal":"none|weak_possible|moderate|strong|unclear",
-  "overall_jubilee_visual_signal":"none|weak_possible|moderate|strong|unclear",
-  "frame_1_summary":"short description",
-  "frame_2_summary":"short description",
-  "frame_3_summary":"short description",
-  "temporal_summary":"short description",
-  "confidence":0.0
-}}
+{{"visibility":"poor|fair|good","detectability":"low|moderate|high","water_surface":"flat|slight_ripple|moderate_chop|choppy|unclear","rain_surface_interference":"none|possible|strong|unclear","wake_interference":"none|possible|strong|unclear","fish_surface_activity":"none_visible|isolated|possible_abnormal|clear_abnormal|dense|unclear","fish_jump_activity":"none_visible|isolated|multiple|dense|unclear","fish_gulping_or_smoking":"none_visible|possible|clear|widespread|unclear","shrimp_surface_popping":"none_visible|possible|multiple|dense|unclear","shrimp_surface_concentration":"none_visible|possible|clear|dense|unclear","crab_surface_swimming":"none_visible|possible|clear|multiple|unclear","crab_climbing_structure":"none_visible|possible|clear|multiple|unclear","flounder_or_flatfish_shallow":"none_visible|possible|clear|multiple|unclear","eel_displacement":"none_visible|possible|clear|multiple|unclear","stingray_or_other_bottom_fauna_displacement":"none_visible|possible|clear|multiple|unclear","shoreline_or_structure_accumulation":"none_visible|possible|clear|dense|unclear","offshore_bottom_fauna_surface_aggregation":"none_visible|possible|clear|dense|unclear","bird_feeding_activity":"none_visible|possible|active|dense_active|unclear","people_present":"none_visible|possible|clear|unknown","flashlight_activity":"none_visible|possible|clear|unknown","motion_pattern":"none_visible|stationary|walking|searching|unknown","clustered_search_behavior":"none_visible|possible|clear|unknown","temporal_persistence":"none_visible|one_frame|multiple_frames|unknown","human_sensor_score":null,"human_sensor_confidence":0.0,"human_sensor_detectability":"good|limited|poor|unknown","people_collecting_seafood":"none_visible|possible|clear|unclear","animal_lethargy_or_abnormal_motion":"none_visible|possible|clear|widespread|unclear","alligator_frame_detections":[{{"frame":1,"visible":"none|possible|clear|unclear","count_estimate":0,"behavior":"none|swimming|stationary|feeding_or_striking|near_people|other|unclear","location_in_frame":"short description or none","confidence":0.0}},{{"frame":2,"visible":"none|possible|clear|unclear","count_estimate":0,"behavior":"none|swimming|stationary|feeding_or_striking|near_people|other|unclear","location_in_frame":"short description or none","confidence":0.0}},{{"frame":3,"visible":"none|possible|clear|unclear","count_estimate":0,"behavior":"none|swimming|stationary|feeding_or_striking|near_people|other|unclear","location_in_frame":"short description or none","confidence":0.0}}],"alligator_visible":"none|possible|clear|unclear","alligator_count_estimate":0,"alligator_behavior":"none|swimming|stationary|feeding_or_striking|near_people|other|unclear","alligator_location_in_frame":"short description or none","alligator_temporal_change":"none|stationary|moving|appeared|disappeared|behavior_changed|unclear","alligator_confidence":0.0,"artificial_light_confounding":"none|possible|strong|unclear","repeated_surface_activity":"none_visible|possible|clear|unclear","activity_changed_across_frames":"no|possible|yes|unclear","likely_temporal_artifact":"none|rain|wake|reflection|camera|other|unclear","temporal_jubilee_signal":"none|weak_possible|moderate|strong|unclear","overall_jubilee_visual_signal":"none|weak_possible|moderate|strong|unclear","frame_1_summary":"short description","frame_2_summary":"short description","frame_3_summary":"short description","temporal_summary":"short description","confidence":0.0}}
 """
 
 
@@ -375,20 +324,8 @@ Biological priority:
 Do not invent evidence. Darkness, poor detectability, missing cameras, or
 unclear observations increase uncertainty; they are not biological negatives.
 Keep free-text fields <=12 words and important_confounders to at most 3 items.
-Return ONLY valid JSON:
-{
-  "overall_visual_jubilee_signal":"none|weak_possible|moderate|strong|unclear",
-  "montrose_visual_signal":"none|weak_possible|moderate|strong|unclear",
-  "point_clear_visual_signal":"none|weak_possible|moderate|strong|unclear",
-  "temporal_confirmation":"none|limited|moderate|strong",
-  "highest_value_observation":"short string",
-  "highest_value_temporal_change":"short string",
-  "important_confounders":["short strings"],
-  "spatial_confirmation":"none|limited|moderate|strong",
-  "recommendation_for_next_burst":"short string",
-  "alligator_summary":"short factual summary",
-  "confidence":0.0
-}
+Return compact JSON; retain all fields/values, no formatting whitespace:
+{"overall_visual_jubilee_signal":"none|weak_possible|moderate|strong|unclear","montrose_visual_signal":"none|weak_possible|moderate|strong|unclear","point_clear_visual_signal":"none|weak_possible|moderate|strong|unclear","temporal_confirmation":"none|limited|moderate|strong","highest_value_observation":"short string","highest_value_temporal_change":"short string","important_confounders":["short strings"],"spatial_confirmation":"none|limited|moderate|strong","recommendation_for_next_burst":"short string","alligator_summary":"short factual summary","confidence":0.0}
 """
 
 
