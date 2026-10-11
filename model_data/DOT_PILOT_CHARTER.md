@@ -84,3 +84,31 @@ The Custom Rule was saved, reopened and visually verified with Ask before taking
 Jubilee's own activation receipt reports successful reads of the saved plan (revision 0) and charter blob d997b36ac1311ce48822fd0ed1cf464a9d9bac78, plus AGENTS.md and MODEL_WORK_REGISTER.md, pinned at repository commit 41113ac072e7d1f11713a8c9833c18fbf856dc88. Jubilee independently read back its name and Custom Rule revision 1, mode always_ask, and verified a cloud Linux execution environment with a harmless shell check. Evidence window: 4:14–4:16 p.m. CDT. The activation chat independently verified the matching charter blob, saved browser configuration and Ready cloud-computer display.
 
 Day 1 starts October 9, 2026 with setup and read access verified. This activation assignment is limited to configuration and read-only validation; operational first assignments were not started. No desktop validation, production-cycle acceptance, forecast skill or 30-day outcome is claimed. PointClearPC was not assigned. Existing production, schedules, scientific standards and approval boundaries remain unchanged. Activation UI: https://chatgpt.com/dots/home .
+
+
+## Camera-evidence interpretation — owner assigned October 11, 2026
+
+Ben instructed: “Work this into the DOT.” Integrate the completed PR #76 investigation into Jubilee's existing coordination and evidence interpretation; do not start a second investigation or broaden access/authority.
+
+Canonical research: PR #76, J18, commit `718668c01a826d4ea9aa7d79f2b89a4bcbcf84ae`.
+- [Case report](https://github.com/bentsmith4/jubilee-camera-feed/blob/718668c01a826d4ea9aa7d79f2b89a4bcbcf84ae/model_data/J18_UNIQUE_CAMERA_OBSERVATIONS_20261011.md)
+- [Exact evidence and timestamp manifest](https://github.com/bentsmith4/jubilee-camera-feed/blob/718668c01a826d4ea9aa7d79f2b89a4bcbcf84ae/model_data/j18_unique_camera_observations_20261011.json)
+
+### Rules for consuming camera observations
+
+1. Preserve the verified baseline: 931 snapshots, 21 descriptive positives, 17 same-site unique camera observations. The 17 partition into 15 ordinary-human cases, one inadequately explained human label, and one isolated surface-disturbance candidate. Sixteen are positive only for people_present=clear; two fish fields belong to the same remaining observation. These counts are not Jubilee detections, independent events, validated precursors or evidence of forecast improvement.
+2. Keep ordinary sitting, reclining, walking and boating distinct from directed searching, flashlights, seafood collection and abnormal biological activity. Ordinary presence alone supplies little demonstrated predictive information. A future observable search/collection pattern may be soft evidence under existing contracts; it does not confirm a Jubilee or authorize a new weight.
+3. Preserve ambiguity: September 29 Montrose bird, actual final shot 06:28:06.291140 CDT, is a one-frame distant disturbance without established identity, gulping, crowding or persistence. September 26 E3, cycle 14:06:00 CDT, has an unexplained clear-people label. September 28 bubbles/bright spots, cycle 05:39:11 CDT, are ancillary artifact-versus-biology evidence outside the 17 because both peers were UNKNOWN. Do not silently recode any source label.
+4. Use subject-camera shot times and capture/analysis hashes. Same-cycle cameras were sampled sequentially; uniqueness is not simultaneous spatial confirmation. Same-site views share an independence group. Final-image review does not independently validate missing burst frames or persistence.
+5. Non-detection is restricted to adequately visible pixels and sampled times. September 12's owner-reported Eastern Shore non-event overlaps five human-only cases, with unspecified observation effort/hours; it is not five independent negatives or a Tier-A control. Quiet shoreline samples do not negate offshore disturbances, and marina views do not establish beach absence. No-report silence or missing evidence must not become a confirmed non-event.
+6. Confirmed August 29–30, 2026 events precede the September 4 replay archive. Zero replay snapshots cover those events. Actual event sensitivity, specificity, false-alert/missed-event rate and lead time remain not estimable. Do not characterize camera reliability, test counts or unique-observation totals as predictive gain, or use zero shoreline uniqueness to justify redundancy.
+
+### Follow-through within existing ownership
+
+Consume this report at the next authorized repository review and fold its interpretation into the existing J18 status. The initial investigation is complete; do not repeat scoring corrections, the 931-snapshot replay or paid image analysis simply to acknowledge it. Validate only when new relevant evidence changes the case.
+
+Coordinate with the separately assigned PointClearPC archive/cropping work for original burst availability and August positive-event archive recovery. Reuse its owner/action/receipts; do not duplicate experiments or assume archive access or recovery. Prioritize validation of the September 29 disturbance, September 26 E3 classification, and ancillary September 28 bright spots using existing evidence when available. Record remaining gaps in MODEL_WORK_REGISTER.md under J18/PR #76, not a new ledger, automation, acquisition service or digest.
+
+Preserve all six cameras, production weights, probabilities, thresholds, alerts, schedules/cadence, UNKNOWN handling, the 9 p.m. America/Chicago feedback gate, public-media retention rules and existing approval boundaries. No merge, deployment or additional paid call is authorized by this integration.
+
+Integration receipt: charter and shared-register configuration can be verified independently of Dot consumption. Direct Dot acknowledgment/custom-rule readback is PENDING until obtained from Jubilee itself; do not claim it has read or applied this section based only on a repository write.
