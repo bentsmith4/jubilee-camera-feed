@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-11T08:32:12.882594-05:00",
+  "issue_time": "2026-10-11T08:43:01.437799-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "8bbc5c1751e6f23862742d625b9ace7c4088bc789ab5a0a41363112311117ed5",
-  "input_commit_sha": "20d2aca8cc6ff61a06492ab3672d777fde329c8f",
+  "input_snapshot_hash": "f27ccfe947860a4e81972f6764f0eeb953c8c7f874abbb8bcb18bf876aadae65",
+  "input_commit_sha": "c54d81be5335bbd99a7f128f1da8188c8182055c",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
@@ -15,11 +15,11 @@
     "private_camera_metadata_pass": 6,
     "private_cameras_expected": 6,
     "ngofs2_products": {
-      "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
-      "ngofs2_point_clear_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
-      "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
+      "ngofs2_point_clear_nowcast": "UNKNOWN_UNAVAILABLE",
+      "ngofs2_point_clear_forecast": "UNKNOWN_UNAVAILABLE",
+      "ngofs2_mobile_bay_named_stations_nowcast": "UNKNOWN_UNAVAILABLE",
       "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
-      "ngofs2_shoreline_grid": "UNKNOWN_NO_CURRENT_GUIDANCE"
+      "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
     "fresh_river_series": 20,
     "asos_stations": "KBFM/KMOB partial"
@@ -30,6 +30,9 @@
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
     "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
+    "ngofs2_point_clear_nowcast: SOURCE_UNAVAILABLE/UNKNOWN",
+    "ngofs2_point_clear_forecast: SOURCE_UNAVAILABLE/UNKNOWN",
+    "ngofs2_mobile_bay_named_stations_nowcast: SOURCE_UNAVAILABLE/UNKNOWN",
     "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
   "outlooks": [
