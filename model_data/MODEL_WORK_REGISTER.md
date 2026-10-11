@@ -2132,3 +2132,15 @@ commit `572ae914cf634934f674a09b5f0b0301ce632588`; existing Sensing ownership.
 No task/action/schedule, coverage/cadence, probability/weight/threshold, alert,
 UNKNOWN/no-clean-negative rule, nine-PM policy or forecast binding changed.
 No new coordinator/automation, extra acquisition or paid AI call.
+
+
+## J18 / PR #76 — Jubilee Dot evidence integration, October 11, 2026
+
+Owner instruction: “Work this into the DOT.” Existing ownership remains Jubilee Model Research & Calibration for research and Jubilee Dot for coordination. No new coordinator, plan, ledger, automation or capture pipeline.
+
+- VERIFIED_COMPLETE: PR #76 case investigation at `718668c01a826d4ea9aa7d79f2b89a4bcbcf84ae`: 931 snapshots / 21 descriptive positives / 17 unique camera observations. Interpretation: 15 ordinary-human cases, one unexplained human label, one isolated September 29 surface-disturbance candidate. No confirmed Jubilee or validated precursor recovered; no measured predictive gain.
+- CONFIGURATION_SAVED: existing DOT_PILOT_CHARTER.md now incorporates the source links, category distinctions, subject-camera timing/identity checks, scoped-negative limits and missing August 29–30 positive-event archive. Charter commit `45bfe868e47044310d41e59123e4031263580495`.
+- BLOCKED_EVIDENCE: original-burst validation of September 29 disturbance and September 26 E3 classification; ancillary September 28 bubbles/bright spots remain ambiguous. August positive-event camera coverage remains absent from Git replay. Coordinate with the existing PointClearPC archive/crop assignment; do not duplicate it. Camera sensitivity, specificity and lead time remain not estimable.
+- DOT_ACKNOWLEDGMENT_PENDING: this session's ChatGPT browser is signed out; the existing Dot cannot be reached here. No Dot consumption, custom-rule update or acknowledgment is claimed. Configuration delivery through its canonical repository is separate from native Dot readback. The October 9 activated/read-access-verified receipt in the charter supersedes the earlier activation-blocked statement in this register; the present signed-out browser does not undo activation.
+
+At Jubilee's next authorized repository review, consume the pinned report, apply the charter's interpretation in existing J18 status, and return a source/version acknowledgment. Initial research is complete: do not repeat scoring corrections or the full replay solely for acknowledgment. Preserve all six cameras, production settings, UNKNOWN handling, feedback gate, schedules and approval boundaries. No paid analysis, deployment, merge, media publication or outreach authorized by this integration.
