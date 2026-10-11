@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-10T16:11:28.817525-05:00",
+  "issue_time": "2026-10-10T22:11:30.678991-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "838c5be73278d5fd95de27b15cb3af432eb2ffe9eefefc2ef541ffe8c5300919",
-  "input_commit_sha": "e7c3b9d10e094527102719417af92d2939a42b59",
+  "input_snapshot_hash": "5e2a3a85d77f4656aff36bee857e8a8031a1fd3ac46a84217dc3090347211d25",
+  "input_commit_sha": "3ee0ba88f8c3369990a651c5ab159fcb498fd9e4",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
@@ -17,12 +17,12 @@
     "ngofs2_products": {
       "ngofs2_point_clear_nowcast": "UNKNOWN_UNAVAILABLE",
       "ngofs2_point_clear_forecast": "UNKNOWN_UNAVAILABLE",
-      "ngofs2_mobile_bay_named_stations_nowcast": "UNKNOWN_UNAVAILABLE",
+      "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
       "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
-      "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
+      "ngofs2_shoreline_grid": "UNKNOWN_NO_CURRENT_GUIDANCE"
     },
     "fresh_river_series": 20,
-    "asos_stations": "KBFM/KMOB partial"
+    "asos_stations": "KBFM/KMOB UNKNOWN"
   },
   "missing_inputs": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
@@ -32,7 +32,6 @@
     "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
     "ngofs2_point_clear_nowcast: SOURCE_UNAVAILABLE/UNKNOWN",
     "ngofs2_point_clear_forecast: SOURCE_UNAVAILABLE/UNKNOWN",
-    "ngofs2_mobile_bay_named_stations_nowcast: SOURCE_UNAVAILABLE/UNKNOWN",
     "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
   "outlooks": [
