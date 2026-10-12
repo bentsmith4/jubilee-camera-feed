@@ -1,0 +1,46 @@
+{
+  "schema": "jubilee_efficiency_measurement/v1",
+  "generated_at_utc": "2026-10-12T15:25:00Z",
+  "work_id": "J18",
+  "change": {
+    "pr": 78,
+    "merged_at_utc": "2026-10-10T15:08:04Z",
+    "merge_commit": "07cb97b5c7685b6be3dc6e7a3c991d5be6b71d03",
+    "source_commit": "8a84f8cd96fa5fec426fa8c6723d881fcf332f3e",
+    "runtime_status": "INSTALLED_AND_ORDINARY_CYCLE_VALIDATED",
+    "runtime_sha256": "b1e90549dd0151ccc61e3b970cd128dacb0b4583f5170ff94f910e2cd0389e05"
+  },
+  "source": {
+    "path": "api_usage_summary.json",
+    "blob_sha": "cc2535699c43b4ccfc31d64dd8509b5159d961d5",
+    "generated_at_utc": "2026-10-12T14:10:56.901718Z",
+    "status": "available",
+    "invalid_records": 0,
+    "model": "gpt-5.6-luna",
+    "exclusions": [
+      "2026-10-12 partial day",
+      "failed requests",
+      "dollar pricing absent"
+    ]
+  },
+  "baseline_2026_10_08": {
+    "completed_camera_requests": 178,
+    "failed_camera_requests": 0,
+    "input_tokens_per_completed_request": 7199.2135,
+    "output_tokens_per_completed_request": 935.4663
+  },
+  "post_2026_10_09_through_11": {
+    "completed_camera_requests": 510,
+    "failed_camera_requests": 0,
+    "input_tokens_per_completed_request": 7066.3392,
+    "output_tokens_per_completed_request": 767.6235
+  },
+  "observed_change_pct": {
+    "input_tokens_per_completed_request": -1.8457,
+    "output_tokens_per_completed_request": -17.9421
+  },
+  "interpretation": "Three complete post-change calendar days sustain materially shorter output and modestly lower input per successful camera request. This is observational, not randomized, and request counts do not prove complete six-camera cycles or equivalent event-detection effectiveness.",
+  "billing": "UNKNOWN_UNPRICED",
+  "promotion_decision": "RETAIN_INSTALLED_FORMATTING_CHANGE_WITH_ROLLBACK; NO_FURTHER_PRODUCTION_CHANGE",
+  "production_action": "NO_NEW_CHANGE"
+}
