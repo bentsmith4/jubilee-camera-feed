@@ -118,6 +118,11 @@ jobs:
         run: |
           set -o pipefail
           python -B model_data/check_current_state_freshness.py | tee "$RUNNER_TEMP/current-state-freshness.json"
+      # Producer GITHUB_TOKEN pushes do not trigger Forecast Consistency.
+      # Keep this read-only horizon status in the existing live-status job.
+      - name: Verify live published Dawn horizon
+        if: always()
+        run: python -B model_data/bind_current_forecast.py --check --require-dawn-horizon
       - name: Publish visible freshness summary
         if: always()
         run: |
