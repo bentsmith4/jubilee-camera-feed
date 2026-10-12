@@ -2158,3 +2158,27 @@ Prevention: existing Forecast Consistency now runs the strict horizon validator 
 
 Jubilee Dot: consume this correction under existing J01/J11. Track prepared, PR, merged and verified readback separately. Do not duplicate work or claim a new calibrated forecast. Native Dot acknowledgment is not established by a repository update.
 
+---
+
+## Research & calibration run — 2026-10-12
+
+Scope: in-season research review only. No camera capture, outreach, production-weight, threshold, schedule, coverage, model, image-detail, or 9 PM gate change was made. The transient source-discovery queue is absent from `main` (404), consistent with prior queue completion.
+
+| Stable ID | Stage after this run | Exact new evidence | Result / unresolved gate | Next action |
+|---|---|---|---|---|
+| J09-ADCP-Y1.x122.038-0002 | TESTED / COMMITTED; research-only | `model_data/j09_adcp_authoritative_metadata_audit_20261012.json`, commit `572aac40dac2e5766b96d1e9e1714d10b09c108c`; authoritative GRIIDC dataset `Y1.x122.038:0002`, DOI `10.7266/N7B85630` | GRIIDC confirms 11 raw, un-QC Mobile Bay ship-channel surveys and NMEA navigation availability, but does not clear heading, magnetic variation, draft/transducer, clock-timezone or playback calibration. Provider metadata says Nortek AWAC while retained bytes decode as RDI PD0/WinRiver. Earth-frame accepted rows remain 0; production weight remains 0. | Resolve format/provenance conflict and recover calibration/deployment metadata before any navigation association, vessel-motion correction or Earth-frame transport claim. |
+| J10-CONTROL-20261011-12 | TESTED / COMMITTED; Tier-B sensitivity only | `model_data/j10_matched_control_sensitivity_20261012.json`, commit `30d81331f71150bec239742278c16350dee52c2e` | 24 exact-window records: 11 Montrose visible-scope candidates and 13 UNKNOWN. This adds two independent date/site-group Tier-B mornings (cumulative 13), but 0 Tier-A controls and 0 clean training negatives. Two records about four seconds beyond their exact windows were excluded. Whole-morning and Point Clear outcomes remain UNKNOWN/partial. | Continue prospective observation-effort collection; do not convert no-report silence, early darkness, marina visibility or Tier-B scope into clean negatives. |
+| J10-HELDOUT-JUBILEE | BLOCKED_EVIDENCE | Same control audit plus unchanged 15-row event history | Loading-only versus transport-only versus combined Jubilee-event scoring remains indefensible with zero Tier-A controls. Meaher loading status is `LOADING_AVAILABLE_TRANSPORT_UNKNOWN`; current geometry is unknown and no current NGOFS2 transport feature was available. | Await independently verified matched event/control windows and defensible transport geometry; retain oxygen scores as loading-state results only. |
+| J18-PR78-COMPACT-JSON | MERGED / INSTALLED / ORDINARY-CYCLE-VALIDATED / MEASURED | PR #78 merged 2026-10-10 at `07cb97b5c7685b6be3dc6e7a3c991d5be6b71d03`; `model_data/j18_compact_json_postmerge_measurement_20261012.json`, commit `783fac9096c7d7f8a68932032e2f26b0e0840b88` | Supersedes the stale October 10 note that PR #78 was open. Owner approval on October 12 confirms retention of the already-installed change; no duplicate deployment was performed. Across 510 completed post-change camera requests on October 9–11 versus 178 on October 8, input/request fell 1.8457% and output/request 17.9421%. This is observational, not randomized; full-cycle effectiveness equivalence and dollar savings remain unverified. | Retain rollback. Reconcile billing/tier and coverage-normalized effectiveness before any larger cost claim or further production experiment. |
+
+### Predictive result
+
+No new Jubilee-event predictive gain or regression was measurable. The sample remains inadequate for event-level calibration, missed-event, false-alert, lead-time or decision-utility estimates. Moon phase remains committed, tested, zero-weight and `BLOCKED_BY_DATA`; it was not retested because no new independent event episodes or Tier-A controls were added.
+
+### Promotion decision
+
+- ADCP Earth-frame transport: **REJECT / NOT ELIGIBLE** pending all calibration gates.
+- October 11–12 Montrose observations: **RETAIN AS TIER-B SENSITIVITY CONTROLS ONLY**.
+- Compact JSON formatting: **RETAIN INSTALLED CHANGE**; measured token efficiency supports retention, not a new model or threshold change.
+- Production model weights, alert thresholds, six-camera coverage, sensing/dawn timing and alert behavior: **UNCHANGED**.
+
