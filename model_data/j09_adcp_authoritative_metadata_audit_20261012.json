@@ -1,0 +1,47 @@
+{
+  "schema": "jubilee_adcp_authoritative_metadata_audit/v1",
+  "generated_at_utc": "2026-10-12T15:25:00Z",
+  "work_id": "J09",
+  "dataset": {
+    "id": "Y1.x122.038:0002",
+    "doi": "10.7266/N7B85630",
+    "provider": "GRIIDC",
+    "authoritative_url": "https://data.griidc.org/data/Y1.x122.038%3A0002",
+    "stated_scope": "11 surveys along the Mobile Bay ship channel",
+    "period": "2010-08-18 through 2010-10-27",
+    "archive_files": 68,
+    "archive_bytes": 94580000,
+    "provider_qc": "raw_not_quality_controlled",
+    "provider_navigation_note": "Positions may be extracted from NMEA files",
+    "provider_instrument_description": "Five Nortek AWAC files per survey folder"
+  },
+  "retained_decode": {
+    "method": "reproducible offline RDI PD0/WinRiver decode",
+    "ship_frame_ensembles": 6210,
+    "bins": 248400,
+    "component_rows": 993600,
+    "earth_frame_accepted_rows": 0,
+    "evidence": [
+      "model_data/J09_SHIP_CHANNEL_ADCP_INGEST.md",
+      "model_data/ingest_j09_ship_channel_adcp.py",
+      "tests/test_j09_ship_channel_adcp.py"
+    ]
+  },
+  "findings": [
+    "The authoritative metadata confirms raw survey coverage and navigation availability but does not document heading calibration, magnetic variation, draft/transducer geometry, clock timezone, or playback-equivalence settings.",
+    "Provider metadata describes Nortek AWAC files while the retained native bytes decode as RDI PD0/WinRiver; this format/provenance conflict remains unresolved.",
+    "Vessel-mounted current vectors require defensible navigation association and vessel-motion correction before Earth-frame transport use."
+  ],
+  "uncleared_gates": [
+    "navigation association",
+    "vessel-motion correction",
+    "deployment/compass heading",
+    "magnetic variation",
+    "draft/transducer geometry",
+    "vertical-bin reference",
+    "source clock timezone",
+    "playback equivalence"
+  ],
+  "decision": "RESEARCH_EVIDENCE_ONLY_ZERO_PRODUCTION_WEIGHT",
+  "production_action": "NO_CHANGE"
+}
