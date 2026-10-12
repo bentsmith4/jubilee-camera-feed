@@ -54,3 +54,8 @@ jobs:
           python -B -m unittest discover -s tests -p "test_dawn_outlook_rollforward.py" -v
       - name: Verify the checked-out snapshot and forecast as one pair
         run: python -B model_data/bind_current_forecast.py --check
+      # Binding alone permits sensing to retain an older reviewed outlook.
+      # Report an expired horizon explicitly; this check never edits evidence
+      # or grants sensing authority to reassess numerical forecasts.
+      - name: Verify the published three-day Dawn horizon
+        run: python -B model_data/bind_current_forecast.py --check --require-dawn-horizon
