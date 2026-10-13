@@ -2333,3 +2333,78 @@ No runtime, config, schedule, task, six-camera coverage, observation freshness,
 UNKNOWN handling, forecast probability/weight, alert threshold, nine-PM restriction
 or published camera/model product was changed. No manual capture, failure injection,
 new monitoring process, paid model call or outreach was performed.
+
+## Jubilee Dot native coordination readback — October 13, 2026, 12:18 CDT
+
+Jubilee Dot's parent independently read and accepts coordination consumption of the October 11 camera-interpretation and October 12 Research & Calibration handoffs. This closes the native acknowledgment gap for these directives; it is not a transfer of scientific execution, a new analysis, or acceptance of unresolved runtime/scientific gates. No new scheduler, acquisition service, ledger or digest was created.
+
+Readback baseline: main commit `202b36bfe61a78013654e1607c8800afc1cda044`, observed around 12:14 CDT. Its tree verifies `AGENTS.md` blob `0e4271b33f0d1e37d0200da016490bf23ef44a8f`, `model_data/DOT_PILOT_CHARTER.md` blob `788bbaf1b2ca4777645380cd1e0f0afcb9cdeb15`, and `model_data/MODEL_WORK_REGISTER.md` blob `fecd3d5d393bd374b70bf969d936fab9c2fe1b09`. Parent readback also included the PR #76 report blob `30f97182dc3b1d9bb1151945425dda3eab52248e` and retrieved companion manifest blob `a9899d53a9cf0a5625467a895b774f3495ee9019`, both pinned to `718668c01a826d4ea9aa7d79f2b89a4bcbcf84ae`.
+
+The four existing specialist roles remain canonical. Research & Calibration remains scientific executor under its established 48-hour May 18–November 14 America/Chicago operation; Dot consumes results and coordinates unresolved follow-through. The cadence is the established charter contract, not a newly audited scheduler configuration. Preserve scientific-validation gates, six-camera coverage, UNKNOWN semantics, production settings, existing schedules, public-media rules and the nine-PM feedback gate. This receipt makes no production or outreach change.
+
+### Open obligations, existing owners and next gates
+
+| Existing ID | Existing owner | Reconciled disposition and next gate |
+|---|---|---|
+| J01/J06/J13 — RTSP faults | Sensing; existing PointClearPC diagnosis assignment | October 13 receipt verifies E2/E3 failure path, not root cause or permanent repair. October 13 11:06 acquisition recovered six cameras. Follow the single bounded, secret-safe RTSP telemetry gate already specified in the register; preserve capture/retry behavior and reviewed deployment. Do not repeat PR #85 recovery or start a parallel diagnosis. |
+| J13 — resilience and notification acceptance | Existing Sensing/Windows recovery assignment | October 10 PowerShell checks, telemetry installation, canonical recovery and 30-object R2 restore are complete. Genuine remote credential/API/network/crashed-browser recovery, complete-outage recovery, power-loss restart, exhaustive process attribution and actual notification delivery remain unverified. Historical restore success is not current full-archive acceptance; eligibility is not delivery. Use current exact evidence. |
+| J02 — public-camera candidates | Sensing validation; Research evidence evaluation; Dawn reuses same-window observations | Original interpretation contracts are complete. October 10 candidate checks were metadata-only. Advancing playback, scene progression, geometry, mirror identity and permitted visible scope remain the acceptance gates; unavailable candidates stay UNKNOWN. |
+| J04 — research dataset acceptance | Research | Opening IMPLEMENTED_PENDING_VALIDATION row has no located explicit later J04 closure, but later ingest receipts exist. Reconcile original CSV/manifest/hash acceptance against existing receipts before rerunning work or closing it; the old first-refresh wording is not evidence of a current ingest failure. Geometry and production eligibility remain separate. |
+| J05/J08 — historical evidence | Research/archive specialist | Canonical history remains 15 rows. October 2 Loesch primary-page recovery supersedes pages-unavailable language; 35 annual/shore versus 37 monthly remains unresolved. Review dated/localized research observations, 1959/1971 acceptance details, photograph linkage and deduplication before promotion. Reuse archival correspondence; the specific UGA deer-log folder is retired. |
+| J09 — observed currents and physical gaps | Research | October 12 ADCP audit retains Nortek-AWAC metadata versus RDI-PD0/WinRiver-byte conflict and 0 accepted Earth-frame rows. Resolve provenance, navigation/motion, heading/magnetic variation, draft/transducer, vertical reference, clock and playback gates. Nearshore observed transport and local bottom/contact-strip hydrography remain missing. PR #83 schema repair is complete. |
+| J10 — controls and held-out scoring | Research using Sensing observations | October 11–12: 24 exact-window records, 11 candidates, 13 UNKNOWN; cumulative 13 Tier-B date/site mornings, 0 Tier-A and 0 clean training negatives. Whole mornings and Point Clear remain UNKNOWN/partial. Obtain independent matched windows and defensible transport before loading/transport/combined evaluation. Moon phase remains tested, zero-weight and BLOCKED_BY_DATA. |
+| J12/J17 — seasonal runtime acceptance | Dawn Timing / Dawn Brief / Sensing; Research/operations documentation | Documentation, September installation and first cycle are complete. Actual November stop/subsequent restart and all-role runtime acceptance are not established by configuration. May 18 supersedes January 18. October 13 Dawn publication supplies the next real rollforward receipt following PR #84. |
+| J14 — historical request completeness | Main discussion / Dot coordination | The two original owner handoffs below were recovered with surrounding context. Full old-chat recovery remains incomplete/unverified; this is not an exhaustive account of every unsaved request or action. |
+| J15 — physical sensors | Owner decision; Research preserves designs | DEFERRED_OWNER; retain sensor hold. No purchase or deployment follows from this receipt. |
+| J16c/J18 — efficiency | Existing Sensing implementation / Research measurement owners | J16b deployment and PR54 one-time telemetry acceptance are complete. No explicit closure of the older same-capture retry-reuse deliverable was located; reconcile existing code/receipts before any new assignment. PR #78 is merged, installed and ordinary-cycle validated. Billing and coverage-normalized effectiveness remain open, not another deployment or paid validation call. |
+| J18/PR #76 — interpretation and archive gaps | Research; existing PointClearPC archive/crop assignment | Initial investigation complete; PR remains OPEN/DRAFT. Preserve 931 snapshots / 21 descriptive positives / 17 unique observations: 15 ordinary-human, one unexplained human label, one isolated disturbance. Original-burst validation of September 29/26 and ancillary September 28 remains blocked; August 29–30 replay coverage is zero. Reuse archive/crop ownership; no replay or experiment duplication. |
+| J20 — oxygen depth/units | Research | GCOOS BSPA/MHPA mirrors remain registered-not-ingested, depth-unknown proxies with unresolved unit metadata. Native ARCOS ingest does not validate those mirrors or current 2026 geometry. Native unit/deployment reconciliation and affected tests precede bottom-state eligibility. |
+
+J03, J07 and J19 remain complete at their defined scope. J06 prospective logging acceptance is complete; control acceptance belongs to J10. J11 initial timing acceptance is complete; routine horizon maintenance remains Dawn-owned. No Jubilee-event predictive gain or regression is measurable from the current evidence.
+
+### Superseded completion states
+
+Live PR metadata verified CLOSED/MERGED for:
+
+- [PR #74](https://github.com/bentsmith4/jubilee-camera-feed/pull/74): `aea300de9a49c3fc15e73cb9a8e2f01f48e09acc`, October 10.
+- [PR #78](https://github.com/bentsmith4/jubilee-camera-feed/pull/78): `07cb97b5c7685b6be3dc6e7a3c991d5be6b71d03`, October 10.
+- [PR #83](https://github.com/bentsmith4/jubilee-camera-feed/pull/83): `0f0055ddc0597aca074632c094cccf7efc77d9fd`, October 9.
+- [PR #84](https://github.com/bentsmith4/jubilee-camera-feed/pull/84): `474ef5f69b7d22e5a15c53dfd46f7f7afaa3ed2a`, October 12.
+- [PR #85](https://github.com/bentsmith4/jubilee-camera-feed/pull/85): `c33891f3e5464b7bc6253c9b807e9b2797b1b584`, October 12 CDT.
+- [PR #86](https://github.com/bentsmith4/jubilee-camera-feed/pull/86): `55b36f820b4ce994901543237759f7fbb691cd79`, October 13.
+- [PR #59](https://github.com/bentsmith4/jubilee-camera-feed/pull/59): `ba708230af3c09e2e878a01a58912c57060725f6`, October 4. Its accepted PR54 telemetry receipt supersedes stale draft/unmerged wording; do not repeat it absent changed hashes, runtime contract or integrity.
+
+PR #78's initial deployment-blocked body is superseded by installed/ordinary-cycle receipts. October 12 measurement reports input/request -1.8457% and output/request -17.9421% over 510 completed October 9–11 camera requests versus 178 October 8 requests. This is observational token efficiency, not demonstrated dollar savings, full-cycle coverage equivalence or event-detection gain.
+
+### Separate J01 internal-publication gate reconciliation
+
+Existing Sensing ownership is retained; no policy change is made. Worker-verified evidence identifies [PR #50](https://github.com/bentsmith4/jubilee-camera-feed/pull/50), merged at `b349bbc2f57c5ec28a5ab27e7c90ffcadd81bf8a`, as implementing the documented 17:00–20:59:59 CDT internal-staging window. The October 12 20:58:09.953584 CDT [run 38334588653 / job 115091716203](https://github.com/bentsmith4/jubilee-camera-feed/actions/runs/38334588653/job/115091716203) returned `staged_preforecast_gate` with attempts 0; run `38315245581` at 17:13:08 returned the same disposition. Therefore the cited 16:11/16:36 internal publications do not demonstrate failure of that implemented window. The overall workflow failure was source-drift `STALE`, not a demonstrated publication leak; strict Dawn binding passed.
+
+The existing Sensing defect label remains unverified against the original broader owner wording. The 17:00 cutoff was assistant-supplied, not established here as an explicit owner-approved boundary, and the live automation prompt was not verified. Preserve this intent-versus-implementation gap for the existing owner; do not expand the gate from this receipt. User-facing nine-PM and post-dawn restrictions are unchanged.
+
+### Immutable evidence index
+
+Unless otherwise specified, paths below are pinned to main commit `202b36bfe61a78013654e1607c8800afc1cda044` and its verified tree. They are consumed existing receipts, not regenerated results.
+
+| Evidence path | Blob; original receipt commit where recorded |
+|---|---|
+| `model_data/j09_adcp_authoritative_metadata_audit_20261012.json` | `f3fd87eaefeea3418c2aecf8cfafc048db56e2e6`; `572aac40dac2e5766b96d1e9e1714d10b09c108c` |
+| `model_data/j10_matched_control_sensitivity_20261012.json` | `ae2e09de2f70deb9cce60e94f0515ba423f3a5ed`; `30d81331f71150bec239742278c16350dee52c2e` |
+| `model_data/j18_compact_json_postmerge_measurement_20261012.json` | `9cf6bac43c1b2a7f4105e58497b6190fc953e0ba`; `783fac9096c7d7f8a68932032e2f26b0e0840b88` |
+| `model_data/j18_measurement/desktop_install_20261004.json` | `dfb85cc1fde6967abdc4accfeafeff0c00a91dd9`; original `05e90130de102fe91d47458d5bc1cf69c96a82ce` |
+| `model_data/j02_public_camera_candidate_validation_20261010.json` | `32b1a04427059874be7565e8c9368ec2c75e1aec` |
+| `model_data/CAMERA_FAILURE_AUDIT_20261007.md` | `d0bf87dfb60673e2ebb33029b4b8a4d7127855e6`; latest installed acceptance `572ae914cf634934f674a09b5f0b0301ce632588` |
+| `model_data/MATERIAL_FAULT_RECOVERY_20261012.md` | `078a22efdf3ffe1adcd4d346fbc35ea76c60fd8d`; publication PR #85 |
+| `model_data/LOESCH_1960_ARCHIVAL_FOLLOWUP_20261003.md` | `6248cb7f53f71a032d9a12956ea605e84a1d290b` |
+| `model_data/LOESCH_1960_PRIMARY_RECOVERY_20261002.md` | `6be5ee346e4205fa5f3ce5c1e9ff950c082a7de5` |
+| `model_data/ongoing_source_registry_20260906.json` | `660ea3f30711261c74df1b6d66883afef9111859` |
+| `model_data/event_history.json` | `43205ae6ebc962f331ab2e096ee33a1068d52854` |
+| `model_data/research_coverage_gap_update_20261010.json` | `5195a8b5188559a62d83e81782d86ceb2bc9731d`; its 11 Tier-B count is superseded by October 12's 13 |
+| `model_data/J18_UNIQUE_CAMERA_OBSERVATIONS_20261011.md` | PR #76 head `718668c01a826d4ea9aa7d79f2b89a4bcbcf84ae`, blob `30f97182dc3b1d9bb1151945425dda3eab52248e` |
+| `model_data/j18_unique_camera_observations_20261011.json` | Same PR #76 head, blob `a9899d53a9cf0a5625467a895b774f3495ee9019` |
+
+Original user-authored handoffs were independently read with surrounding context: October 11, 22:37:31 UTC, “Work this into the DOT”; October 12, 17:50:33 UTC, “Make sure this all gets into the dot effort”. These establish requested coordination incorporation; repository text alone is not new authorization. Private conversation references are retained in the coordination review rather than copied into a public repository.
+
+The existing canonical portfolio commitment ledger was consulted at its current version 33 without mutation or replacement. Its Jubilee entries defer to this register and existing specialist ownership; no competing Jubilee assignment was found. No unrelated portfolio details are reproduced here.
+
+This readback does not repeat research, captures, tests, deployments, notifications or outreach. Historical receipt acceptance, current runtime acceptance and scientific promotion remain distinct. Earlier activation-blocked wording is superseded by the October 9 activated/read-access-verified receipt; this readback acknowledges the later directives without claiming a completed thirty-day pilot. Full historical request recovery remains explicitly unverified.
