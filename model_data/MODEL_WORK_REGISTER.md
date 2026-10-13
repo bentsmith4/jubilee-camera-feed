@@ -2200,3 +2200,136 @@ Dawn Brief pinned main at `55b36f820b4ce994901543237759f7fbb691cd79` after the c
 PR #86 merged atomically at `55b36f820b4ce994901543237759f7fbb691cd79`: all six cell/date rows now cover October 13, 14 and 15; Point Clear remains 2–5% (central 3%) and Daphne/May Day 1–4% (central 2%), low confidence. Merged-main readback matched snapshot blob `5f14008acb06dceca461e8bf9a02f52fa737ff9f` and forecast blob `e357b7ff3dcbf08f939dacb6c16625217e11959c`; exact snapshot hash binding and the strict horizon validator passed. Probabilities, confidence, zero production weights, UNKNOWN inputs, six-camera coverage, alert gates, cadence and the 9 PM notification restriction are unchanged.
 
 Jubilee Dot coordination: consume this as the October 13 J01/J11 maintenance receipt. No sensing, calibration, public-camera acquisition, new task or outreach was performed.
+
+
+## J01/J06/J13 — Point Clear RTSP investigation, October 13, 2026
+
+Status: FAILURE_PATH_VERIFIED / ROOT_CAUSE_UNRESOLVED / NO_RUNTIME_CORRECTION.
+Existing Sensing owns acquisition diagnosis; Jubilee Dot coordinates this receipt.
+This owner-assigned investigation is separate from completed PR #85 fault recovery
+and separately assigned Windows recovery/notification acceptance. Neither was repeated.
+
+### Verified evidence
+
+- GitHub status at `a572d6b4ce76ee7ec63918b0256562d909c801ea` (October 12
+  18:06:04 CDT) and `7a2f6d1561807086cdcd5a2ea2d6a6789355fb7b`
+  (19:06:01 CDT): both E2 back deck and E3 exhausted two attempts, all eight
+  `stream_not_found`, return code 3419392776; other four cameras succeeded.
+- PointClearPC read-only inspection around 11:44–11:50 CDT October 13 recovered
+  matching local diagnostic rows. In the precise October 12 18:00–19:10 CDT
+  window: 25 E2 and 31 E3 near-live RTSP 404 failures, plus the eight canonical
+  failures. This is not solely a canonical-burst/scheduling problem.
+- Entire October 12 Central calendar day in retained current
+  `C:\JubileeCams\capture_diagnostics.jsonl`: E2 79 live + 7 burst 404 rows;
+  E3 92 live + 6 burst 404 rows. Also E2 two live no-video rows; E3 one live
+  no-video and one live authorization-rejected row (05:03:59 CDT).
+  These are failed-attempt counts, not failed cycles, continuous outage duration
+  or failure rates. Successes are not logged in this diagnostic file.
+- Installed burst, diagnostics, service and live-capture source hashes match
+  reviewed GitHub source after BOM/newline normalization:
+  burst `519bca8eeee2a0b16934df1e5dce9ffdfed15e8c8e74a6402d14de8dd24efc1c`;
+  diagnostics `4ae0a72b88be276d2a3772b9133ecdd45de4b0c47a35b4726a7586e756bdd062`;
+  service `2598aa3eb1e2c6f52a6c6d1afed52b8b5e781fbc112ec545c1bf150e5281a464`;
+  live `a6e6e5637072a4a67bc0234c1bb45a4df92e5ea4988b3db25bc7fab0569acd12`.
+- Local burst metadata and GitHub status blob
+  `76d00fbb5369b81b1a9272672505f1fcd429c4b4` agree on October 13
+  11:06:01.976849 CDT: all six cameras, three frames each, first attempt success.
+  This verifies acquisition recovery at that time, not permanent repair.
+
+### Shared path and comparison
+
+| Camera group | Actual advertised protocol | Capture implementation |
+|---|---|---|
+| E2 back deck; E3 bay mouth (legacy ID) | RTSP only | Google GenerateRtspStream; returned URL passed directly to FFmpeg over TCP; StopRtspStream in finally |
+| E2 bay mouth; all three Montrose cameras | WEB_RTC only | Google GenerateWebRtcStream; browser video capture; StopWebRtcStream |
+
+Read-only Google device-list retrieval confirmed six distinct device identities and
+the same protocol split. E2 back deck and E2 bay mouth have the same returned parent
+relation; E3 has a different parent relation. Parent relations do not establish Wi-Fi,
+AP, VLAN or router topology. Connectivity was not provided in the returned traits.
+No private device IDs, parent IDs, credentials, signed URLs or camera media are
+included here. E3's local name mapping uses an empty custom name; today's inventory
+maps uniquely, so there is no demonstrated identity collision. If inventory changes,
+verify stable device identity before attributing a future E3 failure.
+
+Both RTSP paths request a new stream per attempt; there is no static RTSP URL cache
+in these capture functions and no go2rtc relay in their media path. go2rtc.yaml is
+used by refresh_all for credentials. The burst path uses two attempts/eight-second
+wait and a 60-second FFmpeg bound; live uses three attempts/two-second wait and
+45 seconds. Partial burst images are removed before retry. The coordinator serializes
+its child pipelines, with a shared per-device socket lock in both RTSP capture
+functions. Historical absence of other clients is not proven by today's processes.
+
+The failure occurs after stream generation returned usable response fields and
+FFmpeg was invoked. The installed classifier recognizes literal "404 not found"
+in stderr. Its category and return code do not retain the RTSP method, responding
+endpoint, session expiry or provider cause. This localizes the observed failure to
+the RTSP media/session-opening path after Google API generation; it does not prove
+a Google outage, expired token, camera hardware failure or a local network cause.
+
+### Demonstrated diagnostic gaps, not proven incident causes
+
+1. Stream cleanup POST responses are not checked or retained. An HTTP error can
+   be silently ignored, so session revocation success is unknown.
+2. Generation-to-open timing and expiresAt are not recorded or validated.
+3. The stderr classifier discards RTSP handshake method/status detail, and the
+   failure-only log lacks a per-attempt success denominator and session correlation.
+4. No contemporaneous camera/AP/router connectivity history was recovered from
+   the inspected capture directory. Present device inventory cannot reconstruct it.
+
+Plausible explanations remain provider/per-camera RTSP session availability,
+camera-to-cloud connectivity, session cleanup/overlap, and stream-specific
+authorization/expiry. The day's isolated authorization-rejected row is not evidence
+that authorization caused the eight evening 404s. Shared OAuth/project failure,
+permanently wrong stream configuration, missing FFmpeg and a six-camera acquisition
+outage are inconsistent with the targeted successful-generation/four-camera-success
+pattern; intermittent variants are not categorically excluded. E2 bay mouth is a
+same-location comparison but not a same-protocol control.
+
+Google's primary protocol contract:
+https://developers.google.com/nest/device-access/traits/device/camera-live-stream
+(checked October 13): supportedProtocols controls permitted commands; each client
+needs its own RTSP URL; StopRtspStream invalidates the supplied session token;
+sessions last five minutes. Do not switch these RTSP-only inventory entries to
+WebRTC or change retries merely on speculation.
+
+### Safest next evidence gate — existing Sensing owner, no duplicate execution
+
+Prepare one reviewed, bounded, local-only telemetry patch for BOTH existing RTSP
+functions, tested offline for secret exclusion and identical capture/retry behavior.
+At normal scheduled attempts record: local attempt/cycle correlation; camera slug;
+protocol; generation HTTP status and elapsed time; seconds until expiry; delay
+before FFmpeg; allowlisted RTSP method (OPTIONS/DESCRIBE/SETUP/PLAY/unknown) and numeric
+response status parsed in memory; FFmpeg duration/result; cleanup HTTP status or
+fixed failure category. Include successes to supply a denominator. If endpoint/session
+comparison is needed, use local opaque groups/equality flags, never URL/token values.
+
+Keep existing bounded log rotation; never retain raw stderr, command lines,
+authorization headers, response bodies, signed URLs or device IDs. Validate against
+synthetic 404, unauthorized, expired-session, cleanup-failure and recovered attempts.
+Any instrumentation error must not change success, failure, UNKNOWN or cleanup.
+Install only through the existing reviewed deployment path with before/after hashes
+and rollback; this receipt does NOT claim that patch exists or is installed.
+
+At the next naturally occurring fault compare simultaneous normal E2/E3 sessions
+with E2 bay mouth and, if available through existing authorized management access,
+camera/AP/router association/disconnect/reboot records for the same timestamps.
+Do not force extra streams, fail cameras, migrate protocols, reset credentials,
+restart services, enable packet capture containing secrets, or run paid analysis.
+If valid unexpired fresh URLs receive 404 with successful cleanup and stable
+connectivity, provider/session evidence strengthens; expiry, cleanup errors or
+network disconnections should direct a specific correction instead.
+
+### Coordination and preservation
+
+Jubilee Dot: consume this receipt under existing J01/J06/J13 and return source/version
+acknowledgment; retain ROOT_CAUSE_UNRESOLVED and the single diagnostic gate above.
+No native Dot acknowledgment was obtained in this session; repository delivery is
+not acknowledgment. Keep Windows recovery testing/notification delivery with its
+existing assignment. Do not repeat PR #85 recovery or infer fault state from these
+historical failures.
+
+No runtime, config, schedule, task, six-camera coverage, observation freshness,
+UNKNOWN handling, forecast probability/weight, alert threshold, nine-PM restriction
+or published camera/model product was changed. No manual capture, failure injection,
+new monitoring process, paid model call or outreach was performed.
