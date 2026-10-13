@@ -2182,3 +2182,12 @@ No new Jubilee-event predictive gain or regression was measurable. The sample re
 - Compact JSON formatting: **RETAIN INSTALLED CHANGE**; measured token efficiency supports retention, not a new model or threshold change.
 - Production model weights, alert thresholds, six-camera coverage, sensing/dawn timing and alert behavior: **UNCHANGED**.
 
+
+
+## J01/J06/J13 — October 12 evening fault provenance and explicit recovery
+
+Owner-assigned investigation verified the installed alternate overnight capture schedule and genuine October 5 E2/E3 fault provenance. The 21:49 camera UNKNOWN interval is expected between 20:06 and 22:06, not a missed 21:06 capture. October 12 18:06/19:06 E2/E3 failures were real; both 20:06 and 22:06 canonical cycles recovered six cameras and 18 frames. The gate persisted because no explicit subsequent-fault recovery review existed, not because the October 1 fault was resurrected.
+
+One-time reviewed recovery prepared with current committed six-camera/ASOS/20-series river evidence, preserved UNKNOWN and unchanged runtime/policy; exact provenance, installed readback and assessment in [MATERIAL_FAULT_RECOVERY_20261012.md](MATERIAL_FAULT_RECOVERY_20261012.md). Atomic pair and PR/main readback are authoritative for publication status. No new process or automatic fault clearance.
+
+Jubilee Dot handoff: consume under existing Sensing J01/J06/J13; retain intermittent E2/E3 root cause and actual notification-delivery acceptance as unresolved. JSON notification eligibility is not delivery proof. Expected inter-burst expiry stays UNKNOWN and is not by itself unexpected equipment failure. Native Dot acknowledgment is pending; repository update is not acknowledgment. Do not duplicate execution, capture, scheduler or ledger.
