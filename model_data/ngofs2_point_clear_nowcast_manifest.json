@@ -1,68 +1,18 @@
 {
   "schema_version": "1.2",
-  "retrieved_at": "2026-10-13T11:03:50.761763+00:00",
+  "retrieved_at": "2026-10-13T19:32:07.755133+00:00",
   "cast": "nowcast",
-  "status": "complete",
+  "status": "unavailable",
   "evidence_class": "MODEL",
-  "production_action": "NO_CHANGE",
-  "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.stations.nowcast.nc",
-  "model_initialized_at": "2026-10-13T03:00:00+00:00",
-  "failed_newer_attempts": [
-    {
-      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t09z.20261013.stations.nowcast.nc",
-      "error_type": "OSError",
-      "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t09z.20261013.stations.nowcast.nc'"
-    }
-  ],
-  "normalized_rows": 671,
-  "subset_sha256": "b8c1114d420e94debd91361c06a3149f46923fe09197a2f678c7907f2775fb9d",
-  "subset_archive": "public_archive/ngofs2_subset/b8c1114d420e94debd91361c06a3149f46923fe09197a2f678c7907f2775fb9d.json.gz",
-  "normalized_csv": "ngofs2_point_clear_nowcast_normalized.csv",
-  "station": {
-    "station_name": "8733821 Pt Clear, MB",
-    "station_index": 93,
-    "resolution_basis": "nearest_verified_coordinate",
-    "distance_to_point_clear_km": 0.3114,
-    "lat": 30.489032745361328,
-    "lon": -87.93621826171875,
-    "source_lon": 272.06378173828125,
-    "source_lon_convention": "NOAA_dataset_native",
-    "normalized_lon_convention": "-180_to_180",
-    "target_lat": 30.48664,
-    "target_lon": -87.93453,
-    "bathymetry_m": 1.8300000429153442,
-    "surface_sigma_index": 0,
-    "bottom_sigma_index": 39,
-    "surface_sigma": -0.012500000186264515,
-    "bottom_sigma": -0.987500011920929
-  },
-  "reference_valid_at": "2026-10-13T03:00:00+00:00",
-  "transport_window_type": "antecedent",
-  "transport_windows": {
-    "1": {
-      "count": 11,
-      "mean_m_s": 0.012582668187943374,
-      "signed_transport_m": 45.31776566058398,
-      "coverage_fraction": 1.0
-    },
-    "3": {
-      "count": 31,
-      "mean_m_s": 0.009183201886292909,
-      "signed_transport_m": 99.552207919769,
-      "coverage_fraction": 1.0
-    },
-    "6": {
-      "count": 61,
-      "mean_m_s": 0.003147118749692426,
-      "signed_transport_m": 66.79150274489076,
-      "coverage_fraction": 1.0
-    }
-  },
+  "production_action": "NO_CURRENT_GUIDANCE",
+  "error_type": "RuntimeError",
+  "error": "NetCDF: DAP server error",
   "guardrails": [
     "NGOFS2 is MODEL guidance and is not a direct current, salinity, temperature, water-level or oxygen observation.",
     "Point Clear station mapping prefers name but may use the official Point Clear coordinate as an auditable fallback; a >10 km nearest station is refused.",
     "Point Clear shoreward projection uses a provisional west-facing shoreline geometry: true bearing 090 degrees is shoreward (+east).",
     "Nowcast and forecast outputs are separate; forecast values cannot overwrite antecedent nowcast history.",
     "No production weight changes until event/control held-out incremental value is demonstrated."
-  ]
+  ],
+  "availability_reason": "upstream_retrieval_failure"
 }
