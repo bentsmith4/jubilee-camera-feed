@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "retrieved_at": "2026-10-13T02:47:23.971538+00:00",
+  "retrieved_at": "2026-10-13T11:05:44.648118+00:00",
   "status": "complete",
   "source_class": "MODEL",
   "production_action": "NO_CHANGE",
@@ -12,9 +12,15 @@
   "casts": [
     {
       "cast": "nowcast",
-      "model_initialized_at": "2026-10-12T21:00:00+00:00",
-      "reference_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.n003.nc",
-      "failed_newer_cycle_attempts": [],
+      "model_initialized_at": "2026-10-13T03:00:00+00:00",
+      "reference_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.n003.nc",
+      "failed_newer_cycle_attempts": [
+        {
+          "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t09z.20261013.regulargrid.n003.nc",
+          "error_type": "OSError",
+          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t09z.20261013.regulargrid.n003.nc'"
+        }
+      ],
       "selected_nodes": [
         {
           "cell": "Daphne/May Day",
@@ -476,47 +482,53 @@
       "opened_slices": [
         {
           "lead_hour": 3,
-          "valid_at": "2026-10-12T18:00:00+00:00",
-          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.n003.nc"
+          "valid_at": "2026-10-13T00:00:00+00:00",
+          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.n003.nc"
         },
         {
           "lead_hour": 6,
-          "valid_at": "2026-10-12T21:00:00+00:00",
-          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.n006.nc"
+          "valid_at": "2026-10-13T03:00:00+00:00",
+          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.n006.nc"
         }
       ],
       "failed_slices": [
         {
           "lead_hour": 1,
-          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.n001.nc",
+          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.n001.nc",
           "error_type": "OSError",
-          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.n001.nc'"
+          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.n001.nc'"
         },
         {
           "lead_hour": 2,
-          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.n002.nc",
+          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.n002.nc",
           "error_type": "OSError",
-          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.n002.nc'"
+          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.n002.nc'"
         },
         {
           "lead_hour": 4,
-          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.n004.nc",
+          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.n004.nc",
           "error_type": "OSError",
-          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.n004.nc'"
+          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.n004.nc'"
         },
         {
           "lead_hour": 5,
-          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.n005.nc",
+          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.n005.nc",
           "error_type": "OSError",
-          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.n005.nc'"
+          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.n005.nc'"
         }
       ]
     },
     {
       "cast": "forecast",
-      "model_initialized_at": "2026-10-12T21:00:00+00:00",
-      "reference_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.f000.nc",
-      "failed_newer_cycle_attempts": [],
+      "model_initialized_at": "2026-10-13T03:00:00+00:00",
+      "reference_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.f000.nc",
+      "failed_newer_cycle_attempts": [
+        {
+          "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t09z.20261013.regulargrid.f000.nc",
+          "error_type": "OSError",
+          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t09z.20261013.regulargrid.f000.nc'"
+        }
+      ],
       "selected_nodes": [
         {
           "cell": "Daphne/May Day",
@@ -978,62 +990,62 @@
       "opened_slices": [
         {
           "lead_hour": 0,
-          "valid_at": "2026-10-12T21:00:00+00:00",
-          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.f000.nc"
+          "valid_at": "2026-10-13T03:00:00+00:00",
+          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.f000.nc"
         },
         {
           "lead_hour": 3,
-          "valid_at": "2026-10-13T00:00:00+00:00",
-          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.f003.nc"
+          "valid_at": "2026-10-13T06:00:00+00:00",
+          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.f003.nc"
         },
         {
           "lead_hour": 6,
-          "valid_at": "2026-10-13T03:00:00+00:00",
-          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.f006.nc"
+          "valid_at": "2026-10-13T09:00:00+00:00",
+          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.f006.nc"
         },
         {
           "lead_hour": 9,
-          "valid_at": "2026-10-13T06:00:00+00:00",
-          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.f009.nc"
+          "valid_at": "2026-10-13T12:00:00+00:00",
+          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.f009.nc"
         },
         {
           "lead_hour": 12,
-          "valid_at": "2026-10-13T09:00:00+00:00",
-          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.f012.nc"
+          "valid_at": "2026-10-13T15:00:00+00:00",
+          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.f012.nc"
         }
       ],
       "failed_slices": [
         {
           "lead_hour": 1,
-          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.f001.nc",
+          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.f001.nc",
           "error_type": "OSError",
-          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.f001.nc'"
+          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.f001.nc'"
         },
         {
           "lead_hour": 2,
-          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.f002.nc",
+          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.f002.nc",
           "error_type": "OSError",
-          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.f002.nc'"
+          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.f002.nc'"
         },
         {
           "lead_hour": 4,
-          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.f004.nc",
+          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.f004.nc",
           "error_type": "OSError",
-          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.f004.nc'"
+          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.f004.nc'"
         },
         {
           "lead_hour": 5,
-          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.f005.nc",
+          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.f005.nc",
           "error_type": "OSError",
-          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.regulargrid.f005.nc'"
+          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.regulargrid.f005.nc'"
         }
       ]
     }
   ],
   "normalized_rows": 1848,
   "derived_feature_rows": 696,
-  "raw_subset_sha256": "dcab7e673688da5e1be2d0789e9f987f01901c135e2375bb58319b0bead824d4",
-  "raw_subset_archive": "public_archive/ngofs2_shoreline_grid_subset/dcab7e673688da5e1be2d0789e9f987f01901c135e2375bb58319b0bead824d4.json.gz",
+  "raw_subset_sha256": "b7489d0b82b8f90f5a5729271bfab3f3aba60bc7f60376031f10e8fa537fe34a",
+  "raw_subset_archive": "public_archive/ngofs2_shoreline_grid_subset/b7489d0b82b8f90f5a5729271bfab3f3aba60bc7f60376031f10e8fa537fe34a.json.gz",
   "normalized_data": "ngofs2_shoreline_grid_normalized.csv",
   "derived_features": "ngofs2_shoreline_grid_features.csv",
   "guardrails": [
