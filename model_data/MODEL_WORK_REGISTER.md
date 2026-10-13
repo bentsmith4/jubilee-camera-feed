@@ -2191,3 +2191,12 @@ Owner-assigned investigation verified the installed alternate overnight capture 
 One-time reviewed recovery prepared with current committed six-camera/ASOS/20-series river evidence, preserved UNKNOWN and unchanged runtime/policy; exact provenance, installed readback and assessment in [MATERIAL_FAULT_RECOVERY_20261012.md](MATERIAL_FAULT_RECOVERY_20261012.md). Atomic pair and PR/main readback are authoritative for publication status. No new process or automatic fault clearance.
 
 Jubilee Dot handoff: consume under existing Sensing J01/J06/J13; retain intermittent E2/E3 root cause and actual notification-delivery acceptance as unresolved. JSON notification eligibility is not delivery proof. Expected inter-burst expiry stays UNKNOWN and is not by itself unexpected equipment failure. Native Dot acknowledgment is pending; repository update is not acknowledgment. Do not duplicate execution, capture, scheduler or ledger.
+
+
+## J01/J11 Dawn horizon maintenance — October 13, 2026
+
+Dawn Brief pinned main at `55b36f820b4ce994901543237759f7fbb691cd79` after the current 06:42:10 CT sensing reconciliation. The inherited outlook dated October 12–14, so the mandatory strict check failed with expected October 13–15. The reviewed zero-change roll-forward then passed, followed by `python -B model_data/bind_current_forecast.py --check --require-dawn-horizon` PASS.
+
+PR #86 merged atomically at `55b36f820b4ce994901543237759f7fbb691cd79`: all six cell/date rows now cover October 13, 14 and 15; Point Clear remains 2–5% (central 3%) and Daphne/May Day 1–4% (central 2%), low confidence. Merged-main readback matched snapshot blob `5f14008acb06dceca461e8bf9a02f52fa737ff9f` and forecast blob `e357b7ff3dcbf08f939dacb6c16625217e11959c`; exact snapshot hash binding and the strict horizon validator passed. Probabilities, confidence, zero production weights, UNKNOWN inputs, six-camera coverage, alert gates, cadence and the 9 PM notification restriction are unchanged.
+
+Jubilee Dot coordination: consume this as the October 13 J01/J11 maintenance receipt. No sensing, calibration, public-camera acquisition, new task or outreach was performed.
