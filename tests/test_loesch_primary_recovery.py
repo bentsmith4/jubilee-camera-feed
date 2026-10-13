@@ -1,5 +1,6 @@
 """Research provenance and chronology boundaries after full primary recovery."""
 import hashlib
+from copy import deepcopy
 import json
 from pathlib import Path
 import unittest
@@ -53,10 +54,30 @@ class LoeschPrimaryRecoveryTests(unittest.TestCase):
         self.assertFalse(row['whole_morning_control'])
         self.assertIsNone(row['location'])
 
-    def test_canonical_history_and_deduplication_are_unchanged(self):
-        events = load('event_history.json')['events']
+    def test_original_history_and_historical_deduplication_are_unchanged(self):
+        history = load('event_history.json')
+        current_events = history['events']
+        self.assertEqual(len(current_events), 16)
+        self.assertEqual(len({e['event_id'] for e in current_events}), 16)
+        self.assertEqual(sum(e['event_id'] == '1950-09-17-daphne'
+                             for e in current_events), 1)
+        # Remove only the explicitly reviewed J08 addition. This reconstructs
+        # the original serialized document, including metadata and event order;
+        # a count-only check would miss edits to any of the original 15 rows.
+        original = deepcopy(history)
+        original['events'] = [e for e in original['events']
+                              if e['event_id'] != '1950-09-17-daphne']
+        events = original['events']
         self.assertEqual(len(events), 15)
-        self.assertEqual(hashlib.sha256((ROOT / 'event_history.json').read_bytes()).hexdigest(), self.audit['canonical_review']['history_sha256'])
+        original_bytes = (json.dumps(original, indent=2, ensure_ascii=False) + '\n').encode('utf-8')
+        original_sha = 'dab32ef7e5a0bf4edefb8e998a759ef30aa551feafe61da4d78bbb266cf4dca2'
+        self.assertEqual(hashlib.sha256(original_bytes).hexdigest(), original_sha)
+        review = self.audit['canonical_review']
+        self.assertEqual(review['history_sha256'], original_sha)
+        self.assertEqual(review['count_before'], 15)
+        self.assertEqual(review['count_after'], 15)
+        self.assertEqual(review['exact_date_matches'], [])
+        self.assertEqual(review['period_1946_1956_existing_records'], [])
         for row in self.audit['research_records']:
             matches = [e['event_id'] for e in events if row.get('event_date') and e['event_date_ct'] == row['event_date']]
             self.assertEqual(matches, row['canonical_match_ids'])
