@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-13T23:27:49.348894-05:00",
+  "issue_time": "2026-10-14T02:11:50.094293-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "bb21c9107ecb2a794068e4d3beac66b4ccb7f03fc8f74f3b8cc32db67c0c3c8c",
-  "input_commit_sha": "89fe172a546225bdb4d6e8946de532255ec0e23c",
+  "input_snapshot_hash": "cbb34462027f2c0460dffebcc7bdc4d86c05bbf27a2126c12ac6e04bdfad17fd",
+  "input_commit_sha": "79e45906532225b166f36c0ae7b41e8fe2fb6a6a",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
@@ -15,14 +15,14 @@
     "private_camera_metadata_pass": 6,
     "private_cameras_expected": 6,
     "ngofs2_products": {
-      "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
-      "ngofs2_point_clear_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
-      "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
+      "ngofs2_point_clear_nowcast": "UNKNOWN_UNAVAILABLE",
+      "ngofs2_point_clear_forecast": "UNKNOWN_UNAVAILABLE",
+      "ngofs2_mobile_bay_named_stations_nowcast": "UNKNOWN_UNAVAILABLE",
       "ngofs2_mobile_bay_named_stations_forecast": "UNKNOWN_UNAVAILABLE",
-      "ngofs2_shoreline_grid": "UNKNOWN_NO_CURRENT_GUIDANCE"
+      "ngofs2_shoreline_grid": "UNKNOWN_UNAVAILABLE"
     },
     "fresh_river_series": 20,
-    "asos_stations": "KBFM/KMOB partial"
+    "asos_stations": "KBFM/KMOB UNKNOWN"
   },
   "missing_inputs": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
@@ -30,7 +30,11 @@
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
     "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
-    "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN"
+    "ngofs2_point_clear_nowcast: SOURCE_UNAVAILABLE/UNKNOWN",
+    "ngofs2_point_clear_forecast: SOURCE_UNAVAILABLE/UNKNOWN",
+    "ngofs2_mobile_bay_named_stations_nowcast: SOURCE_UNAVAILABLE/UNKNOWN",
+    "ngofs2_mobile_bay_named_stations_forecast: SOURCE_UNAVAILABLE/UNKNOWN",
+    "ngofs2_shoreline_grid: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
   "outlooks": [
     {
