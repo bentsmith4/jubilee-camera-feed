@@ -1,16 +1,59 @@
 {
   "schema_version": "1.2",
-  "retrieved_at": "2026-10-14T21:56:32.787202+00:00",
+  "retrieved_at": "2026-10-14T23:20:27.612418+00:00",
   "cast": "nowcast",
   "status": "complete",
   "evidence_class": "MODEL",
   "production_action": "NO_CHANGE",
-  "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t15z.20261014.stations.nowcast.nc",
+  "station_access": {
+    "method": "HTTPS_FULL_STATION_NETCDF",
+    "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/14/ngofs2.t15z.20261014.stations.nowcast.nc",
+    "full_file_sha256": "90ac51b68f0a3278adda4b93e1e68ac4f64f5a378f442cddeeee2cfc01040ac0",
+    "bytes": 14831795,
+    "download_completed_at": "2026-10-14T23:20:27.612418+00:00",
+    "embedded_time_validation": "PASS"
+  },
+  "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/14/ngofs2.t15z.20261014.stations.nowcast.nc",
   "model_initialized_at": "2026-10-14T15:00:00+00:00",
-  "failed_newer_attempts": [],
+  "failed_newer_attempts": [
+    {
+      "url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/14/ngofs2.t21z.20261014.stations.nowcast.nc",
+      "error_type": "HTTPError",
+      "http_status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "stage": "http_download",
+      "model_initialized_at": "2026-10-14T21:00:00+00:00"
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t21z.20261014.stations.nowcast.nc",
+      "error_type": "HTTPError",
+      "http_status": 404,
+      "error": "HTTP Error 404: ",
+      "stage": "http_download",
+      "model_initialized_at": "2026-10-14T21:00:00+00:00"
+    }
+  ],
+  "retrieval_attempts": [
+    {
+      "url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/14/ngofs2.t21z.20261014.stations.nowcast.nc",
+      "error_type": "HTTPError",
+      "http_status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "stage": "http_download",
+      "model_initialized_at": "2026-10-14T21:00:00+00:00"
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t21z.20261014.stations.nowcast.nc",
+      "error_type": "HTTPError",
+      "http_status": 404,
+      "error": "HTTP Error 404: ",
+      "stage": "http_download",
+      "model_initialized_at": "2026-10-14T21:00:00+00:00"
+    }
+  ],
   "normalized_rows": 671,
-  "subset_sha256": "7748dbebf78065f8b6d86f98a286a21ba8ed31f9c5a72761450ed6c366fe368b",
-  "subset_archive": "public_archive/ngofs2_subset/7748dbebf78065f8b6d86f98a286a21ba8ed31f9c5a72761450ed6c366fe368b.json.gz",
+  "subset_sha256": "179b8c7743a48c437ff28eda0be587b55ae06ec3f54719909428060f6d20557a",
+  "subset_archive": "public_archive/ngofs2_subset/179b8c7743a48c437ff28eda0be587b55ae06ec3f54719909428060f6d20557a.json.gz",
   "normalized_csv": "ngofs2_point_clear_nowcast_normalized.csv",
   "station": {
     "station_name": "8733821 Pt Clear, MB",
