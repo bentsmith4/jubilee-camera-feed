@@ -82,11 +82,12 @@ def open_latest_station(cast, cycles, dataset_factory, num2date, downloader=down
                 if exc.code not in {404, 408, 429, 500, 502, 503, 504}:
                     raise
                 attempts.append({"url": url, "error_type": "HTTPError", "http_status": exc.code,
-                                 "error": str(exc), "stage": "http_download"})
+                                 "error": str(exc), "stage": "http_download",
+                                 "model_initialized_at": cycle.isoformat()})
                 continue
             except (URLError, TimeoutError) as exc:
                 attempts.append({"url": url, "error_type": type(exc).__name__, "error": str(exc),
-                                 "stage": "http_download"})
+                                 "stage": "http_download", "model_initialized_at": cycle.isoformat()})
                 continue
             # Decode/validation exceptions must not masquerade as a NOAA outage
             # or cause silent selection of an older, apparently valid cycle.

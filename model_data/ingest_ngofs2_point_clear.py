@@ -314,7 +314,8 @@ def main():
             windows = summarize_forward_transport(rows, reference)
             window_type = "forward"
         manifest.update({"status": "complete", "source_url": url, "model_initialized_at": cycle.isoformat(),
-                         "failed_newer_attempts": failed_attempts, "normalized_rows": len(rows),
+                         "failed_newer_attempts": [a for a in failed_attempts if a["model_initialized_at"] != cycle.isoformat()],
+                         "retrieval_attempts": failed_attempts, "normalized_rows": len(rows),
                          "subset_sha256": digest, "subset_archive": str(archive.relative_to(HERE)),
                          "normalized_csv": str(csv_path.relative_to(HERE)), "station": metadata,
                          "reference_valid_at": reference.isoformat(), "transport_window_type": window_type,

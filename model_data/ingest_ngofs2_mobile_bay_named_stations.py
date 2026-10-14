@@ -261,7 +261,9 @@ def main():
         with csv_path.open("w", encoding="utf-8", newline="") as stream:
             writer = csv.DictWriter(stream, fieldnames=list(rows[0].keys())); writer.writeheader(); writer.writerows(rows)
         manifest.update({
-            "status": "complete", "source_url": url, "model_initialized_at": cycle.isoformat(), "failed_newer_attempts": failed,
+            "status": "complete", "source_url": url, "model_initialized_at": cycle.isoformat(),
+            "failed_newer_attempts": [a for a in failed if a["model_initialized_at"] != cycle.isoformat()],
+            "retrieval_attempts": failed,
             "station_count": len(stations), "stations": stations, "unresolved_targets": unresolved, "normalized_rows": len(rows),
             "subset_sha256": digest, "subset_archive": str(archive.relative_to(HERE)), "normalized_csv": str(csv_path.relative_to(HERE)),
             "guardrails": [
