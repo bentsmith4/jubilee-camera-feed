@@ -1,68 +1,60 @@
 {
   "schema_version": "1.2",
-  "retrieved_at": "2026-10-14T00:36:27.497727+00:00",
+  "retrieved_at": "2026-10-14T05:23:43.942299+00:00",
   "cast": "forecast",
-  "status": "complete",
+  "status": "unavailable",
   "evidence_class": "MODEL",
-  "production_action": "NO_CHANGE",
-  "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t21z.20261013.stations.forecast.nc",
-  "model_initialized_at": "2026-10-13T21:00:00+00:00",
-  "failed_newer_attempts": [],
-  "normalized_rows": 5291,
-  "subset_sha256": "3a7f8e44c1d3020370e0a79a10ab41dfaee9fd497ba3b07865b89d6378c7e796",
-  "subset_archive": "public_archive/ngofs2_subset/3a7f8e44c1d3020370e0a79a10ab41dfaee9fd497ba3b07865b89d6378c7e796.json.gz",
-  "normalized_csv": "ngofs2_point_clear_forecast_normalized.csv",
-  "station": {
-    "station_name": "8733821 Pt Clear, MB",
-    "station_index": 93,
-    "resolution_basis": "nearest_verified_coordinate",
-    "distance_to_point_clear_km": 0.3114,
-    "lat": 30.489032745361328,
-    "lon": -87.93621826171875,
-    "source_lon": 272.06378173828125,
-    "source_lon_convention": "NOAA_dataset_native",
-    "normalized_lon_convention": "-180_to_180",
-    "target_lat": 30.48664,
-    "target_lon": -87.93453,
-    "bathymetry_m": 1.8300000429153442,
-    "surface_sigma_index": 0,
-    "bottom_sigma_index": 39,
-    "surface_sigma": -0.012500000186264515,
-    "bottom_sigma": -0.987500011920929
-  },
-  "reference_valid_at": "2026-10-14T00:42:00+00:00",
-  "transport_window_type": "forward",
-  "transport_windows": {
-    "1": {
-      "count": 11,
-      "mean_m_s": 0.0096314114687795,
-      "signed_transport_m": 34.74976834841073,
-      "coverage_fraction": 1.0
+  "production_action": "NO_CURRENT_GUIDANCE",
+  "error_type": "RetrievalOpenError",
+  "error": "Unable to open any recent NGOFS2 station dataset: [{'url': 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t03z.20261014.stations.forecast.nc', 'error_type': 'OSError', 'error': \"[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t03z.20261014.stations.forecast.nc'\"}, {'url': 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t21z.20261013.statio",
+  "retrieval_attempts": [
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t03z.20261014.stations.forecast.nc",
+      "error_type": "OSError",
+      "error": "[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t03z.20261014.stations.forecast.nc'"
     },
-    "3": {
-      "count": 31,
-      "mean_m_s": 0.012388693333993998,
-      "signed_transport_m": 135.03452246077362,
-      "coverage_fraction": 1.0
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t21z.20261013.stations.forecast.nc",
+      "error_type": "OSError",
+      "error": "[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t21z.20261013.stations.forecast.nc'"
     },
-    "6": {
-      "count": 61,
-      "mean_m_s": 0.007198010022383658,
-      "signed_transport_m": 158.37086424871816,
-      "coverage_fraction": 1.0
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t15z.20261013.stations.forecast.nc",
+      "error_type": "OSError",
+      "error": "[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t15z.20261013.stations.forecast.nc'"
     },
-    "12": {
-      "count": 121,
-      "mean_m_s": -0.002361861326609554,
-      "signed_transport_m": -102.54205367818939,
-      "coverage_fraction": 1.0
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t09z.20261013.stations.forecast.nc",
+      "error_type": "OSError",
+      "error": "[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t09z.20261013.stations.forecast.nc'"
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.stations.forecast.nc",
+      "error_type": "OSError",
+      "error": "[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/13/ngofs2.t03z.20261013.stations.forecast.nc'"
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.stations.forecast.nc",
+      "error_type": "OSError",
+      "error": "[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t21z.20261012.stations.forecast.nc'"
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t15z.20261012.stations.forecast.nc",
+      "error_type": "OSError",
+      "error": "[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t15z.20261012.stations.forecast.nc'"
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t09z.20261012.stations.forecast.nc",
+      "error_type": "OSError",
+      "error": "[Errno -70] NetCDF: DAP server error: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/12/ngofs2.t09z.20261012.stations.forecast.nc'"
     }
-  },
+  ],
   "guardrails": [
     "NGOFS2 is MODEL guidance and is not a direct current, salinity, temperature, water-level or oxygen observation.",
     "Point Clear station mapping prefers name but may use the official Point Clear coordinate as an auditable fallback; a >10 km nearest station is refused.",
     "Point Clear shoreward projection uses a provisional west-facing shoreline geometry: true bearing 090 degrees is shoreward (+east).",
     "Nowcast and forecast outputs are separate; forecast values cannot overwrite antecedent nowcast history.",
     "No production weight changes until event/control held-out incremental value is demonstrated."
-  ]
+  ],
+  "availability_reason": "upstream_retrieval_failure"
 }
