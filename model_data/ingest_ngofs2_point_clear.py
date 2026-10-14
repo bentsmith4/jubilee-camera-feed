@@ -19,6 +19,11 @@ from pathlib import Path
 
 from netCDF4 import Dataset, chartostring, num2date
 
+try:
+    from model_data.ngofs2_station_access import open_latest_station, StationRetrievalError
+except ModuleNotFoundError:  # Direct script execution has model_data on sys.path.
+    from ngofs2_station_access import open_latest_station, StationRetrievalError
+
 HERE = Path(__file__).resolve().parent
 BASE = "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS"
 CYCLE_HOURS = (3, 9, 15, 21)
@@ -266,14 +271,7 @@ class RetrievalOpenError(RuntimeError):
 
 
 def open_latest(cast, now):
-    errors = []
-    for cycle in cycle_candidates(now):
-        url = station_url(cycle, cast)
-        try:
-            return Dataset(url, mode="r"), url, cycle, errors
-        except Exception as exc:
-            errors.append({"url": url, "error_type": type(exc).__name__, "error": str(exc)})
-    raise RetrievalOpenError(errors)
+    return open_latest_station(cast, cycle_candidates(now), Dataset, num2date)
 
 
 def main():
@@ -284,7 +282,9 @@ def main():
     manifest = {"schema_version": "1.2", "retrieved_at": retrieved.isoformat(), "cast": args.cast,
                 "status": "failed", "evidence_class": "MODEL", "production_action": "NO_CHANGE"}
     try:
-        ds, url, cycle, failed_attempts = open_latest(args.cast, retrieved)
+        ds, url, cycle, failed_attempts, access = open_latest(args.cast, retrieved)
+        retrieved = datetime.fromisoformat(access["download_completed_at"])
+        manifest.update(retrieved_at=retrieved.isoformat(), station_access=access)
         try:
             rows, metadata = extract_from_dataset(ds, url, retrieved, cycle)
         finally:
@@ -292,6 +292,7 @@ def main():
         if not rows:
             raise ValueError("NGOFS2 extraction returned no rows")
         payload = json.dumps({"source_url": url, "cycle": cycle.isoformat(), "cast": args.cast,
+                              "station_access": access,
                               "metadata": metadata, "rows": rows}, separators=(",", ":"), sort_keys=True).encode()
         digest = hashlib.sha256(payload).hexdigest()
         archive = HERE / "public_archive" / "ngofs2_subset" / f"{digest}.json.gz"
@@ -313,14 +314,15 @@ def main():
             windows = summarize_forward_transport(rows, reference)
             window_type = "forward"
         manifest.update({"status": "complete", "source_url": url, "model_initialized_at": cycle.isoformat(),
-                         "failed_newer_attempts": failed_attempts, "normalized_rows": len(rows),
+                         "failed_newer_attempts": [a for a in failed_attempts if a["model_initialized_at"] != cycle.isoformat()],
+                         "retrieval_attempts": failed_attempts, "normalized_rows": len(rows),
                          "subset_sha256": digest, "subset_archive": str(archive.relative_to(HERE)),
                          "normalized_csv": str(csv_path.relative_to(HERE)), "station": metadata,
                          "reference_valid_at": reference.isoformat(), "transport_window_type": window_type,
                          "transport_windows": windows})
     except Exception as exc:
         manifest.update({"status": "failed", "error_type": type(exc).__name__, "error": str(exc)[:500]})
-        if isinstance(exc, RetrievalOpenError):
+        if isinstance(exc, (RetrievalOpenError, StationRetrievalError)):
             manifest["retrieval_attempts"] = exc.attempts
     manifest["guardrails"] = [
         "NGOFS2 is MODEL guidance and is not a direct current, salinity, temperature, water-level or oxygen observation.",

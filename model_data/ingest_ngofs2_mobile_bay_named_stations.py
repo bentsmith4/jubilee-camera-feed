@@ -19,6 +19,11 @@ from pathlib import Path
 
 from netCDF4 import Dataset, chartostring, num2date
 
+try:
+    from model_data.ngofs2_station_access import open_latest_station, StationRetrievalError
+except ModuleNotFoundError:  # Direct script execution has model_data on sys.path.
+    from ngofs2_station_access import open_latest_station, StationRetrievalError
+
 HERE = Path(__file__).resolve().parent
 BASE = "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS"
 CYCLE_HOURS = (3, 9, 15, 21)
@@ -134,14 +139,7 @@ def resolve_proxy(target, lats, lons, excluded_indices=frozenset()):
 
 
 def open_latest(cast, now):
-    failures = []
-    for cycle in cycle_candidates(now):
-        url = station_url(cycle, cast)
-        try:
-            return Dataset(url, mode="r"), url, cycle, failures
-        except Exception as exc:
-            failures.append({"url": url, "error_type": type(exc).__name__, "error": str(exc)[:160]})
-    raise RuntimeError(f"No recent NGOFS2 {cast} station file opened: {failures}")
+    return open_latest_station(cast, cycle_candidates(now), Dataset, num2date)
 
 
 def extract(ds, url, cycle, retrieved_at):
@@ -244,14 +242,16 @@ def main():
     retrieved = datetime.now(timezone.utc)
     manifest = {"schema_version": "1.1", "cast": args.cast, "retrieved_at": retrieved.isoformat(), "status": "failed", "evidence_class": "MODEL", "production_action": "NO_CHANGE"}
     try:
-        ds, url, cycle, failed = open_latest(args.cast, retrieved)
+        ds, url, cycle, failed, access = open_latest(args.cast, retrieved)
+        retrieved = datetime.fromisoformat(access["download_completed_at"])
+        manifest.update(retrieved_at=retrieved.isoformat(), station_access=access)
         try:
             rows, stations, unresolved = extract(ds, url, cycle, retrieved)
         finally:
             ds.close()
         if not rows:
             raise ValueError("No NGOFS2 named-station rows extracted")
-        payload = json.dumps({"source_url": url, "cycle": cycle.isoformat(), "cast": args.cast, "stations": stations, "rows": rows}, sort_keys=True, separators=(",", ":")).encode()
+        payload = json.dumps({"source_url": url, "cycle": cycle.isoformat(), "cast": args.cast, "station_access": access, "stations": stations, "rows": rows}, sort_keys=True, separators=(",", ":")).encode()
         digest = hashlib.sha256(payload).hexdigest()
         archive = HERE / "public_archive" / "ngofs2_named_station_subset" / f"{digest}.json.gz"
         archive.parent.mkdir(parents=True, exist_ok=True)
@@ -261,7 +261,9 @@ def main():
         with csv_path.open("w", encoding="utf-8", newline="") as stream:
             writer = csv.DictWriter(stream, fieldnames=list(rows[0].keys())); writer.writeheader(); writer.writerows(rows)
         manifest.update({
-            "status": "complete", "source_url": url, "model_initialized_at": cycle.isoformat(), "failed_newer_attempts": failed,
+            "status": "complete", "source_url": url, "model_initialized_at": cycle.isoformat(),
+            "failed_newer_attempts": [a for a in failed if a["model_initialized_at"] != cycle.isoformat()],
+            "retrieval_attempts": failed,
             "station_count": len(stations), "stations": stations, "unresolved_targets": unresolved, "normalized_rows": len(rows),
             "subset_sha256": digest, "subset_archive": str(archive.relative_to(HERE)), "normalized_csv": str(csv_path.relative_to(HERE)),
             "guardrails": [
@@ -275,6 +277,8 @@ def main():
         })
     except Exception as exc:
         manifest.update({"error_type": type(exc).__name__, "error": str(exc)})
+        if isinstance(exc, StationRetrievalError):
+            manifest["retrieval_attempts"] = exc.attempts
     out = HERE / f"ngofs2_mobile_bay_named_stations_{args.cast}_manifest.json"
     out.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(manifest, indent=2))
