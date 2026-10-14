@@ -2457,3 +2457,26 @@ No new Jubilee-event predictive gain or regression was measurable. Loading-only 
 - Compact JSON: retain already installed/merged change; no further deployment this run.
 - Production model, alerts, six-camera coverage, schedules and owner notification rules: unchanged.
 
+
+
+## J08/J10 native consumption and bounded feasibility receipt — October 14, 2026
+
+Jubilee Dot's parent independently consumed only the [PR #91 timing report](https://github.com/bentsmith4/jubilee-camera-feed/blob/b7126e81cf03300531a4b8932f0c0b1732e2ecb6/model_data/J08_TIME_OF_DAY_ASSESSMENT_20261014.md) at 12:12 CDT: commit `b7126e81cf03300531a4b8932f0c0b1732e2ecb6`, report blob `cfed0770510a1f073922482fe32a118f82a5b025`. This closes that report's native consumption gap, not its review/merge gate. PR #91 remains OPEN/DRAFT and unchanged.
+
+The 16-event inventory partitions into 12 source/report-supported morning, 2 relayed/summary morning, 1 afternoon-through-midnight and 1 unknown. Observation, onset, publication, forecast issue and notification clocks remain distinct. Unspecified intraday forecast validity permits neither dawn-only nor all-day skill claims. No schedule change follows.
+
+J10 feasibility review was bounded to already-held evidence at main `6be72802881bb8b07736759892ffce478f034f7d`: seven modern 2020–2026 events. No row supplies an independently anchored onset-to-first-public-report measurement. Same-day reporting establishes coarse report existence, not six-/twelve-hour search detection. June 12, 2024's approximately 06:00 first-report clue and 2020's approximately 07:30 screenshot are recovery priorities. August 5, 2024's 07:18 private message receipt is not public availability, capture time or onset.
+
+Missing evidence includes per-period platform access, executed queries, result completeness, delays, lineage and independent case ascertainment; a source registry does not supply these measurements. June 12 May Day spatial contrast and September 7/12 owner-reported negatives lack exact observation effort and are not promoted to Tier A. Current research totals remain 15 Tier-B mornings, zero Tier-A controls and zero clean training negatives. Ben's 80% hypothesis remains a sensitivity scenario, not measured P(no event | silence); ascertainment, prevalence and reporting bias matter.
+
+Existing Research/Dawn next gate: propose a research-only ongoing-activity versus new-onset target with explicit cell, window and issue cutoff; recover held originals, public-report clocks and source lineage before eligibility/scoring. Preserve canonical UNKNOWN, labels and weights. No full panel, scoring or new scientific execution ownership was undertaken. Existing Research, Dawn and Sensing execution remains canonical.
+
+Immutable held-source index (all under `model_data/` at the main commit above):
+- [event_history.json](https://github.com/bentsmith4/jubilee-camera-feed/blob/6be72802881bb8b07736759892ffce478f034f7d/model_data/event_history.json)
+- [historical_event_evidence_20260906.json](https://github.com/bentsmith4/jubilee-camera-feed/blob/6be72802881bb8b07736759892ffce478f034f7d/model_data/historical_event_evidence_20260906.json)
+- [historical_event_source_registry.json](https://github.com/bentsmith4/jubilee-camera-feed/blob/6be72802881bb8b07736759892ffce478f034f7d/model_data/historical_event_source_registry.json)
+- [human_observation_recovery_20260907.json](https://github.com/bentsmith4/jubilee-camera-feed/blob/6be72802881bb8b07736759892ffce478f034f7d/model_data/human_observation_recovery_20260907.json)
+- [j10_control_candidate_20240612_mayday_20260918.json](https://github.com/bentsmith4/jubilee-camera-feed/blob/6be72802881bb8b07736759892ffce478f034f7d/model_data/j10_control_candidate_20240612_mayday_20260918.json)
+- [matched_control_contract.json](https://github.com/bentsmith4/jubilee-camera-feed/blob/6be72802881bb8b07736759892ffce478f034f7d/model_data/matched_control_contract.json)
+
+Before this documentation-only appendix, current AGENTS, charter, register and canonical portfolio ledger version 35 were consulted; no competing Jubilee assignment was found. This stops at feasibility and source eligibility. No new plan, ledger, PR, schedule, acquisition, deployment, paid call or outreach was created.
