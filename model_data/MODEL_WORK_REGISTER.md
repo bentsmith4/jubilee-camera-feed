@@ -2480,3 +2480,16 @@ Immutable held-source index (all under `model_data/` at the main commit above):
 - [matched_control_contract.json](https://github.com/bentsmith4/jubilee-camera-feed/blob/6be72802881bb8b07736759892ffce478f034f7d/model_data/matched_control_contract.json)
 
 Before this documentation-only appendix, current AGENTS, charter, register and canonical portfolio ledger version 35 were consulted; no competing Jubilee assignment was found. This stops at feasibility and source eligibility. No new plan, ledger, PR, schedule, acquisition, deployment, paid call or outreach was created.
+
+
+## J04 NGOFS2 station HTTP access correction — October 14, 2026
+
+Existing ownership: Research dataset acceptance; Sensing collection; J09 geometry; Jubilee Dot coordination. Assigned investigation checked current AGENTS, charter, this register, open PRs and portfolio ledger version 35; no competing NOAA station-access correction was found. PR #83 mapping and DAP failure rules remain intact.
+
+The four failing collectors share lazy OPeNDAP station reads; shoreline grid uses a separate product and batched numerical reads. The exact historical failing variable/server cause remains unresolved; bounded DAP probes now succeed. NOAA's original station files are available via HTTPS: 09Z THREDDS fileServer/S3 nowcast bytes hash-identical; 15Z S3 nowcast and forecast decoded successfully. A shared bounded downloader, same-cycle alternate route, embedded cycle/cast/time validation, hash/availability receipts and structured unavailable errors are implemented on the review branch.
+
+Isolated live tests completed all four collectors: Point Clear 671/5,291 nowcast/forecast rows; named stations 2,745/21,645. All 30,352 parameter rows exactly match baseline extraction from the same original files; MODEL and zero weights retained. Forty NGOFS2 plus 18 freshness/loading/transport tests pass locally. These are research ingestion/test results, not independent observations or event skill. See `NGOFS2_STATION_ACCESS_20261014.md` and `ngofs2_station_http_acceptance_20261014.json` for hashes, timing, geometry and limits.
+
+Grid substitution rejected: Point Clear deepest standard-depth values are nominally ~0.96–1.97 m above modeled bed, at different locations and three-hour spacing. Original station sigma-bottom output is preferable. Existing 180-minute gate correctly keeps the retrieved 15Z nowcast UNKNOWN_STALE_MODEL_TRANSPORT at assessment; download success does not refresh valid time. No new scientific eligibility, probability, weight, threshold, schedule, camera, alert or nine-PM change.
+
+Stage: IMPLEMENTED / ISOLATED_VALIDATED / REVIEW_PENDING; not merged, deployed or ordinary-cycle accepted. Dot native acknowledgment of this specific correction is PENDING: the recorded UI route is signed-out/404 in this session. Prior Research & Calibration handoff remains valid. Dot should consume the review receipt once, retain specialist ownership, and track separately approved merge plus first ordinary scheduled main-cycle acceptance. Do not rerun PR #83 or create duplicate acquisition/research schedules.

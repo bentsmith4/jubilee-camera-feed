@@ -1,0 +1,592 @@
+{
+  "schema_version": "1.0",
+  "work_id": "J04",
+  "reviewed_base_commit": "f8b874a128684414639a9b8ae430e92e2fafbe0e",
+  "assessed_at_utc": "2026-10-14T21:36:59.711930+00:00",
+  "production_action": "NO_CHANGE",
+  "production_weight": 0,
+  "live_production_updated": false,
+  "products": [
+    {
+      "product": "ngofs2_point_clear_nowcast",
+      "status": "complete",
+      "normalized_rows": 671,
+      "valid_time_count": 61,
+      "valid_start": "2026-10-14T09:00:00+00:00",
+      "valid_end": "2026-10-14T15:00:00+00:00",
+      "model_initialized_at": "2026-10-14T15:00:00+00:00",
+      "available_at": "2026-10-14T21:35:44.658403+00:00",
+      "station_access": {
+        "method": "HTTPS_FULL_STATION_NETCDF",
+        "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/14/ngofs2.t15z.20261014.stations.nowcast.nc",
+        "full_file_sha256": "90ac51b68f0a3278adda4b93e1e68ac4f64f5a378f442cddeeee2cfc01040ac0",
+        "bytes": 14831795,
+        "download_completed_at": "2026-10-14T21:35:44.658403+00:00",
+        "embedded_time_validation": "PASS"
+      },
+      "normalized_csv_sha256": "69f0a47102c1cdac6afdab5bbfaba4c36016d014c9f2773b6600135f91bb3567",
+      "subset_sha256": "577ec9053a2ef63e09c6a62ea05e45370147de1e1b09949a1008a5e67d9912da",
+      "same_file_base_extraction_comparison": "ALL_ROWS_EXACT_EQUAL",
+      "source_mapping": {
+        "station_name": "8733821 Pt Clear, MB",
+        "station_index": 93,
+        "resolution_basis": "nearest_verified_coordinate",
+        "distance_to_point_clear_km": 0.3114,
+        "lat": 30.489032745361328,
+        "lon": -87.93621826171875,
+        "source_lon": 272.06378173828125,
+        "source_lon_convention": "NOAA_dataset_native",
+        "normalized_lon_convention": "-180_to_180",
+        "target_lat": 30.48664,
+        "target_lon": -87.93453,
+        "bathymetry_m": 1.8300000429153442,
+        "surface_sigma_index": 0,
+        "bottom_sigma_index": 39,
+        "surface_sigma": -0.012500000186264515,
+        "bottom_sigma": -0.987500011920929
+      },
+      "unresolved_targets": [],
+      "freshness_at_assessment": {
+        "status": "UNKNOWN_STALE_MODEL_TRANSPORT",
+        "shoreward_current_m_s": null,
+        "valid_at": "2026-10-14T15:00:00+00:00",
+        "available_at": "2026-10-14T21:35:44.658403+00:00",
+        "age_minutes": 396.997,
+        "freshness_minutes": 180,
+        "source_class": "MODEL",
+        "station_name": "8733821 Pt Clear, MB",
+        "vertical_position": "bottom",
+        "production_weight": 0.0
+      }
+    },
+    {
+      "product": "ngofs2_point_clear_forecast",
+      "status": "complete",
+      "normalized_rows": 5291,
+      "valid_time_count": 481,
+      "valid_start": "2026-10-14T15:00:00+00:00",
+      "valid_end": "2026-10-16T15:00:00+00:00",
+      "model_initialized_at": "2026-10-14T15:00:00+00:00",
+      "available_at": "2026-10-14T21:35:52.002188+00:00",
+      "station_access": {
+        "method": "HTTPS_FULL_STATION_NETCDF",
+        "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/14/ngofs2.t15z.20261014.stations.forecast.nc",
+        "full_file_sha256": "bcb1fb11a2842765a463546fadfe0210c0d2ce1bc9d19d9cd614ebca479cc2aa",
+        "bytes": 116012123,
+        "download_completed_at": "2026-10-14T21:35:52.002188+00:00",
+        "embedded_time_validation": "PASS"
+      },
+      "normalized_csv_sha256": "dd121fe9a34ce102a50379b1330652b5ebfa60a1c67c6b5d841c6d5232f33830",
+      "subset_sha256": "ddc33e560494ad770249c12c763931c6cfd64edf7e339adc9b1d54ea246652bb",
+      "same_file_base_extraction_comparison": "ALL_ROWS_EXACT_EQUAL",
+      "source_mapping": {
+        "station_name": "8733821 Pt Clear, MB",
+        "station_index": 93,
+        "resolution_basis": "nearest_verified_coordinate",
+        "distance_to_point_clear_km": 0.3114,
+        "lat": 30.489032745361328,
+        "lon": -87.93621826171875,
+        "source_lon": 272.06378173828125,
+        "source_lon_convention": "NOAA_dataset_native",
+        "normalized_lon_convention": "-180_to_180",
+        "target_lat": 30.48664,
+        "target_lon": -87.93453,
+        "bathymetry_m": 1.8300000429153442,
+        "surface_sigma_index": 0,
+        "bottom_sigma_index": 39,
+        "surface_sigma": -0.012500000186264515,
+        "bottom_sigma": -0.987500011920929
+      },
+      "unresolved_targets": []
+    },
+    {
+      "product": "ngofs2_mobile_bay_named_stations_nowcast",
+      "status": "complete",
+      "normalized_rows": 2745,
+      "valid_time_count": 61,
+      "valid_start": "2026-10-14T09:00:00+00:00",
+      "valid_end": "2026-10-14T15:00:00+00:00",
+      "model_initialized_at": "2026-10-14T15:00:00+00:00",
+      "available_at": "2026-10-14T21:35:57.523418+00:00",
+      "station_access": {
+        "method": "HTTPS_FULL_STATION_NETCDF",
+        "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/14/ngofs2.t15z.20261014.stations.nowcast.nc",
+        "full_file_sha256": "90ac51b68f0a3278adda4b93e1e68ac4f64f5a378f442cddeeee2cfc01040ac0",
+        "bytes": 14831795,
+        "download_completed_at": "2026-10-14T21:35:57.523418+00:00",
+        "embedded_time_validation": "PASS"
+      },
+      "normalized_csv_sha256": "5723a8baef9f04f0fc69fa6e0a91aadbd3e7db0ff3e4f26c060b7bad0316daf3",
+      "subset_sha256": "d06a045f01906e4aafcfdc66424b9a2f872a6fee79361fe878389f85b1fc9517",
+      "same_file_base_extraction_comparison": "ALL_ROWS_EXACT_EQUAL",
+      "source_mapping": [
+        {
+          "target_station_id": "8733502",
+          "target_label": "Fly Creek",
+          "model_station_name": "Blakeley Pass Entran",
+          "station_index": 192,
+          "resolution_basis": "nearest_verified_coordinate",
+          "distance_to_official_coordinate_km": 8.9585,
+          "target_lat": 30.5428,
+          "target_lon": -87.901,
+          "lat": 30.619604110717773,
+          "lon": -87.92926025390625,
+          "source_lon": 272.07073974609375,
+          "bathymetry_m": 1.5,
+          "surface_sigma_index": 0,
+          "bottom_sigma_index": 39,
+          "cell_roles": [
+            "Montrose:nearby_model_proxy",
+            "Fairhope/Fly Creek/Pier:in_cell_model_point",
+            "Daphne/May Day:southern_proxy"
+          ],
+          "proxy_distance_warning": true
+        },
+        {
+          "target_station_id": "8733821",
+          "target_label": "Point Clear",
+          "model_station_name": "8733821 Pt Clear, MB",
+          "station_index": 93,
+          "resolution_basis": "station_id",
+          "distance_to_official_coordinate_km": 0.3116,
+          "target_lat": 30.486639,
+          "target_lon": -87.934528,
+          "lat": 30.489032745361328,
+          "lon": -87.93621826171875,
+          "source_lon": 272.06378173828125,
+          "bathymetry_m": 1.8300000429153442,
+          "surface_sigma_index": 0,
+          "bottom_sigma_index": 39,
+          "cell_roles": [
+            "Point Clear/Grand Hotel:in_cell_model_point",
+            "Battles Wharf:nearby_model_proxy"
+          ],
+          "proxy_distance_warning": false
+        },
+        {
+          "target_station_id": "8732828",
+          "target_label": "Weeks Bay",
+          "model_station_name": "8732828 Weeks Bay, A",
+          "station_index": 5,
+          "resolution_basis": "station_id",
+          "distance_to_official_coordinate_km": 0.3866,
+          "target_lat": 30.4167,
+          "target_lon": -87.825,
+          "lat": 30.413742065429688,
+          "lon": -87.82711791992188,
+          "source_lon": 272.1728820800781,
+          "bathymetry_m": 2.069999933242798,
+          "surface_sigma_index": 0,
+          "bottom_sigma_index": 39,
+          "cell_roles": [
+            "Mullet Point:regional_model_proxy",
+            "Bay mouth:upper_boundary_context"
+          ],
+          "proxy_distance_warning": false
+        },
+        {
+          "target_station_id": "8733839",
+          "target_label": "Meaher State Park",
+          "model_station_name": "MHPA1_C Meaher Park,",
+          "station_index": 87,
+          "resolution_basis": "nearest_verified_coordinate",
+          "distance_to_official_coordinate_km": 0.1031,
+          "target_lat": 30.667167,
+          "target_lon": -87.936444,
+          "lat": 30.666362762451172,
+          "lon": -87.93698120117188,
+          "source_lon": 272.0630187988281,
+          "bathymetry_m": 3.799999952316284,
+          "surface_sigma_index": 0,
+          "bottom_sigma_index": 39,
+          "cell_roles": [
+            "Daphne/May Day:northern_model_proxy",
+            "Montrose:northern_context"
+          ],
+          "proxy_distance_warning": false
+        },
+        {
+          "target_station_id": "8735181",
+          "target_label": "Dauphin Island Hydro",
+          "model_station_name": "DPHA1_C Dauphin Is,",
+          "station_index": 90,
+          "resolution_basis": "nearest_verified_coordinate",
+          "distance_to_official_coordinate_km": 0.3229,
+          "target_lat": 30.251319,
+          "target_lon": -88.079486,
+          "lat": 30.253950119018555,
+          "lon": -88.07806396484375,
+          "source_lon": 271.92193603515625,
+          "bathymetry_m": 1.7799999713897705,
+          "surface_sigma_index": 0,
+          "bottom_sigma_index": 39,
+          "cell_roles": [
+            "Bay mouth:boundary_model_point",
+            "shelf:near_mouth_context"
+          ],
+          "proxy_distance_warning": false
+        }
+      ],
+      "unresolved_targets": []
+    },
+    {
+      "product": "ngofs2_mobile_bay_named_stations_forecast",
+      "status": "complete",
+      "normalized_rows": 21645,
+      "valid_time_count": 481,
+      "valid_start": "2026-10-14T15:00:00+00:00",
+      "valid_end": "2026-10-16T15:00:00+00:00",
+      "model_initialized_at": "2026-10-14T15:00:00+00:00",
+      "available_at": "2026-10-14T21:36:04.425668+00:00",
+      "station_access": {
+        "method": "HTTPS_FULL_STATION_NETCDF",
+        "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/14/ngofs2.t15z.20261014.stations.forecast.nc",
+        "full_file_sha256": "bcb1fb11a2842765a463546fadfe0210c0d2ce1bc9d19d9cd614ebca479cc2aa",
+        "bytes": 116012123,
+        "download_completed_at": "2026-10-14T21:36:04.425668+00:00",
+        "embedded_time_validation": "PASS"
+      },
+      "normalized_csv_sha256": "1969d58662e3845a633eb131ed2ce6aaf29c1443264abb467676d39349b89f93",
+      "subset_sha256": "5e028f9bf571c7123a68fdd04eebd6b31d2a87cb5f3517492c74121d4ab240b6",
+      "same_file_base_extraction_comparison": "ALL_ROWS_EXACT_EQUAL",
+      "source_mapping": [
+        {
+          "target_station_id": "8733502",
+          "target_label": "Fly Creek",
+          "model_station_name": "Blakeley Pass Entran",
+          "station_index": 192,
+          "resolution_basis": "nearest_verified_coordinate",
+          "distance_to_official_coordinate_km": 8.9585,
+          "target_lat": 30.5428,
+          "target_lon": -87.901,
+          "lat": 30.619604110717773,
+          "lon": -87.92926025390625,
+          "source_lon": 272.07073974609375,
+          "bathymetry_m": 1.5,
+          "surface_sigma_index": 0,
+          "bottom_sigma_index": 39,
+          "cell_roles": [
+            "Montrose:nearby_model_proxy",
+            "Fairhope/Fly Creek/Pier:in_cell_model_point",
+            "Daphne/May Day:southern_proxy"
+          ],
+          "proxy_distance_warning": true
+        },
+        {
+          "target_station_id": "8733821",
+          "target_label": "Point Clear",
+          "model_station_name": "8733821 Pt Clear, MB",
+          "station_index": 93,
+          "resolution_basis": "station_id",
+          "distance_to_official_coordinate_km": 0.3116,
+          "target_lat": 30.486639,
+          "target_lon": -87.934528,
+          "lat": 30.489032745361328,
+          "lon": -87.93621826171875,
+          "source_lon": 272.06378173828125,
+          "bathymetry_m": 1.8300000429153442,
+          "surface_sigma_index": 0,
+          "bottom_sigma_index": 39,
+          "cell_roles": [
+            "Point Clear/Grand Hotel:in_cell_model_point",
+            "Battles Wharf:nearby_model_proxy"
+          ],
+          "proxy_distance_warning": false
+        },
+        {
+          "target_station_id": "8732828",
+          "target_label": "Weeks Bay",
+          "model_station_name": "8732828 Weeks Bay, A",
+          "station_index": 5,
+          "resolution_basis": "station_id",
+          "distance_to_official_coordinate_km": 0.3866,
+          "target_lat": 30.4167,
+          "target_lon": -87.825,
+          "lat": 30.413742065429688,
+          "lon": -87.82711791992188,
+          "source_lon": 272.1728820800781,
+          "bathymetry_m": 2.069999933242798,
+          "surface_sigma_index": 0,
+          "bottom_sigma_index": 39,
+          "cell_roles": [
+            "Mullet Point:regional_model_proxy",
+            "Bay mouth:upper_boundary_context"
+          ],
+          "proxy_distance_warning": false
+        },
+        {
+          "target_station_id": "8733839",
+          "target_label": "Meaher State Park",
+          "model_station_name": "MHPA1_C Meaher Park,",
+          "station_index": 87,
+          "resolution_basis": "nearest_verified_coordinate",
+          "distance_to_official_coordinate_km": 0.1031,
+          "target_lat": 30.667167,
+          "target_lon": -87.936444,
+          "lat": 30.666362762451172,
+          "lon": -87.93698120117188,
+          "source_lon": 272.0630187988281,
+          "bathymetry_m": 3.799999952316284,
+          "surface_sigma_index": 0,
+          "bottom_sigma_index": 39,
+          "cell_roles": [
+            "Daphne/May Day:northern_model_proxy",
+            "Montrose:northern_context"
+          ],
+          "proxy_distance_warning": false
+        },
+        {
+          "target_station_id": "8735181",
+          "target_label": "Dauphin Island Hydro",
+          "model_station_name": "DPHA1_C Dauphin Is,",
+          "station_index": 90,
+          "resolution_basis": "nearest_verified_coordinate",
+          "distance_to_official_coordinate_km": 0.3229,
+          "target_lat": 30.251319,
+          "target_lon": -88.079486,
+          "lat": 30.253950119018555,
+          "lon": -88.07806396484375,
+          "source_lon": 271.92193603515625,
+          "bathymetry_m": 1.7799999713897705,
+          "surface_sigma_index": 0,
+          "bottom_sigma_index": 39,
+          "cell_roles": [
+            "Bay mouth:boundary_model_point",
+            "shelf:near_mouth_context"
+          ],
+          "proxy_distance_warning": false
+        }
+      ],
+      "unresolved_targets": []
+    }
+  ],
+  "isolated_runs": [
+    {
+      "script": "ingest_ngofs2_point_clear.py",
+      "cast": "nowcast",
+      "returncode": 0,
+      "seconds": 5.71
+    },
+    {
+      "script": "ingest_ngofs2_point_clear.py",
+      "cast": "forecast",
+      "returncode": 0,
+      "seconds": 8.051
+    },
+    {
+      "script": "ingest_ngofs2_mobile_bay_named_stations.py",
+      "cast": "nowcast",
+      "returncode": 0,
+      "seconds": 5.208
+    },
+    {
+      "script": "ingest_ngofs2_mobile_bay_named_stations.py",
+      "cast": "forecast",
+      "returncode": 0,
+      "seconds": 10.048
+    }
+  ],
+  "same_cycle_mirror_comparison": {
+    "cycle": "2026-10-14T09:00:00+00:00",
+    "cast": "nowcast",
+    "bytes": 14831795,
+    "s3_sha256": "0d5a2a17945c4b746d2e2e0d4f6ea1d1100fd8003c10a4dba55d0441b8bb0cee",
+    "thredds_file_server_sha256": "0d5a2a17945c4b746d2e2e0d4f6ea1d1100fd8003c10a4dba55d0441b8bb0cee"
+  },
+  "dap_probe": {
+    "encoded_ascii": [
+      {
+        "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t09z.20261014.stations.nowcast.nc.ascii?name_station%5B0:1:2%5D",
+        "status": 200,
+        "body": "Dataset {\n    String name_station[station = 3];\n} NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t09z.20261014.stations.nowcast.nc;\n---------------------------------------------\nname_station[3]\n\"8729108 Panama City,\", \"8729501 Valparaiso, \", \"8729840 Pensacola, F\"\n\n"
+      },
+      {
+        "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t09z.20261014.stations.nowcast.nc.ascii?lat%5B0:1:2%5D,lon%5B0:1:2%5D",
+        "status": 200,
+        "body": "Dataset {\n    Float32 lon[station = 3];\n    Float32 lat[station = 3];\n} NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t09z.20261014.stations.nowcast.nc;\n---------------------------------------------\nlon[3]\n274.26678, 273.52734, 272.78763\n\nlat[3]\n30.12216, 30.48471, 30.402843\n\n"
+      },
+      {
+        "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t09z.20261014.stations.nowcast.nc.ascii?time%5B0:1:2%5D",
+        "status": 200,
+        "body": "Dataset {\n    Float64 time[time = 3];\n} NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t09z.20261014.stations.nowcast.nc;\n---------------------------------------------\ntime[3]\n2.45646E8, 2.4564636E8, 2.4564672E8\n\n"
+      },
+      {
+        "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t09z.20261014.stations.nowcast.nc.ascii?u%5B0:1:0%5D%5B39:1:39%5D%5B0:1:2%5D",
+        "status": 200,
+        "body": "Dataset {\n    Float32 u[time = 1][siglay = 1][station = 3];\n} NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t09z.20261014.stations.nowcast.nc;\n---------------------------------------------\nu[1][1][3]\n[0][0], 0.0, 0.0022890007, 0.012597995\n\n"
+      }
+    ],
+    "encoded_binary": [
+      {
+        "query": "name_station",
+        "status": 200,
+        "bytes": 7239,
+        "prefix": "b'Dataset {\\n    String name_station[station = 296];\\n} NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t09z.20261014.stations.nowcast.nc;\\n\\nData:\\n\\x00\\x00\\x01(\\x00\\x00\\x00\\x148729108 Panama City,\\x00'"
+      },
+      {
+        "query": "name_station[0:1:295]",
+        "status": 200,
+        "bytes": 7239,
+        "prefix": "b'Dataset {\\n    String name_station[station = 296];\\n} NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t09z.20261014.stations.nowcast.nc;\\n\\nData:\\n\\x00\\x00\\x01(\\x00\\x00\\x00\\x148729108 Panama City,\\x00'"
+      },
+      {
+        "query": "u[0:1:60][39:1:39][5:1:5]",
+        "status": 200,
+        "bytes": 394,
+        "prefix": "b'Dataset {\\n    Float32 u[time = 61][siglay = 1][station = 1];\\n} NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t09z.20261014.stations.nowcast.nc;\\n\\nData:\\n\\x00\\x00\\x00=\\x00\\x00\\x00=\\xbb5\"\\x00\\xbb3\\xba\\x11\\xbb2'"
+      }
+    ],
+    "local_libnetcdf_probe": {
+      "at": "2026-10-14T21:31:03.885257+00:00",
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t09z.20261014.stations.nowcast.nc",
+      "reads": [],
+      "open_error": "[Errno -68] NetCDF: I/O failure: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/14/ngofs2.t09z.20261014.stations.nowcast.nc'"
+    },
+    "conclusion": "Some bounded DAP requests currently succeed. The historical lazy-read failure variable and server/client internal cause remain unresolved; no blanket NOAA DAP outage or recovery claim."
+  },
+  "grid_audit": {
+    "retrieved_at": "2026-10-14T17:39:15.881850+00:00",
+    "normalized_rows": 1848,
+    "point_clear_rows": 308,
+    "manifest_sha256": "f07b7a0b629f94424490c825cba625de00ec5acb6ba90ff2c788420e7edc7f4b",
+    "csv_sha256": "72032a5c2ce27ccf9ff5013aaa7ff26704b1026a0065ef948f26bbb721884a59",
+    "casts": [
+      {
+        "cast": "nowcast",
+        "model_initialized_at": "2026-10-14T09:00:00+00:00",
+        "valid_times": [
+          "2026-10-14T06:00:00+00:00",
+          "2026-10-14T09:00:00+00:00"
+        ],
+        "failed_leads": [
+          1,
+          2,
+          4,
+          5
+        ]
+      },
+      {
+        "cast": "forecast",
+        "model_initialized_at": "2026-10-14T09:00:00+00:00",
+        "valid_times": [
+          "2026-10-14T09:00:00+00:00",
+          "2026-10-14T12:00:00+00:00",
+          "2026-10-14T15:00:00+00:00",
+          "2026-10-14T18:00:00+00:00",
+          "2026-10-14T21:00:00+00:00"
+        ],
+        "failed_leads": [
+          1,
+          2,
+          4,
+          5
+        ]
+      }
+    ],
+    "point_clear_nodes": [
+      {
+        "cell": "Point Clear/Grand Hotel",
+        "target_name": "NOAA/NGOFS2 Point Clear target",
+        "coordinate_basis": "verified public NOAA Point Clear target",
+        "anchor_lat": 30.48664,
+        "anchor_lon": -87.93453,
+        "shoreward_bearing_deg_true": 90.0,
+        "offshore_bearing_deg_true": 270.0,
+        "bearing_status": "existing_provisional_west_facing_shoreline_normal",
+        "requested_offshore_offset_km": 0.25,
+        "requested_target_lat": 30.486639974029934,
+        "requested_target_lon": -87.93713900200332,
+        "grid_y": 872,
+        "grid_x": 994,
+        "grid_lat": 30.490000000000002,
+        "grid_lon": -87.94,
+        "bathymetry_m": 1.9933871290190823,
+        "distance_to_requested_target_km": 0.46340783789816203,
+        "distance_from_anchor_km": 0.6436683004224872,
+        "deepest_available_standard_depth_m": 1.0,
+        "nominal_bed_clearance_h_minus_depth_m": 0.9933871290190823,
+        "substitution_status": "NOT_EQUIVALENT_TO_STATION_BOTTOM_SIGMA"
+      },
+      {
+        "cell": "Point Clear/Grand Hotel",
+        "target_name": "NOAA/NGOFS2 Point Clear target",
+        "coordinate_basis": "verified public NOAA Point Clear target",
+        "anchor_lat": 30.48664,
+        "anchor_lon": -87.93453,
+        "shoreward_bearing_deg_true": 90.0,
+        "offshore_bearing_deg_true": 270.0,
+        "bearing_status": "existing_provisional_west_facing_shoreline_normal",
+        "requested_offshore_offset_km": 0.75,
+        "requested_target_lat": 30.48663976626937,
+        "requested_target_lon": -87.9423570059988,
+        "grid_y": 871,
+        "grid_x": 994,
+        "grid_lat": 30.48,
+        "grid_lon": -87.94,
+        "bathymetry_m": 1.9644354040917433,
+        "distance_to_requested_target_km": 0.7720812796279973,
+        "distance_from_anchor_km": 0.9054764788929422,
+        "deepest_available_standard_depth_m": 1.0,
+        "nominal_bed_clearance_h_minus_depth_m": 0.9644354040917433,
+        "substitution_status": "NOT_EQUIVALENT_TO_STATION_BOTTOM_SIGMA"
+      },
+      {
+        "cell": "Point Clear/Grand Hotel",
+        "target_name": "NOAA/NGOFS2 Point Clear target",
+        "coordinate_basis": "verified public NOAA Point Clear target",
+        "anchor_lat": 30.48664,
+        "anchor_lon": -87.93453,
+        "shoreward_bearing_deg_true": 90.0,
+        "offshore_bearing_deg_true": 270.0,
+        "bearing_status": "existing_provisional_west_facing_shoreline_normal",
+        "requested_offshore_offset_km": 1.5,
+        "requested_target_lat": 30.48663906507747,
+        "requested_target_lon": -87.9501840119224,
+        "grid_y": 872,
+        "grid_x": 993,
+        "grid_lat": 30.490000000000002,
+        "grid_lon": -87.94999999999999,
+        "bathymetry_m": 2.9992221163113646,
+        "distance_to_requested_target_km": 0.37413488324341837,
+        "distance_from_anchor_km": 1.528700855299135,
+        "deepest_available_standard_depth_m": 2.0,
+        "nominal_bed_clearance_h_minus_depth_m": 0.9992221163113646,
+        "substitution_status": "NOT_EQUIVALENT_TO_STATION_BOTTOM_SIGMA"
+      },
+      {
+        "cell": "Point Clear/Grand Hotel",
+        "target_name": "NOAA/NGOFS2 Point Clear target",
+        "coordinate_basis": "verified public NOAA Point Clear target",
+        "anchor_lat": 30.48664,
+        "anchor_lon": -87.93453,
+        "shoreward_bearing_deg_true": 90.0,
+        "offshore_bearing_deg_true": 270.0,
+        "bearing_status": "existing_provisional_west_facing_shoreline_normal",
+        "requested_offshore_offset_km": 3.0,
+        "requested_target_lat": 30.486636260309965,
+        "requested_target_lon": -87.96583802324328,
+        "grid_y": 872,
+        "grid_x": 991,
+        "grid_lat": 30.490000000000002,
+        "grid_lon": -87.97,
+        "bathymetry_m": 3.969153288834054,
+        "distance_to_requested_target_km": 0.5467612211640174,
+        "distance_from_anchor_km": 3.419224111555075,
+        "deepest_available_standard_depth_m": 2.0,
+        "nominal_bed_clearance_h_minus_depth_m": 1.969153288834054,
+        "substitution_status": "NOT_EQUIVALENT_TO_STATION_BOTTOM_SIGMA"
+      }
+    ]
+  },
+  "constraints": {
+    "unknown_preserved": true,
+    "nowcast_freshness_minutes_unchanged": 180,
+    "forecast_probabilities_unchanged": true,
+    "production_weights_unchanged": true,
+    "schedules_unchanged": true,
+    "alert_thresholds_unchanged": true,
+    "nine_pm_gate_unchanged": true,
+    "pr83_mapping_unchanged": true,
+    "grid_not_used_as_station_substitute": true
+  }
+}

@@ -25,6 +25,13 @@ NETCDF_DAP_SERVER_ERROR = re.compile(
 
 def retrieval_outage(manifest):
     attempts = manifest.get("retrieval_attempts")
+    if manifest.get("error_type") == "StationRetrievalError":
+        return (isinstance(attempts, list) and bool(attempts)
+                and all(isinstance(a, dict) and a.get("stage") == "http_download"
+                        and ((a.get("error_type") == "HTTPError"
+                              and a.get("http_status") in {404, 408, 429, 500, 502, 503, 504})
+                             or a.get("error_type") in {"URLError", "TimeoutError"})
+                        for a in attempts))
     if manifest.get("error_type") == "RetrievalOpenError":
         return (isinstance(attempts, list) and bool(attempts)
                 and all(isinstance(a, dict)
@@ -59,6 +66,8 @@ def validate(root=HERE):
         # Historical timeout manifests lack the new bounded-run diagnostic fields.
         manifest["availability_reason"] = ("retrieval_timeout_cause_unresolved"
                                            if manifest.get("error_type") == "RetrievalTimeout"
+                                           else "station_http_retrieval_unavailable_cause_unresolved"
+                                           if manifest.get("error_type") == "StationRetrievalError"
                                            else "upstream_retrieval_failure")
         path.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
         if name == "ngofs2_point_clear_nowcast":
