@@ -2523,3 +2523,14 @@ Published-byte verification (SHA-256; subset hashes are over decompressed canoni
 Every one of the 30,352 normalized rows matches its archived row, actual source/cycle/cast and completion availability; all retain MODEL and production weight zero. These are parameter rows, not independent observations. Downstream snapshot commit `6ea1e875c01fbfa8a69176a34eede37702253b75` retains matching station source hashes and observed-current UNKNOWN. The persisted Meaher feature predates this run; a read-only replay of the unchanged transport function on the new published nowcast returns `UNKNOWN_STALE_MODEL_TRANSPORT`, value null, age 488.092 minutes versus the unchanged 180-minute gate. One second before collection availability it returns `UNKNOWN_NO_AVAILABLE_MODEL_TRANSPORT`. This replay is not a newly published feature calculation.
 
 Collection recovery does not establish fresh antecedent guidance, measured local currents, grid equivalence, scientific eligibility, NOAA-wide DAP recovery or improved Jubilee prediction. Forecast valid times remain separate. Preserve geometry/projection caveats, zero weights, probabilities, UNKNOWN and notification gates. No new acquisition, paid model call, outreach, automation or desktop action was performed. The one-time scheduled-acceptance watch is complete; ordinary existing Sensing operation continues.
+
+
+---
+
+## J01/J11 Dawn horizon maintenance — October 15, 2026
+
+Dawn Brief pinned production main at `c06e55e766bbea342b3520c736213a22ded0a216` after verifying the October 15 post-dawn snapshot/forecast pair. Exact pair binding passed. Strict horizon validation correctly rejected the expired October 14–16 horizon; the reviewed roll-forward at `2026-10-15T06:51:39-05:00` produced zero numerical change and strict binding then passed for exactly October 15–17.
+
+PR #93 merged the snapshot and forecast atomically at `c06e55e766bbea342b3520c736213a22ded0a216`. Merged-main readback and the same strict validator confirmed all six dated cell entries: Point Clear 2–5% (central 3%) and Daphne/May Day 1–4% (central 2%), low confidence, for October 15, 16 and 17. Snapshot blob `a5c4710b12c6bd923a1b2abc1d9dbb36d1d32286`; forecast blob `49d01e6068da6e4f4570862a30eede2a435c899b`. Probabilities, confidence, zero production weights, UNKNOWN semantics, six-camera coverage, alert gates, cadence and the 9 PM notification restriction are unchanged.
+
+Jubilee Dot coordination: consume this as the October 15 J01/J11 maintenance receipt. No sensing, calibration, public-camera acquisition, new task, paid call or outreach was performed.
