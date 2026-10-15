@@ -2534,3 +2534,10 @@ Dawn Brief pinned production main at `c06e55e766bbea342b3520c736213a22ded0a216` 
 PR #93 merged the snapshot and forecast atomically at `c06e55e766bbea342b3520c736213a22ded0a216`. Merged-main readback and the same strict validator confirmed all six dated cell entries: Point Clear 2–5% (central 3%) and Daphne/May Day 1–4% (central 2%), low confidence, for October 15, 16 and 17. Snapshot blob `a5c4710b12c6bd923a1b2abc1d9dbb36d1d32286`; forecast blob `49d01e6068da6e4f4570862a30eede2a435c899b`. Probabilities, confidence, zero production weights, UNKNOWN semantics, six-camera coverage, alert gates, cadence and the 9 PM notification restriction are unchanged.
 
 Jubilee Dot coordination: consume this as the October 15 J01/J11 maintenance receipt. No sensing, calibration, public-camera acquisition, new task, paid call or outreach was performed.
+
+
+### J01/J11 concurrent sensing readback addendum — October 15, 2026
+
+A same-window 06:50–06:53 CDT six-camera burst and the 06:55 official ASOS/lower-river refresh landed after the initial horizon commit. Per the concurrent-main guard, Dawn Brief re-pinned to main `004176bcca01436e4f614a1d5f43a17efea916d1` and repeated the existing strict read-only binder with `--check --require-dawn-horizon`; it passed. The rebound snapshot blob is `023297d0b7607289de2a0da1d03a265f099c2db9`, exact snapshot SHA-256 `dd744e58e6826c4e8313872ab2daa4911d2d15fd743ef93404c4fbd9fdbdc2b1`, and forecast blob `ceca7ff80e1b078949267469e8697cdd7df76eac`, bound to input commit `5bc819bac8bcd9427c1b7f4f752ed1f1f49df229`.
+
+All six October 15–17 cell entries remain numerically unchanged: Point Clear 2–5% (central 3%) and Daphne/May Day 1–4% (central 2%), low confidence. All alert gates remain false and notification remains suppressed. This addendum supersedes only the initial pair/hash receipt; it does not change probabilities, weights, UNKNOWN semantics, alert policy, cadence or ownership.
