@@ -2591,3 +2591,30 @@ Dawn Brief pinned the completed same-window sensing reconciliation at main `9ee5
 PR #97 merged the snapshot and forecast atomically at `45551815965cfa0ab92125cbd73a3390c530ce9a`. Merged-main exact-byte readback and the same strict validator confirmed all six dated cell entries: Point Clear 2–5% (central 3%) and Daphne/May Day 1–4% (central 2%), low confidence, for October 16, 17 and 18. Snapshot blob `8424b98437bc3d0054904136ee659d03db138915`; forecast blob `77c93e8560eef31e8eaf3d3716c349f4b3bca5f9`. All alert gates remain false and notification remains suppressed.
 
 Jubilee Dot coordination: consume this as the October 16 J01/J11 maintenance receipt. Probabilities, confidence, zero production weights, UNKNOWN semantics, camera coverage, alert gates, cadence and the 9 PM notification restriction are unchanged. No sensing, calibration, public-camera acquisition, new task, paid call or outreach was performed by Dawn Brief.
+
+
+---
+
+## Research & calibration run — 2026-10-16
+
+Scope: in-season research review only. Current MODEL_WORK_REGISTER, Jubilee Dot charter, canonical action ledger version 39, current open PRs and source queue state were checked first. The source-discovery queue remains absent (404), consistent with prior completion. Dot's October 15 native consumption of the J10 social-timing and J18 economic receipts is controlling and was not repeated. Archival outreach is paused; no email or other outreach was sent.
+
+| Stable ID | Stage after this run | Exact new evidence | Result / unresolved gate | Next action |
+|---|---|---|---|---|
+| J10-CONTROL-20261015-16 | TESTED / COMMITTED; Tier-B sensitivity only | `model_data/j10_matched_control_sensitivity_20261016.json`, commit `f5134eb8501a10a96e297d5f8a74056b194e8d44`, blob `da02501b5ec24000ad799377574cb24b126cc564` | 24 immutable exact-window records: 12 Montrose visible-scope candidates and 12 UNKNOWN because the primary waterline view was inadequate. Two independent date/site-group Tier-B mornings raise the cumulative total from 15 to 17. Tier-A verified controls and clean training negatives remain 0. The first post-window records on both dates were explicitly excluded because `cycle_in_target_predawn_dawn_window=false`; Point Clear remains partial observability only. | Continue prospective effort logging; require independent matched controls before event-level calibration. |
+| J10-SOCIAL-PR96 | RESEARCHED / COMMITTED TO BRANCH / DOT-CONSUMED / DRAFT PR; NOT MERGED OR DEPLOYED | Draft PR #96 head `69c6b5b86881548756956537a3fd2379731e05f0`; register-native Dot receipt of October 15 | Two September 7, 2020 ID-derived candidate publication clocks were reproduced, but no independently anchored onset-to-first-public-report pair exists. Ben's 80% silence hypothesis, six-/twelve-hour sensitivity and P(no event | silence) remain unestimated. This does not promote no-report mornings. | Review PR #96; recover original visibility clocks, source-search effort and independently anchored episode timing before reporting-feature validation. |
+| J08-TIME-OF-DAY-PR91 | RESEARCHED / DOT-CONSUMED / DRAFT PR; NOT MERGED OR DEPLOYED | Draft PR #91 head `b7126e81cf03300531a4b8932f0c0b1732e2ecb6` | The 16-event inventory still partitions 14 morning-supported, 1 evening and 1 unknown. Forecast issue, event onset, observation, publication and notification clocks remain distinct; no time-of-day skill score is justified. | Review PR #91 with explicit forecast-validity bounds; no automatic merge. |
+| J09-ADCP-Y1.x122.038-0002 | BLOCKED_EVIDENCE / UNCHANGED | Existing authoritative audit and PR #92 scheduled ingestion receipt | PR #92 restored and scheduled-accepted NOAA HTTPS access to MODEL station products, not observed currents. No ADCP heading, magnetic-variation, vessel-motion, transducer/draft, vertical-reference or clock gate closed; accepted near-Point-Clear Earth-frame rows remain 0 and transport weight remains 0. | Recover authoritative calibration/deployment metadata or an independent near-Eastern-Shore observed-current series. |
+| J18-PR78-COMPACT-JSON | MERGED / INSTALLED / ORDINARY-CYCLE-VALIDATED / EXTENDED OBSERVATIONAL MEASUREMENT | `model_data/j18_compact_json_postmerge_measurement_20261016.json`, commit `8fdde0cd2bf7cd1d7a31822cbc97fc96619a5d29`, blob `1c37526e7056f3a27cbb1fa9b43e80cca6b29feb`; usage summary blob `16fd7cee5a219c8ee0837659d6f08a9cad70ef09` | Across seven complete post-change days (October 9–15), 1,191 completed camera requests and 0 reported failures had input/request 1.7209% below October 8 and output/request 18.7901% lower. This extends, but does not supersede, the October 15 coverage-normalized conditional list-price receipt. Actual billing, causal savings and detection equivalence remain unverified. | Retain the installed change and rollback; reconcile private billing and effectiveness evidence before any further production cost experiment. |
+
+### Predictive result and promotion decision
+
+No new Jubilee-event predictive gain or regression was measurable. Loading-only versus transport-only versus combined event scoring remains **BLOCKED_EVIDENCE** because there are zero Tier-A controls and no accepted near-Point-Clear Earth-frame transport series. The two added mornings improve prospective observation-effort coverage only.
+
+- October 15–16 Montrose evidence: retain as Tier-B visible-scope sensitivity controls only.
+- Point Clear camera silence: retain as partial observation effort, never a clean negative.
+- Social silence/report timing: retain unvalidated and zero-weight.
+- Moon phase: prior episode-blocked test remains committed, `BLOCKED_BY_DATA` and zero-weight; no new independent episode or Tier-A control justified retesting.
+- Production model, probabilities, weights, thresholds, alerts, six-camera coverage, schedules, UNKNOWN semantics and the nine-PM rule: unchanged.
+
+Current main observed before this append: `8fdde0cd2bf7cd1d7a31822cbc97fc96619a5d29`. No PR was merged and nothing was newly deployed by Research & Calibration in this run.
