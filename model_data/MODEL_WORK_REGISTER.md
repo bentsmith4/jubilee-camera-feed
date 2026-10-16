@@ -2580,3 +2580,14 @@ Jubilee Dot's parent directly read both complete reports at 2026-10-15 17:09:24 
 - **J10:** PR #96 remains OPEN/DRAFT and unmerged at head `69c6b5b86881548756956537a3fd2379731e05f0`; report blob `5cb00096e3a41dad9360fb7c81e3d259ed465c97`, companion blob `86f019d9180659a21cdfcb36cb243c1fa9c75734`. Integer decoding reproduces the two September 7, 2020 candidate creation clocks, 09:53:08.744 and 09:57:12.009 CDT. The narrated 07:00 activity and roughly 83-day-later video publication remain separate. Original public-visibility clocks, independently anchored onset/active/end, source/geographic linkage, search effort and independent episode denominator remain unresolved. Six-/twelve-hour reporting sensitivity and 80% silence confidence are unvalidated; retain 15 Tier-B candidate mornings, 0 Tier-A controls and 0 clean training negatives. Research owns the next evidence/review gates; no event admission, control promotion or automatic merge.
 
 Current AGENTS, charter and register were checked before this SHA-guarded append. No production settings, cameras, probabilities, weights, UNKNOWN semantics, schedules or notification gates changed. No research rerun, new data acquisition, paid call, outreach or competing workflow was performed. PR #92 scheduled acceptance and October 15 Dawn maintenance are not reopened.
+
+
+---
+
+## J01/J11 Dawn horizon maintenance — October 16, 2026
+
+Dawn Brief pinned the completed same-window sensing reconciliation at main `9ee57ede0e4ec9891d4d5adcb8a3c9e722766ace` with snapshot issue time `2026-10-16T06:56:26.601053-05:00`. Exact pair binding passed. Strict horizon validation correctly rejected the expired October 15–17 horizon; the existing reviewed roll-forward at `2026-10-16T06:57:00-05:00` produced zero numerical change, and `bind_current_forecast.py --check --require-dawn-horizon` then passed for exactly October 16–18.
+
+PR #97 merged the snapshot and forecast atomically at `45551815965cfa0ab92125cbd73a3390c530ce9a`. Merged-main exact-byte readback and the same strict validator confirmed all six dated cell entries: Point Clear 2–5% (central 3%) and Daphne/May Day 1–4% (central 2%), low confidence, for October 16, 17 and 18. Snapshot blob `8424b98437bc3d0054904136ee659d03db138915`; forecast blob `77c93e8560eef31e8eaf3d3716c349f4b3bca5f9`. All alert gates remain false and notification remains suppressed.
+
+Jubilee Dot coordination: consume this as the October 16 J01/J11 maintenance receipt. Probabilities, confidence, zero production weights, UNKNOWN semantics, camera coverage, alert gates, cadence and the 9 PM notification restriction are unchanged. No sensing, calibration, public-camera acquisition, new task, paid call or outreach was performed by Dawn Brief.
