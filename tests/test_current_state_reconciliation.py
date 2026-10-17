@@ -85,6 +85,24 @@ class ReconciliationTests(unittest.TestCase):
         self.commit('reconciled pair')
         return snapshot, forecast
 
+    def test_station_expansion_replays_prior_two_airport_manifest(self):
+        old_url = 'https://aviationweather.gov/api/data/metar?ids=KBFM%2CKMOB&format=json&hours=6'
+        path = 'model_data/asos_weather_normalized.json'
+        rows = self.f.read(path)
+        for row in rows:
+            row['source_url'] = old_url
+        self.f.write(path, rows)
+        manifest = self.f.read('model_data/asos_weather_manifest.json')
+        manifest['source_url'] = old_url
+        manifest['normalized_sha256'] = guard.digest((self.root/path).read_bytes())
+        self.f.write('model_data/asos_weather_manifest.json', manifest)
+        self.commit('preserve pre-expansion weather provenance')
+        snapshot, _ = self.reconcile(T0)
+        weather = next(row for row in snapshot['input_rows'] if row['source'] == builder.ASOS)
+        self.assertEqual(weather['parameter_admission']['KCQF']['status'], 'UNKNOWN')
+        self.assertEqual(weather['parameter_admission']['KBFM']['parameters']['wind_speed']['source_url'], old_url)
+        self.assertIn('KCQF', weather['station_location'])
+
     def test_back_to_back_sensing_then_camera_and_duplicate_trigger(self):
         first, _ = self.reconcile(T0)
         self.environment(T0 + timedelta(minutes=37))
