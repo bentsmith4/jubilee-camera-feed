@@ -37,6 +37,33 @@ class ASOSWeatherTests(unittest.TestCase):
         rows, _ = asos.normalize(reports, NOW)
         return asos.current_snapshot(rows, at)
 
+    def test_fairhope_station_requested_and_independent(self):
+        from urllib.parse import urlparse, parse_qs
+        ids = parse_qs(urlparse(asos.URL).query)['ids'][0].split(',')
+        self.assertEqual(set(ids), set(asos.STATIONS))
+        self.assertEqual(len(ids), len(set(ids)))
+        self.assertIn('KCQF', ids)
+        rows, rejected = asos.normalize([report('KCQF'), report()], NOW)
+        self.assertEqual(rejected, [])
+        self.assertEqual(len(rows), 2 * len(asos.FIELDS))
+        snapshot = asos.current_snapshot(rows, NOW)
+        self.assertEqual(parameter(snapshot, 'wind_speed', 'KCQF')['value'], 5)
+        self.assertEqual(parameter(snapshot, 'wind_speed', 'KMOB')['value_status'], 'UNKNOWN')
+        self.assertEqual(parameter(snapshot, 'precipitation_1h', 'KCQF')['value_status'], 'UNKNOWN')
+        for row in rows:
+            self.assertEqual(row['production_weight'], 0)
+            self.assertFalse(row['is_direct_local_bottom_measurement'])
+        self.assertNotEqual(parameter(snapshot, 'wind_speed', 'KCQF')['observation_id'],
+                            parameter(snapshot, 'wind_speed')['observation_id'])
+
+    def test_fairhope_rejects_stale_and_wrong_station_reports(self):
+        stale = self.snapshot([report('KCQF', age=91)])
+        self.assertEqual(parameter(stale, 'wind_speed', 'KCQF')['admission_reason'], 'STALE')
+        wrong = dict(report('KCQF'), rawOb=report()['rawOb'])
+        self.assertEqual(parameter(self.snapshot([wrong]), 'wind_speed', 'KCQF')['value_status'], 'UNKNOWN')
+        missing = self.snapshot([report(), report('KMOB')])
+        self.assertEqual(missing['stations']['KCQF']['status'], 'UNKNOWN')
+
     def test_contract_and_timestamp_semantics(self):
         source = report()
         rows, _ = asos.normalize([source], NOW)
@@ -53,7 +80,7 @@ class ASOSWeatherTests(unittest.TestCase):
         self.assertEqual(parameter(asos.current_snapshot(rows, NOW), 'wind_speed')['value'], 5)
 
     def test_september_27_stale_wind_blank_rain_regression(self):
-        snapshot = self.snapshot([report(age=175), report('KMOB', age=172)])
+        snapshot = self.snapshot([report(station, age=175) for station in asos.STATIONS])
         for station in asos.STATIONS:
             self.assertEqual(parameter(snapshot, 'wind_speed', station)['admission_reason'], 'STALE')
             self.assertIsNone(parameter(snapshot, 'wind_speed', station)['value'])

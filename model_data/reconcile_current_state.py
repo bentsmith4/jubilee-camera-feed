@@ -108,7 +108,8 @@ def build(root, now):
     ar = r.json('model_data/asos_weather_normalized.json') if am['status'] == 'complete' else []
     if am['status'] == 'complete':
         raw_weather = json.loads(r.archive(am['raw_path'], am['raw_sha256']))
-        reparsed, _ = asos.normalize(raw_weather, guard.stamp(available(am)), ar)
+        reparsed, _ = asos.normalize(raw_weather, guard.stamp(available(am)), ar,
+                                     source_url=am.get("source_url", asos.URL))
         guard.require(guard.semantic_rows(ar) == guard.semantic_rows(reparsed), 'ASOS archive/data mismatch')
         guard.require(len({(x['sensor_id'], x['parameter']) for x in ar}) == len(ar), 'ambiguous ASOS rows')
         for x in ar:
@@ -119,7 +120,8 @@ def build(root, now):
     weather_known = any(x['value_status'] in ('KNOWN', 'TRACE')
                         for st in weather['stations'].values() for x in st['parameters'].values())
     a = context(ASOS, am)
-    a.update(parameter_admission=weather['stations'],
+    a.update(station_location="; ".join(f"{name} {station}" for station, (name, _, _) in asos.STATIONS.items()),
+             parameter_admission=weather['stations'],
              admitted_status=('SOURCE_UNAVAILABLE' if am['status'] == 'unavailable' else
                               'ADMITTED_PARTIAL_FRESH_ASOS_REGIONAL_CONTEXT' if weather_known else 'UNKNOWN'),
              observation='Issue-time airport context only; blank, stale and rejected parameters remain UNKNOWN.')
