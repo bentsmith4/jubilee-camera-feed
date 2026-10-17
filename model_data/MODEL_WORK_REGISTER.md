@@ -2618,3 +2618,16 @@ No new Jubilee-event predictive gain or regression was measurable. Loading-only 
 - Production model, probabilities, weights, thresholds, alerts, six-camera coverage, schedules, UNKNOWN semantics and the nine-PM rule: unchanged.
 
 Current main observed before this append: `8fdde0cd2bf7cd1d7a31822cbc97fc96619a5d29`. No PR was merged and nothing was newly deployed by Research & Calibration in this run.
+
+
+---
+
+## J01/J11 Dawn horizon maintenance — October 17, 2026
+
+Dawn Brief pinned the completed dawn+20 sensing reconciliation at main `29fbbb13bab9ce44fca4484bcbd2e79774661158`, snapshot issue time `2026-10-17T06:57:11.453922-05:00`. The source pair was exactly bound; strict horizon validation rejected the expired October 16–18 dates. The existing reviewed roll-forward at `2026-10-17T06:59:00-05:00` produced zero numerical change, and the strict binder/horizon check passed for exactly October 17–19.
+
+PR #99 merged the snapshot and forecast atomically at `937977cd354f8c977d14af199d9c181cee7791f3`. Merged-main exact-byte readback confirmed snapshot blob `189856db3597d04be53cde8cd1e139fad41b8a0c` and forecast blob `99b0cb5d6eef66ded39acd619637c12ba8cd624d`. All six dated cell entries are verified: Point Clear 2–5% (central 3%) and Daphne/May Day 1–4% (central 2%), low confidence, for October 17, 18 and 19. All alert gates remain false and notification remains suppressed.
+
+The same-window owner-camera principal daylight follow-up began `2026-10-17T06:51:39.081633-05:00`; all six cameras passed metadata/freshness checks. Five views had moderate biological detectability and one Point Clear back-deck view remained low; no prioritized biological indicator or within-burst activity change was observed. This is scoped visible-area context, not a clean non-event label.
+
+Jubilee Dot coordination: consume this as the October 17 J01/J11 maintenance receipt. Probabilities, confidence, zero production weights, UNKNOWN semantics, camera coverage, alert gates, cadence and the 9 PM notification restriction are unchanged. No calibration, public-camera acquisition, new task, paid call or outreach was performed by Dawn Brief.
