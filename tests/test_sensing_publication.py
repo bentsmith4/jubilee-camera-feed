@@ -362,6 +362,33 @@ class PublicationTests(unittest.TestCase):
         self.assertEqual(self.staged(), {"model_data/public_archive/ngofs2_subset/new.gz",
                                        "model_data/ngofs2_point_clear_nowcast_normalized.csv"})
 
+    def test_fish_river_raw_and_manifest_publish_csv_stays_in_existing_artifact_route(self):
+        import contextlib
+        import csv
+        import gzip
+        import io
+        river = load('ingest_river_forcing')
+        raw = (ROOT / 'tests/fixtures/fish_river/usgs_02378500_20261018.json').read_bytes()
+        with patch.object(river, 'HERE', self.root / 'model_data'), patch.object(river, 'fetch', return_value=raw), \
+                patch.object(sys, 'argv', ['ingest_river_forcing.py']), contextlib.redirect_stdout(io.StringIO()):
+            river.main()
+        manifest_path = 'model_data/river_forcing_manifest.json'
+        m = json.loads((self.root / manifest_path).read_bytes())
+        self.assertEqual(m['series'], [])
+        self.assertEqual(len(m['local_watershed_series']), 2)
+        normalized = list(csv.DictReader(io.StringIO((self.root / 'model_data/river_forcing_normalized.csv').read_text())))
+        self.assertEqual(len(normalized), 188)
+        self.assertTrue(all(r['station_id'] == '02378500' for r in normalized))
+        publisher.stage(self.root, outcomes(regression='success', river='success'), 'main')
+        self.assertEqual(self.staged(), {manifest_path, 'model_data/' + m['raw_path']})
+        staged_raw = gzip.decompress(subprocess.check_output(['git', 'show', ':model_data/' + m['raw_path']], cwd=self.root))
+        self.assertEqual(staged_raw, raw)
+        replayed = river.normalize(json.loads(staged_raw), river.utc(m['retrieved_at_utc']), m['source_url'])
+        rendered = [{k: '' if v is None else str(v) for k, v in row.items()} for row in replayed]
+        self.assertEqual(rendered, normalized)
+        for workflow in ('asos_weather.yml', 'sensing_quality.yml'):
+            self.assertIn('model_data/river_forcing_normalized.csv', (ROOT / '.github/workflows' / workflow).read_text())
+
     def test_archive_budget_and_append_only_guard_remain_enforced(self):
         steps = outcomes(regression="success", river="success")
         with patch.object(publisher, "ARCHIVE_BUDGET", 1):

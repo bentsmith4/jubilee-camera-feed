@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Auditable upstream forcing; not an instantaneous estimate of bay inflow.
+"""Auditable river context; not an instantaneous estimate of bay inflow.
 
 USGS values groups can contain different gates under one parameter code. Method
 identity is therefore part of the time-series identity. USGS estimated discharge
@@ -21,7 +21,11 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-SITES = ('02428400', '02469761', '02469762')
+UPSTREAM_SITES = ('02428400', '02469761', '02469762')
+FISH_RIVER = '02378500'
+SITES = UPSTREAM_SITES + (FISH_RIVER,)
+FISH_SOURCE_CLASS = 'agency_reported_local_watershed_runoff_proxy_not_bay_inflow'
+FISH_UNITS = {'00060': ('ft3/s', 'ft^3/s'), '00065': ('ft',)}
 CFS_TO_CMS = 0.028316846592
 
 def utc(value):
@@ -52,11 +56,23 @@ def normalize(document, retrieved_at, source_url):
         if station not in SITES:
             raise ValueError('Unexpected station in response')
         unit = variable.get('unit', {}).get('unitCode', '')
+        if station == FISH_RIVER:
+            location = info.get('geoLocation', {}).get('geogLocation', {})
+            lat, lon = finite(location.get('latitude')), finite(location.get('longitude'))
+            if (ids[0].get('agencyCode') != 'USGS' or ids[0].get('network') != 'NWIS'
+                    or location.get('srs') != 'EPSG:4326' or lat is None or lon is None
+                    or abs(lat - 30.54550384) > 0.0001 or abs(lon + 87.7986304) > 0.0001):
+                raise ValueError('Fish River station identity/location mismatch')
         nodata = finite(variable.get('noDataValue'))
         parent_series = ts.get('name', station + ':' + code)
+        if station == FISH_RIVER and (len(ids) != 1 or len(codes) != 1 or
+                parent_series != 'USGS:' + station + ':' + code + ':00000'):
+            raise ValueError('Fish River series identity mismatch')
         for group_index, group in enumerate(ts.get('values', [])):
             methods = group.get('method', [])
             method_ids = [str(m['methodID']) for m in methods if m.get('methodID') is not None]
+            methods_verified = bool(method_ids) and (station != FISH_RIVER or
+                all(mid.isdigit() and int(mid) > 0 for mid in method_ids))
             method_label = '|'.join(m.get('methodDescription', '') for m in methods)
             identity = ','.join(method_ids) if method_ids else 'unresolved_group_' + str(group_index)
             series_id = parent_series + ':method=' + identity
@@ -74,20 +90,24 @@ def normalize(document, retrieved_at, source_url):
                 estimated_documented = 'estimated' in definitions.get('e', '').lower()
                 eligible = bool(qset.intersection({'A', 'P'})) and qset.issubset({'A', 'P', 'e'})
                 eligible = eligible and ('e' not in qset or estimated_documented)
+                if station == FISH_RIVER:
+                    eligible = (eligible and methods_verified and unit in FISH_UNITS.get(code, ())
+                                and t <= retrieved_at and (code != '00060' or numeric >= 0))
                 if code == '45592' and not method_ids:
                     eligible = False
                 out.append({
                     'station_id': station, 'station_name': info.get('siteName'),
                     'series_id': series_id, 'parent_series_id': parent_series,
                     'method_id': identity, 'method_label': method_label,
-                    'method_identity_verified': bool(method_ids),
+                    'method_identity_verified': methods_verified,
                     'parameter_code': code, 'parameter_name': variable.get('variableDescription'),
                     'value': numeric, 'unit': unit, 'observed_at_utc': t.isoformat(),
                     'qualifiers': '|'.join(qualifiers), 'is_estimated': 'e' in qset,
                     'qualifier_definitions': json.dumps(definitions, sort_keys=True),
                     'research_qc_eligible': eligible,
                     'retrieved_at_utc': retrieved_at.isoformat(), 'source_url': source_url,
-                    'source_class': 'agency_reported_upstream_forcing_not_bay_inflow',
+                    'source_class': (FISH_SOURCE_CLASS if station == FISH_RIVER else
+                                     'agency_reported_upstream_forcing_not_bay_inflow'),
                     'production_weight': 0.0
                 })
     return out
@@ -132,7 +152,20 @@ def summarize(rows, now):
                  'latest_age_minutes': round(age, 2), 'fresh': 0 <= age <= 180,
                  'latest_qualifiers': latest['qualifiers'],
                  'estimated_rows': sum(bool(r.get('is_estimated')) for r in group)}
-        if code == '00060' and unit in ('ft3/s', 'ft^3/s'):
+        if station == FISH_RIVER:
+            entry.update(
+                source_id='usgs_02378500_fish_river', source_class=FISH_SOURCE_CLASS,
+                station_name='FISH RIVER NEAR SILVER HILL AL',
+                latitude=30.54550384, longitude=-87.7986304, drainage_area_sq_mi=55.3,
+                spatial_scope='Fish River / Weeks Bay local watershed; not Eastern Shore bottom state',
+                independence_group='usgs_02378500_fish_river',
+                aggregation_policy='DO_NOT_ADD_TO_UPSTREAM_OR_NESTED_GAUGES',
+                vertical_reference=('native_local_gage_datum_not_tidal_or_NAVD88_elevation'
+                                    if code == '00065' else 'not_applicable'),
+                production_weight=0.0)
+        # Fish River is collected as native observations only. No new volume,
+        # rainfall-runoff, cross-basin total or Bay-arrival feature is derived.
+        if station != FISH_RIVER and code == '00060' and unit in ('ft3/s', 'ft^3/s'):
             by_time = defaultdict(set)
             for row in group:
                 if row['research_qc_eligible']:
@@ -173,7 +206,8 @@ def failure_details(exc, previous, now):
     return {'status': 'unavailable' if transient else 'failed',
             'error_type': type(exc).__name__,
             'http_status': exc.code if isinstance(exc, urllib.error.HTTPError) else None,
-            'normalized_rows': 0, 'series': [],
+            'normalized_rows': 0, 'series': [], 'local_watershed_series': [],
+            'local_watershed_missing_parameter_codes': sorted(FISH_UNITS),
             'consecutive_upstream_failures': count,
             'action_required': not transient or count >= 2,
             'availability_note': 'No current river data admitted; historical CSV is not a fresh observation.'}
@@ -190,7 +224,7 @@ def main():
     params = {'format': 'json', 'sites': ','.join(SITES), 'period': 'P' + str(args.days) + 'D',
               'parameterCd': '00060,00065,45592', 'siteStatus': 'all'}
     url = 'https://waterservices.usgs.gov/nwis/iv/?' + urllib.parse.urlencode(params)
-    manifest = {'schema_version': '2.1', 'started_at_utc': now.isoformat(), 'source_url': url,
+    manifest = {'schema_version': '2.2', 'started_at_utc': now.isoformat(), 'source_url': url,
                 'requested_sites': list(SITES), 'production_action': 'NO_CHANGE',
                 'consecutive_upstream_failures': 0, 'action_required': False}
     try:
@@ -208,15 +242,22 @@ def main():
                 writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
                 writer.writeheader(); writer.writerows(rows)
         observed_sites = {r['station_id'] for r in rows}
+        summaries = summarize(rows, retrieved)
         manifest.update({'status': 'complete' if set(SITES) <= observed_sites else 'partial',
                          'retrieved_at_utc': retrieved.isoformat(), 'raw_sha256': digest,
                          'raw_path': str(archive.relative_to(HERE)), 'normalized_rows': len(rows),
                          'parameter_counts': dict(Counter(r['parameter_code'] for r in rows)),
                          'missing_sites': sorted(set(SITES) - observed_sites),
-                         'series': summarize(rows, retrieved)})
+                         # Preserve legacy consumers' upstream-only series scope.
+                         'series': [s for s in summaries if s['station_id'] in UPSTREAM_SITES],
+                         'local_watershed_series': [s for s in summaries if s['station_id'] == FISH_RIVER],
+                         'local_watershed_missing_parameter_codes': sorted(set(FISH_UNITS) -
+                             {r['parameter_code'] for r in rows if r['station_id'] == FISH_RIVER})})
     except Exception as exc:
         manifest.update(failure_details(exc, previous, now))
     manifest['guardrails'] = [
+        'Fish River 02378500 is separate Weeks Bay/local-watershed context, never added to upstream or nested gauges.',
+        'Fish River 00065 is feet above native local gage datum, not tide, NAVD88 elevation or Eastern Shore water level.',
         'Coffeeville 02469761 and 02469762 are pool/tailwater of the same river, never additive inflows.',
         'Claiborne discharge excludes uncomputed overtopping flow at stages above 50 ft.',
         'P means provisional; e means estimated where the source defines it. Preserve both and widen research uncertainty.',
