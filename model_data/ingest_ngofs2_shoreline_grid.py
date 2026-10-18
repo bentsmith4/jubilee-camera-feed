@@ -17,9 +17,15 @@ import json
 import math
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from urllib.error import HTTPError
 
 import numpy as np
 from netCDF4 import Dataset, num2date
+
+try:
+    from model_data.validate_ngofs2_availability import GRID_FAILURE_CONTRACT, grid_retrieval_failure
+except ModuleNotFoundError:  # Direct script execution has model_data on sys.path.
+    from validate_ngofs2_availability import GRID_FAILURE_CONTRACT, grid_retrieval_failure
 
 HERE = Path(__file__).resolve().parent
 TARGET_FILE = HERE / "ngofs2_target_cells.json"
@@ -29,6 +35,23 @@ FORECAST_LEADS = (0, 1, 2, 3, 4, 5, 6, 9, 12)
 NOWCAST_LEADS = (1, 2, 3, 4, 5, 6)
 MAX_NODE_DISTANCE_KM = 1.5
 FILL_CUTOFF = -9000.0
+
+
+class GridRetrievalError(RuntimeError):
+    """Insufficient remote slices, with structured evidence for every failure."""
+
+    def __init__(self, message, attempts):
+        super().__init__(message)
+        self.attempts = attempts
+
+
+def grid_failure(exc, url, stage, cast, lead):
+    failure = {"cast": cast, "lead_hour": lead, "source_url": url, "stage": stage,
+               "error_type": type(exc).__name__, "error": str(exc)}
+    if isinstance(exc, HTTPError):
+        failure["http_status"] = exc.code
+    failure["failure_kind"] = "retrieval" if grid_retrieval_failure(failure) else "extraction_or_data"
+    return failure
 
 
 def normalize_lon(value):
@@ -108,17 +131,21 @@ def load_targets():
     return rows
 
 
-def open_reference(cast, now):
+def open_reference(cast, now, failures=None):
     """Open a reference file from the newest usable cycle."""
     probe_lead = 0 if cast == "forecast" else 3
-    failures = []
+    if failures is None:
+        failures = []
     for cycle in cycle_candidates(now):
         url = regulargrid_url(cycle, cast, probe_lead)
         try:
             return Dataset(url, "r"), cycle, url, failures
         except Exception as exc:
-            failures.append({"url": url, "error_type": type(exc).__name__, "error": str(exc)[:160]})
-    raise RuntimeError(f"No recent NGOFS2 regular-grid {cast} reference file opened: {failures}")
+            failure = grid_failure(exc, url, "reference_open", cast, probe_lead)
+            failures.append(failure)
+            if not grid_retrieval_failure(failure):
+                raise
+    raise GridRetrievalError(f"No recent NGOFS2 regular-grid {cast} reference file opened", failures)
 
 
 def select_nodes(ds, targets):
@@ -361,38 +388,55 @@ def main():
     retrieved = datetime.now(timezone.utc)
     targets = load_targets()
     manifest = {
-        "schema_version": "1.0", "retrieved_at": retrieved.isoformat(), "status": "failed", "source_class": "MODEL",
+        "schema_version": "1.1", "retrieved_at": retrieved.isoformat(), "status": "failed", "source_class": "MODEL",
         "production_action": "NO_CHANGE", "target_config": "model_data/ngofs2_target_cells.json", "casts_requested": casts,
+        "failure_contract": GRID_FAILURE_CONTRACT,
     }
     all_raw, all_norm, all_features = [], [], []
     cast_meta = []
     try:
         for cast in casts:
-            ref, cycle, ref_url, failures = open_reference(cast, retrieved)
+            failures, opened, failed = [], [], []
+            metadata = {"cast": cast, "failed_newer_cycle_attempts": failures,
+                        "opened_slices": opened, "failed_slices": failed}
+            cast_meta.append(metadata)
+            ref, cycle, ref_url, _ = open_reference(cast, retrieved, failures)
+            metadata.update(model_initialized_at=cycle.isoformat(), reference_url=ref_url)
             try:
                 nodes = select_nodes(ref, targets)
+            except Exception as exc:
+                failure = grid_failure(exc, ref_url, "reference_read", cast,
+                                       0 if cast == "forecast" else 3)
+                failed.append(failure)
+                if grid_retrieval_failure(failure):
+                    raise GridRetrievalError(f"Unable to read {cast} regular-grid reference", [failure]) from exc
+                raise
             finally:
                 ref.close()
+            metadata["selected_nodes"] = nodes
             leads = FORECAST_LEADS if cast == "forecast" else NOWCAST_LEADS
-            opened, failed = [], []
             for lead in leads:
                 url = regulargrid_url(cycle, cast, lead)
+                ds, stage = None, "slice_open"
                 try:
                     ds = Dataset(url, "r")
-                    try:
-                        valid_at, raw, norm, feats = extract_one_file(ds, url, cycle, cast, lead, nodes, retrieved)
-                    finally:
-                        ds.close()
+                    stage = "slice_read"
+                    valid_at, raw, norm, feats = extract_one_file(ds, url, cycle, cast, lead, nodes, retrieved)
+                    if not raw or not norm:
+                        raise ValueError("Regular-grid extraction returned no rows")
+                except Exception as exc:
+                    failure = grid_failure(exc, url, stage, cast, lead)
+                    failed.append(failure)
+                    if not grid_retrieval_failure(failure):
+                        raise
+                else:
                     all_raw.extend(raw); all_norm.extend(norm); all_features.extend(feats)
                     opened.append({"lead_hour": lead, "valid_at": valid_at.isoformat(), "source_url": url})
-                except Exception as exc:
-                    failed.append({"lead_hour": lead, "source_url": url, "error_type": type(exc).__name__, "error": str(exc)[:240]})
+                finally:
+                    if ds is not None:
+                        ds.close()
             if len(opened) < 2:
-                raise RuntimeError(f"Insufficient {cast} regular-grid slices opened: {opened}; failures={failed}")
-            cast_meta.append({
-                "cast": cast, "model_initialized_at": cycle.isoformat(), "reference_url": ref_url, "failed_newer_cycle_attempts": failures,
-                "selected_nodes": nodes, "opened_slices": opened, "failed_slices": failed,
-            })
+                raise GridRetrievalError(f"Insufficient {cast} regular-grid slices opened: {len(opened)}", failed)
         all_features.extend(build_transport_features(all_norm))
         raw_payload = json.dumps({"casts": cast_meta, "records": all_raw}, sort_keys=True, separators=(",", ":")).encode("utf-8")
         digest = hashlib.sha256(raw_payload).hexdigest()
@@ -423,7 +467,9 @@ def main():
             ],
         })
     except Exception as exc:
-        manifest.update({"error_type": type(exc).__name__, "error": str(exc)})
+        manifest.update({"error_type": type(exc).__name__, "error": str(exc), "casts": cast_meta})
+        if isinstance(exc, GridRetrievalError):
+            manifest["retrieval_attempts"] = exc.attempts
     out = HERE / "ngofs2_shoreline_grid_manifest.json"
     out.write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(manifest, indent=2))
