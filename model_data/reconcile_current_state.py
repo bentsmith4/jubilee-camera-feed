@@ -128,20 +128,35 @@ def build(root, now):
 
     rm = manifest('river_forcing')
     rr = (river.normalize(json.loads(r.archive(rm['raw_path'], rm['raw_sha256'])),
-                          guard.stamp(available(rm)), rm['source_url']) if rm['status'] == 'complete' else [])
-    guard.require(all(guard.stamp(x['observed_at_utc']) <= now for x in rr), 'future river observation')
+                          guard.stamp(available(rm)), rm['source_url']) if rm['status'] in ('complete', 'partial') else [])
+    guard.require(all(guard.stamp(x['observed_at_utc']) <= now for x in rr
+                      if x['station_id'] != river.FISH_RIVER), 'future river observation')
     series = river.summarize(rr, now)
     for x in series:
         latest = [z for z in rr if z['series_id'] == x['series_id'] and z['observed_at_utc'] == x['latest_at_utc']]
         known = x['fresh'] and all(z['research_qc_eligible'] for z in latest) and len({z['value'] for z in latest}) == 1
-        x.update(value_status='KNOWN_UPSTREAM_PROXY' if known else 'UNKNOWN_STALE_OR_QC_REJECTED', production_weight=0)
+        known_status = ('KNOWN_LOCAL_WATERSHED_PROXY' if x['station_id'] == river.FISH_RIVER
+                        else 'KNOWN_UPSTREAM_PROXY')
+        x.update(value_status=known_status if known else 'UNKNOWN_STALE_OR_QC_REJECTED', production_weight=0)
         if not known:
             x['latest_value'] = None
+    local_series = [x for x in series if x['station_id'] == river.FISH_RIVER]
+    series = [x for x in series if x['station_id'] in river.UPSTREAM_SITES]
     river_known = any(x['value_status'] == 'KNOWN_UPSTREAM_PROXY' for x in series)
     rv = context(RIVER, rm)
     rv.update(series=series, admitted_status=('SOURCE_UNAVAILABLE' if rm['status'] == 'unavailable' else
               'ADMITTED_FRESH_REGIONAL_UPSTREAM_PROXY' if river_known else 'UNKNOWN'),
-              observation='Qualified upstream proxy only. No Bay-arrival assumption, edge extrapolation or additive gate-method double count.')
+              observation='Qualified upstream proxy only. No Bay-arrival assumption, edge extrapolation or additive gate-method double count.',
+              local_watershed_context={
+                  'source_id': 'usgs_02378500_fish_river', 'series': local_series,
+                  'missing_parameter_codes': sorted(set(river.FISH_UNITS) -
+                      {x['parameter_code'] for x in local_series}),
+                  'value_status': ('KNOWN_LOCAL_WATERSHED_PROXY' if any(
+                      x['value_status'] == 'KNOWN_LOCAL_WATERSHED_PROXY' for x in local_series)
+                      else 'UNKNOWN'),
+                  'production_weight': 0,
+                  'observation': 'Separate Fish River/Weeks Bay runoff and native-gage stage context only. '
+                                 'Never additive with upstream/nested gauges; not tide, local bottom state or Bay-arrival evidence.'})
 
     wm = manifest('weeks_bay_realtime')
     wr = r.csv('model_data/weeks_bay_realtime_normalized.csv') if wm['status'] != 'unavailable' else []
@@ -367,7 +382,7 @@ def build(root, now):
     hashes = {p: h for p, h in r.hashes.items() if p not in (binding.SNAPSHOT, binding.FORECAST)}
     admission = [weather['stations'][st]['status'] for st in sorted(weather['stations'])]
     admission += [x['value_status'] for st in weather['stations'].values() for x in st['parameters'].values()]
-    admission += [x['value_status'] for x in series + wa] + [x['admitted_status'] for x in cams] + [p['admitted_status'] for p in mp.values()]
+    admission += [x['value_status'] for x in series + local_series + wa] + [x['admitted_status'] for x in cams] + [p['admitted_status'] for p in mp.values()]
     if xb is not None:
         admission += [x['value_status'] for x in xa]
     admission += [acceptance['status'], acceptance['reason_codes']]

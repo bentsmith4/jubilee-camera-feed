@@ -103,6 +103,112 @@ class ReconciliationTests(unittest.TestCase):
         self.assertEqual(weather['parameter_admission']['KBFM']['parameters']['wind_speed']['source_url'], old_url)
         self.assertIn('KCQF', weather['station_location'])
 
+    def fish_river(self, observed, defect=None, include_upstream=True):
+        import gzip
+        raw = json.loads(gzip.decompress((self.root / 'model_data/public_archive/usgs/test.json.gz').read_bytes()))
+        if not include_upstream:
+            raw['value']['timeSeries'] = []
+        fish = json.loads((ROOT / 'tests/fixtures/fish_river/usgs_02378500_20261018.json').read_bytes())
+        for ts in fish['value']['timeSeries']:
+            group = ts['values'][0]
+            group['value'] = [group['value'][-1]]
+            group['value'][0]['dateTime'] = observed.isoformat()
+            if defect == 'units': ts['variable']['unit']['unitCode'] = 'WRONG'
+            if defect == 'qc': group['value'][0]['qualifiers'] = ['P', 'UNKNOWN']
+            if defect == 'conflict':
+                conflict = copy.deepcopy(group['value'][0])
+                conflict['value'] = str(float(conflict['value']) + 1)
+                group['value'].append(conflict)
+        raw['value']['timeSeries'].extend(fish['value']['timeSeries'])
+        m = self.f.read('model_data/river_forcing_manifest.json')
+        m.update(status='partial', requested_sites=list(builder.river.SITES),
+                 missing_sites=['02469761', '02469762'] if include_upstream else list(builder.river.UPSTREAM_SITES),
+                 raw_sha256=self.f.archive('public_archive/usgs/test.json.gz', raw),
+                 normalized_rows=len(builder.river.normalize(raw, guard.stamp(m['retrieved_at_utc']), m['source_url'])))
+        self.f.write('model_data/river_forcing_manifest.json', m)
+        self.commit('add separate synthetic Fish River evidence')
+
+    def test_fish_river_is_separate_from_upstream_and_forecast_count(self):
+        self.fish_river(T0 - timedelta(minutes=10))
+        snapshot, forecast = self.reconcile(T0)
+        rv = next(r for r in snapshot['input_rows'] if r['source'] == builder.RIVER)
+        self.assertEqual({r['station_id'] for r in rv['series']}, {'02428400'})
+        local = rv['local_watershed_context']
+        self.assertEqual(local['value_status'], 'KNOWN_LOCAL_WATERSHED_PROXY')
+        self.assertEqual(local['missing_parameter_codes'], [])
+        self.assertEqual(len(local['series']), 2)
+        self.assertEqual(forecast['data_coverage']['fresh_river_series'], 1)
+        self.assertEqual({r['station_id'] for r in local['series']}, {'02378500'})
+        self.assertTrue(all(r['production_weight'] == 0 and 'antecedent_windows' not in r for r in local['series']))
+        self.assertIn('native-gage', local['observation'])
+
+    def test_fish_river_stale_future_qc_units_and_conflicts_remain_unknown(self):
+        for defect in ('stale', 'future', 'qc', 'units', 'conflict'):
+            with self.subTest(defect=defect):
+                self.environment(T0)
+                observed = T0 + timedelta(minutes=1) if defect == 'future' else T0 - timedelta(minutes=181 if defect == 'stale' else 10)
+                self.fish_river(observed, defect)
+                snapshot, forecast = self.reconcile(T0)
+                rv = next(r for r in snapshot['input_rows'] if r['source'] == builder.RIVER)
+                self.assertEqual(rv['local_watershed_context']['value_status'], 'UNKNOWN')
+                self.assertTrue(all(r['latest_value'] is None for r in rv['local_watershed_context']['series']))
+                self.assertEqual(forecast['data_coverage']['fresh_river_series'], 1)
+
+    def test_fish_river_expiry_reconciles_without_new_raw_observation(self):
+        self.fish_river(T0 - timedelta(minutes=179))
+        snapshot, _ = self.reconcile(T0)
+        rv = next(r for r in snapshot['input_rows'] if r['source'] == builder.RIVER)
+        self.assertEqual(rv['local_watershed_context']['value_status'], 'KNOWN_LOCAL_WATERSHED_PROXY')
+        snapshot, forecast = self.reconcile(T0 + timedelta(minutes=2))
+        rv = next(r for r in snapshot['input_rows'] if r['source'] == builder.RIVER)
+        self.assertEqual(rv['local_watershed_context']['value_status'], 'UNKNOWN')
+        self.assertEqual(forecast['data_coverage']['fresh_river_series'], 1)
+
+    def test_missing_fish_river_and_legacy_three_station_replay(self):
+        import gzip
+        raw = json.loads(gzip.decompress((self.root / 'model_data/public_archive/usgs/test.json.gz').read_bytes()))
+        for station in ('02469761', '02469762'):
+            ts = copy.deepcopy(raw['value']['timeSeries'][0])
+            ts['sourceInfo']['siteCode'][0]['value'] = station
+            ts['name'] = 'USGS:' + station + ':00060'
+            raw['value']['timeSeries'].append(ts)
+        m = self.f.read('model_data/river_forcing_manifest.json')
+        m.update(source_url='https://waterservices.usgs.gov/nwis/iv/?sites=02428400,02469761,02469762',
+                 normalized_rows=3, raw_sha256=self.f.archive('public_archive/usgs/test.json.gz', raw))
+        # Historical complete response remains valid; expanded partial response
+        # cannot admit a missing new station or reject the three existing ones.
+        for status in ('complete', 'partial'):
+            m['status'] = status
+            if status == 'partial': m.update(requested_sites=list(builder.river.SITES), missing_sites=['02378500'])
+            self.f.write('model_data/river_forcing_manifest.json', m)
+            self.commit('legacy or expanded three-station response ' + status)
+            snapshot, forecast = self.reconcile(T0)
+            rv = next(r for r in snapshot['input_rows'] if r['source'] == builder.RIVER)
+            self.assertEqual(forecast['data_coverage']['fresh_river_series'], 3)
+            self.assertEqual(rv['local_watershed_context']['value_status'], 'UNKNOWN')
+            self.assertEqual(rv['local_watershed_context']['series'], [])
+            self.assertEqual(rv['local_watershed_context']['missing_parameter_codes'], ['00060', '00065'])
+
+    def test_fish_river_alone_cannot_replace_missing_upstream(self):
+        self.fish_river(T0 - timedelta(minutes=10), include_upstream=False)
+        snapshot, forecast = self.reconcile(T0)
+        rv = next(r for r in snapshot['input_rows'] if r['source'] == builder.RIVER)
+        self.assertEqual(rv['series'], [])
+        self.assertEqual(rv['admitted_status'], 'UNKNOWN')
+        self.assertEqual(rv['local_watershed_context']['value_status'], 'KNOWN_LOCAL_WATERSHED_PROXY')
+        self.assertEqual(forecast['data_coverage']['fresh_river_series'], 0)
+
+    def test_fish_river_outage_does_not_reuse_retained_raw(self):
+        self.fish_river(T0 - timedelta(minutes=10))
+        self.reconcile(T0)
+        self.f.write('model_data/river_forcing_manifest.json', {'status': 'unavailable', 'retrieved_at_utc': T0.isoformat()})
+        self.commit('explicit outage with retained old raw')
+        snapshot, forecast = self.reconcile(T0 + timedelta(minutes=1))
+        rv = next(r for r in snapshot['input_rows'] if r['source'] == builder.RIVER)
+        self.assertEqual(rv['local_watershed_context']['value_status'], 'UNKNOWN')
+        self.assertEqual(rv['local_watershed_context']['series'], [])
+        self.assertEqual(forecast['data_coverage']['fresh_river_series'], 0)
+
     def test_back_to_back_sensing_then_camera_and_duplicate_trigger(self):
         first, _ = self.reconcile(T0)
         self.environment(T0 + timedelta(minutes=37))
