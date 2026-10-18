@@ -21,10 +21,47 @@ NETCDF_DAP_SERVER_ERROR = re.compile(
     r"(?:\[Errno -70\] )?NetCDF: DAP server error"
     r"(?:: 'https://opendap\.co-ops\.nos\.noaa\.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/[^\s']+')?"
 )
+GRID_FAILURE_CONTRACT = "ngofs2_grid_retrieval_v1"
+GRID_SOURCE_URL = re.compile(
+    r"https://opendap\.co-ops\.nos\.noaa\.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/"
+    r"\d{4}/\d{2}/\d{2}/ngofs2\.t\d{2}z\.\d{8}\.regulargrid\.[nf]\d{3}\.nc"
+)
+
+
+def grid_retrieval_failure(attempt):
+    """Recognize only confirmed remote access failures, never parser text hints.
+
+    NC_ENOTFOUND (-90) and NC_EDAPSVC (-70) are provider retrieval failures at
+    these remote boundaries. Generic DAP, curl, I/O and malformed responses
+    remain fatal because they can indicate client/data defects.
+    """
+    if not isinstance(attempt, dict) or attempt.get("stage") not in {
+            "reference_open", "reference_read", "slice_open", "slice_read"}:
+        return False
+    url = attempt.get("source_url")
+    if not isinstance(url, str) or GRID_SOURCE_URL.fullmatch(url) is None:
+        return False
+    error_type, error = attempt.get("error_type"), attempt.get("error")
+    if error_type == "HTTPError":
+        return attempt.get("http_status") in {404, 408, 429, 500, 502, 503, 504}
+    if error_type not in {"RuntimeError", "OSError"}:
+        return False
+    # Full messages and the exact remote URL are retained, without truncation.
+    return any(error == prefix + message + suffix
+               for code, message in ((-70, "NetCDF: DAP server error"),
+                                     (-90, "NetCDF: file not found"))
+               for prefix in ("", f"[Errno {code}] ")
+               for suffix in ("", f": '{url}'"))
 
 
 def retrieval_outage(manifest):
     attempts = manifest.get("retrieval_attempts")
+    if "failure_contract" in manifest or manifest.get("error_type") == "GridRetrievalError":
+        # New grid manifests must never fall through to legacy text heuristics.
+        return (manifest.get("failure_contract") == GRID_FAILURE_CONTRACT
+                and manifest.get("error_type") == "GridRetrievalError"
+                and isinstance(attempts, list) and bool(attempts)
+                and all(grid_retrieval_failure(a) for a in attempts))
     if manifest.get("error_type") == "StationRetrievalError":
         return (isinstance(attempts, list) and bool(attempts)
                 and all(isinstance(a, dict) and a.get("stage") == "http_download"
