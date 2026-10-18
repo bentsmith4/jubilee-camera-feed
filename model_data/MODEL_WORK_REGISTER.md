@@ -2728,3 +2728,16 @@ Verified SHA-256 identities:
 Readiness explicitly binds this run and merge; the registry's grid source hash matches. At readiness issue time `2026-10-18T03:48:02.734419+00:00`, an offline replay of the unchanged Point Clear station transport consumer returns `UNKNOWN_STALE_MODEL_TRANSPORT`, null current and zero weight: latest valid time 21:00 UTC, age 408.046 minutes versus the unchanged 180-minute limit. This is distinct from forward grid guidance and is not a newly published feature calculation.
 
 The live run exercised successful partial collection with typed missing-slice evidence. It did not exercise the all-failed `GridRetrievalError` to unavailable transition; that transition and parser-defect rejection remain offline-tested. This is operational acceptance only, not scientific dataset promotion, measured currents, event skill, complete NOAA recovery or new PointClearPC validation. The same run's separate camera audit remained degraded at 4/6 and is not closed by grid success. Probabilities, weights, geometry restrictions, freshness/UNKNOWN semantics, services, schedules, alert gates and the nine-PM restriction remain unchanged.
+
+
+---
+
+## J01/J11 Dawn horizon maintenance — October 18, 2026
+
+Dawn Brief pinned the completed daylight follow-up sensing reconciliation at main `e3e2896fd825643a100c9e94079d49e7693b8381`, snapshot issue time `2026-10-18T06:57:01.034855-05:00`. The final sensing projection initially required the existing exact binder to update the forecast's snapshot hash; exact pair binding then passed. Strict horizon validation rejected the expired October 17–19 dates. The reviewed roll-forward at `2026-10-18T07:00:00-05:00` produced zero numerical change, and `bind_current_forecast.py --check --require-dawn-horizon` passed for exactly October 18–20.
+
+PR #105 merged the snapshot and forecast atomically at `91d0ec529c2bb905cb36fcf4a73d6f5cb485119f`. Merged-main exact-byte readback confirmed snapshot blob `0b5eaae139f29d44355ea03e087271d54457e818` and forecast blob `1420dbcab05e47a464c9d53e583ca25be49b29e1`. All six dated cell entries are verified: Point Clear 2–5% (central 3%) and Daphne/May Day 1–4% (central 2%), low confidence, for October 18, 19 and 20. All alert gates remain false and notification remains suppressed.
+
+The principal owner-camera daylight follow-up began `2026-10-18T06:51:33.562381-05:00`; all six cameras passed capture health and three-frame timing. All six views had moderate-or-better biological detectability, with no prioritized biological indicator, temporal change or cross-camera confirmation. This is scoped visible-area context, not a clean full-cell non-event label. Direct local bottom/contact-strip oxygen, observed shoreline water level/current and complete local rainfall remain UNKNOWN.
+
+Jubilee Dot coordination: consume this as the October 18 J01/J11 maintenance receipt. Probabilities, confidence, zero production weights, UNKNOWN semantics, camera coverage, alert gates, cadence and the 9 PM notification restriction are unchanged. No calibration, public-camera acquisition, new task, paid call or outreach was performed by Dawn Brief.
