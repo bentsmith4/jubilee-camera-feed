@@ -289,6 +289,26 @@ class PublicationTests(unittest.TestCase):
             publisher.stage(self.root, outcomes(regression="success", asos="success"), "main")
         self.assertEqual(self.staged(), set())
 
+    def test_noaa_water_level_outputs_require_successful_producer(self):
+        paths = {"model_data/noaa_water_level_manifest.json", "model_data/noaa_water_level_normalized.json",
+                 "model_data/current_noaa_water_level.json", "model_data/public_archive/coops/new.json.gz"}
+        for path in paths:
+            self.write(path, "fresh output\n")
+        publisher.stage(self.root, outcomes(regression="success", noaa_water_level="failure"), "main")
+        self.assertEqual(self.staged(), set())
+        publisher.stage(self.root, outcomes(regression="success", noaa_water_level="success"), "main")
+        self.assertEqual(self.staged(), paths)
+
+    def test_noaa_archives_remain_append_only(self):
+        path = "model_data/public_archive/coops/old.json.gz"
+        self.write(path, "immutable\n")
+        self.git("add", path)
+        self.git("commit", "-m", "original NOAA public archive")
+        self.write(path, "changed\n")
+        with self.assertRaisesRegex(RuntimeError, "append-only"):
+            publisher.stage(self.root, outcomes(regression="success", noaa_water_level="success"), "main")
+        self.assertEqual(self.staged(), set())
+
     def test_hourly_workflow_uses_producer_gate_and_clean_worktree(self):
         hourly = (ROOT / ".github/workflows/asos_weather.yml").read_text()
         self.assertIn("id: regression", hourly)

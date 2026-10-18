@@ -7,10 +7,12 @@ on:
       # Camera publications provide a working event trigger when cron is delayed/dropped.
       - status.json
       - model_data/ingest_asos_weather.py
+      - model_data/ingest_noaa_water_level.py
       - model_data/ingest_river_forcing.py
       - model_data/stage_sensing_outputs.py
       - model_data/sensor_contract.json
       - tests/test_asos_weather.py
+      - tests/test_noaa_water_level.py
       - tests/test_usgs_methods.py
       - tests/test_sensing_publication.py
       - .github/workflows/asos_weather.yml
@@ -38,12 +40,17 @@ jobs:
         id: regression
         run: |
           python -m unittest discover -s tests -p 'test_asos_weather.py' -v
+          python -m unittest discover -s tests -p 'test_noaa_water_level.py' -v
           python -m unittest discover -s tests -p 'test_usgs_methods.py' -v
           python -m unittest discover -s tests -p 'test_sensing_publication.py' -v
       - name: Retrieve official airport observations
         id: asos
         continue-on-error: true
         run: python model_data/ingest_asos_weather.py
+      - name: Retrieve observed Dauphin Island water level as zero-weight bay-mouth context
+        id: noaa_water_level
+        continue-on-error: true
+        run: python model_data/ingest_noaa_water_level.py
       - name: Retrieve qualified public lower-river forcing
         id: river
         continue-on-error: true
@@ -58,6 +65,10 @@ jobs:
             model_data/asos_weather_normalized.json
             model_data/current_asos_weather.json
             model_data/public_archive/asos/
+            model_data/noaa_water_level_manifest.json
+            model_data/noaa_water_level_normalized.json
+            model_data/current_noaa_water_level.json
+            model_data/public_archive/coops/
             model_data/river_forcing_manifest.json
             model_data/river_forcing_normalized.csv
             model_data/public_archive/usgs/
@@ -88,7 +99,7 @@ jobs:
           done
           exit 1
       - name: Escalate parser defects after preserving diagnostic artifacts
-        if: always() && steps.asos.outcome == 'failure'
+        if: always() && (steps.asos.outcome == 'failure' || steps.noaa_water_level.outcome == 'failure')
         run: exit 1
       - name: Escalate persistent river outages and unexpected ingestion defects
         if: always()

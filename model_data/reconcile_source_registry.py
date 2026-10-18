@@ -60,6 +60,33 @@ def main():
         if removed:
             changes.append({'source_id': source_id, 'removed': removed})
 
+    # Optional during rollout: legacy checkouts with no NOAA observation product
+    # retain their existing metadata. Registry status is descriptive; consumers
+    # must re-evaluate the hash-checked product at their actual issue time.
+    if (HERE / 'noaa_water_level_manifest.json').exists():
+        import ingest_noaa_water_level as noaa
+        try:
+            water_level, _ = noaa.read_pair(HERE)
+        except (OSError, ValueError, TypeError, KeyError):
+            water_level = {'status': 'failed', 'normalized_rows': 0}
+        current = noaa.load_current(HERE, datetime.now(timezone.utc))
+        mark(noaa.SOURCE_ID,
+             status='INGESTED_RESEARCH_ZERO_WEIGHT' if completed(water_level) else 'INGESTION_UNAVAILABLE',
+             ingestion_status=water_level['status'],
+             last_verified_at=manifest_time(water_level),
+             normalized_rows=water_level.get('normalized_rows', 0),
+             raw_sha256=water_level.get('raw_sha256'),
+             normalized_sha256=water_level.get('normalized_sha256'),
+             latest_observed_at_utc=water_level.get('latest_observed_at_utc'),
+             current_value_status=current['value_status'],
+             current_evaluated_at_utc=current['evaluated_at_utc'],
+             current_admission_reason=current['admission_reason'],
+             ingestion_manifest='model_data/noaa_water_level_manifest.json',
+             normalized_data='model_data/noaa_water_level_normalized.json',
+             production_weight=0.0)
+        if not completed(water_level):
+            clear(noaa.SOURCE_ID, 'raw_sha256', 'normalized_sha256', 'latest_observed_at_utc')
+
     # Static direct CTD profiles.
     main_pass = load('griidc_main_pass_20160419_manifest.json')
     if completed(main_pass):
