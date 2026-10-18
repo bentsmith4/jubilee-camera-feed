@@ -1,0 +1,48 @@
+{
+  "schema": "jubilee_efficiency_measurement/v1",
+  "generated_at_utc": "2026-10-18T14:58:50.587Z",
+  "work_id": "J18",
+  "change": {
+    "pr": 78,
+    "merge_commit": "07cb97b5c7685b6be3dc6e7a3c991d5be6b71d03",
+    "runtime_status": "MERGED_INSTALLED_ORDINARY_CYCLE_VALIDATED",
+    "runtime_sha256": "b1e90549dd0151ccc61e3b970cd128dacb0b4583f5170ff94f910e2cd0389e05"
+  },
+  "source": {
+    "path": "api_usage_summary.json",
+    "blob_sha": "8f80f9af7038d0e113b3211778111d261dbcb14a",
+    "generated_at_utc": "2026-10-18T14:10:32.130603+00:00",
+    "status": "available",
+    "invalid_records": 0,
+    "model": "gpt-5.6-luna"
+  },
+  "method": "Aggregate completed camera-stage requests only. Compare complete pre-change October 8 calendar day with complete post-change October 9-17 calendar days. Exclude October 18 because current day is partial. Request counts are not deduplicated cycles and do not prove coverage or event-detection equivalence.",
+  "baseline_2026_10_08": {
+    "completed_camera_requests": 178,
+    "failed_requests": 0,
+    "input_tokens": 1281460,
+    "output_tokens": 166513,
+    "cached_input_tokens": 383292,
+    "input_tokens_per_request": 7199.2135,
+    "output_tokens_per_request": 935.4663,
+    "cached_input_share_pct": 29.9106
+  },
+  "post_2026_10_09_through_17": {
+    "completed_camera_requests": 1511,
+    "failed_requests": 0,
+    "input_tokens": 10654749,
+    "output_tokens": 1150082,
+    "cached_input_tokens": 3097676,
+    "input_tokens_per_request": 7051.4553,
+    "output_tokens_per_request": 761.1396,
+    "cached_input_share_pct": 29.0732
+  },
+  "observed_change_pct": {
+    "input_tokens_per_completed_request": -2.0524,
+    "output_tokens_per_completed_request": -18.6353
+  },
+  "interpretation": "Nine complete post-change days sustain materially shorter output and modestly lower input per successful camera request. The October 15 coverage-normalized economic receipt remains controlling for conditional pricing; this extension is observational and does not establish equivalent event-detection effectiveness, complete six-camera cycles, deduplicated retry behavior, billed tier, or actual dollars.",
+  "billing": "CONDITIONAL_LIST_PRICE_ONLY_ACTUAL_BILLING_UNKNOWN",
+  "production_action": "NO_NEW_CHANGE",
+  "rollback": "Retain documented PR #78 rollback; trigger only for demonstrated parse/schema/UNKNOWN/alligator/coverage regression, not normal token variance."
+}
