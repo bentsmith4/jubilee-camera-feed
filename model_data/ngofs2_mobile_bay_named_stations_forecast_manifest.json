@@ -1,54 +1,29 @@
 {
   "schema_version": "1.1",
   "cast": "forecast",
-  "retrieved_at": "2026-10-18T05:05:49.043903+00:00",
+  "retrieved_at": "2026-10-18T11:40:37.215749+00:00",
   "status": "complete",
   "evidence_class": "MODEL",
   "production_action": "NO_CHANGE",
   "station_access": {
     "method": "HTTPS_FULL_STATION_NETCDF",
-    "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/17/ngofs2.t21z.20261017.stations.forecast.nc",
-    "full_file_sha256": "e7e490a57c013fb679a7a37738e5c6a9f1eb6d8eab3f294b09f0b0cf2d2c49b3",
+    "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/10/18/ngofs2.t09z.20261018.stations.forecast.nc",
+    "full_file_sha256": "50bdd0ef14ca5713a216bdd2934867e10d26702ab24ab2d8b49e9a1a2b4024d2",
     "bytes": 116012123,
-    "download_completed_at": "2026-10-18T05:05:49.043903+00:00",
+    "download_completed_at": "2026-10-18T11:40:37.215749+00:00",
     "embedded_time_validation": "PASS"
   },
-  "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/17/ngofs2.t21z.20261017.stations.forecast.nc",
-  "model_initialized_at": "2026-10-17T21:00:00+00:00",
-  "failed_newer_attempts": [
-    {
-      "url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/18/ngofs2.t03z.20261018.stations.forecast.nc",
-      "error_type": "HTTPError",
-      "http_status": 404,
-      "error": "HTTP Error 404: Not Found",
-      "stage": "http_download",
-      "model_initialized_at": "2026-10-18T03:00:00+00:00"
-    },
-    {
-      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/10/18/ngofs2.t03z.20261018.stations.forecast.nc",
-      "error_type": "HTTPError",
-      "http_status": 404,
-      "error": "HTTP Error 404: ",
-      "stage": "http_download",
-      "model_initialized_at": "2026-10-18T03:00:00+00:00"
-    }
-  ],
+  "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/10/18/ngofs2.t09z.20261018.stations.forecast.nc",
+  "model_initialized_at": "2026-10-18T09:00:00+00:00",
+  "failed_newer_attempts": [],
   "retrieval_attempts": [
     {
-      "url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/18/ngofs2.t03z.20261018.stations.forecast.nc",
+      "url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/18/ngofs2.t09z.20261018.stations.forecast.nc",
       "error_type": "HTTPError",
       "http_status": 404,
       "error": "HTTP Error 404: Not Found",
       "stage": "http_download",
-      "model_initialized_at": "2026-10-18T03:00:00+00:00"
-    },
-    {
-      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/10/18/ngofs2.t03z.20261018.stations.forecast.nc",
-      "error_type": "HTTPError",
-      "http_status": 404,
-      "error": "HTTP Error 404: ",
-      "stage": "http_download",
-      "model_initialized_at": "2026-10-18T03:00:00+00:00"
+      "model_initialized_at": "2026-10-18T09:00:00+00:00"
     }
   ],
   "station_count": 5,
@@ -162,8 +137,8 @@
   ],
   "unresolved_targets": [],
   "normalized_rows": 21645,
-  "subset_sha256": "7728024a1077746d5e363855a8f38bd25c973a19e96ab636be4e8514599cfbc0",
-  "subset_archive": "public_archive/ngofs2_named_station_subset/7728024a1077746d5e363855a8f38bd25c973a19e96ab636be4e8514599cfbc0.json.gz",
+  "subset_sha256": "d3ec2f1c750163781732927a12df855d63c8d0a90597da5062b0cb56c7553d35",
+  "subset_archive": "public_archive/ngofs2_named_station_subset/d3ec2f1c750163781732927a12df855d63c8d0a90597da5062b0cb56c7553d35.json.gz",
   "normalized_csv": "ngofs2_mobile_bay_named_stations_forecast_normalized.csv",
   "guardrails": [
     "All values are MODEL guidance, not observations.",
