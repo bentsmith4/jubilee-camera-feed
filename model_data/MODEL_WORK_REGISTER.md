@@ -2818,3 +2818,36 @@ Scheduled freshness run [39152635922](https://github.com/bentsmith4/jubilee-came
 Read-only later main 21ce942a5aa7e38fb35b070eaf170e923e253567 still contains both separate zero-weight Fish series at 15:13:34.922748 CDT; later values are not substituted for the pinned scheduled acceptance pair above. Offline validation on that checkout passed 16 USGS-method tests and 28 current-state reconciliation tests, including stale/future/QC/unit/conflict rejection, expiry, missing Fish, Fish-only versus missing upstream, and outage retention. Successful live collection is not a live outage test.
 
 Operational evidence gate passes. Direct Jubilee Dot consumption is acknowledged above. Independent Research/J04/J09 review and canonical merge of this receipt remain pending; neither is claimed complete. Scientific predictive validation remains unestablished. No probability, production weight, threshold, camera, schedule, cadence, source-registry payload or writer, UNKNOWN rule, notification policy or 9 p.m. gate was changed. No workflow dispatch, paid model call, outreach or new acquisition was performed.
+
+## J01 reviewed-camera expiry reconciliation — October 18, 2026
+
+Canonical Sensing ownership retained. A bounded local repair was prepared from
+main `8f68d4785b12ec2db1fa8e74ba3df75446817bf6` after the ARCOS-only refresh was
+blocked by the already-reviewed PR #111 weak-possible E2 label. The review's
+22:06:04.956448 CT cycle and E2's 22:07:16.809571 CT last nominal shot remain
+separate identities. At the failing 23:32:41 CT evaluation, E2 was 85.403 minutes
+old under the existing 60-minute camera policy.
+
+Independent review found and corrected a rounded-age boundary defect: exact
+60-minute evidence still requires review, while +1 millisecond becomes entirely
+UNKNOWN despite a displayed age of 60.0.
+
+The candidate permits only expiry of that same byte-bound reviewed generation:
+the row becomes `UNKNOWN_STALE`, the original UNKNOWN review remains dated
+history, and new non-camera evidence can reconcile. Fresh or changed camera
+assessments, missing review/provenance and active direct-event gates still stop.
+No forecast, numerical weight, threshold, camera coverage, cadence, schedule,
+source registry, biological-negative policy or owner review was changed.
+
+Local validation: 604 offline tests passed with five expected PowerShell-only
+Linux skips. The exact original camera/pair JSON is retained without duplicating
+camera pixels; isolated integration image/environment values are synthetic.
+Separate actual-source replay uses the original main images and raw archives.
+The canonical owner subsequently published pair-only commit
+`cab3d08f2923d5e7675bffae071ea71de0702f2e` (23:47:03 CT); its original review
+and all eleven camera provenance entries are unchanged. The repair preserves
+that concurrent pair and narrowly accepts its already-stale healthy UNKNOWN
+row form. Actual-source replay also covers the recurring 23:55:12 CT failure.
+
+Stage: LOCAL_TESTED_CANDIDATE / PENDING_INDEPENDENT_REVIEW. This entry does not
+claim publication, merge, deployment or ordinary scheduled recovery.
