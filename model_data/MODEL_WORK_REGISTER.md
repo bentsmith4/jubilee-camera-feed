@@ -2851,3 +2851,17 @@ row form. Actual-source replay also covers the recurring 23:55:12 CT failure.
 
 Stage: LOCAL_TESTED_CANDIDATE / PENDING_INDEPENDENT_REVIEW. This entry does not
 claim publication, merge, deployment or ordinary scheduled recovery.
+
+---
+
+## J01/J11 Dawn horizon maintenance — October 19, 2026
+
+Dawn Brief pinned the completed dawn+20 sensing reconciliation at main `18778583778f76195b6970b54f30a79e9fdbe9ba`, snapshot issue time `2026-10-19T06:57:51.362186-05:00`. The source projection's forecast required the existing exact binder to update the snapshot hash; the horizon itself was already the required October 19–21 issue-date through issue-date+2 span, so no roll-forward was needed. `python -B model_data/bind_current_forecast.py --check --require-dawn-horizon` then passed with zero numerical change.
+
+PR #115 merged the reviewed snapshot and forecast atomically at `755b465bcdd3872a5a12fbce0b6e890c3e528fb5`. Merged-main exact-byte readback confirmed snapshot blob `5372bc3aa67e0dcdce73660af40594f1802063db`, snapshot SHA-256 `bb18e73c253809f92a3aded8bde59843c433fea3ddc83c0e2da957bf487e8f4d`, forecast blob `e3f3ea762d8f61cc4ecd04699f361df1a033c622` and forecast SHA-256 `a6783e14d724d399102dfe0a78fca398ffe30c89af33960ac13a15bc93d5e9d8`. All six dated cell entries are verified: Point Clear 2–5% (central 3%) and Daphne/May Day 1–4% (central 2%), low confidence, for October 19, 20 and 21. All alert gates remain false and notification remains suppressed.
+
+The principal owner-camera daylight follow-up began `2026-10-19T06:52:31.368807-05:00`, 20 minutes 24 seconds after civil dawn at `06:32:07.093577-05:00`. All six cameras passed capture health and three-frame timing. Every view had moderate-or-better biological detectability, with no prioritized biological indicator, temporal change or cross-camera confirmation in the visible areas. This remains scoped visual context, not a clean full-cell non-event label.
+
+Final input audit preserved NOAA CO-OPS station 8733821 tide/phase as UNKNOWN_NOT_REASSESSED rather than substituting a secondary tide source. KBFM's 06:53 CDT ASOS observation passed local QC at northeast 7 kt; precipitation fields remained UNKNOWN, so no no-rain claim was made. Official NWS Mobile's current bay forecast called for northeast 10–15 kt Monday, diminishing to 5–10 kt in the afternoon, with waves at or below 1 ft and moderate chop. Eleven lower-river series met the binder's fresh qualified admission; river-to-Bay travel time remains uncalibrated. Direct local bottom/contact-strip oxygen, observed shoreline water level/current and defensible local DO depth remain UNKNOWN; stale or geometry-uncertain ARCOS rows retain zero production weight.
+
+Jubilee Dot coordination: consume this as the October 19 J01/J11 maintenance receipt. Probabilities, confidence, zero production weights, UNKNOWN semantics, camera coverage, alert gates, cadence and the 9 PM notification restriction are unchanged. No calibration, public-camera acquisition, new task, paid call or outreach was performed by Dawn Brief.
