@@ -2865,3 +2865,20 @@ The principal owner-camera daylight follow-up began `2026-10-19T06:52:31.368807-
 Final input audit preserved NOAA CO-OPS station 8733821 tide/phase as UNKNOWN_NOT_REASSESSED rather than substituting a secondary tide source. KBFM's 06:53 CDT ASOS observation passed local QC at northeast 7 kt; precipitation fields remained UNKNOWN, so no no-rain claim was made. Official NWS Mobile's current bay forecast called for northeast 10–15 kt Monday, diminishing to 5–10 kt in the afternoon, with waves at or below 1 ft and moderate chop. Eleven lower-river series met the binder's fresh qualified admission; river-to-Bay travel time remains uncalibrated. Direct local bottom/contact-strip oxygen, observed shoreline water level/current and defensible local DO depth remain UNKNOWN; stale or geometry-uncertain ARCOS rows retain zero production weight.
 
 Jubilee Dot coordination: consume this as the October 19 J01/J11 maintenance receipt. Probabilities, confidence, zero production weights, UNKNOWN semantics, camera coverage, alert gates, cadence and the 9 PM notification restriction are unchanged. No calibration, public-camera acquisition, new task, paid call or outreach was performed by Dawn Brief.
+
+### J01 reviewed-camera expiry reconciliation — acceptance receipt, October 19, 2026
+
+Canonical Sensing ownership retained. PR [#113](https://github.com/bentsmith4/jubilee-camera-feed/pull/113) merged normally at `27cf2f855650e1ff94a6c0f0f5d1ef5d03e22a80`, after independent exact-head review of `3fa7c14995532e271df2632b1b501c27ec548ed4` and four successful PR checks (Runtime `39208624140`, research quality `39208624133`, Forecast Consistency `39208624225`, Current State Freshness `39208624148`). Merged tree `708e2d5dfb1004444fc2b0ef2319a8b5ad49c9c6` contains exactly the twelve approved repair blobs and preserves every other concurrent-main blob, including the canonical October 19–21 pair. The earlier local-candidate status above is retained as history and superseded by this receipt.
+
+Ordinary merge-triggered [Current State Freshness run 39208977648](https://github.com/bentsmith4/jubilee-camera-feed/actions/runs/39208977648) published pair-only commit `de9f38682017e4dbcb7ee2e55116d78e3a4eba3a` from evidence commit `27cf2f855650e1ff94a6c0f0f5d1ef5d03e22a80` in one attempt. Its status job checked that exact commit, reported CURRENT for all ten sources, and passed exact forecast binding and the strict October 19–21 horizon. Snapshot issue: `2026-10-19T01:17:28.214485-05:00`.
+
+- Snapshot Git blob: `edc67e8694d262ae2989a5cdf5924641eec10f8d`
+- Forecast Git blob: `18fae445afce97a1966ba897428064c7a1bdda07`
+- Snapshot SHA-256 / forecast binding hash: `b3a3add94f12f0a078304d550f87aa1ba62b5905c46b1a7866512ece03a20d44`
+- Reconciliation consumption identity: `7501aab0b1e62c29c6725427d4a48b7993b688e74a5b2339650230398f1e10ed`
+
+Merged Runtime `39208977651` and Forecast Consistency `39208977668` also passed. Separate sensing-quality run `39208977631` failed its existing NGOFS2 validation gate: forecast station embedded valid times disagreed with cycle/cast or six-minute coverage. The manifests reported `production_action=NO_CHANGE`; this remains a separate canonical J04 source-validity issue, not an all-checks-green claim.
+
+The live acceptance run used the newer 00:06 CT quiet camera generation, whose six rows expired to UNKNOWN under existing policy. It did not exercise the historical reviewed-weak-possible exception. That bounded exception is supported by 604 offline tests (five expected Linux PowerShell skips), exact PR #111 and owner-expired `cab3d08f` actual-source replays, and independent negative/boundary review. No new scientific predictive validation is claimed. The published pair preserves outlooks, dated historical review, alert gates and notification flag; no probability, weight, camera, cadence, schedule, threshold, biological-negative rule or notification-policy change is asserted.
+
+Stage: MERGED / ORDINARY_RECONCILIATION_ACCEPTED; HISTORICAL_REVIEWED_EXPIRY_BRANCH_OFFLINE_VALIDATED.
