@@ -148,3 +148,42 @@ outside May 18-November 14, or any binding/policy invariant fails, the
 roll-forward stops with `REVIEW_REQUIRED`. Numerical reassessment remains a
 separate Dawn Forecast/model-governance action; sensing and Dawn Timing do not
 inherit it.
+
+## Expiry of an already-reviewed ambiguous camera generation
+
+An environmental refresh may retain a dated, explicitly reviewed
+`UNKNOWN_LOW_DETECTABILITY_NOT_EVENT_EVIDENCE` decision as history after the
+same subject camera's evidence exceeds the existing 60-minute freshness limit.
+It does not reuse that review as authority to admit a fresh camera assessment.
+
+The reconciler requires exact prior SHA-256 and Git-blob identities for
+`status.json`, `burst_status.json`, `vision.json`, the camera registry, the
+sensor contract and all six published final JPEGs. Ordinary parser, burst,
+image-integrity, archive and forecast checks still run. The review must match
+the camera, the cycle and upstream weak-possible classifications; the prior
+camera row must independently bind the subject's last shot and retain the
+reviewed UNKNOWN decision. Cycle time and subject-shot time remain distinct.
+
+The canonical owner may already have encoded the historical row as
+`UNKNOWN_STALE_OR_FAILED` while retaining the reviewed UNKNOWN signal labels.
+That form is accepted only with healthy prior metadata, UNKNOWN visibility and
+detectability, and an exact prior issue-time age beyond the same freshness
+limit. It is not evidence of a capture failure or a new camera assessment.
+
+The expired subject row becomes `UNKNOWN_STALE`; visibility, detectability and
+both signal fields become `UNKNOWN`. The original `manual_event_review` is
+retained unchanged as dated history, and coverage text explicitly identifies
+its historical scope. Outlooks, probabilities, alert gates, numerical weights
+and the prohibition on biological negatives remain unchanged.
+
+A fresh subject (including exactly 60 minutes), changed camera bytes or times,
+missing provenance, a missing/incompatible review, any additional camera event
+assessment, cross-camera event assessment or active direct-event gate still
+requires review. This narrow expiry path does not authorize a new review,
+clear an event/fault, change camera coverage/cadence or certify raw archives.
+
+The regression fixture pins merged PR #111 and distinguishes its global
+22:06:04.956448 CT cycle from E2 back-deck's nominal 22:07:16.809571 CT last shot.
+The stored JSON is exact; generated image bytes and environmental values in
+isolated integration tests are explicitly synthetic. Genuine image/provenance
+validation is separately replayed against the pinned production generation.

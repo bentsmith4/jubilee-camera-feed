@@ -61,6 +61,67 @@ class CommittedReader(guard.Reader):
         return bool(self.git("ls-tree", self.commit, "--", path).strip())
 
 
+def preserve_expired_camera_review(reader, prior, status, vision, cid, now, limit):
+    """Keep an assessed UNKNOWN as history while its exact evidence expires.
+
+    This is not reuse of a review as fresh authority. The legacy capture_time_ct
+    names the cycle, so both cycle and subject-shot identities are checked along
+    with every camera source byte. Changed or fresh event assessments still stop.
+    """
+    def require(condition, detail):
+        guard.require(condition, 'REVIEW_REQUIRED: expired camera assessment: ' + detail)
+
+    review = prior.get('manual_event_review')
+    require(isinstance(review, dict) and review.get('camera_id') == cid, 'missing matching review')
+    require(review.get('admitted_event_status') == 'UNKNOWN_LOW_DETECTABILITY_NOT_EVENT_EVIDENCE'
+            and review.get('probability_or_alert_change') is False
+            and isinstance(review.get('basis'), str) and bool(review['basis'].strip()),
+            'unsupported historical review decision')
+    current = status['cameras'][cid]
+    require(current.get('ok') is True
+            and (now - guard.stamp(current['timestamp_ct'])).total_seconds() / 60 > limit,
+            'fresh or failed camera requires review')
+    require(review.get('capture_time_ct') == status['capture_time_ct']
+            and guard.stamp(current['timestamp_ct']) <= guard.stamp(review['reviewed_at_ct']) <= now,
+            'historical cycle or review time mismatch')
+    camera = vision['cameras'][cid]
+    labels = {k: camera.get(k) for k in ('overall_jubilee_visual_signal', 'temporal_jubilee_signal')}
+    require(review.get('upstream_classification') == labels
+            and set(labels.values()) == {'weak_possible'}
+            and camera.get('visibility') == 'poor' and camera.get('detectability') == 'low',
+            'classification or low-detectability scope changed')
+    registry = reader.json('model_data/camera_sources.json')
+    ids = sorted(c['camera_id'] for c in registry['cameras'] if c['access'] == 'owner_google')
+    require(len(ids) == len(set(ids)) == 6 and cid in ids, 'expected six unique owner cameras')
+    paths = ('status.json', 'burst_status.json', 'vision.json', 'model_data/camera_sources.json',
+             'model_data/sensor_contract.json') + tuple(camera_id + '.jpg' for camera_id in ids)
+    provenance = prior['reconciliation'].get('source_provenance', {})
+    for path in paths:
+        expected = provenance.get(path)
+        actual = dict(sha256=guard.digest(reader.read(path)), git_blob=reader.blob(path))
+        require(expected == actual, 'changed or unbound camera evidence: ' + path)
+    old_camera_rows = [r for r in prior['input_rows'] if r['source'] == CAMERA]
+    require(len(old_camera_rows) == 1
+            and old_camera_rows[0].get('valid_time_ct') == status['capture_time_ct'],
+            'missing historical camera row or cycle mismatch')
+    old_views = [r for r in old_camera_rows[0]['camera_health']['private_cameras'] if r['camera_id'] == cid]
+    require(len(old_views) == 1, 'missing historical subject-camera row')
+    old = old_views[0]
+    prior_signals = (old.get('overall_visual_signal'), old.get('temporal_visual_signal'))
+    require(old.get('captured_at_ct') == current['timestamp_ct']
+            and old.get('negative_event_label_allowed') is False
+            and ((old.get('admitted_status') == 'ADMITTED_VISIBLE_SCOPE_CONTEXT'
+                  and prior_signals == ('UNKNOWN_REVIEWED_LOW_DETECTABILITY',) * 2)
+                 or (old.get('admitted_status') == 'UNKNOWN_STALE' and prior_signals == ('UNKNOWN',) * 2)
+                 or (old.get('admitted_status') == 'UNKNOWN_STALE_OR_FAILED'
+                     and old.get('upstream_metadata_pass') is True
+                     and old.get('visibility') == old.get('biological_detectability') == 'UNKNOWN'
+                     and (guard.stamp(prior['snapshot_time_ct']) - guard.stamp(current['timestamp_ct'])).total_seconds() / 60 > limit
+                     and prior_signals == ('UNKNOWN_REVIEWED_LOW_DETECTABILITY',) * 2)),
+            'prior snapshot does not retain the historical UNKNOWN assessment')
+    return review
+
+
 def build(root, now):
     guard.require(now.utcoffset() is not None, "issue time needs UTC offset")
     now = now.astimezone(timezone.utc)
@@ -271,6 +332,7 @@ def build(root, now):
     status, vision = r.json('status.json'), r.json('vision.json')
     registry = r.json('model_data/camera_sources.json')
     cams, failed = [], []
+    expired_review = None
     # `unclear` is a schema-defined ambiguity label, not a negative or an
     # event assessment.  It may pass only as unresolved visible context; the
     # builder never converts it into a non-event, probability, or alert change.
@@ -289,11 +351,17 @@ def build(root, now):
             guard.require(v.get('burst_frame_count') == 3, 'invalid camera vision frame count: ' + cid)
         captured = sc.get('timestamp_ct') if healthy else None
         fresh = healthy and 0 <= age(captured) <= limits['camera']
-        guard.require(all(v.get(k) in quiet for k in ('overall_jubilee_visual_signal', 'temporal_jubilee_signal')),
-                      'REVIEW_REQUIRED: camera event assessment must not be silently changed')
+        reviewed_expiry = not all(v.get(k) in quiet for k in ('overall_jubilee_visual_signal', 'temporal_jubilee_signal'))
+        if reviewed_expiry:
+            guard.require(expired_review is None, 'REVIEW_REQUIRED: another camera event assessment needs review')
+            expired_review = preserve_expired_camera_review(r, prior, status, vision, cid, now, limits['camera'])
+            # Review expiry uses exact elapsed time; rounded display age must
+            # never re-admit classifications just beyond the freshness boundary.
+            fresh = False
         cams.append(dict(camera_id=cid, site_group=c.get('site_group'), shoreline_cell=c.get('shoreline_cell'),
                          captured_at_ct=captured, age_minutes=age(captured) if captured else None,
-                         upstream_metadata_pass=healthy, admitted_status='ADMITTED_VISIBLE_SCOPE_CONTEXT' if fresh else 'UNKNOWN_STALE_OR_FAILED',
+                         upstream_metadata_pass=healthy, admitted_status=('UNKNOWN_STALE' if reviewed_expiry else
+                             'ADMITTED_VISIBLE_SCOPE_CONTEXT' if fresh else 'UNKNOWN_STALE_OR_FAILED'),
                          visibility=v.get('visibility', 'UNKNOWN') if fresh else 'UNKNOWN',
                          biological_detectability=v.get('detectability', 'UNKNOWN') if fresh else 'UNKNOWN',
                          overall_visual_signal=v.get('overall_jubilee_visual_signal', 'UNKNOWN') if fresh else 'UNKNOWN',
@@ -346,6 +414,10 @@ def build(root, now):
         'Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.',
     ]
     unavailable = [name for name, p in validated.items() if not p['admissible']]
+    if expired_review is not None:
+        static_unknowns.append(
+            'Camera ' + expired_review['camera_id'] + ' evidence from cycle ' + expired_review['capture_time_ct']
+            + ' is UNKNOWN_STALE. Its dated low-detectability review is historical only; neither current event evidence nor a biological negative.')
     s['known_unknowns'] = static_unknowns + [name + ': SOURCE_UNAVAILABLE/UNKNOWN' for name in unavailable]
     s['active_faults'] = copy.deepcopy(s['known_unknowns'])
     s['rejected_or_unknown_inputs'] = [dict(source=n, status='SOURCE_UNAVAILABLE', value_status='UNKNOWN') for n in unavailable]
@@ -386,6 +458,8 @@ def build(root, now):
     if xb is not None:
         admission += [x['value_status'] for x in xa]
     admission += [acceptance['status'], acceptance['reason_codes']]
+    if expired_review is not None:
+        admission.append(expired_review)
     identity = guard.digest(guard.canonical([hashes, admission]).encode())
     if prior['reconciliation'].get('consumption_identity') == identity:
         return None
