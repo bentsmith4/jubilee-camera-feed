@@ -1,0 +1,61 @@
+{
+  "schema": "jubilee_j09_fish_river_scheduled_acceptance/v1",
+  "generated_at_utc": "2026-10-20T14:34:16.000Z",
+  "source_id": "usgs_02378500_fish_river",
+  "stage": "INGESTED_SCHEDULED_CYCLE_ACCEPTED_RESEARCH_ONLY",
+  "workflow": {
+    "run_id": 39419380036,
+    "event": "schedule",
+    "name": "Jubilee sensing quality and environmental forcing",
+    "created_at_utc": "2026-10-20T12:03:18Z",
+    "completed_at_utc": "2026-10-20T12:06:10Z",
+    "conclusion": "success",
+    "head_sha": "93f2aceba1452056a0f8e739ffb747b797bc356f",
+    "publication_commit": "5aecf115b5c0a2aab3bdbc6d17b8dc85ca396c17",
+    "url": "https://github.com/bentsmith4/jubilee-camera-feed/actions/runs/39419380036"
+  },
+  "manifest": {
+    "path": "model_data/river_forcing_manifest.json",
+    "schema_version": "2.2",
+    "status": "complete",
+    "retrieved_at_utc": "2026-10-20T12:05:25.564202+00:00",
+    "raw_sha256": "d1742e9bf32076693f098f57a6f2e9f18e54db8efa44bff322e75c16ffbfbdb0",
+    "all_station_normalized_rows": 31979,
+    "fish_missing_parameter_codes": []
+  },
+  "accepted_series": [
+    {
+      "parameter_code": "00060",
+      "name": "discharge",
+      "method_id": "2830",
+      "unit": "ft3/s",
+      "rows": 1534,
+      "latest_at_utc": "2026-10-20T11:30:00+00:00",
+      "latest_value": 56.1,
+      "age_minutes_at_manifest": 35.43,
+      "qualifiers": "P",
+      "fresh": true,
+      "vertical_reference": "not_applicable"
+    },
+    {
+      "parameter_code": "00065",
+      "name": "gage stage",
+      "method_id": "227878",
+      "unit": "ft",
+      "rows": 1534,
+      "latest_at_utc": "2026-10-20T11:30:00+00:00",
+      "latest_value": 0.71,
+      "age_minutes_at_manifest": 35.43,
+      "qualifiers": "P",
+      "fresh": true,
+      "vertical_reference": "native_local_gage_datum_not_tidal_or_NAVD88_elevation"
+    }
+  ],
+  "spatial_scope": "Fish River / Weeks Bay local-watershed proxy; not Eastern Shore bottom state or Bay inflow",
+  "independence_group": "usgs_02378500_fish_river",
+  "aggregation_policy": "DO_NOT_ADD_TO_UPSTREAM_OR_NESTED_GAUGES",
+  "production_weight": 0,
+  "scientific_validation": "NOT_ESTABLISHED",
+  "predictive_gain_claimed": false,
+  "production_action": "NO_CHANGE"
+}
