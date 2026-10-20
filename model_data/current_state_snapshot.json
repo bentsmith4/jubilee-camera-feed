@@ -11,11 +11,11 @@
   ],
   "forecast_weights_changed": false,
   "deep_research_or_recalibration_performed": false,
-  "forecast_opportunity_status": "Existing dated heuristic outlooks retained without numerical or horizon change; not a new calibrated forecast.",
+  "forecast_opportunity_status": "Reviewed post-dawn three-day horizon roll-forward only; heuristic ranges, central estimates, confidence, zero production weights and strict alert gates are unchanged.",
   "material_change_since_prior_snapshot": true,
   "notification_condition_met": false,
   "notification_reason": "Existing four-trigger alert contract retained; no new event or critical-fault inference.",
-  "principal_dawn_visual_assessment_status": "NOT_PERFORMED_BY_POST_PUBLICATION_RECONCILIATION",
+  "principal_dawn_visual_assessment_status": "COMPLETED_DAWN_PLUS_20_VISIBLE_AREA_NO_SIGNAL",
   "active_faults": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
     "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
@@ -3459,14 +3459,6 @@
   "rejected_or_unknown_inputs": [],
   "outlook": [
     {
-      "date_ct": "2026-10-19",
-      "point_clear_range_percent": "2-5",
-      "point_clear_central_percent": 3,
-      "daphne_may_day_range_percent": "1-4",
-      "daphne_may_day_central_percent": 2,
-      "confidence": "low"
-    },
-    {
       "date_ct": "2026-10-20",
       "point_clear_range_percent": "2-5",
       "point_clear_central_percent": 3,
@@ -3481,12 +3473,20 @@
       "daphne_may_day_range_percent": "1-4",
       "daphne_may_day_central_percent": 2,
       "confidence": "low"
+    },
+    {
+      "date_ct": "2026-10-22",
+      "point_clear_range_percent": "2-5",
+      "point_clear_central_percent": 3,
+      "daphne_may_day_range_percent": "1-4",
+      "daphne_may_day_central_percent": 2,
+      "confidence": "low"
     }
   ],
   "probability_basis": {
     "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
     "numeric_change_from_prior_snapshot": 0,
-    "reassessment_method": "Committed-evidence issue-time admission; frozen dated heuristic outlooks and zero production weights retained. No automatic event/fault policy inference."
+    "reassessment_method": "Post-dawn horizon-only review: moved an identical existing three-day frozen heuristic profile onto the current America/Chicago issue-date through issue-date+2 horizon. No numerical probability, confidence, production weight, UNKNOWN input or alert threshold changed."
   },
   "sanity_check": "Existing dated outlooks and confidence are unchanged. Point Clear 2-5% (central 3%) and Daphne/May Day 1-4% (central 2%) remain below strict >20%; missing evidence is not a negative.",
   "operational_fault_assessment": {
@@ -3924,24 +3924,32 @@
   },
   "dawn_horizon_reassessment": {
     "status": "REVIEWED_ZERO_NUMERICAL_CHANGE",
-    "dawn_brief_reviewed_at_ct": "2026-10-19T07:00:53-05:00",
-    "reviewed_main_commit_sha": "18778583778f76195b6970b54f30a79e9fdbe9ba",
+    "review_time_ct": "2026-10-20T07:07:46-05:00",
+    "reviewed_main_commit_sha": "5afc5fd52a5c230f069ce6a1c23eee9e0291309e",
+    "principal_visual_basis": {
+      "validated_observation_commit_sha": "6deef0d52a4d2321189895d311e7c33e882fb9aa",
+      "capture_time_ct": "2026-10-20T06:54:47.251420-05:00",
+      "civil_dawn_ct": "2026-10-20T06:32:47.073208-05:00",
+      "timing_relative_to_civil_dawn_minutes": 22.0,
+      "camera_health": "all six owner cameras healthy",
+      "biological_detectability": "moderate-or-high across all six owner-camera views",
+      "visible_area_result": "No prioritized biological indicator or temporal/spatial confirmation was recorded in the visible areas; this is not a full-cell clean non-event label."
+    },
     "source_dates": [
-      "2026-10-18",
-      "2026-10-19",
-      "2026-10-20"
-    ],
-    "target_dates": [
       "2026-10-19",
       "2026-10-20",
       "2026-10-21"
+    ],
+    "target_dates": [
+      "2026-10-20",
+      "2026-10-21",
+      "2026-10-22"
     ],
     "numeric_change_from_prior_snapshot": 0,
     "forecast_weights_changed": false,
     "alert_threshold_percent": 20,
     "alert_comparator": ">",
-    "principal_visual_basis": "Validated six-camera dawn+20 burst beginning 2026-10-19T06:52:31.368807-05:00; all cameras healthy, moderate-or-better biological detectability, no prioritized biological indicator or cross-camera confirmation in visible areas.",
-    "scope": "Dawn Brief publication review only; no new sensing, calibration, public-camera acquisition, feature promotion or clean full-cell non-event label"
+    "scope": "Dawn Brief publication review only: date horizon maintenance plus reuse of the validated dawn+20 owner-camera observation; no new sensing, calibration, public-camera acquisition, full-cell clean non-event label or alert clearing"
   },
   "material_fault_recovery_review": {
     "schema_version": "1.0",
