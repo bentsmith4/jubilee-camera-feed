@@ -57,16 +57,16 @@ class LoeschPrimaryRecoveryTests(unittest.TestCase):
     def test_original_history_and_historical_deduplication_are_unchanged(self):
         history = load('event_history.json')
         current_events = history['events']
-        self.assertEqual(len(current_events), 16)
-        self.assertEqual(len({e['event_id'] for e in current_events}), 16)
+        self.assertEqual(len(current_events), 19)
+        self.assertEqual(len({e['event_id'] for e in current_events}), 19)
         self.assertEqual(sum(e['event_id'] == '1950-09-17-daphne'
                              for e in current_events), 1)
-        # Remove only the explicitly reviewed J08 addition. This reconstructs
+        # Remove only the four explicitly reviewed J08 additions. This reconstructs
         # the original serialized document, including metadata and event order;
         # a count-only check would miss edits to any of the original 15 rows.
         original = deepcopy(history)
         original['events'] = [e for e in original['events']
-                              if e['event_id'] != '1950-09-17-daphne']
+                              if e['event_id'] not in ['1950-09-17-daphne', '1947-06-13-point-clear', '1947-06-14-point-clear', '1950-08-05-north-montrose']]
         events = original['events']
         self.assertEqual(len(events), 15)
         original_bytes = (json.dumps(original, indent=2, ensure_ascii=False) + '\n').encode('utf-8')
