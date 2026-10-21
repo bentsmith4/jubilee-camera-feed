@@ -28,12 +28,12 @@ class LoeschRecoveryTests(unittest.TestCase):
         audit = load("loesch_1960_recovery_20260929.json")
         events = load("event_history.json")["events"]
         # The September 29 audit is immutable history. J08 subsequently admitted
-        # one independently recovered newspaper event, not a Loesch count row.
+        # four source-reviewed newspaper events, not Loesch aggregate count rows.
         self.assertEqual(audit["canonical_before_review"], 15)
-        self.assertEqual(len(events), 16)
+        self.assertEqual(len(events), 19)
         self.assertEqual(len({e["event_id"] for e in events}), len(events))
         overlap = [e for e in events if "1946-01-01" <= e["event_date_ct"] <= "1956-12-31"]
-        self.assertEqual([e["event_id"] for e in overlap], ["1950-09-17-daphne"])
+        self.assertEqual([e["event_id"] for e in overlap], ['1950-09-17-daphne', '1947-06-13-point-clear', '1947-06-14-point-clear', '1950-08-05-north-montrose'])
         self.assertEqual(audit["canonical_event_ids_in_1946_1956"], [])
 
     def test_registry_retains_source_status_and_separate_claims(self):
