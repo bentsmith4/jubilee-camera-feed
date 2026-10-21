@@ -284,7 +284,7 @@ def ingest(directory=HERE, fetcher=fetch, clock=lambda: datetime.now(timezone.ut
         archive.parent.mkdir(parents=True, exist_ok=True)
         if not archive.exists():
             archive.write_bytes(gzip.compress(payload, mtime=0))
-        manifest.update(raw_sha256=digest, raw_path=str(archive.relative_to(directory)))
+        manifest.update(raw_sha256=digest, raw_path=archive.relative_to(directory).as_posix())
         rows, rejected = normalize(json.loads(payload), retrieved, previous)
         manifest.update(status="complete", rejected_reports=rejected)
     except urllib.error.HTTPError as exc:
