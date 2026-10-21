@@ -27,6 +27,8 @@ def publication_paths(steps, ref):
     include("river", "river_forcing_manifest.json", "public_archive/usgs")
     include("asos", "asos_weather_manifest.json", "asos_weather_normalized.json",
             "current_asos_weather.json", "public_archive/asos")
+    include("noaa_water_level", "noaa_water_level_manifest.json", "noaa_water_level_normalized.json",
+            "current_noaa_water_level.json", "public_archive/coops")
     include("weeks_bay", "weeks_bay_realtime_manifest.json", "public_archive/ndbc")
     include("readiness", "upgrade_readiness.json", "coverage_snapshot.json")
     include("ngofs2_validation", "ngofs2_point_clear_manifest.json",

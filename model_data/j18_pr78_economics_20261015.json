@@ -1,0 +1,454 @@
+{
+  "schema": "jubilee_j18_economic_measurement/v1",
+  "work_id": "J18-PR78-COMPACT-JSON",
+  "date_ct": "2026-10-15",
+  "status": "USAGE_AND_COVERAGE_VERIFIED_CONDITIONAL_LIST_PRICE_ONLY_BILLING_BLOCKED",
+  "source": {
+    "repository_commit": "62c389e76601e8695fc8dc93b125d0479f71d941",
+    "usage_period_ct": {
+      "start": "2026-10-08T00:00:00-05:00",
+      "end_exclusive": "2026-10-15T00:00:00-05:00"
+    },
+    "local_usage_records_parsed": 7050,
+    "invalid_records": 0,
+    "selected_attempts": 1323,
+    "canonical_snapshots": 203,
+    "readback_matched_attempts": 1312,
+    "canonical_integrity_true": 1292,
+    "canonical_integrity_false": 20,
+    "canonical_integrity_unknown": 11,
+    "readback_utility": "model_data/j18_measurement/readback_telemetry.py",
+    "accounting_utility": "model_data/j18_cost_accounting/accounting.py:cost_parts",
+    "utilities_equal_to_pinned_main_after_line_endings": true,
+    "raw_logs_and_request_identifiers": "RETAINED_PRIVATELY_ON_POINTCLEARPC"
+  },
+  "deployment": {
+    "pr": 78,
+    "installed_at_ct": "2026-10-09T02:17:35-05:00",
+    "merged_date": "2026-10-10",
+    "installed_runtime_sha256": "b1e90549dd0151ccc61e3b970cd128dacb0b4583f5170ff94f910e2cd0389e05",
+    "runtime_hash_reverified": true
+  },
+  "coverage": {
+    "candidate_cycles": 206,
+    "exclusions": {
+      "canonical_integrity_not_true": 1,
+      "incomplete_or_duplicate_camera_completions": 22
+    },
+    "accepted_cycles": 183,
+    "all_18_sent_image_hashes_match_per_accepted_cycle": true,
+    "accepted_observations": 1098,
+    "no_synthesis_receipts_confirmed_deterministic_quiet": 77,
+    "biological_effectiveness_equivalence": "NOT_ESTABLISHED"
+  },
+  "attempt_accounting": {
+    "statuses": {
+      "completed": 1322,
+      "incomplete": 1
+    },
+    "failed_invocations": 0,
+    "duplicate_attempt_ids": 0,
+    "duplicate_provider_response_ids": 0,
+    "incomplete_synthesis_output_tokens": 800,
+    "incomplete_synthesis_reasoning_subset_tokens": 664,
+    "all_logged_attempts_included_in_overhead_comparison": true,
+    "sdk_internal_http_retries": "UNKNOWN_NOT_EXPOSED",
+    "actual_processing_tiers": {
+      "default": 1323
+    },
+    "requested_service_tiers": {
+      "UNKNOWN": 1323
+    },
+    "billed_service_tiers": {
+      "UNKNOWN": 1323
+    },
+    "missing_usage_fields": 0,
+    "cache_semantics": {
+      "partition_of_input": 1323
+    },
+    "max_request_input_tokens": 9933
+  },
+  "pricing": {
+    "model": "gpt-5.6-luna",
+    "ordinary_input_usd_per_million": 0.2,
+    "cached_read_usd_per_million": 0.02,
+    "cache_write_usd_per_million": 0.25,
+    "output_including_reasoning_usd_per_million": 1.2,
+    "source_checked": "2026-10-15",
+    "model_url": "https://developers.openai.com/api/docs/models/gpt-5.6-luna",
+    "semantics_url": "https://developers.openai.com/api/docs/guides/prompt-caching",
+    "formula": "((input-cached-writes)*0.20+cached*0.02+writes*0.25+output*1.20)/1000000",
+    "reasoning_is_subset_of_output": true,
+    "images_already_in_input": true,
+    "account_rate_reconciliation": "NOT_VERIFIED"
+  },
+  "comparison": {
+    "baseline": "2026-10-08 full CT day",
+    "post": {
+      "cycles": 128,
+      "completed_camera_observations": 768,
+      "logged_attempts": 844,
+      "noncompleted_attempts": 0,
+      "synthesis_attempts": 76,
+      "totals": {
+        "input_tokens": 5733513,
+        "cached_input_tokens": 1597216,
+        "cache_write_tokens": 147680,
+        "output_tokens": 620043,
+        "reasoning_output_tokens": 229894,
+        "total_tokens": 6353556
+      },
+      "mean_tokens": {
+        "input_tokens": 44793.0703125,
+        "cached_input_tokens": 12478.25,
+        "cache_write_tokens": 1153.75,
+        "output_tokens": 4844.0859375,
+        "reasoning_output_tokens": 1796.046875,
+        "total_tokens": 49637.15625
+      },
+      "mean_camera_tokens": {
+        "input_tokens": 42813,
+        "cached_input_tokens": 12478.25,
+        "cache_write_tokens": 1153.75,
+        "output_tokens": 4542.0390625,
+        "reasoning_output_tokens": 1576.359375,
+        "total_tokens": 47355.0390625
+      },
+      "list_cost_total_usd": 1.61063932,
+      "list_cost_per_cycle_usd": 0.0125831196875,
+      "list_camera_cost_per_cycle_usd": 0.011824649375,
+      "parts_per_cycle_usd": {
+        "ordinary_input": 0.006232214062500001,
+        "cached_input": 0.000249565,
+        "cache_write": 0.0002884375,
+        "output_including_reasoning": 0.005812903124999999
+      }
+    },
+    "transition_day_excluded": "2026-10-09",
+    "pre": {
+      "cycles": 28,
+      "completed_camera_observations": 168,
+      "logged_attempts": 182,
+      "noncompleted_attempts": 0,
+      "synthesis_attempts": 14,
+      "totals": {
+        "input_tokens": 1261375,
+        "cached_input_tokens": 361998,
+        "cache_write_tokens": 35490,
+        "output_tokens": 165244,
+        "reasoning_output_tokens": 46908,
+        "total_tokens": 1426619
+      },
+      "mean_tokens": {
+        "input_tokens": 45049.107142857145,
+        "cached_input_tokens": 12928.5,
+        "cache_write_tokens": 1267.5,
+        "output_tokens": 5901.571428571428,
+        "reasoning_output_tokens": 1675.2857142857142,
+        "total_tokens": 50950.67857142857
+      },
+      "mean_camera_tokens": {
+        "input_tokens": 43377,
+        "cached_input_tokens": 12928.5,
+        "cache_write_tokens": 1267.5,
+        "output_tokens": 5597.607142857143,
+        "reasoning_output_tokens": 1460.75,
+        "total_tokens": 48974.607142857145
+      },
+      "list_cost_total_usd": 0.38718266,
+      "list_cost_per_cycle_usd": 0.013827952142857144,
+      "list_camera_cost_per_cycle_usd": 0.013128773571428571,
+      "parts_per_cycle_usd": {
+        "ordinary_input": 0.0061706214285714295,
+        "cached_input": 0.00025857,
+        "cache_write": 0.000316875,
+        "output_including_reasoning": 0.007081885714285714
+      }
+    },
+    "results": {
+      "all_usage_arithmetic_pass": 1323,
+      "independent_day_cost_formula_pass": 7,
+      "max_request_input_tokens": 9933,
+      "cache_semantics": {
+        "partition_of_input": 1323
+      },
+      "requested_tiers": {
+        "UNKNOWN": 1323
+      },
+      "billed_tiers": {
+        "UNKNOWN": 1323
+      },
+      "full_cycle_observed_synthesis": {
+        "pre_per_cycle_usd": 0.013827952142857144,
+        "post_per_cycle_usd": 0.0125831196875,
+        "delta_usd": 0.0012448324553571439,
+        "reduction_pct": 9.002290740499596,
+        "equal_28_cycle_day_usd": 0.03485530875000003,
+        "equal_32_cycle_day_usd": 0.039834638571428604
+      },
+      "camera_only": {
+        "pre_per_cycle_usd": 0.013128773571428571,
+        "post_per_cycle_usd": 0.011824649375,
+        "delta_usd": 0.0013041241964285716,
+        "reduction_pct": 9.93332842046012,
+        "equal_28_cycle_day_usd": 0.036515477500000004,
+        "equal_32_cycle_day_usd": 0.04173197428571429
+      },
+      "equal_synthesis_rate": {
+        "pre_per_cycle_usd": 0.013827952142857144,
+        "post_per_cycle_usd": 0.012463361217105264,
+        "delta_usd": 0.0013645909257518803,
+        "reduction_pct": 9.868351522005824,
+        "equal_28_cycle_day_usd": 0.03820854592105265,
+        "equal_32_cycle_day_usd": 0.04366690962406017
+      },
+      "hour_stratified_full_cycle": {
+        "pre_per_cycle_usd": 0.013827952142857144,
+        "post_per_cycle_usd": 0.012624998595238095,
+        "delta_usd": 0.0012029535476190487,
+        "reduction_pct": 8.699433836560077,
+        "equal_28_cycle_day_usd": 0.033682699333333364,
+        "equal_32_cycle_day_usd": 0.03849451352380956
+      },
+      "all_attempt_overhead_per_successful_six_camera_cycle": {
+        "pre_per_cycle_usd": 0.014689815714285714,
+        "post_per_cycle_usd": 0.0138075846875,
+        "delta_usd": 0.0008822310267857132,
+        "reduction_pct": 6.005732433578126,
+        "equal_28_cycle_day_usd": 0.02470246874999997,
+        "equal_32_cycle_day_usd": 0.028231392857142823
+      },
+      "full_day_synthesis_attempts_per_cycle": {
+        "pre": 0.5,
+        "post": 0.59375
+      },
+      "original_sensitivity": {
+        "pre_per_cycle_usd": 0.014360419999999999,
+        "post_per_cycle_usd": 0.013076673333333335,
+        "delta_usd": 0.0012837466666666634,
+        "reduction_pct": 8.93947855749806,
+        "equal_28_cycle_day_usd": 0.035944906666666575,
+        "equal_32_cycle_day_usd": 0.04107989333333323
+      }
+    },
+    "day_scenario": "28 equal complete cycles = accepted baseline-day work. 32 equal cycles = existing J18 scenario, not scheduler instruction.",
+    "causality": "OBSERVATIONAL_SINGLE_BASELINE_DAY_NOT_RANDOMIZED"
+  },
+  "original_window_sensitivity": {
+    "window": "05:00-07:00 CDT October 8 versus October 9",
+    "pre": {
+      "cycles": 6,
+      "completed_camera_observations": 36,
+      "logged_attempts": 41,
+      "noncompleted_attempts": 0,
+      "synthesis_attempts": 5,
+      "totals": {
+        "input_tokens": 276987,
+        "cached_input_tokens": 85176,
+        "cache_write_tokens": 0,
+        "output_tokens": 38414,
+        "reasoning_output_tokens": 12997,
+        "total_tokens": 315401
+      },
+      "mean_tokens": {
+        "input_tokens": 46164.5,
+        "cached_input_tokens": 14196,
+        "cache_write_tokens": 0,
+        "output_tokens": 6402.333333333333,
+        "reasoning_output_tokens": 2166.1666666666665,
+        "total_tokens": 52566.833333333336
+      },
+      "mean_camera_tokens": {
+        "input_tokens": 43377,
+        "cached_input_tokens": 14196,
+        "cache_write_tokens": 0,
+        "output_tokens": 5876.166666666667,
+        "reasoning_output_tokens": 1792.3333333333333,
+        "total_tokens": 49253.166666666664
+      },
+      "list_cost_total_usd": 0.08616251999999999,
+      "list_cost_per_cycle_usd": 0.014360419999999999,
+      "list_camera_cost_per_cycle_usd": 0.01317152,
+      "parts_per_cycle_usd": {
+        "ordinary_input": 0.0063936999999999996,
+        "cached_input": 0.00028392,
+        "cache_write": 0,
+        "output_including_reasoning": 0.0076828
+      }
+    },
+    "post": {
+      "cycles": 6,
+      "completed_camera_observations": 36,
+      "logged_attempts": 42,
+      "noncompleted_attempts": 0,
+      "synthesis_attempts": 6,
+      "totals": {
+        "input_tokens": 276883,
+        "cached_input_tokens": 81792,
+        "cache_write_tokens": 0,
+        "output_tokens": 31505,
+        "reasoning_output_tokens": 12935,
+        "total_tokens": 308388
+      },
+      "mean_tokens": {
+        "input_tokens": 46147.166666666664,
+        "cached_input_tokens": 13632,
+        "cache_write_tokens": 0,
+        "output_tokens": 5250.833333333333,
+        "reasoning_output_tokens": 2155.8333333333335,
+        "total_tokens": 51398
+      },
+      "mean_camera_tokens": {
+        "input_tokens": 42813,
+        "cached_input_tokens": 13632,
+        "cache_write_tokens": 0,
+        "output_tokens": 4746,
+        "reasoning_output_tokens": 1790.3333333333333,
+        "total_tokens": 47559
+      },
+      "list_cost_total_usd": 0.07846004000000001,
+      "list_cost_per_cycle_usd": 0.013076673333333335,
+      "list_camera_cost_per_cycle_usd": 0.01180404,
+      "parts_per_cycle_usd": {
+        "ordinary_input": 0.006503033333333334,
+        "cached_input": 0.00027264,
+        "cache_write": 0,
+        "output_including_reasoning": 0.006301
+      }
+    },
+    "result": {
+      "pre_per_cycle_usd": 0.014360419999999999,
+      "post_per_cycle_usd": 0.013076673333333335,
+      "delta_usd": 0.0012837466666666634,
+      "reduction_pct": 8.93947855749806,
+      "equal_28_cycle_day_usd": 0.035944906666666575,
+      "equal_32_cycle_day_usd": 0.04107989333333323
+    },
+    "qualification": "Strict integrity excludes one of the prior seven pre cycles. Its incomplete synthesis remains charged in all-attempt overhead; do not revise historical seven-cycle receipt silently."
+  },
+  "all_logged_attempts_by_day": {
+    "2026-10-08": {
+      "attempts": 194,
+      "six_camera_valid_cycles": 28,
+      "media_valid_cycles": 28,
+      "tokens": {
+        "input_tokens": 1333979,
+        "cached_input_tokens": 383292,
+        "cache_write_tokens": 37856,
+        "output_tokens": 176349,
+        "reasoning_output_tokens": 50744,
+        "total_tokens": 1510328
+      },
+      "list_cost_usd": 0.41131484
+    },
+    "2026-10-09": {
+      "attempts": 193,
+      "six_camera_valid_cycles": 27,
+      "media_valid_cycles": 27,
+      "tokens": {
+        "input_tokens": 1307546,
+        "cached_input_tokens": 357644,
+        "cache_write_tokens": 41084,
+        "output_tokens": 145342,
+        "reasoning_output_tokens": 54150,
+        "total_tokens": 1452888
+      },
+      "list_cost_usd": 0.37359788
+    },
+    "2026-10-10": {
+      "attempts": 185,
+      "six_camera_valid_cycles": 25,
+      "media_valid_cycles": 25,
+      "tokens": {
+        "input_tokens": 1229325,
+        "cached_input_tokens": 343072,
+        "cache_write_tokens": 36352,
+        "output_tokens": 136420,
+        "reasoning_output_tokens": 51323,
+        "total_tokens": 1365745
+      },
+      "list_cost_usd": 0.34963364
+    },
+    "2026-10-11": {
+      "attempts": 186,
+      "six_camera_valid_cycles": 24,
+      "media_valid_cycles": 24,
+      "tokens": {
+        "input_tokens": 1239637,
+        "cached_input_tokens": 345344,
+        "cache_write_tokens": 36352,
+        "output_tokens": 136331,
+        "reasoning_output_tokens": 50814,
+        "total_tokens": 1375968
+      },
+      "list_cost_usd": 0.35118028
+    },
+    "2026-10-12": {
+      "attempts": 184,
+      "six_camera_valid_cycles": 25,
+      "media_valid_cycles": 25,
+      "tokens": {
+        "input_tokens": 1219013,
+        "cached_input_tokens": 340800,
+        "cache_write_tokens": 36352,
+        "output_tokens": 135014,
+        "reasoning_output_tokens": 50366,
+        "total_tokens": 1354027
+      },
+      "list_cost_usd": 0.346293
+    },
+    "2026-10-13": {
+      "attempts": 194,
+      "six_camera_valid_cycles": 28,
+      "media_valid_cycles": 28,
+      "tokens": {
+        "input_tokens": 1307807,
+        "cached_input_tokens": 358976,
+        "cache_write_tokens": 36352,
+        "output_tokens": 140721,
+        "reasoning_output_tokens": 51945,
+        "total_tokens": 1448528
+      },
+      "list_cost_usd": 0.36762852
+    },
+    "2026-10-14": {
+      "attempts": 187,
+      "six_camera_valid_cycles": 26,
+      "media_valid_cycles": 26,
+      "tokens": {
+        "input_tokens": 1242965,
+        "cached_input_tokens": 340800,
+        "cache_write_tokens": 40896,
+        "output_tokens": 136118,
+        "reasoning_output_tokens": 50505,
+        "total_tokens": 1379083
+      },
+      "list_cost_usd": 0.3526354
+    }
+  },
+  "billing": {
+    "actual_pre_usd": null,
+    "actual_post_usd": null,
+    "actual_savings_usd": null,
+    "actual_savings_percent": null,
+    "status": "BLOCKED_ACCOUNT_SPECIFIC_BILLING_EVIDENCE",
+    "inspected": "Local Jubilee project files/receipts and authorized Hotmail billing/receipt searches did not yield project-scoped API charges. ChatGPT subscription/Work credits are not API billing evidence.",
+    "minimum_export": "Private hourly UTC aggregates from 2026-10-08T05:00Z through 2026-10-15T05:00Z for Jubilee's API project only: model, actual billed tier/rate class, attempt counts/status, ordinary/cached/write/output token counts (reasoning as subset if available), gross usage charges, credits/discounts/adjustments, net charges, currency, applicable effective rates and export completeness/finalization. Preserve local scope mapping; omit account/project/key/request IDs, credentials, prompts, outputs and images. Reconcile provider attempt/usage totals to local hourly totals and explain residual retries/other usage before claiming actual spend. A full invoice total or credit purchase is insufficient."
+  },
+  "dot": {
+    "owner": "Existing Research & Calibration scientific executor; Jubilee Dot coordinator",
+    "handoff": "Shared MODEL_WORK_REGISTER J18 entry",
+    "native_acknowledgment": "PENDING_SIGNED_OUT_404_AT_EXISTING_DOT_UI",
+    "next_action": "Consume this receipt once; retain billing reconciliation and effectiveness gates. Do not rerun paid analysis, redeploy PR78 or open duplicate work."
+  },
+  "limitations": [
+    "Published-price estimates are not measured invoice savings.",
+    "Returned default tier does not establish invoice rates, discounts, credits or regional rules.",
+    "Full-cycle primary comparison excludes incomplete coverage; all-attempt overhead comparison charges it.",
+    "No claim of equivalent event detection, causal PR78 savings or 50% operating-season expenditure reduction.",
+    "This measures camera analyzer and synthesis, not an account-wide or all-Jubilee invoice."
+  ],
+  "production_changes": [],
+  "pr76": "INDEPENDENT_UNCHANGED",
+  "notification_gate": "21:00 America/Chicago PRESERVED"
+}

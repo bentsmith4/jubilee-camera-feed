@@ -155,7 +155,7 @@ def environmental_product(name, reader, now):
     require(available <= now, "future source retrieval")
     if m["status"] == "unavailable":
         return candidate([], available, detail="declared unavailable; retain UNKNOWN")
-    require(m["status"] == "complete" or (name in ("weeks_bay_realtime", "arcos_realtime") and m["status"] == "partial"),
+    require(m["status"] == "complete" or (name in ("river_forcing", "weeks_bay_realtime", "arcos_realtime") and m["status"] == "partial"),
             "producer failed or unrecognized status: " + str(m["status"]))
     limits = reader.json("model_data/sensor_contract.json")["freshness_minutes"]
     if name == "asos_weather":

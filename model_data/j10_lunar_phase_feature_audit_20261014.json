@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.1",
+  "scope": "RESEARCH_ONLY_LUNAR_PHASE_FEATURE_AUDIT_UPDATE",
+  "generated_at_utc": "2026-10-14T15:25:00Z",
+  "method": {
+    "algorithm": "Same mean-synodic-month algorithm and small-sample corrected Rayleigh approximation as model_data/evaluate_lunar_phase.py",
+    "representative_time": "11:00 UTC on event date; sub-day timing immaterial for this descriptive date-level test",
+    "episode_handling": "Adjacent 1971-08-07/08 and 2026-08-29/30 dates remain collapsed; newly merged 1950-09-17 Daphne event is a new independent episode.",
+    "validation_limit": "Event-only circular clustering. No-report days and Tier-B candidates are not negatives."
+  },
+  "provenance": {
+    "prior_audit_path": "model_data/j10_lunar_phase_feature_audit_20260920.json",
+    "prior_audit_blob_sha": "9410078d64058f2ca1dfc77d0ddece2ca26f5a31",
+    "event_history_path": "model_data/event_history.json",
+    "event_history_blob_sha": "0c3611e9bd4226983427488b52ff3b702eff937e",
+    "admission_pr": 88,
+    "admission_merge_commit": "53213fcc2cf8f22759b1f2751c5b4bd256238d69"
+  },
+  "new_event": {
+    "event_id": "1950-09-17-daphne",
+    "date_ct": "1950-09-17",
+    "reported_time_scope": "about 17:30 Sunday until around midnight; approximate local clock bounds, historical time standard unknown",
+    "phase_fraction_since_new": 0.181429,
+    "lunar_age_days": 5.358,
+    "illumination_fraction": 0.2912,
+    "nearest_new_or_full_days": 5.358
+  },
+  "sample": {
+    "confirmed_event_rows": 16,
+    "independent_event_episodes": 14,
+    "clean_matched_non_event_controls": 0
+  },
+  "before": {
+    "episode_primary_1959": {
+      "n": 13,
+      "mean_resultant_length": 0.287081,
+      "rayleigh_z": 1.071404,
+      "rayleigh_p_approx": 0.349392
+    },
+    "episode_alternate_1959": {
+      "n": 13,
+      "mean_resultant_length": 0.292628,
+      "rayleigh_z": 1.113205,
+      "rayleigh_p_approx": 0.33505
+    },
+    "event_level": {
+      "n": 15,
+      "mean_resultant_length": 0.139816,
+      "rayleigh_z": 0.293226,
+      "rayleigh_p_approx": 0.752103
+    }
+  },
+  "after": {
+    "episode_primary_1959": {
+      "n": 14,
+      "mean_resultant_length": 0.333756,
+      "rayleigh_z": 1.559499,
+      "rayleigh_p_approx": 0.213001,
+      "circular_mean_phase_fraction": 0.132372
+    },
+    "episode_alternate_1959": {
+      "n": 14,
+      "mean_resultant_length": 0.339966,
+      "rayleigh_z": 1.618076,
+      "rayleigh_p_approx": 0.200631,
+      "circular_mean_phase_fraction": 0.138912
+    },
+    "event_level": {
+      "n": 16,
+      "mean_resultant_length": 0.193576,
+      "rayleigh_z": 0.599547,
+      "rayleigh_p_approx": 0.556396,
+      "circular_mean_phase_fraction": 0.182228
+    }
+  },
+  "decision": {
+    "status": "BLOCKED_BY_DATA",
+    "incremental_value": "NOT_ESTABLISHED",
+    "production_weight": 0,
+    "reason": "The additional independent episode strengthens descriptive concentration modestly but remains statistically non-persuasive; zero clean matched controls prevent incremental calibration or discrimination testing. Lunar phase also cannot resolve within-date shoreline contact.",
+    "promotion_requirement": "Require matched event/control mornings and episode-blocked incremental scoring against seasonal, tide and transport baselines."
+  },
+  "time_of_day_guard": "The 1950 event is an evening positive. It expands occurrence evidence but must not be scored as a dawn-window forecast hit or miss until forecast_validity_window and event_onset/end semantics are explicit.",
+  "production_action": "NO_CHANGE"
+}

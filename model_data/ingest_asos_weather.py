@@ -18,10 +18,11 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-URL = "https://aviationweather.gov/api/data/metar?ids=KBFM%2CKMOB&format=json&hours=6"
+URL = "https://aviationweather.gov/api/data/metar?ids=KBFM%2CKMOB%2CKCQF&format=json&hours=6"
 STATIONS = {
     "KBFM": ("Mobile Downtown Airport", 30.6147, -88.0630),
     "KMOB": ("Mobile Regional Airport", 30.6882, -88.2459),
+    "KCQF": ("Fairhope / H. L. Sonny Callahan Airport", 30.4618, -87.8749),
 }
 # Native API units are retained. Accumulation periods must never be summed.
 FIELDS = {
@@ -72,7 +73,7 @@ def freshness_limit():
     return json.loads((HERE / "sensor_contract.json").read_text())["freshness_minutes"]["weather"]
 
 
-def normalize(payload, retrieved_at, previous=()):
+def normalize(payload, retrieved_at, previous=(), source_url=URL):
     """Select the newest report per airport, never fill holes from older reports."""
     if not isinstance(payload, list) or any(not isinstance(x, dict) for x in payload):
         raise ValueError("AWC METAR response must be a list of objects")
@@ -164,7 +165,7 @@ def normalize(payload, retrieved_at, previous=()):
                 "depth_m": None, "vertical_reference": "airport_surface_meteorology",
                 "qc_flag": "|".join(sorted(set(flags))) if flags else "LOCAL_CHECKS_PASS",
                 "source_qc_field": report.get("qcField"),
-                "source_url": URL, "source_class": "asos_observation",
+                "source_url": source_url, "source_class": "asos_observation",
                 "is_direct_local_bottom_measurement": False,
                 "freshness_minutes": limit, "production_weight": 0.0,
                 "spatial_scope": "airport_observation; regional_context_for_Eastern_Shore",
@@ -283,7 +284,7 @@ def ingest(directory=HERE, fetcher=fetch, clock=lambda: datetime.now(timezone.ut
         archive.parent.mkdir(parents=True, exist_ok=True)
         if not archive.exists():
             archive.write_bytes(gzip.compress(payload, mtime=0))
-        manifest.update(raw_sha256=digest, raw_path=str(archive.relative_to(directory)))
+        manifest.update(raw_sha256=digest, raw_path=archive.relative_to(directory).as_posix())
         rows, rejected = normalize(json.loads(payload), retrieved, previous)
         manifest.update(status="complete", rejected_reports=rejected)
     except urllib.error.HTTPError as exc:

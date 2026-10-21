@@ -61,6 +61,87 @@ class CommittedReader(guard.Reader):
         return bool(self.git("ls-tree", self.commit, "--", path).strip())
 
 
+def preserve_expired_camera_review(reader, prior, status, vision, cid, now, limit):
+    """Consume an exact current artifact review or preserve an expired UNKNOWN review."""
+    def require(condition, detail):
+        guard.require(condition, 'REVIEW_REQUIRED: camera assessment: ' + detail)
+
+    review = prior.get('manual_event_review')
+    require(isinstance(review, dict) and review.get('camera_id') == cid, 'missing matching review')
+    require(review.get('probability_or_alert_change') is False
+            and isinstance(review.get('basis'), str) and bool(review['basis'].strip()),
+            'unsupported review decision')
+    current = status['cameras'][cid]
+    require(current.get('ok') is True, 'failed camera requires review')
+    require(review.get('capture_time_ct') == status['capture_time_ct']
+            and guard.stamp(current['timestamp_ct']) <= guard.stamp(review['reviewed_at_ct']) <= now,
+            'cycle or review time mismatch')
+    camera = vision['cameras'][cid]
+    labels = {k: camera.get(k) for k in ('overall_jubilee_visual_signal', 'temporal_jubilee_signal')}
+    require(review.get('upstream_classification') == labels, 'upstream classification changed')
+
+    if review.get('admitted_event_status') == 'REJECTED_REFLECTION_NOT_EVENT_EVIDENCE':
+        age_minutes = (now - guard.stamp(current['timestamp_ct'])).total_seconds() / 60
+        require(0 <= age_minutes <= limit, 'current artifact review is not fresh')
+        require(labels == {'overall_jubilee_visual_signal': 'weak_possible',
+                           'temporal_jubilee_signal': 'none'}
+                and camera.get('likely_temporal_artifact') == 'reflection'
+                and camera.get('activity_changed_across_frames') == 'no'
+                and camera.get('visibility') == 'fair'
+                and camera.get('detectability') == 'moderate',
+                'reflection review scope changed')
+        cross = vision.get('cross_camera', {})
+        require(cross.get('overall_visual_jubilee_signal') == 'weak_possible'
+                and cross.get('montrose_visual_signal') == 'weak_possible'
+                and cross.get('temporal_confirmation') == 'none'
+                and cross.get('spatial_confirmation') == 'none',
+                'cross-camera reflection scope changed')
+        expected_hashes = review.get('evidence_sha256')
+        require(isinstance(expected_hashes, dict), 'missing review evidence hashes')
+        for path in ('status.json', 'burst_status.json', 'vision.json', cid + '.jpg'):
+            require(expected_hashes.get(path) == guard.digest(reader.read(path)),
+                    'changed or unbound current review evidence: ' + path)
+        return review, True
+
+    require(review.get('admitted_event_status') == 'UNKNOWN_LOW_DETECTABILITY_NOT_EVENT_EVIDENCE',
+            'unsupported historical review decision')
+    require((now - guard.stamp(current['timestamp_ct'])).total_seconds() / 60 > limit,
+            'fresh or failed camera requires review')
+    require(set(labels.values()) == {'weak_possible'}
+            and camera.get('visibility') == 'poor' and camera.get('detectability') == 'low',
+            'classification or low-detectability scope changed')
+    registry = reader.json('model_data/camera_sources.json')
+    ids = sorted(c['camera_id'] for c in registry['cameras'] if c['access'] == 'owner_google')
+    require(len(ids) == len(set(ids)) == 6 and cid in ids, 'expected six unique owner cameras')
+    paths = ('status.json', 'burst_status.json', 'vision.json', 'model_data/camera_sources.json',
+             'model_data/sensor_contract.json') + tuple(camera_id + '.jpg' for camera_id in ids)
+    provenance = prior['reconciliation'].get('source_provenance', {})
+    for path in paths:
+        expected = provenance.get(path)
+        actual = dict(sha256=guard.digest(reader.read(path)), git_blob=reader.blob(path))
+        require(expected == actual, 'changed or unbound camera evidence: ' + path)
+    old_camera_rows = [r for r in prior['input_rows'] if r['source'] == CAMERA]
+    require(len(old_camera_rows) == 1
+            and old_camera_rows[0].get('valid_time_ct') == status['capture_time_ct'],
+            'missing historical camera row or cycle mismatch')
+    old_views = [r for r in old_camera_rows[0]['camera_health']['private_cameras'] if r['camera_id'] == cid]
+    require(len(old_views) == 1, 'missing historical subject-camera row')
+    old = old_views[0]
+    prior_signals = (old.get('overall_visual_signal'), old.get('temporal_visual_signal'))
+    require(old.get('captured_at_ct') == current['timestamp_ct']
+            and old.get('negative_event_label_allowed') is False
+            and ((old.get('admitted_status') == 'ADMITTED_VISIBLE_SCOPE_CONTEXT'
+                  and prior_signals == ('UNKNOWN_REVIEWED_LOW_DETECTABILITY',) * 2)
+                 or (old.get('admitted_status') == 'UNKNOWN_STALE' and prior_signals == ('UNKNOWN',) * 2)
+                 or (old.get('admitted_status') == 'UNKNOWN_STALE_OR_FAILED'
+                     and old.get('upstream_metadata_pass') is True
+                     and old.get('visibility') == old.get('biological_detectability') == 'UNKNOWN'
+                     and (guard.stamp(prior['snapshot_time_ct']) - guard.stamp(current['timestamp_ct'])).total_seconds() / 60 > limit
+                     and prior_signals == ('UNKNOWN_REVIEWED_LOW_DETECTABILITY',) * 2)),
+            'prior snapshot does not retain the historical UNKNOWN assessment')
+    return review, False
+
+
 def build(root, now):
     guard.require(now.utcoffset() is not None, "issue time needs UTC offset")
     now = now.astimezone(timezone.utc)
@@ -108,7 +189,8 @@ def build(root, now):
     ar = r.json('model_data/asos_weather_normalized.json') if am['status'] == 'complete' else []
     if am['status'] == 'complete':
         raw_weather = json.loads(r.archive(am['raw_path'], am['raw_sha256']))
-        reparsed, _ = asos.normalize(raw_weather, guard.stamp(available(am)), ar)
+        reparsed, _ = asos.normalize(raw_weather, guard.stamp(available(am)), ar,
+                                     source_url=am.get("source_url", asos.URL))
         guard.require(guard.semantic_rows(ar) == guard.semantic_rows(reparsed), 'ASOS archive/data mismatch')
         guard.require(len({(x['sensor_id'], x['parameter']) for x in ar}) == len(ar), 'ambiguous ASOS rows')
         for x in ar:
@@ -119,27 +201,43 @@ def build(root, now):
     weather_known = any(x['value_status'] in ('KNOWN', 'TRACE')
                         for st in weather['stations'].values() for x in st['parameters'].values())
     a = context(ASOS, am)
-    a.update(parameter_admission=weather['stations'],
+    a.update(station_location="; ".join(f"{name} {station}" for station, (name, _, _) in asos.STATIONS.items()),
+             parameter_admission=weather['stations'],
              admitted_status=('SOURCE_UNAVAILABLE' if am['status'] == 'unavailable' else
                               'ADMITTED_PARTIAL_FRESH_ASOS_REGIONAL_CONTEXT' if weather_known else 'UNKNOWN'),
              observation='Issue-time airport context only; blank, stale and rejected parameters remain UNKNOWN.')
 
     rm = manifest('river_forcing')
     rr = (river.normalize(json.loads(r.archive(rm['raw_path'], rm['raw_sha256'])),
-                          guard.stamp(available(rm)), rm['source_url']) if rm['status'] == 'complete' else [])
-    guard.require(all(guard.stamp(x['observed_at_utc']) <= now for x in rr), 'future river observation')
+                          guard.stamp(available(rm)), rm['source_url']) if rm['status'] in ('complete', 'partial') else [])
+    guard.require(all(guard.stamp(x['observed_at_utc']) <= now for x in rr
+                      if x['station_id'] != river.FISH_RIVER), 'future river observation')
     series = river.summarize(rr, now)
     for x in series:
         latest = [z for z in rr if z['series_id'] == x['series_id'] and z['observed_at_utc'] == x['latest_at_utc']]
         known = x['fresh'] and all(z['research_qc_eligible'] for z in latest) and len({z['value'] for z in latest}) == 1
-        x.update(value_status='KNOWN_UPSTREAM_PROXY' if known else 'UNKNOWN_STALE_OR_QC_REJECTED', production_weight=0)
+        known_status = ('KNOWN_LOCAL_WATERSHED_PROXY' if x['station_id'] == river.FISH_RIVER
+                        else 'KNOWN_UPSTREAM_PROXY')
+        x.update(value_status=known_status if known else 'UNKNOWN_STALE_OR_QC_REJECTED', production_weight=0)
         if not known:
             x['latest_value'] = None
+    local_series = [x for x in series if x['station_id'] == river.FISH_RIVER]
+    series = [x for x in series if x['station_id'] in river.UPSTREAM_SITES]
     river_known = any(x['value_status'] == 'KNOWN_UPSTREAM_PROXY' for x in series)
     rv = context(RIVER, rm)
     rv.update(series=series, admitted_status=('SOURCE_UNAVAILABLE' if rm['status'] == 'unavailable' else
               'ADMITTED_FRESH_REGIONAL_UPSTREAM_PROXY' if river_known else 'UNKNOWN'),
-              observation='Qualified upstream proxy only. No Bay-arrival assumption, edge extrapolation or additive gate-method double count.')
+              observation='Qualified upstream proxy only. No Bay-arrival assumption, edge extrapolation or additive gate-method double count.',
+              local_watershed_context={
+                  'source_id': 'usgs_02378500_fish_river', 'series': local_series,
+                  'missing_parameter_codes': sorted(set(river.FISH_UNITS) -
+                      {x['parameter_code'] for x in local_series}),
+                  'value_status': ('KNOWN_LOCAL_WATERSHED_PROXY' if any(
+                      x['value_status'] == 'KNOWN_LOCAL_WATERSHED_PROXY' for x in local_series)
+                      else 'UNKNOWN'),
+                  'production_weight': 0,
+                  'observation': 'Separate Fish River/Weeks Bay runoff and native-gage stage context only. '
+                                 'Never additive with upstream/nested gauges; not tide, local bottom state or Bay-arrival evidence.'})
 
     wm = manifest('weeks_bay_realtime')
     wr = r.csv('model_data/weeks_bay_realtime_normalized.csv') if wm['status'] != 'unavailable' else []
@@ -254,6 +352,8 @@ def build(root, now):
     status, vision = r.json('status.json'), r.json('vision.json')
     registry = r.json('model_data/camera_sources.json')
     cams, failed = [], []
+    expired_review = None
+    current_artifact_review = False
     # `unclear` is a schema-defined ambiguity label, not a negative or an
     # event assessment.  It may pass only as unresolved visible context; the
     # builder never converts it into a non-event, probability, or alert change.
@@ -272,23 +372,49 @@ def build(root, now):
             guard.require(v.get('burst_frame_count') == 3, 'invalid camera vision frame count: ' + cid)
         captured = sc.get('timestamp_ct') if healthy else None
         fresh = healthy and 0 <= age(captured) <= limits['camera']
-        guard.require(all(v.get(k) in quiet for k in ('overall_jubilee_visual_signal', 'temporal_jubilee_signal')),
-                      'REVIEW_REQUIRED: camera event assessment must not be silently changed')
+        biological_usable = (
+            fresh
+            and v.get('visibility') not in (None, 'poor', 'unknown', 'UNKNOWN', 'unclear')
+            and v.get('detectability') not in (None, 'low', 'unknown', 'UNKNOWN', 'unclear'))
+        reviewed_expiry = not all(v.get(k) in quiet for k in ('overall_jubilee_visual_signal', 'temporal_jubilee_signal'))
+        if reviewed_expiry:
+            guard.require(expired_review is None, 'REVIEW_REQUIRED: another camera event assessment needs review')
+            expired_review, current_artifact_review = preserve_expired_camera_review(
+                r, prior, status, vision, cid, now, limits['camera'])
+            # Reviewed non-biological artifacts and expired assessments remain
+            # UNKNOWN for biology; neither is admitted as a negative.
+            fresh = False
+            biological_usable = False
         cams.append(dict(camera_id=cid, site_group=c.get('site_group'), shoreline_cell=c.get('shoreline_cell'),
                          captured_at_ct=captured, age_minutes=age(captured) if captured else None,
-                         upstream_metadata_pass=healthy, admitted_status='ADMITTED_VISIBLE_SCOPE_CONTEXT' if fresh else 'UNKNOWN_STALE_OR_FAILED',
+                         upstream_metadata_pass=healthy,
+                         admitted_status=('UNKNOWN_REVIEWED_NONBIOLOGICAL_ARTIFACT'
+                             if reviewed_expiry and current_artifact_review else
+                             'UNKNOWN_STALE' if reviewed_expiry else
+                             'ADMITTED_VISIBLE_SCOPE_CONTEXT' if biological_usable else
+                             'UNKNOWN_LOW_DETECTABILITY' if fresh else 'UNKNOWN_STALE_OR_FAILED'),
                          visibility=v.get('visibility', 'UNKNOWN') if fresh else 'UNKNOWN',
                          biological_detectability=v.get('detectability', 'UNKNOWN') if fresh else 'UNKNOWN',
-                         overall_visual_signal=v.get('overall_jubilee_visual_signal', 'UNKNOWN') if fresh else 'UNKNOWN',
-                         temporal_visual_signal=v.get('temporal_jubilee_signal', 'UNKNOWN') if fresh else 'UNKNOWN',
+                         overall_visual_signal=(v.get('overall_jubilee_visual_signal', 'UNKNOWN')
+                                                if biological_usable else 'UNKNOWN'),
+                         temporal_visual_signal=(v.get('temporal_jubilee_signal', 'UNKNOWN')
+                                                 if biological_usable else 'UNKNOWN'),
                          negative_event_label_allowed=False, raw_archive_verification=acceptance['status']))
     guard.require(len(cams) == 6, 'expected exactly six owner cameras')
     cross_camera = vision.get('cross_camera', {})
-    guard.require(
+    cross_camera_quiet = (
         all(cross_camera.get(k) in quiet for k in
             ('overall_visual_jubilee_signal', 'montrose_visual_signal', 'point_clear_visual_signal'))
-        and cross_camera.get('temporal_confirmation') in quiet + ('limited',),
-        'REVIEW_REQUIRED: cross-camera event assessment')
+        and cross_camera.get('temporal_confirmation') in quiet + ('limited',))
+    reviewed_reflection_scope = (
+        current_artifact_review
+        and cross_camera.get('overall_visual_jubilee_signal') == 'weak_possible'
+        and cross_camera.get('montrose_visual_signal') == 'weak_possible'
+        and cross_camera.get('point_clear_visual_signal') in quiet
+        and cross_camera.get('temporal_confirmation') == 'none'
+        and cross_camera.get('spatial_confirmation') == 'none')
+    guard.require(cross_camera_quiet or reviewed_reflection_scope,
+                  'REVIEW_REQUIRED: cross-camera event assessment')
     ca = row(CAMERA)
     ca.update(valid_time_ct=status['capture_time_ct'], evaluated_at_ct=ct,
               admitted_status='VISIBLE_SCOPE_CONTEXT_WITH_EXPLICIT_HEALTH_AND_AGE',
@@ -329,6 +455,15 @@ def build(root, now):
         'Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.',
     ]
     unavailable = [name for name, p in validated.items() if not p['admissible']]
+    if expired_review is not None:
+        static_unknowns.append(
+            ('Camera ' + expired_review['camera_id'] + ' evidence from cycle ' + expired_review['capture_time_ct']
+             + ' is UNKNOWN_REVIEWED_NONBIOLOGICAL_ARTIFACT. The fixed reflection is not event evidence;'
+             + ' the review is not a biological negative.')
+            if current_artifact_review else
+            ('Camera ' + expired_review['camera_id'] + ' evidence from cycle ' + expired_review['capture_time_ct']
+             + ' is UNKNOWN_STALE. Its dated low-detectability review is historical only;'
+             + ' neither current event evidence nor a biological negative.'))
     s['known_unknowns'] = static_unknowns + [name + ': SOURCE_UNAVAILABLE/UNKNOWN' for name in unavailable]
     s['active_faults'] = copy.deepcopy(s['known_unknowns'])
     s['rejected_or_unknown_inputs'] = [dict(source=n, status='SOURCE_UNAVAILABLE', value_status='UNKNOWN') for n in unavailable]
@@ -365,10 +500,12 @@ def build(root, now):
     hashes = {p: h for p, h in r.hashes.items() if p not in (binding.SNAPSHOT, binding.FORECAST)}
     admission = [weather['stations'][st]['status'] for st in sorted(weather['stations'])]
     admission += [x['value_status'] for st in weather['stations'].values() for x in st['parameters'].values()]
-    admission += [x['value_status'] for x in series + wa] + [x['admitted_status'] for x in cams] + [p['admitted_status'] for p in mp.values()]
+    admission += [x['value_status'] for x in series + local_series + wa] + [x['admitted_status'] for x in cams] + [p['admitted_status'] for p in mp.values()]
     if xb is not None:
         admission += [x['value_status'] for x in xa]
     admission += [acceptance['status'], acceptance['reason_codes']]
+    if expired_review is not None:
+        admission.append(expired_review)
     identity = guard.digest(guard.canonical([hashes, admission]).encode())
     if prior['reconciliation'].get('consumption_identity') == identity:
         return None

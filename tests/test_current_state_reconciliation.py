@@ -85,6 +85,130 @@ class ReconciliationTests(unittest.TestCase):
         self.commit('reconciled pair')
         return snapshot, forecast
 
+    def test_station_expansion_replays_prior_two_airport_manifest(self):
+        old_url = 'https://aviationweather.gov/api/data/metar?ids=KBFM%2CKMOB&format=json&hours=6'
+        path = 'model_data/asos_weather_normalized.json'
+        rows = self.f.read(path)
+        for row in rows:
+            row['source_url'] = old_url
+        self.f.write(path, rows)
+        manifest = self.f.read('model_data/asos_weather_manifest.json')
+        manifest['source_url'] = old_url
+        manifest['normalized_sha256'] = guard.digest((self.root/path).read_bytes())
+        self.f.write('model_data/asos_weather_manifest.json', manifest)
+        self.commit('preserve pre-expansion weather provenance')
+        snapshot, _ = self.reconcile(T0)
+        weather = next(row for row in snapshot['input_rows'] if row['source'] == builder.ASOS)
+        self.assertEqual(weather['parameter_admission']['KCQF']['status'], 'UNKNOWN')
+        self.assertEqual(weather['parameter_admission']['KBFM']['parameters']['wind_speed']['source_url'], old_url)
+        self.assertIn('KCQF', weather['station_location'])
+
+    def fish_river(self, observed, defect=None, include_upstream=True):
+        import gzip
+        raw = json.loads(gzip.decompress((self.root / 'model_data/public_archive/usgs/test.json.gz').read_bytes()))
+        if not include_upstream:
+            raw['value']['timeSeries'] = []
+        fish = json.loads((ROOT / 'tests/fixtures/fish_river/usgs_02378500_20261018.json').read_bytes())
+        for ts in fish['value']['timeSeries']:
+            group = ts['values'][0]
+            group['value'] = [group['value'][-1]]
+            group['value'][0]['dateTime'] = observed.isoformat()
+            if defect == 'units': ts['variable']['unit']['unitCode'] = 'WRONG'
+            if defect == 'qc': group['value'][0]['qualifiers'] = ['P', 'UNKNOWN']
+            if defect == 'conflict':
+                conflict = copy.deepcopy(group['value'][0])
+                conflict['value'] = str(float(conflict['value']) + 1)
+                group['value'].append(conflict)
+        raw['value']['timeSeries'].extend(fish['value']['timeSeries'])
+        m = self.f.read('model_data/river_forcing_manifest.json')
+        m.update(status='partial', requested_sites=list(builder.river.SITES),
+                 missing_sites=['02469761', '02469762'] if include_upstream else list(builder.river.UPSTREAM_SITES),
+                 raw_sha256=self.f.archive('public_archive/usgs/test.json.gz', raw),
+                 normalized_rows=len(builder.river.normalize(raw, guard.stamp(m['retrieved_at_utc']), m['source_url'])))
+        self.f.write('model_data/river_forcing_manifest.json', m)
+        self.commit('add separate synthetic Fish River evidence')
+
+    def test_fish_river_is_separate_from_upstream_and_forecast_count(self):
+        self.fish_river(T0 - timedelta(minutes=10))
+        snapshot, forecast = self.reconcile(T0)
+        rv = next(r for r in snapshot['input_rows'] if r['source'] == builder.RIVER)
+        self.assertEqual({r['station_id'] for r in rv['series']}, {'02428400'})
+        local = rv['local_watershed_context']
+        self.assertEqual(local['value_status'], 'KNOWN_LOCAL_WATERSHED_PROXY')
+        self.assertEqual(local['missing_parameter_codes'], [])
+        self.assertEqual(len(local['series']), 2)
+        self.assertEqual(forecast['data_coverage']['fresh_river_series'], 1)
+        self.assertEqual({r['station_id'] for r in local['series']}, {'02378500'})
+        self.assertTrue(all(r['production_weight'] == 0 and 'antecedent_windows' not in r for r in local['series']))
+        self.assertIn('native-gage', local['observation'])
+
+    def test_fish_river_stale_future_qc_units_and_conflicts_remain_unknown(self):
+        for defect in ('stale', 'future', 'qc', 'units', 'conflict'):
+            with self.subTest(defect=defect):
+                self.environment(T0)
+                observed = T0 + timedelta(minutes=1) if defect == 'future' else T0 - timedelta(minutes=181 if defect == 'stale' else 10)
+                self.fish_river(observed, defect)
+                snapshot, forecast = self.reconcile(T0)
+                rv = next(r for r in snapshot['input_rows'] if r['source'] == builder.RIVER)
+                self.assertEqual(rv['local_watershed_context']['value_status'], 'UNKNOWN')
+                self.assertTrue(all(r['latest_value'] is None for r in rv['local_watershed_context']['series']))
+                self.assertEqual(forecast['data_coverage']['fresh_river_series'], 1)
+
+    def test_fish_river_expiry_reconciles_without_new_raw_observation(self):
+        self.fish_river(T0 - timedelta(minutes=179))
+        snapshot, _ = self.reconcile(T0)
+        rv = next(r for r in snapshot['input_rows'] if r['source'] == builder.RIVER)
+        self.assertEqual(rv['local_watershed_context']['value_status'], 'KNOWN_LOCAL_WATERSHED_PROXY')
+        snapshot, forecast = self.reconcile(T0 + timedelta(minutes=2))
+        rv = next(r for r in snapshot['input_rows'] if r['source'] == builder.RIVER)
+        self.assertEqual(rv['local_watershed_context']['value_status'], 'UNKNOWN')
+        self.assertEqual(forecast['data_coverage']['fresh_river_series'], 1)
+
+    def test_missing_fish_river_and_legacy_three_station_replay(self):
+        import gzip
+        raw = json.loads(gzip.decompress((self.root / 'model_data/public_archive/usgs/test.json.gz').read_bytes()))
+        for station in ('02469761', '02469762'):
+            ts = copy.deepcopy(raw['value']['timeSeries'][0])
+            ts['sourceInfo']['siteCode'][0]['value'] = station
+            ts['name'] = 'USGS:' + station + ':00060'
+            raw['value']['timeSeries'].append(ts)
+        m = self.f.read('model_data/river_forcing_manifest.json')
+        m.update(source_url='https://waterservices.usgs.gov/nwis/iv/?sites=02428400,02469761,02469762',
+                 normalized_rows=3, raw_sha256=self.f.archive('public_archive/usgs/test.json.gz', raw))
+        # Historical complete response remains valid; expanded partial response
+        # cannot admit a missing new station or reject the three existing ones.
+        for status in ('complete', 'partial'):
+            m['status'] = status
+            if status == 'partial': m.update(requested_sites=list(builder.river.SITES), missing_sites=['02378500'])
+            self.f.write('model_data/river_forcing_manifest.json', m)
+            self.commit('legacy or expanded three-station response ' + status)
+            snapshot, forecast = self.reconcile(T0)
+            rv = next(r for r in snapshot['input_rows'] if r['source'] == builder.RIVER)
+            self.assertEqual(forecast['data_coverage']['fresh_river_series'], 3)
+            self.assertEqual(rv['local_watershed_context']['value_status'], 'UNKNOWN')
+            self.assertEqual(rv['local_watershed_context']['series'], [])
+            self.assertEqual(rv['local_watershed_context']['missing_parameter_codes'], ['00060', '00065'])
+
+    def test_fish_river_alone_cannot_replace_missing_upstream(self):
+        self.fish_river(T0 - timedelta(minutes=10), include_upstream=False)
+        snapshot, forecast = self.reconcile(T0)
+        rv = next(r for r in snapshot['input_rows'] if r['source'] == builder.RIVER)
+        self.assertEqual(rv['series'], [])
+        self.assertEqual(rv['admitted_status'], 'UNKNOWN')
+        self.assertEqual(rv['local_watershed_context']['value_status'], 'KNOWN_LOCAL_WATERSHED_PROXY')
+        self.assertEqual(forecast['data_coverage']['fresh_river_series'], 0)
+
+    def test_fish_river_outage_does_not_reuse_retained_raw(self):
+        self.fish_river(T0 - timedelta(minutes=10))
+        self.reconcile(T0)
+        self.f.write('model_data/river_forcing_manifest.json', {'status': 'unavailable', 'retrieved_at_utc': T0.isoformat()})
+        self.commit('explicit outage with retained old raw')
+        snapshot, forecast = self.reconcile(T0 + timedelta(minutes=1))
+        rv = next(r for r in snapshot['input_rows'] if r['source'] == builder.RIVER)
+        self.assertEqual(rv['local_watershed_context']['value_status'], 'UNKNOWN')
+        self.assertEqual(rv['local_watershed_context']['series'], [])
+        self.assertEqual(forecast['data_coverage']['fresh_river_series'], 0)
+
     def test_back_to_back_sensing_then_camera_and_duplicate_trigger(self):
         first, _ = self.reconcile(T0)
         self.environment(T0 + timedelta(minutes=37))
@@ -289,11 +413,349 @@ class ReconciliationTests(unittest.TestCase):
         snapshot, forecast = self.reconcile(T0)
         cameras = next(row for row in snapshot['input_rows'] if row['source'] == builder.CAMERA)
         reconciled = {row['camera_id']: row for row in cameras['camera_health']['private_cameras']}
-        self.assertEqual(reconciled['camera_3']['overall_visual_signal'], 'unclear')
-        self.assertEqual(reconciled['camera_3']['temporal_visual_signal'], 'unclear')
+        self.assertEqual(reconciled['camera_3']['admitted_status'], 'UNKNOWN_LOW_DETECTABILITY')
+        self.assertEqual(reconciled['camera_3']['visibility'], 'poor')
+        self.assertEqual(reconciled['camera_3']['biological_detectability'], 'low')
+        self.assertEqual(reconciled['camera_3']['overall_visual_signal'], 'UNKNOWN')
+        self.assertEqual(reconciled['camera_3']['temporal_visual_signal'], 'UNKNOWN')
+        self.assertFalse(reconciled['camera_3']['negative_event_label_allowed'])
         self.assertFalse(snapshot['alert_gates']['direct_event_evidence_present'])
         self.assertFalse(snapshot['reconciliation']['forecast_weights_changed'])
         self.assertEqual(forecast['outlooks'], binding.project(builder.encode(self.state))['outlooks'])
+
+    def reviewed_camera_fixture(self, now):
+        """Exact PR #111 JSON, synthetic final-image bytes and environment."""
+        source = ROOT / 'tests/fixtures/state_reconciliation/reviewed_camera_20261018'
+        for path in source.rglob('*'):
+            if path.is_file() and path.name != 'README.md':
+                self.f.write(str(path.relative_to(source)), path.read_bytes())
+        original = (self.root / binding.SNAPSHOT).read_bytes()
+        self.assertEqual(guard.digest(original), '62504f99b9b0e4263a79b2b8a8030b1fe0bbdad3c4803c3fc6d2ff2656a1e24e')
+        binding.check(original, self.f.read(binding.FORECAST))
+        self.state = json.loads(original)
+        status = self.f.read('status.json')
+        # Avoid storing another copy of private camera pixels. Only image bytes
+        # and their provenance are synthetic; all reviewed JSON stays exact.
+        for cid, camera in status['cameras'].items():
+            self.f.write(cid + '.jpg', b'\xff\xd8' + b'0' * (camera['bytes'] - 4) + b'\xff\xd9')
+        self.environment(now)
+        self.commit('PR 111 JSON with synthetic images and environmental refresh')
+        for cid in status['cameras']:
+            path = cid + '.jpg'
+            self.state['reconciliation']['source_provenance'][path] = dict(
+                sha256=guard.digest((self.root/path).read_bytes()),
+                git_blob=self.f.git('rev-parse', 'HEAD:' + path))
+        self.f.write(binding.SNAPSHOT, self.state)
+        self.f.write(binding.FORECAST, binding.project(builder.encode(self.state)))
+        self.commit('bind synthetic image provenance for fixture-only replay')
+        return copy.deepcopy(self.state['manual_event_review'])
+
+    def owner_expired_review_fixture(self, now):
+        """Exact cab3 camera row/issue clock; image/environment fixtures synthetic.
+
+        Owner snapshot blob a5e63985575337ddf248789c6f82a34814656fc3,
+        commit cab3d08f2923d5e7675bffae071ea71de0702f2e. Its original
+        manual_event_review and all eleven camera provenance entries are
+        unchanged from PR #111. No new camera review is manufactured here.
+        """
+        review = self.reviewed_camera_fixture(now)
+        owner_row = json.loads(r'''{
+  "source": "bentsmith4/jubilee-camera-feed status.json, burst_status.json and vision.json",
+  "station_location": "six owner cameras at Montrose and Point Clear",
+  "parameter": "three-frame visual evidence and camera health",
+  "observed_vs_predicted_model": "OWNER_CAMERA_OBSERVATION_PLUS_VISION_CLASSIFICATION",
+  "units": "categorical visual evidence",
+  "timezone_datum_depth": "explicit ISO-8601 CDT offsets; camera-visible surface/shoreline only",
+  "shoreline_cell": "Montrose and Point Clear",
+  "independence_group": "montrose_owner_cluster + point_clear_landing_owner_cluster",
+  "valid_time_ct": "2026-10-18T22:06:04.956448-05:00",
+  "evaluated_at_ct": "2026-10-18T23:47:03.143694-05:00",
+  "admitted_status": "VISIBLE_SCOPE_CONTEXT_WITH_EXPLICIT_HEALTH_AND_AGE",
+  "observation": "Committed vision classifications only. Unknown or absent visible signals do not establish biological absence or dawn acceptance.",
+  "camera_health": {
+    "expected_private_cameras": 6,
+    "private_metadata_pass": 6,
+    "private_cameras": [
+      {
+        "camera_id": "montrose_pier_boat",
+        "site_group": "montrose_owner_cluster",
+        "shoreline_cell": "Montrose",
+        "captured_at_ct": "2026-10-18T22:06:33.827405-05:00",
+        "age_minutes": 100.489,
+        "upstream_metadata_pass": true,
+        "admitted_status": "UNKNOWN_STALE_OR_FAILED",
+        "visibility": "UNKNOWN",
+        "biological_detectability": "UNKNOWN",
+        "overall_visual_signal": "UNKNOWN",
+        "temporal_visual_signal": "UNKNOWN",
+        "negative_event_label_allowed": false,
+        "raw_archive_verification": "NOT_VERIFIED"
+      },
+      {
+        "camera_id": "montrose_pier_bird",
+        "site_group": "montrose_owner_cluster",
+        "shoreline_cell": "Montrose",
+        "captured_at_ct": "2026-10-18T22:09:21.781795-05:00",
+        "age_minutes": 97.689,
+        "upstream_metadata_pass": true,
+        "admitted_status": "UNKNOWN_STALE_OR_FAILED",
+        "visibility": "UNKNOWN",
+        "biological_detectability": "UNKNOWN",
+        "overall_visual_signal": "UNKNOWN",
+        "temporal_visual_signal": "UNKNOWN",
+        "negative_event_label_allowed": false,
+        "raw_archive_verification": "NOT_VERIFIED"
+      },
+      {
+        "camera_id": "montrose_shoreline",
+        "site_group": "montrose_owner_cluster",
+        "shoreline_cell": "Montrose",
+        "captured_at_ct": "2026-10-18T22:08:13.650556-05:00",
+        "age_minutes": 98.825,
+        "upstream_metadata_pass": true,
+        "admitted_status": "UNKNOWN_STALE_OR_FAILED",
+        "visibility": "UNKNOWN",
+        "biological_detectability": "UNKNOWN",
+        "overall_visual_signal": "UNKNOWN",
+        "temporal_visual_signal": "UNKNOWN",
+        "negative_event_label_allowed": false,
+        "raw_archive_verification": "NOT_VERIFIED"
+      },
+      {
+        "camera_id": "pcl_e2_back_deck",
+        "site_group": "point_clear_landing_owner_cluster",
+        "shoreline_cell": "Point Clear",
+        "captured_at_ct": "2026-10-18T22:07:16.809571-05:00",
+        "age_minutes": 99.772,
+        "upstream_metadata_pass": true,
+        "admitted_status": "UNKNOWN_STALE_OR_FAILED",
+        "visibility": "UNKNOWN",
+        "biological_detectability": "UNKNOWN",
+        "overall_visual_signal": "UNKNOWN_REVIEWED_LOW_DETECTABILITY",
+        "temporal_visual_signal": "UNKNOWN_REVIEWED_LOW_DETECTABILITY",
+        "negative_event_label_allowed": false,
+        "raw_archive_verification": "NOT_VERIFIED"
+      },
+      {
+        "camera_id": "pcl_e2_bay_mouth",
+        "site_group": "point_clear_landing_owner_cluster",
+        "shoreline_cell": "Point Clear",
+        "captured_at_ct": "2026-10-18T22:07:44.605948-05:00",
+        "age_minutes": 99.309,
+        "upstream_metadata_pass": true,
+        "admitted_status": "UNKNOWN_STALE_OR_FAILED",
+        "visibility": "UNKNOWN",
+        "biological_detectability": "UNKNOWN",
+        "overall_visual_signal": "UNKNOWN",
+        "temporal_visual_signal": "UNKNOWN",
+        "negative_event_label_allowed": false,
+        "raw_archive_verification": "NOT_VERIFIED"
+      },
+      {
+        "camera_id": "pcl_e3_bay_mouth",
+        "site_group": "point_clear_landing_owner_cluster",
+        "shoreline_cell": "Point Clear",
+        "captured_at_ct": "2026-10-18T22:08:54.626713-05:00",
+        "age_minutes": 98.142,
+        "upstream_metadata_pass": true,
+        "admitted_status": "UNKNOWN_STALE_OR_FAILED",
+        "visibility": "UNKNOWN",
+        "biological_detectability": "UNKNOWN",
+        "overall_visual_signal": "UNKNOWN",
+        "temporal_visual_signal": "UNKNOWN",
+        "negative_event_label_allowed": false,
+        "raw_archive_verification": "NOT_VERIFIED"
+      }
+    ],
+    "unknown_upstream_camera_ids": []
+  }
+}''')
+        self.state['snapshot_time_ct'] = '2026-10-18T23:47:03.143694-05:00'
+        self.state['reconciliation']['as_of_utc'] = '2026-10-19T04:47:03.143694+00:00'
+        self.state['input_rows'] = [owner_row if row['source'] == builder.CAMERA else row
+                                    for row in self.state['input_rows']]
+        self.f.write(binding.SNAPSHOT, self.state)
+        self.f.write(binding.FORECAST, binding.project(builder.encode(self.state)))
+        self.commit('exact cab3 owner stale camera-row shape')
+        return review
+
+    def assert_review_failure_keeps_pair(self, now, message='REVIEW_REQUIRED'):
+        before = [(self.root / p).read_bytes() for p in publisher.OUTPUTS]
+        with self.assertRaisesRegex(ValueError, message):
+            builder.build(self.root, now)
+        self.assertEqual([(self.root / p).read_bytes() for p in publisher.OUTPUTS], before)
+
+    def test_pr111_expiry_allows_environment_refresh_without_reviving_review(self):
+        now = guard.stamp('2026-10-19T04:32:41Z')
+        review = self.reviewed_camera_fixture(now)
+        snapshot, forecast = self.reconcile(now)
+        self.assertEqual(snapshot['manual_event_review'], review)
+        camera_row = next(r for r in snapshot['input_rows'] if r['source'] == builder.CAMERA)
+        target = next(r for r in camera_row['camera_health']['private_cameras'] if r['camera_id'] == review['camera_id'])
+        self.assertEqual(target['admitted_status'], 'UNKNOWN_STALE')
+        self.assertEqual(target['captured_at_ct'], '2026-10-18T22:07:16.809571-05:00')
+        self.assertEqual(review['capture_time_ct'], '2026-10-18T22:06:04.956448-05:00')
+        for field in ('visibility', 'biological_detectability', 'overall_visual_signal', 'temporal_visual_signal'):
+            self.assertEqual(target[field], 'UNKNOWN')
+        self.assertFalse(target['negative_event_label_allowed'])
+        self.assertTrue(any('historical only' in text for text in snapshot['known_unknowns']))
+        self.assertEqual(forecast['outlooks'], binding.project(builder.encode(self.state))['outlooks'])
+        # Another non-camera update remains possible without refreshing the review.
+        self.environment(now + timedelta(minutes=10))
+        self.commit('second synthetic environmental refresh')
+        second, _ = self.reconcile(now + timedelta(minutes=10))
+        self.assertEqual(second['manual_event_review'], review)
+        self.assertIsNone(builder.build(self.root, now + timedelta(minutes=11)))
+
+    def test_cab3_owner_stale_review_refreshes_without_changing_assessment(self):
+        now = guard.stamp('2026-10-19T04:55:12Z')
+        review = self.owner_expired_review_fixture(now)
+        snapshot, _ = self.reconcile(now)
+        self.assertEqual(snapshot['manual_event_review'], review)
+        self.assertEqual(snapshot['reconciliation']['prior_snapshot_time_ct'], '2026-10-18T23:47:03.143694-05:00')
+        row = next(r for r in snapshot['input_rows'] if r['source'] == builder.CAMERA)
+        target = next(r for r in row['camera_health']['private_cameras'] if r['camera_id'] == review['camera_id'])
+        self.assertEqual(target['admitted_status'], 'UNKNOWN_STALE')
+        for field in ('visibility', 'biological_detectability', 'overall_visual_signal', 'temporal_visual_signal'):
+            self.assertEqual(target[field], 'UNKNOWN')
+        self.assertFalse(target['negative_event_label_allowed'])
+
+    def test_cab3_compatibility_requires_healthy_already_expired_prior_unknown(self):
+        now = guard.stamp('2026-10-19T04:55:12Z')
+        for defect in ('failed_metadata', 'visible', 'fresh_prior_issue'):
+            with self.subTest(defect=defect):
+                self.owner_expired_review_fixture(now)
+                d = self.f.read(binding.SNAPSHOT)
+                row = next(r for r in d['input_rows'] if r['source'] == builder.CAMERA)
+                target = next(r for r in row['camera_health']['private_cameras'] if r['camera_id'] == 'pcl_e2_back_deck')
+                if defect == 'failed_metadata':
+                    target['upstream_metadata_pass'] = False
+                elif defect == 'visible':
+                    target['visibility'] = 'poor'
+                else:
+                    d['snapshot_time_ct'] = '2026-10-18T22:20:00-05:00'
+                    d['reconciliation']['as_of_utc'] = '2026-10-19T03:20:00+00:00'
+                self.f.write(binding.SNAPSHOT, d)
+                self.f.write(binding.FORECAST, binding.project(builder.encode(d)))
+                self.commit('invalid historical owner shape ' + defect)
+                self.assert_review_failure_keeps_pair(now)
+
+    def test_pr111_fresh_or_freshness_boundary_review_is_not_reused(self):
+        for now in (guard.stamp('2026-10-19T03:20:00Z'),
+                    guard.stamp('2026-10-19T04:07:16.809571Z')):
+            with self.subTest(now=now):
+                self.reviewed_camera_fixture(now)
+                self.assert_review_failure_keeps_pair(now, 'fresh or failed camera')
+
+    def test_pr111_one_millisecond_after_expiry_keeps_all_visual_fields_unknown(self):
+        now = guard.stamp('2026-10-19T04:07:16.810571Z')
+        review = self.reviewed_camera_fixture(now)
+        snapshot, _ = self.reconcile(now)
+        camera_row = next(r for r in snapshot['input_rows'] if r['source'] == builder.CAMERA)
+        target = next(r for r in camera_row['camera_health']['private_cameras'] if r['camera_id'] == review['camera_id'])
+        self.assertEqual(target['age_minutes'], 60.0)  # Display rounding is not admission.
+        self.assertEqual(target['admitted_status'], 'UNKNOWN_STALE')
+        for field in ('visibility', 'biological_detectability', 'overall_visual_signal', 'temporal_visual_signal'):
+            self.assertEqual(target[field], 'UNKNOWN')
+        self.assertEqual(snapshot['manual_event_review'], review)
+        self.assertFalse(target['negative_event_label_allowed'])
+
+    def test_pr111_changed_camera_evidence_still_requires_review_after_expiry(self):
+        now = guard.stamp('2026-10-19T04:32:41Z')
+        for defect in ('image', 'other_image', 'vision', 'cycle', 'shot', 'registry', 'unbound'):
+            with self.subTest(defect=defect):
+                self.reviewed_camera_fixture(now)
+                if defect in ('image', 'other_image'):
+                    name = ('pcl_e2_back_deck' if defect == 'image' else 'montrose_shoreline') + '.jpg'
+                    raw = bytearray((self.root/name).read_bytes())
+                    raw[len(raw)//2] ^= 1  # same-size JPEG markers retained
+                    self.f.write(name, bytes(raw))
+                elif defect == 'vision':
+                    v = self.f.read('vision.json')
+                    v['cameras']['pcl_e2_back_deck']['activity_changed_across_frames'] = 'yes'
+                    self.f.write('vision.json', v)
+                elif defect == 'cycle':
+                    for name in ('status.json', 'burst_status.json', 'vision.json'):
+                        d = self.f.read(name)
+                        d['capture_time_ct'] = (guard.stamp(d['capture_time_ct']) - timedelta(seconds=1)).isoformat()
+                        self.f.write(name, d)
+                elif defect == 'shot':
+                    for name in ('burst_status.json', 'vision.json'):
+                        d = self.f.read(name)
+                        shots = d['cameras']['pcl_e2_back_deck']['shots' if name == 'burst_status.json' else 'burst_shots']
+                        for shot in shots:
+                            shot['timestamp_ct'] = (guard.stamp(shot['timestamp_ct']) + timedelta(seconds=1)).isoformat()
+                        self.f.write(name, d)
+                    d = self.f.read('status.json')
+                    d['cameras']['pcl_e2_back_deck']['timestamp_ct'] = shots[-1]['timestamp_ct']
+                    self.f.write('status.json', d)
+                elif defect == 'registry':
+                    d = self.f.read('model_data/camera_sources.json')
+                    d['cameras'][0]['shoreline_cell'] = 'changed geometry'
+                    self.f.write('model_data/camera_sources.json', d)
+                else:
+                    d = self.f.read(binding.SNAPSHOT)
+                    d['reconciliation']['source_provenance'].pop('vision.json')
+                    self.f.write(binding.SNAPSHOT, d)
+                    self.f.write(binding.FORECAST, binding.project(builder.encode(d)))
+                self.commit('changed camera evidence ' + defect)
+                self.assert_review_failure_keeps_pair(now)
+
+    def test_pr111_missing_or_changed_historical_decision_stops(self):
+        now = guard.stamp('2026-10-19T04:32:41Z')
+        for defect in ('missing', 'decision', 'alert', 'subject', 'row', 'active_event'):
+            with self.subTest(defect=defect):
+                self.reviewed_camera_fixture(now)
+                d = self.f.read(binding.SNAPSHOT)
+                if defect == 'missing':
+                    d.pop('manual_event_review')
+                elif defect == 'decision':
+                    d['manual_event_review']['admitted_event_status'] = 'EVENT_EVIDENCE'
+                elif defect == 'alert':
+                    d['manual_event_review']['probability_or_alert_change'] = True
+                elif defect == 'subject':
+                    d['manual_event_review']['camera_id'] = 'montrose_shoreline'
+                elif defect == 'row':
+                    row = next(r for r in d['input_rows'] if r['source'] == builder.CAMERA)
+                    next(r for r in row['camera_health']['private_cameras'] if r['camera_id'] == 'pcl_e2_back_deck')['overall_visual_signal'] = 'none'
+                else:
+                    d['alert_gates']['direct_event_evidence_present'] = True
+                    d['alert_gates']['notification_suppressed'] = False
+                    d['notification_condition_met'] = True
+                self.f.write(binding.SNAPSHOT, d)
+                self.f.write(binding.FORECAST, binding.project(builder.encode(d)))
+                self.commit('invalid historical review ' + defect)
+                self.assert_review_failure_keeps_pair(now)
+
+    def test_pr111_review_does_not_hide_parser_or_integrity_failures(self):
+        now = guard.stamp('2026-10-19T04:32:41Z')
+        for defect in ('json', 'jpeg', 'size', 'burst', 'weather_hash', 'weather_parser'):
+            with self.subTest(defect=defect):
+                self.reviewed_camera_fixture(now)
+                if defect == 'json':
+                    self.f.write('vision.json', b'invalid JSON')
+                elif defect in ('jpeg', 'size'):
+                    p = 'pcl_e2_back_deck.jpg'
+                    raw = (self.root/p).read_bytes()
+                    self.f.write(p, b'bad' + raw[3:] if defect == 'jpeg' else raw + b'bad')
+                elif defect == 'burst':
+                    d = self.f.read('burst_status.json')
+                    d['cameras']['pcl_e2_back_deck']['shots'].pop()
+                    self.f.write('burst_status.json', d)
+                elif defect == 'weather_hash':
+                    d = self.f.read('model_data/asos_weather_manifest.json')
+                    d['normalized_sha256'] = '0' * 64
+                    self.f.write('model_data/asos_weather_manifest.json', d)
+                else:
+                    p = 'model_data/asos_weather_normalized.json'
+                    d = self.f.read(p)
+                    d[0]['value'] = 199
+                    self.f.write(p, d)
+                    m = self.f.read('model_data/asos_weather_manifest.json')
+                    m['normalized_sha256'] = guard.digest((self.root/p).read_bytes())
+                    self.f.write('model_data/asos_weather_manifest.json', m)
+                self.commit('corrupt evidence ' + defect)
+                self.assert_review_failure_keeps_pair(now, '')
 
     def remote(self):
         tmp = tempfile.TemporaryDirectory()

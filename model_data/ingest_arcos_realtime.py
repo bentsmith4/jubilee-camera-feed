@@ -204,7 +204,7 @@ def archive_raw(raw, station_key, stream):
     path=HERE/"raw_arcos_realtime"/f"{station_key}_{stream}.json.gz"
     path.parent.mkdir(parents=True,exist_ok=True)
     path.write_bytes(gzip.compress(raw,mtime=0))
-    return str(path.relative_to(HERE)),digest,len(raw)
+    return path.relative_to(HERE).as_posix(),digest,len(raw)
 
 def write_csv(rows,path):
     if not rows:

@@ -1,0 +1,99 @@
+{
+  "schema": "jubilee_j09_ncei_0224293_native_audit_receipt/v1",
+  "work_id": "J09",
+  "as_of_date_ct": "2026-10-20",
+  "stage": "RAW_RETAINED_AND_NATIVE_PARSED__NO_FORECAST_FEATURES_OR_NORMALIZATION",
+  "source": {
+    "provider": "NOAA NCEI",
+    "accession": "0224293",
+    "raw_url": "https://www.ncei.noaa.gov/data/oceans/archive/arc0171/0224293/1.1/data/0-data/middlebay_hyd_2019.txt",
+    "raw_sha256": "49e04d4903d6f6edc4f6bbbc91e9b7e81a6c6ed560318a0621d1d9c454c5e7fb",
+    "raw_bytes": 354363,
+    "local_raw_copy": "C:\\JubileeCams\\upgrade_review\\research_middle_bay_2019_20261020\\middlebay_hyd_2019.txt",
+    "file_retention": "local research cache only; no live runtime or third-party camera data",
+    "research_parser": "model_data/audit_middle_bay_2019_native.py"
+  },
+  "native_counts": {
+    "total_rows": 4409,
+    "distinct_native_day_time_station_keys": 4409,
+    "duplicate_native_keys": 0,
+    "station_id": "188",
+    "year": 2019,
+    "distinct_days": 100,
+    "nominal_day_of_year_range": [
+      1,
+      184
+    ],
+    "nominal_month_rows": {
+      "2019-01": 1488,
+      "2019-02": 411,
+      "2019-05": 962,
+      "2019-06": 1425,
+      "2019-07": 123
+    },
+    "days_with_48_samples": 78
+  },
+  "native_quality": {
+    "do_mg_l_qc_flag_good_rows": 4409,
+    "do_percent_qc_flag_good_rows": 4409,
+    "temperature_qc_flag_good_rows": 4409,
+    "salinity_qc_flag_good_rows": 4409,
+    "water_height_bad_flag_rows": 6,
+    "pressure_has_no_native_flag_column": true,
+    "missing_comments": 2737
+  },
+  "native_hydrography": {
+    "do_mg_l": {
+      "min": 0.51,
+      "max": 10.6,
+      "count_lt_2_mg_l": 439,
+      "count_lt_3_mg_l": 883,
+      "count_lt_4_mg_l": 1154
+    },
+    "do_percent": {
+      "min": 6.5,
+      "max": 118
+    },
+    "salinity_psu": {
+      "min": 0.13,
+      "max": 28.95
+    },
+    "temperature_c": {
+      "min": 8.94,
+      "max": 30.93
+    },
+    "pressure_psi_g": {
+      "min": -0.04,
+      "max": 6.39
+    },
+    "water_height_unresolved_units": {
+      "min": -0.03,
+      "max": 4.42
+    }
+  },
+  "qc_provenance": {
+    "native_good_flag_interpretation": "Native NOAA QC flag value 3 means good, but doesn't independently establish calibrated depth, sensor accuracy or station deployment history",
+    "pressure_unit": "NCEI archived correspondence dated 2021-02-02: psi gauge; no depth conversion",
+    "native_cadence": "48 samples/day on 78 days, typically nominal half-hour; NOAA generic metadata says hourly; discrepancy retained",
+    "unobserved_mar_apr": "No native hydro rows in March or April; not coded as oxygen zero or event negative",
+    "native_clock_timezone": "UNKNOWN_NOT_NORMALIZED",
+    "height_above_bed": "UNKNOWN_NOT_BOTTOM_CLASSIFIED",
+    "water_height_units": "CONFLICT_UNRESOLVED"
+  },
+  "promotion_gate": {
+    "accepted_utc_normalized_rows": 0,
+    "accepted_earth_frame_current_rows": 0,
+    "point_clear_bottom_observations": 0,
+    "verified_jubilee_event_labels": 0,
+    "production_weight": 0,
+    "event_skill_gain": "NOT_ESTIMABLE",
+    "purpose": "historical central bay oxygen-loading/stratification source; low DO is not jubilee event"
+  },
+  "reproducibility": {
+    "raw_sha256_check": "PASS",
+    "reparsed_native_rows": "PASS",
+    "audit_script_readback_on_pointclearpc": "PASS",
+    "parsed_file_time_basis": "NOT_VERIFIED",
+    "native_station_vertical_datum": "NOT_VERIFIED"
+  }
+}

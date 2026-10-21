@@ -1,0 +1,98 @@
+{
+  "schema": "jubilee_j09_source_qc_receipt/v1",
+  "work_id": "J09",
+  "as_of_date_ct": "2026-10-20",
+  "stage": "NATIVE_PUBLIC_DATA_DOWNLOADED_RETAINED_LOCALLY_AND_AUDITED__SCIENTIFIC_NORMALIZATION_NOT_ACCEPTED",
+  "source": {
+    "provider": "NOAA NCEI / Dauphin Island Sea Lab",
+    "accession": "0224293",
+    "url": "https://www.ncei.noaa.gov/archive/accession/0224293",
+    "metadata_url": "https://www.ncei.noaa.gov/metadata/granule/geoportal/rest/metadata/item/DISL_ARCOS.0224293/html",
+    "coordinates": {
+      "latitude": 30.4367,
+      "longitude": -88.0117
+    },
+    "observation_status": "HISTORICAL_IN_SITU_CENTRAL_BAY_PROXY",
+    "not": "Point Clear shoreline observed currents",
+    "instrument": "YSI 6600 EDS",
+    "hydro_period": "2019-01-01 through 2019-07-03 ONLY",
+    "meteorology_period": "2019-01-01 through 2019-12-16",
+    "sampling": "hydro hourly at varied depths; met 1 minute"
+  },
+  "verified_limits": [
+    "NOAA explicitly reports hydrographic instrument failure after July 3; subsequent months contain no authoritative hydro observations in this accession.",
+    "NOAA DO mg/L and DO percent are separate measurements and must never be silently cross-interpreted.",
+    "NOAA's Water Height text labels units 'meters per second' while describing instrument-to-surface distance in meters: block this variable pending native-file verification.",
+    "Provider QC metadata codes: 0/blank unevaluated; 1 bad; 2 questionable; 3 good; -9 null. Missing or ambiguous QC must not be converted to valid.",
+    "Different measurement depths are described, but instrument heights above bed and datum have not been authenticated from native records.",
+    "The described dataset is not an ADCP observed-current source and does not clear Y1.x122.038:0002 calibration."
+  ],
+  "provenance_gate": {
+    "native_raw_payload_retrieved": true,
+    "original_raw_storage": "PointClearPC research-only immutable local copy; C:\\JubileeCams\\upgrade_review\\research_middle_bay_2019_20261020\\middlebay_hyd_2019.txt",
+    "native_public_file": "middlebay_hyd_2019.txt",
+    "source_url": "https://www.ncei.noaa.gov/data/oceans/archive/arc0171/0224293/1.1/data/0-data/middlebay_hyd_2019.txt",
+    "sha256": "49e04d4903d6f6edc4f6bbbc91e9b7e81a6c6ed560318a0621d1d9c454c5e7fb",
+    "raw_bytes": 354363,
+    "native_rows": 4409,
+    "station_id": "188",
+    "native_observation_days": 100,
+    "nominal_day_of_year_min": 1,
+    "nominal_day_of_year_max": 184,
+    "nominal_month_counts": {
+      "2019-01": 1488,
+      "2019-02": 411,
+      "2019-05": 962,
+      "2019-06": 1425,
+      "2019-07": 123
+    },
+    "missing_nominal_months": [
+      "2019-03",
+      "2019-04"
+    ],
+    "native_timestamps_timezone": "UNKNOWN",
+    "native_sonde_height_above_bed": "UNKNOWN",
+    "accepted_utc_normalized_rows": 0,
+    "canonical_native_audit_script": "model_data/audit_middle_bay_2019_native.py",
+    "retained_local_readback": "native_readback.json",
+    "source_metadata_declared_cadence": "hourly",
+    "observed_native_samples": "30-min nominal, 78 full days with 48 rows/day; missing periods and variable intervals",
+    "status_note": "NCEI accession landing redirect returned HTML error but documented /data/oceans archive path was accessible. No raw bytes or private media committed to GitHub."
+  },
+  "related_adcp": {
+    "id": "Y1.x122.038:0002",
+    "provider_nortek_rdi_format_discrepancy": "UNRESOLVED",
+    "earth_frame_accepted_rows": 0,
+    "referenced_replay": "model_data/j09_adcp_authoritative_metadata_audit_20261012.json"
+  },
+  "existing_control_eligibility": {
+    "tier_a": 0,
+    "clean_training_negatives": 0,
+    "model_skill": "NOT_ESTIMABLE"
+  },
+  "action": "Prepare non-production schema validation and native-payload retrieval; no promotion, no runtime or forecast changes.",
+  "native_results": {
+    "native_good_qc_counts": {
+      "dissolved_oxygen_concentration": 4409,
+      "dissolved_oxygen_percent": 4409,
+      "salinity": 4409,
+      "temperature": 4409
+    },
+    "oxygen_mg_l": {
+      "min": 0.51,
+      "max": 10.6,
+      "records_below_2_mg_l": 439
+    },
+    "oxygen_percent": {
+      "min": 6.5,
+      "max": 118
+    },
+    "source_station_id_188_rows": 4409,
+    "native_key_duplicates": 0,
+    "interpretation": "Low oxygen readings are historical central-bay native instrument values with unverified sensor depth, not Jubilee labels or Point Clear bottom DO."
+  },
+  "native_additional_qc": [
+    "NCEI 2021-02-02 archived correspondence from DISL ARCOS technician identifies pressure as psi gauge; no conversion/depth estimate accepted.",
+    "Native jday and timedata contain 2400 endpoint; nominal 30-min rows on full days conflict with NOAA hourly description; native source clock basis unresolved."
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "jubilee_j18_compact_json_postmerge_measurement/v1",
+  "generated_at_utc": "2026-10-20T14:34:16.000Z",
+  "source": {
+    "path": "api_usage_summary.json",
+    "generated_at_utc": "2026-10-20T14:11:04.441201+00:00",
+    "status": "available",
+    "invalid_records": 0,
+    "window_start": "2026-09-20",
+    "window_end": "2026-10-20",
+    "git_blob_sha": "b665a8edbc577c8fe21ffb3f0d0fc9ce2f2a9fe8"
+  },
+  "method": "Camera-stage completed requests only. Baseline is complete 2026-10-08. Post period is complete Central dates 2026-10-09 through 2026-10-19; partial 2026-10-20 is excluded. Cached input is a subset of input and is not added twice.",
+  "baseline": {
+    "date_ct": "2026-10-08",
+    "completed_camera_requests": 178,
+    "failed_requests": 0,
+    "input_tokens": 1281460,
+    "output_tokens": 166513,
+    "cached_input_tokens": 383292,
+    "input_tokens_per_request": 7199.213483146067,
+    "output_tokens_per_request": 935.4662921348314
+  },
+  "post": {
+    "date_ct_start": "2026-10-09",
+    "date_ct_end": "2026-10-19",
+    "completed_camera_requests": 1854,
+    "failed_requests": 0,
+    "input_tokens": 13088756,
+    "output_tokens": 1411889,
+    "cached_input_tokens": 3804268,
+    "input_tokens_per_request": 7059.738942826321,
+    "output_tokens_per_request": 761.5366774541532,
+    "cached_input_share": 0.29065160967169074
+  },
+  "comparison": {
+    "input_tokens_per_request_percent_change": -1.9373580273215563,
+    "output_tokens_per_request_percent_change": -18.592825432945613
+  },
+  "limits": [
+    "Logged requests only; missing days are not zero.",
+    "Request counts do not prove complete valid cycles or deduplicated retry behavior.",
+    "Actual billing and causal dollar savings remain unverified.",
+    "Equivalent Jubilee-event detection effectiveness is unverified because there is no positive-event challenge set."
+  ],
+  "production_action": "RETAIN_MERGED_COMPACT_JSON_NO_FURTHER_CHANGE"
+}

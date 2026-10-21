@@ -231,26 +231,23 @@ class CollectorFailureTests(unittest.TestCase):
         with patch.dict(sys.modules,{'netCDF4':stub}):
             spec.loader.exec_module(collector)
         return collector
-    def test_full_attempts_survive_manifest_serialization(self):
+    def test_full_http_attempts_survive_manifest_serialization(self):
         from unittest.mock import patch
         c=self.collector()
-        def unavailable(url, **kwargs):
-            raise OSError(-70,'NetCDF: DAP server error',url)
+        attempts=[{'url':'https://noaa-nos-ofs-pds.s3.amazonaws.com/test.nc',
+                   'stage':'http_download','error_type':'HTTPError','http_status':503,
+                   'error':'HTTP Error 503: Service Unavailable'}]
         with tempfile.TemporaryDirectory() as temp:
-            with patch.object(c,'HERE',Path(temp)), patch.object(c,'Dataset',side_effect=unavailable), patch('sys.argv',['collector','--cast','nowcast']):
+            with patch.object(c,'HERE',Path(temp)), patch.object(c,'open_latest_station',side_effect=c.StationRetrievalError(attempts)), patch('sys.argv',['collector','--cast','nowcast']):
                 with self.assertRaises(SystemExit): c.main()
             m=json.loads((Path(temp)/'ngofs2_point_clear_nowcast_manifest.json').read_text())
-            self.assertEqual(m['error_type'],'RetrievalOpenError')
-            self.assertEqual(len(m['retrieval_attempts']),8)
-            self.assertTrue(all(a['error']==str(OSError(-70,'NetCDF: DAP server error',a['url']))
-                                for a in m['retrieval_attempts']))
+            self.assertEqual(m['error_type'],'StationRetrievalError')
+            self.assertEqual(m['retrieval_attempts'],attempts)
             self.assertTrue(module.retrieval_outage(m))
-    def test_collector_mixed_failures_are_not_outages(self):
+    def test_collector_data_failure_stays_fatal(self):
         from datetime import datetime,timezone
         from unittest.mock import patch
         c=self.collector()
-        with patch.object(c,'Dataset',side_effect=ValueError('invalid schema')):
-            with self.assertRaises(c.RetrievalOpenError) as caught:
+        with patch.object(c,'open_latest_station',side_effect=ValueError('invalid schema')):
+            with self.assertRaisesRegex(ValueError,'invalid schema'):
                 c.open_latest('nowcast',datetime(2026,10,9,12,tzinfo=timezone.utc))
-        self.assertFalse(module.retrieval_outage({'error_type':'RetrievalOpenError',
-                                                 'retrieval_attempts':caught.exception.attempts}))
