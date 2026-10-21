@@ -62,32 +62,52 @@ class CommittedReader(guard.Reader):
 
 
 def preserve_expired_camera_review(reader, prior, status, vision, cid, now, limit):
-    """Keep an assessed UNKNOWN as history while its exact evidence expires.
-
-    This is not reuse of a review as fresh authority. The legacy capture_time_ct
-    names the cycle, so both cycle and subject-shot identities are checked along
-    with every camera source byte. Changed or fresh event assessments still stop.
-    """
+    """Consume an exact current artifact review or preserve an expired UNKNOWN review."""
     def require(condition, detail):
-        guard.require(condition, 'REVIEW_REQUIRED: expired camera assessment: ' + detail)
+        guard.require(condition, 'REVIEW_REQUIRED: camera assessment: ' + detail)
 
     review = prior.get('manual_event_review')
     require(isinstance(review, dict) and review.get('camera_id') == cid, 'missing matching review')
-    require(review.get('admitted_event_status') == 'UNKNOWN_LOW_DETECTABILITY_NOT_EVENT_EVIDENCE'
-            and review.get('probability_or_alert_change') is False
+    require(review.get('probability_or_alert_change') is False
             and isinstance(review.get('basis'), str) and bool(review['basis'].strip()),
-            'unsupported historical review decision')
+            'unsupported review decision')
     current = status['cameras'][cid]
-    require(current.get('ok') is True
-            and (now - guard.stamp(current['timestamp_ct'])).total_seconds() / 60 > limit,
-            'fresh or failed camera requires review')
+    require(current.get('ok') is True, 'failed camera requires review')
     require(review.get('capture_time_ct') == status['capture_time_ct']
             and guard.stamp(current['timestamp_ct']) <= guard.stamp(review['reviewed_at_ct']) <= now,
-            'historical cycle or review time mismatch')
+            'cycle or review time mismatch')
     camera = vision['cameras'][cid]
     labels = {k: camera.get(k) for k in ('overall_jubilee_visual_signal', 'temporal_jubilee_signal')}
-    require(review.get('upstream_classification') == labels
-            and set(labels.values()) == {'weak_possible'}
+    require(review.get('upstream_classification') == labels, 'upstream classification changed')
+
+    if review.get('admitted_event_status') == 'REJECTED_REFLECTION_NOT_EVENT_EVIDENCE':
+        age_minutes = (now - guard.stamp(current['timestamp_ct'])).total_seconds() / 60
+        require(0 <= age_minutes <= limit, 'current artifact review is not fresh')
+        require(labels == {'overall_jubilee_visual_signal': 'weak_possible',
+                           'temporal_jubilee_signal': 'none'}
+                and camera.get('likely_temporal_artifact') == 'reflection'
+                and camera.get('activity_changed_across_frames') == 'no'
+                and camera.get('visibility') == 'fair'
+                and camera.get('detectability') == 'moderate',
+                'reflection review scope changed')
+        cross = vision.get('cross_camera', {})
+        require(cross.get('overall_visual_jubilee_signal') == 'weak_possible'
+                and cross.get('montrose_visual_signal') == 'weak_possible'
+                and cross.get('temporal_confirmation') == 'none'
+                and cross.get('spatial_confirmation') == 'none',
+                'cross-camera reflection scope changed')
+        expected_hashes = review.get('evidence_sha256')
+        require(isinstance(expected_hashes, dict), 'missing review evidence hashes')
+        for path in ('status.json', 'burst_status.json', 'vision.json', cid + '.jpg'):
+            require(expected_hashes.get(path) == guard.digest(reader.read(path)),
+                    'changed or unbound current review evidence: ' + path)
+        return review, True
+
+    require(review.get('admitted_event_status') == 'UNKNOWN_LOW_DETECTABILITY_NOT_EVENT_EVIDENCE',
+            'unsupported historical review decision')
+    require((now - guard.stamp(current['timestamp_ct'])).total_seconds() / 60 > limit,
+            'fresh or failed camera requires review')
+    require(set(labels.values()) == {'weak_possible'}
             and camera.get('visibility') == 'poor' and camera.get('detectability') == 'low',
             'classification or low-detectability scope changed')
     registry = reader.json('model_data/camera_sources.json')
@@ -119,7 +139,7 @@ def preserve_expired_camera_review(reader, prior, status, vision, cid, now, limi
                      and (guard.stamp(prior['snapshot_time_ct']) - guard.stamp(current['timestamp_ct'])).total_seconds() / 60 > limit
                      and prior_signals == ('UNKNOWN_REVIEWED_LOW_DETECTABILITY',) * 2)),
             'prior snapshot does not retain the historical UNKNOWN assessment')
-    return review
+    return review, False
 
 
 def build(root, now):
@@ -333,6 +353,7 @@ def build(root, now):
     registry = r.json('model_data/camera_sources.json')
     cams, failed = [], []
     expired_review = None
+    current_artifact_review = False
     # `unclear` is a schema-defined ambiguity label, not a negative or an
     # event assessment.  It may pass only as unresolved visible context; the
     # builder never converts it into a non-event, probability, or alert change.
@@ -354,13 +375,17 @@ def build(root, now):
         reviewed_expiry = not all(v.get(k) in quiet for k in ('overall_jubilee_visual_signal', 'temporal_jubilee_signal'))
         if reviewed_expiry:
             guard.require(expired_review is None, 'REVIEW_REQUIRED: another camera event assessment needs review')
-            expired_review = preserve_expired_camera_review(r, prior, status, vision, cid, now, limits['camera'])
-            # Review expiry uses exact elapsed time; rounded display age must
-            # never re-admit classifications just beyond the freshness boundary.
+            expired_review, current_artifact_review = preserve_expired_camera_review(
+                r, prior, status, vision, cid, now, limits['camera'])
+            # Reviewed non-biological artifacts and expired assessments remain
+            # UNKNOWN for biology; neither is admitted as a negative.
             fresh = False
         cams.append(dict(camera_id=cid, site_group=c.get('site_group'), shoreline_cell=c.get('shoreline_cell'),
                          captured_at_ct=captured, age_minutes=age(captured) if captured else None,
-                         upstream_metadata_pass=healthy, admitted_status=('UNKNOWN_STALE' if reviewed_expiry else
+                         upstream_metadata_pass=healthy,
+                         admitted_status=('UNKNOWN_REVIEWED_NONBIOLOGICAL_ARTIFACT'
+                             if reviewed_expiry and current_artifact_review else
+                             'UNKNOWN_STALE' if reviewed_expiry else
                              'ADMITTED_VISIBLE_SCOPE_CONTEXT' if fresh else 'UNKNOWN_STALE_OR_FAILED'),
                          visibility=v.get('visibility', 'UNKNOWN') if fresh else 'UNKNOWN',
                          biological_detectability=v.get('detectability', 'UNKNOWN') if fresh else 'UNKNOWN',
@@ -369,11 +394,19 @@ def build(root, now):
                          negative_event_label_allowed=False, raw_archive_verification=acceptance['status']))
     guard.require(len(cams) == 6, 'expected exactly six owner cameras')
     cross_camera = vision.get('cross_camera', {})
-    guard.require(
+    cross_camera_quiet = (
         all(cross_camera.get(k) in quiet for k in
             ('overall_visual_jubilee_signal', 'montrose_visual_signal', 'point_clear_visual_signal'))
-        and cross_camera.get('temporal_confirmation') in quiet + ('limited',),
-        'REVIEW_REQUIRED: cross-camera event assessment')
+        and cross_camera.get('temporal_confirmation') in quiet + ('limited',))
+    reviewed_reflection_scope = (
+        current_artifact_review
+        and cross_camera.get('overall_visual_jubilee_signal') == 'weak_possible'
+        and cross_camera.get('montrose_visual_signal') == 'weak_possible'
+        and cross_camera.get('point_clear_visual_signal') in quiet
+        and cross_camera.get('temporal_confirmation') == 'none'
+        and cross_camera.get('spatial_confirmation') == 'none')
+    guard.require(cross_camera_quiet or reviewed_reflection_scope,
+                  'REVIEW_REQUIRED: cross-camera event assessment')
     ca = row(CAMERA)
     ca.update(valid_time_ct=status['capture_time_ct'], evaluated_at_ct=ct,
               admitted_status='VISIBLE_SCOPE_CONTEXT_WITH_EXPLICIT_HEALTH_AND_AGE',
@@ -416,8 +449,13 @@ def build(root, now):
     unavailable = [name for name, p in validated.items() if not p['admissible']]
     if expired_review is not None:
         static_unknowns.append(
-            'Camera ' + expired_review['camera_id'] + ' evidence from cycle ' + expired_review['capture_time_ct']
-            + ' is UNKNOWN_STALE. Its dated low-detectability review is historical only; neither current event evidence nor a biological negative.')
+            ('Camera ' + expired_review['camera_id'] + ' evidence from cycle ' + expired_review['capture_time_ct']
+             + ' is UNKNOWN_REVIEWED_NONBIOLOGICAL_ARTIFACT. The fixed reflection is not event evidence;'
+             + ' the review is not a biological negative.')
+            if current_artifact_review else
+            ('Camera ' + expired_review['camera_id'] + ' evidence from cycle ' + expired_review['capture_time_ct']
+             + ' is UNKNOWN_STALE. Its dated low-detectability review is historical only;'
+             + ' neither current event evidence nor a biological negative.'))
     s['known_unknowns'] = static_unknowns + [name + ': SOURCE_UNAVAILABLE/UNKNOWN' for name in unavailable]
     s['active_faults'] = copy.deepcopy(s['known_unknowns'])
     s['rejected_or_unknown_inputs'] = [dict(source=n, status='SOURCE_UNAVAILABLE', value_status='UNKNOWN') for n in unavailable]

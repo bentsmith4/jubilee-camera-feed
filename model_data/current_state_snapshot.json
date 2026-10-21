@@ -4450,15 +4450,21 @@
     "future_scope": "New acquisition degradation requires explicit review under existing guards; expected camera expiry remains UNKNOWN, never equipment-failure proof."
   },
   "manual_event_review": {
-    "reviewed_at_ct": "2026-10-18T22:16:31.539511-05:00",
-    "camera_id": "pcl_e2_back_deck",
-    "capture_time_ct": "2026-10-18T22:06:04.956448-05:00",
+    "reviewed_at_ct": "2026-10-21T00:25:00-05:00",
+    "camera_id": "montrose_pier_bird",
+    "capture_time_ct": "2026-10-21T00:06:03.195766-05:00",
     "upstream_classification": {
       "overall_jubilee_visual_signal": "weak_possible",
-      "temporal_jubilee_signal": "weak_possible"
+      "temporal_jubilee_signal": "none"
     },
-    "admitted_event_status": "UNKNOWN_LOW_DETECTABILITY_NOT_EVENT_EVIDENCE",
-    "basis": "Poor visibility and low biological detectability; all target biological features were unclear or absent, no activity changed across the three frames, strong artificial-light confounding and a likely camera artifact were recorded, and there was no temporal or spatial confirmation. Standing UNKNOWN semantics prohibit positive or negative inference.",
-    "probability_or_alert_change": false
+    "admitted_event_status": "REJECTED_REFLECTION_NOT_EVENT_EVIDENCE",
+    "basis": "Independent review of the published final frame shows a fixed artificial-light reflection without visible biological form. The bound three-frame analysis reports the same patch persisting without biological activity change, identifies reflection as the likely artifact, and records no temporal or spatial confirmation. This rejects the reflection as event evidence but does not create a biological negative; dark and low-detectability views remain UNKNOWN.",
+    "probability_or_alert_change": false,
+    "evidence_sha256": {
+      "status.json": "9762320f79bc69b10ff1693c8dad2518353b64a523b64c877bd2e71148ff154d",
+      "burst_status.json": "f769bc7306007789e9e6a64920c7367a53f32675ad8e7909774887465f7beb0f",
+      "vision.json": "6fecdf8f9500096da0c0e59f869c1ad59702afa5e5d3728ff4672d1f5e7e8bb7",
+      "montrose_pier_bird.jpg": "91047e005cb03c36fce7e98dd2792629fe84e7eb1152b96847c7162212273b2c"
+    }
   }
 }
