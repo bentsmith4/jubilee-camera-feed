@@ -372,6 +372,10 @@ def build(root, now):
             guard.require(v.get('burst_frame_count') == 3, 'invalid camera vision frame count: ' + cid)
         captured = sc.get('timestamp_ct') if healthy else None
         fresh = healthy and 0 <= age(captured) <= limits['camera']
+        biological_usable = (
+            fresh
+            and v.get('visibility') not in (None, 'poor', 'unknown', 'UNKNOWN', 'unclear')
+            and v.get('detectability') not in (None, 'low', 'unknown', 'UNKNOWN', 'unclear'))
         reviewed_expiry = not all(v.get(k) in quiet for k in ('overall_jubilee_visual_signal', 'temporal_jubilee_signal'))
         if reviewed_expiry:
             guard.require(expired_review is None, 'REVIEW_REQUIRED: another camera event assessment needs review')
@@ -380,17 +384,21 @@ def build(root, now):
             # Reviewed non-biological artifacts and expired assessments remain
             # UNKNOWN for biology; neither is admitted as a negative.
             fresh = False
+            biological_usable = False
         cams.append(dict(camera_id=cid, site_group=c.get('site_group'), shoreline_cell=c.get('shoreline_cell'),
                          captured_at_ct=captured, age_minutes=age(captured) if captured else None,
                          upstream_metadata_pass=healthy,
                          admitted_status=('UNKNOWN_REVIEWED_NONBIOLOGICAL_ARTIFACT'
                              if reviewed_expiry and current_artifact_review else
                              'UNKNOWN_STALE' if reviewed_expiry else
-                             'ADMITTED_VISIBLE_SCOPE_CONTEXT' if fresh else 'UNKNOWN_STALE_OR_FAILED'),
+                             'ADMITTED_VISIBLE_SCOPE_CONTEXT' if biological_usable else
+                             'UNKNOWN_LOW_DETECTABILITY' if fresh else 'UNKNOWN_STALE_OR_FAILED'),
                          visibility=v.get('visibility', 'UNKNOWN') if fresh else 'UNKNOWN',
                          biological_detectability=v.get('detectability', 'UNKNOWN') if fresh else 'UNKNOWN',
-                         overall_visual_signal=v.get('overall_jubilee_visual_signal', 'UNKNOWN') if fresh else 'UNKNOWN',
-                         temporal_visual_signal=v.get('temporal_jubilee_signal', 'UNKNOWN') if fresh else 'UNKNOWN',
+                         overall_visual_signal=(v.get('overall_jubilee_visual_signal', 'UNKNOWN')
+                                                if biological_usable else 'UNKNOWN'),
+                         temporal_visual_signal=(v.get('temporal_jubilee_signal', 'UNKNOWN')
+                                                 if biological_usable else 'UNKNOWN'),
                          negative_event_label_allowed=False, raw_archive_verification=acceptance['status']))
     guard.require(len(cams) == 6, 'expected exactly six owner cameras')
     cross_camera = vision.get('cross_camera', {})
