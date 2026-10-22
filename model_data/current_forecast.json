@@ -1,28 +1,28 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-22T01:14:00-05:00",
+  "issue_time": "2026-10-22T01:23:55.613758-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "464cad5bd5dd22fdaf5f3a13e3aeb1aec87203fbf5f5b1a523f9fe7b1f67ad1d",
-  "input_commit_sha": "cef42c9592bd1b9e5277fa39be279ec24e43e3d0",
+  "input_snapshot_hash": "edb0f9f6ef0ea8d2a1483cf6889af65e0a82c13122cdd02dcb4bed0c9b2d3744",
+  "input_commit_sha": "dc84d12ab428b8b8698205d9f347a4a27579107d",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
   "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
   "method": "Committed-evidence issue-time admission; frozen dated heuristic outlooks and zero production weights retained. No automatic event/fault policy inference.",
   "data_coverage": {
-    "private_camera_metadata_pass": 6,
+    "private_camera_metadata_pass": 4,
     "private_cameras_expected": 6,
     "ngofs2_products": {
       "ngofs2_point_clear_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
       "ngofs2_point_clear_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
       "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
       "ngofs2_mobile_bay_named_stations_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
-      "ngofs2_shoreline_grid": "UNKNOWN_NO_CURRENT_GUIDANCE"
+      "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
-    "fresh_river_series": 20,
-    "asos_stations": "KBFM partial; KCQF partial; KMOB UNKNOWN"
+    "fresh_river_series": 12,
+    "asos_stations": "KBFM UNKNOWN; KCQF partial; KMOB UNKNOWN"
   },
   "missing_inputs": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
@@ -30,7 +30,7 @@
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
     "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
-    "Point Clear owner-camera coverage is 1/3 for the 2026-10-22 00:08-00:12 CT cycle; pcl_e2_back_deck and pcl_e3_bay_mouth are UNKNOWN after two stream_not_found attempts each."
+    "Camera montrose_pier_bird evidence from cycle 2026-10-22T00:08:09.270618-05:00 is UNKNOWN_STALE. Its exact-hash reviewed light-associated artifact is historical only; neither current event evidence nor a biological negative."
   ],
   "outlooks": [
     {
