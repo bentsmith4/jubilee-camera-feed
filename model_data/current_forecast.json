@@ -1,10 +1,10 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-21T22:12:07.703210-05:00",
+  "issue_time": "2026-10-22T01:14:00-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "6fa7de6bbe82b13d4d5e713be158ae980f94ba2d424667c7bcf85fa10eb3f807",
+  "input_snapshot_hash": "464cad5bd5dd22fdaf5f3a13e3aeb1aec87203fbf5f5b1a523f9fe7b1f67ad1d",
   "input_commit_sha": "cef42c9592bd1b9e5277fa39be279ec24e43e3d0",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
@@ -29,7 +29,8 @@
     "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
-    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission."
+    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
+    "Point Clear owner-camera coverage is 1/3 for the 2026-10-22 00:08-00:12 CT cycle; pcl_e2_back_deck and pcl_e3_bay_mouth are UNKNOWN after two stream_not_found attempts each."
   ],
   "outlooks": [
     {
@@ -97,9 +98,9 @@
     "point_clear_over_20_percent": false,
     "daphne_may_day_over_20_percent": false,
     "direct_event_evidence_present": false,
-    "material_critical_input_fault": false,
-    "notification_suppressed": true
+    "material_critical_input_fault": true,
+    "notification_suppressed": false
   },
-  "notification_condition_met": false,
+  "notification_condition_met": true,
   "later_verification": "PENDING; no future outcome or next-dawn acceptance claimed"
 }

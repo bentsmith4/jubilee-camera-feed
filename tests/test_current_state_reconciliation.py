@@ -423,6 +423,67 @@ class ReconciliationTests(unittest.TestCase):
         self.assertFalse(snapshot['reconciliation']['forecast_weights_changed'])
         self.assertEqual(forecast['outlooks'], binding.project(builder.encode(self.state))['outlooks'])
 
+    def test_light_associated_review_is_exact_hash_scoped_and_stale_unknown(self):
+        cid = 'montrose_pier_bird'
+        status = {
+            'capture_time_ct': '2026-10-22T00:08:09.270618-05:00',
+            'cameras': {cid: {'ok': True, 'timestamp_ct': '2026-10-22T00:12:01.339852-05:00'}},
+        }
+        camera = {
+            'overall_jubilee_visual_signal': 'weak_possible',
+            'temporal_jubilee_signal': 'weak_possible',
+            'artificial_light_confounding': 'strong',
+            'repeated_surface_activity': 'possible',
+            'activity_changed_across_frames': 'no',
+            'likely_temporal_artifact': 'none',
+            'visibility': 'fair',
+            'detectability': 'moderate',
+        }
+        vision = {
+            'cameras': {cid: camera},
+            'cross_camera': {
+                'overall_visual_jubilee_signal': 'weak_possible',
+                'montrose_visual_signal': 'weak_possible',
+                'point_clear_visual_signal': 'unclear',
+                'temporal_confirmation': 'limited',
+                'spatial_confirmation': 'limited',
+            },
+        }
+        evidence = {
+            'status.json': b'status',
+            'burst_status.json': b'burst',
+            'vision.json': b'vision',
+            cid + '.jpg': b'jpeg',
+        }
+
+        class Reader:
+            def read(self, path):
+                return evidence[path]
+
+        review = {
+            'reviewed_at_ct': '2026-10-22T01:13:00-05:00',
+            'camera_id': cid,
+            'capture_time_ct': status['capture_time_ct'],
+            'upstream_classification': {
+                'overall_jubilee_visual_signal': 'weak_possible',
+                'temporal_jubilee_signal': 'weak_possible',
+            },
+            'admitted_event_status': 'REJECTED_LIGHT_ASSOCIATED_ARTIFACT_NOT_EVENT_EVIDENCE',
+            'basis': 'Reviewed light-associated cue is not event evidence; biology remains UNKNOWN.',
+            'probability_or_alert_change': False,
+            'evidence_sha256': {path: guard.digest(raw) for path, raw in evidence.items()},
+        }
+        now = guard.stamp('2026-10-22T01:14:00-05:00')
+        preserved, current = builder.preserve_expired_camera_review(
+            Reader(), {'manual_event_review': review}, status, vision, cid, now, 60)
+        self.assertEqual(preserved, review)
+        self.assertFalse(current)
+
+        camera['artificial_light_confounding'] = 'none'
+        with self.assertRaisesRegex(ValueError, 'light-associated review scope changed'):
+            builder.preserve_expired_camera_review(
+                Reader(), {'manual_event_review': review}, status, vision, cid, now, 60)
+
     def reviewed_camera_fixture(self, now):
         """Exact PR #111 JSON, synthetic final-image bytes and environment."""
         source = ROOT / 'tests/fixtures/state_reconciliation/reviewed_camera_20261018'
