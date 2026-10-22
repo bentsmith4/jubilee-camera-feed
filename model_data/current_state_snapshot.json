@@ -14,23 +14,25 @@
   "forecast_opportunity_status": "Existing dated heuristic outlooks retained without numerical or horizon change; not a new calibrated forecast.",
   "material_change_since_prior_snapshot": true,
   "notification_condition_met": true,
-  "notification_reason": "Material input-quality alert: the 2026-10-22 00:08-00:12 CT owner-camera cycle reduced Point Clear coverage to 1/3 after pcl_e2_back_deck and pcl_e3_bay_mouth each failed twice with stream_not_found. The Montrose light-associated weak cue was reviewed against the exact published evidence and rejected as event evidence; biology remains UNKNOWN.",
+  "notification_reason": "Point Clear camera recovery verified: the 2026-10-22 02:06-02:09 CT owner-camera cycle restored all six cameras, including pcl_e2_back_deck and pcl_e3_bay_mouth, with matching three-frame bursts. The material input-quality gate remains active only because the fresh 03Z NGOFS2 Point Clear and wider Mobile Bay forecast products twice failed embedded-time validation; older validated zero-weight model guidance is retained.",
   "principal_dawn_visual_assessment_status": "NOT_PERFORMED_BY_POST_PUBLICATION_RECONCILIATION",
   "active_faults": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
     "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
-    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission."
+    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
+    "Fresh 03Z NGOFS2 Point Clear and wider Mobile Bay forecast products failed embedded-time validation twice; this is a validation defect, not an upstream outage or biological negative. Older validated zero-weight guidance remains admitted."
   ],
   "known_unknowns": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
     "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
-    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission."
+    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
+    "Fresh 03Z NGOFS2 Point Clear and wider Mobile Bay forecast products failed embedded-time validation twice; this is a validation defect, not an upstream outage or biological negative. Older validated zero-weight guidance remains admitted."
   ],
-  "change_summary": "Rebuilt issue-time context from one committed evidence generation; retained assessed dated outlooks and alert gates.",
+  "change_summary": "Verified all-six-camera recovery from the earlier Point Clear 1/3 outage; retained unchanged dated outlooks and the material input-quality gate for the separately persistent fresh NGOFS2 forecast-validation defect.",
   "alert_gates": {
     "point_clear_over_20_percent": false,
     "daphne_may_day_over_20_percent": false,
@@ -3700,7 +3702,7 @@
     "assessed_material_critical_input_fault_preserved": true,
     "camera_failure_set_changed_under_preserved_material_fault": false,
     "new_fault_notification_required": false,
-    "recovery_notification_required": false,
+    "recovery_notification_required": true,
     "prior_recovery_context": {
       "snapshot_time_ct": "2026-10-05T14:17:45.649782-05:00",
       "recovery_notification_required": true
@@ -3768,7 +3770,7 @@
       "valid_until_utc": "2026-09-28T16:06:34.804851+00:00"
     },
     "existing_material_input_quality_alert_policy_changed": false,
-    "basis": "Owner-reviewed material input-quality fault: the latest committed cycle has only one of three Point Clear cameras healthy. Both failed streams were retried once and remain UNKNOWN; missing views are not biological negatives. The separate Montrose weak cue was rejected as light-associated artifact evidence without changing probabilities."
+    "basis": "Owner-reviewed recovery: the 2026-10-22 02:06-02:09 CT cycle restored all six cameras and cleared the earlier Point Clear 1/3 camera fault. The material input-quality gate remains active only for the separate fresh 03Z NGOFS2 forecast-validation defect reproduced on two bounded attempts; older validated guidance remains zero-weight model context."
   },
   "reconciliation": {
     "as_of_utc": "2026-10-22T07:24:37.894102+00:00",
