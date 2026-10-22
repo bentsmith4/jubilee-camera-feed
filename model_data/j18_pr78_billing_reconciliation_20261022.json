@@ -1,0 +1,116 @@
+{
+  "schema": "jubilee_j18_pr78_billing_reconciliation/v1",
+  "work_id": "J18-PR78-COMPACT-JSON",
+  "generated_at_utc": "2026-10-22T15:00:24.054376Z",
+  "disposition": "ACTUAL_BILLING_BLOCKED",
+  "reused_evidence": {
+    "conditional_price_report": {
+      "path": "model_data/J18_PR78_ECONOMIC_FINDINGS_20261015.md",
+      "blob_sha": "927563e32c7aa4a30326aadc812f358a4ec52c88",
+      "accepted_cycles": {
+        "baseline_2026_10_08": 28,
+        "post_2026_10_10_through_14": 128
+      },
+      "conditional_list_cost_per_accepted_cycle_usd": {
+        "baseline": 0.013827952142857144,
+        "post": 0.0125831196875
+      },
+      "conditional_change_percent": -9.0023,
+      "equal_work_28_cycle_day_usd": {
+        "baseline": 0.38718266,
+        "post": 0.35232735125,
+        "conditional_saving": 0.03485530875
+      },
+      "qualification": "Published Standard short-context rates, not observed billed charges."
+    },
+    "usage_extension_2026_10_20": {
+      "path": "model_data/j18_compact_json_postmerge_measurement_20261020.json",
+      "blob_sha": "3ab18e7a204a8e7ce84f141ab770c0b782fc6fbd"
+    }
+  },
+  "current_usage_extension": {
+    "source_path": "api_usage_summary.json",
+    "generated_at_utc": "2026-10-22T14:10:34.660332+00:00",
+    "status": "available",
+    "invalid_records": 0,
+    "baseline_complete_date": {
+      "date_ct": "2026-10-08",
+      "completed_camera_requests": 178,
+      "failed_camera_requests": 0,
+      "input_tokens_per_request": 7199.213483146067,
+      "output_tokens_per_request": 935.4662921348314
+    },
+    "post_complete_dates": {
+      "start_ct": "2026-10-09",
+      "end_ct": "2026-10-21",
+      "completed_camera_requests": 2213,
+      "failed_camera_requests": 2,
+      "input_tokens_per_request": 7063.507004066878,
+      "output_tokens_per_request": 760.8834161771351,
+      "input_tokens_per_request_percent_change": -1.8850181258951215,
+      "output_tokens_per_request_percent_change": -18.66265812307143,
+      "cached_input_share": 0.29104513752035066
+    },
+    "exclusions": [
+      "Partial 2026-10-22",
+      "Cross-camera synthesis from request-normalized comparison",
+      "Missing days are unknown, not zero"
+    ],
+    "qualification": "Observed logged-token extension only; request counts do not prove accepted complete cycles or causal savings."
+  },
+  "private_local_crosscheck": {
+    "window_ct": "2026-10-08 through partial 2026-10-22",
+    "parsed_invocation_rows": 2767,
+    "invalid_rows": 0,
+    "statuses": {
+      "completed": 2762,
+      "incomplete": 1,
+      "request_failed": 4
+    },
+    "model": {
+      "gpt-5.6-luna": 2767
+    },
+    "returned_service_tier": {
+      "default": 2763,
+      "UNKNOWN": 4
+    },
+    "requested_service_tier": {
+      "UNKNOWN": 2767
+    },
+    "billed_service_tier": {
+      "UNKNOWN": 2767
+    },
+    "billing_context_class": {
+      "UNKNOWN": 2767
+    },
+    "billing_rules_provenance": {
+      "UNKNOWN": 2767
+    },
+    "camera_integrity_in_raw_log": {
+      "UNKNOWN": 2767
+    },
+    "qualification": "The October 15 binder separately established 183 accepted complete cycles for its bounded window; raw-log UNKNOWN integrity fields are not promoted to accepted cycles."
+  },
+  "provider_billing_search": {
+    "qualifying_project_scoped_charge_export_found": false,
+    "scope": "Permitted PointClearPC Jubilee/Codex roots plus bounded authorized Outlook searches after the October 15 receipt.",
+    "completeness": "NOT_ESTABLISHED",
+    "qualification": "No result is not evidence of zero spend."
+  },
+  "actual_billing": {
+    "cost_per_accepted_cycle_usd": null,
+    "cost_per_comparable_covered_day_usd": null,
+    "gross_charge_usd": null,
+    "credits_or_adjustments_usd": null,
+    "net_charge_usd": null,
+    "residual_usd": null,
+    "causal_savings_usd": null,
+    "causal_savings_percent": null
+  },
+  "exact_remaining_blocker": [
+    "Provider project-scoped gross and net charges for the bounded comparison window.",
+    "Provider billed tier/rate class and historical effective rates, including cache-write treatment.",
+    "Provider attempt/status and token totals sufficient to reconcile local completed, incomplete and failed attempts and isolate other workloads, retries, credits and residuals."
+  ],
+  "promotion_decision": "NO_BILL_DERIVED_OR_CAUSAL_SAVINGS_CLAIM; NO_FURTHER_COST_OPTIMIZATION"
+}

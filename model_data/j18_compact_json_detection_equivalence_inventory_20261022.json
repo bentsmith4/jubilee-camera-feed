@@ -1,0 +1,76 @@
+{
+  "schema": "jubilee_j18_compact_json_detection_equivalence_inventory/v1",
+  "work_id": "J18-PR78-COMPACT-JSON",
+  "generated_at_utc": "2026-10-22T15:00:24.054376Z",
+  "disposition": "BLOCKED_EVIDENCE",
+  "deployment_cutoff_ct": "2026-10-09T02:17:35-05:00",
+  "sources": {
+    "local_archive": {
+      "location": "PointClearPC C:\\JubileeCams\\captures",
+      "method": "Read-only enumeration of capture_manifest.json and vision.json. Eligible cycles require six camera outputs and exactly 18 path-bound burst_latest JPEG SHA-256 entries. An exact pair requires the complete ordered path/hash tuple to occur both before and after deployment.",
+      "media_retention": "No media or request-level fingerprints copied to the repository."
+    },
+    "compact_change": {
+      "pr": 78,
+      "merge_commit": "07cb97b5c7685b6be3dc6e7a3c991d5be6b71d03",
+      "source_commit": "8a84f8cd96fa5fec426fa8c6723d881fcf332f3e",
+      "installed_runtime_sha256": "b1e90549dd0151ccc61e3b970cd128dacb0b4583f5170ff94f910e2cd0389e05"
+    },
+    "existing_camera_audit": {
+      "pr": 76,
+      "head_commit": "718668c01a826d4ea9aa7d79f2b89a4bcbcf84ae",
+      "replay_snapshots": 931,
+      "corrected_positive_camera_observations": 21,
+      "corrected_same_site_unique_observations": 17,
+      "confirmed_jubilee_or_independently_validated_precursor_cases": 0,
+      "august_29_30_confirmed_event_snapshots": 0
+    }
+  },
+  "archive_inventory": {
+    "all_parsed_cycles": {
+      "pre": 941,
+      "post": 392
+    },
+    "parse_failures": 0,
+    "model_gpt_5_6_luna_cycles": {
+      "pre": 941,
+      "post": 392
+    },
+    "eligible_six_camera_three_frame_cycles": {
+      "pre": 802,
+      "post": 352
+    },
+    "unique_exact_18_image_sets": {
+      "pre": 802,
+      "post": 352
+    },
+    "exact_cross_period_image_sets": 0,
+    "paired_cross_period_cycles": 0
+  },
+  "required_acceptance_metrics": {
+    "paired_sample_size": 0,
+    "paired_disagreements": null,
+    "paired_missed_positives": null,
+    "paired_false_positives": null,
+    "uncertainty": null,
+    "reason": "No image-identical pre/post output pair exists in the retained local archive."
+  },
+  "challenge_coverage": {
+    "independently_labeled_positive_event_pairs": 0,
+    "difficult_or_unknown_pairs": 0,
+    "negative_or_quiet_pairs": 0,
+    "qualification": "The counts are paired cases. Unpaired quiet ordinary cycles and schema equality are not detection-equivalence evidence."
+  },
+  "exact_remaining_blocker": [
+    "A retained compact-format output and an original-format output for the same 18-image burst with comparable model and request settings.",
+    "Independent biological labels for positive-event/precursor and difficult/UNKNOWN cases; the August 29-30 confirmed events have zero snapshots in the PR 76 replay.",
+    "Enough paired cases to estimate disagreement, missed-positive and false-positive rates with uncertainty."
+  ],
+  "actions_not_taken": [
+    "No paid replay call.",
+    "No new capture.",
+    "No manufactured positive or relabeling of ambiguous disturbance.",
+    "No production change."
+  ],
+  "promotion_decision": "NO_EFFECTIVENESS_EQUIVALENCE_CLAIM; RETAIN EXISTING ROLLBACK AND PRODUCTION SETTINGS"
+}
