@@ -328,8 +328,10 @@ class ReconciliationTests(unittest.TestCase):
         state['alert_gates']['material_critical_input_fault'] = True
         state['alert_gates']['notification_suppressed'] = False
         state['notification_condition_met'] = True
+        state['notification_reason'] = 'Reviewed material camera fault requires notification.'
         state.setdefault('operational_fault_assessment', {}).update(
-            active_fault_present=True, failed_camera_ids=[])
+            active_fault_present=True, failed_camera_ids=[], new_fault_notification_required=True,
+            basis='Reviewed material camera fault.')
         self.f.write(binding.SNAPSHOT, state)
         self.f.write(binding.FORECAST, binding.project(builder.encode(state)))
         self.commit('existing assessed material fault for outage fixture')
@@ -345,6 +347,10 @@ class ReconciliationTests(unittest.TestCase):
                 binding.validate_weights(snapshot)
                 self.assertEqual(snapshot['alert_gates'], state['alert_gates'])
                 self.assertEqual(snapshot['outlook'], state['outlook'])
+                self.assertEqual(snapshot['notification_reason'], state['notification_reason'])
+                self.assertTrue(snapshot['operational_fault_assessment']['new_fault_notification_required'])
+                self.assertEqual(snapshot['operational_fault_assessment']['basis'],
+                                 state['operational_fault_assessment']['basis'])
                 self.assertEqual(forecast['outlooks'], binding.project(builder.encode(state))['outlooks'])
                 health = next(r for r in snapshot['input_rows'] if r['source'] == builder.CAMERA)['camera_health']
                 self.assertEqual(health['private_metadata_pass'], 6-len(failures))

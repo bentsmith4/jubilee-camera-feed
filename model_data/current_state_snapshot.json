@@ -11,10 +11,10 @@
   ],
   "forecast_weights_changed": false,
   "deep_research_or_recalibration_performed": false,
-  "forecast_opportunity_status": "Existing dated heuristic outlooks retained without numerical or horizon change; not a new calibrated forecast.",
+  "forecast_opportunity_status": "Existing heuristic probability ranges retained without numerical change; the three-day horizon was rolled to the current issue date through issue date plus two.",
   "material_change_since_prior_snapshot": true,
   "notification_condition_met": true,
-  "notification_reason": "Existing four-trigger alert contract retained; no new event or critical-fault inference.",
+  "notification_reason": "Material input-quality alert: the 2026-10-22 00:08-00:12 CT owner-camera cycle reduced Point Clear coverage to 1/3 after pcl_e2_back_deck and pcl_e3_bay_mouth each failed twice with stream_not_found. The Montrose light-associated weak cue was reviewed against the exact published evidence and rejected as event evidence; biology remains UNKNOWN.",
   "principal_dawn_visual_assessment_status": "NOT_PERFORMED_BY_POST_PUBLICATION_RECONCILIATION",
   "active_faults": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
@@ -32,7 +32,7 @@
     "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
     "Camera montrose_pier_bird evidence from cycle 2026-10-22T00:08:09.270618-05:00 is UNKNOWN_STALE. Its exact-hash reviewed light-associated artifact is historical only; neither current event evidence nor a biological negative."
   ],
-  "change_summary": "Rebuilt issue-time context from one committed evidence generation; retained assessed dated outlooks and alert gates.",
+  "change_summary": "Rebuilt issue-time context from committed evidence, retained the assessed material Point Clear camera fault, and rolled unchanged heuristic probability ranges to the current three-day horizon.",
   "alert_gates": {
     "point_clear_over_20_percent": false,
     "daphne_may_day_over_20_percent": false,
@@ -3669,14 +3669,6 @@
   "rejected_or_unknown_inputs": [],
   "outlook": [
     {
-      "date_ct": "2026-10-21",
-      "point_clear_range_percent": "2-5",
-      "point_clear_central_percent": 3,
-      "daphne_may_day_range_percent": "1-4",
-      "daphne_may_day_central_percent": 2,
-      "confidence": "low"
-    },
-    {
       "date_ct": "2026-10-22",
       "point_clear_range_percent": "2-5",
       "point_clear_central_percent": 3,
@@ -3686,6 +3678,14 @@
     },
     {
       "date_ct": "2026-10-23",
+      "point_clear_range_percent": "2-5",
+      "point_clear_central_percent": 3,
+      "daphne_may_day_range_percent": "1-4",
+      "daphne_may_day_central_percent": 2,
+      "confidence": "low"
+    },
+    {
+      "date_ct": "2026-10-24",
       "point_clear_range_percent": "2-5",
       "point_clear_central_percent": 3,
       "daphne_may_day_range_percent": "1-4",
@@ -3707,7 +3707,7 @@
     ],
     "assessed_material_critical_input_fault_preserved": true,
     "camera_failure_set_changed_under_preserved_material_fault": false,
-    "new_fault_notification_required": false,
+    "new_fault_notification_required": true,
     "recovery_notification_required": false,
     "prior_recovery_context": {
       "snapshot_time_ct": "2026-10-05T14:17:45.649782-05:00",
@@ -3776,7 +3776,7 @@
       "valid_until_utc": "2026-09-28T16:06:34.804851+00:00"
     },
     "existing_material_input_quality_alert_policy_changed": false,
-    "basis": "No new assessed critical fault or recovery notification is inferred by this builder. Any previously assessed material input-quality fault is preserved unchanged while current source rows continue to reconcile."
+    "basis": "Owner-reviewed material input-quality fault: the latest committed cycle has only one of three Point Clear cameras healthy. Both failed streams were retried once and remain UNKNOWN; missing views are not biological negatives. The separate Montrose weak cue was rejected as light-associated artifact evidence without changing probabilities."
   },
   "reconciliation": {
     "as_of_utc": "2026-10-22T06:27:59.062860+00:00",

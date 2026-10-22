@@ -491,9 +491,12 @@ def build(root, now):
     s['known_unknowns'] = static_unknowns + [name + ': SOURCE_UNAVAILABLE/UNKNOWN' for name in unavailable]
     s['active_faults'] = copy.deepcopy(s['known_unknowns'])
     s['rejected_or_unknown_inputs'] = [dict(source=n, status='SOURCE_UNAVAILABLE', value_status='UNKNOWN') for n in unavailable]
+    notification_reason = (prior.get('notification_reason')
+                           if preserved_material_fault else
+                           'Existing four-trigger alert contract retained; no new event or critical-fault inference.')
     s.update(snapshot_time_ct=ct, principal_dawn_visual_assessment_status='NOT_PERFORMED_BY_POST_PUBLICATION_RECONCILIATION',
              change_summary='Rebuilt issue-time context from one committed evidence generation; retained assessed dated outlooks and alert gates.',
-             notification_reason='Existing four-trigger alert contract retained; no new event or critical-fault inference.',
+             notification_reason=notification_reason,
              material_change_since_prior_snapshot=True,
              forecast_opportunity_status='Existing dated heuristic outlooks retained without numerical or horizon change; not a new calibrated forecast.')
     s.pop('dawn_ct', None)
@@ -503,12 +506,14 @@ def build(root, now):
     s['operational_fault_assessment'] = dict(active_fault_present=bool(failed) or preserved_material_fault, failed_camera_ids=failed,
         assessed_material_critical_input_fault_preserved=preserved_material_fault,
         camera_failure_set_changed_under_preserved_material_fault=bool(camera_failure_set_changed and preserved_material_fault),
-        new_fault_notification_required=False, recovery_notification_required=False,
+        new_fault_notification_required=bool(old_fault.get('new_fault_notification_required') and failed),
+        recovery_notification_required=False,
         prior_recovery_context=(dict(snapshot_time_ct=prior['snapshot_time_ct'], recovery_notification_required=True)
                                 if old_fault.get('recovery_notification_required') else old_fault.get('prior_recovery_context')),
         all_six_desktop_archive_acceptance=acceptance['status'], desktop_acceptance_receipt=acceptance,
         existing_material_input_quality_alert_policy_changed=False,
-        basis='No new assessed critical fault or recovery notification is inferred by this builder. Any previously assessed material input-quality fault is preserved unchanged while current source rows continue to reconcile.')
+        basis=(old_fault.get('basis') if preserved_material_fault and old_fault.get('basis') else
+               'No new assessed critical fault or recovery notification is inferred by this builder. Any previously assessed material input-quality fault is preserved unchanged while current source rows continue to reconcile.'))
     # Include executable/admission contracts, but exclude prior output bytes from dedup identity.
     for path in ('model_data/model_policy.md', 'model_data/operations_contract.json',
                  'model_data/reconcile_current_state.py', 'model_data/desktop_acceptance.py', 'model_data/bind_current_forecast.py',
