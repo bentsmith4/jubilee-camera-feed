@@ -24,6 +24,10 @@ EPISODE_OVERRIDES = {
     "1971-08-08-point-clear-corridor-major": "1971-08-07-08-point-clear-episode",
     "2026-08-29-fairhope-point-clear-multipocket": "2026-08-29-30-eastern-shore-episode",
     "2026-08-30-fairhope-north-of-pier-localized": "2026-08-29-30-eastern-shore-episode",
+    # Consecutive dates share one contemporaneous source and are not demonstrated
+    # independent hydrodynamic samples; collapse conservatively for clustering.
+    "1947-06-13-point-clear": "1947-06-13-14-point-clear-source-linked-episode",
+    "1947-06-14-point-clear": "1947-06-13-14-point-clear-source-linked-episode",
 }
 
 

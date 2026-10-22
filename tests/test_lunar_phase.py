@@ -31,6 +31,24 @@ class LunarPhaseEvaluationTests(unittest.TestCase):
         self.assertEqual(result["decision"]["production_weight"], 0.0)
         self.assertEqual(result["decision"]["incremental_value"], "NOT_ESTABLISHED")
 
+    def test_source_linked_1947_dates_collapse_conservatively(self):
+        history = {
+            "events": [
+                {"event_id": "1947-06-13-point-clear", "event_date_ct": "1947-06-13", "classification": "confirmed_jubilee"},
+                {"event_id": "1947-06-14-point-clear", "event_date_ct": "1947-06-14", "classification": "confirmed_jubilee"},
+                {"event_id": "1950-09-17-daphne", "event_date_ct": "1950-09-17", "classification": "confirmed_jubilee"},
+            ]
+        }
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "event_history.json"
+            path.write_text(json.dumps(history), encoding="utf-8")
+            result = evaluate(path)
+        self.assertEqual(result["sample"]["confirmed_event_rows"], 3)
+        self.assertEqual(result["sample"]["independent_event_episodes"], 2)
+        self.assertEqual(result["episodes"][0]["member_event_ids"], [
+            "1947-06-13-point-clear", "1947-06-14-point-clear"
+        ])
+
 
 if __name__ == "__main__":
     unittest.main()
