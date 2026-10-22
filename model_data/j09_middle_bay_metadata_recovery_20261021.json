@@ -1,0 +1,99 @@
+{
+  "schema": "jubilee_j09_metadata_recovery/v1",
+  "work_id": "J09",
+  "review_date_ct": "2026-10-21",
+  "stage": "RESEARCH_METADATA_AUDITED_NO_SCIENTIFIC_PROMOTION",
+  "baseline_commit": "a1b93d08b3806ec0ab6a04388ee2bf513157e721",
+  "existing_owner": "Research acceptance / Sensing collection / Jubilee Dot coordination",
+  "duplicate_work_check": "Current work register PR122 recovery receipt, AGENTS, pilot charter, source receipt, September18 geometry audit, open Middle Bay PR search and PR122 discussion checked. No newer open Middle Bay metadata recovery PR found.",
+  "source_evidence": [
+    {
+      "url": "https://www.ncei.noaa.gov/data/oceans/archive/arc0171/0224293/1.1/data/0-data/39EJN1-ISO-19115-2.xml",
+      "finding": "Original submission metadata specifies hourly hydrography at different depths and YSI 6600 EDS, but supplies no sensor/deployment-specific height above bed or native clock timezone. Water Height unit conflicts with description. Title also retains an unrelated 2016 date string; do not use title to relabel native 2019 rows."
+    },
+    {
+      "url": "https://www.ncei.noaa.gov/data/oceans/archive/arc0171/0224293/1.1/about/0-email.txt",
+      "finding": "January 2021 correspondence corrects title only; no deployment or clock confirmation."
+    },
+    {
+      "url": "https://www.ncei.noaa.gov/data/oceans/archive/arc0171/0224293/1.1/about/1-email.txt",
+      "finding": "February2 2021 Josh Goff identifies pressure as psi relative to atmospheric pressure. NOAA requests instrument metadata and explicitly seeks confirmation that newer station descriptions apply to 2019; reviewed correspondence does not supply that confirmation, native clock configuration or mounting heights."
+    },
+    {
+      "url": "https://www.ncei.noaa.gov/data/oceans/archive/arc0171/0224293/1.1/about/journal.txt",
+      "finding": "Journal identifies original submitted files and correspondence; no separate 2019 deployment log listed in reviewed archive directories."
+    },
+    {
+      "url": "https://www.disl.edu/arcos/",
+      "finding": "Current The Data section says downloadable outputs are normalized to UTC. Listed Middle Bay downloads are meteorological; reviewed page provides no Middle Bay hydrographic download link or transformation mapping to original NCEI 2019 hydro file. This is evidence about current outputs, not proof of the original file clock."
+    },
+    {
+      "url": "https://www.disl.edu/arcos/middle-bay/",
+      "finding": "Current station page reports removal of instrumentation for lighthouse restoration; no 2019 clock or deployment geometry record."
+    },
+    {
+      "repository_path": "model_data/j09_middle_bay_geometry_research_20260918.json",
+      "finding": "Existing audit identifies a 2021 report describing approximately4m water depth and approximately1m instrument height above bottom. Already known; not new 2019 mounting evidence. No retroactive assignment accepted."
+    }
+  ],
+  "native_replay": {
+    "raw_sha256": "49e04d4903d6f6edc4f6bbbc91e9b7e81a6c6ed560318a0621d1d9c454c5e7fb",
+    "bytes": 354363,
+    "rows": 4409,
+    "dates": 100,
+    "full_48_row_dates": 78,
+    "do_below_2_mg_l": 439,
+    "do_native_qc_3": 4409,
+    "water_height_bad_flag_1": 6,
+    "water_height_good_flag_3": 4403,
+    "timezone": "UNKNOWN",
+    "sensor_height_above_bed": "UNKNOWN",
+    "deployment_depth_and_datum": "UNKNOWN",
+    "programmed_sampling_interval": "UNVERIFIED_HOURLY_METADATA_VS_HALF_HOURLY_NATIVE_RECORDS",
+    "original_raw_storage": "Raw downloaded for read-only replay in scratch; canonical immutable PointClearPC copy remains as recorded by PR122; no raw bytes committed."
+  },
+  "admissibility": {
+    "newly_qualified_utc_depth_rows": 0,
+    "total_qualified_utc_depth_rows": 0,
+    "native_descriptive_oxygen_rows": 4409,
+    "excluded_from_time_depth_qualified_analysis": 4409,
+    "excluded_from_bottom_water_or_jubilee_event_labels": 4409,
+    "interpretation": "Native QC-good concentrations support descriptive source statistics only. No UTC event alignment, near-bottom interpretation, vertical gradient or predictive promotion. 439 low values are neither439 independent episodes nor Jubilee occurrences."
+  },
+  "missing_evidence": [
+    {
+      "field": "Native clock",
+      "required": "2019 station188 logger/sonde configuration and export specification: UTC versus fixed CST versus daylight-adjusted local time; clock corrections; exact jday/timedata and2400 endpoint semantics; effective dates."
+    },
+    {
+      "field": "Deployment geometry",
+      "required": "2019 deployment/service logs tied to sonde serial number and station188, with dated mounting/height-above-bed changes, measured immersion/depth, vertical datum/reference, and linkage of native columns to each sensor."
+    },
+    {
+      "field": "Sampling",
+      "required": "2019 logger program/configuration and export/aggregation history establishing programmed30/60minute interval, averaging semantics, changes, outages and whether any resampling occurred."
+    },
+    {
+      "field": "Pressure and Water Height",
+      "required": "Sensor identity/calibration, Water Height units and derivation, pressure zero/offset and deployment mapping. psi gauge alone does not establish sensor height above bed."
+    },
+    {
+      "field": "Historical availability",
+      "required": "Contemporaneous publication/availability records for leakage-safe retrospective forecast features; 2021 archive submission alone does not establish2019 issue-time availability."
+    }
+  ],
+  "appropriate_sources": {
+    "DISL": "Current ARCOS Data Architect Pat David (pdavid@disl.edu), Lead ARCOS Technician Cameron Tyler (ctyler@disl.org); Josh Goff (jgoff@disl.edu) participated in original pressure clarification. Request records via existing Research owner, not a duplicate campaign.",
+    "NOAA": "Accession0224293 data-content manager/archive support for missing submission attachments or later metadata amendments; Courtney Bouchard was the original correspondence contact, current assignment not verified.",
+    "correspondence_check": "No matching direct mail returned for from:disl.org or from:disl.edu. Bounded ARCOS and Middle Bay mailbox searches did not establish a provider thread. This does not certify institution-wide outreach history; no outreach sent."
+  },
+  "guardrails": {
+    "production_changes": false,
+    "source_qc_receipt_rewritten": false,
+    "original_audits_preserved": true,
+    "new_schedule": false,
+    "outreach_sent": false,
+    "production_weight": 0,
+    "notification_gate": "Existing9p.m.America/Chicago restriction unchanged"
+  }
+}
