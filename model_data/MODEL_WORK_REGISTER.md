@@ -3030,3 +3030,16 @@ Artifacts: `model_data/j10_lunar_phase_feature_audit_20261022.json`; updated epi
 - **Next existing action:** Sensing owns the next normal canonical camera cycle and recovery readback. Re-alert only for verified recovery, broader or persistent degradation, direct/material event evidence, meaningful environmental change, or another policy-defined material state change. No acquisition cadence, camera coverage, probability, threshold, weight, UNKNOWN rule, 9 p.m. gate, outreach, spend, task, or scheduler changed.
 
 Stage: PUBLISHED / VALIDATED / RENEWED_POINT_CLEAR_INPUT_QUALITY_ALERT.
+
+
+## J09 DISL original metadata request — October 22, 2026
+
+**Stage: OUTREACH_SENT / PROVIDER_RECORDS_PENDING.** Ben specifically authorized this original-2019-records request, use of an existing thread, and a copy to primary Hotmail. Existing Research acceptance / Sensing collection / Jubilee Dot coordination retained. Current register, archival outreach record, AGENTS, pilot charter, commitment ledger v57 and recent PR activity checked before execution.
+
+Hotmail searches recovered the October 5 DISL introductory correspondence, correcting the limited inference from prior sender-only searches. No accession-specific request to Pat David was found. Pat's address was verified against DISL's official ARCOS staff page (https://www.disl.edu/arcos/). One Outlook reply in that existing thread was sent to Pat as sole external recipient with Ben copied; send returned success and mailbox readback verified subject, recipient, copy and content at 2026-10-23T03:29:09Z (October 22, 10:29:09 p.m. Central). No parallel email to Cameron Tyler, Josh Goff or NOAA. Private message identifiers and correspondence remain in Hotmail.
+
+Requested NOAA accession 0224293 / middlebay_hyd_2019.txt / station 188 original logger/sonde configuration, timezone/DST and clock corrections, jday/timedata/2400 conventions; serial-linked deployment/service and mounting records, sensor height above bed/depth/datum; programmed interval, averaging/resampling/export history; pressure/Water Height units, derivation and calibration; original publication timing/corrections. Explained current UTC versus unverified 2019 clock, 2021 versus 2019 mounting, and hourly metadata versus native half-hour records. Asked for specific NOAA submission/attachment/amendment custody if DISL cannot locate records.
+
+**Next existing J09 action:** review incoming reply and original documentation; preserve source provenance and effective-date/instrument linkage; qualify only fields actually established. If DISL cannot locate records, use the specific NOAA accession custodian route authorized by Ben, checking fresh correspondence before contact. Do not duplicate the sent request or create another monitoring schedule. Research artifacts and source gates should be amended only on verified evidence; this receipt does not claim records recovered or direct Dot ingestion. PR #126 receipt: https://github.com/bentsmith4/jubilee-camera-feed/pull/126#issuecomment-6356682146.
+
+All unresolved fields remain UNKNOWN; UTC/depth-qualified rows remain 0. The 439 low-oxygen readings are not verified Jubilee events. No source audit overwritten, scientific promotion, production forecast/weight/threshold change, camera/cadence change or change to the 9 p.m. Central restriction.
