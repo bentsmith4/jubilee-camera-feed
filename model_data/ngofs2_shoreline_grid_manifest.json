@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1",
-  "retrieved_at": "2026-10-24T21:10:40.503520+00:00",
+  "retrieved_at": "2026-10-24T23:41:52.531813+00:00",
   "status": "complete",
   "source_class": "MODEL",
   "production_action": "NO_CHANGE",
@@ -13,7 +13,17 @@
   "casts": [
     {
       "cast": "nowcast",
-      "failed_newer_cycle_attempts": [],
+      "failed_newer_cycle_attempts": [
+        {
+          "cast": "nowcast",
+          "lead_hour": 3,
+          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/24/ngofs2.t21z.20261024.regulargrid.n003.nc",
+          "stage": "reference_open",
+          "error_type": "OSError",
+          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/24/ngofs2.t21z.20261024.regulargrid.n003.nc'",
+          "failure_kind": "retrieval"
+        }
+      ],
       "opened_slices": [
         {
           "lead_hour": 3,
@@ -527,7 +537,17 @@
     },
     {
       "cast": "forecast",
-      "failed_newer_cycle_attempts": [],
+      "failed_newer_cycle_attempts": [
+        {
+          "cast": "forecast",
+          "lead_hour": 0,
+          "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/24/ngofs2.t21z.20261024.regulargrid.f000.nc",
+          "stage": "reference_open",
+          "error_type": "OSError",
+          "error": "[Errno -90] NetCDF: file not found: 'https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS/2026/10/24/ngofs2.t21z.20261024.regulargrid.f000.nc'",
+          "failure_kind": "retrieval"
+        }
+      ],
       "opened_slices": [
         {
           "lead_hour": 0,
@@ -1057,8 +1077,8 @@
   ],
   "normalized_rows": 1848,
   "derived_feature_rows": 696,
-  "raw_subset_sha256": "b7eca9b172a34ce143de828593df573d0eb41e3b168b04c8342c4aba16a6ed32",
-  "raw_subset_archive": "public_archive/ngofs2_shoreline_grid_subset/b7eca9b172a34ce143de828593df573d0eb41e3b168b04c8342c4aba16a6ed32.json.gz",
+  "raw_subset_sha256": "ff024b2322b5afab397d1366fc17a5b6ed92541c6f126fd2006ad4423d0ca7e5",
+  "raw_subset_archive": "public_archive/ngofs2_shoreline_grid_subset/ff024b2322b5afab397d1366fc17a5b6ed92541c6f126fd2006ad4423d0ca7e5.json.gz",
   "normalized_data": "ngofs2_shoreline_grid_normalized.csv",
   "derived_features": "ngofs2_shoreline_grid_features.csv",
   "guardrails": [
