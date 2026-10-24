@@ -1,0 +1,129 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-24T09:36:00-05:00",
+  "role": "Jubilee Model Research & Calibration",
+  "canonical_work_ids": [
+    "J18-PR78-COMPACT-JSON",
+    "J18-PR78-DETECTION-EQUIVALENCE-20261022",
+    "J18-PR78-BILLING-RECONCILIATION-20261022",
+    "J09",
+    "J10",
+    "J18-PR118-WIND"
+  ],
+  "dot_reconciliation": {
+    "page_title": "Jubilee Dots Pilot Plan October 2026",
+    "page_url": "https://chatgpt.com/space/page_c6a2d53b415481919238032aa795e237",
+    "page_id": "page_c6a2d53b415481919238032aa795e237",
+    "read_sequence_before": 0,
+    "committed_sequence": 1,
+    "guarded_blocks_updated": 7,
+    "readback": "PASS",
+    "content_now_tracks": [
+      {
+        "id": "J18-PR78 detection equivalence",
+        "status": "BLOCKED_EVIDENCE"
+      },
+      {
+        "id": "J18-PR78 actual billing",
+        "status": "ACTUAL_BILLING_BLOCKED"
+      },
+      {
+        "id": "J09/J10 predictive evidence",
+        "status": "OPEN_EVIDENCE_GATED"
+      },
+      {
+        "id": "J18-PR118-WIND",
+        "status": "DEFERRED"
+      }
+    ],
+    "guardrails": [
+      "no new Dot, task, ledger, pipeline, acquisition, replay, capture or deployment authority",
+      "preserve six-camera coverage, cadence, thresholds, probabilities, UNKNOWN semantics, privacy, outreach and 9 PM gate"
+    ],
+    "interpretation": "Direct Page reconciliation is verified. Page content is a coordination record, not proof that an autonomous Dot is activated or that any acceptance gate passed."
+  },
+  "detection_equivalence_recovery": {
+    "scope": "Read-only retained-artifact search on PointClearPC; no model calls or captures.",
+    "searched_roots": [
+      "C:\\JubileeCams\\upgrade_review",
+      "C:\\JubileeCams\\upgrade_review\\telemetry_20261004\\tests\\fixtures"
+    ],
+    "search_terms": [
+      "frame_hash",
+      "image_hash",
+      "vision_outputs",
+      "prompt_format",
+      "compact"
+    ],
+    "relevant_retained_outputs": [
+      {
+        "path_class": "upgrade_review root vision snapshot",
+        "capture_time_ct": "2026-09-06T17:33:50.280245-05:00",
+        "cameras": 6,
+        "frames_per_camera": 3,
+        "result": "ordinary quiet snapshot"
+      },
+      {
+        "path_class": "telemetry_20261004 vision snapshot",
+        "capture_time_ct": "2026-10-04T02:06:04.584496-05:00",
+        "cameras": 6,
+        "frames_per_camera": 3,
+        "result": "ordinary low-detectability snapshot"
+      },
+      {
+        "path_class": "tests/fixtures/vision_quiet_low_detectability_20260927.json",
+        "result": "single quiet/UNKNOWN-oriented fixture without a companion original/compact model output pair"
+      }
+    ],
+    "exact_same_image_original_compact_output_pairs_found": 0,
+    "independently_labeled_confirmed_jubilee_pairs_found": 0,
+    "difficult_or_unknown_pairs_with_two_real_model_outputs_found": 0,
+    "disposition": "BLOCKED_EVIDENCE",
+    "incremental_finding": "The reviewed checkouts and fixtures do not contain a hidden no-charge paired biological challenge set. The two retained six-camera vision snapshots have different capture identities and cannot be paired.",
+    "exact_remaining_requirements": [
+      "same 18-image identities evaluated by original and compact prompts",
+      "comparable model and inference settings",
+      "independent confirmed-positive and difficult/UNKNOWN labels",
+      "paired disagreement, missed-positive, false-positive and uncertainty estimates"
+    ]
+  },
+  "observed_current_followup": {
+    "source_request": "DISL original 2019 Middle Bay station 188 deployment/clock/geometry records",
+    "bounded_mailbox_as_of": "2026-10-24T09:36:00-05:00",
+    "incoming_provider_reply_found": false,
+    "sent_request_receipt_present": true,
+    "no_repeat_outreach_performed": true,
+    "status": "PROVIDER_RECORDS_PENDING",
+    "unresolved": [
+      "2019 clock/timezone and correction history",
+      "deployment geometry and sensor height/depth/datum",
+      "heading/magnetic-variation calibration linkage",
+      "sampling/export conventions and water-height derivation"
+    ],
+    "production_eligible_rows": 0
+  },
+  "cost_acceptance": {
+    "disposition": "ACTUAL_BILLING_BLOCKED",
+    "changed_this_run": false,
+    "reason": "No new provider project-scoped billing export or effective billed rate/tier/cache/credit evidence was found in this run.",
+    "conditional_list_price_result_is_not_actual_billing": true,
+    "wind_optimization": "DEFERRED"
+  },
+  "scientific_effect": {
+    "new_jubilee_event_predictive_gain": false,
+    "new_jubilee_event_predictive_regression": false,
+    "clean_tier_a_matched_controls": 0,
+    "near_point_clear_earth_frame_current_rows_accepted": 0,
+    "loading_transport_combined_comparison_status": "BLOCKED",
+    "moon_phase_retested": false,
+    "production_changes": []
+  },
+  "privacy_and_scope": {
+    "public_camera_media_retained": false,
+    "raw_request_records_published": false,
+    "private_billing_exports_published": false,
+    "email_message_ids_published": false,
+    "captures_triggered": false,
+    "paid_model_calls_triggered": false
+  }
+}
