@@ -3105,3 +3105,15 @@ Stage: RENEWED_POINT_CLEAR_INPUT_QUALITY_ALERT / PUBLISHED / EXACT_BINDING_VALID
 - **Next existing action:** Continue normal overnight and dawn sensing. Re-alert only for another material camera state, a direct event, meaningful environmental change or another existing-policy trigger. Direct shoreline-bottom oxygen/stratification, Daphne observations and biologically usable dawn visibility remain critical uncertainties.
 
 Stage: CAMERA_RECOVERY_VERIFIED / REGIONAL_OXYGEN_WEAKENING / PUBLISHED / EXACT_BINDING_VALID / FRESHNESS_CURRENT.
+
+
+## J01 / J11 — 2026-10-24 Dawn horizon publication receipt
+
+- **Concurrency-safe review:** The initial candidate from `007fdca4` was discarded when the 06:55 CDT daylight-follow-up evidence landed. Review restarted from exact main `c0fa1c0da6731065a21bc0ae34036f47aba19b25`; no stale-state rebase was used.
+- **Atomic horizon publication:** PR #131 merged the reviewed snapshot/forecast pair at `f0ec34dc8e7d24b4d246e6b0b225866be2cfea9c`. The normal evidence reconciler then advanced main to `1a367559a8566c8085b0b176dbbbabacdc658b4f` at 07:03:01 CDT while retaining the exact October 24–26 six-cell horizon and all numerical values.
+- **Strict current-main readback:** `python -B model_data/bind_current_forecast.py --check --require-dawn-horizon` passed against `1a367559a8566c8085b0b176dbbbabacdc658b4f`. Current snapshot SHA-256 is `ad17dbce2ddce6f8938b3e02cef5464e12a392d9aa3afc61d7c426129d44396a`; current forecast SHA-256 is `83fbf00f8c05ccdc2004ade15b8c9e4814849dd5cf8b9a9dbdaa60b28452a8d2`.
+- **Six-cell horizon:** October 24, 25 and 26 each contain Point Clear/Grand Hotel 2–5% (central 3%) and Daphne/May Day 1–4% (central 2%), low confidence. No probability, confidence, production weight, UNKNOWN rule, threshold, camera coverage or cadence changed.
+- **Dawn cameras:** All six owner cameras passed the 06:55 CDT daylight follow-up. Montrose had no visible event indicator within the scoped views; the Point Clear E2 back-deck view remained low-detectability UNKNOWN while the other Point Clear views showed no visible event indicator. Public-camera dawn evidence remained UNKNOWN under the live-player contract because the checks were dark/poor, unavailable, private, non-advancing or periodic-still only.
+- **Alert interpretation:** Strict >20% and direct-event gates remain false. Overnight Point Clear degradation/recovery, regional Meaher oxygen weakening and the older NGOFS2 material-input fault latch were already recorded; there is no new dawn material alert and unchanged duplicate notification remains suppressed under the owner operating rule and 9 p.m. restriction.
+
+Jubilee Dot coordination: consume this as the October 24 J01/J11 horizon-maintenance receipt. Dawn Brief performed no duplicate sensing/public-camera acquisition, calibration, new task, paid call or outreach.
