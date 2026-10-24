@@ -1,6 +1,6 @@
 {
   "schema_version": "1.2",
-  "retrieved_at": "2026-10-24T03:06:26.220967+00:00",
+  "retrieved_at": "2026-10-24T05:00:40.704209+00:00",
   "cast": "forecast",
   "status": "complete",
   "evidence_class": "MODEL",
@@ -10,16 +10,50 @@
     "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/23/ngofs2.t21z.20261023.stations.forecast.nc",
     "full_file_sha256": "9aef716d5979e19da18560a0b980b51fddb9af850a83b3f6c3e6b31ee687768d",
     "bytes": 116012123,
-    "download_completed_at": "2026-10-24T03:06:26.220967+00:00",
+    "download_completed_at": "2026-10-24T05:00:40.704209+00:00",
     "embedded_time_validation": "PASS"
   },
   "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/23/ngofs2.t21z.20261023.stations.forecast.nc",
   "model_initialized_at": "2026-10-23T21:00:00+00:00",
-  "failed_newer_attempts": [],
-  "retrieval_attempts": [],
+  "failed_newer_attempts": [
+    {
+      "url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/24/ngofs2.t03z.20261024.stations.forecast.nc",
+      "error_type": "HTTPError",
+      "http_status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "stage": "http_download",
+      "model_initialized_at": "2026-10-24T03:00:00+00:00"
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/10/24/ngofs2.t03z.20261024.stations.forecast.nc",
+      "error_type": "HTTPError",
+      "http_status": 404,
+      "error": "HTTP Error 404: ",
+      "stage": "http_download",
+      "model_initialized_at": "2026-10-24T03:00:00+00:00"
+    }
+  ],
+  "retrieval_attempts": [
+    {
+      "url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/24/ngofs2.t03z.20261024.stations.forecast.nc",
+      "error_type": "HTTPError",
+      "http_status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "stage": "http_download",
+      "model_initialized_at": "2026-10-24T03:00:00+00:00"
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/10/24/ngofs2.t03z.20261024.stations.forecast.nc",
+      "error_type": "HTTPError",
+      "http_status": 404,
+      "error": "HTTP Error 404: ",
+      "stage": "http_download",
+      "model_initialized_at": "2026-10-24T03:00:00+00:00"
+    }
+  ],
   "normalized_rows": 5291,
-  "subset_sha256": "801e58ecc1d7d3c2397b6f435a2b44543d0ec850f682d0a5322671899f2022c0",
-  "subset_archive": "public_archive/ngofs2_subset/801e58ecc1d7d3c2397b6f435a2b44543d0ec850f682d0a5322671899f2022c0.json.gz",
+  "subset_sha256": "180b7e3476821ba73fe033f8d4ed0fe494b800489f8b0e7930a9fb36d5908b35",
+  "subset_archive": "public_archive/ngofs2_subset/180b7e3476821ba73fe033f8d4ed0fe494b800489f8b0e7930a9fb36d5908b35.json.gz",
   "normalized_csv": "ngofs2_point_clear_forecast_normalized.csv",
   "station": {
     "station_name": "8733821 Pt Clear, MB",
@@ -39,31 +73,31 @@
     "surface_sigma": -0.012500000186264515,
     "bottom_sigma": -0.987500011920929
   },
-  "reference_valid_at": "2026-10-24T03:12:00+00:00",
+  "reference_valid_at": "2026-10-24T05:06:00+00:00",
   "transport_window_type": "forward",
   "transport_windows": {
     "1": {
       "count": 11,
-      "mean_m_s": 0.008610163645988161,
-      "signed_transport_m": 31.090385327115655,
+      "mean_m_s": -0.007198156743470466,
+      "signed_transport_m": -26.311583157294088,
       "coverage_fraction": 1.0
     },
     "3": {
       "count": 31,
-      "mean_m_s": 0.0013499085336896362,
-      "signed_transport_m": 16.06109818756522,
+      "mean_m_s": -0.014422269642079391,
+      "signed_transport_m": -158.02583939548643,
       "coverage_fraction": 1.0
     },
     "6": {
       "count": 61,
-      "mean_m_s": -0.007773350072519132,
-      "signed_transport_m": -170.33253524139585,
+      "mean_m_s": -0.011239223676996325,
+      "signed_transport_m": -247.76471983357627,
       "coverage_fraction": 1.0
     },
     "12": {
       "count": 121,
-      "mean_m_s": 3.8021381434859996e-05,
-      "signed_transport_m": -2.535465412729563,
+      "mean_m_s": 0.00060450291516457,
+      "signed_transport_m": 24.60350044821095,
       "coverage_fraction": 1.0
     }
   },
