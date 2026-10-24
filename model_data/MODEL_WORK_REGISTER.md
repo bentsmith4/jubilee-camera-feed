@@ -3087,3 +3087,12 @@ Stage: REGIONAL_OXYGEN_RELOAD_OBSERVED / CAMERA_HEALTHY / PUBLISHED / VALIDATED 
 - **Alert interpretation:** Strict >20% and direct-event gates remain false. The older reviewed material-input fault latch remains preserved but is not a new alert; unchanged duplicate notification remains suppressed under the owner operating rule and 9 p.m. restriction.
 
 Jubilee Dot coordination: consume this as the October 23 J01/J11 horizon-maintenance receipt. Dawn Brief performed no duplicate sensing/public-camera acquisition, calibration, new task, paid call or outreach.
+
+## J01 sensing degradation - October 24, 2026 00:06-00:45 CDT
+
+- **Renewed Point Clear coverage loss:** Canonical camera commit `fd4a9ae` and structured observation commit `f368eb5` record the 00:06-00:09 CDT cycle. `pcl_e2_back_deck` and `pcl_e3_bay_mouth` each failed both bounded attempts with `stream_not_found` / return code 3419392776. Point Clear therefore fell from the verified 3/3 state to 1/3; Montrose remains 3/3. The latest metadata readback found no later recovery.
+- **Biological interpretation:** Darkness and low detectability leave Point Clear and the poorly visible Montrose areas UNKNOWN, never a biological negative. No direct event evidence was admitted.
+- **Publication receipt:** Pair commit `8b60dbe`, issue time 00:37:59 CDT, consumed the new camera/environmental generation. Exact snapshot/forecast binding and current-state freshness passed. Point Clear/Grand Hotel remains 2-5% (central 3%) and Daphne/May Day 1-4% (central 2%), low confidence; >20% and direct-event gates remain false. Strict Dawn horizon roll-forward remains owned by Dawn Brief and was not performed by Sensing.
+- **Next existing action:** Recheck the failed cameras on the next normal canonical cycle. Re-alert only for verified recovery, broader/persistent degradation, direct event evidence, meaningful environmental change or another existing-policy trigger. No cadence, camera coverage, probability, threshold, weight, UNKNOWN rule, 9 p.m. gate, outreach, spend, task or schedule changed.
+
+Stage: RENEWED_POINT_CLEAR_INPUT_QUALITY_ALERT / PUBLISHED / EXACT_BINDING_VALID / FRESHNESS_CURRENT.
