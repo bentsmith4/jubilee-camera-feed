@@ -3096,3 +3096,12 @@ Jubilee Dot coordination: consume this as the October 23 J01/J11 horizon-mainten
 - **Next existing action:** Recheck the failed cameras on the next normal canonical cycle. Re-alert only for verified recovery, broader/persistent degradation, direct event evidence, meaningful environmental change or another existing-policy trigger. No cadence, camera coverage, probability, threshold, weight, UNKNOWN rule, 9 p.m. gate, outreach, spend, task or schedule changed.
 
 Stage: RENEWED_POINT_CLEAR_INPUT_QUALITY_ALERT / PUBLISHED / EXACT_BINDING_VALID / FRESHNESS_CURRENT.
+
+## J01 sensing recovery and regional oxygen weakening - October 24, 2026 02:06-02:30 CDT
+
+- **Verified owner-camera recovery:** Canonical camera commit `5a48f35` and observation commit `ae0def7` record the 02:06-02:09 CDT cycle. All six owner cameras, including the two Point Clear views that failed at 00:06, produced matching three-frame bursts on their first attempt. Point Clear coverage recovered from 1/3 to 3/3; Montrose remains 3/3. Nighttime biological detectability remained low, so biology is UNKNOWN rather than a negative.
+- **Meaningful regional oxygen weakening:** ARCOS commit `33477a5` records Meaher Park dissolved oxygen at 4.28 mg/L at 01:30 CDT, down 1.87 mg/L from 6.15 mg/L at 20:30 CDT over five hours. The trend is QC-admitted regional context, but Meaher remains a zero-weight upper-bay proxy with unresolved current sensor geometry; it is not direct Eastern Shore shoreline-bottom oxygen or proof of a Jubilee.
+- **Event and publication interpretation:** A bounded same-day public search found no qualifying new Eastern Shore event report; search absence is not non-event evidence. Pair commit `24e51ef`, issue time 02:12:11 CDT, passed exact binding and current-state freshness. Point Clear/Grand Hotel remains 2-5% (central 3%) and Daphne/May Day 1-4% (central 2%), low confidence; >20% and direct-event gates remain false.
+- **Next existing action:** Continue normal overnight and dawn sensing. Re-alert only for another material camera state, a direct event, meaningful environmental change or another existing-policy trigger. Direct shoreline-bottom oxygen/stratification, Daphne observations and biologically usable dawn visibility remain critical uncertainties.
+
+Stage: CAMERA_RECOVERY_VERIFIED / REGIONAL_OXYGEN_WEAKENING / PUBLISHED / EXACT_BINDING_VALID / FRESHNESS_CURRENT.
