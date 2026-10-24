@@ -184,7 +184,7 @@ def _archive(payload: bytes, source_name: str):
     dest.parent.mkdir(parents=True, exist_ok=True)
     if not dest.exists():
         dest.write_bytes(gzip.compress(payload, mtime=0))
-    return digest, str(dest.relative_to(HERE))
+    return digest, dest.relative_to(HERE).as_posix()
 
 
 def main():
