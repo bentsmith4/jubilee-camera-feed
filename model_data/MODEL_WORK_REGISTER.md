@@ -3176,3 +3176,17 @@ Stage: CAMERA_COVERAGE_RECOVERED / SIX_OF_SIX / BIOLOGY_UNKNOWN / FORECAST_GATE_
 - **J11 ownership unchanged:** Dawn Timing remains the sole writer. The October 25 target mismatch and pending Dawn execution remain checkpoint 1; no transfer, schedule write or acceptance pass was manufactured.
 
 Stage: MIDNIGHT_HORIZON_DEFECT_RECOVERED / ZERO_NUMERICAL_CHANGE / BINDING_PASS / FRESHNESS_CURRENT / DAWN_TRANSFER_INCOMPLETE.
+
+
+## J01 / J11 — 2026-10-25 Dawn horizon publication receipt
+
+- **Current-main publication:** Post-daylight reconciliation commit `1162a8860bf8cba322141ac8d3fac4ed916b4ac4` issued the pair at 07:04:18 CDT against committed sensing evidence `aece3eb1bf8d0a0d7a458fbbff4a0e726a6d2eb9`. The exact horizon is October 25, 26 and 27 with six dated cell entries.
+- **Strict readback:** `python -B model_data/bind_current_forecast.py --check --require-dawn-horizon` passed on exact main. Snapshot SHA-256 is `57b94101b08d3e0a680c6819cfdcb6fb62dc4e02aa2649a68d9a3df834506644`; forecast SHA-256 is `b64716e1b421638966ec5dbc8bbd6b2fa6abec80c9c485ddb72b70662244f3aa`.
+- **Six-cell outlook:** October 25–27 each retain Point Clear/Grand Hotel 2–5% (central 3%) and Daphne/May Day 1–4% (central 2%), low confidence. No probability, confidence, production weight, UNKNOWN rule, threshold, camera coverage or cadence changed.
+- **Dawn evidence:** Civil dawn was 06:36:12 CDT. The first at/after-dawn burst at 06:37–06:40 passed all six camera integrity checks but left two Point Clear views low-detectability. The required daylight follow-up began 06:56:56; capture commit `95b46a30fa2c2226d1d57b1739cd11c88d3aa352` and structured record `f1d0d7960a34232c39388cc1234b26a956a496b1` passed all six cameras. Montrose is a moderate scoped visible-area candidate control; Point Clear remains partial-observability context and is not a clean shoreline negative. Direct event evidence remained absent.
+- **Input audit:** Official Point Clear station 8733821 prediction has the October 25 low at 08:32 CDT, 0.301 ft MLLW, and high at 22:47 CDT, 1.978 ft MLLW; an observed water-level product was unavailable. Fresh regional ASOS context was KBFM 350° at 7 kt (06:53 CDT) and KCQF 050° at 5 kt (06:55 CDT); KMOB wind and all admitted one-hour rainfall fields were UNKNOWN. Twenty qualified USGS series were fresh regional upstream proxies with uncalibrated Bay lag. ARCOS/DISL was stale and depth geometry unresolved; direct Eastern Shore bottom/contact-strip oxygen and stratification remain UNKNOWN.
+- **Public-camera status:** No current same-window live-player record met the public-camera contract, so Fairhope, Grand Hotel, Daphne/D'Olive, FAA Dauphin Island and FOX10 candidates remain UNKNOWN rather than negative evidence.
+- **Alert interpretation:** Both strict >20% gates, direct-event gate and material critical-input-fault gate are false. The prior Point Clear fault and NGOFS2 recovery were already recorded; no new dawn material alert exists.
+- **Schedule ownership:** `SENSING_OWNS_DAWN_TIMING` is not verified. Checkpoint 1 retains the 6.866-second October 25 target mismatch; Dawn Timing `6a8f6123dcf4819180255f2c9812a81d` remains the sole schedule writer. No schedule write, duplicate task, cutover or rollback was attempted.
+
+Stage: DAWN_DAYLIGHT_FOLLOWUP_VALID / SIX_CELL_HORIZON_VALID / NO_ALERT / TIMING_OWNS_SCHEDULE / TRANSFER_INCOMPLETE.
