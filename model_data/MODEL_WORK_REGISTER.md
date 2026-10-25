@@ -3190,3 +3190,13 @@ Stage: MIDNIGHT_HORIZON_DEFECT_RECOVERED / ZERO_NUMERICAL_CHANGE / BINDING_PASS 
 - **Schedule ownership:** `SENSING_OWNS_DAWN_TIMING` is not verified. Checkpoint 1 retains the 6.866-second October 25 target mismatch; Dawn Timing `6a8f6123dcf4819180255f2c9812a81d` remains the sole schedule writer. No schedule write, duplicate task, cutover or rollback was attempted.
 
 Stage: DAWN_DAYLIGHT_FOLLOWUP_VALID / SIX_CELL_HORIZON_VALID / NO_ALERT / TIMING_OWNS_SCHEDULE / TRANSFER_INCOMPLETE.
+
+## J11 natural Dawn execution receipt — October 25, 2026
+
+- **Persisted schedule readback:** Dawn Brief `6a807c493a4481918aad2d656abd7817` remained enabled with full seasonal RRULE/BYYEARDAY and target `DTSTART;TZID=America/Chicago:20261025T070119` / `BYHOUR=7;BYMINUTE=1;BYSECOND=19`. Dawn Timing `6a8f6123dcf4819180255f2c9812a81d` remained enabled as sole schedule writer.
+- **Natural execution evidence:** automation run `9c8b7fd7-4988-8326-aaae-31ca6b68988a` has `scheduled_for=2026-10-25T12:01:19Z` (07:01:19 CDT), exactly matching the persisted Dawn Brief target. The worker started at `2026-10-25T11:57:17.103643Z` and completed successfully at `2026-10-25T12:07:49.056429Z`; this worker-start variance is recorded separately from schedule correctness. The completed result reported no failure and required no owner action.
+- **Corresponding Dawn evidence:** the first at/after-dawn and daylight-follow-up camera evidence, exact October 25–27 horizon, strict binding, and no-alert synthesis were persisted and merged through PR #135 at `a7de4243a35b350bd451fe45ad6755cd1e37d26b`.
+- **Acceptance interpretation:** the persisted Timing target was scheduled correctly and the corresponding Dawn run completed, but the candidate from the actual camera runner remains `07:01:12.133589 CDT`, 6.866411 seconds earlier. Therefore `TARGET_MATCH=FAIL`, the successive-match count remains 0 of 2, and this date does not satisfy a transfer match.
+- **Next step:** after Timing persists the next natural in-season target, Sensing will calculate the same target independently and compare it. No cutover, schedule write, disable, rollback or duplicate task was attempted.
+
+Stage: CHECKPOINT_1_EXECUTION_SCHEDULE_VERIFIED / TARGET_MATCH_FAIL / MATCH_SEQUENCE_0_OF_2 / TIMING_OWNS_SCHEDULE / TRANSFER_INCOMPLETE.
