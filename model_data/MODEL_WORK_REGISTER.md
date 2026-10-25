@@ -3155,3 +3155,14 @@ Stage: MATERIAL_CAMERA_FAULT_REVIEWED / BIOLOGY_UNKNOWN / PAIR_VALIDATED / NOTIF
 - **Next acceptance step:** compare the next natural target only after the October 25 Dawn execution receipt and a fresh Timing target exist. Two successive matching in-season dates plus correct Dawn scheduling remain required before `READY_FOR_TRANSFER`.
 
 Stage: VALIDATION_CHECKPOINT_1_MISMATCH / OFFLINE_EDGE_TESTS_PASS / TRANSFER_INCOMPLETE.
+
+## J01 Point Clear camera-coverage recovery — October 24, 2026 23:12–23:22 CDT
+
+- **Bounded canonical recovery:** the expected 23:06 publication was absent, the existing Windows dawn-camera task was disabled, and no competing capture process held the shared pipeline lock. A single late retry used the existing `scheduler_router.py` path; no task schedule, enabled state, service, camera registry or cadence was changed.
+- **Verified camera result:** capture commit `2e4495a00379734d2620495a4dbebfd0505b8764` restored all six owner cameras with matching three-frame bursts (18 admitted frames). Point Clear returned to 3/3, including `pcl_e2_back_deck` and `pcl_e3_bay_mouth`; Montrose remained 3/3.
+- **Canonical continuation:** capture completed before the foreground shell reported missing inherited OpenAI credentials. The failure occurred before analysis/model use. The remaining existing analysis, notification, upload and publication steps were resumed with the already-configured user-scoped credential and without recapture. Structured observation commit `9043a121f0c5c1db90fdbac40a0581f212b48d26` and ASOS/river commit `b1abeeeb4b9e938a6be3d9371b1a047c219ffe44` persisted successfully.
+- **Biological interpretation:** every owner view was dark or low-detectability. Biology remains UNKNOWN, not negative; no direct event evidence was admitted.
+- **Explicit material-fault review:** the October 24 22:06–22:09 Point Clear 1/3 camera-coverage fault is cleared by the matching six-camera cycle. The forecast four-trigger gate is clear; the recovery is retained only as a one-time material operational state change. Probabilities, weights, thresholds, UNKNOWN semantics and the 9 p.m. gate are unchanged.
+- **J11 state unchanged:** Dawn Timing remains the sole writer. Checkpoint 1 is still a target mismatch, the October 25 Dawn execution is pending, and the guarded transfer remains incomplete.
+
+Stage: CAMERA_COVERAGE_RECOVERED / SIX_OF_SIX / BIOLOGY_UNKNOWN / FORECAST_GATE_CLEAR / DAWN_TRANSFER_INCOMPLETE.
