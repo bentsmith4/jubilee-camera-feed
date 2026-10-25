@@ -3166,3 +3166,13 @@ Stage: VALIDATION_CHECKPOINT_1_MISMATCH / OFFLINE_EDGE_TESTS_PASS / TRANSFER_INC
 - **J11 state unchanged:** Dawn Timing remains the sole writer. Checkpoint 1 is still a target mismatch, the October 25 Dawn execution is pending, and the guarded transfer remains incomplete.
 
 Stage: CAMERA_COVERAGE_RECOVERED / SIX_OF_SIX / BIOLOGY_UNKNOWN / FORECAST_GATE_CLEAR / DAWN_TRANSFER_INCOMPLETE.
+
+## J01 / J11 midnight horizon-binding recovery — October 25, 2026 00:06–00:22 CDT
+
+- **Normal sensing evidence:** capture commit `26d085d67ab6935e1e24753cf4dc3d5ce06289f0` produced first-attempt matching three-frame bursts from all six owner cameras at 00:06–00:09 CDT. Point Clear and Montrose remained 3/3. Darkness and low detectability retain biology as UNKNOWN, not negative; the outside-dawn cycle created no biological control or full-cell negative.
+- **Publication defect detected:** the 00:16 CDT snapshot advanced its issue date to October 25 while retaining the prior October 24–26 outlook rows. Strict `--require-dawn-horizon` validation correctly failed because the required horizon was October 25–27. This was treated as a JSON/publication-contract defect, not a source outage or UNKNOWN sensor.
+- **Guarded canonical repair:** the documented `roll_forward_dawn_outlook.py` zero-change maintenance path moved the three identical reviewed rows to October 25–27. Point Clear remains 2–5% (central 3%) and Daphne/May Day 1–4% (central 2%), low confidence. No number, weight, threshold, UNKNOWN classification, source admission or alert gate changed.
+- **Validation:** exact binding with strict dawn-horizon validation passed and source freshness returned CURRENT against the same committed evidence.
+- **J11 ownership unchanged:** Dawn Timing remains the sole writer. The October 25 target mismatch and pending Dawn execution remain checkpoint 1; no transfer, schedule write or acceptance pass was manufactured.
+
+Stage: MIDNIGHT_HORIZON_DEFECT_RECOVERED / ZERO_NUMERICAL_CHANGE / BINDING_PASS / FRESHNESS_CURRENT / DAWN_TRANSFER_INCOMPLETE.
