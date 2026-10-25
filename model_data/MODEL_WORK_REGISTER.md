@@ -3135,3 +3135,23 @@ Jubilee Dot coordination: consume this as the October 24 J01/J11 horizon-mainten
 One-time recovery of the October 22 03Z forecast-validation incident, supported by complete October 24 09Z Point Clear (5,291 rows) and five-target Mobile Bay (21,645 rows) forecasts. Archive hashes/CSV rows, exact 481 six-minute times per series, source completeness and issue-relative 12-hour coverage verified. See [MATERIAL_FAULT_RECOVERY_20261024.md](MATERIAL_FAULT_RECOVERY_20261024.md) and snapshot material_fault_recovery_review_20261024 for the pinned evidence and limitations. The old rejected bytes/root cause remain unverified; valid newer guidance is established.
 
 The reviewed atomic pair clears only this material-input latch and obsolete notification reason. No active four-trigger alert remains; one recovery incident identity is retained for existing reporting after 21:00 America/Chicago, with no notification sent and duplicate recovery messages suppressed. Camera expiry/scientific gaps remain UNKNOWN; no code, probabilities, weights, thresholds, schedules, coverage or cadence changed. J01 owns any recurrence; J11 consumes the pair; Jubilee Dot consumes this existing-register receipt without a new task or sensing run.
+
+## J01 material Point Clear camera-coverage degradation — October 24, 2026 22:06–22:20 CDT
+
+- **Admitted current evidence:** canonical commits `9d5ab6b` (camera), `d135862` (structured observation) and `b25ca7a` (ASOS/river) were reconciled. Montrose was 3/3. Point Clear was 1/3: `pcl_e2_back_deck` and `pcl_e3_bay_mouth` each failed both bounded attempts with `stream_not_found` / return code `3419392776`; `pcl_e2_bay_mouth` succeeded.
+- **Biological interpretation:** darkness and low detectability make Point Clear biology UNKNOWN, not negative. No direct event or qualifying same-day human signal was established.
+- **Explicit review and recovery:** canonical run `40157314992` stopped correctly with `REVIEW_REQUIRED: changed camera failures need material-fault assessment` rather than masking the fault. The existing material critical-input-fault gate was then set after human review and the current pair was regenerated.
+- **Publication checks:** candidate snapshot `2026-10-24T22:20:01.499432-05:00` passed exact binding, strict dawn-horizon validation and current-state freshness. Point Clear/Grand Hotel remains 2–5% (central 3%) and Daphne/May Day 1–4% (central 2%), low confidence; the >20% and direct-event gates remain false. Notification is for the significant sensing-quality degradation only.
+- **Boundaries preserved:** no model weight, probability, threshold, cadence, camera registry, UNKNOWN rule, acquisition path, forecast contract or 9 p.m. gate changed.
+
+Stage: MATERIAL_CAMERA_FAULT_REVIEWED / BIOLOGY_UNKNOWN / PAIR_VALIDATED / NOTIFICATION_GATE_MET.
+
+## J11 dawn schedule-transfer validation checkpoint 1 — October 24, 2026
+
+- **Current ownership preserved:** Dawn Timing `6a8f6123dcf4819180255f2c9812a81d` remains the sole enabled schedule writer. Dawn Brief `6a807c493a4481918aad2d656abd7817` remains enabled with its full seasonal RRULE/BYYEARDAY, prompt and persisted target unchanged. No schedule write or cutover was attempted.
+- **Actual-runner provenance:** Windows task `Jubilee Dawn Cameras` invokes Python 3.14 `C:\JubileeCams\scheduler_router.py`, which routes to `C:\JubileeCams\dawn_runner.py`; Astral 3.2 uses observer 30.6035, -87.9036, elevation 0 and `America/Chicago`.
+- **Natural target comparison:** the actual runner computes October 25 civil dawn at `2026-10-25T06:36:12.133589-05:00`, so dawn+25 minutes is `07:01:12.133589 CDT`. Timing persisted `07:01:19 CDT`, a 6.866411-second mismatch. Therefore `TARGET_MATCH=FAIL`; the October 25 Dawn run has not yet occurred, so corresponding execution evidence is PENDING and no acceptance pass is manufactured.
+- **Offline no-write validation:** May 18 startup resolved to `2027-05-18T05:53:31.567166-05:00`; November 14 rollover resolved to that same next-May-18 target; both CDT (-05:00) and CST (-06:00) offsets were exercised; missed-evening retries at 17:05, 22:12 and 00:30 resolved to the same still-future October 25 target; simulated denied-write and readback-mismatch paths preserved the last verified schedule and Timing ownership. All offline cases passed without production writes.
+- **Next acceptance step:** compare the next natural target only after the October 25 Dawn execution receipt and a fresh Timing target exist. Two successive matching in-season dates plus correct Dawn scheduling remain required before `READY_FOR_TRANSFER`.
+
+Stage: VALIDATION_CHECKPOINT_1_MISMATCH / OFFLINE_EDGE_TESTS_PASS / TRANSFER_INCOMPLETE.
