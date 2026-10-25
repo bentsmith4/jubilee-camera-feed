@@ -20,9 +20,9 @@ from pathlib import Path
 from netCDF4 import Dataset, chartostring, num2date
 
 try:
-    from model_data.ngofs2_station_access import open_latest_station, StationRetrievalError
+    from model_data.ngofs2_station_access import open_latest_station, StationRetrievalError, StationTimeValidationError
 except ModuleNotFoundError:  # Direct script execution has model_data on sys.path.
-    from ngofs2_station_access import open_latest_station, StationRetrievalError
+    from ngofs2_station_access import open_latest_station, StationRetrievalError, StationTimeValidationError
 
 HERE = Path(__file__).resolve().parent
 BASE = "https://opendap.co-ops.nos.noaa.gov/thredds/dodsC/NOAA/NGOFS2/MODELS"
@@ -322,6 +322,8 @@ def main():
                          "transport_windows": windows})
     except Exception as exc:
         manifest.update({"status": "failed", "error_type": type(exc).__name__, "error": str(exc)[:500]})
+        if isinstance(exc, StationTimeValidationError):
+            manifest["validation_failure"] = exc.validation_failure
         if isinstance(exc, (RetrievalOpenError, StationRetrievalError)):
             manifest["retrieval_attempts"] = exc.attempts
     manifest["guardrails"] = [
