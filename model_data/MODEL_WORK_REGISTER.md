@@ -3240,3 +3240,13 @@ Owner assigned a direct PointClearPC scheduler investigation and authorized boun
 - **Preserved:** six cameras, seasonal dates, capture cadence, production probabilities/weights, thresholds, UNKNOWN semantics, alert consolidation and the 9 p.m. Central notification restriction. No duplicate task or automation created. J11 cloud Dawn Timing transfer remains separate and incomplete.
 
 This receipt supersedes the scheduler-failure inference only; it does not erase the October 24 recovery history or certify full resilience/seasonal shutdown.
+
+## J11 Sensing independent target comparison — October 25, 2026 (for October 26)
+
+- **Calculation provenance:** During Sensing's first successful October 25 evening run, the installed camera runner was reread before calculation. `C:\JubileeCams\dawn_runner.py` imports Astral 3.2 `Observer` and `sun`, uses latitude 30.6035 / longitude -87.9036 / elevation 0, and reads `solar["dawn"]` in `America/Chicago`. Sensing independently calculated October 26 civil dawn as `2026-10-26T06:36:54.200954-05:00`; dawn+25 minutes is `2026-10-26T07:01:54.200954-05:00` (CDT).
+- **Fresh persisted-target comparison:** Dawn Timing's existing receipt and the independently reread Dawn Brief configuration show `DTSTART;TZID=America/Chicago:20261026T070154` with `BYHOUR=7;BYMINUTE=1;BYSECOND=54`. The independently calculated candidate matches that persisted target at the scheduler's whole-second precision.
+- **Acceptance state:** `TARGET_MATCH=PASS` for the October 26 candidate comparison only. The corresponding October 26 Dawn run has not yet occurred, so execution correctness remains PENDING and the completed successive-match sequence remains 0 of 2. No pass is manufactured from the persisted target or this receipt alone.
+- **Ownership and preservation:** Dawn Timing `6a8f6123dcf4819180255f2c9812a81d` remains the sole writer. Dawn Brief `6a807c493a4481918aad2d656abd7817` remains enabled with its prompt and full seasonal RRULE/BYYEARDAY preserved. No schedule write, disable, cutover, rollback, duplicate task, production-probability change, threshold change, camera change, or winter coverage was attempted.
+- **Next acceptance step:** after the natural October 26 Dawn run, verify its scheduled target and execution receipt separately. Only then may this date become the first completed match in the required two-successive-date sequence.
+
+Stage: SENSING_TARGET_MATCH_PASS / OCTOBER_26_EXECUTION_PENDING / MATCH_SEQUENCE_0_OF_2 / TIMING_OWNS_SCHEDULE / TRANSFER_INCOMPLETE.
