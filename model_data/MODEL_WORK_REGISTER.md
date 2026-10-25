@@ -3214,3 +3214,12 @@ Stage: CHECKPOINT_1_EXECUTION_SCHEDULE_VERIFIED / TARGET_MATCH_FAIL / MATCH_SEQU
 - **Rollback / failure semantics:** Existing UNKNOWN rules, six-camera coverage, probability ranges/weights, publication binding, outreach restrictions and last-verified schedule protections are unchanged. A failed consolidation behavior must revert only the affected coordination refinement, not production evidence or newer owner decisions.
 
 Stage: DOT_CONTROL_TOWER_CONFIGURED / SINGLE_ALERT_ASSEMBLER_CONFIGURED / PRODUCTION_SEASON_BOUNDARIES_PRESERVED / OFFSEASON_RESEARCH_ENABLED / DAWN_TRANSFER_STILL_INCOMPLETE.
+
+## J11 Dawn Timing persisted-target evidence — October 25, 2026 (for October 26)
+
+- **Calculation provenance:** Dawn Timing used the local camera runner's calculation stack: Astral 3.2, observer latitude 30.6035 / longitude -87.9036 / elevation 0, civil depression 6 degrees, and `America/Chicago`. For October 26, Astral calculated civil dawn at `2026-10-26T06:36:54.200954-05:00`; dawn+25 minutes is `2026-10-26T07:01:54.200954-05:00` (CDT).
+- **Persisted production target:** Dawn Brief `6a807c493a4481918aad2d656abd7817` was updated schedule-only and independently read back as `DTSTART;TZID=America/Chicago:20261026T070154` with `BYHOUR=7;BYMINUTE=1;BYSECOND=54`. The persisted whole-second value matches the runner result at scheduler precision.
+- **Preservation/readback:** the brief remains enabled in `America/Chicago`; its prompt is unchanged; `FREQ=YEARLY` and the complete 181-value `BYYEARDAY=-228` through `-48` season list are intact. No model, sensing, alert, research, threshold, camera, cadence or winter-coverage behavior changed.
+- **Transfer interpretation:** Timing remains the sole writer. This is the persisted Timing candidate and production readback for Sensing's independent comparison and corresponding-natural-run check; it does not itself create a transfer pass, increment the two-date sequence, authorize cutover, or establish `SENSING_OWNS_DAWN_TIMING`.
+
+Stage: TIMING_TARGET_PERSISTED / PRODUCTION_READBACK_VALID / SENSING_COMPARISON_PENDING / TIMING_OWNS_SCHEDULE / TRANSFER_INCOMPLETE.
