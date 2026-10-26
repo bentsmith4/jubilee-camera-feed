@@ -1,34 +1,25 @@
 {
   "schema_version": "1.2",
-  "retrieved_at": "2026-10-24T23:41:36.238504+00:00",
+  "retrieved_at": "2026-10-26T13:31:20.895948+00:00",
   "cast": "nowcast",
   "status": "complete",
   "evidence_class": "MODEL",
   "production_action": "NO_CHANGE",
   "station_access": {
     "method": "HTTPS_FULL_STATION_NETCDF",
-    "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/10/24/ngofs2.t21z.20261024.stations.nowcast.nc",
-    "full_file_sha256": "cbd3d7693f3d85b364a97a92d74f2557c23d3753e6c20724ea9f3281cbaf3a03",
+    "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/26/ngofs2.t09z.20261026.stations.nowcast.nc",
+    "full_file_sha256": "32a8ec3e3e85c75ccf8814a98f0cab504ab53a2c4501e2bb9915065a7a47ffda",
     "bytes": 14831795,
-    "download_completed_at": "2026-10-24T23:41:36.238504+00:00",
+    "download_completed_at": "2026-10-26T13:31:20.895948+00:00",
     "embedded_time_validation": "PASS"
   },
-  "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/10/24/ngofs2.t21z.20261024.stations.nowcast.nc",
-  "model_initialized_at": "2026-10-24T21:00:00+00:00",
+  "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/26/ngofs2.t09z.20261026.stations.nowcast.nc",
+  "model_initialized_at": "2026-10-26T09:00:00+00:00",
   "failed_newer_attempts": [],
-  "retrieval_attempts": [
-    {
-      "url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/24/ngofs2.t21z.20261024.stations.nowcast.nc",
-      "error_type": "HTTPError",
-      "http_status": 404,
-      "error": "HTTP Error 404: Not Found",
-      "stage": "http_download",
-      "model_initialized_at": "2026-10-24T21:00:00+00:00"
-    }
-  ],
+  "retrieval_attempts": [],
   "normalized_rows": 671,
-  "subset_sha256": "1270e2abaaa08985f2a82f1c54f013ca0c2793bfc5638626cb0ad3c3f14ee597",
-  "subset_archive": "public_archive/ngofs2_subset/1270e2abaaa08985f2a82f1c54f013ca0c2793bfc5638626cb0ad3c3f14ee597.json.gz",
+  "subset_sha256": "65c0d15f884e8923351aa1f807d6179616632f569f744e8234abe585525a03cd",
+  "subset_archive": "public_archive/ngofs2_subset/65c0d15f884e8923351aa1f807d6179616632f569f744e8234abe585525a03cd.json.gz",
   "normalized_csv": "ngofs2_point_clear_nowcast_normalized.csv",
   "station": {
     "station_name": "8733821 Pt Clear, MB",
@@ -48,25 +39,25 @@
     "surface_sigma": -0.012500000186264515,
     "bottom_sigma": -0.987500011920929
   },
-  "reference_valid_at": "2026-10-24T21:00:00+00:00",
+  "reference_valid_at": "2026-10-26T09:00:00+00:00",
   "transport_window_type": "antecedent",
   "transport_windows": {
     "1": {
       "count": 11,
-      "mean_m_s": -0.009079479443078693,
-      "signed_transport_m": -32.487900294363506,
+      "mean_m_s": -0.02100817029449073,
+      "signed_transport_m": -75.76179485768081,
       "coverage_fraction": 1.0
     },
     "3": {
       "count": 31,
-      "mean_m_s": -0.006429038232102271,
-      "signed_transport_m": -70.23181804222988,
+      "mean_m_s": -0.017935900663536408,
+      "signed_transport_m": -196.03701302781704,
       "coverage_fraction": 1.0
     },
     "6": {
       "count": 61,
-      "mean_m_s": 0.0015520674355908248,
-      "signed_transport_m": 33.10853391420096,
+      "mean_m_s": -0.005110874153988186,
+      "signed_transport_m": -110.90986647268439,
       "coverage_fraction": 1.0
     }
   },
