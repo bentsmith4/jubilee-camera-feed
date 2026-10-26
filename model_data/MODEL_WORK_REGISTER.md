@@ -3250,3 +3250,13 @@ This receipt supersedes the scheduler-failure inference only; it does not erase 
 - **Next acceptance step:** after the natural October 26 Dawn run, verify its scheduled target and execution receipt separately. Only then may this date become the first completed match in the required two-successive-date sequence.
 
 Stage: SENSING_TARGET_MATCH_PASS / OCTOBER_26_EXECUTION_PENDING / MATCH_SEQUENCE_0_OF_2 / TIMING_OWNS_SCHEDULE / TRANSFER_INCOMPLETE.
+
+## J01 / J11 midnight horizon-binding recovery — October 26, 2026 00:06–00:18 CDT
+
+- **Normal sensing evidence:** capture commit `a9cc4a60c5e57cea2cadfd4d4516028bf98451c6` and structured observation commit `baaa2ee39624400a1f227a424d2f713497c6eabb` record the 00:06–00:09 CDT canonical cycle. All six owner cameras produced matching three-frame bursts on the first attempt. The cycle was outside the dawn window; darkness and low detectability leave biology UNKNOWN and create no biological control or full-cell negative.
+- **Input reconciliation:** fresh ASOS and river context was committed at `f109d408d6bb9f341bfc28fff726efcb389ae0ca`; the bound pair reconciled at `05a7a19bedfb77112cde39019390ebb032e527fc`. The earlier transient Point Clear acquisition gap was absent from the new canonical cycle. No direct-event, >20%, or material critical-input-fault gate was active.
+- **Publication defect detected:** strict Dawn-horizon validation correctly rejected the first midnight pair because its October 26 issue time retained October 25–27 outlook dates instead of the required October 26–28 horizon. This was treated as a JSON/publication-contract defect, not a source outage or biological UNKNOWN.
+- **Guarded zero-change repair:** the existing reviewed `roll_forward_dawn_outlook.py` path moved the identical frozen heuristic profile to October 26–28 and published commit `522aa1db6d7ecf18d4e2287061fb1d0707d3408e`. Independent readback passed exact forecast binding, strict Dawn-horizon validation and source freshness. Point Clear/Grand Hotel remains 2–5% (central 3%) and Daphne/May Day 1–4% (central 2%), low confidence. No probability, confidence, production weight, threshold, alert gate, UNKNOWN rule, camera coverage or cadence changed.
+- **Dawn ownership unchanged:** the October 26 natural Dawn execution remains pending. Dawn Timing is still the enabled sole writer, the completed natural-date match sequence remains 0 of 2, and no schedule write, cutover, disable or rollback was attempted.
+
+Stage: MIDNIGHT_CANONICAL_SIX_OF_SIX / HORIZON_DEFECT_RECOVERED / ZERO_NUMERICAL_CHANGE / BINDING_AND_FRESHNESS_PASS / NO_ALERT / TIMING_OWNS_SCHEDULE / TRANSFER_INCOMPLETE.
