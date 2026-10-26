@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-26T15:12:19.149595-05:00",
+  "issue_time": "2026-10-26T15:58:11.124005-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "0186177f28ee2b29d89ce6812fb189e8588b21816ba1d0c4d2f5eee1d2b40d67",
-  "input_commit_sha": "c4d11306ef09fcbd41e548cdee901aafa3a679ea",
+  "input_snapshot_hash": "28f290d36c653cdae9833096a34e001c26f6e4853cad5200649d25d367bcd692",
+  "input_commit_sha": "5c9b356265f30ca9e5c027ac4b975208360d30ed",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
@@ -22,14 +22,15 @@
       "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
     },
     "fresh_river_series": 20,
-    "asos_stations": "KBFM/KCQF/KMOB partial"
+    "asos_stations": "KBFM/KCQF/KMOB UNKNOWN"
   },
   "missing_inputs": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
     "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
-    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission."
+    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
+    "asos_weather: SOURCE_UNAVAILABLE/UNKNOWN"
   ],
   "outlooks": [
     {
