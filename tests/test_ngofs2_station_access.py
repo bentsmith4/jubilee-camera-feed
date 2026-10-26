@@ -151,3 +151,75 @@ class StationAccessTests(unittest.TestCase):
         self.assertIn("/fileServer/NOAA/NGOFS2/MODELS/2026/10/14/", urls[1])
         with self.assertRaises(ValueError):
             access.station_http_urls(CYCLE, "grid")
+
+class HistoricalClockRegressionTests(unittest.TestCase):
+    def clock_payload(self, name):
+        import json
+        record = json.loads((Path(__file__).parent / 'fixtures/ngofs2_forecast_clocks_20261022_24.json').read_text())[name]
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / 'clock.nc'
+            with Dataset(path, 'w') as ds:
+                ds.title = record['title']
+                ds.createDimension('time', len(record['raw_time_values']))
+                t = ds.createVariable('time', 'f8', ('time',))
+                t.units = record['units']
+                t[:] = record['raw_time_values']
+            return path.read_bytes()
+
+    def failure(self):
+        import hashlib
+        payload = self.clock_payload('s3')
+        cycle = datetime(2026, 10, 22, 3, tzinfo=timezone.utc)
+        getter = Mock(return_value=payload)
+        with self.assertRaises(access.StationTimeValidationError) as caught:
+            access.open_latest_station('forecast', [cycle, cycle-timedelta(hours=6)], Dataset, num2date, getter)
+        self.assertEqual(getter.call_count, 1)
+        evidence = caught.exception.validation_failure
+        self.assertEqual(evidence['full_file_sha256'], hashlib.sha256(payload).hexdigest())
+        self.assertEqual(evidence['actual_count'], 481)
+        self.assertEqual(evidence['paired_mismatch_count'], 3)
+        self.assertEqual([m['index'] for m in evidence['mismatches']], [323, 328, 333])
+        self.assertEqual([m['offset_seconds'] for m in evidence['mismatches']], [-1.0]*3)
+        return caught.exception
+
+    def test_recovered_oct22_clock_fails_with_exact_evidence_without_retry(self):
+        self.failure()
+
+    def test_oct24_replacement_clock_passes_unchanged_contract(self):
+        cycle = datetime(2026, 10, 24, 9, tzinfo=timezone.utc)
+        ds, _, _, _, receipt = access.open_latest_station(
+            'forecast', [cycle], Dataset, num2date, lambda _: self.clock_payload('replacement'))
+        ds.close()
+        self.assertEqual(receipt['embedded_time_validation'], 'PASS')
+
+    def test_both_collectors_persist_failure_and_availability_still_rejects(self):
+        import json
+        from model_data import ingest_ngofs2_point_clear as point
+        from model_data import ingest_ngofs2_mobile_bay_named_stations as named
+        error = self.failure()
+        for collector, prefix in [(point, 'ngofs2_point_clear'), (named, 'ngofs2_mobile_bay_named_stations')]:
+            with self.subTest(collector=prefix), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                with patch.object(collector, 'HERE', root), patch.object(collector, 'open_latest', side_effect=error), \
+                        patch('sys.argv', ['collector', '--cast', 'forecast']), patch('builtins.print'):
+                    with self.assertRaises(SystemExit):
+                        collector.main()
+                manifest = json.loads((root / (prefix+'_forecast_manifest.json')).read_text())
+                self.assertEqual(manifest['status'], 'failed')
+                self.assertEqual(manifest['validation_failure'], error.validation_failure)
+                self.assertFalse(availability.retrieval_outage(manifest))
+                for name in availability.PRODUCTS:
+                    p = root / (name+'_manifest.json')
+                    if not p.exists():
+                        p.write_text(json.dumps({'status':'complete'}))
+                with self.assertRaisesRegex(RuntimeError, 'validation or parser failure'):
+                    availability.validate(root)
+
+    def test_mismatch_diagnostics_are_bounded(self):
+        with self.assertRaises(access.StationTimeValidationError) as caught:
+            access.open_latest_station('forecast', [CYCLE], Dataset, num2date,
+                                       lambda _: fixture('forecast', shift=1))
+        evidence = caught.exception.validation_failure
+        self.assertEqual(evidence['paired_mismatch_count'], 481)
+        self.assertEqual(len(evidence['mismatches']), 10)
+        self.assertTrue(evidence['mismatches_truncated'])

@@ -12,6 +12,14 @@ SOCKET_TIMEOUT_SECONDS = 20
 DOWNLOAD_BUDGET_SECONDS = 90
 
 
+class StationTimeValidationError(ValueError):
+    """Fatal timestamp mismatch with bounded, serializable forensic evidence."""
+
+    def __init__(self, evidence):
+        self.validation_failure = evidence
+        super().__init__("Station embedded valid times disagree with cycle/cast or six-minute coverage")
+
+
 class StationRetrievalError(RuntimeError):
     def __init__(self, attempts):
         self.attempts = attempts
@@ -67,7 +75,22 @@ def validate_station_time(ds, cycle, cast, num2date):
     count = 61 if cast == "nowcast" else 481
     expected = [start + timedelta(minutes=6 * i) for i in range(count)]
     if times != expected:
-        raise ValueError("Station embedded valid times disagree with cycle/cast or six-minute coverage")
+        mismatches = [
+            {"index": i, "actual": actual.isoformat(), "expected": wanted.isoformat(),
+             "offset_seconds": (actual - wanted).total_seconds()}
+            for i, (actual, wanted) in enumerate(zip(times, expected)) if actual != wanted
+        ]
+        raise StationTimeValidationError({
+            "stage": "embedded_time_validation", "cast": cast,
+            "model_initialized_at": cycle.isoformat(),
+            "time_units": str(tvar.units), "calendar": str(getattr(tvar, "calendar", "standard")),
+            "actual_count": len(times), "expected_count": count,
+            "actual_start": times[0].isoformat() if times else None,
+            "actual_end": times[-1].isoformat() if times else None,
+            "expected_start": expected[0].isoformat(), "expected_end": expected[-1].isoformat(),
+            "paired_mismatch_count": len(mismatches), "mismatches": mismatches[:10],
+            "mismatches_truncated": len(mismatches) > 10,
+        })
 
 
 def open_latest_station(cast, cycles, dataset_factory, num2date, downloader=download):
@@ -94,6 +117,14 @@ def open_latest_station(cast, cycles, dataset_factory, num2date, downloader=down
             ds = dataset_factory("ngofs2_station.nc", mode="r", memory=payload)
             try:
                 validate_station_time(ds, cycle, cast, num2date)
+            except StationTimeValidationError as exc:
+                exc.validation_failure.update({
+                    "source_url": url, "full_file_sha256": hashlib.sha256(payload).hexdigest(),
+                    "bytes": len(payload), "recorded_at": datetime.now(timezone.utc).isoformat(),
+                    "retrieval_attempts": attempts,
+                })
+                ds.close()
+                raise
             except Exception:
                 ds.close()
                 raise

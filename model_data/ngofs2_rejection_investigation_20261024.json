@@ -1,0 +1,196 @@
+{
+  "inspected_main": "fe3f47d",
+  "original_identity": "NOT_VERIFIED_NO_REJECTED_FILE_HASH_RETAINED",
+  "artifacts": [
+    {
+      "id": 12406880303,
+      "sha256": "662466577854ac10ddb43d6bdc297a60fa290ea3a13366f40810c5e7ecc27fd6",
+      "entry_count": 3152,
+      "netcdf_files": [],
+      "failed_manifests": {
+        "ngofs2_point_clear_forecast_manifest.json": {
+          "schema_version": "1.2",
+          "retrieved_at": "2026-10-22T06:32:50.327283+00:00",
+          "cast": "forecast",
+          "status": "failed",
+          "evidence_class": "MODEL",
+          "production_action": "NO_CHANGE",
+          "error_type": "ValueError",
+          "error": "Station embedded valid times disagree with cycle/cast or six-minute coverage",
+          "guardrails": [
+            "NGOFS2 is MODEL guidance and is not a direct current, salinity, temperature, water-level or oxygen observation.",
+            "Point Clear station mapping prefers name but may use the official Point Clear coordinate as an auditable fallback; a >10 km nearest station is refused.",
+            "Point Clear shoreward projection uses a provisional west-facing shoreline geometry: true bearing 090 degrees is shoreward (+east).",
+            "Nowcast and forecast outputs are separate; forecast values cannot overwrite antecedent nowcast history.",
+            "No production weight changes until event/control held-out incremental value is demonstrated."
+          ]
+        },
+        "ngofs2_mobile_bay_named_stations_forecast_manifest.json": {
+          "schema_version": "1.1",
+          "cast": "forecast",
+          "retrieved_at": "2026-10-22T06:32:54.957303+00:00",
+          "status": "failed",
+          "evidence_class": "MODEL",
+          "production_action": "NO_CHANGE",
+          "error_type": "ValueError",
+          "error": "Station embedded valid times disagree with cycle/cast or six-minute coverage"
+        }
+      }
+    },
+    {
+      "id": 12406373448,
+      "sha256": "0bfe3789c0c220754ac510ba6a1c944327931cedc786e40f0e5ce77d24abf190",
+      "entry_count": 3154,
+      "netcdf_files": [],
+      "failed_manifests": {
+        "ngofs2_point_clear_forecast_manifest.json": {
+          "schema_version": "1.2",
+          "retrieved_at": "2026-10-22T06:38:55.371709+00:00",
+          "cast": "forecast",
+          "status": "failed",
+          "evidence_class": "MODEL",
+          "production_action": "NO_CHANGE",
+          "error_type": "ValueError",
+          "error": "Station embedded valid times disagree with cycle/cast or six-minute coverage",
+          "guardrails": [
+            "NGOFS2 is MODEL guidance and is not a direct current, salinity, temperature, water-level or oxygen observation.",
+            "Point Clear station mapping prefers name but may use the official Point Clear coordinate as an auditable fallback; a >10 km nearest station is refused.",
+            "Point Clear shoreward projection uses a provisional west-facing shoreline geometry: true bearing 090 degrees is shoreward (+east).",
+            "Nowcast and forecast outputs are separate; forecast values cannot overwrite antecedent nowcast history.",
+            "No production weight changes until event/control held-out incremental value is demonstrated."
+          ]
+        },
+        "ngofs2_mobile_bay_named_stations_forecast_manifest.json": {
+          "schema_version": "1.1",
+          "cast": "forecast",
+          "retrieved_at": "2026-10-22T06:38:58.712197+00:00",
+          "status": "failed",
+          "evidence_class": "MODEL",
+          "production_action": "NO_CHANGE",
+          "error_type": "ValueError",
+          "error": "Station embedded valid times disagree with cycle/cast or six-minute coverage"
+        }
+      }
+    }
+  ],
+  "downloads": [
+    {
+      "url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/22/ngofs2.t03z.20261022.stations.forecast.nc",
+      "sha256": "c3385108c34fbf0bd838ffe2e4f0d5499e9be9c4e95b0fef1b58c750d18c7e42",
+      "bytes": 116012123,
+      "local_download_mtime_utc": "2026-10-25T01:32:32.239748+00:00",
+      "global_attributes": {
+        "title": "NGOFS2",
+        "institution": "School for Marine Science and Technology",
+        "source": "FVCOM_4.4.7",
+        "history": "model started at: 22/10/2026   03:21",
+        "references": "http://fvcom.smast.umassd.edu, https://github.com/FVCOM-GitHub/FVCOM",
+        "Conventions": "CF-1.0",
+        "CoordinateSystem": "GeoReferenced"
+      },
+      "result": "REJECTED",
+      "validation_failure": {
+        "stage": "embedded_time_validation",
+        "cast": "forecast",
+        "model_initialized_at": "2026-10-22T03:00:00+00:00",
+        "time_units": "seconds since 2019-01-01 00:00:00",
+        "calendar": "standard",
+        "actual_count": 481,
+        "expected_count": 481,
+        "actual_start": "2026-10-22T03:00:00+00:00",
+        "actual_end": "2026-10-24T03:00:00+00:00",
+        "expected_start": "2026-10-22T03:00:00+00:00",
+        "expected_end": "2026-10-24T03:00:00+00:00",
+        "paired_mismatch_count": 3,
+        "mismatches": [
+          {
+            "index": 323,
+            "actual": "2026-10-23T11:17:59+00:00",
+            "expected": "2026-10-23T11:18:00+00:00",
+            "offset_seconds": -1.0
+          },
+          {
+            "index": 328,
+            "actual": "2026-10-23T11:47:59+00:00",
+            "expected": "2026-10-23T11:48:00+00:00",
+            "offset_seconds": -1.0
+          },
+          {
+            "index": 333,
+            "actual": "2026-10-23T12:17:59+00:00",
+            "expected": "2026-10-23T12:18:00+00:00",
+            "offset_seconds": -1.0
+          }
+        ],
+        "mismatches_truncated": false
+      }
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/10/22/ngofs2.t03z.20261022.stations.forecast.nc",
+      "sha256": "c3385108c34fbf0bd838ffe2e4f0d5499e9be9c4e95b0fef1b58c750d18c7e42",
+      "bytes": 116012123,
+      "local_download_mtime_utc": "2026-10-25T01:32:40.855485+00:00",
+      "global_attributes": {
+        "title": "NGOFS2",
+        "institution": "School for Marine Science and Technology",
+        "source": "FVCOM_4.4.7",
+        "history": "model started at: 22/10/2026   03:21",
+        "references": "http://fvcom.smast.umassd.edu, https://github.com/FVCOM-GitHub/FVCOM",
+        "Conventions": "CF-1.0",
+        "CoordinateSystem": "GeoReferenced"
+      },
+      "result": "REJECTED",
+      "validation_failure": {
+        "stage": "embedded_time_validation",
+        "cast": "forecast",
+        "model_initialized_at": "2026-10-22T03:00:00+00:00",
+        "time_units": "seconds since 2019-01-01 00:00:00",
+        "calendar": "standard",
+        "actual_count": 481,
+        "expected_count": 481,
+        "actual_start": "2026-10-22T03:00:00+00:00",
+        "actual_end": "2026-10-24T03:00:00+00:00",
+        "expected_start": "2026-10-22T03:00:00+00:00",
+        "expected_end": "2026-10-24T03:00:00+00:00",
+        "paired_mismatch_count": 3,
+        "mismatches": [
+          {
+            "index": 323,
+            "actual": "2026-10-23T11:17:59+00:00",
+            "expected": "2026-10-23T11:18:00+00:00",
+            "offset_seconds": -1.0
+          },
+          {
+            "index": 328,
+            "actual": "2026-10-23T11:47:59+00:00",
+            "expected": "2026-10-23T11:48:00+00:00",
+            "offset_seconds": -1.0
+          },
+          {
+            "index": 333,
+            "actual": "2026-10-23T12:17:59+00:00",
+            "expected": "2026-10-23T12:18:00+00:00",
+            "offset_seconds": -1.0
+          }
+        ],
+        "mismatches_truncated": false
+      }
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/10/24/ngofs2.t09z.20261024.stations.forecast.nc",
+      "sha256": "a4ea05fd3d23e72b6c61e21d7d95e5a1d754607e195e2443cd1a5862984f00d2",
+      "bytes": 116012123,
+      "local_download_mtime_utc": "2026-10-25T01:33:06.075927+00:00",
+      "global_attributes": {
+        "title": "NGOFS2",
+        "institution": "School for Marine Science and Technology",
+        "source": "FVCOM_4.4.7",
+        "history": "model started at: 24/10/2026   09:21",
+        "references": "http://fvcom.smast.umassd.edu, https://github.com/FVCOM-GitHub/FVCOM",
+        "Conventions": "CF-1.0",
+        "CoordinateSystem": "GeoReferenced"
+      },
+      "result": "PASS"
+    }
+  ]
+}

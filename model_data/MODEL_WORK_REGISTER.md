@@ -3136,6 +3136,10 @@ One-time recovery of the October 22 03Z forecast-validation incident, supported 
 
 The reviewed atomic pair clears only this material-input latch and obsolete notification reason. No active four-trigger alert remains; one recovery incident identity is retained for existing reporting after 21:00 America/Chicago, with no notification sent and duplicate recovery messages suppressed. Camera expiry/scientific gaps remain UNKNOWN; no code, probabilities, weights, thresholds, schedules, coverage or cadence changed. J01 owns any recurrence; J11 consumes the pair; Jubilee Dot consumes this existing-register receipt without a new task or sensing run.
 
+## J01 / J04 — October 24 original NGOFS2 rejection investigation
+
+Investigated the October 22 03Z rejection without reopening PR #133's resolved recovery. Both original run artifacts and logs recovered; rejected NetCDF bytes/hash were not retained. Fresh NOAA S3 and THREDDS copies are byte-identical and reproduce three interior one-second early timestamps; historical byte identity remains NOT_VERIFIED. The exact PR #133 October 24 09Z replacement hash and all 481 clock values independently pass. No validator tolerance change is justified. Prepared a bounded diagnostic-retention correction and four source-derived/integration regressions; 53 NGOFS2 tests pass. See `NGOFS2_REJECTION_INVESTIGATION_20261024.md`, `ngofs2_rejection_investigation_20261024.json` and the clock fixture. Existing J01/J04 ownership and Dot coordination retained. Branch/PR review is not deployment; no production settings, current-state pair, UNKNOWN semantics, fault latch, schedules or 9 PM gate changed.
+
 ## J01 material Point Clear camera-coverage degradation — October 24, 2026 22:06–22:20 CDT
 
 - **Admitted current evidence:** canonical commits `9d5ab6b` (camera), `d135862` (structured observation) and `b25ca7a` (ASOS/river) were reconciled. Montrose was 3/3. Point Clear was 1/3: `pcl_e2_back_deck` and `pcl_e3_bay_mouth` each failed both bounded attempts with `stream_not_found` / return code `3419392776`; `pcl_e2_bay_mouth` succeeded.
@@ -3294,3 +3298,9 @@ The admissible negative scope is only the 437 Montrose waterline/beach segments 
 
 **Next existing action:** seek an independently observed/labeled event or non-event window with comparable visible geometry, first-light clock window, tide/current context and observation availability; do not promote this two-sample morning or any no-report day. Compact-JSON biological equivalence remains `BLOCKED_EVIDENCE`; actual billed cost remains `ACTUAL_BILLING_BLOCKED`; wind optimization remains deferred.
 
+
+## J01 / J04 — PR #134 integration review, October 26, 2026
+
+Owner authorized review, conflict resolution and integration of existing PR #134. GitHub reported `mergeable_state=dirty`; local merge against main `d5f2df74c21b692dc1c037aff8decf0a32163f0a` reproduced exactly one conflict: concurrent append-only entries in this register. Both histories are retained. No implementation conflict occurred. Reviewed the typed ValueError, bounded ten-mismatch evidence, source identity/hash retention, dataset cleanup, both failed-manifest writers and fatal/no-older-cycle fallback. Original three GitHub checks passed; no prior reviews/comments existed. Fresh integrated-tree validation: all 53 NGOFS2 regressions and 13 portable J09 tests pass; desktop receipt audit and compilation pass. Full-suite/current-head GitHub validation and merge receipt remain separately recorded in PR #134.
+
+This is a forward-looking diagnostic retention improvement, not a reopened PR #133 recovery or proof of historical rejected-byte identity. Existing production probabilities, weights, six-camera schedules/cadence, thresholds, UNKNOWN handling, fault semantics and 21:00 America/Chicago notification restriction are unchanged. No new PR, automation, capture, paid model call or outreach. Main integration is distinct from a subsequent ordinary-cycle diagnostic observation.
