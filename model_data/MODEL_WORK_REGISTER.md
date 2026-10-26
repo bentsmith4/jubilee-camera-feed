@@ -3283,3 +3283,14 @@ Stage: DAWN_DAYLIGHT_FOLLOWUP_VALID / SIX_CELL_HORIZON_VALID / NO_ALERT / SILENT
 - **Ownership preserved:** Dawn Timing `6a8f6123dcf4819180255f2c9812a81d` remains the enabled sole schedule writer. No disable, Dawn schedule mutation, cutover, rollback or duplicate task was attempted.
 
 Stage: OCTOBER_26_NATURAL_MATCH_1_OF_2 / EXECUTION_SCHEDULE_VERIFIED / TIMING_OWNS_SCHEDULE / TRANSFER_INCOMPLETE.
+
+## J10-CONTROL-20261026 — October 26 scoped matched-control audit
+
+**Stage: TESTED / COMMITTED / TIER-B VISIBLE-SCOPE CANDIDATE / NOT TRAINING ELIGIBLE / NO PRODUCTION CHANGE.** Contract audit `model_data/j10_matched_control_sensitivity_20261026.json` was committed at `ec47eab0b9f5b15d2c25a49c44ad2d992347f918` from the immutable 06:36:55 and 06:56:56 CDT records (`ffa2f82a26daa342624b3013.json`, blob `f51a28e959f205b5ba215627d430a60a7410a09c`; `5065e0d3ce81b7110b7e5b84.json`, blob `433aa03387e17ab9d9636eba4a205d02d7287f9f`). Both cycles were inside the target first-light window, retained 3/3 Montrose cameras and a fair/moderate `montrose_shoreline` contact view, and reported no visible signal. Repeated records collapse by date and independent site group to **one** additional Tier-B morning, increasing the last audited sensitivity count from 21 to **22**.
+
+The admissible negative scope is only the 437 Montrose waterline/beach segments actually visible in those two samples. The biological label and whole-morning outcome remain `unknown`; no independent pixel/biological review was performed, same-window public-camera validation and human/social observation effort are unresolved, and intervals outside the two samples remain unobserved. Point Clear owner views remain `PARTIAL_OBSERVABILITY_NOT_CLEAN_CELL_CONTROL`. Predicted falling tide is contextual only because observed water level and an accepted nearshore Earth-frame current/transport phase were unavailable. Direct Eastern Shore bottom oxygen/stratification remains UNKNOWN; regional proxies stay zero-weight.
+
+**Predictive result:** no Jubilee-event gain or regression is measurable. Tier-A controls and clean training negatives remain **0**, so oxygen-loading-only, transport-only and combined held-out comparison remains blocked. This candidate is not forecast-predictor or training eligible. No probability, weight, threshold, camera, cadence, schedule, UNKNOWN rule, alert path, paid call, wind experiment or 9 p.m. gate changed.
+
+**Next existing action:** seek an independently observed/labeled event or non-event window with comparable visible geometry, first-light clock window, tide/current context and observation availability; do not promote this two-sample morning or any no-report day. Compact-JSON biological equivalence remains `BLOCKED_EVIDENCE`; actual billed cost remains `ACTUAL_BILLING_BLOCKED`; wind optimization remains deferred.
+
