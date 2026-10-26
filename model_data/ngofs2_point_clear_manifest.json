@@ -1,59 +1,25 @@
 {
   "schema_version": "1.2",
-  "retrieved_at": "2026-10-26T05:16:50.819903+00:00",
+  "retrieved_at": "2026-10-26T13:31:20.895948+00:00",
   "cast": "nowcast",
   "status": "complete",
   "evidence_class": "MODEL",
   "production_action": "NO_CHANGE",
   "station_access": {
     "method": "HTTPS_FULL_STATION_NETCDF",
-    "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/25/ngofs2.t21z.20261025.stations.nowcast.nc",
-    "full_file_sha256": "840742e860283bf00b3761a13328959d86c189c3daaca2f1527b3c10c5b1aceb",
+    "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/26/ngofs2.t09z.20261026.stations.nowcast.nc",
+    "full_file_sha256": "32a8ec3e3e85c75ccf8814a98f0cab504ab53a2c4501e2bb9915065a7a47ffda",
     "bytes": 14831795,
-    "download_completed_at": "2026-10-26T05:16:50.819903+00:00",
+    "download_completed_at": "2026-10-26T13:31:20.895948+00:00",
     "embedded_time_validation": "PASS"
   },
-  "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/25/ngofs2.t21z.20261025.stations.nowcast.nc",
-  "model_initialized_at": "2026-10-25T21:00:00+00:00",
-  "failed_newer_attempts": [
-    {
-      "url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/26/ngofs2.t03z.20261026.stations.nowcast.nc",
-      "error_type": "HTTPError",
-      "http_status": 404,
-      "error": "HTTP Error 404: Not Found",
-      "stage": "http_download",
-      "model_initialized_at": "2026-10-26T03:00:00+00:00"
-    },
-    {
-      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/10/26/ngofs2.t03z.20261026.stations.nowcast.nc",
-      "error_type": "HTTPError",
-      "http_status": 404,
-      "error": "HTTP Error 404: ",
-      "stage": "http_download",
-      "model_initialized_at": "2026-10-26T03:00:00+00:00"
-    }
-  ],
-  "retrieval_attempts": [
-    {
-      "url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/26/ngofs2.t03z.20261026.stations.nowcast.nc",
-      "error_type": "HTTPError",
-      "http_status": 404,
-      "error": "HTTP Error 404: Not Found",
-      "stage": "http_download",
-      "model_initialized_at": "2026-10-26T03:00:00+00:00"
-    },
-    {
-      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/10/26/ngofs2.t03z.20261026.stations.nowcast.nc",
-      "error_type": "HTTPError",
-      "http_status": 404,
-      "error": "HTTP Error 404: ",
-      "stage": "http_download",
-      "model_initialized_at": "2026-10-26T03:00:00+00:00"
-    }
-  ],
+  "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/10/26/ngofs2.t09z.20261026.stations.nowcast.nc",
+  "model_initialized_at": "2026-10-26T09:00:00+00:00",
+  "failed_newer_attempts": [],
+  "retrieval_attempts": [],
   "normalized_rows": 671,
-  "subset_sha256": "fbab15ea115784a5f39bde8c2de44960b227a3a60a7fc3d1131a22858d2b305f",
-  "subset_archive": "public_archive/ngofs2_subset/fbab15ea115784a5f39bde8c2de44960b227a3a60a7fc3d1131a22858d2b305f.json.gz",
+  "subset_sha256": "65c0d15f884e8923351aa1f807d6179616632f569f744e8234abe585525a03cd",
+  "subset_archive": "public_archive/ngofs2_subset/65c0d15f884e8923351aa1f807d6179616632f569f744e8234abe585525a03cd.json.gz",
   "normalized_csv": "ngofs2_point_clear_nowcast_normalized.csv",
   "station": {
     "station_name": "8733821 Pt Clear, MB",
@@ -73,25 +39,25 @@
     "surface_sigma": -0.012500000186264515,
     "bottom_sigma": -0.987500011920929
   },
-  "reference_valid_at": "2026-10-25T21:00:00+00:00",
+  "reference_valid_at": "2026-10-26T09:00:00+00:00",
   "transport_window_type": "antecedent",
   "transport_windows": {
     "1": {
       "count": 11,
-      "mean_m_s": 0.006437284152277492,
-      "signed_transport_m": 23.19444436579943,
+      "mean_m_s": -0.02100817029449073,
+      "signed_transport_m": -75.76179485768081,
       "coverage_fraction": 1.0
     },
     "3": {
       "count": 31,
-      "mean_m_s": 0.006675482637459233,
-      "signed_transport_m": 72.11316699162127,
+      "mean_m_s": -0.017935900663536408,
+      "signed_transport_m": -196.03701302781704,
       "coverage_fraction": 1.0
     },
     "6": {
       "count": 61,
-      "mean_m_s": 0.010443429996977087,
-      "signed_transport_m": 225.2947724238038,
+      "mean_m_s": -0.005110874153988186,
+      "signed_transport_m": -110.90986647268439,
       "coverage_fraction": 1.0
     }
   },
