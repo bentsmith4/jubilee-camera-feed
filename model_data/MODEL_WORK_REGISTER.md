@@ -3383,3 +3383,13 @@ END:VEVENT
 ```
 
 Stage: READY_FOR_TRANSFER / TWO_OF_TWO_NATURAL_MATCHES / OFFLINE_FAILURE_SUITE_PASS / TIMING_IDLE / PRIOR_SCHEDULES_SAVED / GUARDED_CUTOVER_AUTHORIZED.
+
+
+## J11 SENSING_OWNS_DAWN_TIMING — October 27, 2026
+
+- **Guarded cutover executed and verified:** Fresh preflight confirmed Dawn Timing idle. Its exact prior schedule was already saved in the version-checked READY receipt. Timing was disabled first and independently read back disabled with its schedule unchanged. Only Dawn Brief's schedule was then updated to the reviewed next applicable target `DTSTART;TZID=America/Chicago:20261028T070319` and matching `BYHOUR=7;BYMINUTE=3;BYSECOND=19`; the full seasonal RRULE/BYYEARDAY, prompt and enabled state were preserved byte-for-byte except for those schedule target fields.
+- **Independent readback:** Dawn remains enabled with the exact reviewed October 28 target and unchanged prompt. Timing remains disabled with its prior schedule preserved. No two-writer interval remains and no duplicate task, service, ledger, model, database, acquisition path or notification stream was created.
+- **Ownership state:** `SENSING_OWNS_DAWN_TIMING` is now established. Sensing must maintain the next applicable Dawn target once per local evening with bounded retries; before late retry it must confirm the target has not passed. On November 14 it must preserve the next May 18 target. If maintenance cannot be verified, restore this saved Timing schedule, re-enable Timing, verify rollback and record ownership rollback in this same J01/J11 register.
+- **Preserved:** six-camera coverage, model probabilities/weights, strict >20% threshold, UNKNOWN semantics, publication validation, 9 PM alert gate, outreach restrictions and May 18–November 14 production season are unchanged.
+
+Stage: SENSING_OWNS_DAWN_TIMING / TIMING_DISABLED_VERIFIED / DAWN_NEXT_TARGET_VERIFIED / SINGLE_WRITER / TRANSFER_COMPLETE.
