@@ -3358,3 +3358,28 @@ Stage: CAMERA_COVERAGE_RECOVERED / SIX_OF_SIX_CANONICAL / BIOLOGY_UNKNOWN / FORE
 - **Schedule ownership:** October 26 remains the first completed natural-date match. The persisted October 27 target `07:02:36 CDT` independently matches Sensing's dawn+25 calculation at scheduler precision, but this Dawn run cannot certify its own completed-run receipt. Until an independent post-run readback verifies scheduled target and completion, the accepted sequence remains 1 of 2. Dawn Timing `6a8f6123dcf4819180255f2c9812a81d` remains the sole schedule writer; no `READY_FOR_TRANSFER`, `SENSING_OWNS_DAWN_TIMING`, schedule write, cutover, rollback or duplicate task is claimed.
 
 Stage: DAWN_DAYLIGHT_FOLLOWUP_VALID / SIX_CELL_HORIZON_VALID / NO_ALERT / SILENT_SPECIALIST_RECEIPT / OCTOBER_27_TARGET_MATCH_PENDING_POST_RUN_READBACK / MATCH_SEQUENCE_1_OF_2 / TIMING_OWNS_SCHEDULE / TRANSFER_INCOMPLETE.
+
+
+## J11 READY_FOR_TRANSFER — October 27, 2026
+
+- **Second successive natural match:** Dawn Brief run `bb08e741-b93c-8332-a79c-637d526f5ab8` reports `scheduled_for=2026-10-27T12:02:36Z`, exactly matching the independently calculated and persisted `07:02:36 CDT` target at scheduler precision. Worker dispatch began at `07:01:12.483234 CDT` and is recorded separately as 83.5 seconds early; publication occurred after target at `07:04:42.449652 CDT` and the run completed at `07:08:55.463911 CDT`. The corresponding J01/J11 Dawn receipt is main `039dd8b438a3a83d402dedf2a66f9b4ef6f8d510`, grounded in the 06:38:24 at/after-dawn burst and 06:59:17 dawn+20 follow-up with six-camera integrity and strict binding/horizon validation. October 26 and October 27 therefore satisfy the required two successive natural-date target matches and corresponding correctly scheduled Dawn executions.
+- **Offline/failure suite:** Executed without production writes on PointClearPC using the deployed `dawn_runner.py` observer (30.6035, -87.9036, elevation 0), Astral 3.2 and `America/Chicago`. PASS: November 14 rollover selected `2027-05-18T05:53:31.567166-05:00`; May 18 startup changed from out-of-season at 2027-05-17 23:59 CDT to in-season at 2027-05-18 00:01 CDT; daylight and standard examples produced `-05:00` and `-06:00`; a missed 2026-10-27 17:00 evening attempt and 22:30 retry produced the identical unpassed `2026-10-28T07:03:19.401186-05:00` target; simulated denied write/readback preserved the exact prior verified schedule and Timing ownership. All required cases passed.
+- **Callable controls and guard:** Fresh private readback confirmed callable automation peek/update tools, Dawn enabled, Timing enabled and idle, and no concurrent Timing run. The reviewed next applicable target is `2026-10-28T07:03:19.401186-05:00`, projected at scheduler precision as `07:03:19 CDT`. Exact prior schedules are preserved below before any mutation.
+
+Prior Dawn schedule:
+```ical
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20261027T070236
+RRULE:FREQ=YEARLY;BYYEARDAY=-228,-227,-226,-225,-224,-223,-222,-221,-220,-219,-218,-217,-216,-215,-214,-213,-212,-211,-210,-209,-208,-207,-206,-205,-204,-203,-202,-201,-200,-199,-198,-197,-196,-195,-194,-193,-192,-191,-190,-189,-188,-187,-186,-185,-184,-183,-182,-181,-180,-179,-178,-177,-176,-175,-174,-173,-172,-171,-170,-169,-168,-167,-166,-165,-164,-163,-162,-161,-160,-159,-158,-157,-156,-155,-154,-153,-152,-151,-150,-149,-148,-147,-146,-145,-144,-143,-142,-141,-140,-139,-138,-137,-136,-135,-134,-133,-132,-131,-130,-129,-128,-127,-126,-125,-124,-123,-122,-121,-120,-119,-118,-117,-116,-115,-114,-113,-112,-111,-110,-109,-108,-107,-106,-105,-104,-103,-102,-101,-100,-99,-98,-97,-96,-95,-94,-93,-92,-91,-90,-89,-88,-87,-86,-85,-84,-83,-82,-81,-80,-79,-78,-77,-76,-75,-74,-73,-72,-71,-70,-69,-68,-67,-66,-65,-64,-63,-62,-61,-60,-59,-58,-57,-56,-55,-54,-53,-52,-51,-50,-49,-48;BYHOUR=7;BYMINUTE=2;BYSECOND=36
+END:VEVENT
+```
+
+Prior Timing schedule:
+```ical
+BEGIN:VEVENT
+DTSTART;TZID=America/Chicago:20260908T150000
+RRULE:FREQ=YEARLY;BYYEARDAY=-228,-227,-226,-225,-224,-223,-222,-221,-220,-219,-218,-217,-216,-215,-214,-213,-212,-211,-210,-209,-208,-207,-206,-205,-204,-203,-202,-201,-200,-199,-198,-197,-196,-195,-194,-193,-192,-191,-190,-189,-188,-187,-186,-185,-184,-183,-182,-181,-180,-179,-178,-177,-176,-175,-174,-173,-172,-171,-170,-169,-168,-167,-166,-165,-164,-163,-162,-161,-160,-159,-158,-157,-156,-155,-154,-153,-152,-151,-150,-149,-148,-147,-146,-145,-144,-143,-142,-141,-140,-139,-138,-137,-136,-135,-134,-133,-132,-131,-130,-129,-128,-127,-126,-125,-124,-123,-122,-121,-120,-119,-118,-117,-116,-115,-114,-113,-112,-111,-110,-109,-108,-107,-106,-105,-104,-103,-102,-101,-100,-99,-98,-97,-96,-95,-94,-93,-92,-91,-90,-89,-88,-87,-86,-85,-84,-83,-82,-81,-80,-79,-78,-77,-76,-75,-74,-73,-72,-71,-70,-69,-68,-67,-66,-65,-64,-63,-62,-61,-60,-59,-58,-57,-56,-55,-54,-53,-52,-51,-50,-49,-48;BYHOUR=15
+END:VEVENT
+```
+
+Stage: READY_FOR_TRANSFER / TWO_OF_TWO_NATURAL_MATCHES / OFFLINE_FAILURE_SUITE_PASS / TIMING_IDLE / PRIOR_SCHEDULES_SAVED / GUARDED_CUTOVER_AUTHORIZED.
