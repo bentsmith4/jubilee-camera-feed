@@ -3404,3 +3404,14 @@ Stage: SENSING_OWNS_DAWN_TIMING / TIMING_DISABLED_VERIFIED / DAWN_NEXT_TARGET_VE
 - **Acceptance boundary:** The code-level winter collection gap is repaired and rollback material is preserved. The natural November 14 final-obligation / November 15 transition and next-May-18 operational restart remain future runtime acceptance events; do not manufacture those passes before their natural dates. Production probabilities, thresholds, weights, six-camera registry, cadence, UNKNOWN semantics, Dawn ownership and the 21:00 notification gate are unchanged.
 
 Stage: WINTER_NEAR_LIVE_GUARD_DEPLOYED / OFFSEASON_BRANCH_TEST_PASS / IN_SEASON_RESTART_VERIFIED / NATURAL_NOVEMBER_15_TRANSITION_PENDING.
+
+
+## J11 Sensing evening Dawn maintenance — October 27, 2026 18:28 CDT
+
+- **Natural evening trigger:** The existing coordinated camera service completed the 18:06–18:11 CDT canonical cycle with all six owner cameras on first attempt and matching three-frame/vision identity. This is schedule-maintenance provenance only; the saved scoped observation remains the biological evidence record.
+- **Deployed calculation:** Using PointClearPC's deployed `dawn_runner.py` observer and `America/Chicago`, Sensing calculated October 28 civil-dawn+25 minutes as `2026-10-28T07:03:19.401186-05:00`.
+- **Fresh ownership/readback:** Dawn Brief `6a807c493a4481918aad2d656abd7817` remains enabled at `DTSTART;TZID=America/Chicago:20261028T070319` with matching `BYHOUR=7;BYMINUTE=3;BYSECOND=19` and the full seasonal RRULE. Dawn Timing `6a8f6123dcf4819180255f2c9812a81d` remains disabled with its preserved prior schedule. The reviewed target has not passed.
+- **Checkpoint decision:** The persisted Dawn target already exactly matched the reviewed projection at scheduler precision, so no repeated schedule write was performed. Single-writer ownership remains `SENSING_OWNS_DAWN_TIMING`; no rollback, duplicate task or user action is required.
+- **Preserved:** No probability, weight, threshold, camera registry, cadence, UNKNOWN rule, forecast pair or pre-21:00 notification changed.
+
+Stage: EVENING_DAWN_TARGET_VERIFIED / EXISTING_TARGET_REUSED / NO_REPEAT_WRITE / SENSING_OWNS_DAWN_TIMING / SINGLE_WRITER.
