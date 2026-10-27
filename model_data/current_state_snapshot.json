@@ -11,10 +11,10 @@
   ],
   "forecast_weights_changed": false,
   "deep_research_or_recalibration_performed": false,
-  "forecast_opportunity_status": "Existing dated heuristic outlooks retained without numerical or horizon change; not a new calibrated forecast.",
+  "forecast_opportunity_status": "Reviewed post-dawn three-day horizon roll-forward only; heuristic ranges, central estimates, confidence, zero production weights and strict alert gates are unchanged.",
   "material_change_since_prior_snapshot": true,
-  "notification_condition_met": true,
-  "notification_reason": "Material Point Clear camera-coverage degradation reviewed at 21:20 CDT on October 26, 2026: the 20:06 canonical burst lost pcl_e2_back_deck, leaving Point Clear at 2/3 owner cameras, and near-live checks at 21:11 and 21:16 corroborated deeper 1/3 Point Clear coverage with pcl_e3_bay_mouth also unavailable. Darkness and low detectability keep biology UNKNOWN; no direct Jubilee evidence is inferred.",
+  "notification_condition_met": false,
+  "notification_reason": "Point Clear camera coverage recovery explicitly reviewed after the October 27 00:06-00:09 CDT canonical cycle restored all six owner cameras with matching three-frame bursts. Biology remains UNKNOWN in darkness and low detectability; no active four-trigger forecast alert remains. The recovery is retained as a material operational state change for one-time reporting.",
   "principal_dawn_visual_assessment_status": "NOT_PERFORMED_BY_POST_PUBLICATION_RECONCILIATION",
   "active_faults": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
@@ -30,13 +30,13 @@
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
     "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission."
   ],
-  "change_summary": "Rebuilt issue-time context from one committed evidence generation; retained assessed dated outlooks and alert gates.",
+  "change_summary": "Explicitly reviewed the complete six-camera canonical recovery, cleared the previous Point Clear material input-quality fault, and retained the unchanged frozen heuristic outlook.",
   "alert_gates": {
     "point_clear_over_20_percent": false,
     "daphne_may_day_over_20_percent": false,
     "direct_event_evidence_present": false,
-    "material_critical_input_fault": true,
-    "notification_suppressed": false
+    "material_critical_input_fault": false,
+    "notification_suppressed": true
   },
   "input_rows": [
     {
@@ -1839,10 +1839,10 @@
       }
     },
     {
-      "source": "Hazcams permitted public live players \u2014 September 30 dawn check",
+      "source": "Hazcams permitted public live players — September 30 dawn check",
       "admitted_status": "UNKNOWN_NOT_REASSESSED",
       "historical_context": {
-        "source": "Hazcams permitted public live players \u2014 September 30 dawn check",
+        "source": "Hazcams permitted public live players — September 30 dawn check",
         "station_location": "Grand Hotel Point Clear and Fairhope municipal pier",
         "parameter": "direct live-player visual evidence",
         "observed_vs_predicted_model": "PUBLIC_VIDEO_OBSERVATION",
@@ -3459,14 +3459,6 @@
   "rejected_or_unknown_inputs": [],
   "outlook": [
     {
-      "date_ct": "2026-10-26",
-      "point_clear_range_percent": "2-5",
-      "point_clear_central_percent": 3,
-      "daphne_may_day_range_percent": "1-4",
-      "daphne_may_day_central_percent": 2,
-      "confidence": "low"
-    },
-    {
       "date_ct": "2026-10-27",
       "point_clear_range_percent": "2-5",
       "point_clear_central_percent": 3,
@@ -3481,24 +3473,32 @@
       "daphne_may_day_range_percent": "1-4",
       "daphne_may_day_central_percent": 2,
       "confidence": "low"
+    },
+    {
+      "date_ct": "2026-10-29",
+      "point_clear_range_percent": "2-5",
+      "point_clear_central_percent": 3,
+      "daphne_may_day_range_percent": "1-4",
+      "daphne_may_day_central_percent": 2,
+      "confidence": "low"
     }
   ],
   "probability_basis": {
     "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
     "numeric_change_from_prior_snapshot": 0,
-    "reassessment_method": "Committed-evidence issue-time admission; frozen dated heuristic outlooks and zero production weights retained. No automatic event/fault policy inference."
+    "reassessment_method": "Post-dawn horizon-only review: moved an identical existing three-day frozen heuristic profile onto the current America/Chicago issue-date through issue-date+2 horizon. No numerical probability, confidence, production weight, UNKNOWN input or alert threshold changed."
   },
   "sanity_check": "Existing dated outlooks and confidence are unchanged. Point Clear 2-5% (central 3%) and Daphne/May Day 1-4% (central 2%) remain below strict >20%; missing evidence is not a negative.",
   "operational_fault_assessment": {
-    "active_fault_present": true,
+    "active_fault_present": false,
     "failed_camera_ids": [],
-    "assessed_material_critical_input_fault_preserved": true,
+    "assessed_material_critical_input_fault_preserved": false,
     "camera_failure_set_changed_under_preserved_material_fault": false,
     "new_fault_notification_required": false,
-    "recovery_notification_required": false,
+    "recovery_notification_required": true,
     "prior_recovery_context": {
-      "snapshot_time_ct": "2026-10-24T23:19:41.268779-05:00",
-      "recovery_notification_required": true
+      "snapshot_time_ct": "2026-10-27T01:25:00.443101-05:00",
+      "recovery_notification_required": false
     },
     "all_six_desktop_archive_acceptance": "NOT_VERIFIED",
     "desktop_acceptance_receipt": {
@@ -3563,7 +3563,7 @@
       "valid_until_utc": "2026-09-28T16:06:34.804851+00:00"
     },
     "existing_material_input_quality_alert_policy_changed": false,
-    "basis": "Owner-reviewed material camera-coverage fault at 21:20 CDT on October 26, 2026: the 20:06 canonical burst lost pcl_e2_back_deck, reducing Point Clear from 3/3 to 2/3 owner cameras. Near-live checks at 21:11 and 21:16 corroborated deeper current degradation to 1/3 Point Clear cameras with pcl_e3_bay_mouth also unavailable. Darkness and low detectability keep biology UNKNOWN rather than negative. This activates the existing material input-quality gate without changing probabilities, weights, thresholds, cadence or the 9 p.m. policy."
+    "basis": "Owner-reviewed recovery: the 2026-10-27 00:06-00:09 CDT canonical cycle restored all six owner cameras and matching canonical three-frame bursts, including pcl_e2_back_deck and pcl_e3_bay_mouth. Point Clear returned to 3/3 and the October 26 material camera-coverage fault is cleared. Darkness and low detectability retain biology as UNKNOWN; no probabilities, weights, thresholds, cadence or 9 p.m. policy changed."
   },
   "material_fault_recovery_review_20261024_camera": {
     "schema_version": "1.0",
@@ -3948,14 +3948,14 @@
   "dawn_horizon_reassessment": {
     "status": "REVIEWED_ZERO_NUMERICAL_CHANGE",
     "source_dates": [
-      "2026-10-25",
-      "2026-10-26",
-      "2026-10-27"
-    ],
-    "target_dates": [
       "2026-10-26",
       "2026-10-27",
       "2026-10-28"
+    ],
+    "target_dates": [
+      "2026-10-27",
+      "2026-10-28",
+      "2026-10-29"
     ],
     "numeric_change_from_prior_snapshot": 0,
     "forecast_weights_changed": false,
@@ -4108,5 +4108,28 @@
     },
     "remaining_limitations": "Expected camera expiry remains UNKNOWN; direct shoreline oxygen/currents and missing model slices remain UNKNOWN. Desktop/archive acceptance and notification delivery remain unverified. No predictive-skill claim.",
     "future_scope": "Future validation failures require explicit review under unchanged fail-closed guards."
+  },
+  "material_fault_recovery_review_20261027_camera": {
+    "schema_version": "1.0",
+    "decision": "RECOVERED_POINT_CLEAR_CAMERA_COVERAGE_FAULT",
+    "assessed_at_utc": "2026-10-27T06:29:11.459771+00:00",
+    "reviewed_main_commit_sha": "acff3064b066383e1382dda912b9df577cb94b49",
+    "activation_commit": "8616d2bb87f694a735b0e2dc6addadcad19b9dde",
+    "recovery_capture_commit": "d1dc8a1c531e87476eed12f1d31453defbc67451",
+    "recovery_observation_commit": "d6bb703fca0a97693780dde2b88f7295f5350645",
+    "scope": "Explicit one-time review of the October 26 20:06-22:13 CDT Point Clear camera-coverage fault; not automatic future clearance.",
+    "criteria": {
+      "all_six_owner_cameras_capture_ok": true,
+      "matching_three_frame_bursts": true,
+      "point_clear_restored_to_three_of_three": true,
+      "montrose_three_of_three": true,
+      "structured_observation_persisted": true,
+      "no_direct_event_evidence": true
+    },
+    "operational_recovery_context": "Near-live retries had returned to six of six before midnight, but were corroboration only. The ordinary 00:06 canonical cycle then produced six matching three-frame bursts and persisted the structured observation. No recapture, schedule, service, model, threshold or cadence change was needed.",
+    "biological_interpretation": "All six views had low detectability under darkness and artificial light. Biology remains UNKNOWN, not negative; the recovery establishes sensing coverage only.",
+    "reporting_disposition": "This recovery materially restores the reduced Point Clear confidence state reported after 9 p.m. and may be reported once. The forecast four-trigger contract is clear and duplicate recovery notices are suppressed.",
+    "remaining_limitations": "Direct local bottom oxygen/stratification, close shoreline visibility, public live-player coverage and out-of-view biology remain UNKNOWN.",
+    "future_scope": "Any later camera degradation requires a new explicit review under unchanged guards."
   }
 }

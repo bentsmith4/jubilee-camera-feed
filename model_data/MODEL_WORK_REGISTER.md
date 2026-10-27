@@ -3334,3 +3334,13 @@ Stage: OCTOBER_27_SENSING_TARGET_MATCH_PASS / NATURAL_RUN_PENDING / MATCH_SEQUEN
 - **J11 unchanged:** the October 27 natural Dawn run remains pending; the completed match sequence remains 1 of 2. Dawn Timing remains the enabled sole writer and no cutover or schedule write was attempted.
 
 Stage: MATERIAL_CAMERA_FAULT_REVIEWED / POINT_CLEAR_CANONICAL_2_OF_3 / NEAR_LIVE_1_OF_3 / BIOLOGY_UNKNOWN / NOTIFICATION_GATE_MET / DAWN_TRANSFER_INCOMPLETE.
+
+## J01 Point Clear camera-coverage recovery — October 27, 2026 00:06–01:30 CDT
+
+- **Canonical recovery evidence:** capture commit `d1dc8a1c531e87476eed12f1d31453defbc67451` and structured observation commit `d6bb703fca0a97693780dde2b88f7295f5350645` record the ordinary 00:06–00:09 CDT cycle. All six owner cameras produced matching three-frame bursts (18 admitted frames). Point Clear returned to 3/3, including `pcl_e2_back_deck` and `pcl_e3_bay_mouth`; Montrose remained 3/3.
+- **Explicit material-fault review:** this complete canonical cycle clears the October 26 material Point Clear camera-coverage fault. Earlier near-live 6/6 retries were corroboration only and were not used as the clearance basis.
+- **Biological interpretation:** all six views had low detectability under darkness and artificial light. Biology remains UNKNOWN, not negative; no direct event evidence was admitted.
+- **Forecast boundaries:** Point Clear/Grand Hotel remains 2–5% and Daphne/May Day 1–4%, both low confidence. The strict >20%, direct-event and material critical-input-fault gates are clear. No probability, weight, threshold, UNKNOWN rule, camera registry, cadence or 9 p.m. policy changed.
+- **J11 state unchanged:** October 27 remains a matching persisted target awaiting its natural Dawn run. The completed successive-match sequence remains 1 of 2; Dawn Timing remains the enabled sole writer and no cutover or schedule write was attempted.
+
+Stage: CAMERA_COVERAGE_RECOVERED / SIX_OF_SIX_CANONICAL / BIOLOGY_UNKNOWN / FORECAST_GATE_CLEAR / OCTOBER_27_NATURAL_RUN_PENDING / TIMING_OWNS_SCHEDULE / TRANSFER_INCOMPLETE.
