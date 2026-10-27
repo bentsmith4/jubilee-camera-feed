@@ -3323,3 +3323,14 @@ Stage: OCTOBER_27_TIMING_TARGET_PERSISTED / PRODUCTION_READBACK_VALID / NATURAL_
 - **Transfer interpretation:** This is the independent Sensing candidate comparison only. October 26 remains the first completed natural-date match; the October 27 natural Dawn run and its schedule/execution receipt are still pending. The completed sequence therefore remains 1 of 2. The saved offline/failure tests also remain required. Dawn Timing remains the enabled sole writer; no schedule write, disable, cutover, rollback, `READY_FOR_TRANSFER`, or `SENSING_OWNS_DAWN_TIMING` claim was made.
 
 Stage: OCTOBER_27_SENSING_TARGET_MATCH_PASS / NATURAL_RUN_PENDING / MATCH_SEQUENCE_1_OF_2 / TIMING_OWNS_SCHEDULE / TRANSFER_INCOMPLETE.
+
+## J01 material Point Clear camera-coverage degradation - October 26, 2026 20:06-21:20 CDT
+
+- **Admitted canonical evidence:** camera commit `c0bdb2cc2ad839a8dce5117707bd16508ee1ed9d`, structured observation `587286fd6dc4085fe4780da2517ef69228606830`, and weather/river commit `490257ab6a04b9041bb0d36b537bfd328ad4915a` were reconciled. The 20:06 burst admitted five matching canonical camera triples. `pcl_e2_back_deck` failed, leaving Point Clear at 2/3 owner cameras; all four accepted Montrose and Point Clear views were dark or low-detectability.
+- **Near-live corroboration only:** bounded rereads at 21:11 and 21:16 reported 4/6 fresh cameras. `pcl_e2_back_deck` and `pcl_e3_bay_mouth` were unavailable, leaving Point Clear at 1/3 in those intervals. These checks establish current operational degradation only; they do not replace canonical burst evidence or support a biological positive/negative.
+- **Explicit fault review:** workflow run `40437608028` stopped correctly with `REVIEW_REQUIRED: changed camera failures need material-fault assessment`. Human review activates the existing material critical-input-fault gate because Point Clear coverage materially declined. Biology remains UNKNOWN and no direct Jubilee evidence is inferred.
+- **Forecast boundaries:** Point Clear/Grand Hotel remains 2-5% and Daphne/May Day 1-4%, low confidence. The strict >20% and direct-event gates remain false. No probability, weight, threshold, cadence, camera registry, UNKNOWN rule, public-camera claim, outreach, or 9 p.m. policy changed.
+- **Recovery path:** retain the fault until a later matching canonical cycle and explicit recovery review establish restored coverage. Near-live recovery alone is corroboration, not clearance. No owner action is currently required.
+- **J11 unchanged:** the October 27 natural Dawn run remains pending; the completed match sequence remains 1 of 2. Dawn Timing remains the enabled sole writer and no cutover or schedule write was attempted.
+
+Stage: MATERIAL_CAMERA_FAULT_REVIEWED / POINT_CLEAR_CANONICAL_2_OF_3 / NEAR_LIVE_1_OF_3 / BIOLOGY_UNKNOWN / NOTIFICATION_GATE_MET / DAWN_TRANSFER_INCOMPLETE.
