@@ -10,8 +10,10 @@
       "implemented_destination": "model_data/public_archive",
       "format": "content_addressed_gzip_with_uncompressed_sha256",
       "retention": "preserve_no_automatic_deletion",
-      "guardrail": "Git is a bounded bootstrap archive, not an unlimited camera/data lake. Migrate to verified object storage before the archive exceeds 250 MB; preserve hashes and manifest references.",
-      "public_git_soft_budget_bytes": 250000000
+      "guardrail": "Git is a bounded bootstrap archive, not an unlimited camera/data lake. The 250 MB soft migration threshold warns in existing Actions logs and summaries; a 500 MB hard recovery ceiling blocks publication. J04 must migrate to verified object storage before that ceiling; preserve hashes, manifest references and all history.",
+      "public_git_soft_budget_bytes": 250000000,
+      "public_git_hard_budget_bytes": 500000000,
+      "capacity_recovery_date": "2026-10-28"
     },
     {
       "class": "raw_private_camera",

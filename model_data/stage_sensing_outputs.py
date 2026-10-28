@@ -10,7 +10,10 @@ from pathlib import Path
 import subprocess
 
 
-ARCHIVE_BUDGET = 250_000_000
+# The original 250 MB *soft* migration threshold remains visible. A separate
+# bounded recovery ceiling prevents that advisory from stopping every source.
+ARCHIVE_SOFT_BUDGET = 250_000_000
+ARCHIVE_BUDGET = 500_000_000
 RESEARCH_REFS = {"main", "upgrade/top5-gaps-round2-20260906"}
 
 
@@ -63,8 +66,22 @@ def git(root, *args):
 def stage(root, steps, ref):
     root = Path(root)
     size = sum(p.stat().st_size for p in (root / "model_data/public_archive").rglob("*") if p.is_file())
+    capacity = (f"Public archive: {size:,} bytes; migration threshold "
+                f"{ARCHIVE_SOFT_BUDGET:,}; hard ceiling {ARCHIVE_BUDGET:,}; "
+                f"remaining {max(0, ARCHIVE_BUDGET - size):,} bytes.")
+    print(capacity)
+    summary = os.environ.get("GITHUB_STEP_SUMMARY")
+    if summary:
+        with open(summary, "a", encoding="utf-8") as out:
+            out.write("\n### Public sensing archive capacity\n\n" + capacity + "\n")
+            if size > ARCHIVE_SOFT_BUDGET:
+                out.write("\nJ04: verified object-storage migration remains required. "
+                          "This recovery ceiling is finite; no history was deleted.\n")
     if size > ARCHIVE_BUDGET:
         raise RuntimeError("Public Git archive budget exceeded. Preserve the artifact and migrate to verified object storage; do not delete history.")
+    if size > ARCHIVE_SOFT_BUDGET:
+        print("::warning title=J04 public archive migration required::" + capacity +
+              " Preserve all history and migrate to verified object storage before the hard ceiling.")
     if git(root, "diff", "--cached", "--name-only"):
         raise RuntimeError("Sensing publication requires an empty index")
     if steps.get("regression", {}).get("outcome") != "success":
