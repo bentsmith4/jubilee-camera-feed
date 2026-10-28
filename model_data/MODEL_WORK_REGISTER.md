@@ -3415,3 +3415,17 @@ Stage: WINTER_NEAR_LIVE_GUARD_DEPLOYED / OFFSEASON_BRANCH_TEST_PASS / IN_SEASON_
 - **Preserved:** No probability, weight, threshold, camera registry, cadence, UNKNOWN rule, forecast pair or pre-21:00 notification changed.
 
 Stage: EVENING_DAWN_TARGET_VERIFIED / EXISTING_TARGET_REUSED / NO_REPEAT_WRITE / SENSING_OWNS_DAWN_TIMING / SINGLE_WRITER.
+
+## J13 / Sensing capture-specific archive acceptance — October 27, 2026 19:58 CDT
+
+Stage: CAPTURE_SPECIFIC_LOCAL_AND_R2_ARCHIVE_PASS / FUTURE_CAPTURE_ACCEPTANCE_NOT_IMPLIED.
+
+Owner-requested read-only verification ran on POINTCLEARPC using the existing J13 verifier. Canonical capture `2026-10-27T19:06:02.230339-05:00`, capture ID `20261027T190602230339-d59125128098`, passed at `2026-10-28T00:58:17.953678+00:00`. All six cameras had matching three-frame/vision identity. Recomputed capture identity and all 27 local object hashes matched the immutable local manifest and archive bytes. All 30 expected R2 objects passed independent GET/hash verification, with JPEG decoding and 18 immutable burst frames restored in memory. Pointer and local snapshot rechecks remained stable.
+
+Git publication `b57b6d47609546930676b71a7bbc269932eaa18f` has direct parent `367534e4c3db522d18936771a54cea84568ca0a3`; both were verified against observed main `aecb9e71d69f1cbc829cc70113f5dac0ff7084b1` through the verifier's existing GitHub-compare fallback. Nine published capture files matched and ten changed paths were allowlisted. Existing task/heartbeat and near-live checks also passed; no scheduler investigation or mutation was performed.
+
+Durable receipt: [desktop_acceptance_20261027.json](desktop_acceptance_20261027.json), committed at `a32243a8305d92c7a8a1a39305c6888d802abc82` and fetched back byte-for-byte. It contains the complete sanitized verifier report, all 27 original per-object hashes, local-manifest hash, verifier source hashes and deployed runtime hash. Host receipt was saved and read back; SHA-256 `b7d3f5d578eaa4a82422c2195acbf736dd7afc684c5c0205962100939d8504ed`. The runtime hash matches the already-recorded October 27 winter guard deployment.
+
+Execution used unmodified reviewed Python verifier bytes and the exact PowerShell wrapper task-inventory body through the existing shell; Windows execution policy was unchanged. Separate review/evidence files only were created. No archival failure was found; no repair, new capture, R2 write, task change, schedule change, runtime change, forecast change or notification was made.
+
+This is bounded operational acceptance for this capture, not blanket certification of all recent recordings or unattended operation through November 14. The existing current-state receipt selector remains unchanged and still points at the historical September 28 receipt; therefore its NOT_VERIFIED field is not rewritten as a current pass. No stale receipt clock is reset. Sensing retains J13 ownership; Dawn Timing transfer, forecast behavior, UNKNOWN semantics and notification restrictions are preserved.
