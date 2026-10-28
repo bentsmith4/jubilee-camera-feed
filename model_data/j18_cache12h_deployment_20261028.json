@@ -11,9 +11,10 @@
     "existing_offline_tests": 15,
     "mocked_camera_payloads_identical_except_ttl": 6,
     "ast_identical_except_ttl": true,
-    "paid_calls": 0
+    "paid_calls": 0,
+    "runtime_ci": "Runtime unittest and Windows preflight passed, run 40742041175"
   },
-  "state": "INSTALLED_OFFLINE_TESTED_ORDINARY_CYCLE_PENDING",
+  "state": "INSTALLED_ORDINARY_SIX_CAMERA_CYCLE_INTEGRITY_VALIDATED_BILLING_PENDING",
   "actual_billed_savings": null,
   "conditional_savings_pct": 1.75934062808,
   "rollback": "At idle boundary, verify current hash then restore only camera TTL 12h to 30m; preserve unrelated later changes. Do not overwrite newer analyzer blindly.",
@@ -30,5 +31,18 @@
     "alerts",
     "9pm gate"
   ],
-  "next": "Existing Sensing/Research and Dot: inspect first ordinary six-camera cycle for 12h cache telemetry, completed outputs and capture/image binding; no forced calls, duplicate task or automation. Separate content-equivalence from biological validation and actual billed savings."
+  "next": "Existing Sensing/Research and Dot observe subsequent ordinary cycles for sustained 12h reuse, regressions and billing; no extra calls or automation.",
+  "ordinary_cycle": {
+    "capture_time_ct": "2026-10-28T13:06:03.730602-05:00",
+    "camera_completions": 6,
+    "exact_image_hash_matches": 18,
+    "status_burst_bindings": 6,
+    "frames_per_camera": 3,
+    "synthesis_mode": "deterministic_quiet",
+    "cache_read_tokens": 11360,
+    "cache_write_tokens": 2272,
+    "max_request_seconds": 9.939,
+    "alligator_frame_fields_present": true
+  },
+  "remaining": "Reuse across >30-minute gaps, longer-run net cache economics and actual billing remain pending. One quiet cycle does not establish biological detection equivalence. Price camera 12h writes at their applicable 12h rate, not inherited 30m assumptions."
 }
