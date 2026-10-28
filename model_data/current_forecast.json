@@ -4,13 +4,13 @@
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "0a10af78db77d426154ad6429efea14e0af0293b2ee9ef8ba04c7424dad281a3",
+  "input_snapshot_hash": "5c24d5e6e3c4cffb9ad1f566510bc60f2d3f664bfe5e993a615780e96d5d2c43",
   "input_commit_sha": "3e10f1b5389ba8450ba179680fd78b660a8b650f",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
   "forecast_status": "FROZEN_HEURISTIC_REASSESSED_NO_NUMERICAL_CHANGE",
-  "method": "Committed-evidence issue-time admission; frozen dated heuristic outlooks and zero production weights retained. No automatic event/fault policy inference.",
+  "method": "Post-dawn horizon-only review: moved an identical existing three-day frozen heuristic profile onto the current America/Chicago issue-date through issue-date+2 horizon. No numerical probability, confidence, production weight, UNKNOWN input or alert threshold changed.",
   "data_coverage": {
     "private_camera_metadata_pass": 6,
     "private_cameras_expected": 6,
@@ -35,26 +35,6 @@
     {
       "cell": "Point Clear/Grand Hotel",
       "forecast_window": {
-        "date_ct": "2026-10-27",
-        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
-      },
-      "range_percent": "2-5",
-      "central_percent": 3,
-      "confidence": "low"
-    },
-    {
-      "cell": "Daphne/May Day",
-      "forecast_window": {
-        "date_ct": "2026-10-27",
-        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
-      },
-      "range_percent": "1-4",
-      "central_percent": 2,
-      "confidence": "low"
-    },
-    {
-      "cell": "Point Clear/Grand Hotel",
-      "forecast_window": {
         "date_ct": "2026-10-28",
         "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
       },
@@ -86,6 +66,26 @@
       "cell": "Daphne/May Day",
       "forecast_window": {
         "date_ct": "2026-10-29",
+        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
+      },
+      "range_percent": "1-4",
+      "central_percent": 2,
+      "confidence": "low"
+    },
+    {
+      "cell": "Point Clear/Grand Hotel",
+      "forecast_window": {
+        "date_ct": "2026-10-30",
+        "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
+      },
+      "range_percent": "2-5",
+      "central_percent": 3,
+      "confidence": "low"
+    },
+    {
+      "cell": "Daphne/May Day",
+      "forecast_window": {
+        "date_ct": "2026-10-30",
         "scope": "existing dated outlook; intraday validity window was not specified by the prior heuristic"
       },
       "range_percent": "1-4",
@@ -97,9 +97,9 @@
     "point_clear_over_20_percent": false,
     "daphne_may_day_over_20_percent": false,
     "direct_event_evidence_present": false,
-    "material_critical_input_fault": false,
-    "notification_suppressed": true
+    "material_critical_input_fault": true,
+    "notification_suppressed": false
   },
-  "notification_condition_met": false,
+  "notification_condition_met": true,
   "later_verification": "PENDING; no future outcome or next-dawn acceptance claimed"
 }

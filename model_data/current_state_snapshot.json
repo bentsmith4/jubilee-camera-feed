@@ -11,10 +11,10 @@
   ],
   "forecast_weights_changed": false,
   "deep_research_or_recalibration_performed": false,
-  "forecast_opportunity_status": "Existing dated heuristic outlooks retained without numerical or horizon change; not a new calibrated forecast.",
+  "forecast_opportunity_status": "Reviewed post-dawn three-day horizon roll-forward only; heuristic ranges, central estimates, confidence, zero production weights and strict alert gates are unchanged.",
   "material_change_since_prior_snapshot": true,
-  "notification_condition_met": false,
-  "notification_reason": "Existing four-trigger alert contract retained; no new event or critical-fault inference.",
+  "notification_condition_met": true,
+  "notification_reason": "Material Point Clear camera-coverage degradation reviewed at 01:08 CDT on October 28, 2026: the 00:06 canonical burst lost pcl_e3_bay_mouth, leaving Point Clear at 2/3 owner cameras, and the 01:01-01:03 near-live check corroborated deeper 1/3 Point Clear coverage with pcl_e2_back_deck also unavailable. Darkness and low detectability keep biology UNKNOWN; no direct Jubilee evidence is inferred.",
   "principal_dawn_visual_assessment_status": "NOT_PERFORMED_BY_POST_PUBLICATION_RECONCILIATION",
   "active_faults": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
@@ -35,8 +35,8 @@
     "point_clear_over_20_percent": false,
     "daphne_may_day_over_20_percent": false,
     "direct_event_evidence_present": false,
-    "material_critical_input_fault": false,
-    "notification_suppressed": true
+    "material_critical_input_fault": true,
+    "notification_suppressed": false
   },
   "input_rows": [
     {
@@ -3887,14 +3887,6 @@
   "rejected_or_unknown_inputs": [],
   "outlook": [
     {
-      "date_ct": "2026-10-27",
-      "point_clear_range_percent": "2-5",
-      "point_clear_central_percent": 3,
-      "daphne_may_day_range_percent": "1-4",
-      "daphne_may_day_central_percent": 2,
-      "confidence": "low"
-    },
-    {
       "date_ct": "2026-10-28",
       "point_clear_range_percent": "2-5",
       "point_clear_central_percent": 3,
@@ -3909,20 +3901,30 @@
       "daphne_may_day_range_percent": "1-4",
       "daphne_may_day_central_percent": 2,
       "confidence": "low"
+    },
+    {
+      "date_ct": "2026-10-30",
+      "point_clear_range_percent": "2-5",
+      "point_clear_central_percent": 3,
+      "daphne_may_day_range_percent": "1-4",
+      "daphne_may_day_central_percent": 2,
+      "confidence": "low"
     }
   ],
   "probability_basis": {
     "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
     "numeric_change_from_prior_snapshot": 0,
-    "reassessment_method": "Committed-evidence issue-time admission; frozen dated heuristic outlooks and zero production weights retained. No automatic event/fault policy inference."
+    "reassessment_method": "Post-dawn horizon-only review: moved an identical existing three-day frozen heuristic profile onto the current America/Chicago issue-date through issue-date+2 horizon. No numerical probability, confidence, production weight, UNKNOWN input or alert threshold changed."
   },
   "sanity_check": "Existing dated outlooks and confidence are unchanged. Point Clear 2-5% (central 3%) and Daphne/May Day 1-4% (central 2%) remain below strict >20%; missing evidence is not a negative.",
   "operational_fault_assessment": {
-    "active_fault_present": false,
-    "failed_camera_ids": [],
-    "assessed_material_critical_input_fault_preserved": false,
+    "active_fault_present": true,
+    "failed_camera_ids": [
+      "pcl_e3_bay_mouth"
+    ],
+    "assessed_material_critical_input_fault_preserved": true,
     "camera_failure_set_changed_under_preserved_material_fault": false,
-    "new_fault_notification_required": false,
+    "new_fault_notification_required": true,
     "recovery_notification_required": false,
     "prior_recovery_context": {
       "snapshot_time_ct": "2026-10-27T01:25:00.443101-05:00",
@@ -3991,7 +3993,7 @@
       "valid_until_utc": "2026-09-28T16:06:34.804851+00:00"
     },
     "existing_material_input_quality_alert_policy_changed": false,
-    "basis": "No new assessed critical fault or recovery notification is inferred by this builder. Any previously assessed material input-quality fault is preserved unchanged while current source rows continue to reconcile."
+    "basis": "Owner-reviewed material camera-coverage fault at 01:08 CDT on October 28, 2026: the 00:06 canonical burst lost pcl_e3_bay_mouth after two bounded capture timeouts, reducing Point Clear from 3/3 to 2/3 owner cameras. The 01:01-01:03 near-live check corroborated deeper current degradation to 1/3 Point Clear cameras with pcl_e2_back_deck also unavailable; repeated diagnostics classified both RTSP failures as stream_not_found. Darkness and low detectability keep biology UNKNOWN rather than negative. This activates the existing material input-quality gate without changing probabilities, weights, thresholds, cadence or the 9 p.m. policy."
   },
   "material_fault_recovery_review_20261024_camera": {
     "schema_version": "1.0",
@@ -4376,14 +4378,14 @@
   "dawn_horizon_reassessment": {
     "status": "REVIEWED_ZERO_NUMERICAL_CHANGE",
     "source_dates": [
-      "2026-10-26",
-      "2026-10-27",
-      "2026-10-28"
-    ],
-    "target_dates": [
       "2026-10-27",
       "2026-10-28",
       "2026-10-29"
+    ],
+    "target_dates": [
+      "2026-10-28",
+      "2026-10-29",
+      "2026-10-30"
     ],
     "numeric_change_from_prior_snapshot": 0,
     "forecast_weights_changed": false,
