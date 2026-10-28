@@ -3497,3 +3497,5 @@ Stage: DAWN_AND_DAYLIGHT_VALID / SIX_OF_SIX_PRIVATE_CAMERAS / SIX_CELL_HORIZON_V
 
 No probability, production weight, threshold, six-camera registry, cadence, schedule, UNKNOWN rule, forecast binding, outreach/spending permission, 9 p.m. gate or wind-capture setting changed.
 
+**Dot reconciliation — DOT_PAGE_SEQUENCE_3_VERIFIED.** The existing [Jubilee Dots Pilot Plan](https://chatgpt.com/space/page_c6a2d53b415481919238032aa795e237) was updated in place and read back at sequence 3. Its canonical queue now records the October 27 capture-specific archive PASS as operational recoverability only, the October 28 19-day logged-token extension with actual billing still blocked, and the 23rd Tier-B Montrose candidate with Tier-A/clean negatives still zero. Detection equivalence remains `BLOCKED_EVIDENCE`, actual billing remains `ACTUAL_BILLING_BLOCKED`, J09/J10 remains evidence-gated and PR #118 remains deferred. No duplicate Dot, task, ledger or notification stream was created.
+
