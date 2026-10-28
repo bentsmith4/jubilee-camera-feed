@@ -1,2 +1,6 @@
 # Preserve the exact archived evidence bytes on Windows and Linux.
 model_data/desktop_acceptance_evidence/** -text whitespace=cr-at-eol
+
+# Keep the bound forecast pair byte-identical across operating systems.
+model_data/current_state_snapshot.json text eol=lf
+model_data/current_forecast.json text eol=lf
