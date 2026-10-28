@@ -3440,3 +3440,13 @@ This is bounded operational acceptance for this capture, not blanket certificati
 - **J11 ownership unchanged:** `SENSING_OWNS_DAWN_TIMING` remains established. Dawn Brief remains enabled for October 28 at 07:03:19 CDT, and Dawn Timing remains disabled with its preserved prior schedule. No schedule write or ownership rollback was required.
 
 Stage: MATERIAL_CAMERA_FAULT_REVIEWED / POINT_CLEAR_CANONICAL_2_OF_3 / NEAR_LIVE_1_OF_3 / BIOLOGY_UNKNOWN / NOTIFICATION_GATE_MET / SENSING_OWNS_DAWN_TIMING.
+
+## J01 Point Clear camera-coverage recovery - October 28, 2026 02:06-03:11 CDT
+
+- **Canonical recovery evidence:** capture commit `46ef6fa71b4d49e405831101ac77a51f6ccddcca` and structured observation commit `69512d720e00e64b6e028b2d94e7059e34be9d4e` record the ordinary 02:06-02:11 CDT cycle. All six owner cameras produced matching canonical three-frame bursts. Point Clear returned to 3/3, including `pcl_e2_back_deck` and `pcl_e3_bay_mouth`; Montrose remained 3/3.
+- **Explicit material-fault review:** this complete later canonical cycle clears the October 28 00:06 material Point Clear camera-coverage fault. Earlier near-live recovery was corroboration only and was not used as the clearance basis; near-live remained 6/6 through 03:11 CDT.
+- **Biological interpretation:** all six views had low detectability under darkness; cross-camera temporal and spatial confirmation were absent. Biology remains UNKNOWN, not negative; no direct event evidence was admitted.
+- **Forecast boundaries:** Point Clear/Grand Hotel remains 2-5% and Daphne/May Day 1-4%, both low confidence. The strict >20%, direct-event and material critical-input-fault gates are clear. No probability, weight, threshold, UNKNOWN rule, camera registry, cadence, public-camera claim, outreach or 9 p.m. policy changed.
+- **J11 ownership unchanged:** `SENSING_OWNS_DAWN_TIMING` remains established. Dawn Brief remains enabled for October 28 at 07:03:19 CDT, and Dawn Timing remains disabled with its preserved prior schedule. No schedule write or ownership rollback was required.
+
+Stage: CAMERA_COVERAGE_RECOVERED / SIX_OF_SIX_CANONICAL / BIOLOGY_UNKNOWN / FORECAST_GATE_CLEAR / SENSING_OWNS_DAWN_TIMING.
