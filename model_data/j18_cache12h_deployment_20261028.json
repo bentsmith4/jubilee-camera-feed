@@ -1,0 +1,34 @@
+{
+  "work_id": "J18-PR78-COMPACT-JSON",
+  "owner_authorized": "2026-10-28",
+  "authorization": "Make the change that make sense",
+  "change": "Only shared camera prefix TTL 30m to 12h; synthesis remains 30m",
+  "deployed_at_utc": "2026-10-28T18:05:36.184424+00:00",
+  "before_sha256": "b1e90549dd0151ccc61e3b970cd128dacb0b4583f5170ff94f910e2cd0389e05",
+  "after_sha256": "4616d07ff2942a4e37bcb2f209e01208c4b192ab68a11f33c01dde3a7915ea34",
+  "backup": "C:\\JubileeCams\\analyze_frames.py.backup_cache12h_20261028T180507Z",
+  "validation": {
+    "existing_offline_tests": 15,
+    "mocked_camera_payloads_identical_except_ttl": 6,
+    "ast_identical_except_ttl": true,
+    "paid_calls": 0
+  },
+  "state": "INSTALLED_OFFLINE_TESTED_ORDINARY_CYCLE_PENDING",
+  "actual_billed_savings": null,
+  "conditional_savings_pct": 1.75934062808,
+  "rollback": "At idle boundary, verify current hash then restore only camera TTL 12h to 30m; preserve unrelated later changes. Do not overwrite newer analyzer blindly.",
+  "preserved": [
+    "all six cameras",
+    "three frames",
+    "all prompt/image content",
+    "model",
+    "synthesis cache",
+    "cadence",
+    "UNKNOWN",
+    "thresholds",
+    "probabilities",
+    "alerts",
+    "9pm gate"
+  ],
+  "next": "Existing Sensing/Research and Dot: inspect first ordinary six-camera cycle for 12h cache telemetry, completed outputs and capture/image binding; no forced calls, duplicate task or automation. Separate content-equivalence from biological validation and actual billed savings."
+}

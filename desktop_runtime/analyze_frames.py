@@ -217,7 +217,7 @@ def analyze_burst(
         f"camera:{camera_id}",
         model="gpt-5.6-luna",
         prompt_cache_key=cache_key[:64],
-        prompt_cache_options={"mode": "explicit", "ttl": "30m"},
+        prompt_cache_options={"mode": "explicit", "ttl": "12h"},
         max_output_tokens=1800,
         input=[
             {

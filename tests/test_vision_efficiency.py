@@ -105,7 +105,7 @@ class EfficiencyTests(unittest.TestCase):
             stable["prompt_cache_breakpoint"], {"mode": "explicit"}
         )
         self.assertEqual(
-            kwargs["prompt_cache_options"], {"mode": "explicit", "ttl": "30m"}
+            kwargs["prompt_cache_options"], {"mode": "explicit", "ttl": "12h"}
         )
         self.assertTrue(kwargs["prompt_cache_key"].startswith("jubilee-camera-v2-"))
         self.assertNotIn("2026-09-08T09:06:06-05:00", stable["text"])
