@@ -402,7 +402,31 @@ class PublicationTests(unittest.TestCase):
                 with self.assertRaisesRegex(RuntimeError, "append-only"):
                     publisher.stage(self.root, steps, "main")
                 self.assertEqual(self.staged(), set())
-        self.assertEqual(publisher.ARCHIVE_BUDGET, 250_000_000)
+        policy = json.loads((ROOT / 'model_data/data_retention_policy.json').read_text())['storage_classes'][0]
+        self.assertEqual(publisher.ARCHIVE_BUDGET, policy['public_git_hard_budget_bytes'])
+        self.assertEqual(publisher.ARCHIVE_SOFT_BUDGET, policy['public_git_soft_budget_bytes'])
+
+    def test_soft_budget_warns_but_publishes_successful_source_and_summary(self):
+        import contextlib
+        import io
+        self.write("model_data/current_asos_weather.json", '{"rain":"UNKNOWN"}\n')
+        summary = Path(self.temp.name) / "summary.md"
+        output = io.StringIO()
+        with patch.object(publisher, "ARCHIVE_SOFT_BUDGET", 1), \
+                patch.dict(os.environ, {"GITHUB_STEP_SUMMARY": str(summary)}), \
+                contextlib.redirect_stdout(output):
+            publisher.stage(self.root, outcomes(regression="success", asos="success"), "main")
+        self.assertEqual(self.staged(), {"model_data/current_asos_weather.json"})
+        self.assertIn("::warning", output.getvalue())
+        self.assertIn("remaining", summary.read_text())
+        self.assertIn("migration remains required", summary.read_text())
+
+    def test_hard_capacity_blocks_even_successful_fresh_weather(self):
+        self.write("model_data/current_asos_weather.json", '{"wind":"KNOWN"}\n')
+        with patch.object(publisher, "ARCHIVE_BUDGET", 1):
+            with self.assertRaisesRegex(RuntimeError, "budget exceeded"):
+                publisher.stage(self.root, outcomes(regression="success", asos="success"), "main")
+        self.assertEqual(self.staged(), set())
 
     def test_branch_specific_outputs_stay_restricted(self):
         steps = outcomes(regression="success", weeks_bay="success", water_quality="success", main_pass="success")
