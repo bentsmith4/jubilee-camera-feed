@@ -1,0 +1,91 @@
+{
+  "schema": "jubilee_compact_json_usage_extension/v1",
+  "generated_at_utc": "2026-10-28T14:58:47Z",
+  "stable_id": "J18-PR78-USAGE-EXTENSION-20261028",
+  "purpose": "Extend the existing PR78 logged-token measurement through the latest complete Central date without creating a second cost pipeline or treating list-price estimates as billing.",
+  "source": {
+    "path": "api_usage_summary.json",
+    "blob_sha": "f1fb5c54afe8c266c24885b8548bcc77ac955217",
+    "generated_at_utc": "2026-10-28T14:10:33.116930+00:00",
+    "status": "available",
+    "billing_status": "unpriced_token_usage_not_actual_spend",
+    "invalid_records": 0,
+    "coverage_statement": "logged requests only; missing days are not zero; October 28 is partial and excluded",
+    "cycle_coverage_statement": "not inferred from request counts"
+  },
+  "method": {
+    "baseline": "Sum the six camera:* groups on 2026-10-08.",
+    "comparison": "Sum the same six camera:* groups on each complete date 2026-10-09 through 2026-10-27.",
+    "token_accounting": "Use input_tokens and output_tokens once; cached input is a subset of input and reasoning output is a subset of output, so neither is added again.",
+    "exclusions": [
+      "cross_camera synthesis groups",
+      "partial 2026-10-28",
+      "request counts as proof of accepted cycles",
+      "conditional list-price dollars",
+      "provider billing not independently reconciled"
+    ]
+  },
+  "baseline": {
+    "date_ct": "2026-10-08",
+    "camera_stage_groups": 6,
+    "completed_requests": 178,
+    "failed_requests": 0,
+    "logged_requests": 178,
+    "input_tokens_known_sum": 1281460,
+    "output_tokens_known_sum": 166513,
+    "input_tokens_per_completed_request": 7199.213483146067,
+    "output_tokens_per_completed_request": 935.4662921348314
+  },
+  "comparison": {
+    "date_start_ct": "2026-10-09",
+    "date_end_ct": "2026-10-27",
+    "complete_six_camera_stage_dates": 19,
+    "completed_requests": 3246,
+    "failed_requests": 2,
+    "logged_requests": 3248,
+    "input_tokens_known_sum": 22940508,
+    "output_tokens_known_sum": 2470867,
+    "token_missing_records": 2,
+    "input_tokens_per_completed_request": 7067.316081330869,
+    "output_tokens_per_completed_request": 761.2036352433764
+  },
+  "observed_change": {
+    "input_tokens_per_completed_request_pct": -1.8321084952402256,
+    "output_tokens_per_completed_request_pct": -18.628427165854312,
+    "interpretation": "Observational logged-token change across different scenes and dates; not causal compact-JSON savings, not actual billing, and not proof of equivalent biological detection."
+  },
+  "operational_cross_check": {
+    "capture_specific_archive_receipt": "model_data/desktop_acceptance_20261027.json",
+    "receipt_blob_sha": "6a1881acae4871e4fc7bce9d7976905db74f2b20",
+    "accepted_capture_count_supported": 1,
+    "capture_id": "20261027T190602230339-d59125128098",
+    "limitation": "One six-camera capture passed local/R2 archive recovery, but this does not establish accepted-cycle counts for all 19 days or biological detection equivalence."
+  },
+  "billing_reconciliation": {
+    "actual_provider_charge_export_available": false,
+    "provider_billed_tier": "UNKNOWN",
+    "provider_effective_rates": "UNKNOWN",
+    "provider_cache_write_charges": "UNKNOWN",
+    "provider_credits_and_adjustments": "UNKNOWN",
+    "actual_cost_per_accepted_cycle": null,
+    "actual_cost_per_comparable_covered_day": null,
+    "residual_reconciliation": null,
+    "status": "ACTUAL_BILLING_BLOCKED"
+  },
+  "detection_equivalence": {
+    "same_image_original_compact_pairs": 0,
+    "independently_labeled_positive_pairs": 0,
+    "difficult_or_unknown_pairs_with_two_real_outputs": 0,
+    "status": "BLOCKED_EVIDENCE",
+    "note": "The October 27 archive receipt proves current raw-frame recoverability for one capture; it does not supply a pre-change output or independent biological truth."
+  },
+  "decision": "RETAIN_INSTALLED_CHANGE_NO_NEW_COST_OR_DETECTION_CLAIM",
+  "production_action": "NO_CHANGE",
+  "guardrails": [
+    "Missing usage days are unknown, not zero.",
+    "Failures and missed coverage are not savings.",
+    "Different scenes do not establish causal savings.",
+    "Logged tokens and conditional list prices do not establish billed charges.",
+    "No paid replay, capture, model, image-detail, cadence, coverage, threshold, or wind-optimization change was made."
+  ]
+}
