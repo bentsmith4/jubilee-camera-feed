@@ -1,0 +1,116 @@
+{
+  "schema": "jubilee_matched_control_sensitivity/v1",
+  "generated_at_utc": "2026-10-28T14:58:47Z",
+  "stable_id": "J10-CONTROL-20261028",
+  "purpose": "Research-only contract audit of the October 28 first-light Montrose observations; repeated records collapse to one date/site-group candidate and never become a whole-cell, whole-morning, or clean training negative.",
+  "contract": {
+    "path": "model_data/matched_control_contract.json",
+    "blob_sha": "091f586f36902be96e9d1bd07ebfbfc19444303c"
+  },
+  "source_receipt": {
+    "dawn_horizon_register_basis": "2026-10-28 Dawn horizon publication receipt",
+    "assessment_basis": "validated upstream three-frame vision; no independent pixel or biological review",
+    "current_state_snapshot_blob_sha": "6c805eb1e61150652f7d28245e7e7cc009392394"
+  },
+  "method": "Require an in-window immutable observation record, fresh/healthy primary contact camera, at least moderate visibility and detectability, and no visual event evidence. Restrict any negative evidence to the visible 437 Montrose waterline/beach segments. Collapse repeated records by local date and independent site group. Preserve public/social effort, whole-morning outcome, and unresolved environmental matching dimensions as UNKNOWN. Do not infer a Point Clear control from marina/Bay views.",
+  "window": {
+    "date_ct": "2026-10-28",
+    "timezone": "America/Chicago",
+    "start_ct": "2026-10-28T04:38:19.401186-05:00",
+    "end_ct": "2026-10-28T08:38:19.401186-05:00",
+    "civil_dawn_ct": "2026-10-28T06:38:19.401186-05:00",
+    "shoreline_scope": "437 Montrose camera-visible waterline/beach segments only",
+    "independent_site_group": "montrose_owner_cluster"
+  },
+  "records": [
+    {
+      "observed_at": "2026-10-28T06:40:11.443810-05:00",
+      "path": "model_data/observation_records/655602609705b45824deb387.json",
+      "blob_sha": "e0cc7e480e4aee31ae6c477a70518c64a560a691",
+      "commit_sha": "91f665d0e525c614aaf438bef6afec62837fcff0",
+      "montrose_classification": "CANDIDATE_VISIBLE_SCOPE_CONTROL",
+      "primary_camera": "montrose_shoreline",
+      "primary_visibility": "fair",
+      "primary_detectability": "moderate",
+      "primary_visual_signal": "none",
+      "private_site_camera_coverage": "3/3",
+      "point_clear_classification": "PARTIAL_OBSERVABILITY_NOT_CLEAN_CELL_CONTROL",
+      "clean_training_negative": false
+    },
+    {
+      "observed_at": "2026-10-28T06:59:58.761954-05:00",
+      "path": "model_data/observation_records/7b21bc47fd2812b080e7bf60.json",
+      "blob_sha": "e7f12d46e65ba60d7750ee08b6df545ae2182b86",
+      "commit_sha": "dda8c9253cbef0c7a61d8faa092ddbc0e1b93add",
+      "montrose_classification": "CANDIDATE_VISIBLE_SCOPE_CONTROL",
+      "primary_camera": "montrose_shoreline",
+      "primary_visibility": "fair",
+      "primary_detectability": "moderate",
+      "primary_visual_signal": "none",
+      "private_site_camera_coverage": "3/3",
+      "point_clear_classification": "PARTIAL_OBSERVABILITY_NOT_CLEAN_CELL_CONTROL",
+      "clean_training_negative": false
+    }
+  ],
+  "observation_effort": {
+    "private_montrose": "KNOWN_TWO_FIRST_LIGHT_CYCLES",
+    "public_camera_same_window": "UNKNOWN_NO_VALIDATED_ADVANCING_LIVE_RECORD",
+    "human_field_check": "NOT_PERFORMED",
+    "social_search_effort": "UNKNOWN",
+    "independent_pixel_review": "NOT_PERFORMED",
+    "unobserved_intervals": "UNKNOWN"
+  },
+  "matching_readiness": {
+    "shoreline_cell_or_visible_scope": "RESOLVED_VISIBLE_SCOPE_ONLY",
+    "season_or_day_of_year_band": "RESOLVED_IN_SEASON",
+    "predawn_clock_window": "RESOLVED_FIRST_LIGHT_WITHIN_TARGET_WINDOW",
+    "tide_phase": "FALLING_PREDICTED_LEVEL_ONLY_LOCAL_OBSERVED_LEVEL_UNAVAILABLE",
+    "current_or_transport_phase_when_available": "UNRESOLVED_NO_ACCEPTED_NEARSHORE_OBSERVED_CURRENT",
+    "private_camera_availability": "RESOLVED_SIX_OF_SIX_OWNER_CAMERAS_TWO_CYCLES",
+    "public_camera_availability": "UNRESOLVED_NO_SAME_WINDOW_VALIDATED_LIVE_PLAYER_OBSERVATION",
+    "social_or_human_observation_availability": "UNRESOLVED"
+  },
+  "environmental_context_limits": {
+    "direct_eastern_shore_bottom_oxygen": "UNKNOWN",
+    "direct_stratification": "UNKNOWN",
+    "observed_point_clear_water_level": "UNKNOWN",
+    "shoreline_grid_current": "UNKNOWN_NO_CURRENT_GUIDANCE",
+    "asos_weather": "UNKNOWN_STALE_AT_ISSUE",
+    "river_forcing": "UNKNOWN_STALE_AND_UNCALIBRATED_BAY_LAG",
+    "arcos": "UNKNOWN_STALE_OR_GEOMETRY_UNRESOLVED",
+    "regional_proxy_policy": "ZERO_WEIGHT_NOT_DIRECT_EASTERN_SHORE_BOTTOM_STATE"
+  },
+  "summary": {
+    "records_reviewed": 2,
+    "candidate_visible_scope_records": 2,
+    "unknown_records": 0,
+    "independent_candidate_mornings_added": 1,
+    "cumulative_tier_b_candidate_visible_scope_mornings": 23,
+    "tier_a_verified_controls": 0,
+    "clean_training_negative_count": 0,
+    "biological_event_label": "unknown",
+    "whole_morning_outcome": "unknown",
+    "training_eligible": false,
+    "forecast_predictor_eligible": false,
+    "point_clear_outcome": "PARTIAL_OBSERVABILITY_NOT_CLEAN_CELL_CONTROL"
+  },
+  "blockers_before_tier_a_or_training_use": [
+    "Independent biological review or observation channel sufficient to label the visible interval",
+    "Known same-window public/social or human observation effort, or an explicit admissible missingness rule",
+    "Defensible whole-window coverage rather than two isolated first-light samples",
+    "Matched confirmed-event window with comparable season, clock time, tide/current context, and observation availability",
+    "Accepted nearshore observed-current or transport phase; predicted tide alone is insufficient",
+    "Temporal-availability audit for every contextual feature"
+  ],
+  "decision": "RESEARCH_ONLY_TIER_B_VISIBLE_SCOPE_CANDIDATE_NO_TRAINING_LABEL",
+  "predictive_result": "NOT_MEASURABLE",
+  "rationale": "The two fresh first-light Montrose observations satisfy the camera-specific contract for a narrow visible-scope candidate and collapse to one additional candidate morning. They do not establish a whole-morning or full-cell non-event, lack an independent biological label, and do not unlock oxygen-only, transport-only, or combined held-out Jubilee evaluation.",
+  "guardrails": [
+    "No-report silence is never a negative.",
+    "Point Clear marina/Bay views do not establish a close-shore control.",
+    "Public-camera absence remains UNKNOWN.",
+    "Predicted tide and regional/model proxies do not substitute for observed nearshore current or direct bottom oxygen.",
+    "No production probability, weight, threshold, cadence, camera, schedule, UNKNOWN rule, or 9 PM gate changes."
+  ],
+  "production_action": "NO_CHANGE"
+}
