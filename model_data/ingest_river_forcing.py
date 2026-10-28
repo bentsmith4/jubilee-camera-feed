@@ -245,7 +245,7 @@ def main():
         summaries = summarize(rows, retrieved)
         manifest.update({'status': 'complete' if set(SITES) <= observed_sites else 'partial',
                          'retrieved_at_utc': retrieved.isoformat(), 'raw_sha256': digest,
-                         'raw_path': str(archive.relative_to(HERE)), 'normalized_rows': len(rows),
+                         'raw_path': archive.relative_to(HERE).as_posix(), 'normalized_rows': len(rows),
                          'parameter_counts': dict(Counter(r['parameter_code'] for r in rows)),
                          'missing_sites': sorted(set(SITES) - observed_sites),
                          # Preserve legacy consumers' upstream-only series scope.
