@@ -1,11 +1,11 @@
 {
   "schema_version": "1.0",
-  "issue_time": "2026-10-28T21:19:06.745097-05:00",
+  "issue_time": "2026-10-28T22:33:56.944075-05:00",
   "model_version": "expert_policy_baseline / model_policy_v2.1",
   "probability_type": "HEURISTIC_JUDGMENT_NOT_EMPIRICALLY_CALIBRATED",
   "input_snapshot_file": "model_data/current_state_snapshot.json",
-  "input_snapshot_hash": "5d5a82a2962ae148c2d42f621a079061e03e076a930b34910b04b0e030dc4167",
-  "input_commit_sha": "c674afac9986a7a1c9efe8b4f1be23889cdea343",
+  "input_snapshot_hash": "6ace4f8078167ebe7840f48f1073010343e7868104740d76ea6f36bc6689377c",
+  "input_commit_sha": "4755245e9afab47531698228b9078653cd23223b",
   "forecast_weights_changed": false,
   "alert_threshold_percent": 20,
   "alert_comparator": ">",
@@ -19,7 +19,7 @@
       "ngofs2_point_clear_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
       "ngofs2_mobile_bay_named_stations_nowcast": "ADMITTED_ANTECEDENT_MODEL_CONTEXT_ONLY",
       "ngofs2_mobile_bay_named_stations_forecast": "ADMITTED_FORWARD_MODEL_GUIDANCE",
-      "ngofs2_shoreline_grid": "ADMITTED_FORWARD_MODEL_GUIDANCE"
+      "ngofs2_shoreline_grid": "UNKNOWN_NO_CURRENT_GUIDANCE"
     },
     "fresh_river_series": 20,
     "asos_stations": "KBFM/KCQF/KMOB partial"
@@ -29,7 +29,8 @@
     "Observed local water level/currents and shoreline wind/rain remain UNKNOWN; model guidance and regional proxies are not local observations.",
     "River-to-Bay travel time remains uncalibrated.",
     "Out-of-view biology and full-cell non-events remain UNKNOWN; no new public-player or human-report search is claimed.",
-    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission."
+    "Missing model slices and stale, missing or QC-rejected observations remain UNKNOWN; see per-source admission.",
+    "Camera pcl_e2_bay_mouth evidence from cycle 2026-10-28T22:06:01.643608-05:00 is UNKNOWN_REVIEWED_NONBIOLOGICAL_ARTIFACT. The reviewed light-associated artifact is not event evidence; the review is not a biological negative."
   ],
   "outlooks": [
     {
