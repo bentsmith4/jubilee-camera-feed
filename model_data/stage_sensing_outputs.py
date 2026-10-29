@@ -10,10 +10,6 @@ from pathlib import Path
 import subprocess
 
 
-# The original 250 MB *soft* migration threshold remains visible. A separate
-# bounded recovery ceiling prevents that advisory from stopping every source.
-ARCHIVE_SOFT_BUDGET = 250_000_000
-ARCHIVE_BUDGET = 500_000_000
 RESEARCH_REFS = {"main", "upgrade/top5-gaps-round2-20260906"}
 
 
@@ -63,25 +59,53 @@ def git(root, *args):
     return subprocess.check_output(["git", *args], cwd=root)
 
 
-def stage(root, steps, ref):
+def check_archive_capacity(root):
+    """Fail closed on invalid policy; preserve the shared warning and hard stop."""
     root = Path(root)
+    policy = json.loads((root / "model_data/data_retention_policy.json").read_text())
+    classes = [item for item in policy["storage_classes"]
+               if item["class"] == "raw_public_environmental_observation"]
+    if len(classes) != 1:
+        raise ValueError("Expected exactly one public environmental archive policy")
+    soft = classes[0]["public_git_soft_budget_bytes"]
+    hard = classes[0]["public_git_hard_budget_bytes"]
+    if type(soft) is not int or type(hard) is not int or not 0 < soft <= hard:
+        raise ValueError("Invalid public archive capacity limits")
     size = sum(p.stat().st_size for p in (root / "model_data/public_archive").rglob("*") if p.is_file())
     capacity = (f"Public archive: {size:,} bytes; migration threshold "
-                f"{ARCHIVE_SOFT_BUDGET:,}; hard ceiling {ARCHIVE_BUDGET:,}; "
-                f"remaining {max(0, ARCHIVE_BUDGET - size):,} bytes.")
+                f"{soft:,}; hard ceiling {hard:,}; "
+                f"remaining {max(0, hard - size):,} bytes.")
     print(capacity)
     summary = os.environ.get("GITHUB_STEP_SUMMARY")
     if summary:
         with open(summary, "a", encoding="utf-8") as out:
             out.write("\n### Public sensing archive capacity\n\n" + capacity + "\n")
-            if size > ARCHIVE_SOFT_BUDGET:
+            if size > soft:
                 out.write("\nJ04: verified object-storage migration remains required. "
                           "This recovery ceiling is finite; no history was deleted.\n")
-    if size > ARCHIVE_BUDGET:
+    if size > hard:
         raise RuntimeError("Public Git archive budget exceeded. Preserve the artifact and migrate to verified object storage; do not delete history.")
-    if size > ARCHIVE_SOFT_BUDGET:
+    if size > soft:
         print("::warning title=J04 public archive migration required::" + capacity +
               " Preserve all history and migrate to verified object storage before the hard ceiling.")
+
+
+def stage_water_quality(root):
+    """Stage weekly diagnostics only after all preceding workflow steps succeed."""
+    root = Path(root)
+    check_archive_capacity(root)
+    if git(root, "diff", "--cached", "--name-only"):
+        raise RuntimeError("Water-quality publication requires an empty index")
+    archive = "model_data/public_archive/wqp"
+    if git(root, "diff", "HEAD", "--name-only", "--", archive):
+        raise RuntimeError(f"Public archives are append-only: {archive}")
+    git(root, "add", "--", "model_data/water_quality_ingest_manifest.json",
+        "model_data/water_quality_backtest.json", "model_data/water_quality_run_summary.json", archive)
+
+
+def stage(root, steps, ref):
+    root = Path(root)
+    check_archive_capacity(root)
     if git(root, "diff", "--cached", "--name-only"):
         raise RuntimeError("Sensing publication requires an empty index")
     if steps.get("regression", {}).get("outcome") != "success":
@@ -98,5 +122,16 @@ def stage(root, steps, ref):
 
 
 if __name__ == "__main__":
-    stage(Path(__file__).resolve().parents[1], json.loads(os.environ["SENSING_STEPS_JSON"]),
-          os.environ["REF_NAME"])
+    import argparse
+    parser = argparse.ArgumentParser()
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--water-quality", action="store_true")
+    mode.add_argument("--check-archive", action="store_true")
+    args = parser.parse_args()
+    root = Path(__file__).resolve().parents[1]
+    if args.water_quality:
+        stage_water_quality(root)
+    elif args.check_archive:
+        check_archive_capacity(root)
+    else:
+        stage(root, json.loads(os.environ["SENSING_STEPS_JSON"]), os.environ["REF_NAME"])
