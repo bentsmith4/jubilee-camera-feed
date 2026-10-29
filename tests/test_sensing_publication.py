@@ -45,6 +45,7 @@ class PublicationTests(unittest.TestCase):
         self.git("config", "user.email", "test@example.invalid")
         self.git("config", "core.autocrlf", "false")
         self.write("baseline.txt", "baseline\n")
+        self.write("model_data/data_retention_policy.json", (ROOT / "model_data/data_retention_policy.json").read_text())
         self.write("model_data/stage_sensing_outputs.py", (ROOT / "model_data/stage_sensing_outputs.py").read_text())
         for name in ("resolve_sensing_publication_conflicts.py", "reconcile_source_registry.py"):
             self.write("model_data/" + name, (ROOT / "model_data" / name).read_text())
@@ -59,6 +60,13 @@ class PublicationTests(unittest.TestCase):
                 self.write(path, "old\n")
         self.git("add", ".")
         self.git("commit", "-m", "baseline")
+
+    def set_budget(self, soft=250_000_000, hard=500_000_000):
+        path = self.root / "model_data/data_retention_policy.json"
+        policy = json.loads(path.read_text())
+        item = next(p for p in policy["storage_classes"] if p["class"] == "raw_public_environmental_observation")
+        item.update(public_git_soft_budget_bytes=soft, public_git_hard_budget_bytes=hard)
+        path.write_text(json.dumps(policy))
 
     def write(self, path, content):
         dest = self.root / path
@@ -391,9 +399,10 @@ class PublicationTests(unittest.TestCase):
 
     def test_archive_budget_and_append_only_guard_remain_enforced(self):
         steps = outcomes(regression="success", river="success")
-        with patch.object(publisher, "ARCHIVE_BUDGET", 1):
-            with self.assertRaisesRegex(RuntimeError, "budget exceeded"):
-                publisher.stage(self.root, steps, "main")
+        self.set_budget(soft=1, hard=1)
+        with self.assertRaisesRegex(RuntimeError, "budget exceeded"):
+            publisher.stage(self.root, steps, "main")
+        self.set_budget()
         for change in ("overwrite", "delete"):
             with self.subTest(change=change):
                 self.write("model_data/public_archive/usgs/old.gz", "changed\n")
@@ -403,8 +412,8 @@ class PublicationTests(unittest.TestCase):
                     publisher.stage(self.root, steps, "main")
                 self.assertEqual(self.staged(), set())
         policy = json.loads((ROOT / 'model_data/data_retention_policy.json').read_text())['storage_classes'][0]
-        self.assertEqual(publisher.ARCHIVE_BUDGET, policy['public_git_hard_budget_bytes'])
-        self.assertEqual(publisher.ARCHIVE_SOFT_BUDGET, policy['public_git_soft_budget_bytes'])
+        self.assertEqual(500_000_000, policy['public_git_hard_budget_bytes'])
+        self.assertEqual(250_000_000, policy['public_git_soft_budget_bytes'])
 
     def test_soft_budget_warns_but_publishes_successful_source_and_summary(self):
         import contextlib
@@ -412,8 +421,8 @@ class PublicationTests(unittest.TestCase):
         self.write("model_data/current_asos_weather.json", '{"rain":"UNKNOWN"}\n')
         summary = Path(self.temp.name) / "summary.md"
         output = io.StringIO()
-        with patch.object(publisher, "ARCHIVE_SOFT_BUDGET", 1), \
-                patch.dict(os.environ, {"GITHUB_STEP_SUMMARY": str(summary)}), \
+        self.set_budget(soft=1)
+        with patch.dict(os.environ, {"GITHUB_STEP_SUMMARY": str(summary)}), \
                 contextlib.redirect_stdout(output):
             publisher.stage(self.root, outcomes(regression="success", asos="success"), "main")
         self.assertEqual(self.staged(), {"model_data/current_asos_weather.json"})
@@ -423,9 +432,9 @@ class PublicationTests(unittest.TestCase):
 
     def test_hard_capacity_blocks_even_successful_fresh_weather(self):
         self.write("model_data/current_asos_weather.json", '{"wind":"KNOWN"}\n')
-        with patch.object(publisher, "ARCHIVE_BUDGET", 1):
-            with self.assertRaisesRegex(RuntimeError, "budget exceeded"):
-                publisher.stage(self.root, outcomes(regression="success", asos="success"), "main")
+        self.set_budget(soft=1, hard=1)
+        with self.assertRaisesRegex(RuntimeError, "budget exceeded"):
+            publisher.stage(self.root, outcomes(regression="success", asos="success"), "main")
         self.assertEqual(self.staged(), set())
 
     def test_branch_specific_outputs_stay_restricted(self):
