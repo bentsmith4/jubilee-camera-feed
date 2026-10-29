@@ -82,7 +82,8 @@ def preserve_expired_camera_review(reader, prior, status, vision, cid, now, limi
 
     current_review = review.get('admitted_event_status')
     if current_review in ('REJECTED_REFLECTION_NOT_EVENT_EVIDENCE',
-                           'REJECTED_LIGHT_ASSOCIATED_ARTIFACT_NOT_EVENT_EVIDENCE'):
+                           'REJECTED_LIGHT_ASSOCIATED_ARTIFACT_NOT_EVENT_EVIDENCE',
+                           'REJECTED_LOW_DETECTABILITY_REFLECTION_NOT_EVENT_EVIDENCE'):
         age_minutes = (now - guard.stamp(current['timestamp_ct'])).total_seconds() / 60
         review_is_fresh = 0 <= age_minutes <= limit
         require(age_minutes >= 0, 'reviewed artifact is from the future')
@@ -91,28 +92,55 @@ def preserve_expired_camera_review(reader, prior, status, vision, cid, now, limi
             and camera.get('activity_changed_across_frames') == 'no'
             and camera.get('visibility') == 'fair'
             and camera.get('detectability') == 'moderate')
-        if current_review == 'REJECTED_REFLECTION_NOT_EVENT_EVIDENCE':
-            require(review_is_fresh, 'current artifact review is not fresh')
-            require(common_scope
-                    and labels['temporal_jubilee_signal'] == 'none'
-                    and camera.get('likely_temporal_artifact') == 'reflection',
-                    'reflection review scope changed')
-            cross_scope = {'temporal_confirmation': 'none', 'spatial_confirmation': 'none'}
-        else:
-            require(common_scope
-                    and labels['temporal_jubilee_signal'] == 'weak_possible'
-                    and camera.get('artificial_light_confounding') == 'strong'
-                    and camera.get('repeated_surface_activity') == 'possible'
-                    and camera.get('likely_temporal_artifact') == 'none',
-                    'light-associated review scope changed')
-            cross_scope = {'temporal_confirmation': 'limited', 'spatial_confirmation': 'limited'}
         cross = vision.get('cross_camera', {})
-        require(cross.get('overall_visual_jubilee_signal') == 'weak_possible'
-                and cross.get('montrose_visual_signal') == 'weak_possible'
-                and cross.get('point_clear_visual_signal') in
+        if current_review == 'REJECTED_LOW_DETECTABILITY_REFLECTION_NOT_EVENT_EVIDENCE':
+            require(review_is_fresh, 'current artifact review is not fresh')
+            require(
+                labels == {
+                    'overall_jubilee_visual_signal': 'weak_possible',
+                    'temporal_jubilee_signal': 'none',
+                }
+                and camera.get('activity_changed_across_frames') == 'no'
+                and camera.get('likely_temporal_artifact') == 'reflection'
+                and camera.get('artificial_light_confounding') == 'strong'
+                and camera.get('visibility') == 'poor'
+                and camera.get('detectability') == 'low',
+                'low-detectability reflection review scope changed')
+            zone_signal = ('point_clear_visual_signal'
+                           if cid.startswith('pcl_') else 'montrose_visual_signal')
+            other_signal = ('montrose_visual_signal'
+                            if zone_signal == 'point_clear_visual_signal'
+                            else 'point_clear_visual_signal')
+            require(
+                cross.get('overall_visual_jubilee_signal') == 'unclear'
+                and cross.get(zone_signal) == 'unclear'
+                and cross.get(other_signal) in
                     (None, 'unknown', 'UNKNOWN', 'none', 'none_visible', 'unclear')
-                and all(cross.get(k) == v for k, v in cross_scope.items()),
-                'cross-camera reviewed-artifact scope changed')
+                and cross.get('temporal_confirmation') == 'none'
+                and cross.get('spatial_confirmation') == 'none',
+                'cross-camera low-detectability reflection scope changed')
+        else:
+            if current_review == 'REJECTED_REFLECTION_NOT_EVENT_EVIDENCE':
+                require(review_is_fresh, 'current artifact review is not fresh')
+                require(common_scope
+                        and labels['temporal_jubilee_signal'] == 'none'
+                        and camera.get('likely_temporal_artifact') == 'reflection',
+                        'reflection review scope changed')
+                cross_scope = {'temporal_confirmation': 'none', 'spatial_confirmation': 'none'}
+            else:
+                require(common_scope
+                        and labels['temporal_jubilee_signal'] == 'weak_possible'
+                        and camera.get('artificial_light_confounding') == 'strong'
+                        and camera.get('repeated_surface_activity') == 'possible'
+                        and camera.get('likely_temporal_artifact') == 'none',
+                        'light-associated review scope changed')
+                cross_scope = {'temporal_confirmation': 'limited', 'spatial_confirmation': 'limited'}
+            require(cross.get('overall_visual_jubilee_signal') == 'weak_possible'
+                    and cross.get('montrose_visual_signal') == 'weak_possible'
+                    and cross.get('point_clear_visual_signal') in
+                        (None, 'unknown', 'UNKNOWN', 'none', 'none_visible', 'unclear')
+                    and all(cross.get(k) == v for k, v in cross_scope.items()),
+                    'cross-camera reviewed-artifact scope changed')
         expected_hashes = review.get('evidence_sha256')
         require(isinstance(expected_hashes, dict), 'missing review evidence hashes')
         for path in ('status.json', 'burst_status.json', 'vision.json', cid + '.jpg'):
@@ -425,14 +453,30 @@ def build(root, now):
         and cross_camera.get('temporal_confirmation') in quiet + ('limited',))
     reviewed_nonbiological_scope = (
         expired_review is not None
-        and expired_review.get('admitted_event_status') in
-            ('REJECTED_REFLECTION_NOT_EVENT_EVIDENCE',
-             'REJECTED_LIGHT_ASSOCIATED_ARTIFACT_NOT_EVENT_EVIDENCE')
-        and cross_camera.get('overall_visual_jubilee_signal') == 'weak_possible'
-        and cross_camera.get('montrose_visual_signal') == 'weak_possible'
-        and cross_camera.get('point_clear_visual_signal') in quiet
-        and (cross_camera.get('temporal_confirmation'), cross_camera.get('spatial_confirmation'))
-            in (('none', 'none'), ('limited', 'limited')))
+        and (
+            (expired_review.get('admitted_event_status') ==
+                'REJECTED_LOW_DETECTABILITY_REFLECTION_NOT_EVENT_EVIDENCE'
+             and cross_camera.get('overall_visual_jubilee_signal') == 'unclear'
+             and cross_camera.get(
+                 'point_clear_visual_signal'
+                 if expired_review.get('camera_id', '').startswith('pcl_')
+                 else 'montrose_visual_signal') == 'unclear'
+             and cross_camera.get(
+                 'montrose_visual_signal'
+                 if expired_review.get('camera_id', '').startswith('pcl_')
+                 else 'point_clear_visual_signal') in quiet
+             and (cross_camera.get('temporal_confirmation'),
+                  cross_camera.get('spatial_confirmation')) == ('none', 'none'))
+            or
+            (expired_review.get('admitted_event_status') in
+                ('REJECTED_REFLECTION_NOT_EVENT_EVIDENCE',
+                 'REJECTED_LIGHT_ASSOCIATED_ARTIFACT_NOT_EVENT_EVIDENCE')
+             and cross_camera.get('overall_visual_jubilee_signal') == 'weak_possible'
+             and cross_camera.get('montrose_visual_signal') == 'weak_possible'
+             and cross_camera.get('point_clear_visual_signal') in quiet
+             and (cross_camera.get('temporal_confirmation'),
+                  cross_camera.get('spatial_confirmation'))
+                 in (('none', 'none'), ('limited', 'limited')))))
     guard.require(cross_camera_quiet or reviewed_nonbiological_scope,
                   'REVIEW_REQUIRED: cross-camera event assessment')
     ca = row(CAMERA)

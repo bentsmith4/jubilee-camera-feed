@@ -490,6 +490,69 @@ class ReconciliationTests(unittest.TestCase):
             builder.preserve_expired_camera_review(
                 Reader(), {'manual_event_review': review}, status, vision, cid, now, 60)
 
+    def test_low_detectability_reflection_review_is_exact_hash_scoped_unknown(self):
+        cid = 'pcl_e2_bay_mouth'
+        status = {
+            'capture_time_ct': '2026-10-28T22:06:01.643608-05:00',
+            'cameras': {cid: {'ok': True, 'timestamp_ct': '2026-10-28T22:08:02.165519-05:00'}},
+        }
+        camera = {
+            'overall_jubilee_visual_signal': 'weak_possible',
+            'temporal_jubilee_signal': 'none',
+            'artificial_light_confounding': 'strong',
+            'activity_changed_across_frames': 'no',
+            'likely_temporal_artifact': 'reflection',
+            'visibility': 'poor',
+            'detectability': 'low',
+        }
+        vision = {
+            'cameras': {cid: camera},
+            'cross_camera': {
+                'overall_visual_jubilee_signal': 'unclear',
+                'montrose_visual_signal': 'none',
+                'point_clear_visual_signal': 'unclear',
+                'temporal_confirmation': 'none',
+                'spatial_confirmation': 'none',
+            },
+        }
+        evidence = {
+            'status.json': b'status',
+            'burst_status.json': b'burst',
+            'vision.json': b'vision',
+            cid + '.jpg': b'jpeg',
+        }
+
+        class Reader:
+            def read(self, path):
+                return evidence[path]
+
+        review = {
+            'reviewed_at_ct': '2026-10-28T22:21:48-05:00',
+            'camera_id': cid,
+            'capture_time_ct': status['capture_time_ct'],
+            'upstream_classification': {
+                'overall_jubilee_visual_signal': 'weak_possible',
+                'temporal_jubilee_signal': 'none',
+            },
+            'admitted_event_status':
+                'REJECTED_LOW_DETECTABILITY_REFLECTION_NOT_EVENT_EVIDENCE',
+            'basis': (
+                'Reviewed glare-bound reflection is not event evidence; '
+                'poor visibility keeps biology UNKNOWN.'),
+            'probability_or_alert_change': False,
+            'evidence_sha256': {path: guard.digest(raw) for path, raw in evidence.items()},
+        }
+        now = guard.stamp('2026-10-28T22:22:00-05:00')
+        preserved, current = builder.preserve_expired_camera_review(
+            Reader(), {'manual_event_review': review}, status, vision, cid, now, 60)
+        self.assertEqual(preserved, review)
+        self.assertTrue(current)
+
+        camera['likely_temporal_artifact'] = 'none'
+        with self.assertRaisesRegex(ValueError, 'low-detectability reflection review scope changed'):
+            builder.preserve_expired_camera_review(
+                Reader(), {'manual_event_review': review}, status, vision, cid, now, 60)
+
     def reviewed_camera_fixture(self, now):
         """Exact PR #111 JSON, synthetic final-image bytes and environment."""
         source = ROOT / 'tests/fixtures/state_reconciliation/reviewed_camera_20261018'
