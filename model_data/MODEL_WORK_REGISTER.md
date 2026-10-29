@@ -3590,3 +3590,14 @@ The existing push trigger started weekly water-quality run `40814894635`; it was
 - **J11 ownership unchanged:** `SENSING_OWNS_DAWN_TIMING` remains established. Dawn Brief remains enabled for October 29 at 07:04:02 CDT, and Dawn Timing remains disabled with its preserved rollback schedule. No schedule write or ownership rollback was required.
 
 Stage: MATERIAL_CAMERA_FAULT_REVIEWED / POINT_CLEAR_CANONICAL_2_OF_3 / BIOLOGY_UNKNOWN / NOTIFICATION_GATE_MET / SENSING_OWNS_DAWN_TIMING.
+
+## J01 Point Clear camera-coverage recovery - October 29, 2026 02:06-03:08 CDT
+
+- **Canonical recovery evidence:** capture commit `c3a456c37c167ee6e2e76a680dbfce269a87d1e5` and structured observation commit `c3cb5073f5628f1f5c7a89f2fdb677627174bafd` record the ordinary 02:06-02:11 CDT cycle. All six owner cameras succeeded on their first attempts and produced matching canonical three-frame bursts. Point Clear returned to 3/3, including `pcl_e2_back_deck`; Montrose remained 3/3.
+- **Explicit material-fault review:** this complete later canonical cycle clears the October 29 00:06 material Point Clear camera-coverage fault. No near-live or periodic-still result was used as the clearance basis.
+- **Biological interpretation:** all six views had poor visibility and low detectability under darkness and artificial light; cross-camera temporal and spatial confirmation were absent. Biology remains UNKNOWN, not negative; no direct event evidence was admitted.
+- **Environmental separation:** the fresh ARCOS/Meaher dissolved-oxygen reload is regional, zero-weight context with unresolved current sensor geometry; modeled Point Clear transport is stale. It is not direct local bottom/contact-strip oxygen, does not establish stratification and does not change the outlook or create a separate alert.
+- **Forecast boundaries:** Point Clear/Grand Hotel remains 2-5% and Daphne/May Day 1-4%, both low confidence. The strict >20%, direct-event and material critical-input-fault gates are clear. No probability, weight, threshold, UNKNOWN rule, camera registry, cadence, public-camera claim, outreach or 9 p.m. policy changed.
+- **J11 ownership unchanged:** `SENSING_OWNS_DAWN_TIMING` remains established. Dawn Brief remains enabled for October 29 at 07:04:02 CDT, and Dawn Timing remains disabled with its preserved rollback schedule. No schedule write or ownership rollback was required.
+
+Stage: CAMERA_COVERAGE_RECOVERED / SIX_OF_SIX_CANONICAL / BIOLOGY_UNKNOWN / FORECAST_GATE_CLEAR / SENSING_OWNS_DAWN_TIMING.
