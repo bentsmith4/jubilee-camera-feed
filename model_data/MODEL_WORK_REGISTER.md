@@ -3695,3 +3695,12 @@ Stage: MATERIAL_CAMERA_FAULT_BOUND / SOURCE_FRESHNESS_CURRENT / STRICT_BINDER_PA
 - **Continuity:** `SENSING_OWNS_DAWN_TIMING` remains established; Dawn Brief remains enabled for October 31 at 07:05:29 CDT and Dawn Timing remains disabled with its preserved rollback schedule. J04 ordinary weekly scheduled acceptance remains pending for November 3 and durable object-storage migration remains open under PR #142. No owner action is required.
 
 Stage: POINT_CLEAR_CANONICAL_3_OF_3 / MONTROSE_3_OF_3 / MATERIAL_CAMERA_FAULT_RECOVERED / BIOLOGY_UNKNOWN / HORIZON_ROLLED_ZERO_NUMERICAL_CHANGE / BOUND_READBACK_PENDING / SENSING_OWNS_DAWN_TIMING.
+
+
+### J01 recovery bound-readback addendum — October 31, 2026 01:05 CDT
+
+- **Executed:** Reviewed recovery state commit `2822c743ed204a3f08a8495d2d147a3c9f18b1a2` was pushed to canonical `main`. It clears only the October 30 Point Clear material input-quality fault, retains biological UNKNOWN semantics, and rolls the frozen horizon to October 31-November 2 with zero numerical change.
+- **Verified from a clean origin/main worktree:** strict binder validation with the required dawn horizon passed. Current-state freshness returned `CURRENT` for cameras, ASOS, river, Weeks Bay, ARCOS and all admitted NGOFS2 slices. The persisted snapshot SHA-256 is `5b9a9272c7f05ebbbcc5a7bdc76a6c22bf454ccc3da79b0588badfe33566294c`; the persisted forecast SHA-256 is `9ee58d8fc8ddf176424c873a61672d029673442cf847bb411cf89bcc473e9b9e`.
+- **Readback disposition:** Point Clear is 3/3, Montrose is 3/3, the material input-quality gate is false, the forecast notification condition is false, and the one-time recovery-report marker is true. Forecasts remain Point Clear/Grand Hotel 2-5% and Daphne/May Day 1-4%, both low confidence; the strict >20% and direct-event gates remain false. No owner action is required.
+
+Stage: MATERIAL_CAMERA_FAULT_RECOVERY_VERIFIED / STRICT_BINDER_PASS / SOURCE_FRESHNESS_CURRENT / POINT_CLEAR_3_OF_3 / SIX_OF_SIX / BIOLOGY_UNKNOWN / ONE_TIME_RECOVERY_REPORT / SENSING_OWNS_DAWN_TIMING.
