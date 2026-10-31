@@ -3675,3 +3675,12 @@ Stage: EVENING_DAWN_TARGET_UPDATED / DAWN_READBACK_VERIFIED / TIMING_DISABLED_VE
 - **J11 and other boundaries:** `SENSING_OWNS_DAWN_TIMING` remains established; Dawn Brief remains enabled for October 31 at 07:05:29 CDT and Dawn Timing remains disabled with its preserved rollback schedule. J04 weekly scheduled acceptance remains pending for November 3 and durable object-storage migration remains open under PR #142. No probability, weight, threshold, cadence, camera registry, UNKNOWN rule, outreach permission or schedule changed.
 
 Stage: MATERIAL_CAMERA_FAULT_REVIEWED / POINT_CLEAR_CANONICAL_1_OF_3 / MONTROSE_3_OF_3 / BIOLOGY_UNKNOWN / NOTIFICATION_GATE_MET / SENSING_OWNS_DAWN_TIMING.
+
+
+### J01 bound readback addendum - October 30, 2026 22:12 CDT
+
+- **Executed:** After the explicit material-fault review, the canonical state was reconciled at the verified evidence-generation cutoff `2026-10-30T22:12:00-05:00`, binding camera, ASOS and river evidence already committed by `b71599353ab881082f3152bc49b7a34bb031c341`. No new acquisition or probability assessment was performed.
+- **Verified:** Exact binder validation with the required October 30-November 1 horizon passed. Current-state freshness returned `CURRENT` with camera, ASOS and river source fingerprints matching the snapshot. Point Clear remains 1/3, the material input-quality gate and one-time notification condition remain active, and the strict >20% and direct-event gates remain false.
+- **Disposition:** The earlier reviewed-gate publication was preparation; this addendum records the fresh bound execution and readback. The existing coordinator retains bounded retries. Recovery requires a later matching canonical cycle and explicit review.
+
+Stage: MATERIAL_CAMERA_FAULT_BOUND / SOURCE_FRESHNESS_CURRENT / STRICT_BINDER_PASS / NOTIFICATION_GATE_MET.
