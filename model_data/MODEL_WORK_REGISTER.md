@@ -3684,3 +3684,14 @@ Stage: MATERIAL_CAMERA_FAULT_REVIEWED / POINT_CLEAR_CANONICAL_1_OF_3 / MONTROSE_
 - **Disposition:** The earlier reviewed-gate publication was preparation; this addendum records the fresh bound execution and readback. The existing coordinator retains bounded retries. Recovery requires a later matching canonical cycle and explicit review.
 
 Stage: MATERIAL_CAMERA_FAULT_BOUND / SOURCE_FRESHNESS_CURRENT / STRICT_BINDER_PASS / NOTIFICATION_GATE_MET.
+
+
+## J01 Point Clear camera-coverage recovery — October 31, 2026 00:06-01:04 CDT
+
+- **Admitted canonical evidence:** capture commit `8710a025e59e30b61fa82edbb2246b77b5860d2a`, structured observation commit `75ed92bde6b0399666e47a693697b0c8ad5e0eae`, and committed-evidence reconciliation `68087179c513c3b3627ca2e07751c6bf5512f928` bind the ordinary 00:06-00:09 CDT cycle. All six owner cameras produced matching canonical three-frame bursts on first attempts; Point Clear returned from 1/3 to 3/3 and Montrose remained 3/3.
+- **Explicit recovery review:** the October 30 material Point Clear coverage fault is cleared. Darkness with poor/fair visibility and low detectability keeps biology UNKNOWN; no direct event evidence or biological negative is inferred. The recovery materially restores the coverage/confidence state delivered after 9 p.m. and is eligible for one deduplicated recovery alert.
+- **Zero-numerical-change horizon maintenance:** the existing frozen heuristic profile was rolled forward to October 31-November 2 with Point Clear/Grand Hotel unchanged at 2-5% and Daphne/May Day unchanged at 1-4%, both low confidence. Production weights, strict >20% comparator, direct-event gate and scientific method are unchanged.
+- **Bound publication contract:** the recovery state was projected through the canonical binder. Exact binding with required dawn horizon and current-state freshness must pass on the committed readback before this receipt is treated as verified publication.
+- **Continuity:** `SENSING_OWNS_DAWN_TIMING` remains established; Dawn Brief remains enabled for October 31 at 07:05:29 CDT and Dawn Timing remains disabled with its preserved rollback schedule. J04 ordinary weekly scheduled acceptance remains pending for November 3 and durable object-storage migration remains open under PR #142. No owner action is required.
+
+Stage: POINT_CLEAR_CANONICAL_3_OF_3 / MONTROSE_3_OF_3 / MATERIAL_CAMERA_FAULT_RECOVERED / BIOLOGY_UNKNOWN / HORIZON_ROLLED_ZERO_NUMERICAL_CHANGE / BOUND_READBACK_PENDING / SENSING_OWNS_DAWN_TIMING.
