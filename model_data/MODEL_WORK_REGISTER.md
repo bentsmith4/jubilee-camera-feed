@@ -3740,3 +3740,15 @@ Stage: EVENING_DAWN_TARGET_UPDATED / DST_OFFSET_VERIFIED / DAWN_READBACK_VERIFIE
 - **J11 and other boundaries:** `SENSING_OWNS_DAWN_TIMING` remains established. Dawn Brief remains enabled for November 1 at 06:06:14 CST and Dawn Timing remains disabled with its preserved rollback schedule. J04 scheduled acceptance remains pending for November 3, and durable object-storage migration remains OPEN under PR #142. No probability, weight, threshold, cadence, camera registry, UNKNOWN rule, outreach permission or schedule ownership changed.
 
 > Stage: MATERIAL_CAMERA_FAULT_REVIEWED / POINT_CLEAR_CANONICAL_1_OF_3 / MONTROSE_3_OF_3 / BIOLOGY_UNKNOWN / PAIR_VALIDATED / NOTIFICATION_GATE_MET / SENSING_OWNS_DAWN_TIMING.
+
+## J01 Point Clear camera-coverage recovery — November 1, 2026 02:06–02:23 CST
+
+- **Admitted canonical evidence:** capture commit `b3a105db4535302f5cef6cda64fe1001a7091e15`, structured-observation commit `3d5299ce37486ceb1b8a79642d808c62521ad81e`, and committed-evidence reconciliation `78f5e30039ec9ff051412d44478ac2ed6a6b03ae` bind the ordinary 02:06–02:09 CST cycle. All six owner cameras produced matching canonical three-frame bursts on first attempts; Point Clear returned from 1/3 to 3/3 and Montrose remained 3/3.
+- **Explicit recovery review:** the November 1 00:07–00:10 CDT material Point Clear coverage fault is cleared. This materially restores the confidence/coverage state delivered at commit `f94814ada1119451e203506318b5e96cbaf78648` and is eligible for one deduplicated recovery alert.
+- **Biological interpretation:** darkness, artificial light and low detectability keep biology UNKNOWN, not negative. Cross-camera temporal and spatial confirmation are absent; no direct event evidence was admitted.
+- **Environmental separation:** the same-window authoritative environmental reload remains zero-weight context and does not establish direct local bottom oxygen or stratification. No meaningful environmental change or separate alert is claimed.
+- **Forecast boundaries:** Point Clear/Grand Hotel remains 2–5% and Daphne/May Day remains 1–4%, both low confidence, for November 1–3. The strict >20%, direct-event and material critical-input-fault gates are clear. No probability, weight, threshold, cadence, camera registry, UNKNOWN rule or 9 p.m. policy changed.
+- **Publication contract:** the recovery state is projected through the canonical binder. Exact committed-byte binding, the required dawn horizon, current-state freshness and independent readback must pass before this receipt is marked verified.
+- **J11 and other boundaries:** `SENSING_OWNS_DAWN_TIMING` remains established. Dawn Brief remains enabled for November 1 at 06:06:14 CST and Dawn Timing remains disabled with its preserved rollback schedule. J04 scheduled acceptance remains pending for November 3, and durable object-storage migration remains OPEN under PR #142. No owner action is required.
+
+> Stage: POINT_CLEAR_CANONICAL_3_OF_3 / MONTROSE_3_OF_3 / MATERIAL_CAMERA_FAULT_RECOVERED / BIOLOGY_UNKNOWN / FORECAST_GATE_CLEAR / BOUND_READBACK_PENDING / SENSING_OWNS_DAWN_TIMING.
