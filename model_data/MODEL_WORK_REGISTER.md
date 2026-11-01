@@ -3752,3 +3752,11 @@ Stage: EVENING_DAWN_TARGET_UPDATED / DST_OFFSET_VERIFIED / DAWN_READBACK_VERIFIE
 - **J11 and other boundaries:** `SENSING_OWNS_DAWN_TIMING` remains established. Dawn Brief remains enabled for November 1 at 06:06:14 CST and Dawn Timing remains disabled with its preserved rollback schedule. J04 scheduled acceptance remains pending for November 3, and durable object-storage migration remains OPEN under PR #142. No owner action is required.
 
 > Stage: POINT_CLEAR_CANONICAL_3_OF_3 / MONTROSE_3_OF_3 / MATERIAL_CAMERA_FAULT_RECOVERED / BIOLOGY_UNKNOWN / FORECAST_GATE_CLEAR / BOUND_READBACK_PENDING / SENSING_OWNS_DAWN_TIMING.
+
+### J01 bound readback addendum — November 1, 2026 02:25 CST
+
+- **Executed:** explicit recovery review commit `e0eba858fcae004289430dfb247edc66eb87bec5` clears only the previously delivered Point Clear camera-coverage fault against the admitted 02:06–02:09 CST canonical cycle. No new acquisition, probability assessment, threshold, cadence or schedule change was performed.
+- **Verified:** exact committed-byte binder validation with the required November 1–3 horizon passed. Current-state freshness returned `CURRENT` with all source fingerprints matching the snapshot; snapshot SHA-256 `51310eab582d42fc8a4037cf086b1b663c146eaff7ae0cfaf0ecd966f1dd5d5d` exactly matches the forecast binding. Point Clear is 3/3, Montrose is 3/3, all six cameras succeeded on first attempts, and the material critical-input-fault gate is clear.
+- **Disposition:** biology remains UNKNOWN and forecasts remain unchanged. This is the single material recovery of the state delivered at `f94814ada1119451e203506318b5e96cbaf78648`; later routine healthy cycles are deduplicated.
+
+> Stage: CAMERA_COVERAGE_RECOVERED / SIX_OF_SIX_CANONICAL / BIOLOGY_UNKNOWN / PAIR_VALIDATED / FORECAST_GATE_CLEAR / SENSING_OWNS_DAWN_TIMING.
