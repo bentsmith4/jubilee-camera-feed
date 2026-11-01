@@ -27,28 +27,33 @@
     "No validated universal water-temperature shutdown threshold established. Keep full in-season coverage; do not suppress based on one surface sensor."
   ],
   "cloud": {
-    "status": "EXACT_RECURRENCE_APPLIED_AND_READ_BACK",
+    "status": "CURRENT_ROLE_RECONCILIATION_20261101_PRODUCTION_SEASONAL_RESEARCH_YEAR_ROUND_TIMING_TRANSFERRED",
     "tasks": [
       {
         "id": "6a807c493a4481918aad2d656abd7817",
-        "title": "Jubilee Dawn Brief"
+        "title": "Jubilee Dawn Brief",
+        "role_status": "ENABLED_IN_SEASON_SILENT_DAWN_PRODUCER"
       },
       {
         "id": "6a768acc89c48191868af698e740f490",
-        "title": "Jubilee Sensing & Alerting"
+        "title": "Jubilee Sensing & Alerting",
+        "role_status": "ENABLED_IN_SEASON_SINGLE_ALERT_AND_DAWN_SCHEDULE_WRITER"
       },
       {
         "id": "6a8f6123dcf4819180255f2c9812a81d",
-        "title": "Jubilee Dawn Timing"
+        "title": "Jubilee Dawn Timing",
+        "role_status": "DISABLED_VERIFIED_ROLLBACK_ONLY"
       },
       {
         "id": "6a768a4cf6e481919cfc858bba5cc542",
-        "title": "Jubilee Model Research & Calibration"
+        "title": "Jubilee Model Research & Calibration",
+        "role_status": "ENABLED_EXISTING_48H_YEAR_ROUND_RESEARCH_ONLY_OFFSEASON"
       }
     ],
-    "implementation": "All four existing tasks use FREQ=YEARLY with BYYEARDAY=-228 through -48 inclusive. This enumerates exactly May18–November14 in ordinary/leap years. Preserve existing BYHOUR and weekday restrictions; minutes/seconds default to DTSTART for sensing/timing/research. Dawn Brief explicit minute/second remains. Calendar-first prompt guard retained.",
-    "residual": "Prior partial-month calendar-check wakeups eliminated by exact recurrence. No off-season scheduled work.",
-    "dawn_maintenance": "On Nov14 precompute next May18 civil dawn+25; retain exact recurrence and prompt guard. No duplicate tasks."
+    "implementation": "Production Sensing & Alerting and Dawn Brief retain their established May 18–November 14 exact seasonal recurrence. Model Research & Calibration retains the existing 48-hour task but now operates year-round: November 15–May 17 runs are research-only, with no winter production acquisition/probabilities. Dawn Timing was disabled after the verified October 27 guarded cutover; Sensing is the single next-dawn schedule writer. No additional tasks or cadence changes were made in this reconciliation.",
+    "residual": "No off-season Jubilee production sensing or routine production alerts; year-round research-only checkpoints continue on their existing 48-hour task. November 14 natural closeout and next-May-18 handoff are future runtime acceptance events, not yet assumed complete.",
+    "dawn_maintenance": "Sensing owns next civil-dawn+25min target maintenance and independent readback after the October 27 accepted two-natural-date plus failure-suite transfer. Dawn Timing remains disabled with rollback schedule preserved. On November 14 preserve the next May 18 target; restore Timing only under the existing verified-failure rollback contract.",
+    "role_source": "model_data/MODEL_WORK_REGISTER.md J00/J01/J11 current acceptance receipts; model_data/DOT_PILOT_CHARTER.md November 1 directive. Historical September 8 cloud status superseded; production seasonal dates and desktop acceptance preserved."
   },
   "desktop": {
     "status": "INSTALLED_AND_FIRST_LIVE_CYCLE_VERIFIED",
