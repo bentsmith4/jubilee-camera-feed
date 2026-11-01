@@ -3772,3 +3772,37 @@ Stage: EVENING_DAWN_TARGET_UPDATED / DST_OFFSET_VERIFIED / DAWN_READBACK_VERIFIE
 - **Alert and ownership disposition:** Both strict `>20%` probability gates, direct-event gate and material-critical-input-fault gate are false. The overnight Point Clear coverage fault was explicitly recovered and verified before dawn and was not reopened. `SENSING_OWNS_DAWN_TIMING` remains established: Sensing owns schedule maintenance and Dawn Timing remains disabled with its saved rollback schedule. This Dawn run performed no schedule mutation, rollback, duplicate acquisition/task, outreach, probability/weight/threshold/cadence/camera change or owner-facing message. Sensing remains the sole in-season production alert assembler.
 
 Stage: DAWN_DAYLIGHT_FOLLOWUP_VALID / SIX_CELL_HORIZON_VALID / INPUT_UNKNOWNS_PRESERVED / NO_ALERT / SILENT_SPECIALIST_RECEIPT / SENSING_OWNS_DAWN_TIMING.
+
+
+## J10 matched-control observation-effort audit — November 1, 2026
+
+- **Stable ID / stage:** `J10-CONTROL-20261101` — RESEARCHED / AUDITED / ARTIFACT COMMITTED / TIER_B_ONLY / NOT_TRAINING_ELIGIBLE / NOT_DEPLOYED.
+- **Exact evidence:** `model_data/j10_matched_control_sensitivity_20261101.json`, artifact commit `dddf913a3d2ea7dc079f650bcff7882fa1a64148`. The audit binds `b35d10ffc177dcd4969a674b.json` (blob `ee47255c5c743713cf9090a53351203e8b060c74`, record commit `d1c8fb03b6a1cf53407435d249f3bd15c1c96788`) and `2b6268ef4c07f5514846d5db.json` (blob `1c29866c05c24c468e17d1d88c8c70de560193d1`, record commit `5b3d670849ecdd9221092fc2c8a833a452005121`). Both are six-of-six in-window cycles.
+- **Asymmetric detectability result:** the 05:41 CST primary Montrose shoreline view was poor/low and remains `UNKNOWN_PRIMARY_CONTACT_VIEW_INADEQUATE`; healthy supporting cameras do not convert it into a negative. The 06:01 CST daylight follow-up was good/moderate with no classified signal and qualifies only as one narrow `CANDIDATE_VISIBLE_SCOPE_CONTROL`.
+- **Deduplicated result:** the two records collapse by local date and `montrose_owner_cluster` to one new Tier-B visible-scope candidate morning. Cumulative Tier-B candidates increase **24 → 25**. Tier-A verified controls remain **0** and clean training negatives remain **0**. Point Clear remains partial marina/Bay observability, not a close-shore or full-cell control.
+- **Observation-process limits:** no same-window validated public live-player record, human field check, social-effort receipt, independent biological review, observed nearshore current/transport phase, current tide phase, or direct Eastern Shore bottom oxygen/stratification was admitted. Later repository state was excluded from dawn labeling.
+- **Measured model result:** predictive gain, calibration, discrimination, false alerts, missed events and lead time remain **NOT MEASURABLE**. Loading-only, transport-only and combined held-out Jubilee comparison remains blocked by the zero Tier-A/clean-negative set.
+- **Production boundary:** no probability, weight, threshold, cadence, camera, schedule, UNKNOWN rule, 9 p.m. gate, outreach or spending permission changed. Nothing was installed or deployed.
+
+Stage: J10_TIER_B_CANDIDATE_25 / ONE_INADEQUATE_PRIMARY_VIEW_PRESERVED_UNKNOWN / TIER_A_ZERO / CLEAN_NEGATIVE_ZERO / NO_PRODUCTION_CHANGE.
+
+## J09 Mobile Municipal Archives owner disposition — November 1, 2026
+
+- **Stable ID / owner decision:** `J09-MOBILE-MUNICIPAL-ARCHIVES-RG34` — OWNER_DEFERRED / REGISTERED_NOT_INGESTED / NO_REPEAT_OUTREACH.
+- **Canonical source record:** `model_data/historical_event_source_registry.json` now includes `mobile_municipal_archives_rg34_series1_press_register_clippings`; commit `9c37b5404c63c054c56daf20394a2f38284691a8`, blob `10ad68228401816ac1693a52fce2fce870ca1177`.
+- **Decision preserved:** the archive reported it cannot conduct the requested remote research. Ben decided October 31 not to pursue this path unless he later chooses to visit in person. The source remains a documented potential archive, not an ingested dataset or evidence of an event/non-event.
+- **Deduplication / outreach boundary:** no new scan, request, follow-up, repeat institutional contact, proxy-visitor request or remote-research escalation is authorized. Existing PR #125 newspaper recovery is reused and remains canonical. The Loesch 35-versus-37 table inconsistency remains unresolved without reopening this deferred path.
+
+Stage: OWNER_DEFERRED_UNLESS_IN_PERSON_VISIT / SOURCE_REGISTERED_NOT_INGESTED / ZERO_ROWS / NO_OUTREACH.
+
+## J00-WEEKLY-RESEARCH-20261101 — weekly Research & Calibration checkpoint
+
+- **Source freshness:** the November 1 dawn receipt admitted fresh regional ASOS and all 20 qualified upstream river series, but local tide/current, direct Eastern Shore bottom oxygen/stratification and rainfall remained UNKNOWN. Weeks Bay and ARCOS rows were stale at issue time; NGOFS2 remained zero-weight model context with no current shoreline-grid guidance.
+- **Camera validation / observation effort:** the overnight Point Clear 1/3 fault recovered on a later six-of-six canonical cycle and passed bound readback before dawn. Dawn's first Montrose primary view was inadequate; the daylight follow-up added one Tier-B visible-scope candidate only. Public live-player coverage remained UNKNOWN. No clean biological negative was created.
+- **Reliability / archive:** PR #144 is merged and main code verified for the centralized water-quality publication guard. The ordinary November 3 05:17 CST scheduled acceptance remains pending under existing Sensing ownership; durable object-storage migration remains open in draft PR #142. No manual collection was triggered.
+- **On-host acceptance:** the October 27 archive receipt remains `PASS` for one bounded six-camera capture and `OPERATIONAL_ACCEPTANCE_ONLY`. It does not establish compact-JSON biological detection equivalence. The paired positive/difficult challenge set is still absent.
+- **Cost evidence:** `api_usage_summary.json` blob `f7e82daf1ab207796aea9eca0d6343a8f328d60a`, generated `2026-11-01T15:10:31.947370Z`, is available with `invalid_records=0`, group-level token missing-record counts visible, `retry_count=null`, explicit missing-day/partial-day caveats and `billing_status=unpriced_token_usage_not_actual_spend`. This is request telemetry, not project-scoped billed charges, accepted-cycle cost or causal savings.
+- **Acceptance gates:** compact-JSON biological equivalence remains `BLOCKED_EVIDENCE`; actual billed cost remains `ACTUAL_BILLING_BLOCKED`; accepted near-Point-Clear Earth-frame current rows remain zero; Tier-A controls and clean negatives remain zero. Wind optimization stays deferred.
+- **Success criteria / next priorities:** (1) obtain genuinely paired identical-image original/compact outputs with independent positive and difficult/UNKNOWN biological labels, or keep equivalence blocked; (2) reconcile a private project-scoped provider charge export against retained usage and accepted complete cycles without publishing private billing records; (3) let existing Sensing verify the ordinary November 3 water-quality run and committed hashes. No new task, schedule, pipeline or paid replay is authorized.
+
+Stage: WEEKLY_CHECKPOINT_COMMITTED / J10_TIER_B_25 / MOBILE_ARCHIVE_OWNER_DEFERRED / DETECTION_EQUIVALENCE_BLOCKED / ACTUAL_BILLING_BLOCKED / NOVEMBER_3_J04_ACCEPTANCE_PENDING / NO_PRODUCTION_CHANGE.
