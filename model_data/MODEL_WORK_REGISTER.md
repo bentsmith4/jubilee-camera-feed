@@ -3884,3 +3884,10 @@ Stage: POST_INSTALL_CANONICAL_ACCEPTANCE_VERIFIED / MATERIAL_CAMERA_FAULT_RECOVE
 - **Alert and ownership disposition:** Both strict `>20%` gates, direct-event gate and material-critical-input-fault gate are false. The earlier Point Clear fault was already recovered and was not reopened. `SENSING_OWNS_DAWN_TIMING` remains established: Sensing owns schedule maintenance and alert assembly, Dawn Timing remains disabled with rollback state preserved, and this Dawn run performed no schedule mutation, duplicate task/acquisition, outreach or owner-facing message.
 
 Stage: DAWN_DAYLIGHT_FOLLOWUP_VALID / SIX_CELL_HORIZON_VALID / STRICT_BINDER_PASS / POST_KEY_NATURAL_CAPTURE_VALID / PROVIDER_ATTRIBUTION_UNRESOLVED / ACTUAL_BILLING_BLOCKED / INPUT_UNKNOWNS_PRESERVED / NO_ALERT / SILENT_SPECIALIST_RECEIPT / SENSING_OWNS_DAWN_TIMING / NO_FINANCIAL_ACTION.
+
+
+### J01 / J11 merged-main bound-readback addendum — November 2, 2026 06:22 CST
+
+- **Published and verified:** PR #151 squash-merged the silent Dawn receipt to main commit `15dde6c7c9d0b89e05048ead5be5efb82f0a0adb`. Fresh main readback preserved snapshot blob `e1fa8e75a4125527676b7e0e1e028ed0a06f8e0f`, forecast blob `179e7a6ff139dc9b16ae1238625d9c4c2e51d095` and register blob `6d2622e94c1596e6e2c392745990c6bb435f2721`. The strict binder again passed exact snapshot hash, issue time, input commit, alert gates and all six dated cell entries for November 2–4. No numerical file, schedule, alert, policy or financial state changed.
+
+Stage: MERGED_MAIN_VERIFIED / EXACT_PAIR_UNCHANGED / SIX_CELL_HORIZON_VALID / STRICT_BINDER_PASS / NO_ALERT / NO_FINANCIAL_ACTION.
