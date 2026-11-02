@@ -3863,3 +3863,11 @@ Stage: TASK_ENABLED_AND_RUNNING / INSTALLED_HASHES_VERIFIED / HEARTBEAT_CURRENT 
 - **Publication contract:** The recovery pair was prepared from pinned main and must pass exact-byte binder validation with the required dawn horizon, current-state freshness and independent readback before the run is marked fully verified.
 
 Stage: POST_INSTALL_CANONICAL_ACCEPTANCE_VERIFIED / POINT_CLEAR_3_OF_3 / MONTROSE_3_OF_3 / MATERIAL_CAMERA_FAULT_RECOVERED / BIOLOGY_UNKNOWN / FORECAST_GATE_CLEAR / BOUND_READBACK_PENDING / SENSING_OWNS_DAWN_TIMING / NO_FINANCIAL_ACTION.
+
+### J13 / J01 recovery bound-readback addendum — November 2, 2026 00:20 CST
+
+- **Published:** expected-head protected commit `3efe098f57803f9df5a873234be8f90be1ef83df` atomically published the reviewed recovery pair and existing-register receipt on top of pinned main `24e3d5c6d32ca6052f6e42ff59c9fcfdb0c231c3`.
+- **Independent readback:** a fresh detached worktree at the published commit read exact state blob `6920e70dcff6cc23238fefe2d2288bd5df649b02`, forecast blob `703bfe699ee763595d24c745f36de61cd230c4b6`, and snapshot SHA-256 `2ce4992778c420eca15a13e092ed33924a859c66aab63895e5598ce09230c42b`. `bind_current_forecast.py --check --require-dawn-horizon` passed for the exact November 2–4 horizon, `check_current_state_freshness.py` returned `CURRENT`, and 50 offline binding/freshness regressions passed.
+- **Verified disposition:** Point Clear is 3/3, Montrose is 3/3, the material critical-input-fault gate is clear, and no `>20%` or direct-event gate is active. Biology remains `UNKNOWN`; forecasts, weights and thresholds remain unchanged. This is the single recovery for the fault last delivered from bound commit `5def700b00728e2210e621fb7fcebec0e8d4e5c4`; later routine healthy cycles are deduplicated. No owner or financial action is required.
+
+Stage: POST_INSTALL_CANONICAL_ACCEPTANCE_VERIFIED / MATERIAL_CAMERA_FAULT_RECOVERY_VERIFIED / STRICT_BINDER_PASS / SOURCE_FRESHNESS_CURRENT / POINT_CLEAR_3_OF_3 / SIX_OF_SIX / BIOLOGY_UNKNOWN / ONE_TIME_RECOVERY_REPORT / SENSING_OWNS_DAWN_TIMING / NO_FINANCIAL_ACTION.
