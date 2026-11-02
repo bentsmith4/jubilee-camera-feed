@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 import refresh_all as ra
-from seasonal_policy import in_season
+from seasonal_policy import END, in_season
 
 BASE = Path(r"C:\JubileeCams")
 STATE = BASE / "capture_service_state.json"
@@ -273,6 +273,18 @@ def main():
         if not in_season(heartbeat):
             state["canonical_monitoring_status"] = "offseason_not_monitored"
             state["live_monitoring_status"] = "offseason_not_monitored"
+            # The heartbeat file is overwritten every loop. Retain the first
+            # observed paused tick so the existing research checkpoint can read it.
+            close_year = heartbeat.year if (heartbeat.month, heartbeat.day) > END else heartbeat.year - 1
+            pause = state.get("seasonal_pause")
+            if not isinstance(pause, dict) or pause.get("season_end_year") != close_year:
+                state["seasonal_pause"] = {
+                    "season_end_year": close_year,
+                    "first_observed_at_ct": heartbeat.isoformat(),
+                    "last_canonical_success": state.get("last_canonical_success"),
+                    "last_live_success": state.get("last_live_success"),
+                }
+                log("Seasonal production pause observed at " + heartbeat.isoformat())
         state["heartbeat"] = heartbeat.isoformat()
         tmp = STATE.with_suffix(".tmp")
         with tmp.open("w", encoding="utf-8") as out:

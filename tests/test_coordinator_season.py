@@ -16,7 +16,7 @@ class StopCycle(Exception):
     pass
 
 class CoordinatorSeasonTests(unittest.TestCase):
-    def run_cycle(self, now, after_capture=None):
+    def run_cycle(self, now, after_capture=None, prior_state=None):
         ra = types.SimpleNamespace(TZ=TZ, dawn_window=lambda: (now, now, now-timedelta(hours=1), now+timedelta(hours=1)))
         spec = importlib.util.spec_from_file_location("seasonal_coordinator", ROOT/"capture_service.py")
         m = importlib.util.module_from_spec(spec)
@@ -24,7 +24,7 @@ class CoordinatorSeasonTests(unittest.TestCase):
             spec.loader.exec_module(m)
         with tempfile.TemporaryDirectory() as tmp:
             m.STATE = Path(tmp)/"state.json"
-            m.STATE.write_text(json.dumps({"last_canonical_success": "prior-success"}))
+            m.STATE.write_text(json.dumps(prior_state or {"last_canonical_success": "prior-success"}))
             clock = [now]
             class Clock(datetime):
                 @classmethod
@@ -49,6 +49,18 @@ class CoordinatorSeasonTests(unittest.TestCase):
         self.assertEqual(state["last_canonical_success"], "prior-success")
         self.assertNotIn("canonical_slot", state)
         self.assertEqual(state["canonical_monitoring_status"], "offseason_not_monitored")
+
+    def test_first_paused_tick_survives_later_heartbeat_and_restart(self):
+        first = datetime(2026, 11, 15, 0, 0, 3, tzinfo=TZ)
+        _, state = self.run_cycle(first)
+        receipt = state["seasonal_pause"]
+        self.assertEqual(receipt["first_observed_at_ct"], first.isoformat())
+        self.assertEqual(receipt["last_canonical_success"], "prior-success")
+        self.assertEqual(receipt["season_end_year"], 2026)
+        calls, later = self.run_cycle(datetime(2027, 5, 17, 6, tzinfo=TZ), prior_state=state)
+        self.assertEqual(calls, [])
+        self.assertEqual(later["seasonal_pause"], receipt)
+        self.assertNotEqual(later["heartbeat"], state["heartbeat"])
 
     def test_capture_crossing_midnight_does_not_launch_upload(self):
         calls, state = self.run_cycle(datetime(2026, 11, 14, 23, 59, 59, tzinfo=TZ),
