@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 import refresh_all as ra
-from seasonal_policy import in_season
+from seasonal_policy import END, in_season
 
 BASE = Path(r"C:\JubileeCams")
 STATE = BASE / "capture_service_state.json"
@@ -189,6 +189,11 @@ def execute(script, limit):
     return process.returncode == 0
 
 
+def live_capture_due(active, monotonic_now, next_live):
+    """Run near-live acquisition only inside the owner-approved season."""
+    return active and monotonic_now >= next_live
+
+
 def main():
     lock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
@@ -250,13 +255,37 @@ def main():
                 state["canonical_failures"] = failures
                 log("Canonical failure; bounded backoff applied")
 
-        if time.monotonic() >= next_live:
+        # A blocking canonical cycle may finish on the other side of midnight.
+        active = in_season(datetime.now(ra.TZ))
+        state["live_monitoring_status"] = (
+            "scheduled" if active else "offseason_not_monitored"
+        )
+        if live_capture_due(active, time.monotonic(), next_live):
             if execute("live_capture.py", 300):
-                if execute("live_upload.py", 90):
-                    state["last_live_success"] = datetime.now(ra.TZ).isoformat()
+                if in_season(datetime.now(ra.TZ)) and execute("live_upload.py", 90):
+                    completed = datetime.now(ra.TZ)
+                    if in_season(completed):
+                        state["last_live_success"] = completed.isoformat()
+                        state["live_monitoring_status"] = "completed"
             next_live = time.monotonic() + 180
 
-        state["heartbeat"] = datetime.now(ra.TZ).isoformat()
+        heartbeat = datetime.now(ra.TZ)
+        if not in_season(heartbeat):
+            state["canonical_monitoring_status"] = "offseason_not_monitored"
+            state["live_monitoring_status"] = "offseason_not_monitored"
+            # The heartbeat file is overwritten every loop. Retain the first
+            # observed paused tick so the existing research checkpoint can read it.
+            close_year = heartbeat.year if (heartbeat.month, heartbeat.day) > END else heartbeat.year - 1
+            pause = state.get("seasonal_pause")
+            if not isinstance(pause, dict) or pause.get("season_end_year") != close_year:
+                state["seasonal_pause"] = {
+                    "season_end_year": close_year,
+                    "first_observed_at_ct": heartbeat.isoformat(),
+                    "last_canonical_success": state.get("last_canonical_success"),
+                    "last_live_success": state.get("last_live_success"),
+                }
+                log("Seasonal production pause observed at " + heartbeat.isoformat())
+        state["heartbeat"] = heartbeat.isoformat()
         tmp = STATE.with_suffix(".tmp")
         with tmp.open("w", encoding="utf-8") as out:
             out.write(json.dumps(state, indent=2))

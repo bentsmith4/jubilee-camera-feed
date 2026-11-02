@@ -52,12 +52,18 @@ jobs:
         with:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
+      - name: Check Central production season
+        id: season
+        uses: ./.github/actions/production-season
       - uses: actions/setup-python@v5
+        if: steps.season.outputs.active == 'true' || github.ref_name == 'upgrade/top5-gaps-round2-20260906' || github.ref_name == 'upgrade/sensing-audit-20260906'
         with:
           python-version: '3.12'
       - name: Install validated test and model-data dependencies
+        if: steps.season.outputs.active == 'true' || github.ref_name == 'upgrade/top5-gaps-round2-20260906' || github.ref_name == 'upgrade/sensing-audit-20260906'
         run: python -m pip install -r requirements-tests.txt -r requirements-model-data.txt
       - name: Run offline regression tests
+        if: steps.season.outputs.active == 'true' || github.ref_name == 'upgrade/top5-gaps-round2-20260906' || github.ref_name == 'upgrade/sensing-audit-20260906'
         id: regression
         run: |
           python - <<'PY'
@@ -79,6 +85,7 @@ jobs:
         if: github.ref_name == 'upgrade/top5-gaps-round2-20260906'
         run: python model_data/build_historical_recovery_status.py
       - name: Check desktop preflight PowerShell syntax without running it
+        if: steps.season.outputs.active == 'true' || github.ref_name == 'upgrade/top5-gaps-round2-20260906' || github.ref_name == 'upgrade/sensing-audit-20260906'
         shell: pwsh
         run: |
           $tokens = $null
@@ -86,6 +93,7 @@ jobs:
           [System.Management.Automation.Language.Parser]::ParseFile((Join-Path $PWD 'tools/desktop_preflight.ps1'), [ref]$tokens, [ref]$parseErrors) | Out-Null
           if ($parseErrors.Count -gt 0) { $parseErrors | ForEach-Object { Write-Error $_.Message }; exit 1 }
       - name: Audit latest pinned main camera snapshot, not old feature-branch images
+        if: steps.season.outputs.active == 'true'
         id: audit
         run: |
           set -euo pipefail
@@ -99,45 +107,66 @@ jobs:
           done
           python model_data/audit_sensing.py --root "$snapshot" --out model_data/sensing_audit.json
       - name: Retrieve and validate public river data
+        if: steps.season.outputs.active == 'true'
         id: river
         continue-on-error: true
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: python model_data/ingest_river_forcing.py --days 16
       - name: Retrieve official KBFM and KMOB observed weather
+        if: steps.season.outputs.active == 'true'
         id: asos
         continue-on-error: true
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: python model_data/ingest_asos_weather.py
       - name: Retrieve Weeks Bay realtime water quality and meteorology
+        if: steps.season.outputs.active == 'true'
         id: weeks_bay
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: python model_data/ingest_weeks_bay_realtime.py
       - name: Clear checkout NGOFS2 manifests before fresh retrieval
+        if: steps.season.outputs.active == 'true'
         run: |
           rm -f model_data/ngofs2_point_clear_nowcast_manifest.json model_data/ngofs2_point_clear_forecast_manifest.json \
             model_data/ngofs2_mobile_bay_named_stations_nowcast_manifest.json model_data/ngofs2_mobile_bay_named_stations_forecast_manifest.json \
             model_data/ngofs2_shoreline_grid_manifest.json
       - name: Retrieve Point Clear NGOFS2 antecedent transport guidance
+        if: steps.season.outputs.active == 'true'
         continue-on-error: true
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: python model_data/run_ngofs2_bounded.py point_clear_nowcast
       - name: Retrieve Point Clear NGOFS2 forward transport guidance
+        if: steps.season.outputs.active == 'true'
         continue-on-error: true
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: python model_data/run_ngofs2_bounded.py point_clear_forecast
       - name: Retrieve wider Mobile Bay NGOFS2 named-station nowcast guidance
+        if: steps.season.outputs.active == 'true'
         continue-on-error: true
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: python model_data/run_ngofs2_bounded.py named_stations_nowcast
       - name: Retrieve wider Mobile Bay NGOFS2 named-station forecast guidance
+        if: steps.season.outputs.active == 'true'
         continue-on-error: true
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: python model_data/run_ngofs2_bounded.py named_stations_forecast
       - name: Retrieve Eastern Shore NGOFS2 regular-grid transects
+        if: steps.season.outputs.active == 'true'
         continue-on-error: true
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: python model_data/run_ngofs2_bounded.py shoreline_grid
       - name: Allow upstream NGOFS2 outages but reject parser failures
+        if: steps.season.outputs.active == 'true'
         id: ngofs2_validation
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: python model_data/validate_ngofs2_availability.py
       - name: Ingest static Main Pass 2016 CTD profiles on top-five research branch
         id: main_pass
         if: github.ref_name == 'upgrade/top5-gaps-round2-20260906'
         run: python model_data/ingest_griidc_main_pass_20160419.py
       - name: Reconcile canonical source registry from completed ingestions
+        if: steps.season.outputs.active == 'true'
         id: registry
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: python model_data/reconcile_source_registry.py
       - name: Verify revised historical ingest and diagnostics on sensing-audit branch
         id: water_quality
@@ -146,10 +175,11 @@ jobs:
           python model_data/ingest_water_quality.py
           python model_data/backtest_water_quality.py
       - name: Build readiness and six-cell coverage report
+        if: steps.season.outputs.active == 'true'
         id: readiness
         run: python model_data/build_readiness.py
       - name: Upload audit and public data only
-        if: always()
+        if: always() && (steps.season.outputs.active == 'true' || github.ref_name == 'upgrade/top5-gaps-round2-20260906' || github.ref_name == 'upgrade/sensing-audit-20260906')
         uses: actions/upload-artifact@v4
         with:
           name: jubilee-sensing-public-audit-${{ github.run_number }}
@@ -228,11 +258,13 @@ jobs:
           exit 1
 
       - name: Escalate ASOS parser defects after preserving diagnostic artifacts
-        if: always() && steps.asos.outcome == 'failure'
+        if: steps.season.outputs.active == 'true' && (always() && steps.asos.outcome == 'failure')
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: exit 1
 
       - name: Escalate persistent river outages and unexpected ingestion defects
-        if: always()
+        if: always() && steps.season.outputs.active == 'true'
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: |
           python - <<'PY'
           import json

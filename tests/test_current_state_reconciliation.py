@@ -944,6 +944,14 @@ class ReconciliationTests(unittest.TestCase):
         self.assertEqual(result['status'],'published')
         self.assertEqual(result['attempts'],2)
 
+    def test_winter_holds_forecast_without_accessing_repository(self):
+        for stamp in ('2026-11-15T06:00:00Z', '2027-05-18T04:59:59Z'):
+            with self.subTest(stamp=stamp), patch.object(publisher, 'git') as git_call:
+                result = publisher.publish(self.root, as_of=stamp)
+                self.assertEqual(result['status'], 'offseason_not_monitored')
+                self.assertEqual(result['attempts'], 0)
+                git_call.assert_not_called()
+
     def test_preforecast_gate_holds_pair_without_touching_repository(self):
         before = [(self.root / path).read_bytes() for path in publisher.OUTPUTS]
         with patch.object(publisher, 'git') as git_call:

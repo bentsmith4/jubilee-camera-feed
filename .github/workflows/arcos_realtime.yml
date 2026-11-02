@@ -59,6 +59,7 @@ jobs:
         run: python -B -m unittest discover -s tests -p 'test_arcos*.py' -v
       - name: Retrieve public ARCOS near-real-time hydrography
         if: steps.season.outputs.active == 'true'
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: python -B model_data/ingest_arcos_realtime.py
       - name: Build Meaher loading and transport research features
         if: steps.season.outputs.active == 'true'
@@ -79,6 +80,7 @@ jobs:
           retention-days: 30
       - name: Persist current public observations
         if: steps.season.outputs.active == 'true' && github.event_name != 'pull_request'
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: |
           set -euo pipefail
           git config user.name 'jubilee-model-bot'

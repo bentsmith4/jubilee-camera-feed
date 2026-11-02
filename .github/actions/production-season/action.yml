@@ -1,0 +1,13 @@
+name: Read Jubilee production season
+description: Evaluate the existing desktop predicate against the execution clock in America/Chicago.
+outputs:
+  active:
+    description: Whether production may start.
+    value: ${{ steps.clock.outputs.active }}
+runs:
+  using: composite
+  steps:
+    - id: clock
+      shell: bash
+      run: |
+        python3 -B -c 'from desktop_runtime.seasonal_policy import in_season; print("active=" + str(in_season()).lower())' >> "$GITHUB_OUTPUT"

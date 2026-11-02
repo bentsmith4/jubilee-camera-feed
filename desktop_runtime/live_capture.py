@@ -1,3 +1,6 @@
+from seasonal_policy import require_season
+require_season()
+
 from camera_lock import serialized
 from capture_diagnostics import record_ffmpeg_failure
 import json
@@ -43,6 +46,7 @@ def capture_rtsp_live(token, device, slug):
     extension_token = None
 
     try:
+        require_season()
         r = requests.post(
             command_url,
             headers=headers,
@@ -176,6 +180,7 @@ with sync_playwright() as p:
 
     try:
         for device in devices:
+            require_season()
             name = ra.custom_name(device)
 
             if name not in ra.CAMERA_NAMES:

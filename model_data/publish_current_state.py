@@ -10,6 +10,9 @@ from zoneinfo import ZoneInfo
 
 from publish_observation_record import git
 
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+from desktop_runtime.seasonal_policy import in_season
+
 OUTPUTS = ('model_data/current_state_snapshot.json', 'model_data/current_forecast.json')
 CT = ZoneInfo('America/Chicago')
 
@@ -34,6 +37,8 @@ def in_preforecast_staging(as_of=None):
 def publish(repo, attempts=4, before_push=None, as_of=None):
     repo = repo.resolve()
     clock = publication_clock(as_of)
+    if not in_season(clock):
+        return dict(status='offseason_not_monitored', local_time_ct=clock.isoformat(), attempts=0)
     if 17 <= clock.hour < 21:
         return dict(
             status='staged_preforecast_gate',
@@ -73,6 +78,9 @@ def publish(repo, attempts=4, before_push=None, as_of=None):
                     before_push(attempt)
                 # A concurrent evidence/policy/state commit rejects this fast-forward.
                 # Discard the candidate and rebuild BOTH files from the next main.
+                commit_clock = publication_clock(as_of)
+                if not in_season(commit_clock):
+                    return dict(status='offseason_not_monitored', local_time_ct=commit_clock.isoformat(), attempts=attempt+1)
                 if git(checkout, 'push', '--quiet', 'origin', commit + ':refs/heads/main', check=False).returncode == 0:
                     return dict(status='published', evidence_commit=parent, commit=commit, attempts=attempt+1)
             finally:
