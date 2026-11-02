@@ -26,21 +26,30 @@ jobs:
         with:
           ref: main
           fetch-depth: 1
+      - name: Check Central production season
+        id: season
+        uses: ./.github/actions/production-season
       - uses: actions/setup-python@v5
+        if: steps.season.outputs.active == 'true'
         with:
           python-version: '3.12'
       - name: Validate logging guards before publication
+        if: steps.season.outputs.active == 'true'
         run: python -m unittest discover -s tests -p 'test_observation*.py' -v
       - name: Build snapshot from one pinned checkout
+        if: steps.season.outputs.active == 'true'
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: |
           python model_data/build_observation_effort_snapshot.py --out "$RUNNER_TEMP/observation.json"
       - name: Persist immutable observation against latest main
+        if: steps.season.outputs.active == 'true'
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: |
           git config user.name 'jubilee-model-bot'
           git config user.email 'actions@users.noreply.github.com'
           python model_data/publish_observation_record.py --input "$RUNNER_TEMP/observation.json"
       - name: Preserve observation output on failure
-        if: failure()
+        if: failure() && steps.season.outputs.active == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: jubilee-observation-${{ github.run_id }}

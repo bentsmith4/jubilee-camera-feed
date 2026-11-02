@@ -33,10 +33,15 @@ jobs:
         with:
           ref: ${{ github.ref_name }}
           fetch-depth: 0
+      - name: Check Central production season
+        id: season
+        uses: ./.github/actions/production-season
       - uses: actions/setup-python@v5
+        if: steps.season.outputs.active == 'true'
         with:
           python-version: '3.12'
       - name: Verify weather, river QC and publication offline
+        if: steps.season.outputs.active == 'true'
         id: regression
         run: |
           python -m unittest discover -s tests -p 'test_asos_weather.py' -v
@@ -44,19 +49,25 @@ jobs:
           python -m unittest discover -s tests -p 'test_usgs_methods.py' -v
           python -m unittest discover -s tests -p 'test_sensing_publication.py' -v
       - name: Retrieve official airport observations
+        if: steps.season.outputs.active == 'true'
         id: asos
         continue-on-error: true
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: python model_data/ingest_asos_weather.py
       - name: Retrieve observed Dauphin Island water level as zero-weight bay-mouth context
+        if: steps.season.outputs.active == 'true'
         id: noaa_water_level
         continue-on-error: true
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: python model_data/ingest_noaa_water_level.py
       - name: Retrieve qualified public lower-river forcing
+        if: steps.season.outputs.active == 'true'
         id: river
         continue-on-error: true
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: python model_data/ingest_river_forcing.py --days 16
       - name: Preserve public weather and river evidence
-        if: always()
+        if: always() && steps.season.outputs.active == 'true'
         uses: actions/upload-artifact@v4
         with:
           name: jubilee-asos-${{ github.run_number }}
@@ -78,6 +89,7 @@ jobs:
         env:
           REF_NAME: ${{ github.ref_name }}
           SENSING_STEPS_JSON: ${{ toJSON(steps) }}
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: |
           set -euo pipefail
           python model_data/stage_sensing_outputs.py
@@ -99,10 +111,12 @@ jobs:
           done
           exit 1
       - name: Escalate parser defects after preserving diagnostic artifacts
-        if: always() && (steps.asos.outcome == 'failure' || steps.noaa_water_level.outcome == 'failure')
+        if: steps.season.outputs.active == 'true' && (always() && (steps.asos.outcome == 'failure' || steps.noaa_water_level.outcome == 'failure'))
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: exit 1
       - name: Escalate persistent river outages and unexpected ingestion defects
-        if: always()
+        if: always() && steps.season.outputs.active == 'true'
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: |
           python - <<'PY'
           import json

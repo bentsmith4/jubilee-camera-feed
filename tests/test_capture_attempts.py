@@ -34,6 +34,9 @@ SECRET = "rtsp://user:PASSWORD@private.example/video?token=SECRET"
 
 class CaptureAttempts(unittest.TestCase):
     def setUp(self):
+        season = patch.object(bc, "require_season")
+        season.start()
+        self.addCleanup(season.stop)
         temp = tempfile.TemporaryDirectory()
         self.addCleanup(temp.cleanup)
         self.base = Path(temp.name)

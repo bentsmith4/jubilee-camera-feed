@@ -31,7 +31,7 @@ class SeasonalTests(unittest.TestCase):
 
     def test_offseason_scripts_exit_before_capture_or_dependencies(self):
         with patch.object(season, "in_season", return_value=False):
-            for script in ("analyze_frames.py", "capture_publish.py"):
+            for script in ("analyze_frames.py", "capture_publish.py", "live_capture.py", "live_upload.py"):
                 with self.assertRaises(SystemExit) as result:
                     runpy.run_path(str(ROOT / script), run_name="__main__")
                 self.assertEqual(result.exception.code, 0)

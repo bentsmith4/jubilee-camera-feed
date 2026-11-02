@@ -1,3 +1,6 @@
+from seasonal_policy import require_season
+require_season()
+
 from publish_github import validate_private
 import json
 from pathlib import Path
@@ -84,6 +87,7 @@ for camera in CAMERAS:
 
     key = f"live/{camera}.jpg"
 
+    require_season()
     s3.upload_file(
         str(src),
         bucket,
@@ -128,6 +132,7 @@ live_status_path.write_text(
     encoding="utf-8",
 )
 
+require_season()
 s3.upload_file(
     str(live_status_path),
     bucket,

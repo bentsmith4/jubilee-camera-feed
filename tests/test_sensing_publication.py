@@ -254,6 +254,12 @@ class PublicationTests(unittest.TestCase):
                      "history", "historical_diagnostic", "registry", "main_pass", "water_quality"):
             self.assertIn(f"        id: {name}\n", WORKFLOW)
 
+    def test_step_skipped_at_local_midnight_cannot_publish_previous_ingest(self):
+        steps = outcomes(regression="success", river="success")
+        steps["river"]["outputs"] = {"season_skipped": "true"}
+        self.assertNotIn("model_data/river_forcing_manifest.json",
+                         publisher.publication_paths(steps, "main"))
+
     def test_failed_skipped_or_missing_producers_cannot_stage_outputs(self):
         self.write("model_data/river_forcing_manifest.json", "failed\n")
         self.write("model_data/public_archive/usgs/partial.gz", "partial\n")

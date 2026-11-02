@@ -189,6 +189,11 @@ def execute(script, limit):
     return process.returncode == 0
 
 
+def live_capture_due(active, monotonic_now, next_live):
+    """Run near-live acquisition only inside the owner-approved season."""
+    return active and monotonic_now >= next_live
+
+
 def main():
     lock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
@@ -250,13 +255,25 @@ def main():
                 state["canonical_failures"] = failures
                 log("Canonical failure; bounded backoff applied")
 
-        if time.monotonic() >= next_live:
+        # A blocking canonical cycle may finish on the other side of midnight.
+        active = in_season(datetime.now(ra.TZ))
+        state["live_monitoring_status"] = (
+            "scheduled" if active else "offseason_not_monitored"
+        )
+        if live_capture_due(active, time.monotonic(), next_live):
             if execute("live_capture.py", 300):
-                if execute("live_upload.py", 90):
-                    state["last_live_success"] = datetime.now(ra.TZ).isoformat()
+                if in_season(datetime.now(ra.TZ)) and execute("live_upload.py", 90):
+                    completed = datetime.now(ra.TZ)
+                    if in_season(completed):
+                        state["last_live_success"] = completed.isoformat()
+                        state["live_monitoring_status"] = "completed"
             next_live = time.monotonic() + 180
 
-        state["heartbeat"] = datetime.now(ra.TZ).isoformat()
+        heartbeat = datetime.now(ra.TZ)
+        if not in_season(heartbeat):
+            state["canonical_monitoring_status"] = "offseason_not_monitored"
+            state["live_monitoring_status"] = "offseason_not_monitored"
+        state["heartbeat"] = heartbeat.isoformat()
         tmp = STATE.with_suffix(".tmp")
         with tmp.open("w", encoding="utf-8") as out:
             out.write(json.dumps(state, indent=2))

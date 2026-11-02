@@ -1,3 +1,4 @@
+from seasonal_policy import require_season
 from camera_lock import serialized
 from capture_diagnostics import capture_failure_summary, record_ffmpeg_failure
 import argparse
@@ -55,6 +56,7 @@ def post_with_429_retry(
     payload,
     timeout=30,
 ):
+    require_season()
     r = requests.post(
         url,
         headers=headers,
@@ -84,6 +86,7 @@ def post_with_429_retry(
 
         time.sleep(wait_seconds)
 
+        require_season()
         r = requests.post(
             url,
             headers=headers,
@@ -579,6 +582,7 @@ def capture_device_burst_with_retry(browser, token, device, slug, proto, *, atte
 
 
 def main():
+    require_season()
     parser = argparse.ArgumentParser()
 
     parser.add_argument(

@@ -74,12 +74,19 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
+      - name: Check Central production season
+        id: season
+        uses: ./.github/actions/production-season
       - uses: actions/setup-python@v6
+        if: steps.season.outputs.active == 'true'
         with:
           python-version: '3.12'
       - name: Install existing model-data dependencies
+        if: steps.season.outputs.active == 'true'
         run: python -m pip install -r requirements-model-data.txt
       - name: Rebuild and publish pair from latest committed admissible evidence
+        if: steps.season.outputs.active == 'true'
+        shell: bash .github/actions/production-season/run-bash.sh {0}
         run: |
           git config user.name 'jubilee-model-bot'
           git config user.email 'actions@users.noreply.github.com'
@@ -111,20 +118,25 @@ jobs:
           ref: main
           fetch-depth: 0
           persist-credentials: false
+      - name: Check Central production season
+        id: season
+        uses: ./.github/actions/production-season
       - uses: actions/setup-python@v6
+        if: steps.season.outputs.active == 'true'
         with:
           python-version: '3.12'
       - name: Compare current snapshot to published admissible products
+        if: steps.season.outputs.active == 'true'
         run: |
           set -o pipefail
           python -B model_data/check_current_state_freshness.py | tee "$RUNNER_TEMP/current-state-freshness.json"
       # Producer GITHUB_TOKEN pushes do not trigger Forecast Consistency.
       # Keep this read-only horizon status in the existing live-status job.
       - name: Verify live published Dawn horizon
-        if: always()
+        if: always() && steps.season.outputs.active == 'true'
         run: python -B model_data/bind_current_forecast.py --check --require-dawn-horizon
       - name: Publish visible freshness summary
-        if: always()
+        if: always() && steps.season.outputs.active == 'true'
         run: |
           python - <<'PY'
           import json, os, pathlib, subprocess
@@ -143,7 +155,7 @@ jobs:
                   out.write('\n' + report['reason'] + '\n')
           PY
       - uses: actions/upload-artifact@v6
-        if: always()
+        if: always() && steps.season.outputs.active == 'true'
         with:
           name: current-state-freshness-${{ github.run_id }}
           path: ${{ runner.temp }}/current-state-freshness.json

@@ -18,7 +18,8 @@ def publication_paths(steps, ref):
     paths = []
 
     def include(step, *names):
-        if steps.get(step, {}).get("outcome") == "success":
+        result = steps.get(step, {})
+        if result.get("outcome") == "success" and result.get("outputs", {}).get("season_skipped") != "true":
             paths.extend("model_data/" + name for name in names)
 
     include("regression", "upgrade_test_report.json")
