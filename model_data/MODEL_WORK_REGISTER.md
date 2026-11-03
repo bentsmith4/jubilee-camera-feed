@@ -3935,3 +3935,8 @@ Stage: NATURAL_0006_CYCLE_REUSED / ZERO_NUMERICAL_CHANGE / NOVEMBER_3_TO_5_HORIZ
 - **Disposition:** All four existing alert gates are false: both central opportunity estimates are below the strict `>20%` threshold, direct-event evidence is absent and no material critical-input fault is asserted. The evidence is persisted for Sensing/control-tower reuse; the silent specialist contract suppresses a separate routine owner-facing message.
 
 Stage: DAWN_DAYLIGHT_FOLLOWUP_VALID / SIX_CELL_HORIZON_VALID / STRICT_BINDER_PASS / ZERO_NUMERICAL_CHANGE / COMPACT_EQUIVALENCE_BLOCKED_EVIDENCE / PROVIDER_ATTRIBUTION_UNRESOLVED / ACTUAL_BILLING_BLOCKED / INPUT_UNKNOWNS_PRESERVED / NO_ALERT / SILENT_SPECIALIST_RECEIPT / SENSING_OWNS_DAWN_TIMING / NO_FINANCIAL_ACTION.
+
+## J01 / J11 merged-main verification — November 3, 2026
+- PR #158 was squash-merged with expected-head protection to exact main commit `5fbdcd47b7015e5d2c53bc506e9045d6fb0c9014`. Merged-main readback retained snapshot blob `1b0003f73383c1d3c68e5ae1b7156ac64090d0c1`, forecast blob `75dee483862ee831dfe0202398794b1ebb260de9` and the November 3 silent Dawn receipt. The strict `bind_current_forecast.py --check --require-dawn-horizon` validator passed again on those exact merged-main bytes. All six dated cell entries were explicitly re-read: November 3, 4 and 5 each retain Point Clear/Grand Hotel 2–5% (central 3%, low confidence) and Daphne/May Day 1–4% (central 2%, low confidence). All four alert gates remain false and notification remains suppressed.
+
+Stage: PR158_MERGED / MERGED_MAIN_EXACT_HASH_VERIFIED / ALL_SIX_DATED_CELL_ENTRIES_VERIFIED / STRICT_BINDER_PASS / NO_ALERT / SILENT_SPECIALIST_RECEIPT.
