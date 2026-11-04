@@ -3992,3 +3992,14 @@ Stage: ORDINARY_SCHEDULED_RUN_CANCELLED / CHECKOUT_TIMEOUT_BEFORE_INGEST / ZERO_
 - **Disposition and boundaries:** This material camera-confidence degradation is retained for the first natural at/after-9 p.m. synthesis unless a later ordinary canonical cycle first verifies recovery. No manual capture, restart, paid replay, forecast synthesis/publication, probability/weight/threshold/cadence change, outreach, new task/recurrence, purchase, billing change or other financial action occurred.
 
 Stage: POINT_CLEAR_CANONICAL_1_OF_3 / MONTROSE_3_OF_3 / BIOLOGY_UNKNOWN / NEWER_SOURCE_EVIDENCE_STAGED / PRE_9PM_NO_FORECAST_PUBLICATION / EVENING_DAWN_TARGET_UPDATED / DAWN_READBACK_VERIFIED / TIMING_DISABLED_VERIFIED / SENSING_OWNS_DAWN_TIMING / NO_FINANCIAL_ACTION.
+
+
+### J00 / J01 / J11 natural Point Clear recovery addendum — November 3, 2026 18:06–19:11 CST
+
+- **Recovery verified from ordinary cadence:** The next natural canonical cycle published capture commit `29aaa396653f1d2698bd3024e2ff060a1e8c991f` for `2026-11-03T18:06:03.043630-06:00` and structured-observation commit `8d400bfe8b62a087fd51d9bc9c57d1614c12703a`. All six owner cameras succeeded on their first attempts with matching three-frame bursts. Point Clear recovered from 1/3 to 3/3; Montrose remained 3/3.
+- **Recovery stability:** The following natural `19:06:03.862257-06:00` cycle independently repeated 6/6 first-attempt three-frame success in capture commit `e762ed6b86ebfb31b41b1235b869cbd68c8e8116` and structured-observation commit `7b36244f1b8f25363b29c1cbddd296bd2560d3cd`. The 17:06 Point Clear fault is therefore cleared for the first at/after-9 p.m. synthesis; later healthy cycles are deduplicated.
+- **Biological boundary:** Night visibility and detectability were poor/low across most views. The model found no direct, temporal or cross-camera Jubilee confirmation in the visible areas, but biology and out-of-view conditions remain `UNKNOWN`, not negative. No clean whole-cell control is claimed.
+- **Pre-9 p.m. publication boundary:** This addendum records operational recovery only. The existing 16:14 CST bound forecast pair was not reassessed or rewritten before 9 p.m.; newer camera and environmental evidence remains staged for the first natural at/after-9 p.m. synthesis. Existing numerical outlooks, weights, thresholds and UNKNOWN semantics remain unchanged.
+- **Ownership and financial boundary:** The already-verified November 4 Dawn Brief target `06:08:28 CST`, full seasonal RRULE and disabled Dawn Timing state were reused without another schedule write. No forced capture, restart, paid replay, outreach, new task/recurrence, purchase, billing change or other financial action occurred.
+
+Stage: POINT_CLEAR_RECOVERED_3_OF_3 / MONTROSE_3_OF_3 / TWO_CONSECUTIVE_NATURAL_SIX_OF_SIX / BIOLOGY_UNKNOWN / PRE_9PM_NO_FORECAST_PUBLICATION / RECOVERY_STAGED_FOR_9PM_SYNTHESIS / SENSING_OWNS_DAWN_TIMING / NO_FINANCIAL_ACTION.
