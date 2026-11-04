@@ -1,5 +1,5 @@
 {
-  "capture_time_ct": "2026-11-04T08:09:11.253052-06:00",
+  "capture_time_ct": "2026-11-04T09:06:39.463247-06:00",
   "dawn_ct": "2026-11-04T05:43:28.531542-06:00",
   "burst_count": 3,
   "target_spacing_seconds": 10.0,
@@ -12,23 +12,23 @@
       "shots": [
         {
           "shot": 1,
-          "timestamp_ct": "2026-11-04T08:09:16.146196-06:00",
+          "timestamp_ct": "2026-11-04T09:06:45.423833-06:00",
           "file": "montrose_pier_boat_1.jpg",
-          "bytes": 156086,
+          "bytes": 163075,
           "timing": "actual_screenshot_time"
         },
         {
           "shot": 2,
-          "timestamp_ct": "2026-11-04T08:09:26.212840-06:00",
+          "timestamp_ct": "2026-11-04T09:06:55.499455-06:00",
           "file": "montrose_pier_boat_2.jpg",
-          "bytes": 267775,
+          "bytes": 270234,
           "timing": "actual_screenshot_time"
         },
         {
           "shot": 3,
-          "timestamp_ct": "2026-11-04T08:09:36.278575-06:00",
+          "timestamp_ct": "2026-11-04T09:07:05.575016-06:00",
           "file": "montrose_pier_boat_3.jpg",
-          "bytes": 268887,
+          "bytes": 270402,
           "timing": "actual_screenshot_time"
         }
       ],
@@ -40,43 +40,20 @@
       ]
     },
     "pcl_e2_back_deck": {
-      "ok": true,
-      "protocols": [
-        "RTSP"
-      ],
-      "shots": [
-        {
-          "shot": 1,
-          "timestamp_ct": "2026-11-04T08:10:46.527479-06:00",
-          "file": "pcl_e2_back_deck_1.jpg",
-          "bytes": 167571,
-          "timing": "nominal_interval_single_stream"
-        },
-        {
-          "shot": 2,
-          "timestamp_ct": "2026-11-04T08:10:56.527479-06:00",
-          "file": "pcl_e2_back_deck_2.jpg",
-          "bytes": 176687,
-          "timing": "nominal_interval_single_stream"
-        },
-        {
-          "shot": 3,
-          "timestamp_ct": "2026-11-04T08:11:06.527479-06:00",
-          "file": "pcl_e2_back_deck_3.jpg",
-          "bytes": 182213,
-          "timing": "nominal_interval_single_stream"
-        }
-      ],
+      "ok": false,
+      "error": "CalledProcessError: capture failed; private diagnostics suppressed",
       "capture_attempts": [
         {
           "attempt": 1,
           "ok": false,
-          "category": "no_video",
-          "returncode": 4294967274
+          "category": "stream_not_found",
+          "returncode": 3419392776
         },
         {
           "attempt": 2,
-          "ok": true
+          "ok": false,
+          "category": "stream_not_found",
+          "returncode": 3419392776
         }
       ]
     },
@@ -88,23 +65,23 @@
       "shots": [
         {
           "shot": 1,
-          "timestamp_ct": "2026-11-04T08:11:13.541310-06:00",
+          "timestamp_ct": "2026-11-04T09:07:57.055827-06:00",
           "file": "pcl_e2_bay_mouth_1.jpg",
-          "bytes": 73925,
+          "bytes": 98628,
           "timing": "actual_screenshot_time"
         },
         {
           "shot": 2,
-          "timestamp_ct": "2026-11-04T08:11:23.607319-06:00",
+          "timestamp_ct": "2026-11-04T09:08:07.133040-06:00",
           "file": "pcl_e2_bay_mouth_2.jpg",
-          "bytes": 118743,
+          "bytes": 153910,
           "timing": "actual_screenshot_time"
         },
         {
           "shot": 3,
-          "timestamp_ct": "2026-11-04T08:11:33.671579-06:00",
+          "timestamp_ct": "2026-11-04T09:08:17.209006-06:00",
           "file": "pcl_e2_bay_mouth_3.jpg",
-          "bytes": 123881,
+          "bytes": 161901,
           "timing": "actual_screenshot_time"
         }
       ],
@@ -123,23 +100,23 @@
       "shots": [
         {
           "shot": 1,
-          "timestamp_ct": "2026-11-04T08:11:42.570844-06:00",
+          "timestamp_ct": "2026-11-04T09:08:26.072279-06:00",
           "file": "montrose_shoreline_1.jpg",
-          "bytes": 99066,
+          "bytes": 120295,
           "timing": "actual_screenshot_time"
         },
         {
           "shot": 2,
-          "timestamp_ct": "2026-11-04T08:11:52.638893-06:00",
+          "timestamp_ct": "2026-11-04T09:08:36.141556-06:00",
           "file": "montrose_shoreline_2.jpg",
-          "bytes": 156169,
+          "bytes": 173506,
           "timing": "actual_screenshot_time"
         },
         {
           "shot": 3,
-          "timestamp_ct": "2026-11-04T08:12:02.706398-06:00",
+          "timestamp_ct": "2026-11-04T09:08:46.204312-06:00",
           "file": "montrose_shoreline_3.jpg",
-          "bytes": 157453,
+          "bytes": 173410,
           "timing": "actual_screenshot_time"
         }
       ],
@@ -152,17 +129,19 @@
     },
     "pcl_e3_bay_mouth": {
       "ok": false,
-      "error": "TimeoutExpired: capture failed; private diagnostics suppressed",
+      "error": "CalledProcessError: capture failed; private diagnostics suppressed",
       "capture_attempts": [
         {
           "attempt": 1,
           "ok": false,
-          "category": "capture_process_timeout"
+          "category": "stream_not_found",
+          "returncode": 3419392776
         },
         {
           "attempt": 2,
           "ok": false,
-          "category": "capture_process_timeout"
+          "category": "stream_not_found",
+          "returncode": 3419392776
         }
       ]
     },
@@ -174,23 +153,23 @@
       "shots": [
         {
           "shot": 1,
-          "timestamp_ct": "2026-11-04T08:14:29.702234-06:00",
+          "timestamp_ct": "2026-11-04T09:09:35.401555-06:00",
           "file": "montrose_pier_bird_1.jpg",
-          "bytes": 110268,
+          "bytes": 111547,
           "timing": "actual_screenshot_time"
         },
         {
           "shot": 2,
-          "timestamp_ct": "2026-11-04T08:14:39.768911-06:00",
+          "timestamp_ct": "2026-11-04T09:09:45.472586-06:00",
           "file": "montrose_pier_bird_2.jpg",
-          "bytes": 182308,
+          "bytes": 181127,
           "timing": "actual_screenshot_time"
         },
         {
           "shot": 3,
-          "timestamp_ct": "2026-11-04T08:14:49.839434-06:00",
+          "timestamp_ct": "2026-11-04T09:09:55.538400-06:00",
           "file": "montrose_pier_bird_3.jpg",
-          "bytes": 182799,
+          "bytes": 182650,
           "timing": "actual_screenshot_time"
         }
       ],
