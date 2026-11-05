@@ -1,0 +1,123 @@
+{
+  "schema": "jubilee_operational_research_review/v1",
+  "generated_at_utc": "2026-11-05T16:16:40.779Z",
+  "stable_id": "J04-PR161-REVIEW-20261105",
+  "subject": {
+    "pull_request": 161,
+    "url": "https://github.com/bentsmith4/jubilee-camera-feed/pull/161",
+    "state": "open",
+    "draft": false,
+    "mergeable": true,
+    "base_ref": "main",
+    "base_sha": "9dacbac155cb566558c2e8a5d4cf328033a188d2",
+    "head_ref": "fix/j01-j04-producer-checkout-20261103",
+    "head_sha": "6efee73687c227b257884f26f9dde5812d594205"
+  },
+  "incident_basis": [
+    {
+      "run_id": 41700890170,
+      "producer": "ASOS",
+      "outcome": "cancelled_during_initial_full_history_checkout",
+      "root_cause": "NOT_ESTABLISHED"
+    },
+    {
+      "run_id": 41693435750,
+      "producer": "water_quality",
+      "outcome": "cancelled_during_initial_full_history_checkout",
+      "root_cause": "NOT_ESTABLISHED"
+    }
+  ],
+  "change_scope": [
+    {
+      "path": ".github/workflows/asos_weather.yml",
+      "main_blob": "079974d397414e1c616f837af6730852040ebff0",
+      "head_blob": "cc5b7f9af4ef2c709ef376eec9d582e6457b8e35",
+      "change": "main checkout fetch-depth 0 -> conditional depth 1; non-main remains full history"
+    },
+    {
+      "path": ".github/workflows/water_quality_ingest.yml",
+      "main_blob": "3283d635b0c55a2d5702931a14824e7e26e2ffe4",
+      "head_blob": "64b78ff0257cfc3facc88245e392af323655136b",
+      "change": "main checkout fetch-depth 0 -> conditional depth 1; non-main remains full history"
+    },
+    {
+      "path": "tests/test_shallow_producer_publication.py",
+      "head_blob": "5738436bf211beced2f09910f41fefebe72dc472",
+      "change": "11 offline tests execute exact ASOS/WQP publication shells from genuine depth-one file remotes"
+    }
+  ],
+  "validation": {
+    "targeted_local": {
+      "result": "PASS_REPORTED_IN_PR",
+      "tests_passed": 106,
+      "new_tests": 11,
+      "real_shallow_clone_fixtures": 24,
+      "qualification": "not independently rerun by this receipt"
+    },
+    "hosted_ci": [
+      {
+        "run_id": 41708130606,
+        "job_id": 126168797487,
+        "name": "unittest",
+        "conclusion": "success",
+        "reported_tests_passed": 661
+      },
+      {
+        "run_id": 41708130606,
+        "job_id": 126168797073,
+        "name": "windows-preflight",
+        "conclusion": "success"
+      },
+      {
+        "run_id": 41708130705,
+        "job_id": 126168797550,
+        "name": "offline-validation",
+        "conclusion": "success",
+        "reported_tests_passed": 661,
+        "reported_j09_portable_tests_passed": 13
+      }
+    ],
+    "covered_behaviors": [
+      "normal publication from a genuine depth-one clone",
+      "unrelated upstream advancement",
+      "non-fast-forward push followed by rebase and retry",
+      "three-race exhaustion without publication",
+      "output and archive conflicts",
+      "historical archive hash retention",
+      "append-only mutation and deletion rejection",
+      "dirty-index rejection",
+      "ASOS failed and season-skipped exclusions",
+      "post-rebase WQP capacity rejection"
+    ]
+  },
+  "findings": [
+    "The patch is narrowly scoped to two initial producer checkouts plus tests; existing publication shells and later fetch/rebase/pull operations are unchanged.",
+    "Hosted CI passed on the exact head and the new tests exercise real local Git remotes rather than mocked Git outcomes.",
+    "The evidence reduces implementation risk for a bounded main-branch checkout but does not establish why the prior hosted runs were cancelled.",
+    "An ordinary scheduled Sensing producer independently published fresh evidence while this PR remained unmerged; that is not acceptance of the ASOS or water-quality change."
+  ],
+  "acceptance": {
+    "code_review_stage": "RESEARCH_REVIEWED_TESTED",
+    "merged": false,
+    "deployed": false,
+    "ordinary_asos_run_validated": false,
+    "ordinary_water_quality_run_validated": false,
+    "fresh_source_admission_validated": false,
+    "current_snapshot_forecast_binding_validated": false,
+    "decision": "SUITABLE_FOR_SEPARATE_OWNER_PROMOTION_REVIEW_NOT_ACCEPTED",
+    "required_next_evidence": [
+      "separate authorized review and merge decision",
+      "next natural ASOS and water-quality runs complete checkout, ingestion, validation, publication and exact source/archive identity checks",
+      "fresh source admission and CURRENT snapshot/forecast binding with the required horizon",
+      "material-fault and strict NOAA clock gates remain enforced"
+    ]
+  },
+  "guardrails": [
+    "No manual dispatch, replay or paid call.",
+    "No schedule, timeout, source eligibility, provenance, UNKNOWN, model, camera, probability, weight or threshold change.",
+    "No root-cause or production-recovery claim.",
+    "No purchase, payment, transfer, paid-service activation, budget, billing or auto-recharge change."
+  ],
+  "production_action": "NO_CHANGE",
+  "financial_action": "NONE"
+}
