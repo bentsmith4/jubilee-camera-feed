@@ -14,7 +14,7 @@
   "forecast_opportunity_status": "Existing dated heuristic outlooks retained without numerical or horizon change; not a new calibrated forecast.",
   "material_change_since_prior_snapshot": true,
   "notification_condition_met": false,
-  "notification_reason": "Existing four-trigger alert contract retained; no new event or critical-fault inference.",
+  "notification_reason": "Reviewed single-camera canonical failure is non-material; no new established alert gate.",
   "principal_dawn_visual_assessment_status": "NOT_PERFORMED_BY_POST_PUBLICATION_RECONCILIATION",
   "active_faults": [
     "Direct local bottom/contact-strip oxygen, salinity/temperature profiles and stratification remain UNKNOWN.",
@@ -3707,8 +3707,10 @@
   },
   "sanity_check": "Existing dated outlooks and confidence are unchanged. Point Clear 2-5% (central 3%) and Daphne/May Day 1-4% (central 2%) remain below strict >20%; missing evidence is not a negative.",
   "operational_fault_assessment": {
-    "active_fault_present": false,
-    "failed_camera_ids": [],
+    "active_fault_present": true,
+    "failed_camera_ids": [
+      "pcl_e3_bay_mouth"
+    ],
     "assessed_material_critical_input_fault_preserved": false,
     "camera_failure_set_changed_under_preserved_material_fault": false,
     "new_fault_notification_required": false,
@@ -3781,7 +3783,11 @@
       "valid_until_utc": "2026-09-28T16:06:34.804851+00:00"
     },
     "existing_material_input_quality_alert_policy_changed": false,
-    "basis": "No new assessed critical fault or recovery notification is inferred by this builder. Any previously assessed material input-quality fault is preserved unchanged while current source rows continue to reconcile."
+    "basis": "Reviewed non-material single-camera canonical failure: five of six cameras and two of three Point Clear cameras succeeded; failed evidence remains UNKNOWN; no direct or material event evidence was established; subsequent natural near-live cycles restored all six. Risk and confidence alert gates remain unchanged.",
+    "reviewed_at_ct": "2026-11-07T00:04:26.062327-06:00",
+    "reviewed_evidence_commit": "1bd51c0f69f4376a890816552c6c858531d0ac5e",
+    "reviewed_camera_cycle_ct": "2026-11-06T22:06:04.580335-06:00",
+    "newer_natural_live_recovery_ct": "2026-11-06T22:50:48.174150-06:00"
   },
   "material_fault_recovery_review_20261024_camera": {
     "schema_version": "1.0",
