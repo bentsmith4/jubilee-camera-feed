@@ -4066,3 +4066,7 @@ Stage: J10_TIER_B_CANDIDATE_27 / TIER_A_ZERO / CLEAN_NEGATIVE_ZERO / PREDICTIVE_
 
 Stage: DAWN_DAYLIGHT_FOLLOWUP_VALID / SIX_CELL_HORIZON_VALID / STRICT_BINDER_PASS / ZERO_NUMERICAL_CHANGE / INPUT_UNKNOWNS_PRESERVED / COMPACT_EQUIVALENCE_NOT_ACCEPTED / PROVIDER_ATTRIBUTION_UNRESOLVED / ACTUAL_BILLING_BLOCKED / NO_ALERT / SILENT_SPECIALIST_RECEIPT / SENSING_OWNS_DAWN_TIMING / NO_FINANCIAL_ACTION.
 
+
+## J01 / J11 Dawn verification reuse correction — November 6, 2026
+
+Owner-assigned comparison of PRs #167–170 confirms new daily observations and horizon dates require validation, while receipt-only merges #168/#170 preserve exact snapshot/forecast blobs. Prepared combined CI binding/horizon check and read-only commit-pinned batch verification with process-local successful exact-byte reuse; temporal guards run on every lookup. 38 targeted offline tests pass, including real local Git reuse and invalidation fixtures. See `model_data/J01_J11_DAWN_REUSE_20261106.md` for identities, mandatory daily science, further dependency-key specifications and review gates. Existing Dawn/Sensing ownership retained; no new automation, paid call, acquisition, production mutation or merge. Stage: DRAFT_IMPLEMENTATION / TARGETED_TESTS_PASS / OWNER_REVIEW_AND_CI_PENDING / NOT_DEPLOYED. No measured cost savings or native Dot acknowledgment claimed.
