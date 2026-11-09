@@ -1,5 +1,5 @@
 {
-  "capture_time_ct": "2026-11-09T07:49:20.616655-06:00",
+  "capture_time_ct": "2026-11-09T08:09:00.104060-06:00",
   "dawn_ct": "2026-11-09T05:47:18.815698-06:00",
   "window_start_ct": "2026-11-09T03:47:18.815698-06:00",
   "window_end_ct": "2026-11-09T07:47:18.815698-06:00",
@@ -8,8 +8,8 @@
   "cameras": {
     "montrose_pier_boat": {
       "ok": true,
-      "timestamp_ct": "2026-11-09T07:49:46.546312-06:00",
-      "bytes": 285969,
+      "timestamp_ct": "2026-11-09T08:09:27.247084-06:00",
+      "bytes": 288059,
       "burst_count": 3,
       "capture_attempts": [
         {
@@ -19,21 +19,27 @@
       ]
     },
     "pcl_e2_back_deck": {
-      "ok": true,
-      "timestamp_ct": "2026-11-09T07:50:26.870216-06:00",
-      "bytes": 295927,
-      "burst_count": 3,
+      "ok": false,
+      "timestamp_ct": "2026-11-09T08:10:58.749964-06:00",
+      "error": "CalledProcessError: capture failed; private diagnostics suppressed",
       "capture_attempts": [
         {
           "attempt": 1,
-          "ok": true
+          "ok": false,
+          "category": "capture_process_timeout"
+        },
+        {
+          "attempt": 2,
+          "ok": false,
+          "category": "no_video",
+          "returncode": 4294967274
         }
       ]
     },
     "pcl_e2_bay_mouth": {
       "ok": true,
-      "timestamp_ct": "2026-11-09T07:50:54.591490-06:00",
-      "bytes": 133174,
+      "timestamp_ct": "2026-11-09T08:11:26.503113-06:00",
+      "bytes": 137726,
       "burst_count": 3,
       "capture_attempts": [
         {
@@ -44,8 +50,8 @@
     },
     "montrose_shoreline": {
       "ok": true,
-      "timestamp_ct": "2026-11-09T07:51:23.728031-06:00",
-      "bytes": 182963,
+      "timestamp_ct": "2026-11-09T08:11:57.143577-06:00",
+      "bytes": 190852,
       "burst_count": 3,
       "capture_attempts": [
         {
@@ -55,21 +61,28 @@
       ]
     },
     "pcl_e3_bay_mouth": {
-      "ok": true,
-      "timestamp_ct": "2026-11-09T07:52:00.643839-06:00",
-      "bytes": 369282,
-      "burst_count": 3,
+      "ok": false,
+      "timestamp_ct": "2026-11-09T08:12:39.666370-06:00",
+      "error": "CalledProcessError: capture failed; private diagnostics suppressed",
       "capture_attempts": [
         {
           "attempt": 1,
-          "ok": true
+          "ok": false,
+          "category": "stream_not_found",
+          "returncode": 3419392776
+        },
+        {
+          "attempt": 2,
+          "ok": false,
+          "category": "stream_not_found",
+          "returncode": 3419392776
         }
       ]
     },
     "montrose_pier_bird": {
       "ok": true,
-      "timestamp_ct": "2026-11-09T07:52:27.791341-06:00",
-      "bytes": 222080,
+      "timestamp_ct": "2026-11-09T08:13:06.900730-06:00",
+      "bytes": 212716,
       "burst_count": 3,
       "capture_attempts": [
         {
