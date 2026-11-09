@@ -4120,3 +4120,12 @@ Stage: J21_FIRST_REVIEW_COMPLETE / THREE_SUBSTANTIVE_PAPERS / DOUBLE_VERIFIED / 
 
 Stage: DAWN_PRINCIPAL_VALID / DAYLIGHT_CORROBORATION_VALID / SIX_CELL_HORIZON_VALID / STRICT_BINDER_PASS / ZERO_NUMERICAL_CHANGE / INPUT_UNKNOWNS_PRESERVED / COMPACT_EQUIVALENCE_NOT_ACCEPTED / PROVIDER_ATTRIBUTION_UNRESOLVED / ACTUAL_BILLING_BLOCKED / NO_ALERT / SILENT_SPECIALIST_RECEIPT / SENSING_OWNS_DAWN_TIMING / AUDIT_APPLIED / NO_FINANCIAL_ACTION.
 
+
+## J01 / J11 Dawn verification reuse correction — November 6, 2026
+
+Owner-assigned comparison of PRs #167–170 confirms new daily observations and horizon dates require validation, while receipt-only merges #168/#170 preserve exact snapshot/forecast blobs. Prepared combined CI binding/horizon check and read-only commit-pinned batch verification with process-local successful exact-byte reuse; temporal guards run on every lookup. 38 targeted offline tests pass, including real local Git reuse and invalidation fixtures. See `model_data/J01_J11_DAWN_REUSE_20261106.md` for identities, mandatory daily science, further dependency-key specifications and review gates. Existing Dawn/Sensing ownership retained; no new automation, paid call, acquisition, production mutation or merge. Stage: DRAFT_IMPLEMENTATION / TARGETED_TESTS_PASS / OWNER_REVIEW_AND_CI_PENDING / NOT_DEPLOYED. No measured cost savings or native Dot acknowledgment claimed.
+
+
+## J01 / J11 PR 171 review corrections - November 8, 2026
+
+Updated the existing PR branch against main ffd412ae3f9767588f40ad7e63450ba0b3f8c8c7 while preserving all newer register entries and the original reuse receipt. Pinned the executing binder to LF for Windows checkout identity; retained strict rejection of real validator drift. Added an actual autocrlf checkout/CLI regression and direct May 17/18 and November 14/15 season-boundary coverage. The existing Windows CI job now exercises Dawn reuse. All 40 targeted offline tests and the current-main combined binding/horizon check pass. Original-head hosted CI was verified separately; final-head hosted results and existing Dawn/Sensing owner review remain the acceptance gates tracked in PR #171. No merge, deployment, scientific reassessment, new automation, acquisition, paid model call or batch-command adoption occurred. Daily source freshness, new observations, immutable evidence, UNKNOWN semantics, Sensing ownership and the nine-PM gate remain mandatory. No measured time, token or billed-cost savings are claimed.
