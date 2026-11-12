@@ -1,22 +1,31 @@
 {
   "schema_version": "1.1",
   "cast": "forecast",
-  "retrieved_at": "2026-11-12T02:31:39.058287+00:00",
+  "retrieved_at": "2026-11-12T11:51:17.999176+00:00",
   "status": "complete",
   "evidence_class": "MODEL",
   "production_action": "NO_CHANGE",
   "station_access": {
     "method": "HTTPS_FULL_STATION_NETCDF",
-    "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/11/11/ngofs2.t21z.20261111.stations.forecast.nc",
-    "full_file_sha256": "fdee56c12db2efced1b5da3cf8d20abe20e12935f475e39bd0995dfa2b6e0aaf",
+    "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/11/12/ngofs2.t09z.20261112.stations.forecast.nc",
+    "full_file_sha256": "e4f143d5832fdea89aedad615f2140e7cd4882279d07717f655e0d2d3f04196d",
     "bytes": 116012123,
-    "download_completed_at": "2026-11-12T02:31:39.058287+00:00",
+    "download_completed_at": "2026-11-12T11:51:17.999176+00:00",
     "embedded_time_validation": "PASS"
   },
-  "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/11/11/ngofs2.t21z.20261111.stations.forecast.nc",
-  "model_initialized_at": "2026-11-11T21:00:00+00:00",
+  "source_url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/11/12/ngofs2.t09z.20261112.stations.forecast.nc",
+  "model_initialized_at": "2026-11-12T09:00:00+00:00",
   "failed_newer_attempts": [],
-  "retrieval_attempts": [],
+  "retrieval_attempts": [
+    {
+      "url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/11/12/ngofs2.t09z.20261112.stations.forecast.nc",
+      "error_type": "HTTPError",
+      "http_status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "stage": "http_download",
+      "model_initialized_at": "2026-11-12T09:00:00+00:00"
+    }
+  ],
   "station_count": 5,
   "stations": [
     {
@@ -128,8 +137,8 @@
   ],
   "unresolved_targets": [],
   "normalized_rows": 21645,
-  "subset_sha256": "9d4c22abfe4e41458d1c8ccfa5fbf38a4ba36083ce52032fdd34b678580a772a",
-  "subset_archive": "public_archive/ngofs2_named_station_subset/9d4c22abfe4e41458d1c8ccfa5fbf38a4ba36083ce52032fdd34b678580a772a.json.gz",
+  "subset_sha256": "6ffbeb5cd81a620392173e36646a14ff03071f8976895885bd04442975600240",
+  "subset_archive": "public_archive/ngofs2_named_station_subset/6ffbeb5cd81a620392173e36646a14ff03071f8976895885bd04442975600240.json.gz",
   "normalized_csv": "ngofs2_mobile_bay_named_stations_forecast_normalized.csv",
   "guardrails": [
     "All values are MODEL guidance, not observations.",
