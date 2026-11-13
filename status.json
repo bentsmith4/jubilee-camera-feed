@@ -1,5 +1,5 @@
 {
-  "capture_time_ct": "2026-11-13T07:11:17.721111-06:00",
+  "capture_time_ct": "2026-11-13T07:33:09.462774-06:00",
   "dawn_ct": "2026-11-13T05:50:27.567130-06:00",
   "window_start_ct": "2026-11-13T03:50:27.567130-06:00",
   "window_end_ct": "2026-11-13T07:50:27.567130-06:00",
@@ -8,20 +8,26 @@
   "cameras": {
     "montrose_pier_boat": {
       "ok": true,
-      "timestamp_ct": "2026-11-13T07:11:46.351482-06:00",
-      "bytes": 279157,
+      "timestamp_ct": "2026-11-13T07:34:00.562889-06:00",
+      "bytes": 286369,
       "burst_count": 3,
       "capture_attempts": [
         {
           "attempt": 1,
+          "ok": false,
+          "category": "http_error",
+          "http_status": 503
+        },
+        {
+          "attempt": 2,
           "ok": true
         }
       ]
     },
     "pcl_e2_back_deck": {
       "ok": true,
-      "timestamp_ct": "2026-11-13T07:12:23.804685-06:00",
-      "bytes": 206410,
+      "timestamp_ct": "2026-11-13T07:34:44.420654-06:00",
+      "bytes": 265000,
       "burst_count": 3,
       "capture_attempts": [
         {
@@ -32,8 +38,8 @@
     },
     "pcl_e2_bay_mouth": {
       "ok": true,
-      "timestamp_ct": "2026-11-13T07:12:51.289003-06:00",
-      "bytes": 88638,
+      "timestamp_ct": "2026-11-13T07:35:11.729138-06:00",
+      "bytes": 123760,
       "burst_count": 3,
       "capture_attempts": [
         {
@@ -44,8 +50,8 @@
     },
     "montrose_shoreline": {
       "ok": true,
-      "timestamp_ct": "2026-11-13T07:13:20.092287-06:00",
-      "bytes": 163711,
+      "timestamp_ct": "2026-11-13T07:35:40.669787-06:00",
+      "bytes": 168718,
       "burst_count": 3,
       "capture_attempts": [
         {
@@ -55,21 +61,26 @@
       ]
     },
     "pcl_e3_bay_mouth": {
-      "ok": true,
-      "timestamp_ct": "2026-11-13T07:13:57.697265-06:00",
-      "bytes": 330945,
-      "burst_count": 3,
+      "ok": false,
+      "timestamp_ct": "2026-11-13T07:38:02.896101-06:00",
+      "error": "TimeoutExpired: capture failed; private diagnostics suppressed",
       "capture_attempts": [
         {
           "attempt": 1,
-          "ok": true
+          "ok": false,
+          "category": "capture_process_timeout"
+        },
+        {
+          "attempt": 2,
+          "ok": false,
+          "category": "capture_process_timeout"
         }
       ]
     },
     "montrose_pier_bird": {
       "ok": true,
-      "timestamp_ct": "2026-11-13T07:14:24.695702-06:00",
-      "bytes": 250549,
+      "timestamp_ct": "2026-11-13T07:38:29.986229-06:00",
+      "bytes": 246313,
       "burst_count": 3,
       "capture_attempts": [
         {
