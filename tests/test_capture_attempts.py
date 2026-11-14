@@ -180,6 +180,7 @@ class CaptureAttempts(unittest.TestCase):
         http.response = types.SimpleNamespace(status_code=429)
         for error, expected in (
             (subprocess.TimeoutExpired([SECRET], 60, stderr=SECRET), {"category": "capture_process_timeout"}),
+            (TimeoutError(SECRET), {"category": "capture_timeout"}),
             (http, {"category": "http_error", "http_status": 429}),
             (RuntimeError(SECRET), {"category": "unclassified_capture_failure"}),
             (subprocess.CalledProcessError(1, [SECRET], stderr=SECRET), {"category": "unclassified_ffmpeg_failure", "returncode": 1}),
