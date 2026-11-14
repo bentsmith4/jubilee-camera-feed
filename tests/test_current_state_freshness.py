@@ -340,17 +340,17 @@ class ProductionWeeksBayArchiveTests(unittest.TestCase):
 
 
 class WorkflowTests(unittest.TestCase):
-    def test_independent_workflow_observes_token_pushes_and_grace_expiry(self):
+    def test_independent_workflow_uses_pushes_and_overdue_fallback(self):
         workflow = (ROOT / ".github/workflows/current_state_freshness.yml").read_text()
         self.assertIn("contents: read", workflow)
         self.assertIn("fetch-depth: 0", workflow)
-        self.assertIn("workflow_run:", workflow)
-        self.assertIn("types: [completed]", workflow)
-        self.assertIn("cron: '17,47 * * * *'", workflow)
+        self.assertNotIn("workflow_run:", workflow)
+        self.assertNotIn("types: [completed]", workflow)
+        self.assertIn("cron: '17,47 5-23 18 5 *'", workflow)
+        self.assertIn("cron: '17,47 0-5 15 11 *'", workflow)
         self.assertIn("github.event_name != 'pull_request'", workflow)
         for name in ("sensing_quality", "asos_weather"):
             producer = (ROOT / f".github/workflows/{name}.yml").read_text()
-            self.assertIn(producer.splitlines()[0].removeprefix("name: "), workflow)
             self.assertNotIn("check_current_state_freshness", producer)
             self.assertNotIn("current-state-status", producer)
         self.assertNotIn("git push", workflow)
