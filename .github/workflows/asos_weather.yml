@@ -17,10 +17,17 @@ on:
       - tests/test_sensing_publication.py
       - .github/workflows/asos_weather.yml
   schedule:
-    - cron: '7 * * * *'
+    # UTC slices exactly cover May 18 00:00 through November 14 23:59
+    # America/Chicago. The runtime season check remains the execution guard.
+    - cron: '7 5-23 18 5 *'
+    - cron: '7 * 19-31 5 *'
+    - cron: '7 * * 6-10 *'
+    - cron: '7 * 1-14 11 *'
+    - cron: '7 0-5 15 11 *'
 permissions:
   contents: write
-# Serialize with sensing_quality, which writes the same ASOS and river products.
+# This is the sole ASOS/river retrieval producer. Serialize its publication
+# with Sensing, which reuses these committed products while writing other data.
 concurrency:
   group: jubilee-sensing-quality-${{ github.ref_name }}
   cancel-in-progress: false

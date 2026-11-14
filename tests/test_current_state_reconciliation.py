@@ -1023,8 +1023,15 @@ class ReconciliationTests(unittest.TestCase):
 
     def test_workflow_trust_and_token_push_trigger_contract(self):
         workflow=(ROOT/'.github/workflows/current_state_freshness.yml').read_text()
-        for name in ('Jubilee sensing quality and environmental forcing','Jubilee official ASOS observed weather','Jubilee unattended observation logging'):
-            self.assertIn(name,workflow)
+        # Producer-completion events were redundant with evidence-state pushes
+        # and the bounded overdue schedule. Never execute a producer head.
+        self.assertNotIn('workflow_run:', workflow)
+        self.assertNotIn('types: [completed]', workflow)
+        for path in ('status.json', 'model_data/*_manifest.json',
+                     'model_data/*_normalized.*', 'model_data/public_archive/**'):
+            self.assertIn(path, workflow)
+        self.assertIn("cron: '17,47 5-23 18 5 *'", workflow)
+        self.assertIn("cron: '17,47 0-5 15 11 *'", workflow)
         self.assertIn('needs: reconcile',workflow)
         self.assertIn("if: always() && github.event_name != 'pull_request'",workflow)
         self.assertIn('ref: main',workflow)

@@ -249,10 +249,16 @@ class PublicationTests(unittest.TestCase):
         gate = WORKFLOW.split("      - name: Allow upstream NGOFS2 outages but reject parser failures\n")[1].split("      - name:")[0]
         self.assertIn("id: ngofs2_validation", gate)
         self.assertNotIn("continue-on-error", gate)
-        # Every producer referenced by the allowlist is wired to a workflow ID.
-        for name in ("regression", "audit", "river", "asos", "weeks_bay", "readiness", "ngofs2_validation",
+        # Sensing owns its producers; weather/river are deliberately reused
+        # from the sole hourly producer rather than retrieved a second time.
+        for name in ("regression", "audit", "weeks_bay", "readiness", "ngofs2_validation",
                      "history", "historical_diagnostic", "registry", "main_pass", "water_quality"):
             self.assertIn(f"        id: {name}\n", WORKFLOW)
+        self.assertNotIn("run: python model_data/ingest_asos_weather.py", WORKFLOW)
+        self.assertNotIn("run: python model_data/ingest_river_forcing.py", WORKFLOW)
+        hourly = (ROOT / ".github/workflows/asos_weather.yml").read_text()
+        self.assertIn("run: python model_data/ingest_asos_weather.py", hourly)
+        self.assertIn("run: python model_data/ingest_river_forcing.py --days 16", hourly)
 
     def test_step_skipped_at_local_midnight_cannot_publish_previous_ingest(self):
         steps = outcomes(regression="success", river="success")

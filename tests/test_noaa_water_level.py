@@ -272,7 +272,8 @@ class WaterLevelTests(unittest.TestCase):
 
     def test_workflow_preserves_schedule_and_producer_gates(self):
         workflow = (ROOT / '.github/workflows/asos_weather.yml').read_text()
-        self.assertIn("cron: '7 * * * *'", workflow)
+        self.assertIn("cron: '7 5-23 18 5 *'", workflow)
+        self.assertIn("cron: '7 0-5 15 11 *'", workflow)
         sensing = (ROOT / '.github/workflows/sensing_quality.yml').read_text()
         self.assertNotIn('python model_data/ingest_noaa_water_level.py', sensing)
         self.assertIn('id: noaa_water_level', workflow)
