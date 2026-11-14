@@ -274,11 +274,13 @@ class ASOSWeatherTests(unittest.TestCase):
     def test_workflow_wires_retrieval_persistence_and_offline_ci(self):
         root = asos.HERE.parent
         workflow = (root/'.github/workflows/sensing_quality.yml').read_text()
-        self.assertIn('python model_data/ingest_asos_weather.py', workflow)
-        for name in (asos.MANIFEST, asos.NORMALIZED, asos.SNAPSHOT):
-            self.assertIn(name, workflow)
+        self.assertNotIn('python model_data/ingest_asos_weather.py', workflow)
         hourly = (root/'.github/workflows/asos_weather.yml').read_text()
-        self.assertIn("cron: '7 * * * *'", hourly)
+        self.assertIn('python model_data/ingest_asos_weather.py', hourly)
+        for name in (asos.MANIFEST, asos.NORMALIZED, asos.SNAPSHOT):
+            self.assertIn(name, hourly)
+        self.assertIn("cron: '7 5-23 18 5 *'", hourly)
+        self.assertIn("cron: '7 0-5 15 11 *'", hourly)
         self.assertIn('jubilee-sensing-quality-${{ github.ref_name }}', hourly)
 
 
