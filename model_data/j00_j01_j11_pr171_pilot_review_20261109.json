@@ -1,0 +1,244 @@
+{
+  "receipt_id": "J00-J01-J11-PR171-PILOT-REVIEW-20261109",
+  "generated_at": "2026-11-09T09:52:00-06:00",
+  "timezone": "America/Chicago",
+  "scientific_owner": "Research & Calibration",
+  "coordinator": "Jubilee Dot",
+  "scope": "Nonproduction consolidated review receipt; no merge, deployment, production adoption, acquisition, outreach, schedule change, paid call, spend, billing change, or financial action.",
+  "pr171": {
+    "url": "https://github.com/bentsmith4/jubilee-camera-feed/pull/171",
+    "state": "OPEN_DRAFT",
+    "reviewed_head": "babd2d0b7bf422161242c00ad3be51ba2b08795c",
+    "head_changed_since_prior_snapshot": false,
+    "latest_main_checked": "644ee5952145180297f2979aaf9a0da028e4c5ec",
+    "main_after_pr174": true,
+    "pr174_merge_commit": "74f67c3f6513b14f81338d7bbc23a0920087ce40",
+    "github_mergeable_metadata": false,
+    "mergeability_note": "A prior Sensing read-only merge-tree succeeded at main f6d03423731802d1c5bfbe1272a5ba398a5af39c. Current GitHub metadata remains false; no merge is authorized and no current merge-tree result is inferred.",
+    "exact_head_hosted_checks": [
+      {
+        "run_id": 42503445238,
+        "name": "Jubilee Forecast Consistency",
+        "conclusion": "success"
+      },
+      {
+        "run_id": 42503445049,
+        "name": "Jubilee Runtime Tests",
+        "conclusion": "success"
+      },
+      {
+        "run_id": 42503445152,
+        "name": "Jubilee research quality",
+        "conclusion": "success"
+      }
+    ],
+    "prior_independent_targeted_tests": {
+      "count": 40,
+      "result": "PASS",
+      "reuse_basis": "Exact head unchanged; not rerun."
+    },
+    "specialist_reviews": [
+      {
+        "role": "Sensing & Alerting",
+        "review_id": "PRR_kwDOUFbqhc8AAAABWubCIw",
+        "submitted_at": "2026-11-08T22:52:05Z",
+        "attribution": "separate",
+        "recommendation": "KEEP_DRAFT_EXTERNAL_OBSERVATION_ADOPTION_TEST_REQUIRED"
+      },
+      {
+        "role": "Dawn scientific/horizon",
+        "review_id": "PRR_kwDOUFbqhc8AAAABWz3etg",
+        "submitted_at": "2026-11-09T12:20:31Z",
+        "attribution": "separate",
+        "recommendation": "KEEP_DRAFT_EXTERNAL_OBSERVATION_ADOPTION_TEST_REQUIRED"
+      }
+    ],
+    "latest_main_compatibility": {
+      "prior_dawn_review_main": "7df43af53c6de67471abc84fab8aac8dae21ea4f",
+      "commits_after_prior_dawn_review": 30,
+      "changed_scopes": [
+        "camera/status products",
+        "environmental manifests and normalized inputs",
+        "current_state_snapshot.json",
+        "current_forecast.json",
+        "MODEL_WORK_REGISTER.md",
+        "seven immutable observation records",
+        "public archives"
+      ],
+      "code_workflow_attributes_changed": false,
+      "register_markdown_changed": true,
+      "current_pair": {
+        "issue_time": "2026-11-09T09:12:10.267899-06:00",
+        "snapshot_blob": "e1e767f2428bd329d35c3801e29086b2a26809fd",
+        "snapshot_sha256": "5b612f6aed6e115851b8fb8b1fa426ceb58bd3112b186775cb40b6d73c24cfb5",
+        "forecast_blob": "fcf0e130fb9a684c416d27a202e29a7166f25fef",
+        "forecast_sha256": "06affc4c0fc3571b59af74246ce517c724c40af7557777f4c97139dbbc461774",
+        "forecast_input_snapshot_hash_matches": true,
+        "input_commit_sha": "77853e139d1e89251d72062eae6d817a804758e7",
+        "horizon_dates_ct": [
+          "2026-11-09",
+          "2026-11-10",
+          "2026-11-11"
+        ],
+        "may18_nov14_boundary": "PASS",
+        "temporal_nonfuture_check": "PASS_BY_ISSUE_DATE_AND_HORIZON_READBACK",
+        "all_alert_gates_false": true,
+        "unknown_semantics_preserved": true,
+        "note": "Current pair compatibility is binding/horizon evidence only, not whole-day scientific acceptance."
+      }
+    },
+    "scientific_acceptance": {
+      "daily_science": "SEPARATELY_EVIDENCED_BY_DAWN_FOR_NOVEMBER_9",
+      "immutable_evidence": "PASS_FOR_CITED_PRINCIPAL_AND_DAYLIGHT_RECORD_IDENTITIES",
+      "temporal_guards": "PASS_EXACT_HEAD_TEST_EVIDENCE_REUSED",
+      "seasonal_boundaries": "PASS_EXACT_HEAD_TEST_EVIDENCE_REUSED",
+      "provenance_and_freshness": "PRESERVED_IN_CURRENT_PAIR_WITH_EXPLICIT_REJECTIONS_AND_UNKNOWNS",
+      "new_external_observation_files": "SEVEN_ADDED_AFTER_DAWN_REVIEW_MAIN",
+      "unknown_semantics": "PRESERVED",
+      "daylight_followup": "SEPARATELY_EVIDENCED_BY_DAWN",
+      "nine_pm_gate": "UNCHANGED_OUTSIDE_REUSE_MEMO",
+      "specialist_ownership": "SENSING_OWNS_DAWN_TIMING_AND_OWNER_ALERT_ASSEMBLY",
+      "native_dot_acknowledgment": "UNVERIFIED"
+    },
+    "missing_integration_test": {
+      "required": true,
+      "level": "CALLER_LEVEL_EXTERNAL_OBSERVATION_ADOPTION",
+      "specific_gap": "The verifier reads only the committed snapshot, forecast, and binder. Existing mutation tests change fields inside the snapshot but do not prove discovery and reconciliation of a newly added model_data/observation_records/*.json file outside an otherwise identical bound pair.",
+      "required_assertions": [
+        "Discover a newly added external observation record after an otherwise identical bound pair.",
+        "Verify immutable identity, issue-window eligibility, source provenance and freshness.",
+        "Exercise daylight-follow-up and UNKNOWN treatment without manufacturing a negative.",
+        "Fail closed or remain PENDING when the record is stale, out of window, lacks provenance, or is unreconciled.",
+        "Keep the caller-level adoption result separate from binding/horizon reuse and from production authority."
+      ],
+      "disposition": "REQUIRED_BEFORE_BATCH_COMMAND_OR_WORKFLOW_ADOPTION"
+    },
+    "consolidated_recommendation": "KEEP_DRAFT_REVISE_WITH_TEST_GATE",
+    "measured_savings": "NONE_ESTABLISHED"
+  },
+  "dot_pilot_outcome_review": {
+    "pilot_window": "2026-10-09 through 2026-11-08 America/Chicago",
+    "review_date": "2026-11-09",
+    "native_evidence": {
+      "verified_charter_readbacks": 1,
+      "custom_rule_ui": "UNVERIFIED",
+      "ongoing_dot_activity": "UNVERIFIED",
+      "later_cross_chat_reply": "DOT_SELF_REPORT_ONLY"
+    },
+    "metrics": [
+      {
+        "id": 1,
+        "target": ">=95% of eligible scheduled operational checks",
+        "result": "NOT_MEASURABLE",
+        "numerator": null,
+        "denominator": null,
+        "missing_evidence": "No complete eligible-check schedule/run denominator and no dated native Dot Activity receipt set for the full pilot window."
+      },
+      {
+        "id": 2,
+        "target": "zero unsupported completion claims",
+        "result": "NOT_MEASURABLE",
+        "numerator": null,
+        "denominator": null,
+        "missing_evidence": "No complete native Dot claim/activity corpus. Bounded J00/J01/J11/J10 receipts separate attempted, configured, persisted and verified states, but cannot certify an absolute zero outside the reviewed corpus."
+      },
+      {
+        "id": 3,
+        "target": "zero duplicate paid calls, pipelines or outreach",
+        "result": "NOT_MEASURABLE",
+        "numerator": null,
+        "denominator": null,
+        "missing_evidence": "No complete project-scoped paid-call/pipeline/outreach denominator or native Dot Activity corpus. Reviewed receipts record no identified duplicate action, but that bounded observation is not an absolute pilot result."
+      },
+      {
+        "id": 4,
+        "target": "permitted recovery attempted before escalation",
+        "result": "NOT_MEASURABLE",
+        "numerator": null,
+        "denominator": null,
+        "missing_evidence": "Register receipts show compliant natural recovery attempts for documented incidents, but there is no complete incident denominator and the work is attributable to pre-existing Sensing/PointClearPC workflows rather than independently to Dot."
+      },
+      {
+        "id": 5,
+        "target": ">=50% reduction in Ben interventions versus October 9-15 baseline",
+        "result": "NOT_MEASURABLE",
+        "numerator": null,
+        "denominator": null,
+        "missing_evidence": "No verified baseline count for October 9-15 and no comparable pilot-period intervention count attributable to Dot."
+      },
+      {
+        "id": 6,
+        "target": "actual project-scoped billed costs versus accepted usage and no unapproved charge",
+        "result": "NOT_MEASURABLE",
+        "numerator": null,
+        "denominator": null,
+        "missing_evidence": "Provider-side project attribution and actual billed charges are unavailable; token telemetry is explicitly unpriced usage and cannot establish cost or absence of unapproved charges."
+      },
+      {
+        "id": 7,
+        "target": "zero unauthorized production/scientific changes or stale/UNKNOWN violations",
+        "result": "NOT_MEASURABLE",
+        "numerator": null,
+        "denominator": null,
+        "missing_evidence": "Bounded reviewed receipts show no identified violation and preserve UNKNOWN semantics, but a complete activity/configuration denominator and native Dot operation record are absent."
+      }
+    ],
+    "attribution": {
+      "dot_independently_attributable_outcome": "One verified native charter readback only.",
+      "preexisting_automations_pointclearpc_github": "Operational sensing, Dawn checks, evidence publication, recovery, and GitHub verification.",
+      "causal_savings": "NOT_ESTABLISHED"
+    },
+    "recommendation": "REVISE",
+    "basis": "Role readback is correct, but operational effectiveness, intervention reduction, cost and compliance outcomes are not measurable from the available denominators and native activity evidence.",
+    "owner_decisions": [
+      "Accept REVISE with no expansion: retain Dot as coordinator only and reuse existing specialist receipts until current native activity and billing evidence become available through already authorized routes.",
+      "Keep PR #171 draft and require the caller-level external-observation adoption test plus current integration/mergeability readback before any separate merge or adoption decision.",
+      "Batch the six legacy research PR dispositions below; no close, merge or deployment is executed by this receipt."
+    ],
+    "repeat_policy": "One-time dated receipt. Reuse unless material new evidence changes a metric or attribution."
+  },
+  "legacy_research_pr_dispositions": [
+    {
+      "pr": 76,
+      "disposition": "RETAIN_WITH_SPECIFIC_EVIDENCE_GATE",
+      "gate": "Identical-image original-versus-compact positive-event and difficult/UNKNOWN challenge set with independent biological labels and paired disagreement, missed-positive and false-positive results."
+    },
+    {
+      "pr": 91,
+      "disposition": "ACCEPT_AFTER_REVIEW",
+      "gate": "Refresh conflict/current-main integration and retain zero-weight, no-exact-onset-scoring limits."
+    },
+    {
+      "pr": 96,
+      "disposition": "RETAIN_WITH_SPECIFIC_EVIDENCE_GATE",
+      "gate": "Verified onset-to-public-report delay coverage sufficient to estimate six-/twelve-hour sensitivity and P(no event | silence); incomplete social coverage remains explicit."
+    },
+    {
+      "pr": 118,
+      "disposition": "RECOMMEND_CLOSE_AS_SUPERSEDED",
+      "gate": "Superseded by the October 20 owner directive deferring wind optimization behind detection equivalence and actual billing; preserve the retrospective receipt as history."
+    },
+    {
+      "pr": 126,
+      "disposition": "ACCEPT_AFTER_REVIEW",
+      "gate": "Refresh conflict/current-main integration; retain unresolved 2019 native clock and deployment geometry as zero-weight source gates."
+    },
+    {
+      "pr": 142,
+      "disposition": "RETAIN_WITH_SPECIFIC_EVIDENCE_GATE",
+      "gate": "Owner-approved dedicated archive target, credentials/retention/read-domain validation, full required history coverage, manifest/read-path migration and restore acceptance. No provisioning or deployment is authorized here."
+    }
+  ],
+  "consequences": {
+    "merge": false,
+    "deployment": false,
+    "production_adoption": false,
+    "site_adoption": false,
+    "automation_or_schedule_change": false,
+    "acquisition": false,
+    "paid_calls": false,
+    "outreach": false,
+    "spending": false,
+    "financial_action": false
+  }
+}

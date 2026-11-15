@@ -1,0 +1,174 @@
+{
+  "schema": "jubilee_winter_shutdown_research_receipt/v1",
+  "work_ids": [
+    "J01",
+    "J04",
+    "J09",
+    "J11",
+    "J13"
+  ],
+  "as_of_ct": "2026-11-15T09:59:15.0341304-06:00",
+  "authority_scope": "Read-only natural shutdown acceptance and Research scientific/research-preservation review; no production acquisition, manual dispatch, paid call, outreach, schedule mutation, merge, deployment, or financial action.",
+  "winter_shutdown": {
+    "disposition": "PARTIAL_PASS_COLLECTION_STOPPED__WORKFLOW_START_SUPPRESSION_NOT_ADOPTED",
+    "boundary_ct": "2026-11-15T00:00:00-06:00",
+    "pointclearpc": {
+      "device_id": "c5d215d2-096d-411f-8069-ea21e9f3ee08",
+      "task": "Jubilee Live Cameras",
+      "task_state": "Running",
+      "heartbeat_ct": "2026-11-15T09:59:14.616098-06:00",
+      "monitoring_status": "offseason_not_monitored",
+      "seasonal_pause_first_observed_ct": "2026-11-15T00:00:03.400907-06:00",
+      "last_live_success_ct": "2026-11-14T23:58:53.332854-06:00",
+      "last_canonical_success_ct": "2026-11-14T22:11:20.741830-06:00",
+      "latest_capture_file_write_ct": "2026-11-14T22:11:00.5461208-06:00",
+      "capture_files_after_boundary": 0,
+      "capture_log_last_write_ct": "2026-11-15T00:00:03.4040207-06:00",
+      "telemetry": {
+        "path_private_local": "C:\\JubileeCams\\frames\\api_usage.jsonl",
+        "size_bytes": 17433624,
+        "last_write_ct": "2026-11-14T22:10:58.9431167-06:00",
+        "post_boundary_record_scope": "No append or filesystem change observed after the boundary; this proves zero recorded vision activity within the installed telemetry contract, not provider billing independently."
+      },
+      "no_inflight_crossing_evidence": "The final live success completed 66.7 seconds before the boundary and the service wrote only the seasonal-pause line 3.4 seconds after midnight; no capture file or telemetry append crossed the boundary."
+    },
+    "github": {
+      "main_observed_sha": "72dabd712a376ee8ed6a0c6e0cfed70c3a9241ab",
+      "final_nov14_usage_summary": {
+        "date_ct": "2026-11-14",
+        "completed_requests": 181,
+        "camera_requests": 159,
+        "cross_camera_requests": 22,
+        "qualification": "Repository telemetry count, unpriced; not billed cost."
+      },
+      "off_season_runs_observed_through_ct": "2026-11-15T08:43:19-06:00",
+      "off_season_run_count": 11,
+      "run_ids": [
+        43688140992,
+        43688386707,
+        43688449957,
+        43688519024,
+        43701611654,
+        43707639745,
+        43707670389,
+        43720680146,
+        43720719391,
+        43725603098,
+        43725723529
+      ],
+      "collection_publication_result": "PASS_GUARDS_SKIPPED_ALL_PRODUCTION_COLLECTION_AND_PUBLICATION_STEPS",
+      "exception": "FAIL_START_SUPPRESSION: PR #187 remains draft/unmerged, so legacy cron and producer-completion triggers started jobs after midnight. Season guards prevented ARCOS, weather/river, Weeks Bay/NGOFS2, observation publication, current-state publication, and other production acquisition; offline regression/setup work still ran.",
+      "savings": "NOT_MEASURED"
+    },
+    "coordinator_research": {
+      "desktop_coordinator": "ENABLED_RUNNING_HEARTBEAT_ADVANCING_WITH_LAST_SUCCESS_MARKERS_UNCHANGED",
+      "research_automation_id": "6a768a4cf6e481919cfc858bba5cc542",
+      "research_state": "ENABLED_CURRENT_RUN_IN_PROGRESS",
+      "dawn_automation_id": "6a807c493a4481918aad2d656abd7817",
+      "dawn_state": "ENABLED",
+      "next_dawn_target_ct": "2027-05-18T05:53:31-05:00",
+      "may_restart_acceptance": "PENDING_NATURAL_EVIDENCE"
+    }
+  },
+  "pr187_scientific_review": {
+    "exact_head": "0488645fa10a1290aa4647941e2892275b06c82d",
+    "state": "OPEN_DRAFT",
+    "current_main_at_review": "72dabd712a376ee8ed6a0c6e0cfed70c3a9241ab",
+    "github_mergeable_at_review": true,
+    "submitted_reviews_at_review": 0,
+    "exact_head_checks": {
+      "success": [
+        "ingest",
+        "regression",
+        "offline-validation",
+        "windows-preflight",
+        "forecast-consistency",
+        "unittest"
+      ],
+      "expected_skipped": [
+        "reconcile",
+        "current-state-status"
+      ]
+    },
+    "research_disposition": "SCIENCE_AND_RESEARCH_PRESERVATION_PASS",
+    "verified_preservation": [
+      "May 18 through November 14 America/Chicago production boundaries retain runtime guards and exact UTC schedule regression coverage.",
+      "Weekly historical water-quality ingestion and the separate 48-hour year-round Research obligation are not removed.",
+      "Six-camera, three-frame, thresholds, probabilities, zero research weights, UNKNOWN semantics, immutable-evidence contracts, forecast binding/horizon, and 9 p.m. gate are unchanged.",
+      "ASOS remains the sole weather/river producer; Sensing reuses committed provenance-bearing products and retains outage, freshness, QC, partial-success, and UNKNOWN handling.",
+      "Obsolete first-dawn subscriptions are retired while terminal receipt, tools, tests, documentation, and Git history remain."
+    ],
+    "unresolved_gates": [
+      "Separately attributable operational review remains absent.",
+      "Single-writer reconciliation must preserve concurrent MODEL_WORK_REGISTER history before merge.",
+      "Natural post-merge suppression of starts and downstream freshness events remains untested.",
+      "Natural May 18 restart remains future and unaccepted."
+    ],
+    "recommendation": "After the separate operational review and conflict-preserving register reconciliation, the approved correction is scientifically suitable for ordinary protected merge; no merge is performed by this receipt."
+  },
+  "pr161_j04": {
+    "merge_commit": "034dbf86aaae2ff618d2d398e2a14bcf870567bd",
+    "nov14_merge_push_run": 43605866731,
+    "scheduled_acceptance": "PENDING_2026-11-17T05:17:00-06:00",
+    "note": "The merge-push run is not scheduled acceptance. No manual dispatch was made."
+  },
+  "j09_vdov_code_reproducibility": {
+    "source_status": "KNOWN_PRIOR_SOURCE_NOT_NEW",
+    "paper_doi": "10.3389/fmars.2022.989017",
+    "paper_scope": "Single published Mobile Bay physical-biogeochemical modeling study of April-May 2019 hypoxia; not Jubilee prediction.",
+    "code_repository": "https://github.com/OyBcSt/Vertical-DO-variance_MATLAB",
+    "code_repo_default_branch": "main",
+    "code_repo_last_push_utc": "2023-07-17T21:18:12Z",
+    "license": {
+      "spdx": "MIT",
+      "copyright": "2023 Zhilong Liu",
+      "license_blob_sha": "13af7b76dd5bbf270c8bfe2258d861323b5d7de2"
+    },
+    "readme_blob_sha": "ec0b27c81b7b902560e684079b3ef79ca94cb5c5",
+    "required_inputs": [
+      "ROMS result files",
+      "biology files/Fennel state and budget outputs"
+    ],
+    "repository_tree_result": "Code, helper functions, README and LICENSE only; no ROMS result or biology data files.",
+    "jubilee_compatible_inputs": "NOT_FOUND",
+    "existing_j09_evidence": {
+      "ncei_accession": "0224293",
+      "retained_raw_file": "middlebay_hyd_2019.txt",
+      "raw_sha256": "49e04d4903d6f6edc4f6bbbc91e9b7e81a6c6ed560318a0621d1d9c454c5e7fb",
+      "native_rows": 4409,
+      "distinct_days": 100,
+      "hydro_period": "2019-01-01 through 2019-07-03 with March-April missing",
+      "accepted_utc_normalized_rows": 0,
+      "blockers": [
+        "native timezone unknown",
+        "sonde height above bed unknown",
+        "vertical datum/depth unresolved",
+        "water-height units conflict",
+        "field observations are not ROMS/Fennel model budget outputs",
+        "verified Jubilee event labels absent"
+      ]
+    },
+    "disposition": "BLOCKED_EVIDENCE_FULL_REPRODUCTION",
+    "narrower_option": "Observation-only profile/vertical-variance analysis would be a separate narrower experiment and is not implemented or represented as reproduction, budget attribution, or Jubilee predictive validation.",
+    "next_action": "Do not deepen the MATLAB reproduction unless compatible ROMS/Fennel and biology outputs with provenance become available. Reuse ARCOS/Liu/EPA prior work; do not repeat them as discoveries."
+  },
+  "epa_deduplication": {
+    "status": "REUSED_PRIOR_REVIEW_NOT_REPEATED",
+    "retained_cautions": [
+      "+1.48 mg/L calibration concern",
+      "prefer profiles",
+      "approximately five-foot probes are not universal bottom oxygen",
+      "water-level datums differ",
+      "time-series availability, quality weighting, and held-out validation remain unestablished"
+    ]
+  },
+  "controls": {
+    "production_change": false,
+    "production_probability_publication": false,
+    "paid_call": false,
+    "forced_capture": false,
+    "outreach": false,
+    "financial_action": false,
+    "sms": false
+  }
+}
