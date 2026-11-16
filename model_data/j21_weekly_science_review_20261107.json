@@ -1,0 +1,309 @@
+{
+  "schema": "jubilee_weekly_science_review/v1",
+  "stable_id": "J21-SCIENCE-REVIEW-20261107",
+  "generated_at_utc": "2026-11-07T16:21:08.314Z",
+  "coverage": {
+    "window_start": "2026-10-07",
+    "window_end": "2026-11-07",
+    "timezone": "America/Chicago",
+    "basis": "Initial review covers the preceding month; subsequent reviews should begin after this coverage-through date and deduplicate by normalized DOI/title.",
+    "coverage_through_utc": "2026-11-07T16:21:08.314Z"
+  },
+  "ownership": {
+    "scientific_owner": "Jubilee Model Research & Calibration",
+    "coordinator": "Jubilee Dot",
+    "publication_owner": "Daily Strategic Briefing",
+    "publication_task_id": "6a91a536cfb081919b766349ad070ebe",
+    "silent_specialist": true
+  },
+  "deduplication": {
+    "doi_keys": [
+      "10.5194/bg-23-7009-2026",
+      "10.1007/s10661-026-16007-4",
+      "10.3389/fmars.2026.1998927"
+    ],
+    "title_normalization": "lowercase, Unicode normalized, punctuation and repeated whitespace collapsed",
+    "current_daily_brief_checked": {
+      "file": "Daily_Strategic_Briefing_2026-11-07.md",
+      "library_file_id": "libfile_14a0111570b88191a431751318a9cfdd",
+      "created_at_utc": "2026-11-07T14:44:34.466181Z",
+      "result": "NONE_OF_THE_THREE_PUBLICATIONS_WAS_COVERED"
+    }
+  },
+  "search_protocol": {
+    "topics": [
+      "coastal and estuarine hypoxia",
+      "estuarine dissolved oxygen dynamics and monitoring",
+      "fish-event prediction and hypoxia response",
+      "sediment and biological oxygen demand"
+    ],
+    "inclusion": "Original peer-reviewed paper or authoritative research report newly published or newly available in the coverage window, with a primary source and enough methods detail to assess Mobile Bay transferability.",
+    "exclusion": "News-only summaries, reviews without new directly useful results, sources outside the window, unverified dates/DOIs, and weakly related work.",
+    "verification": "Each included record was checked twice: primary article/full text or PDF plus a second bibliographic or publisher-index read.",
+    "count_included": 3,
+    "quota_policy": "UP_TO_THREE_NO_PADDING"
+  },
+  "publications": [
+    {
+      "rank": 1,
+      "title": "Physicochemical and urban land-use characteristics associated with resistance to precipitation in estuaries vary across scales",
+      "authors": [
+        "Anna B. Turețcaia",
+        "Nicole G. Dix",
+        "Hannah Nicklay",
+        "Matthew C. Ferner",
+        "Emily B. Graham"
+      ],
+      "institutions": [
+        "Pacific Northwest National Laboratory",
+        "Guana Tolomato Matanzas National Estuarine Research Reserve / Florida Department of Environmental Protection",
+        "University of North Florida",
+        "University of Wisconsin–Madison Division of Extension / Lake Superior National Estuarine Research Reserve",
+        "San Francisco State University Estuary and Ocean Science Center",
+        "Washington State University"
+      ],
+      "publication_date": "2026-10-07",
+      "journal": "Biogeosciences",
+      "volume_pages": "23:7009–7027",
+      "doi": "10.5194/bg-23-7009-2026",
+      "primary_url": "https://bg.copernicus.org/articles/23/7009/2026",
+      "full_text_access": "OPEN_FULL_TEXT_AND_SUPPLEMENT",
+      "classification": "PEER_REVIEWED_SINGLE_STUDY_MULTI_ESTUARY_OBSERVATIONAL",
+      "validation_status": "AUTHOR_REPORTED_MULTI_SYSTEM_RESULT_NOT_INDEPENDENTLY_VALIDATED",
+      "observational_coverage": {
+        "systems": 5,
+        "monitoring_locations": 19,
+        "systems_list": [
+          "Lake Superior NERR, Wisconsin",
+          "Chesapeake Bay Maryland NERR (Jug Bay)",
+          "Guana Tolomato Matanzas NERR, Florida",
+          "Weeks Bay NERR, Alabama",
+          "San Francisco Bay NERR, California"
+        ],
+        "salinity_range_ppt": "0.1–35",
+        "sensor_interval_minutes": 15,
+        "variables": "DO, temperature, turbidity, salinity, depth and meteorology; nutrients and chlorophyll-a from monthly grab samples",
+        "event_design": "One relatively wet and one relatively dry year per estuary selected from 1990–2020 precipitation context; major events chosen from named storms and station precipitation subject to data completeness."
+      },
+      "methods": "Calculated an event resistance index from pre/post dissolved-oxygen change, then related resistance to physicochemical conditions and land-use/population metrics at continental, salinity-group and local-estuary scales. Event-level sensor covariates were paired with event-specific resistance; monthly nutrient/chlorophyll data were averaged annually because sampling did not align with storms.",
+      "findings": [
+        "Urbanized estuaries tended to show greater resistance of dissolved oxygen to precipitation events than less urbanized estuaries, contrary to the authors' initial hypothesis, but the relationship varied among systems.",
+        "Water-column depth, temperature, turbidity and chlorophyll-a showed the most recurring associations across scales.",
+        "Relationships involving nitrogen, land use, salinity and nutrient ratios changed by salinity class and individual estuary; the study explicitly warns against assuming one storm-response mechanism or sign across estuaries.",
+        "Weeks Bay was one of the five systems, making the result geographically relevant while still not measuring Point Clear bottom oxygen or Jubilee biology."
+      ],
+      "uncertainty_and_limitations": [
+        "Observational association, not causal identification.",
+        "No held-out predictive evaluation or external forecast validation.",
+        "Wet/dry years and major events were selected using system-specific criteria and data completeness.",
+        "Monthly nutrients and chlorophyll-a were not event-matched and used annual means.",
+        "A DO resistance index is not a Jubilee-event label, fish aggregation endpoint or direct hypoxia forecast."
+      ],
+      "transferability": "MEDIUM_FOR_OFFLINE_FEATURE_DESIGN_LOW_FOR_DIRECT_JUBILEE_PREDICTION",
+      "mobile_bay_implications": [
+        "Do not encode rainfall/runoff as a universally monotonic oxygen-loading feature. Test interactions with salinity, temperature, depth/turbidity, chlorophyll and lags.",
+        "Use Weeks Bay as a regional comparator only; retain zero weight until Eastern Shore bottom-state and event/control validation exists.",
+        "Offline test whether storm-response features improve event-blocked calibration after direct local oxygen and defensible controls become available."
+      ],
+      "research_questions": [
+        "Does predawn Eastern Shore bottom oxygen respond to comparable rain events with the same sign as Weeks Bay, after conditioning on salinity and mixing state?",
+        "Which lag and accumulated-rain windows retain incremental value after temperature, salinity, river forcing and observation effort are controlled?",
+        "Can event-specific storm windows be constructed without post-event leakage and with enough matched Jubilee/non-event episodes?"
+      ],
+      "verification_receipts": [
+        {
+          "source": "publisher HTML/full text",
+          "url": "https://bg.copernicus.org/articles/23/7009/2026",
+          "checked_at_utc": "2026-11-07T16:21:08.314Z"
+        },
+        {
+          "source": "publisher PDF metadata/methods",
+          "url": "https://bg.copernicus.org/articles/23/7009/2026/bg-23-7009-2026.pdf",
+          "checked_at_utc": "2026-11-07T16:21:08.314Z"
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "title": "Tampa Bay observing network: a continuous data acquisition system in support of science and environmental management",
+      "authors": [
+        "Bo Yang",
+        "Yonggang Liu",
+        "Jason A. Law",
+        "Robert H. Weisberg",
+        "Samantha E. D'Angelo",
+        "Kaili Qiao",
+        "Marcus W. Beck",
+        "Edward T. Sherwood",
+        "Thomas K. Frazer"
+      ],
+      "institutions": [
+        "University of South Florida College of Marine Science (lead)",
+        "Florida Gateway College",
+        "Tampa Bay Estuary Program and regional partners"
+      ],
+      "publication_date": "2026-10-07",
+      "journal": "Environmental Monitoring and Assessment",
+      "volume_article": "198:1149",
+      "doi": "10.1007/s10661-026-16007-4",
+      "pmid": "42842094",
+      "pmcid": "PMC13645953",
+      "primary_url": "https://link.springer.com/article/10.1007/s10661-026-16007-4",
+      "open_repository_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC13645953",
+      "full_text_access": "OPEN_FULL_TEXT_VIA_PMC",
+      "classification": "PEER_REVIEWED_OBSERVING_SYSTEM_AND_CASE_STUDY",
+      "validation_status": "AUTHOR_REPORTED_OPERATIONAL_CASE_STUDIES_NOT_FORECAST_VALIDATION",
+      "observational_coverage": {
+        "stations_established": 8,
+        "planned_station": "TB09",
+        "operation_start": "2023-05-15 at earliest station",
+        "water_quality_depth": "near surface, approximately 1–2 m",
+        "water_quality_interval_minutes": 15,
+        "meteorology_interval_minutes": 30,
+        "water_quality_variables": "temperature, conductivity/salinity, pressure/depth, dissolved oxygen, pH, turbidity and chlorophyll-a; FDOM added beginning in 2024",
+        "transport": "bottom-mounted Nortek Signature 1000 ADCP at applicable stations; current velocity is non-real-time",
+        "quality_control": "automated QARTOD-style gross-range, spike/outlier and rate-of-change tests with flags"
+      },
+      "methods": "Describes technical design, station/instrument architecture, telemetry, data portal and QA/QC, with practical case studies showing how high-frequency observations supplement monthly sampling, fill gaps and retain coverage during acute disturbances.",
+      "findings": [
+        "Monthly sampling cannot resolve rapid physical and biogeochemical variability in a shallow estuary; 15-minute water-quality observations materially improve temporal coverage.",
+        "Co-located salinity, oxygen, chlorophyll, meteorology and currents support process interpretation during acute disturbances.",
+        "The network demonstrates an operational architecture and data-access model, not a validated hypoxia or fish-event forecasting model."
+      ],
+      "uncertainty_and_limitations": [
+        "No Jubilee-event or fish-aggregation endpoint.",
+        "No out-of-sample forecast comparison, sensitivity/specificity or decision-utility evaluation.",
+        "Water-quality sensors are near surface rather than bottom/contact-strip; this cannot substitute for Point Clear bottom oxygen.",
+        "ADCP currents are non-real-time and station coverage/operational periods vary.",
+        "Case studies are demonstrations selected by the authors, not an independent network benchmark."
+      ],
+      "transferability": "MEDIUM_FOR_OBSERVATION_AND_QC_CONTRACT_LOW_FOR_EVENT_SKILL",
+      "mobile_bay_implications": [
+        "Reinforces the priority of co-timed oxygen, salinity, temperature, chlorophyll/organic-matter proxies, meteorology and current observations with explicit depth and QC.",
+        "Supports keeping surface/regional oxygen separate from bottom/contact-strip oxygen and model guidance separate from observed transport.",
+        "Offline design opportunity: audit whether existing sources can form 15-minute aligned feature windows with QARTOD-like flags before fitting any event model; no new sensor purchase is implied."
+      ],
+      "research_questions": [
+        "Which existing Mobile Bay feeds can be synchronized at 15-minute resolution without conflating surface, mid-depth and bottom measurements?",
+        "Do co-located current and oxygen changes precede independently confirmed fish aggregation with useful lead time?",
+        "How much forecast value is lost when currents are delayed or model-only rather than real-time observed?"
+      ],
+      "verification_receipts": [
+        {
+          "source": "publisher version of record",
+          "url": "https://link.springer.com/article/10.1007/s10661-026-16007-4",
+          "checked_at_utc": "2026-11-07T16:21:08.314Z"
+        },
+        {
+          "source": "PubMed/PMC bibliographic and full-text record",
+          "url": "https://pubmed.ncbi.nlm.nih.gov/42842094",
+          "checked_at_utc": "2026-11-07T16:21:08.314Z"
+        }
+      ]
+    },
+    {
+      "rank": 3,
+      "title": "Biological legacy of large-scale coastal reclamation: Potential oxygen demand from pre-existing benthic biomass",
+      "authors": [
+        "Bon Joo Koo"
+      ],
+      "institutions": [
+        "Korea Institute of Ocean Science and Technology, East Sea Environment Research Center",
+        "University of Science and Technology, School of Ocean Science"
+      ],
+      "publication_date": "2026-11-06",
+      "journal": "Frontiers in Marine Science",
+      "volume_article": "13:1998927",
+      "doi": "10.3389/fmars.2026.1998927",
+      "primary_url": "https://www.frontiersin.org/journals/marine-science/articles/10.3389/fmars.2026.1998927/full",
+      "full_text_access": "OPEN_FULL_TEXT",
+      "classification": "PEER_REVIEWED_SINGLE_SYSTEM_RETROSPECTIVE_REANALYSIS",
+      "validation_status": "AUTHOR_REPORTED_SCREENING_ESTIMATES_NOT_REALIZED_HYPOXIA_OR_PREDICTION",
+      "observational_coverage": {
+        "system": "Saemangeum, Republic of Korea",
+        "intervention": "Final coastal-dike closure in 2006 transformed macrotidal flats and shallow-subtidal habitat into a semi-enclosed system",
+        "data_basis": "Field-collected intertidal macrofauna/elevation plus historical biological, hydrological and bathymetric observations; reanalysis of pre/post-closure field observations and prior laboratory retention trajectories",
+        "uncertainty": "Conditional parametric bootstrap intervals propagated from biomass and dissolved-oxygen resampling"
+      },
+      "methods": "Reconstructed pre-closure benthic carbon inventory, converted complete decomposition to an oxygen-demand upper bound, constrained affected fractions using observed biomass loss, and compared potential demand with standing oxygen inventories across three assumed effective receiving-water volumes.",
+      "findings": [
+        "Complete decomposition of reconstructed benthic stocks corresponded to an upper-bound potential demand of 25,023 t O2; excluding tidal-flat bacteria reduced it to 14,461 t O2.",
+        "At 120 days, two field-constrained biomass-loss estimators produced 3,547 t O2 (95% interval 1,912–4,607) and 4,663 t O2 (4,016–5,563).",
+        "At the smallest assumed 0.35 km3 receiving volume, point-estimate demand-to-standing-oxygen ratios were 1.20 and 1.58, but the paper explicitly says these are relative-magnitude screening metrics, not hypoxia probabilities or reconstructions of realized oxygen depletion."
+      ],
+      "uncertainty_and_limitations": [
+        "Single altered estuary with a major reclamation intervention unlike ordinary Mobile Bay conditions.",
+        "Retrospective reconstruction combines observations from different years and assumptions about complete decomposition, affected fractions and receiving-water volume.",
+        "No direct reconstruction of realized oxygen depletion, no fish endpoint and no forecast validation.",
+        "Bootstrap intervals are conditional on the model and inputs; they do not cover all structural uncertainty."
+      ],
+      "transferability": "LOW_TO_MEDIUM_FOR_OXYGEN_LOADING_HYPOTHESIS_LOW_FOR_DIRECT_JUBILEE_PREDICTION",
+      "mobile_bay_implications": [
+        "Suggests benthic biological/organic-matter legacy can create a multi-week oxygen-demand memory after abrupt circulation or habitat changes.",
+        "Supports offline examination of sediment oxygen demand and recent-event persistence only if Mobile Bay-specific benthic and oxygen data exist.",
+        "Does not justify a new production feature, weight or physical collection program."
+      ],
+      "research_questions": [
+        "Is there evidence of persistent benthic oxygen demand after major runoff, resuspension or habitat-disturbance episodes in Mobile Bay?",
+        "Can oxygen-loading memory be estimated from existing benthic/organic-matter observations without introducing unverified proxies?",
+        "Would a state-space oxygen-load term improve held-out event calibration once direct bottom oxygen and controls exist?"
+      ],
+      "verification_receipts": [
+        {
+          "source": "publisher full text",
+          "url": "https://www.frontiersin.org/journals/marine-science/articles/10.3389/fmars.2026.1998927/full",
+          "checked_at_utc": "2026-11-07T16:21:08.314Z"
+        },
+        {
+          "source": "publisher article index/PDF metadata",
+          "url": "https://www.frontiersin.org/journals/marine-science/articles",
+          "checked_at_utc": "2026-11-07T16:21:08.314Z"
+        }
+      ]
+    }
+  ],
+  "excluded_candidates": [
+    {
+      "title": "Spatiotemporal extent of diel and episodic hypoxia in bottom water of a shallow, well-mixed estuary",
+      "doi": "10.3389/fmars.2026.1923195",
+      "reason": "Paper was published 2026-08-31, before the initial 2026-10-07 coverage window. An October institutional/news release did not create a new version or new empirical result."
+    },
+    {
+      "title": "Variation in hypoxia tolerance is driven by evolutionary adaptation in the eastern oyster",
+      "identifier": "bioRxiv 10.64898/2026.10.28.762489v1",
+      "reason": "New preprint and biologically relevant, but lower direct relevance to dissolved-oxygen/event forecasting than the three included papers; monitor for peer-reviewed version and forecasting implications."
+    },
+    {
+      "title": "Remote sensing of aquatic nutrients from proxy estimation to integration with process models",
+      "doi": "10.1038/s43247-026-04152-0",
+      "reason": "Review/synthesis without new directly applicable estuarine oxygen-event validation; excluded under no-padding rule."
+    }
+  ],
+  "synthesis": {
+    "strongest_new_evidence": "Storm-driven dissolved-oxygen response is system- and salinity-dependent; the Weeks Bay-inclusive study argues against a simple universal rainfall sign.",
+    "most_practical_methodological_update": "High-frequency, depth-explicit, co-timed oxygen/salinity/temperature/met/current measurements with automated QC are a prerequisite for process attribution, but Tampa's near-surface network is not a substitute for Eastern Shore bottom oxygen.",
+    "hypothesis_update": "Retain rainfall/runoff interactions and benthic oxygen-load memory as research hypotheses only. Neither has met the production promotion gate.",
+    "predictive_gain": "NOT_MEASURED",
+    "production_change": "NONE",
+    "acquisition_change": "NONE",
+    "outreach": "NONE",
+    "financial_action": "NONE"
+  },
+  "offline_validation_opportunities": [
+    "Construct leakage-safe storm-event windows for existing Weeks Bay and Eastern Shore observations and test sign heterogeneity by salinity/mixing state.",
+    "Audit existing source timestamps/depth/QC to determine whether 15-minute aligned oxygen-current-met windows are feasible without new collection.",
+    "Test a sediment/oxygen-load memory term only after direct bottom oxygen and matched event/control labels become sufficient."
+  ],
+  "next_review": {
+    "coverage_start_exclusive": "2026-11-07",
+    "target_delivery_surface": "Existing Friday Daily Strategic Briefing private report",
+    "no_new_task_or_pipeline": true
+  },
+  "guardrails": [
+    "Peer review alone is not independent validation.",
+    "A successful oxygen or monitoring workflow is not Jubilee-event accuracy.",
+    "No feature receives positive production weight from plausibility or a single study.",
+    "No production probability, threshold, camera coverage, cadence, schedule, UNKNOWN rule or 9 p.m. gate changed.",
+    "No paid call, purchase, service activation, outreach, LinkedIn action or budget/billing change occurred."
+  ]
+}

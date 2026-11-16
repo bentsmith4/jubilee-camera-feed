@@ -22,3 +22,9 @@ class RegisterIntegrityTest(unittest.TestCase):
         ):
             with self.subTest(candidate=candidate), self.assertRaises(ValueError):
                 verify(self.base, candidate)
+
+    def test_empty_base_and_line_boundaries(self):
+        for base, proposed in ((b"", b"receipt"), (b"old", b"oldjoined"), (b"old\n", b"old\r\n")):
+            with self.subTest(base=base, proposed=proposed), self.assertRaises(ValueError):
+                verify(base, proposed)
+        verify(b"old", b"old\nnew\n")

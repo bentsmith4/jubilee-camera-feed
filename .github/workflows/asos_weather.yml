@@ -32,7 +32,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.ref_name }}
-          fetch-depth: 0
+          # Main producers need the current tree and subsequent descendant updates.
+          # Preserve full history for non-main manual runs and their merge bases.
+          fetch-depth: ${{ github.ref == 'refs/heads/main' && 1 || 0 }}
       - name: Check Central production season
         id: season
         uses: ./.github/actions/production-season

@@ -25,7 +25,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          # Main producers need the current tree and subsequent descendant updates.
+          # Preserve full history for non-main manual runs and their merge bases.
+          fetch-depth: ${{ github.ref == 'refs/heads/main' && 1 || 0 }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'

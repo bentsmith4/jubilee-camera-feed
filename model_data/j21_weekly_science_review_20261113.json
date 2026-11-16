@@ -1,0 +1,275 @@
+{
+  "schema": "jubilee_weekly_science_review/v1",
+  "stable_id": "J21-SCIENCE-REVIEW-20261113",
+  "generated_at_utc": "2026-11-13T15:43:01.688Z",
+  "coverage": {
+    "window_start_exclusive_utc": "2026-11-07T16:21:08.314Z",
+    "window_end_inclusive_utc": "2026-11-13T15:43:01.688Z",
+    "timezone": "America/Chicago",
+    "basis": "Incremental Friday review after the 2026-11-07 durable J21 receipt; DOI/title deduplicated against that artifact and the current Friday Daily Command Brief.",
+    "coverage_through_utc": "2026-11-13T15:43:01.688Z"
+  },
+  "ownership": {
+    "scientific_owner": "Jubilee Model Research & Calibration",
+    "coordinator": "Jubilee Dot",
+    "publication_owner": "Daily Strategic Briefing",
+    "publication_task_id": "6a91a536cfb081919b766349ad070ebe",
+    "silent_specialist": true
+  },
+  "deduplication": {
+    "prior_artifact": "model_data/j21_weekly_science_review_20261107.json",
+    "prior_doi_keys": [
+      "10.5194/bg-23-7009-2026",
+      "10.1007/s10661-026-16007-4",
+      "10.3389/fmars.2026.1998927"
+    ],
+    "current_daily_brief_checked": {
+      "file": "2026-11-13 Daily Command Brief.md",
+      "library_file_id": "libfile_ede37655a96c8191bfdf4dcb8446a939",
+      "modified_at_utc": "2026-11-13T14:20:15.606720Z",
+      "result": "NEITHER_INCLUDED_PUBLICATION_WAS_COVERED"
+    },
+    "title_normalization": "lowercase, Unicode normalized, punctuation and repeated whitespace collapsed"
+  },
+  "search_protocol": {
+    "topics": [
+      "coastal and estuarine hypoxia",
+      "estuarine dissolved oxygen dynamics",
+      "fish-kill and fish-event prediction",
+      "hydrodynamic transport and ventilation",
+      "sediment oxygen-history persistence"
+    ],
+    "date_filter": "newly published or newly available after 2026-11-07 through 2026-11-13",
+    "inclusion": "Original scientific paper or authoritative research report with a primary DOI/publisher record and enough verified methods/results to assess relevance and limitations.",
+    "exclusion": "News-only items, work outside the incremental window, reviews without directly useful new evidence, and papers too indirect for Jubilee forecasting.",
+    "verification": "Each inclusion was checked twice: the primary publisher/full-text or DOI-indexed article record, plus a separate publisher-index, preprint metadata, or bibliographic read.",
+    "count_included": 2,
+    "quota_policy": "UP_TO_THREE_NO_PADDING"
+  },
+  "publications": [
+    {
+      "rank": 1,
+      "title": "Hydrodynamic controls of hypoxia formation in a shallow inverse estuary: Insights from Kuwait Bay",
+      "authors": [
+        "M. S. Al-Khaldi",
+        "Y. Alosairi",
+        "N. Alsulaiman"
+      ],
+      "institutions": [
+        "Kuwait Institute for Scientific Research"
+      ],
+      "publication_date": "2026-11-12",
+      "publication_date_note": "Online publication date observed in the bounded 2026-11-12 search; publisher DOI and volume records were rechecked on 2026-11-13.",
+      "journal": "Marine Pollution Bulletin",
+      "volume": "233, Part 3 (in progress)",
+      "article_number": "120381",
+      "doi": "10.1016/j.marpolbul.2026.120381",
+      "primary_url": "https://doi.org/10.1016/j.marpolbul.2026.120381",
+      "publisher_url": "https://www.sciencedirect.com/science/article/pii/S0025326X26011689",
+      "access_status": "ACCEPTED_ARTICLE_ABSTRACT_AND_PUBLISHER_HIGHLIGHTS; PRIOR_PREPRINT_METADATA_AND_INDEXED_SNIPPETS",
+      "classification": "PEER_REVIEWED_ORIGINAL_SINGLE_STATION_TWO_EVENT_OBSERVATIONAL_STUDY",
+      "validation_status": "AUTHOR_REPORTED_SINGLE_SYSTEM_RESULT_NOT_INDEPENDENTLY_VALIDATED",
+      "observational_coverage": {
+        "system": "Kuwait Bay, a shallow inverse estuary in the north Arabian/Persian Gulf",
+        "year": 2020,
+        "station_count": 1,
+        "sensor_position": "near-bed",
+        "event_count": 2,
+        "event_type": "summer hypoxic events",
+        "current_analysis": "Empirical orthogonal function analysis of near-bed current velocities"
+      },
+      "methods": "The accessible accepted-article abstract and publisher highlights describe in-situ environmental observations at one near-bed station and EOF decomposition of subtidal currents. Two modes explained about 92% of current variability: an east-west advective mode (about 78%) and a vertically sheared bidirectional mode (about 14%).",
+      "findings": [
+        "The bidirectional circulation mode was associated with trapping low-oxygen water and prolonging event duration.",
+        "Publisher highlights report that Shamal wind forcing led near-bed dissolved oxygen by roughly 2–4 days, which the authors present as a candidate early-warning relationship.",
+        "The paper links hypoxia persistence to transport and retention dynamics rather than oxygen loading alone and explicitly situates the system in a history of summer hypoxia and fish kills."
+      ],
+      "evidence_quality": "High relevance to transport/ventilation hypotheses, but limited observational breadth: one station and two events. The accepted article is peer reviewed; this review did not treat peer review as independent validation.",
+      "uncertainty_and_limitations": [
+        "Accepted full text could not be independently extracted in this run; findings above are limited to the DOI-indexed abstract, publisher highlights and prior-preprint indexed text.",
+        "No multi-station spatial validation, external estuary validation, held-out forecast evaluation, calibration analysis or Jubilee biological endpoint was verified.",
+        "Kuwait Bay is hypersaline/inverse and climatically distinct from Mobile Bay; the sign and lag of wind-current-oxygen relationships are not directly transferable.",
+        "A two-event lead relationship is exploratory and cannot support a production feature or threshold."
+      ],
+      "transferability": "MEDIUM_FOR_OFFLINE_TRANSPORT_LAG_HYPOTHESIS_LOW_FOR_DIRECT_PRODUCTION_TRANSFER",
+      "mobile_bay_implications": [
+        "Offline only: test whether observed/local near-bed transport modes and wind-to-oxygen lags add event-blocked value after direct Eastern Shore current and bottom-oxygen gates are cleared.",
+        "Treat retention/bidirectional flow as a state interaction, not a standalone monotonic predictor.",
+        "Do not reopen the deferred wind-capture optimization project; this is a scientific transport hypothesis, not evidence for camera reduction."
+      ],
+      "offline_validation_opportunities": [
+        "On retained event/control windows, compare transport-only versus oxygen-loading-only and combined models with time-blocked evaluation.",
+        "Require local current geometry, depth, units, clock/timezone and direct bottom-oxygen provenance before testing the reported 2–4 day lead.",
+        "Estimate uncertainty across events and reject the feature if the lag or sign is unstable."
+      ],
+      "source_checks": [
+        {
+          "checked_at_utc": "2026-11-13T15:43:01.688Z",
+          "source": "Elsevier ScienceDirect DOI/article and volume index",
+          "verified": [
+            "title",
+            "DOI",
+            "article number",
+            "journal/open-access research-article status",
+            "single near-bed station",
+            "two 2020 summer events",
+            "EOF mode shares",
+            "bidirectional trapping",
+            "2–4 day Shamal lead"
+          ]
+        },
+        {
+          "checked_at_utc": "2026-11-13T15:43:01.688Z",
+          "source": "SSRN preprint metadata/index plus independent bibliographic index",
+          "verified": [
+            "authors",
+            "Kuwait Institute for Scientific Research affiliation",
+            "Kuwait Bay setting",
+            "methods and mode interpretation"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "title": "Transitional ecosystem states in coastal waters undergoing changing oxygen conditions revealed by coupled geochemical and microbial dynamics",
+      "authors": [
+        "Emelie Nilsson",
+        "Laura Seidel",
+        "Nicolò Ivanovich",
+        "Magnus Ståhle",
+        "Elias Broman",
+        "Mark Dopson"
+      ],
+      "institutions": [
+        "Centre for Ecology and Evolution in Microbial Model Systems, Linnaeus University",
+        "Department of Ecology, Environment and Plant Sciences, Stockholm University",
+        "Centre for the Environment, Linnaeus University",
+        "Baltic Sea Centre, Stockholm University"
+      ],
+      "publication_date": "2026-11-10",
+      "journal": "Frontiers in Microbiology",
+      "volume": "17",
+      "article_number": "1964751",
+      "doi": "10.3389/fmicb.2026.1964751",
+      "primary_url": "https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2026.1964751/full",
+      "access_status": "OPEN_FULL_TEXT_AND_SUPPLEMENT",
+      "classification": "PEER_REVIEWED_ORIGINAL_SINGLE_BAY_ONE_YEAR_OBSERVATIONAL_MULTI_OMICS_STUDY",
+      "validation_status": "AUTHOR_REPORTED_SINGLE_SYSTEM_RESULT_NOT_INDEPENDENTLY_VALIDATED",
+      "observational_coverage": {
+        "system": "Coastal Baltic Sea bay near Loftahammar, Sweden",
+        "sampling_period": "2017-03-21 through 2017-12-14",
+        "sites": 3,
+        "depths_m": [
+          6.5,
+          20.5,
+          30.1
+        ],
+        "site_regimes": [
+          "predominantly oxic",
+          "intermediate/fluctuating oxygen",
+          "long-term low oxygen"
+        ],
+        "replication": "Three biological replicate sediment cores per site/date",
+        "measurements": "surface-sediment and water geochemistry, in-situ surface/bottom oxygen/temperature/salinity/pH, 16S rRNA amplicons, metatranscriptomics"
+      },
+      "methods": "Repeated sampling across one year at three depth/oxygen-history sites; combined sediment biogeochemistry, 16S rRNA community profiling and metatranscriptomic activity analysis. The public data/code references include NCBI BioProjects and a GitHub analysis repository.",
+      "findings": [
+        "Long-term oxygen history was the primary structuring factor for microbial community composition and transcriptional profiles.",
+        "The shallow mostly oxic and deep long-term low-oxygen sites were comparatively stable, while the intermediate fluctuating-oxygen site had the greatest temporal variability and stronger transcriptional shifts.",
+        "The authors interpret transitional oxygen habitats as dynamic ecological states responsive to environmental variability."
+      ],
+      "evidence_quality": "Strong mechanistic and provenance value for sediment-state persistence, with full methods/data references, but it is a single Baltic bay, one sampling year and a microbial/sediment endpoint rather than a forecast or fish-event study.",
+      "uncertainty_and_limitations": [
+        "No external or out-of-sample validation and no operational forecast evaluation.",
+        "Only three sites; depth and long-term oxygen regime are partly confounded.",
+        "Sampling was periodic rather than continuous and some oxygen/geochemistry entries were missing.",
+        "Baltic depths, salinity, seasonality and sediment ecology differ materially from Mobile Bay.",
+        "Microbial/transcriptomic state is not a Jubilee label and is not available as a pre-event production input."
+      ],
+      "transferability": "LOW_TO_MEDIUM_FOR_OFFLINE_STATE_MEMORY_HYPOTHESIS_LOW_FOR_DIRECT_JUBILEE_PREDICTION",
+      "mobile_bay_implications": [
+        "Offline only: assess whether retained antecedent bottom-oxygen and sediment/organic-matter proxies exhibit regime persistence or nonlinear transition behavior.",
+        "Prefer state-space or persistence features over treating each low-oxygen observation as independent, but require local dated events and matched controls.",
+        "Do not infer biological detection, fish aggregation or production benefit from sediment microbial shifts."
+      ],
+      "offline_validation_opportunities": [
+        "When reliable local bottom-oxygen sequences exist, compare memory/state-transition features with same-day oxygen-loading baselines under event-blocked validation.",
+        "Test whether intermediate/fluctuating regimes are associated with greater error or event probability, with uncertainty and site effects explicit.",
+        "Reject the hypothesis if it does not improve Brier/log loss and decision utility on held-out Jubilee event/control windows."
+      ],
+      "source_checks": [
+        {
+          "checked_at_utc": "2026-11-13T15:43:01.688Z",
+          "source": "Frontiers full article",
+          "verified": [
+            "title",
+            "authors",
+            "affiliations",
+            "publication date",
+            "DOI",
+            "sampling dates/sites/depths",
+            "methods",
+            "results",
+            "data/code availability",
+            "limitations"
+          ]
+        },
+        {
+          "checked_at_utc": "2026-11-13T15:43:01.688Z",
+          "source": "Independent DOI/title publisher-index search",
+          "verified": [
+            "bibliographic identity",
+            "publication timing",
+            "article type"
+          ]
+        }
+      ]
+    }
+  ],
+  "exclusions": [
+    {
+      "title": "Increased Hydrological Connectivity Does Not Always Lead to Increased Nutrient Removal Potential in a Coastal River Delta",
+      "doi": "10.1029/2026JG010083",
+      "publication_date": "2026-11-10",
+      "reason": "Substantive original delta nutrient-transport study, but no directly verified dissolved-oxygen, hypoxia or fish-event endpoint; excluded rather than padding the quota."
+    },
+    {
+      "title": "Integrated transcriptomic and metabolomic profiling of hypoxia response in a marine bivalve",
+      "reason": "Organismal laboratory-response work with weaker direct relevance to Mobile Bay event forecasting than the two included studies; excluded without padding."
+    },
+    {
+      "title": "Spatiotemporal extent of diel and episodic hypoxia in bottom water of a shallow, well-mixed estuary",
+      "doi": "10.3389/fmars.2026.1923195",
+      "reason": "Highly relevant but published 2026-08-31 and therefore outside the incremental post-2026-11-07 window; retained as an out-of-window candidate rather than presented as new."
+    }
+  ],
+  "synthesis": {
+    "new_scientific_finding": "Two post-window original studies reinforce separate transport-retention and oxygen-history/state-memory hypotheses, but neither validates a Mobile Bay Jubilee forecast or biological detection endpoint.",
+    "independent_validation": "NONE",
+    "measured_predictive_gain": "NOT_MEASURED",
+    "production_decision": "NO_CHANGE",
+    "research_questions": [
+      "Do locally observed near-bed transport/retention states add held-out value beyond oxygen-loading features once current/geometry and bottom-oxygen gates are cleared?",
+      "Do antecedent low-oxygen histories create measurable state persistence or transition risk in dated Jubilee event/control windows?"
+    ],
+    "next_steps": [
+      "Reuse these two hypotheses only in bounded offline time-blocked tests after reliable local inputs and matched controls exist.",
+      "Continue compact-JSON biological equivalence and actual billed-cost acceptance ahead of wind-capture optimization."
+    ],
+    "unresolved_risks": [
+      "No positive-event paired compact/original biological challenge set.",
+      "No provider-side actual billed-cost reconciliation.",
+      "No validated local near-bed current geometry or direct Eastern Shore bottom-oxygen time series."
+    ]
+  },
+  "controls": {
+    "no_production_change": true,
+    "no_new_acquisition": true,
+    "no_paid_experiment": true,
+    "no_outreach": true,
+    "no_budget_or_billing_change": true,
+    "no_wind_optimization_reopen": true,
+    "zero_production_weight": true
+  }
+}

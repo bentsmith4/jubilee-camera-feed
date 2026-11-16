@@ -1,22 +1,56 @@
 {
   "schema_version": "1.1",
   "cast": "nowcast",
-  "retrieved_at": "2026-11-03T03:04:22.501633+00:00",
+  "retrieved_at": "2026-11-14T22:45:33.506792+00:00",
   "status": "complete",
   "evidence_class": "MODEL",
   "production_action": "NO_CHANGE",
   "station_access": {
     "method": "HTTPS_FULL_STATION_NETCDF",
-    "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/11/02/ngofs2.t21z.20261102.stations.nowcast.nc",
-    "full_file_sha256": "4db99725a39e362928b28fb5c236432f426999384d9135095559190010298a12",
+    "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/11/14/ngofs2.t15z.20261114.stations.nowcast.nc",
+    "full_file_sha256": "ccf9f9504aec38c356a8403ea63de8f15d81ee5e977d0931527fb59e2ad7f798",
     "bytes": 14831795,
-    "download_completed_at": "2026-11-03T03:04:22.501633+00:00",
+    "download_completed_at": "2026-11-14T22:45:33.506792+00:00",
     "embedded_time_validation": "PASS"
   },
-  "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/11/02/ngofs2.t21z.20261102.stations.nowcast.nc",
-  "model_initialized_at": "2026-11-02T21:00:00+00:00",
-  "failed_newer_attempts": [],
-  "retrieval_attempts": [],
+  "source_url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/11/14/ngofs2.t15z.20261114.stations.nowcast.nc",
+  "model_initialized_at": "2026-11-14T15:00:00+00:00",
+  "failed_newer_attempts": [
+    {
+      "url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/11/14/ngofs2.t21z.20261114.stations.nowcast.nc",
+      "error_type": "HTTPError",
+      "http_status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "stage": "http_download",
+      "model_initialized_at": "2026-11-14T21:00:00+00:00"
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/11/14/ngofs2.t21z.20261114.stations.nowcast.nc",
+      "error_type": "HTTPError",
+      "http_status": 404,
+      "error": "HTTP Error 404: ",
+      "stage": "http_download",
+      "model_initialized_at": "2026-11-14T21:00:00+00:00"
+    }
+  ],
+  "retrieval_attempts": [
+    {
+      "url": "https://noaa-nos-ofs-pds.s3.amazonaws.com/ngofs2/netcdf/2026/11/14/ngofs2.t21z.20261114.stations.nowcast.nc",
+      "error_type": "HTTPError",
+      "http_status": 404,
+      "error": "HTTP Error 404: Not Found",
+      "stage": "http_download",
+      "model_initialized_at": "2026-11-14T21:00:00+00:00"
+    },
+    {
+      "url": "https://opendap.co-ops.nos.noaa.gov/thredds/fileServer/NOAA/NGOFS2/MODELS/2026/11/14/ngofs2.t21z.20261114.stations.nowcast.nc",
+      "error_type": "HTTPError",
+      "http_status": 404,
+      "error": "HTTP Error 404: ",
+      "stage": "http_download",
+      "model_initialized_at": "2026-11-14T21:00:00+00:00"
+    }
+  ],
   "station_count": 5,
   "stations": [
     {
@@ -128,8 +162,8 @@
   ],
   "unresolved_targets": [],
   "normalized_rows": 2745,
-  "subset_sha256": "55bfe830ba39f91f6f2d8143cac778c2940ce3de608635d55395a15e154a2497",
-  "subset_archive": "public_archive/ngofs2_named_station_subset/55bfe830ba39f91f6f2d8143cac778c2940ce3de608635d55395a15e154a2497.json.gz",
+  "subset_sha256": "2dea1815b741f228980a9cea8b14d35d9913251717391ae7571529aef7fb8a7a",
+  "subset_archive": "public_archive/ngofs2_named_station_subset/2dea1815b741f228980a9cea8b14d35d9913251717391ae7571529aef7fb8a7a.json.gz",
   "normalized_csv": "ngofs2_mobile_bay_named_stations_nowcast_normalized.csv",
   "guardrails": [
     "All values are MODEL guidance, not observations.",
