@@ -14,6 +14,8 @@ on:
       - "model_data/current_forecast.json"
       - "model_data/bind_current_forecast.py"
       - "model_data/roll_forward_dawn_outlook.py"
+      - "model_data/verify_dawn_revisions.py"
+      - "tests/test_dawn_revision_reuse.py"
       - "tests/test_current_forecast.py"
       - "tests/test_dawn_outlook_rollforward.py"
       - "tests/fixtures/forecast_binding/**"
@@ -32,6 +34,8 @@ on:
       - "model_data/current_forecast.json"
       - "model_data/bind_current_forecast.py"
       - "model_data/roll_forward_dawn_outlook.py"
+      - "model_data/verify_dawn_revisions.py"
+      - "tests/test_dawn_revision_reuse.py"
       - "tests/test_current_forecast.py"
       - "tests/test_dawn_outlook_rollforward.py"
       - "tests/fixtures/forecast_binding/**"
@@ -52,10 +56,10 @@ jobs:
         run: |
           python -B -m unittest discover -s tests -p "test_current_forecast.py" -v
           python -B -m unittest discover -s tests -p "test_dawn_outlook_rollforward.py" -v
-      - name: Verify the checked-out snapshot and forecast as one pair
-        run: python -B model_data/bind_current_forecast.py --check
+          python -B -m unittest discover -s tests -p "test_dawn_revision_reuse.py" -v
       # Binding alone permits sensing to retain an older reviewed outlook.
       # Report an expired horizon explicitly; this check never edits evidence
       # or grants sensing authority to reassess numerical forecasts.
-      - name: Verify the published three-day Dawn horizon
+      - name: Verify exact pair binding and published three-day Dawn horizon
         run: python -B model_data/bind_current_forecast.py --check --require-dawn-horizon
+
