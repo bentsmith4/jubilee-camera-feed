@@ -1,0 +1,65 @@
+name: Register integrity
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  preserve-register:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+          sparse-checkout: tools
+          persist-credentials: false
+      - name: Compare target history with the proposed merge
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          python -I - <<'PYTHON'
+          import hashlib
+          import os
+          from pathlib import Path
+          import re
+          import subprocess
+          import sys
+          import tempfile
+
+          def git(*args):
+              return subprocess.check_output(["git", *args])
+
+          base, head = os.environ["BASE"], os.environ["PR_HEAD"]
+          if not all(re.fullmatch(r"[0-9a-f]{40}", rev) for rev in (base, head)):
+              raise SystemExit("Invalid base/head identity")
+          merge = git("rev-parse", "HEAD").decode().strip()
+          parents = git("cat-file", "-p", merge).split(b"\n\n", 1)[0].splitlines()
+          parents = [line[7:].decode() for line in parents if line.startswith(b"parent ")]
+          if parents != [base, head]:
+              raise SystemExit("Checkout is not the event's base/head proposed merge")
+          checker = "tools/check_register_append.py"
+          # Check existence separately: a Git read failure must not enable bootstrap.
+          exists = git("ls-tree", base, "--", checker).strip()
+          if exists:
+              source = git("show", base + ":" + checker)
+              origin = "trusted base"
+          else:
+              # First installation only. Any base movement requires explicit review.
+              if os.environ["PR_NUMBER"] != "160" or base != "952a467f9af03c17c0210a27979cdc72112c9d7a":
+                  raise SystemExit("Base checker absent; installation review required")
+              source = git("show", merge + ":" + checker)
+              if hashlib.sha256(source).hexdigest() != "5170628871f15e907380b2f6d4590a3a5daf30219224176fafee5b3e4532bdc7":
+                  raise SystemExit("Bootstrap checker differs from reviewed bytes")
+              origin = "pinned first-install checker"
+          with tempfile.TemporaryDirectory() as directory:
+              trusted = Path(directory) / "check_register_append.py"
+              trusted.write_bytes(source)
+              subprocess.run([sys.executable, "-I", str(trusted), base, merge], check=True)
+          register = "model_data/MODEL_WORK_REGISTER.md"
+          print("PASS", origin, "base", base, "head", head, "merge", merge)
+          for revision in (base, merge):
+              print("register blob", revision, git("rev-parse", revision + ":" + register).decode().strip())
+          PYTHON

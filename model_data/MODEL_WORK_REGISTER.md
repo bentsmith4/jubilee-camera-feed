@@ -4269,3 +4269,13 @@ Stage: FINAL_IN_SEASON_DAWN_VALID / DAYLIGHT_FOLLOWUP_VALID / SIX_CELL_HORIZON_V
 
 Stage: WINTER_COLLECTION_STOP_VERIFIED / NO_RECORDED_POST_BOUNDARY_VISION / COORDINATOR_HEARTBEAT_VALID / RESEARCH_ACTIVE / WORKFLOW_START_SUPPRESSION_FAIL_PENDING_PR187 / PR187_RESEARCH_SCIENCE_PASS / OPERATIONAL_REVIEW_PENDING / POSTMERGE_ACCEPTANCE_PENDING / MAY18_RESTART_PENDING / J09_FULL_VDOV_REPRODUCTION_BLOCKED_EVIDENCE / EPA_LIU_ARCOS_DEDUP_REUSED / PR161_WEEKLY_ACCEPTANCE_PENDING_NOV17 / NO_PRODUCTION_CHANGE / NO_ALERT / NO_FINANCIAL_ACTION.
 
+
+## J01 / J11 / J13 register integrity preparation — November 15, 2026
+
+Ben approved preparation through the existing Sensing engineering owner and PR #160, not merge, deployment or repository protection changes. Review base is main `952a467f9af03c17c0210a27979cdc72112c9d7a`; original #160 head `217c60464336709d222cf665c9f068d672ad3389`. The complete PR #186 November 14 Dawn receipt remains byte-identical. Existing #171/#187 register differences contain only mid-file additions, which must be appended after current main rather than inserted into its prefix. No historical loss is claimed.
+
+Prepared #160 verifies proposed merge parents, uses the trusted base checker, and permits initial installation only for PR 160 on the exact reviewed base with pinned unchanged checker bytes. Fourteen targeted offline tests pass, including real Git concurrent appends, rejected lost history, candidate checker replacement, absent refs/register, stale event base, UTF-8/NUL and first-install constraints. Hosted checks and independent review remain separate gates. The workflow itself remains a review-controlled trust boundary; this is not tamper-proof enforcement.
+
+The source inventory found six GitHub workflow direct-main publishers and the desktop publisher; complete external credential/writer inventory remains unverified. Enabling required PR/check/review protection now would block legitimate publication, including winter water-quality research. `docs/REGISTER_INTEGRITY.md` specifies the proposed configuration, append-only corrections and publisher/reviewer/administrative acceptance gates. No protection, publisher migration, production acquisition, paid call, deployment, probability/weight change or scientific acceptance is claimed. Keep shared seasonal-fixture repair in #187/shared owner path and external-observation adoption in #171.
+
+Stage: REGISTER_GUARD_PREPARED / OFFLINE_14_TESTS_PASS / HOSTED_CHECKS_PENDING / INDEPENDENT_REVIEW_PENDING / PUBLISHER_COMPATIBILITY_BLOCKS_ENFORCEMENT / OWNER_APPROVAL_REQUIRED_FOR_MERGE_AND_PROTECTIONS.
