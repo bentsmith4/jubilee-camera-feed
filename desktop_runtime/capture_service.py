@@ -156,6 +156,7 @@ def log(message):
 
 
 def execute(script, limit):
+    started = time.monotonic()
     process = subprocess.Popen(
         [sys.executable, str(BASE / script)],
         cwd=BASE,
@@ -166,12 +167,12 @@ def execute(script, limit):
     try:
         stdout, _stderr = process.communicate(timeout=limit)
     except subprocess.TimeoutExpired:
-        subprocess.run(
+        termination = subprocess.run(
             ["taskkill", "/PID", str(process.pid), "/T", "/F"],
             capture_output=True,
         )
-        process.communicate()
-        log(script + " timeout; child process tree stopped")
+        stdout, _stderr = process.communicate()
+        timeout_diagnostic(script, stdout, started, termination.returncode, process.returncode)
         return False
 
     # Log only allowlisted completion summaries, not child exceptions or URLs.
@@ -187,6 +188,36 @@ def execute(script, limit):
             log(line)
     log(script + " exit=" + str(process.returncode))
     return process.returncode == 0
+
+
+def timeout_diagnostic(script, stdout, started, termination_code, root_code):
+    """Report observed stage/deadline only; never claim descendant cleanup."""
+    try:
+        scripts = {"capture_publish.py", "live_capture.py", "live_upload.py"}
+        stages = {"burst_capture.py", "analyze_frames.py", "notify_alligator.py",
+                  "upload_frames.py", "publish_github.py"}
+        active = "unknown"
+        completed = "unknown"
+        if script == "capture_publish.py":
+            for line in (stdout or "").splitlines():
+                fields = line.split()
+                if (len(fields) == 3 and fields[0] == "JUBILEE_STAGE"
+                        and fields[1] in stages and fields[2] in {"start", "end"}):
+                    if fields[2] == "start":
+                        active = fields[1]
+                    else:
+                        completed = fields[1]
+                        active = "between_stages"
+        safe_script = script if script in scripts else "unknown"
+        kill = str(termination_code) if type(termination_code) is int else "unknown"
+        root = str(root_code) if type(root_code) is int else "unknown"
+        elapsed = max(0, int(time.monotonic() - started))
+        log(f"{safe_script} timeout; elapsed_seconds={elapsed}; active_stage={active}; "
+            f"last_completed_stage={completed}; taskkill_exit={kill}; root_exit={root}; "
+            "descendant_cleanup=unverified")
+    except Exception:
+        # Diagnostics must not alter retry/failure behavior or expose exceptions.
+        pass
 
 
 def live_capture_due(active, monotonic_now, next_live):
@@ -249,6 +280,7 @@ def main():
                 else:
                     state["canonical_monitoring_status"] = "offseason_not_monitored"
                 failures = 0
+                state["canonical_failures"] = 0
             else:
                 failures += 1
                 retry_at = time.monotonic() + min(900, 60 * 2 ** min(failures, 4))
