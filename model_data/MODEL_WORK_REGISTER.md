@@ -4269,3 +4269,43 @@ Stage: FINAL_IN_SEASON_DAWN_VALID / DAYLIGHT_FOLLOWUP_VALID / SIX_CELL_HORIZON_V
 
 Stage: WINTER_COLLECTION_STOP_VERIFIED / NO_RECORDED_POST_BOUNDARY_VISION / COORDINATOR_HEARTBEAT_VALID / RESEARCH_ACTIVE / WORKFLOW_START_SUPPRESSION_FAIL_PENDING_PR187 / PR187_RESEARCH_SCIENCE_PASS / OPERATIONAL_REVIEW_PENDING / POSTMERGE_ACCEPTANCE_PENDING / MAY18_RESTART_PENDING / J09_FULL_VDOV_REPRODUCTION_BLOCKED_EVIDENCE / EPA_LIU_ARCOS_DEDUP_REUSED / PR161_WEEKLY_ACCEPTANCE_PENDING_NOV17 / NO_PRODUCTION_CHANGE / NO_ALERT / NO_FINANCIAL_ACTION.
 
+
+
+## J04/J11/J13 research checkpoint — 2026-11-17 (off-season)
+
+**Scope and state.** Research-only checkpoint. Current main at review time: `952a467f9af03c17c0210a27979cdc72112c9d7a`. No production collection, probability publication, camera/network probe, paid model call, schedule change, outreach, merge, deployment, or protection change was performed. Production weights remain zero for all candidates below; UNKNOWN semantics and the May 18-November 14 boundary remain unchanged.
+
+### J04 / PR #161 natural weekly acceptance — DELAYED / NOT OBSERVED
+
+- Expected ordinary schedule: `.github/workflows/water_quality_ingest.yml`, cron `17 11 * * 2` (Tuesday 11:17 UTC / 05:17 CST), workflow id `350875769`, merged implementation ancestry `034dbf86aaae2ff618d2d398e2a14bcf870567bd`.
+- Evidence check at approximately 2026-11-17 15:59 UTC: the repository's latest 100 `schedule`-event runs contained no run for `.github/workflows/water_quality_ingest.yml`. The sample spans November 11-17 and includes other scheduled workflows on current main, so the expected weekly run is not present in the relevant window.
+- Disposition: **NOT_OBSERVED**, not a workflow failure and not acceptance. No run means there is no schedule-trigger identity, checkout ancestry, regression/ingestion/diagnostic result, artifact upload, publication receipt, manifest, summary, raw archive, hash, coverage, append-history, or size-ceiling evidence to accept.
+- No manual dispatch was used. Recheck at the next existing Research checkpoint. Keep PR #142 durability acceptance separate; do not close that item.
+
+### PR #188 independent Research operational/code review — PASS WITH RETAINED LIMITATION
+
+- Exact head: `0b2cd103de5fa76c751f7d244ffc562d2645d678`; base/main reviewed: `952a467f9af03c17c0210a27979cdc72112c9d7a`.
+- Separately attributable GitHub review receipt: review id `5941875255`, state `COMMENTED`, submitted 2026-11-17T15:58:41Z.
+- Reused independently read exact-head evidence: Runtime run `43793626076` and Research run `43793626078` each passed 668 tests; Windows preflight and 13 J09 tests passed.
+- Diff review verified preserved capture commands/order and arguments; preserved season guards, canonical/live/upload deadlines, retry/backoff and failure return behavior; fixed allowlisted stage markers; flushed marker output; timeout diagnostic excludes arbitrary/private child output and explicitly reports descendant cleanup as `unverified`; successful canonical completion resets local and persisted failure state.
+- Register preservation: PR head register retains the complete main register byte-for-byte and appends 7,399 bytes.
+- Retained limitation: the post-termination `process.communicate()` remains unbounded. If termination fails or the root process does not exit, the service can still block. This is existing behavior and is not claimed fixed by PR #188.
+- Integration gate: reconcile the shared coordinator-clock fixture correction already in PR #187 head `7da230e7d046f9104b23449b36c8d4bd1ceab509`; do not introduce a third repair. Keep PR #188 draft/unmerged pending ordinary owner gates. Per owner direction, do not resume broad RTSP work or probe old E2 back-deck/E3 cameras; retain missing observations as UNKNOWN.
+
+### PR #160 independent Research review — CONDITIONAL PASS; NOT READY FOR MERGE/ACTIVATION
+
+- Exact head: `f8a7757dc1f4a1b75e6d3b09ac51f938e058ec10`; base/main reviewed: `952a467f9af03c17c0210a27979cdc72112c9d7a`.
+- Separately attributable GitHub review receipt: review id `5941875602`, state `COMMENTED`, submitted 2026-11-17T15:58:42Z.
+- Preserve-register run `43793975571` passed with pinned first-install checker; log identities: base `952a467f9af03c17c0210a27979cdc72112c9d7a`, head `f8a7757dc1f4a1b75e6d3b09ac51f938e058ec10`, proposed merge `19c6283ffe8cd7c408939fafee1af2aa7a150178`.
+- Narrow design strengths: exact base/head/proposed-merge-parent validation; trusted-base checker after bootstrap; bootstrap bounded to PR #160, the pinned base and pinned checker hash; exact-prefix/UTF-8/NUL/newline checks; concurrent-append and supersession-by-new-entry tests. This head preserves current main register bytes and appends 2,055 bytes.
+- Remaining gates: (1) exact-head Runtime and Research remain red on the inherited coordinator-clock fixture; reconcile only through PR #187's shared correction; (2) same-PR workflow tampering remains possible absent independent CODEOWNERS/reviewer governance plus protection or equivalent trusted-workflow control; (3) six direct-main workflow producers and the desktop publisher/writer inventory are incompatible with immediate strict protection until identities and least-privilege bypass policy are resolved; (4) byte preservation is not scientific, provenance, freshness, UNKNOWN, or supersession-correctness validation; (5) any main advance invalidates the one-time bootstrap pin and requires explicit pin/base revalidation.
+- No merge or branch-protection activation is authorized or claimed.
+
+### Source-register deduplication and incremental methodological findings
+
+- **Fairhope WQP stations — distinct records; oxygen still unverified.** Official WQP metadata identifies `21AWIC-5491` as ADEM Water Quality Data site `F_HOPE`, an estuary/beach-monitoring location at 30.52807, -87.90956 (NAD83), with the displayed characteristic groups limited to 2010 and including a broad `Physical` category. The page does not establish a dissolved-oxygen record, sample time, depth, or QA. `21ALBCH-F_HOPE` is a distinct Alabama beach-program identifier at 30.52810, -87.90960; its displayed record is microbiological (2005-2024, with possible gap years). Near-identical coordinates do not establish identical sample events. Disposition: **CANDIDATE / NOT_INGESTED**; require original result/ancillary rows, sample-time/depth/method/QA and independently documented event overlap before matching. Sparse history is not a live feed.
+- **NOAA/NCEI accession 0116496 — incremental inventory candidate, not an event series.** The catalog describes near-monthly shipboard Mobile Bay physical, chemical and biological surveys from May 1989 through December 1999. This may add historical hydrographic context but is neither continuous nor labeled Jubilee/control evidence. Disposition: **CANDIDATE / NOT_INGESTED** pending actual payload timestamps, station/depth/clock/QA, WQP deduplication and independently documented event overlap.
+- **Weeks Bay daily-oxygen study — physical comparison only.** The paper's 2015 deployment distinguishes mid-estuary station `WKBMB`, separate Fish River meteorology/hydrography, and a near-sediment MiniDOT from other/surface observations. It reports daily oxygen-cycle behavior relevant to retrospective physical comparison but does not label Jubilees or establish Eastern Shore bottom-oxygen transferability. Disposition: **CANDIDATE / ZERO_WEIGHT** pending exact station file, timestamps, depth, QA, gaps and independent labels; do not conflate WKBMB, Fish River, surface buoy and MiniDOT records.
+- **As-of interpolation rule — explicit temporal-leakage guard.** DOI `10.1007/s42452-025-07538-5` uses linear interpolation from nearest preceding and succeeding observations and a weighted moving average using observations on both sides of a missing value. Those retrospective methods are not as-of safe for forecasting backtests. Any Jubilee test must fit/impute within each training fold using only information available at forecast issue time. A bounded causal LOCF or other past-only method may be tested with explicit maximum gap, staleness and missingness indicators, but the paper is not evidence of Jubilee predictive validity.
+
+**Next existing-run priorities.** (1) Recheck the missing PR #161 scheduled-run receipt without dispatching it. (2) Preserve the posted PR #188 and #160 reviews and reconcile shared fixture work through PR #187 only. (3) If source work becomes the highest-value executable item, inspect one candidate's actual payload/QA and independently dated event overlap; do not broaden acquisition or duplicate prior EPA/Liu/ARCOS review.
