@@ -3,13 +3,13 @@ name: Jubilee Current State Freshness
 on:
   workflow_dispatch:
   schedule:
-    - cron: '17,47 * * * *'
-  # GITHUB_TOKEN producer pushes do not trigger other push workflows. Observe
-  # completion, including partial-success runs, then reconcile latest main.
-  workflow_run:
-    workflows: [Jubilee sensing quality and environmental forcing, Jubilee official ASOS observed weather, Jubilee unattended observation logging, Jubilee ARCOS realtime oxygen]
-    types: [completed]
-    branches: [main]
+    # The half-hour overdue fallback runs only in season. Producer-completion
+    # wake-ups were redundant with this fallback and evidence-state pushes.
+    - cron: '17,47 5-23 18 5 *'
+    - cron: '17,47 * 19-31 5 *'
+    - cron: '17,47 * * 6-10 *'
+    - cron: '17,47 * 1-14 11 *'
+    - cron: '17,47 0-5 15 11 *'
   push:
     branches: [main]
     paths:
@@ -62,8 +62,8 @@ concurrency:
 
 jobs:
   reconcile:
-    # workflow_run can represent a partially failed producer. Read latest main
-    # only; never download its artifacts or execute its head/PR code.
+    # Read latest main only; never download producer artifacts or execute
+    # untrusted head/PR code. Scheduled runs remain the overdue-state fallback.
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-24.04
     timeout-minutes: 15
