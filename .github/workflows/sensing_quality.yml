@@ -37,7 +37,13 @@ on:
       - 'requirements-model-data.txt'
       - '.github/workflows/sensing_quality.yml'
   schedule:
-    - cron: '37 */3 * * *'
+    # Preserve the existing three-hour UTC cadence only while the local
+    # production season is active. Runtime checks still guard retries/midnight.
+    - cron: '37 6,9,12,15,18,21 18 5 *'
+    - cron: '37 */3 19-31 5 *'
+    - cron: '37 */3 * 6-10 *'
+    - cron: '37 */3 1-14 11 *'
+    - cron: '37 0,3 15 11 *'
 permissions:
   contents: write
 concurrency:
@@ -106,18 +112,9 @@ jobs:
             if ! git show "origin/main:$f" > "$snapshot/$f"; then rm -f "$snapshot/$f"; fi
           done
           python model_data/audit_sensing.py --root "$snapshot" --out model_data/sensing_audit.json
-      - name: Retrieve and validate public river data
-        if: steps.season.outputs.active == 'true'
-        id: river
-        continue-on-error: true
-        shell: bash .github/actions/production-season/run-bash.sh {0}
-        run: python model_data/ingest_river_forcing.py --days 16
-      - name: Retrieve official KBFM and KMOB observed weather
-        if: steps.season.outputs.active == 'true'
-        id: asos
-        continue-on-error: true
-        shell: bash .github/actions/production-season/run-bash.sh {0}
-        run: python model_data/ingest_asos_weather.py
+      # Weather and river retrieval has one producer: asos_weather.yml.
+      # This checkout reuses its committed, provenance-bearing products;
+      # reconciliation and freshness guards retain UNKNOWN for stale/outage rows.
       - name: Retrieve Weeks Bay realtime water quality and meteorology
         if: steps.season.outputs.active == 'true'
         id: weeks_bay
@@ -256,30 +253,3 @@ jobs:
             sleep 3
           done
           exit 1
-
-      - name: Escalate ASOS parser defects after preserving diagnostic artifacts
-        if: steps.season.outputs.active == 'true' && (always() && steps.asos.outcome == 'failure')
-        shell: bash .github/actions/production-season/run-bash.sh {0}
-        run: exit 1
-
-      - name: Escalate persistent river outages and unexpected ingestion defects
-        if: always() && steps.season.outputs.active == 'true'
-        shell: bash .github/actions/production-season/run-bash.sh {0}
-        run: |
-          python - <<'PY'
-          import json
-          from datetime import datetime, timezone
-          from pathlib import Path
-          p = Path('model_data/river_forcing_manifest.json')
-          if not p.exists():
-              raise SystemExit('River manifest missing; ingestion did not complete')
-          m = json.loads(p.read_text())
-          started = datetime.fromisoformat(m['started_at_utc'])
-          age = (datetime.now(timezone.utc) - started).total_seconds()
-          if not 0 <= age <= 3600:
-              raise SystemExit('River manifest is stale; current ingestion did not complete')
-          if m.get('status') == 'failed' or m.get('action_required'):
-              raise SystemExit('River source needs attention: persistent outage or ingestion defect; see river_forcing_manifest.json')
-          if m.get('status') == 'unavailable':
-              print('Temporary river outage recorded as UNKNOWN; other sources processed; next scheduled cycle retries.')
-          PY
