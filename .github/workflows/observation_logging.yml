@@ -11,7 +11,11 @@ on:
       - '.github/workflows/observation_logging.yml'
   workflow_dispatch:
   schedule:
-    - cron: '17 * * * *'
+    - cron: '17 5-23 18 5 *'
+    - cron: '17 * 19-31 5 *'
+    - cron: '17 * * 6-10 *'
+    - cron: '17 * 1-14 11 *'
+    - cron: '17 0-5 15 11 *'
 permissions:
   contents: write
 concurrency:

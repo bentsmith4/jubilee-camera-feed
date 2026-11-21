@@ -22,21 +22,16 @@ class StopCycle(Exception):
 class CoordinatorRecoveryTests(unittest.TestCase):
     def setUp(self):
         now = datetime(2026, 9, 28, 10, 25, tzinfo=TZ)
+        self.now = now
         dawn = now.replace(hour=6, minute=19)
         ra = types.SimpleNamespace(
             TZ=TZ,
-            dawn_window=lambda: (now, dawn, dawn - timedelta(hours=2), dawn + timedelta(hours=2)),
+            dawn_window=lambda: (self.now, dawn, dawn - timedelta(hours=2), dawn + timedelta(hours=2)),
         )
         spec = importlib.util.spec_from_file_location("recovery_coordinator", ROOT / "capture_service.py")
         self.service = importlib.util.module_from_spec(spec)
         with patch.dict(sys.modules, {"refresh_all": ra}):
             spec.loader.exec_module(self.service)
-        class Clock(datetime):
-            @classmethod
-            def now(cls, zone):
-                return now.astimezone(zone)
-        # Both the slot clock and execution-clock guard must use the fixture.
-        self.service.datetime = Clock
         tmp = tempfile.TemporaryDirectory()
         self.addCleanup(tmp.cleanup)
         self.service.STATE = Path(tmp.name) / "state.json"
@@ -50,7 +45,9 @@ class CoordinatorRecoveryTests(unittest.TestCase):
     def run_cycle(self, expected_exception=StopCycle):
         with patch.object(self.service.socket, "socket"), patch.object(
             self.service.time, "sleep", side_effect=StopCycle
-        ):
+        ), patch.object(self.service, "datetime", wraps=datetime) as clock:
+            # Every season decision must use the fixture clock, not the CI date.
+            clock.now.return_value = self.now
             with self.assertRaises(expected_exception):
                 self.service.main()
 
@@ -83,6 +80,17 @@ class CoordinatorRecoveryTests(unittest.TestCase):
             [call.args[0] for call in self.service.execute.call_args_list],
             ["live_capture.py", "live_upload.py"],
         )
+
+    def test_november_15_pauses_capture_and_preserves_last_success(self):
+        self.now = datetime(2026, 11, 15, 10, 25, tzinfo=TZ)
+        self.service.STATE.write_text(json.dumps(self.initial), encoding="utf-8")
+        self.run_cycle()
+        state = json.loads(self.service.STATE.read_text(encoding="utf-8"))
+        self.service.execute.assert_not_called()
+        self.assertEqual(state["canonical_monitoring_status"], "offseason_not_monitored")
+        self.assertEqual(state["live_monitoring_status"], "offseason_not_monitored")
+        self.assertEqual(state["last_canonical_success"], self.initial["last_canonical_success"])
+        self.assertEqual(state["heartbeat"], self.now.isoformat())
 
     def test_state_is_flushed_and_synced_before_replacing_previous_snapshot(self):
         self.service.STATE.write_text(json.dumps(self.initial), encoding="utf-8")
@@ -123,7 +131,6 @@ class CoordinatorRecoveryTests(unittest.TestCase):
         self.assertEqual(state["canonical_failures"], 1)
         self.assertNotIn("last_canonical_success", state)
         self.service.log.assert_any_call("Canonical failure; bounded backoff applied")
-
 
 if __name__ == "__main__":
     unittest.main()
