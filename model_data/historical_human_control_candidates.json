@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-09-07T14:22:41.166172+00:00",
+  "generated_at": "2026-11-21T15:34:00+00:00",
   "purpose": "Bias-aware candidates derived from known human checking; no row is a clean training negative yet.",
   "source": "model_data/human_observation_recovery_20260907.json",
-  "candidate_count": 3,
+  "candidate_count": 5,
   "clean_training_negative_count": 0,
   "candidates": [
     {
@@ -82,6 +82,61 @@
         "tide/current phase matching to candidate positive/control windows"
       ],
       "reason": "Known contemporaneous May Day location check reported nothing, but effort/visibility/time bounds are incomplete."
+    },
+    {
+      "control_candidate_id": "human_1950-09-18-daphne-eastern-shore-false-alarm",
+      "source_evidence_id": "1950-09-18-daphne-eastern-shore-false-alarm",
+      "target_cell": "Daphne/Eastern Shore",
+      "claimed_time_or_window": "Monday night through after midnight, September 18-19, 1950",
+      "location": "Daphne/Eastern Shore beach; exact shoreline segment unresolved",
+      "search_effort": "scores of people arrived with lights and equipment; activity continued past midnight",
+      "first_person_or_repost": "unsigned_contemporaneous_newspaper_aggregate_report",
+      "independence_group": "1950_09_18_mobile_press_false_alarm",
+      "source_url_or_id": "Mobile Press, 1950-09-19, page 2, Jubilee Cry False Alarm; existing visually verified Mobile Public Library scan",
+      "source_confidence": 0.9,
+      "season_match": "YES",
+      "clock_window_match": "PARTIAL_NIGHT_INTERVAL_ONLY",
+      "tide_or_transport_match": "PENDING_FEATURE_JOIN",
+      "camera_observation_effort": "NOT_APPLICABLE_HISTORICAL",
+      "social_observation_effort": "DOCUMENTED_AGGREGATE_SEARCH_EFFORT",
+      "environmental_source_availability": "PENDING_HISTORICAL_JOIN",
+      "candidate_status": "REPORTED_FALSE_ALARM_NOT_CLEAN_NEGATIVE",
+      "negative_evidence_strength": "NONE",
+      "reported_observation": "Reports yielded a few scattered crabs despite the false-alarm characterization.",
+      "missing_before_training": [
+        "exact shoreline segment and search extent",
+        "bounded start/end interval by participant",
+        "visibility, depth and detection conditions",
+        "independent biological absence evidence"
+      ],
+      "reason": "The report documents substantial search effort but not biological absence. Keep distinct from the successful September 17 catch and never promote it to a clean negative."
+    },
+    {
+      "control_candidate_id": "human_2011-08-31-fairhope-yacht-club-evening-search",
+      "source_evidence_id": "2011-08-31-fairhope-yacht-club-evening-search",
+      "target_cell": "Fairhope/Yacht Club",
+      "claimed_time_or_window": "local evening inferred from the August 31, 2011 dated post",
+      "location": "Fairhope Yacht Club; exact shoreline footprint unresolved",
+      "search_effort": "intentional local check reported in a contemporaneous forum post",
+      "first_person_or_repost": "first_person_forum_post",
+      "independence_group": "2011_08_31_storm2k_fairhope_yacht_club_search",
+      "source_url_or_id": "https://www.storm2k.org/phpbb2/viewtopic.php?p=2187650#p2187650",
+      "source_confidence": 0.7,
+      "season_match": "YES",
+      "clock_window_match": "UNKNOWN_EVENING_ONLY",
+      "tide_or_transport_match": "PENDING_FEATURE_JOIN",
+      "camera_observation_effort": "UNKNOWN_HISTORICAL",
+      "social_observation_effort": "KNOWN_SOURCE_SPECIFIC",
+      "environmental_source_availability": "PENDING_HISTORICAL_JOIN",
+      "candidate_status": "SEARCH_EFFORT_OUTCOME_UNKNOWN_NOT_CONTROL",
+      "negative_evidence_strength": "NONE",
+      "missing_before_training": [
+        "exact search start/end time",
+        "shoreline extent and visibility",
+        "biological outcome",
+        "independent corroboration"
+      ],
+      "reason": "The dated post establishes intentional search effort only. It does not establish a Jubilee, a failed Jubilee, or biological absence."
     }
   ],
   "promotion_rule": "A candidate becomes a matched control only after shoreline/time scope, detectability, season, predawn clock window, tide/current phase, and source availability are sufficiently established under matched_control_contract.json.",
