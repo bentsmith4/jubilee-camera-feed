@@ -116,6 +116,21 @@ class CoordinatorRecoveryTests(unittest.TestCase):
             self.run_cycle(expected_exception=OSError)
         self.assertEqual(self.service.STATE.read_bytes(), original)
 
+    def test_success_clears_persisted_failure_count(self):
+        self.service.STATE.write_text(json.dumps({"canonical_failures": 2}))
+        self.run_cycle()
+        state = json.loads(self.service.STATE.read_text())
+        self.assertEqual(state["canonical_failures"], 0)
+        self.assertIn("last_canonical_success", state)
+
+    def test_failed_cycle_still_records_failure_and_backoff(self):
+        self.service.STATE.write_text("{}")
+        self.service.execute.side_effect = [False, True, True]
+        self.run_cycle()
+        state = json.loads(self.service.STATE.read_text())
+        self.assertEqual(state["canonical_failures"], 1)
+        self.assertNotIn("last_canonical_success", state)
+        self.service.log.assert_any_call("Canonical failure; bounded backoff applied")
 
 if __name__ == "__main__":
     unittest.main()

@@ -40,6 +40,12 @@ def capture_failure_summary(error):
     try:
         if isinstance(error, subprocess.TimeoutExpired):
             return {"category": "capture_process_timeout"}
+        # Playwright and the Python runtime both expose a TimeoutError class.
+        # Keep this deliberately generic: it identifies the observed timeout
+        # without asserting whether readiness, transport, cleanup or an
+        # upstream service caused it.
+        if type(error).__name__ == "TimeoutError":
+            return {"category": "capture_timeout"}
         if isinstance(error, subprocess.CalledProcessError):
             code = error.returncode
             return {

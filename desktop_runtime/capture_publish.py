@@ -45,6 +45,14 @@ steps = [
     ),
 ]
 
+def stage_marker(script, event):
+    # Fixed local stage names only; no child output or command arguments.
+    try:
+        print(f"JUBILEE_STAGE {script.name} {event}", flush=True)
+    except OSError:
+        pass
+
+
 for label, script, args in steps:
     require_season()
     print()
@@ -52,9 +60,11 @@ for label, script, args in steps:
     print(label)
     print("=" * 70)
 
+    stage_marker(script, "start")
     result = subprocess.run(
         [sys.executable, str(script), *args]
     )
+    stage_marker(script, "end")
 
     if result.returncode != 0:
         raise SystemExit(
