@@ -184,15 +184,24 @@
     },
     {
       "source_id": "magnolia_tribune_2024_08_05_eastern_shore",
-      "type": "same_day_first_person_relay_with_video_and_photo",
+      "type": "republication_of_first_person_relay_with_video_and_photo",
       "title": "Jubilee 2024",
-      "event_date": "2024-08-05",
-      "event_time": "07:18 local video received",
+      "event_date": null,
+      "event_date_status": "UNRESOLVED_ORIGINAL_PUBLICATIONS_PREDATE_REPUBLICATION",
+      "publication_date": "2024-08-05",
+      "original_publication_dates": [
+        "2024-07-31"
+      ],
+      "reported_clock": "07:18 video receipt; not event onset",
       "location": "Mobile Bay Eastern Shore; exact shoreline cell unresolved",
       "url": "https://magnoliatribune.com/2024/08/05/jubilee-2024/",
+      "original_urls": [
+        "https://robertstjohn.com/2024/07/31/jubilee-2024/",
+        "https://websterparishjournal.com/2024/07/31/jubilee-2024/"
+      ],
       "priority": "P0",
-      "status": "verified_event_source",
-      "use": "event label, timing, species and evidence-chain normalization",
+      "status": "DATE_UNRESOLVED_QUARANTINED_FROM_DATED_JOINS",
+      "use": "occurrence and species provenance only until the event date is independently recovered",
       "reported_species": [
         "hundreds of fish",
         "shrimp",
@@ -200,7 +209,8 @@
         "catfish",
         "baby eels",
         "small flounder"
-      ]
+      ],
+      "guardrail": "The July 31 original publications predate the August 5 republication. Do not impute July 30, July 31 or August 5; do not treat the 07:18 video-receipt clock as onset. Preserve stable identity but exclude the row from all day-specific environmental joins, sample selection, training and scoring until corrected through the coordinated J04 ledger/evidence publication path."
     },
     {
       "source_id": "live_love_fairhope_2025_07_17",
@@ -406,6 +416,184 @@
       "use": "historical observation-effort evidence",
       "reported_details": "Scores arrived with lights and equipment; activity continued past midnight; the aggregate report yielded a few scattered crabs.",
       "guardrail": "Keep distinct from the successful September 17 catch. The unsigned aggregate report does not establish biological absence and is not a clean negative. Do not request the verified scan again."
+    },
+    {
+      "source_id": "patterson_2014_sand_reef_paired_daily_do",
+      "type": "primary_scientific_literature_and_archived_original_workbook",
+      "title": "Biomarkers of Dissolved Oxygen Stress in Oysters: A Tool for Restoration and Management Efforts",
+      "authors": [
+        "Heather K. Patterson",
+        "Anne Boettcher",
+        "Ruth H. Carmichael"
+      ],
+      "publication_date": "2014-08-13",
+      "doi": "10.1371/journal.pone.0104440",
+      "url": "https://doi.org/10.1371/journal.pone.0104440",
+      "dataset_url": "https://data.griidc.org/data/Y1.x027.000%3A0004",
+      "archive_url": "https://www.ncei.noaa.gov/archive/archive-management-system/OAS/bin/prd/jquery/accession/details/125573",
+      "accession": "0125573 v1.1",
+      "location": "Sand Reef, Mobile Bay; no verified cross-site pairing to Point Clear or Battles Wharf",
+      "observation_geometry": {
+        "lower_height_above_bed_m": 0.1,
+        "upper_height_above_bed_m": 1.0,
+        "water_depth": "UNVERIFIED_IN_DAILY_SHEETS",
+        "vertical_datum": "NOT_APPLICABLE_TO_RELATIVE_HEIGHT; SITE_WATER_LEVEL_DATUM_UNVERIFIED"
+      },
+      "verified_date_only_row_2010_08_12": {
+        "lower_0_1_m": {
+          "mean_do_mg_l": 4.441,
+          "min_do_mg_l": 1.18,
+          "max_do_mg_l": 5.7
+        },
+        "upper_1_0_m": {
+          "mean_do_mg_l": 4.921,
+          "min_do_mg_l": 3.11,
+          "max_do_mg_l": 5.83
+        },
+        "extreme_time": "UNRELEASED",
+        "sample_size": "UNRELEASED",
+        "timezone": "UNRELEASED"
+      },
+      "strict_daily_minimum_lt_2_mg_l_screen": {
+        "finite_date_pairs": 117,
+        "lower_only": 71,
+        "both": 11,
+        "upper_only": 1,
+        "neither": 34,
+        "dates_without_finite_pair": 2
+      },
+      "priority": "P1",
+      "status": "DATE_ONLY_REGIONAL_DEPTH_SENSITIVITY_COMPLETE_ZERO_WEIGHT",
+      "use": "same-reef daily-summary depth sensitivity only",
+      "guardrail": "The paper's independent full-study minima of 0.52 and 0.07 mg/L are not a concurrent gradient. Daily summaries do not establish simultaneity, duration below threshold, dawn exposure, spatial transfer, or a pier mounting height. Do not repeat the package inventory or paired count; inspect a legitimately public incremental table only."
+    },
+    {
+      "source_id": "fairhope_courier_bounded_j08_review_1950_1982",
+      "type": "contemporaneous_local_newspaper_issue_group",
+      "title": "Bounded Fairhope and Eastern Shore Courier Jubilee source review",
+      "provider": "Fairhope Public Library Advantage Preservation",
+      "review_date": "2026-11-23",
+      "priority": "P1",
+      "status": "ISSUE_CLAIMS_RECONCILED_EVENT_ADMISSION_PENDING",
+      "use": "issue-date, reported-clock, location, biological and documented-search-effort provenance",
+      "issue_claims": [
+        {
+          "issue_date": "1950-09-21",
+          "pages": [
+            1,
+            8
+          ],
+          "url": "https://fairhopepl.advantage-preservation.com/viewer/GetPdfFile?84534053",
+          "claim": "Sunday catch described broadly; Monday-night turnout had equipment ready and was disappointed",
+          "date_status": "1950-09-18_CALENDAR_INFERRED_FOR_MONDAY_TURNOUT",
+          "disposition": "LIKELY_SAME_NIGHT_CORROBORATION_OF_MOBILE_PRESS_FALSE_ALARM_NOT_SECOND_CONTROL"
+        },
+        {
+          "issue_date": "1958-08-07",
+          "page": 1,
+          "url": "https://fairhopepl.advantage-preservation.com/viewer/GetPdfFile?84538206",
+          "claim": "Thursday approximately 01:00-03:30 Battles Wharf toward Loyola House positive",
+          "date_status": "EXACT_EVENT_DATE_UNRESOLVED",
+          "disposition": "POSITIVE_LEAD_PENDING_DATE_CORROBORATION"
+        },
+        {
+          "issue_date": "1958-08-14",
+          "page": 1,
+          "url": "https://fairhopepl.advantage-preservation.com/viewer/GetPdfFile?84538228",
+          "claim": "later Eastern Shore event; 03:30 Daphne alarm clock",
+          "date_status": "EVENT_DATE_UNRESOLVED_ALARM_CLOCK_NOT_ONSET",
+          "disposition": "SEPARATE_POSITIVE_CANDIDATE"
+        },
+        {
+          "issue_date": "1959-07-09",
+          "page": 1,
+          "url": "https://fairhopepl.advantage-preservation.com/viewer/GetPdfFile?84538774",
+          "claim": "early Tuesday event and later approximately 23:00 event crossing midnight",
+          "date_status": "JULY_7_8_IDENTITY_AMBIGUOUS",
+          "disposition": "DO_NOT_BIND_GRAF_OR_COLLAPSE_WITHOUT_DIRECT_LINKAGE"
+        },
+        {
+          "issue_date": "1961-07-12",
+          "page": 1,
+          "url": "https://fairhopepl.advantage-preservation.com/viewer/GetPdfFile?84540221",
+          "claim": "Monday afternoon near Bailey Creek; Tuesday Montrose shortly after 03:30; Tuesday-night unsuccessful turnout",
+          "date_status": "JULY_10_11_CALENDAR_INFERRED",
+          "disposition": "THREE_CLAIMS_ONE_SOURCE_CLUSTER_UNSUCCESSFUL_TURNOUT_UNSCORED"
+        },
+        {
+          "issue_date": "1961-07-26",
+          "page": 1,
+          "url": "https://fairhopepl.advantage-preservation.com/viewer/GetPdfFile?84540251",
+          "claim": "approximately 03:30 Friday Municipal Pier and Point Clear witness pockets",
+          "date_status": "1961-07-21_CALENDAR_INFERRED",
+          "disposition": "DISTINCT_POSITIVE_CANDIDATE_POCKETS_NOT_CONTINUOUS_EXTENT"
+        },
+        {
+          "issue_date": "1962-09-19",
+          "page": 1,
+          "url": "https://fairhopepl.advantage-preservation.com/viewer/GetPdfFile?84540954",
+          "claim": "approximately 19:30 Friday Airey Heights event lasting several hours",
+          "date_status": "1962-09-14_CALENDAR_INFERRED",
+          "disposition": "EVENING_TIMING_SCOPE_CANDIDATE_NOT_FORECAST_MISS"
+        },
+        {
+          "issue_date": "1963-08-29",
+          "page": 1,
+          "url": "https://fairhopepl.advantage-preservation.com/viewer/GetPdfFile?84541362",
+          "claim": "Thursday 04:30-05:00 Battles Wharf/Montrose positive and separate prior-Friday failed call",
+          "date_status": "1963-08-23_CALENDAR_INFERRED_ONLY_FOR_FAILED_CALL_POSITIVE_DATE_UNCERTAIN",
+          "disposition": "POSITIVE_AND_FAILED_EFFORT_SEPARATE_FAILED_CALL_NOT_NEGATIVE"
+        },
+        {
+          "issue_date": "1972-08-24",
+          "page": 3,
+          "url": "https://fairhopepl.advantage-preservation.com/viewer/GetPdfFile?84546200",
+          "claim": "Pier Street photograph; approximately 06:00 Tuesday event",
+          "date_status": "1972-08-22_CALENDAR_INFERRED",
+          "disposition": "DISTINCT_FROM_1972_08_15_DAPHNE_MONTROSE_AND_UNDATED_JULY_ACCOUNT"
+        },
+        {
+          "issue_date": "1982-08-09",
+          "page": 4,
+          "url": "https://fairhopepl.advantage-preservation.com/viewer/GetPdfFile?150773009",
+          "claim": "first-person all-Thursday-night Point Clear tip/search with no find by author and relayed boss",
+          "date_status": "AUGUST_5_6_CALENDAR_INFERRED",
+          "disposition": "ONE_SOURCE_GROUP_UNSCORED_SEARCH_EFFORT_DISTINCT_FROM_TERRY_COVE_MORTALITY"
+        }
+      ],
+      "guardrail": "Preserve issue date versus event date, inferred dates, source grouping, clocks and shoreline scope. Newspaper false-alarm language and unsuccessful searches are not biological absence. WABF text in the July 12, 1961 OCR is an unrelated interleaved item, not Jubilee corroboration."
+    },
+    {
+      "source_id": "hauge_latimes_2012_08_27_point_clear_lead",
+      "type": "publisher_photo_metadata_plus_independent_same_day_news",
+      "title": "August 27, 2012 Point Clear Jubilee source group",
+      "event_date": "2012-08-27",
+      "location": "Point Clear locality / Baldwin County bay shore; exact beach unresolved",
+      "urls": [
+        "https://www.latimes.com/nation/la-xpm-2012-aug-27-la-na-nn-isaac-storm-louisiana-prepare-20120827-story.html"
+      ],
+      "source_groups": 2,
+      "reported_details": "Three original Hauge publisher JPEG captions identify a Monday-morning Point Clear event; a same-day Los Angeles Times report independently quotes a named cast-net participant on Baldwin County's bay shore.",
+      "clock_status": "Hauge EXIF approximately 08:06-08:12 and IPTC -0600 are unvalidated literal clocks, not onset",
+      "priority": "P1",
+      "status": "DATED_POSITIVE_SOURCE_LEAD_EXACT_BEACH_AND_DAWN_OVERLAP_UNRESOLVED",
+      "use": "one historical episode pending canonical event-evidence normalization",
+      "guardrail": "Do not infer exact beach, merge witness pockets, validate literal camera clocks, claim dawn overlap, or combine with Hauge's separate 2013 post."
+    },
+    {
+      "source_id": "burgard_2018_08_26_point_clear_lead",
+      "type": "first_person_retrospective_with_original_image_metadata",
+      "title": "What Is a Mobile Bay Jubilee—and How Can You Experience It?",
+      "author": "Alyson Burgard",
+      "event_date": "2018-08-26",
+      "location": "Point Clear locality; two reported pockets, exact shoreline coordinates unresolved",
+      "url": "https://www.atlasobscura.com/articles/mobile-bay-jubilee",
+      "reported_details": "First-person gigging and bird observations date-anchored by original publisher JPEG metadata; calls just after 05:00 are notifications rather than sighting clocks or onset.",
+      "clock_status": "Literal JPEG clocks approximately 06:08 and 06:43 with IPTC +0000 lack GPS and EXIF offset and do not establish civil time",
+      "priority": "P1",
+      "status": "DATED_POSITIVE_SOURCE_LEAD_TIMED_SCORING_UNRESOLVED",
+      "use": "one historical episode pending canonical event-evidence normalization",
+      "guardrail": "Two reported pockets remain one episode. Intermittent hotel checks are not a negative; do not infer onset, civil clocks or continuous extent."
     },
     {
       "source_id": "gsmfc_annual_report_33_1982_07_19_bon_secour_mortality",

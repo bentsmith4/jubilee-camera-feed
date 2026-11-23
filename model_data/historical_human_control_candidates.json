@@ -1,9 +1,9 @@
 {
   "schema_version": "1.0",
-  "generated_at": "2026-11-21T15:34:00+00:00",
+  "generated_at": "2026-11-23T16:10:56+00:00",
   "purpose": "Bias-aware candidates derived from known human checking; no row is a clean training negative yet.",
   "source": "model_data/human_observation_recovery_20260907.json",
-  "candidate_count": 5,
+  "candidate_count": 8,
   "clean_training_negative_count": 0,
   "candidates": [
     {
@@ -93,6 +93,8 @@
       "first_person_or_repost": "unsigned_contemporaneous_newspaper_aggregate_report",
       "independence_group": "1950_09_18_mobile_press_false_alarm",
       "source_url_or_id": "Mobile Press, 1950-09-19, page 2, Jubilee Cry False Alarm; existing visually verified Mobile Public Library scan",
+      "corroborating_source": "Fairhope Courier, 1950-09-21, page 8; Monday-night disappointment with equipment ready",
+      "corroboration_treatment": "likely same-night corroboration, not a second control or independent biological-absence observation",
       "source_confidence": 0.9,
       "season_match": "YES",
       "clock_window_match": "PARTIAL_NIGHT_INTERVAL_ONLY",
@@ -110,6 +112,87 @@
         "independent biological absence evidence"
       ],
       "reason": "The report documents substantial search effort but not biological absence. Keep distinct from the successful September 17 catch and never promote it to a clean negative."
+    },
+    {
+      "control_candidate_id": "human_1961-07-11-eastern-shore-tuesday-night-unsuccessful-turnout",
+      "source_evidence_id": "1961-07-12-fairhope-courier-three-claim-cluster",
+      "target_cell": "Eastern Shore; exact shoreline unresolved",
+      "claimed_time_or_window": "Tuesday night; July 11, 1961 calendar-inferred from the July 12 issue",
+      "location": "Unclear Eastern Shore turnout area",
+      "search_effort": "newspaper reports hundreds looked for a Jubilee that failed to materialize",
+      "first_person_or_repost": "contemporaneous_newspaper_aggregate_report",
+      "independence_group": "1961_07_12_fairhope_courier_claim_cluster",
+      "source_url_or_id": "Fairhope Courier, 1961-07-12, page 1; https://fairhopepl.advantage-preservation.com/viewer/GetPdfFile?84540221",
+      "source_confidence": 0.78,
+      "season_match": "YES",
+      "clock_window_match": "UNKNOWN_NIGHT_ONLY",
+      "tide_or_transport_match": "PENDING_FEATURE_JOIN",
+      "camera_observation_effort": "NOT_APPLICABLE_HISTORICAL",
+      "social_observation_effort": "DOCUMENTED_AGGREGATE_SEARCH_EFFORT",
+      "environmental_source_availability": "PENDING_HISTORICAL_JOIN",
+      "candidate_status": "UNSUCCESSFUL_TURNOUT_NOT_CONTROL",
+      "negative_evidence_strength": "NONE",
+      "missing_before_training": [
+        "exact shoreline segment and participant routes",
+        "bounded watch interval",
+        "visibility and biological detectability",
+        "independent biological absence evidence"
+      ],
+      "reason": "The issue documents a turnout after nearby Monday and Tuesday positives, but does not bound the watched shoreline or prove biological absence. Preserve as one source/weather cluster and do not use WABF OCR as corroboration."
+    },
+    {
+      "control_candidate_id": "human_1963-08-23-eastern-shore-failed-call",
+      "source_evidence_id": "1963-08-29-fairhope-courier-positive-and-failed-call",
+      "target_cell": "Eastern Shore; exact failed-call shoreline unresolved",
+      "claimed_time_or_window": "Friday night; August 23, 1963 calendar-inferred",
+      "location": "Unresolved; separate from the later Battles Wharf/Montrose positive",
+      "search_effort": "newspaper reports another Jubilee cry, followed by a wind shift and a failed call",
+      "first_person_or_repost": "contemporaneous_newspaper_aggregate_report",
+      "independence_group": "1963_08_29_fairhope_courier_issue_claims",
+      "source_url_or_id": "Fairhope Courier, 1963-08-29, page 1; https://fairhopepl.advantage-preservation.com/viewer/GetPdfFile?84541362",
+      "source_confidence": 0.75,
+      "season_match": "YES",
+      "clock_window_match": "UNKNOWN_NIGHT_ONLY",
+      "tide_or_transport_match": "PENDING_FEATURE_JOIN",
+      "camera_observation_effort": "NOT_APPLICABLE_HISTORICAL",
+      "social_observation_effort": "DOCUMENTED_AGGREGATE_CALL_EFFORT",
+      "environmental_source_availability": "PENDING_HISTORICAL_JOIN",
+      "candidate_status": "REPORTED_FAILED_CALL_NOT_CLEAN_NEGATIVE",
+      "negative_evidence_strength": "NONE",
+      "missing_before_training": [
+        "exact shoreline footprint",
+        "watch interval and participant coverage",
+        "visibility and biological outcome",
+        "independent corroboration"
+      ],
+      "reason": "A failed call after a reported wind shift documents a claim and likely turnout, not a qualified non-event. Keep separate from the later 04:30-05:00 positive."
+    },
+    {
+      "control_candidate_id": "human_1982-08-05-06-point-clear-tip-search",
+      "source_evidence_id": "1982-08-09-eastern-shore-courier-point-clear-search",
+      "target_cell": "Point Clear; exact route unresolved",
+      "claimed_time_or_window": "all Thursday night; August 5-6, 1982 calendar-inferred",
+      "location": "Point Clear tip/search area; exact shoreline and route unresolved",
+      "search_effort": "first-person author reports searching all Thursday night after a Point Clear tip; a relayed boss also did not find it",
+      "first_person_or_repost": "first_person_with_same_column_relay",
+      "independence_group": "1982_08_09_tina_column_point_clear_search",
+      "source_url_or_id": "Eastern Shore Courier, 1982-08-09, page 4; https://fairhopepl.advantage-preservation.com/viewer/GetPdfFile?150773009",
+      "source_confidence": 0.76,
+      "season_match": "YES",
+      "clock_window_match": "PARTIAL_ALL_NIGHT_LANGUAGE_EXACT_BOUNDS_UNKNOWN",
+      "tide_or_transport_match": "PENDING_FEATURE_JOIN",
+      "camera_observation_effort": "NOT_APPLICABLE_HISTORICAL",
+      "social_observation_effort": "KNOWN_FIRST_PERSON_SEARCH_BUT_ROUTE_UNBOUNDED",
+      "environmental_source_availability": "PENDING_HISTORICAL_JOIN",
+      "candidate_status": "UNSUCCESSFUL_FIRST_PERSON_SEARCH_NOT_CONTROL",
+      "negative_evidence_strength": "NONE",
+      "missing_before_training": [
+        "verified search route and shoreline footprint",
+        "bounded watch interval",
+        "visibility and waterline detectability",
+        "independent biological outcome evidence"
+      ],
+      "reason": "The author's party and relayed boss are one source group. The column establishes intentional Point Clear search effort but not a clean negative; keep distinct from the Terry Cove mortality lead."
     },
     {
       "control_candidate_id": "human_2011-08-31-fairhope-yacht-club-evening-search",
