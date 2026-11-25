@@ -22,7 +22,7 @@ class Daphne1950AdmissionTests(unittest.TestCase):
         self.assertEqual(len(self.events), 19)
         self.assertEqual(len({e["event_id"] for e in self.events}), 19)
         period = [e["event_id"] for e in self.events
-                  if "1946-01-01" <= e["event_date_ct"] <= "1956-12-31"]
+                  if e.get("event_date_ct") and "1946-01-01" <= e["event_date_ct"] <= "1956-12-31"]
         self.assertEqual(period, ['1950-09-17-daphne', '1947-06-13-point-clear', '1947-06-14-point-clear', '1950-08-05-north-montrose'])
         self.assertIs(self.event["research_only"], True)
         self.assertEqual(self.event["production_weight"], 0)

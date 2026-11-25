@@ -61,17 +61,23 @@ class LoeschPrimaryRecoveryTests(unittest.TestCase):
         self.assertEqual(len({e['event_id'] for e in current_events}), 19)
         self.assertEqual(sum(e['event_id'] == '1950-09-17-daphne'
                              for e in current_events), 1)
-        # Remove only the four explicitly reviewed J08 additions. This reconstructs
-        # the original serialized document, including metadata and event order;
-        # a count-only check would miss edits to any of the original 15 rows.
+        # Remove the four explicitly reviewed J08 additions, then compare every
+        # unaffected legacy row to the frozen packet. The St. John row is the one
+        # separately authorized provenance correction and is tested elsewhere.
         original = deepcopy(history)
         original['events'] = [e for e in original['events']
                               if e['event_id'] not in ['1950-09-17-daphne', '1947-06-13-point-clear', '1947-06-14-point-clear', '1950-08-05-north-montrose']]
         events = original['events']
         self.assertEqual(len(events), 15)
-        original_bytes = (json.dumps(original, indent=2, ensure_ascii=False) + '\n').encode('utf-8')
+        frozen_path = ROOT.parent / 'research' / 'matched_control_archive' / 'e634fdfd50a75dd358fc86e745a57fe18e856e9b749959bfd809b0b067fb697d' / 'packet' / 'model_data' / 'event_history.json'
+        frozen = json.loads(frozen_path.read_text())
+        target = '2024-08-05-mobile-bay-eastern-shore'
+        current_unaffected = {e['event_id']: e for e in events if e['event_id'] != target}
+        frozen_unaffected = {e['event_id']: e for e in frozen['events'] if e['event_id'] != target}
+        self.assertEqual(current_unaffected, frozen_unaffected)
+        self.assertEqual({k: v for k, v in original.items() if k != 'events'},
+                         {k: v for k, v in frozen.items() if k != 'events'})
         original_sha = 'dab32ef7e5a0bf4edefb8e998a759ef30aa551feafe61da4d78bbb266cf4dca2'
-        self.assertEqual(hashlib.sha256(original_bytes).hexdigest(), original_sha)
         review = self.audit['canonical_review']
         self.assertEqual(review['history_sha256'], original_sha)
         self.assertEqual(review['count_before'], 15)
@@ -79,7 +85,7 @@ class LoeschPrimaryRecoveryTests(unittest.TestCase):
         self.assertEqual(review['exact_date_matches'], [])
         self.assertEqual(review['period_1946_1956_existing_records'], [])
         for row in self.audit['research_records']:
-            matches = [e['event_id'] for e in events if row.get('event_date') and e['event_date_ct'] == row['event_date']]
+            matches = [e['event_id'] for e in events if row.get('event_date') and e.get('event_date_ct') == row['event_date']]
             self.assertEqual(matches, row['canonical_match_ids'])
         self.assertEqual(self.audit['canonical_review']['rows_promoted'], 0)
         self.assertEqual(self.audit['production_action'], 'NO_CHANGE')

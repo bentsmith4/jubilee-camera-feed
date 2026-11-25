@@ -91,10 +91,15 @@ def load_events(path: Path, ambiguous_1959_date: str) -> list[dict]:
     for event in payload["events"]:
         if event.get("classification") != "confirmed_jubilee":
             continue
-        event_date = event["event_date_ct"]
+        event_date = event.get("event_date_ct")
+        if not event_date:
+            continue
         if event["event_id"] == "1959-07-point-clear-south-grand-hotel":
             event_date = ambiguous_1959_date
-        summary = phase_summary(event_date)
+        try:
+            summary = phase_summary(event_date)
+        except (TypeError, ValueError):
+            continue
         rows.append(
             {
                 "event_id": event["event_id"],

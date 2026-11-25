@@ -21,8 +21,17 @@ class NewspaperAdmissionTests(unittest.TestCase):
         self.assertEqual(len(self.rows), 19)
         self.assertEqual(len(self.history['events']), 19)
         self.history['events'] = [e for e in self.history['events'] if e['event_id'] not in NEW]
-        raw = (json.dumps(self.history, indent=2, ensure_ascii=False) + '\n').encode()
-        self.assertEqual(hashlib.sha256(raw).hexdigest(), '875c5d198535ce9338ca1b58e205c1de126b6d0c5e209589b02a16f39836112c')
+        self.assertEqual(len(self.history['events']), 16)
+        frozen_path = ROOT.parent / 'research' / 'matched_control_archive' / 'e634fdfd50a75dd358fc86e745a57fe18e856e9b749959bfd809b0b067fb697d' / 'packet' / 'model_data' / 'event_history.json'
+        frozen = json.loads(frozen_path.read_text())
+        target = '2024-08-05-mobile-bay-eastern-shore'
+        current_unaffected = {e['event_id']: e for e in self.history['events'] if e['event_id'] != target}
+        frozen_unaffected = {e['event_id']: e for e in frozen['events'] if e['event_id'] != target}
+        # The separately admitted Daphne row is the only unaffected row not in
+        # the older frozen packet.
+        self.assertEqual(set(current_unaffected) - set(frozen_unaffected), {'1950-09-17-daphne'})
+        current_unaffected.pop('1950-09-17-daphne')
+        self.assertEqual(current_unaffected, frozen_unaffected)
         source = (ROOT / 'loesch_newspaper_scan_evidence_20261003.json').read_bytes()
         git_blob = hashlib.sha1(b'blob ' + str(len(source)).encode() + b'\0' + source).hexdigest()
         self.assertEqual(git_blob, '140552f7fd419dc59666c3fb567b883c6c572781')
@@ -50,7 +59,7 @@ class NewspaperAdmissionTests(unittest.TestCase):
         self.assertEqual(june[0]['evidence'][0]['independence_group'], june[1]['evidence'][0]['independence_group'])
         self.assertEqual(june[0]['reported_species'], [])
         self.assertIn('inferred', june[0]['location']['precision'])
-        august = [e for e in self.rows.values() if e['event_date_ct'].startswith('1950-08')]
+        august = [e for e in self.rows.values() if (e.get('event_date_ct') or '').startswith('1950-08')]
         self.assertEqual(len(august), 1)
         self.assertEqual(august[0]['continuation_dates_local'], ['1950-08-06'])
         self.assertNotIn('1950-08-07', august[0]['continuation_dates_local'])

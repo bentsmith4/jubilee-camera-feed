@@ -58,10 +58,15 @@ def validation_blocks(events):
 
 def analyze(raw_rows, event_document):
     events = []
+    undated_confirmed_event_ids = []
     for event in event_document.get('events', []):
         d = parse_date(event.get('event_date_ct'))
-        if d and event.get('classification') == 'confirmed_jubilee':
+        if event.get('classification') != 'confirmed_jubilee':
+            continue
+        if d:
             events.append({**event, '_date': d})
+        else:
+            undated_confirmed_event_ids.append(event.get('event_id'))
     unique, excluded, duplicates = {}, defaultdict(int), 0
     for row in raw_rows:
         d, v = parse_date(row.get('sample_date')), as_float(row.get('value'))
@@ -128,6 +133,8 @@ def analyze(raw_rows, event_document):
         'schema_version': '2.0', 'generated_at_utc': datetime.now(timezone.utc).isoformat(),
         'method': 'Strictly pre-event-date exploratory coverage; explicit station mappings; unlabelled background, not verified negatives.',
         'confirmed_events_in_database': len(events),
+        'confirmed_event_rows_without_valid_date': len(undated_confirmed_event_ids),
+        'confirmed_event_ids_without_valid_date': undated_confirmed_event_ids,
         'confirmed_events_with_any_water_quality_data': len(event_ids),
         'event_linked_observations_across_tests': memberships,
         'unique_event_linked_observations': len(linked_keys),

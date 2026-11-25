@@ -126,7 +126,7 @@ def main():
             events.append(row)
             ids.append(row["event_id"])
             added.append(row["event_id"])
-    events.sort(key=lambda x: (x.get("event_date_ct", "9999-99-99"), x.get("event_id", "")))
+    events.sort(key=lambda x: (x.get("event_date_ct") or "9999-99-99", x.get("event_id", "")))
     doc["schema_version"] = "1.5"
     EVENTS.write_text(json.dumps(doc, separators=(",", ":"), ensure_ascii=False) + "\n", encoding="utf-8")
     print(json.dumps({"status": "complete", "added": added, "event_count": len(events), "production_action": "NO_CHANGE"}, indent=2))
