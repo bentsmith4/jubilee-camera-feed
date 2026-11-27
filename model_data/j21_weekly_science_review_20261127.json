@@ -1,0 +1,360 @@
+{
+  "schema": "jubilee_weekly_science_review/v1",
+  "stable_id": "J21-SCIENCE-REVIEW-20261127",
+  "generated_at_utc": "2026-11-27T18:19:21Z",
+  "coverage": {
+    "window_start_exclusive_utc": "2026-11-13T15:43:01.688Z",
+    "window_end_inclusive_utc": "2026-11-27T18:19:21Z",
+    "timezone": "America/Chicago",
+    "basis": "Incremental Friday review after the 2026-11-13 durable J21 receipt; DOI/title deduplicated against both prior J21 artifacts and the current Friday Daily Command Brief.",
+    "coverage_through_utc": "2026-11-27T18:19:21Z"
+  },
+  "ownership": {
+    "scientific_owner": "Jubilee Model Research & Calibration",
+    "coordinator": "Jubilee Dot",
+    "publication_owner": "Daily Strategic Briefing",
+    "publication_task_id": "6a91a536cfb081919b766349ad070ebe",
+    "silent_specialist": true
+  },
+  "deduplication": {
+    "prior_artifacts": [
+      "model_data/j21_weekly_science_review_20261107.json",
+      "model_data/j21_weekly_science_review_20261113.json"
+    ],
+    "prior_doi_keys": [
+      "10.5194/bg-23-7009-2026",
+      "10.1007/s10661-026-16007-4",
+      "10.3389/fmars.2026.1998927",
+      "10.1016/j.marpolbul.2026.120381",
+      "10.3389/fmicb.2026.1964751"
+    ],
+    "current_daily_brief_checked": {
+      "file": "2026-11-27 Daily Command Brief.md",
+      "library_file_id": "libfile_4f7a58915e988191b6506581b966d2f7",
+      "modified_at_utc": "2026-11-27T14:20:28.952162Z",
+      "result": "NONE_OF_THE_INCLUDED_PUBLICATIONS_WAS_COVERED"
+    },
+    "title_normalization": "lowercase, Unicode normalized, punctuation and repeated whitespace collapsed"
+  },
+  "search_protocol": {
+    "topics": [
+      "coastal and estuarine hypoxia",
+      "high-frequency dissolved oxygen dynamics",
+      "fish-event and low-oxygen recurrence prediction",
+      "spatial transfer and station substitution",
+      "temperature, pH and diel oxygen variability"
+    ],
+    "date_filter": "newly published or newly available after 2026-11-13T15:43:01.688Z through 2026-11-27T18:19:21Z",
+    "inclusion": "Original scientific paper or authoritative research report with a primary DOI/publisher identity and enough verified methods/results to assess relevance and limitations.",
+    "exclusion": "News-only items, work outside the incremental window, reviews without directly useful new evidence, and papers too indirect for Jubilee forecasting.",
+    "verification": "Each inclusion was checked twice using the primary publisher/full text when accessible and a separate DOI-indexed, bibliographic, repository or publisher-index record.",
+    "count_included": 3,
+    "quota_policy": "UP_TO_THREE_NO_PADDING"
+  },
+  "publications": [
+    {
+      "rank": 1,
+      "title": "A threshold-sensitive framework for tracking Hypoxia recurrence across coastal ecosystems",
+      "authors": [
+        "Reza Badpa",
+        "Sultan Hameed",
+        "Kamazima M. M. Lwiza"
+      ],
+      "institution": "School of Marine and Atmospheric Sciences, Stony Brook University",
+      "publication_date": "2026-11-18",
+      "journal": "Ecological Indicators",
+      "article_number": "115859",
+      "doi": "10.1016/j.ecolind.2026.115859",
+      "primary_url": "https://doi.org/10.1016/j.ecolind.2026.115859",
+      "access_status": "ABSTRACT_AND_BIBLIOGRAPHIC_INDEX_ONLY",
+      "classification": "PEER_REVIEWED_ORIGINAL_MULTI_SYSTEM_STATISTICAL_RECURRENCE_STUDY",
+      "validation_status": "AUTHOR_REPORTED_MULTI_SYSTEM_RESULT_WITH_LIMITED_COLOCATED_COMPARISON_NOT_MOBILE_BAY_VALIDATION",
+      "observational_coverage": {
+        "systems": [
+          "Long Island Sound",
+          "Chesapeake Bay",
+          "Narragansett Bay",
+          "northern Gulf of Mexico"
+        ],
+        "response": "annual summer dissolved-oxygen minima",
+        "method": "non-stationary generalized extreme-value models across multiple oxygen thresholds",
+        "comparison": "five co-located Chesapeake Bay benthic stations"
+      },
+      "findings": [
+        "The proposed Hypoxia Recurrence Risk Indicator combines recurrence class, threshold sensitivity and bootstrap support rather than relying only on areal extent or one fixed criterion.",
+        "The reported gradients placed frequent severe low oxygen in western Long Island Sound, the Louisiana shelf, the Chesapeake Bay mainstem and upper Narragansett Bay.",
+        "The original recurrence classification was the most common bootstrap result in 93.3% of cases, but support was weaker for the frequent and infrequent classes."
+      ],
+      "evidence_quality": "Strong multi-system relevance and explicit bootstrap uncertainty, including a northern Gulf system, but this checkpoint could verify only the abstract and bibliographic identity rather than full methods or source-level station denominators.",
+      "uncertainty_and_limitations": [
+        "Discrete monitoring can miss short-lived minima and therefore inflate inferred return periods.",
+        "Absolute recurrence values are not directly comparable when sampling cadence, depth, season and thresholds differ among systems.",
+        "The five-station Chesapeake comparison is not an independent Mobile Bay validation, forecast test or fish-event endpoint.",
+        "Annual summer minima cannot establish predawn duration, concurrent vertical gradients or Jubilee biology."
+      ],
+      "transferability": "MEDIUM_FOR_OFFLINE_THRESHOLD_SENSITIVITY_AND_SOURCE_QA_LOW_FOR_DIRECT_JUBILEE_EVENT_PREDICTION",
+      "mobile_bay_implications": [
+        "Use only as a method lead for threshold-sensitivity and recurrence uncertainty after local depth, cadence, QC and observation-effort gates are explicit.",
+        "Do not combine Sand Reef daily minima, profiles and continuous sensors as if they shared duration or sampling support.",
+        "Do not derive a Jubilee label or production threshold from a Gulf-wide hypoxia recurrence class."
+      ],
+      "offline_validation_opportunities": [
+        "If sufficient local records become available, compare recurrence assignments across predeclared oxygen thresholds while preserving sampling cadence and depth.",
+        "Report bootstrap support and abstain where monitoring misses plausible short events or site transfer is unverified."
+      ],
+      "source_checks": [
+        {
+          "checked_at_utc": "2026-11-27T18:19:21Z",
+          "source": "DOI-indexed abstract record",
+          "verified": [
+            "title",
+            "DOI",
+            "publication date",
+            "authors",
+            "four systems",
+            "GEV and HRRI method summary",
+            "93.3% bootstrap statement",
+            "discrete-sampling limitation"
+          ]
+        },
+        {
+          "checked_at_utc": "2026-11-27T18:19:21Z",
+          "source": "ScienceDirect journal feed and independent Stony Brook author/affiliation records",
+          "verified": [
+            "journal placement",
+            "bibliographic identity",
+            "Stony Brook research affiliation"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "title": "Oxygen Dynamics Across Connected Coastal Ecosystems: Heterogeneity May Mitigate Oxygen Extremes",
+      "authors": [
+        "K. Terada"
+      ],
+      "institution": "Department of Civil Engineering, School of Architecture and Urban Planning, Tokai University",
+      "publication_date": "2026-11-15",
+      "journal": "Journal of Geophysical Research: Biogeosciences",
+      "volume": "131",
+      "issue": "11",
+      "article_number": "e2026JG010009",
+      "doi": "10.1029/2026JG010009",
+      "primary_url": "https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2026JG010009",
+      "data_url": "https://doi.org/10.5281/zenodo.19060417",
+      "access_status": "OPEN_FULL_TEXT_AND_OPEN_DATA_CODE_REFERENCE",
+      "classification": "PEER_REVIEWED_ORIGINAL_SIMULTANEOUS_THREE_SITE_HIGH_FREQUENCY_OBSERVATIONAL_STUDY",
+      "validation_status": "AUTHOR_REPORTED_SINGLE_SYSTEM_27_DAY_RESULT_NOT_EXTERNALLY_VALIDATED",
+      "observational_coverage": {
+        "system": "Fukido River coastal system, Ishigaki Island, Japan",
+        "sites": [
+          "coral reef",
+          "seagrass bed",
+          "mangrove river mouth"
+        ],
+        "sampling": "simultaneous 10-minute dissolved-oxygen saturation and environmental observations",
+        "duration": "27 days in August 2024"
+      },
+      "findings": [
+        "Coral-reef and seagrass oxygen variability was dominated by diel periodicity, while mangrove variability was primarily semidiurnal tidal with an additional diel component.",
+        "Maximum saturation reached 172%, 162% and 146% at the reef, seagrass and mangrove sites; the mangrove declined to 19.9% saturation.",
+        "Selected predictors explained 55.2% of dissolved-oxygen variance. Temperature was the strongest reported correlate, but the regression residuals retained substantial temporal autocorrelation."
+      ],
+      "evidence_quality": "High-resolution, simultaneous, open-data observational design with explicit statistics; limited to one tropical system and one 27-day period, without external or forecast validation.",
+      "uncertainty_and_limitations": [
+        "The primary metric is oxygen saturation rather than concentration, and conversion depends on temperature and salinity.",
+        "The observational window is short and one season; the study does not establish interannual persistence.",
+        "The authors describe statistical correlates, not causal drivers, and note substantial temporal autocorrelation.",
+        "Connected sites still showed different oxygen regimes, so proximity does not justify station substitution."
+      ],
+      "transferability": "HIGH_FOR_CAUTION_AGAINST_UNGATED_SPATIAL_TRANSFER_MEDIUM_FOR_DIEL_TIDAL_METHODS_LOW_FOR_DIRECT_MOBILE_BAY_VALUES",
+      "mobile_bay_implications": [
+        "The simultaneous-site result reinforces separate site identity, habitat, depth, clock and units before transferring oxygen evidence.",
+        "A high-frequency source should retain diel and tidal structure rather than being reduced to unmatched daily extrema.",
+        "This is contextual support for the existing Battleship-Meaher substitution gate, not a new feature or pier-mount decision."
+      ],
+      "offline_validation_opportunities": [
+        "For verified local paired series, compare site-specific diel and tidal spectra before considering any common feature representation.",
+        "Require residual-autocorrelation-aware uncertainty and held-out time blocks for any local temperature/oxygen relationship."
+      ],
+      "source_checks": [
+        {
+          "checked_at_utc": "2026-11-27T18:19:21Z",
+          "source": "Wiley/AGU full article",
+          "verified": [
+            "bibliographic identity",
+            "site geometry",
+            "10-minute sampling",
+            "27-day duration",
+            "oxygen saturation ranges",
+            "spectral and regression methods",
+            "55.2% explained variance",
+            "temporal autocorrelation limitation",
+            "open-data reference"
+          ]
+        },
+        {
+          "checked_at_utc": "2026-11-27T18:19:21Z",
+          "source": "independent DOI/title bibliographic index",
+          "verified": [
+            "publication date",
+            "DOI",
+            "author",
+            "journal and article number"
+          ]
+        }
+      ]
+    },
+    {
+      "rank": 3,
+      "title": "Temperature dependence and coupling of dissolved oxygen and pH in coastal habitats",
+      "authors": [
+        "Alexandra Steckbauer",
+        "Iris E. Hendriks",
+        "Raquel Vaquer-Sunyer",
+        "Vincent Saderne",
+        "Andrea Anton",
+        "Dorte Krause-Jensen",
+        "Susana Agusti",
+        "Carlos M. Duarte"
+      ],
+      "institutions": [
+        "King Abdullah University of Science and Technology",
+        "Mediterranean Institute for Advanced Studies, CSIC-UIB",
+        "Marilles Foundation",
+        "Aarhus University"
+      ],
+      "publication_date": "2026-11-20",
+      "journal": "PLOS One",
+      "volume": "21",
+      "issue": "11",
+      "article_number": "e0362740",
+      "doi": "10.1371/journal.pone.0362740",
+      "primary_url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0362740",
+      "data_url": "https://doi.org/10.5061/dryad.q2bvq842b",
+      "code_url": "https://github.com/steckbauera/Temperature_O2_pH_data",
+      "access_status": "OPEN_FULL_TEXT_WITH_DATA_AND_CODE_REFERENCES",
+      "classification": "PEER_REVIEWED_ORIGINAL_MULTI_HABITAT_POOLED_HIGH_FREQUENCY_OBSERVATIONAL_STUDY",
+      "validation_status": "AUTHOR_REPORTED_GLOBAL_EMERGENT_PATTERN_NOT_SITE_LEVEL_FORECAST_VALIDATION",
+      "observational_coverage": {
+        "habitats": 7,
+        "continents": 4,
+        "temperature_range_c": [
+          1,
+          39
+        ],
+        "dissolved_oxygen_points": 514813,
+        "pH_points": 407253,
+        "complete_dissolved_oxygen_diel_cycles": 1936,
+        "sampling_intervals_minutes": [
+          5,
+          10,
+          15,
+          30,
+          60
+        ]
+      },
+      "findings": [
+        "Across the pooled dataset, higher temperature was associated with lower oxygen and pH and larger diel ranges, with extreme variability in warmer habitats.",
+        "Hypoxic and severely hypoxic observations occurred in mangrove, coral-reef and seagrass systems, while daytime supersaturation also occurred.",
+        "The authors explicitly characterize the relationships as emergent global patterns rather than strong predictive relationships at individual sites."
+      ],
+      "evidence_quality": "Large, geographically diverse, open full-text compilation with complete-cycle screening and data/code references; heterogeneous sensors, sampling intervals, habitats and nutrient regimes limit causal and site-specific interpretation.",
+      "uncertainty_and_limitations": [
+        "Sampling intervals ranged from 5 to 60 minutes and instruments differed by site.",
+        "Nutrient inputs were unavailable across sites, preventing isolation of temperature from an important oxygen driver.",
+        "Pooling habitats and regions creates large residual heterogeneity and does not validate a Point Clear relationship.",
+        "Bulk-water observations may not represent organism boundary-layer exposure, bottom water or shoreline contact strips.",
+        "The paper does not evaluate Jubilee events, fish aggregation, issue-time forecasts or out-of-sample event classification."
+      ],
+      "transferability": "HIGH_FOR_DIEL_BASELINE_AND_CONFOUNDER_CAUTION_LOW_FOR_SITE_LEVEL_FORECAST_TRANSFER",
+      "mobile_bay_implications": [
+        "Temperature should be treated as one interacting correlate and not as a portable causal calibration across sites.",
+        "Daily means or daytime samples can hide both nocturnal lows and daytime supersaturation; complete-cycle coverage remains essential.",
+        "If pH is later available locally, test it only as a co-measured state variable with site-specific calibration, depth and timing rather than a proxy replacement for oxygen."
+      ],
+      "offline_validation_opportunities": [
+        "Within retained local records, compare complete 24-hour cycles across matched temperature, tide, wind, depth and habitat strata.",
+        "Test whether pH adds held-out information beyond temperature and direct oxygen only where synchronized local measurements and QA exist."
+      ],
+      "source_checks": [
+        {
+          "checked_at_utc": "2026-11-27T18:19:21Z",
+          "source": "PLOS One full article and supporting-information index",
+          "verified": [
+            "authors",
+            "affiliations",
+            "publication date",
+            "DOI",
+            "data and code references",
+            "sampling intervals",
+            "complete-cycle counts",
+            "findings",
+            "nutrient-data limitation",
+            "non-predictive site-level caveat"
+          ]
+        },
+        {
+          "checked_at_utc": "2026-11-27T18:19:21Z",
+          "source": "PubMed DOI-indexed record",
+          "verified": [
+            "bibliographic identity",
+            "publication date",
+            "abstract findings",
+            "open-access status"
+          ]
+        }
+      ]
+    }
+  ],
+  "exclusions": [
+    {
+      "title": "Compound environmental events in Washington coastal waters from high-resolution downscaled projections",
+      "publication_date": "2026-11-13",
+      "reason": "Published on the prior coverage-boundary date with no verified after-boundary time; excluded from this incremental receipt rather than risking duplicate or ambiguous admission."
+    },
+    {
+      "title": "Informing the Strategic Use of Multiple Bivalve Species Across an Estuarine Gradient to Counteract Eutrophication",
+      "doi": "10.1007/s12237-026-01835-x",
+      "publication_date": "2026-11-22",
+      "reason": "Original estuarine study, but its intervention and nutrient-removal focus is less directly relevant to Jubilee event prediction than the three included oxygen studies."
+    },
+    {
+      "title": "Diminished subsurface oxygen maximum linked to rapid decline of the North Pacific Central Mode Water",
+      "doi": "10.1038/s41467-026-79475-9",
+      "publication_date": "2026-11-24",
+      "reason": "Strong open-ocean ventilation science but too remote in depth, scale and endpoint for the bounded Mobile Bay Jubilee review."
+    }
+  ],
+  "synthesis": {
+    "new_scientific_finding": "Three post-window studies independently reinforce that oxygen recurrence, spatial heterogeneity and diel temperature coupling depend strongly on threshold, site and cadence; none validates a Jubilee forecast, cross-site substitution or biological detection endpoint.",
+    "independent_validation": "NONE_FOR_MOBILE_BAY_JUBILEE",
+    "measured_predictive_gain": "NOT_MEASURED",
+    "production_decision": "NO_CHANGE",
+    "research_questions": [
+      "Can local low-oxygen recurrence be estimated without cadence-driven missed minima, and is the result stable across predeclared thresholds?",
+      "Do verified Eastern Shore sites retain different diel/tidal oxygen regimes after matching depth, habitat, season and clocks?",
+      "Does synchronized local pH add held-out information beyond direct oxygen and temperature?"
+    ],
+    "next_steps": [
+      "Apply the ERDC three-day post-service gate and verify the August 22, 2024 Relic Shell masks/service clocks before any local oxygen acceptance.",
+      "Continue compact-JSON biological equivalence and provider-side actual billing acceptance ahead of wind-capture optimization."
+    ],
+    "unresolved_risks": [
+      "No positive-event paired compact/original biological challenge set.",
+      "No provider-side actual billed-cost reconciliation.",
+      "No validated local near-bed current geometry or direct Eastern Shore bottom-oxygen time series.",
+      "Regional oxygen sources still have material unit, service-clock, depth and spatial-transfer gates."
+    ]
+  },
+  "controls": {
+    "no_production_change": true,
+    "no_new_acquisition": true,
+    "no_paid_experiment": true,
+    "no_outreach": true,
+    "no_budget_or_billing_change": true,
+    "no_wind_optimization_reopen": true,
+    "zero_production_weight": true
+  }
+}

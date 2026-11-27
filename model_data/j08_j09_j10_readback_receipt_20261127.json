@@ -1,0 +1,111 @@
+{
+  "schema": "jubilee_research_readback_receipt/v1",
+  "stable_id": "J08-J09-J10-READBACK-20261127",
+  "generated_at_utc": "2026-11-27T18:19:21Z",
+  "purpose": "Deduplicated incorporation receipt for verified specialist readbacks supplied to the existing Research source and evidence lanes. It is not a new retrieval, ingestion or production-admission artifact.",
+  "evidence": [
+    {
+      "lane": "J09",
+      "source": "Battleship-Meaher paired salinity readback",
+      "receipt": "/agent_notes/dreamer_runs/heartbeat/2026-11-26/23-08-12Z-salinity-readback.md",
+      "date": "2024-08-22",
+      "verified_scope": "48 passing timestamp pairs; UTC salinity means 21.504 and 7.099, with CDT values near 22 and 7 rather than an exact 22 and 6 thesis match.",
+      "status": "REGIONAL_PAIRED_OBSERVATION_CONTEXT_ONLY",
+      "guardrails": [
+        "Evidence against ungated regional station substitution.",
+        "Matched oxygen retains unresolved GCOOS versus native DISL unit conflict; do not convert the mirror.",
+        "No Eastern Shore transfer, local depth class or Jubilee label.",
+        "Mobile E dated pre-2026 transect series is J10 context only, not camera coverage."
+      ]
+    },
+    {
+      "lane": "J09",
+      "source": "ERDC Relic Shell dissolved-oxygen and salinity rows",
+      "receipt": "/agent_notes/dreamer_runs/heartbeat/2026-11-27/11-08-12Z-oxygen-readback.md",
+      "verified_scope": "Three Relic Shell stations with native quarter-hour UTC dissolved oxygen, salinity and station metadata.",
+      "status": "PUBLIC_HISTORICAL_SOURCE_SERVICE_QC_GATE_PENDING",
+      "guardrails": [
+        "Apply the report's three-day post-service oxygen exclusion before acceptance.",
+        "Raw 2024-06-12 and 2025-07-17 event-day readings fail that gate and are excluded.",
+        "Verify 2024-08-22 once against processed masks and service clocks before any use.",
+        "No live-availability, shoreline attribution or biological label is established.",
+        "1978 contours are map-scale salinity/oxygen proxy context only."
+      ],
+      "next_action": "One bounded processed-mask/service-clock verification for 2024-08-22; no repeat raw retrieval."
+    },
+    {
+      "lane": "J10/J18",
+      "source": "Alabama Creel effort and catch readback",
+      "receipt": "/agent_notes/dreamer_runs/heartbeat/2026-11-27/05-08-12Z-effort-readback.md",
+      "verified_scope": "Routine AL Creel shifts have no overlap with the predawn target window.",
+      "status": "NOT_CONTROL_COVERAGE",
+      "guardrails": [
+        "APAIS transition material, the Fairhope Pier manual example and later interviews are not observed predawn coverage.",
+        "The August 22 catch post is a manual UNKNOWN-provenance example only.",
+        "The July 17, 2025 positive remains distinct.",
+        "No biological detection-equivalence or forecast-skill evidence is added."
+      ]
+    },
+    {
+      "lane": "J10",
+      "source": "RRFS-HRRR coastal weather-input sensitivity readback",
+      "receipt": "/agent_notes/dreamer_runs/heartbeat/2026-11-26/17-08-12Z-RRFS-HRRR-readback.md",
+      "verified_scope": "First decoded comparison plus August 29 HRRR archive receipt.",
+      "status": "WEATHER_INPUT_SENSITIVITY_ONLY",
+      "guardrails": [
+        "Rotate each model's grid-relative winds before comparison.",
+        "Retain native coastal land-water masks; one shared coastal cell has a mask disagreement.",
+        "Archive modification time is not observed public availability.",
+        "No event label, measured skill, shoreline truth or camera-cadence decision."
+      ]
+    },
+    {
+      "lane": "J08/J10",
+      "source": "Fairhope shoreline observation-effort readback",
+      "receipt": "/agent_notes/dreamer_runs/heartbeat/2026-11-25/23-08-12Z-shoreline-readback.md",
+      "verified_scope": "Magnolia Beach Pier Street works are distinct from North Beach.",
+      "status": "OBSERVATION_EFFORT_METADATA_ONLY",
+      "guardrails": [
+        "Separate camera/site epochs only when overlapping geometry and dates are evidenced.",
+        "Uncertain dates and coverage remain UNKNOWN.",
+        "North Beach grant material and duplicate webcam mirrors add no verified geometry, independent view or non-event.",
+        "Revisit public surveys around June 2027 only if a specific overlap question requires it."
+      ]
+    },
+    {
+      "lane": "J09",
+      "source": "MB 707.1 / 707 ASA state fisheries lead",
+      "receipt": "/agent_notes/dreamer_runs/heartbeat/2026-11-25/17-08-12Z-FAMP-readback.md",
+      "verified_scope": "Inventory and separate station coordinates verified; August 2010 visits and oxygen remain unknown; public CAGES ends in 2007; bounded ADEM checks found no event-window oxygen.",
+      "status": "PARKED_PENDING_ORIGINAL_PUBLIC_OR_AUTHORIZED_RECEIPT",
+      "guardrails": [
+        "Do not contact the custodian.",
+        "Do not repeat source scans.",
+        "Do not treat a fisheries trawl station as matched shoreline observation."
+      ]
+    },
+    {
+      "lane": "J08",
+      "source": "Mobile Press archive readback",
+      "receipt": "/agent_notes/dreamer_runs/heartbeat/2026-11-26/11-08-12Z-Press-readback.md",
+      "verified_scope": "Issue-level evidence route only.",
+      "status": "BOUNDED_ORIGINAL_PAGE_GATE",
+      "guardrails": [
+        "Require the July 8, 1959 afternoon Mobile Press page before accepting an exact Graf date, location or dawn claim.",
+        "Do not reopen Gibson or Rivenbark without original new evidence.",
+        "The historical aggregate is not a case list.",
+        "Mobile Municipal Archives RG34 Series 1 remains owner-deferred: no scans, index request, proxy visit, remote lookup or outreach."
+      ]
+    }
+  ],
+  "cross_cutting_disposition": {
+    "new_jubilee_label": false,
+    "new_matched_control": false,
+    "new_detection_equivalence": false,
+    "new_forecast_skill": false,
+    "production_weight_change": false,
+    "schedule_or_camera_change": false,
+    "outreach_or_spend": false,
+    "priority_next_action": "Apply the already-defined ERDC post-service mask to the single 2024-08-22 candidate before any J09 acceptance; otherwise reuse these guardrails without repeating retrievals."
+  }
+}
